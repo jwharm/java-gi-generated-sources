@@ -9,7 +9,7 @@ import org.jetbrains.annotations.*;
  * The {@code PangoAttrSize} structure is used to represent attributes which
  * set font size.
  */
-public class AttrSize extends io.github.jwharm.javagi.ResourceBase {
+public class AttrSize extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         Pango.javagi$ensureInitialized();

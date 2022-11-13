@@ -10,7 +10,7 @@ import org.jetbrains.annotations.*;
  * a maximum vertices.
  * @version 1.2
  */
-public class Box extends io.github.jwharm.javagi.ResourceBase {
+public class Box extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         Graphene.javagi$ensureInitialized();

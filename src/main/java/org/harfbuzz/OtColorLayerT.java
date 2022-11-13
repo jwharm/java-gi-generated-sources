@@ -9,7 +9,7 @@ import org.jetbrains.annotations.*;
  * Pairs of glyph and color index.
  * @version 2.1.0
  */
-public class OtColorLayerT extends io.github.jwharm.javagi.ResourceBase {
+public class OtColorLayerT extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         HarfBuzz.javagi$ensureInitialized();

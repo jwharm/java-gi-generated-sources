@@ -24,7 +24,7 @@ import org.jetbrains.annotations.*;
  * The {@link Private} structure should be considered opaque.  It should only
  * be accessed via the g_private_ functions.
  */
-public class Private extends io.github.jwharm.javagi.ResourceBase {
+public class Private extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         GLib.javagi$ensureInitialized();

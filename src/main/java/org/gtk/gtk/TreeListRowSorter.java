@@ -48,14 +48,19 @@ public class TreeListRowSorter extends org.gtk.gtk.Sorter {
     
     /**
      * Cast object to TreeListRowSorter if its GType is a (or inherits from) "GtkTreeListRowSorter".
+     * <p>
+     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
+     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
+     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
+     * is garbage-collected. 
      * @param  gobject            An object that inherits from GObject
-     * @return                    An instance of "TreeListRowSorter" that points to the memory address of the provided GObject.
+     * @return                    A new proxy instance of type {@code TreeListRowSorter} that points to the memory address of the provided GObject.
      *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
      * @throws ClassCastException If the GType is not derived from "GtkTreeListRowSorter", a ClassCastException will be thrown.
      */
     public static TreeListRowSorter castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkTreeListRowSorter"))) {
-            return new TreeListRowSorter(gobject.handle(), gobject.refcounted().getOwnership());
+            return new TreeListRowSorter(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkTreeListRowSorter");
         }
@@ -65,10 +70,11 @@ public class TreeListRowSorter extends org.gtk.gtk.Sorter {
         Addressable RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_tree_list_row_sorter_new.invokeExact(
-                    (Addressable) (sorter == null ? MemoryAddress.NULL : sorter.refcounted().unowned().handle()));
+                    (Addressable) (sorter == null ? MemoryAddress.NULL : sorter.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        sorter.yieldOwnership();
         return RESULT;
     }
     

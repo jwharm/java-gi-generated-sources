@@ -8,7 +8,7 @@ import org.jetbrains.annotations.*;
 /**
  * Data type for holding integer-to-integer hash maps.
  */
-public class MapT extends io.github.jwharm.javagi.ResourceBase {
+public class MapT extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         HarfBuzz.javagi$ensureInitialized();

@@ -9,7 +9,7 @@ import org.jetbrains.annotations.*;
  * Information about an annotation.
  * @version 2.26
  */
-public class DBusAnnotationInfo extends io.github.jwharm.javagi.ResourceBase {
+public class DBusAnnotationInfo extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         Gio.javagi$ensureInitialized();

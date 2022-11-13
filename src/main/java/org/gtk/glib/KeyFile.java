@@ -9,7 +9,7 @@ import org.jetbrains.annotations.*;
  * The GKeyFile struct contains only private data
  * and should not be accessed directly.
  */
-public class KeyFile extends io.github.jwharm.javagi.ResourceBase {
+public class KeyFile extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         GLib.javagi$ensureInitialized();

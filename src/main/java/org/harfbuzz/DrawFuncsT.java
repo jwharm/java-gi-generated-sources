@@ -14,7 +14,7 @@ import org.jetbrains.annotations.*;
  * callback isn't defined.
  * @version 4.0.0
  */
-public class DrawFuncsT extends io.github.jwharm.javagi.ResourceBase {
+public class DrawFuncsT extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         HarfBuzz.javagi$ensureInitialized();

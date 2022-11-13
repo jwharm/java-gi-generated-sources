@@ -10,7 +10,7 @@ import org.jetbrains.annotations.*;
  * set and retrieved using hb_buffer_set_segment_properties() and
  * hb_buffer_get_segment_properties(), respectively.
  */
-public class SegmentPropertiesT extends io.github.jwharm.javagi.ResourceBase {
+public class SegmentPropertiesT extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         HarfBuzz.javagi$ensureInitialized();

@@ -9,7 +9,7 @@ import org.jetbrains.annotations.*;
  * Current drawing state.
  * @version 4.0.0
  */
-public class DrawStateT extends io.github.jwharm.javagi.ResourceBase {
+public class DrawStateT extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         HarfBuzz.javagi$ensureInitialized();

@@ -8,7 +8,7 @@ import org.jetbrains.annotations.*;
 /**
  * {@code GtkRecentManagerClass} contains only private data.
  */
-public class RecentManagerClass extends io.github.jwharm.javagi.ResourceBase {
+public class RecentManagerClass extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         Gtk.javagi$ensureInitialized();

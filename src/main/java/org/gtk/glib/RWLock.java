@@ -71,7 +71,7 @@ import org.jetbrains.annotations.*;
  * A GRWLock should only be accessed with the g_rw_lock_ functions.
  * @version 2.32
  */
-public class RWLock extends io.github.jwharm.javagi.ResourceBase {
+public class RWLock extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         GLib.javagi$ensureInitialized();

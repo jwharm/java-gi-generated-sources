@@ -9,7 +9,7 @@ import org.jetbrains.annotations.*;
  * The virtual function table for {@link ListModel}.
  * @version 2.44
  */
-public class ListModelInterface extends io.github.jwharm.javagi.ResourceBase {
+public class ListModelInterface extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         Gio.javagi$ensureInitialized();

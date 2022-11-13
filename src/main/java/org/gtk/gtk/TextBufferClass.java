@@ -8,7 +8,7 @@ import org.jetbrains.annotations.*;
 /**
  * The class structure for {@code GtkTextBuffer}.
  */
-public class TextBufferClass extends io.github.jwharm.javagi.ResourceBase {
+public class TextBufferClass extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         Gtk.javagi$ensureInitialized();

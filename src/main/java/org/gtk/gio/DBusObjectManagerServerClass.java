@@ -9,7 +9,7 @@ import org.jetbrains.annotations.*;
  * Class structure for {@link DBusObjectManagerServer}.
  * @version 2.30
  */
-public class DBusObjectManagerServerClass extends io.github.jwharm.javagi.ResourceBase {
+public class DBusObjectManagerServerClass extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         Gio.javagi$ensureInitialized();

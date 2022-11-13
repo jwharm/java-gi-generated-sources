@@ -10,7 +10,7 @@ import org.jetbrains.annotations.*;
  * <p>
  * See also: g_signal_query()
  */
-public class SignalQuery extends io.github.jwharm.javagi.ResourceBase {
+public class SignalQuery extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         GObject.javagi$ensureInitialized();

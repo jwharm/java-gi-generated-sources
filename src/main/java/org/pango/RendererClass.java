@@ -28,7 +28,7 @@ import org.jetbrains.annotations.*;
  * </ul>
  * @version 1.8
  */
-public class RendererClass extends io.github.jwharm.javagi.ResourceBase {
+public class RendererClass extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         Pango.javagi$ensureInitialized();

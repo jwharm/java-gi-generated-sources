@@ -988,11 +988,12 @@ public final class GObject {
         try {
             DowncallHandles.g_enum_complete_type_info.invokeExact(
                     gEnumType.getValue().longValue(),
-                    info.refcounted().unowned().handle(),
+                    info.handle(),
                     constValues.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        info.yieldOwnership();
     }
     
     /**
@@ -1125,11 +1126,12 @@ public final class GObject {
         try {
             DowncallHandles.g_flags_complete_type_info.invokeExact(
                     gFlagsType.getValue().longValue(),
-                    info.refcounted().unowned().handle(),
+                    info.handle(),
                     constValues.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        info.yieldOwnership();
     }
     
     /**
@@ -2001,11 +2003,12 @@ public final class GObject {
                     Interop.allocateNativeString(nick),
                     Interop.allocateNativeString(blurb),
                     type.handle(),
-                    (Addressable) (defaultValue == null ? MemoryAddress.NULL : defaultValue.refcounted().unowned().handle()),
+                    (Addressable) (defaultValue == null ? MemoryAddress.NULL : defaultValue.handle()),
                     flags.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        defaultValue.yieldOwnership();
         return new org.gtk.gobject.ParamSpec(RESULT, Ownership.FULL);
     }
     
@@ -2534,10 +2537,11 @@ public final class GObject {
                     Interop.allocateNativeArray(instanceAndParams, false),
                     signalId,
                     detail.getValue().intValue(),
-                    returnValue.refcounted().unowned().handle());
+                    returnValue.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        returnValue.yieldOwnership();
     }
     
     /**

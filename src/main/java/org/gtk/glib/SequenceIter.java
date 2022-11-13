@@ -9,7 +9,7 @@ import org.jetbrains.annotations.*;
  * The {@link SequenceIter} struct is an opaque data type representing an
  * iterator pointing into a {@link Sequence}.
  */
-public class SequenceIter extends io.github.jwharm.javagi.ResourceBase {
+public class SequenceIter extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         GLib.javagi$ensureInitialized();

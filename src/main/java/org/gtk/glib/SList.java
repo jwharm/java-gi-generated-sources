@@ -9,7 +9,7 @@ import org.jetbrains.annotations.*;
  * The {@link SList} struct is used for each element in the singly-linked
  * list.
  */
-public class SList extends io.github.jwharm.javagi.ResourceBase {
+public class SList extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         GLib.javagi$ensureInitialized();

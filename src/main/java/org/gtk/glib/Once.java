@@ -11,7 +11,7 @@ import org.jetbrains.annotations.*;
  * struct.
  * @version 2.4
  */
-public class Once extends io.github.jwharm.javagi.ResourceBase {
+public class Once extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         GLib.javagi$ensureInitialized();

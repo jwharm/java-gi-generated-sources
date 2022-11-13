@@ -9,7 +9,7 @@ import org.jetbrains.annotations.*;
  * The {@code GError} structure contains information about
  * an error that has occurred.
  */
-public class Error extends io.github.jwharm.javagi.ResourceBase {
+public class Error extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         GLib.javagi$ensureInitialized();

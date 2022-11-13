@@ -5,7 +5,7 @@ import java.lang.foreign.*;
 import java.lang.invoke.*;
 import org.jetbrains.annotations.*;
 
-public class ShortcutControllerClass extends io.github.jwharm.javagi.ResourceBase {
+public class ShortcutControllerClass extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         Gtk.javagi$ensureInitialized();

@@ -9,7 +9,7 @@ import org.jetbrains.annotations.*;
  * {@link IOExtensionPoint} is an opaque data structure and can only be accessed
  * using the following functions.
  */
-public class IOExtensionPoint extends io.github.jwharm.javagi.ResourceBase {
+public class IOExtensionPoint extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         Gio.javagi$ensureInitialized();

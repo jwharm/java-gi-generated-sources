@@ -17,7 +17,7 @@ import org.jetbrains.annotations.*;
  * that is, in Arabic text, accent glyphs follow the glyphs for the
  * base character.
  */
-public class GlyphVisAttr extends io.github.jwharm.javagi.ResourceBase {
+public class GlyphVisAttr extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         Pango.javagi$ensureInitialized();

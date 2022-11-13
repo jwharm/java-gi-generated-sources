@@ -44,14 +44,19 @@ public class DBusMethodInvocation extends org.gtk.gobject.Object {
     
     /**
      * Cast object to DBusMethodInvocation if its GType is a (or inherits from) "GDBusMethodInvocation".
+     * <p>
+     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
+     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
+     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
+     * is garbage-collected. 
      * @param  gobject            An object that inherits from GObject
-     * @return                    An instance of "DBusMethodInvocation" that points to the memory address of the provided GObject.
+     * @return                    A new proxy instance of type {@code DBusMethodInvocation} that points to the memory address of the provided GObject.
      *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
      * @throws ClassCastException If the GType is not derived from "GDBusMethodInvocation", a ClassCastException will be thrown.
      */
     public static DBusMethodInvocation castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GDBusMethodInvocation"))) {
-            return new DBusMethodInvocation(gobject.handle(), gobject.refcounted().getOwnership());
+            return new DBusMethodInvocation(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GDBusMethodInvocation");
         }
@@ -255,6 +260,7 @@ public class DBusMethodInvocation extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        this.yieldOwnership();
     }
     
     /**
@@ -296,6 +302,7 @@ public class DBusMethodInvocation extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        this.yieldOwnership();
     }
     
     /**
@@ -320,6 +327,7 @@ public class DBusMethodInvocation extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        this.yieldOwnership();
     }
     
     /**
@@ -348,6 +356,7 @@ public class DBusMethodInvocation extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        this.yieldOwnership();
     }
     
     /**
@@ -368,6 +377,7 @@ public class DBusMethodInvocation extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        this.yieldOwnership();
     }
     
     /**
@@ -412,6 +422,7 @@ public class DBusMethodInvocation extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        this.yieldOwnership();
     }
     
     /**
@@ -434,6 +445,7 @@ public class DBusMethodInvocation extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        this.yieldOwnership();
     }
     
     /**
@@ -450,10 +462,12 @@ public class DBusMethodInvocation extends org.gtk.gobject.Object {
         try {
             DowncallHandles.g_dbus_method_invocation_take_error.invokeExact(
                     handle(),
-                    error.refcounted().unowned().handle());
+                    error.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        this.yieldOwnership();
+        error.yieldOwnership();
     }
     
     private static class DowncallHandles {

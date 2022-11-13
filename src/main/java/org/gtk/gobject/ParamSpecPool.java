@@ -12,7 +12,7 @@ import org.jetbrains.annotations.*;
  * The implementation of the {@link Object} property system uses such a pool to
  * store the {@code GParamSpecs} of the properties all object types.
  */
-public class ParamSpecPool extends io.github.jwharm.javagi.ResourceBase {
+public class ParamSpecPool extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         GObject.javagi$ensureInitialized();

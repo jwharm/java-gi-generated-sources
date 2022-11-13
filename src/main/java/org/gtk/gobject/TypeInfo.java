@@ -16,7 +16,7 @@ import org.jetbrains.annotations.*;
  * copy of this structure, so its memory does not need to be persistent
  * across invocation of g_type_register_static().
  */
-public class TypeInfo extends io.github.jwharm.javagi.ResourceBase {
+public class TypeInfo extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         GObject.javagi$ensureInitialized();

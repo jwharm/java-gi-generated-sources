@@ -11,7 +11,7 @@ import org.jetbrains.annotations.*;
  * The contents of the {@link Vec2} structure are private and should
  * never be accessed directly.
  */
-public class Vec2 extends io.github.jwharm.javagi.ResourceBase {
+public class Vec2 extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         Graphene.javagi$ensureInitialized();

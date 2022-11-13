@@ -12,7 +12,7 @@ import org.jetbrains.annotations.*;
  * be modified directly.
  * @version 1.4
  */
-public class Ray extends io.github.jwharm.javagi.ResourceBase {
+public class Ray extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         Graphene.javagi$ensureInitialized();

@@ -9,7 +9,7 @@ import org.jetbrains.annotations.*;
  * A triangle.
  * @version 1.2
  */
-public class Triangle extends io.github.jwharm.javagi.ResourceBase {
+public class Triangle extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         Graphene.javagi$ensureInitialized();

@@ -191,14 +191,19 @@ public class ConstraintLayout extends org.gtk.gtk.LayoutManager implements org.g
     
     /**
      * Cast object to ConstraintLayout if its GType is a (or inherits from) "GtkConstraintLayout".
+     * <p>
+     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
+     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
+     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
+     * is garbage-collected. 
      * @param  gobject            An object that inherits from GObject
-     * @return                    An instance of "ConstraintLayout" that points to the memory address of the provided GObject.
+     * @return                    A new proxy instance of type {@code ConstraintLayout} that points to the memory address of the provided GObject.
      *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
      * @throws ClassCastException If the GType is not derived from "GtkConstraintLayout", a ClassCastException will be thrown.
      */
     public static ConstraintLayout castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkConstraintLayout"))) {
-            return new ConstraintLayout(gobject.handle(), gobject.refcounted().getOwnership());
+            return new ConstraintLayout(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkConstraintLayout");
         }
@@ -243,10 +248,11 @@ public class ConstraintLayout extends org.gtk.gtk.LayoutManager implements org.g
         try {
             DowncallHandles.gtk_constraint_layout_add_constraint.invokeExact(
                     handle(),
-                    constraint.refcounted().unowned().handle());
+                    constraint.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        constraint.yieldOwnership();
     }
     
     /**
@@ -414,10 +420,11 @@ public class ConstraintLayout extends org.gtk.gtk.LayoutManager implements org.g
         try {
             DowncallHandles.gtk_constraint_layout_add_guide.invokeExact(
                     handle(),
-                    guide.refcounted().unowned().handle());
+                    guide.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        guide.yieldOwnership();
     }
     
     /**

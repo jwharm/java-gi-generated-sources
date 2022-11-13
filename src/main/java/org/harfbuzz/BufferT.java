@@ -9,7 +9,7 @@ import org.jetbrains.annotations.*;
  * The main structure holding the input text and its properties before shaping,
  * and output glyphs and their information after shaping.
  */
-public class BufferT extends io.github.jwharm.javagi.ResourceBase {
+public class BufferT extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         HarfBuzz.javagi$ensureInitialized();

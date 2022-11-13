@@ -10,7 +10,7 @@ import org.jetbrains.annotations.*;
  * public read-only members, but the underlying struct is bigger,
  * so you must not copy this struct.
  */
-public class ThreadPool extends io.github.jwharm.javagi.ResourceBase {
+public class ThreadPool extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         GLib.javagi$ensureInitialized();

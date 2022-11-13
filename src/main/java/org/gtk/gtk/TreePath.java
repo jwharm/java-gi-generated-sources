@@ -8,7 +8,7 @@ import org.jetbrains.annotations.*;
 /**
  * An opaque structure representing a path to a row in a model.
  */
-public class TreePath extends io.github.jwharm.javagi.ResourceBase {
+public class TreePath extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         Gtk.javagi$ensureInitialized();

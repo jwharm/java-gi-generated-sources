@@ -22,7 +22,7 @@ import org.jetbrains.annotations.*;
  * The main use case for {@code GtkBitset} is implementing complex selections for
  * {@code Gtk.SelectionModel}.
  */
-public class Bitset extends io.github.jwharm.javagi.ResourceBase {
+public class Bitset extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         Gtk.javagi$ensureInitialized();

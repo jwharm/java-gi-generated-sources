@@ -11,7 +11,7 @@ import org.jetbrains.annotations.*;
  * as appropriate for a given platform. IEEE floats and doubles are supported
  * (used for storage) by at least Intel, PPC and Sparc.
  */
-public class DoubleIEEE754 extends io.github.jwharm.javagi.ResourceBase {
+public class DoubleIEEE754 extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         GLib.javagi$ensureInitialized();

@@ -5,7 +5,7 @@ import java.lang.foreign.*;
 import java.lang.invoke.*;
 import org.jetbrains.annotations.*;
 
-public class FontFamilyClass extends io.github.jwharm.javagi.ResourceBase {
+public class FontFamilyClass extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         Pango.javagi$ensureInitialized();

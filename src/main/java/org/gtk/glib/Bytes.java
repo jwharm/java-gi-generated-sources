@@ -32,7 +32,7 @@ import org.jetbrains.annotations.*;
  * a mutable {@link ByteArray}, use the g_byte_array_free_to_bytes() function.
  * @version 2.32
  */
-public class Bytes extends io.github.jwharm.javagi.ResourceBase {
+public class Bytes extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         GLib.javagi$ensureInitialized();
@@ -414,6 +414,7 @@ public class Bytes extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        this.yieldOwnership();
         return new PointerByte(RESULT);
     }
     
@@ -441,6 +442,7 @@ public class Bytes extends io.github.jwharm.javagi.ResourceBase {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         size.set(sizePOINTER.get(ValueLayout.JAVA_LONG, 0));
+        this.yieldOwnership();
         return MemorySegment.ofAddress(RESULT.get(ValueLayout.ADDRESS, 0), size.get().intValue() * ValueLayout.JAVA_BYTE.byteSize(), Interop.getScope()).toArray(ValueLayout.JAVA_BYTE);
     }
     

@@ -13,7 +13,7 @@ import org.jetbrains.annotations.*;
  * <p>
  * The {@code PangoLayoutIter} structure is opaque, and has no user-visible fields.
  */
-public class LayoutIter extends io.github.jwharm.javagi.ResourceBase {
+public class LayoutIter extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         Pango.javagi$ensureInitialized();

@@ -9,7 +9,7 @@ import org.jetbrains.annotations.*;
  * The {@code PangoColor} structure is used to
  * represent a color in an uncalibrated RGB color-space.
  */
-public class Color extends io.github.jwharm.javagi.ResourceBase {
+public class Color extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         Pango.javagi$ensureInitialized();

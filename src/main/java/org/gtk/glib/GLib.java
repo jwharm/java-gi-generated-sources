@@ -9509,10 +9509,11 @@ public final class GLib {
         try {
             DowncallHandles.g_propagate_error.invokeExact(
                     dest.handle(),
-                    src.refcounted().unowned().handle());
+                    src.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        src.yieldOwnership();
     }
     
     /**

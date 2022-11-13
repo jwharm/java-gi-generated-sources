@@ -9,7 +9,7 @@ import org.jetbrains.annotations.*;
  * The virtual function table for {@link DebugController}.
  * @version 2.72
  */
-public class DebugControllerInterface extends io.github.jwharm.javagi.ResourceBase {
+public class DebugControllerInterface extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         Gio.javagi$ensureInitialized();

@@ -47,7 +47,7 @@ import org.jetbrains.annotations.*;
  * None of the members of a {@code PangoGlyphItemIter} should be modified manually.
  * @version 1.22
  */
-public class GlyphItemIter extends io.github.jwharm.javagi.ResourceBase {
+public class GlyphItemIter extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         Pango.javagi$ensureInitialized();

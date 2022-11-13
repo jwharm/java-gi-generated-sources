@@ -532,14 +532,19 @@ public class Task extends org.gtk.gobject.Object implements org.gtk.gio.AsyncRes
     
     /**
      * Cast object to Task if its GType is a (or inherits from) "GTask".
+     * <p>
+     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
+     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
+     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
+     * is garbage-collected. 
      * @param  gobject            An object that inherits from GObject
-     * @return                    An instance of "Task" that points to the memory address of the provided GObject.
+     * @return                    A new proxy instance of type {@code Task} that points to the memory address of the provided GObject.
      *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
      * @throws ClassCastException If the GType is not derived from "GTask", a ClassCastException will be thrown.
      */
     public static Task castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GTask"))) {
-            return new Task(gobject.handle(), gobject.refcounted().getOwnership());
+            return new Task(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GTask");
         }
@@ -930,10 +935,11 @@ public class Task extends org.gtk.gobject.Object implements org.gtk.gio.AsyncRes
         try {
             DowncallHandles.g_task_return_error.invokeExact(
                     handle(),
-                    error.refcounted().unowned().handle());
+                    error.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        error.yieldOwnership();
     }
     
     /**
@@ -1297,10 +1303,11 @@ public class Task extends org.gtk.gobject.Object implements org.gtk.gio.AsyncRes
                         Interop.getScope())),
                     (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)),
                     (Addressable) (sourceTag == null ? MemoryAddress.NULL : sourceTag),
-                    error.refcounted().unowned().handle());
+                    error.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        error.yieldOwnership();
     }
     
     /**

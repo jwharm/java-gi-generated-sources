@@ -8,7 +8,7 @@ import org.jetbrains.annotations.*;
 /**
  * The virtual table for {@code GtkSorter}.
  */
-public class SorterClass extends io.github.jwharm.javagi.ResourceBase {
+public class SorterClass extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         Gtk.javagi$ensureInitialized();

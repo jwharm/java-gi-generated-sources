@@ -8,7 +8,7 @@ import org.jetbrains.annotations.*;
 /**
  * Application Information interface, for operating system portability.
  */
-public class AppInfoIface extends io.github.jwharm.javagi.ResourceBase {
+public class AppInfoIface extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         Gio.javagi$ensureInitialized();

@@ -8,7 +8,7 @@ import org.jetbrains.annotations.*;
 /**
  * Provides an interface for implementing seekable functionality on I/O Streams.
  */
-public class SeekableIface extends io.github.jwharm.javagi.ResourceBase {
+public class SeekableIface extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         Gio.javagi$ensureInitialized();

@@ -9,7 +9,7 @@ import org.jetbrains.annotations.*;
  * The {@code GdkToplevelSize} struct contains information that is useful
  * to compute the size of a toplevel.
  */
-public class ToplevelSize extends io.github.jwharm.javagi.ResourceBase {
+public class ToplevelSize extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         Gdk.javagi$ensureInitialized();

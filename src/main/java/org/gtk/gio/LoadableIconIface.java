@@ -8,7 +8,7 @@ import org.jetbrains.annotations.*;
 /**
  * Interface for icons that can be loaded as a stream.
  */
-public class LoadableIconIface extends io.github.jwharm.javagi.ResourceBase {
+public class LoadableIconIface extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         Gio.javagi$ensureInitialized();

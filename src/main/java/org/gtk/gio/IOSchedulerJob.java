@@ -8,7 +8,7 @@ import org.jetbrains.annotations.*;
 /**
  * Opaque class for defining and scheduling IO jobs.
  */
-public class IOSchedulerJob extends io.github.jwharm.javagi.ResourceBase {
+public class IOSchedulerJob extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         Gio.javagi$ensureInitialized();

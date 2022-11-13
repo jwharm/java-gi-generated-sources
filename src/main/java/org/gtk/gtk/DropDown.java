@@ -61,14 +61,19 @@ public class DropDown extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     
     /**
      * Cast object to DropDown if its GType is a (or inherits from) "GtkDropDown".
+     * <p>
+     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
+     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
+     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
+     * is garbage-collected. 
      * @param  gobject            An object that inherits from GObject
-     * @return                    An instance of "DropDown" that points to the memory address of the provided GObject.
+     * @return                    A new proxy instance of type {@code DropDown} that points to the memory address of the provided GObject.
      *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
      * @throws ClassCastException If the GType is not derived from "GtkDropDown", a ClassCastException will be thrown.
      */
     public static DropDown castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkDropDown"))) {
-            return new DropDown(gobject.handle(), gobject.refcounted().getOwnership());
+            return new DropDown(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkDropDown");
         }
@@ -78,11 +83,13 @@ public class DropDown extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
         Addressable RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_drop_down_new.invokeExact(
-                    (Addressable) (model == null ? MemoryAddress.NULL : model.refcounted().unowned().handle()),
-                    (Addressable) (expression == null ? MemoryAddress.NULL : expression.refcounted().unowned().handle()));
+                    (Addressable) (model == null ? MemoryAddress.NULL : model.handle()),
+                    (Addressable) (expression == null ? MemoryAddress.NULL : expression.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        model.yieldOwnership();
+        expression.yieldOwnership();
         return RESULT;
     }
     

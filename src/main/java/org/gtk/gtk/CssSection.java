@@ -11,7 +11,7 @@ import org.jetbrains.annotations.*;
  * Because sections are nested into one another, you can use
  * {@code CssSection#getParent} to get the containing region.
  */
-public class CssSection extends io.github.jwharm.javagi.ResourceBase {
+public class CssSection extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         Gtk.javagi$ensureInitialized();
@@ -207,6 +207,7 @@ public class CssSection extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        this.yieldOwnership();
     }
     
     private static class DowncallHandles {

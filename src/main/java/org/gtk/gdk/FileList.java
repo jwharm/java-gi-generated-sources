@@ -9,7 +9,7 @@ import org.jetbrains.annotations.*;
  * An opaque type representing a list of files.
  * @version 4.6
  */
-public class FileList extends io.github.jwharm.javagi.ResourceBase {
+public class FileList extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         Gdk.javagi$ensureInitialized();

@@ -48,14 +48,19 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
     
     /**
      * Cast object to Snapshot if its GType is a (or inherits from) "null".
+     * <p>
+     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
+     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
+     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
+     * is garbage-collected. 
      * @param  gobject            An object that inherits from GObject
-     * @return                    An instance of "Snapshot" that points to the memory address of the provided GObject.
+     * @return                    A new proxy instance of type {@code Snapshot} that points to the memory address of the provided GObject.
      *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
      * @throws ClassCastException If the GType is not derived from "null", a ClassCastException will be thrown.
      */
     public static Snapshot castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("null"))) {
-            return new Snapshot(gobject.handle(), gobject.refcounted().getOwnership());
+            return new Snapshot(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of null");
         }
@@ -403,6 +408,7 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        this.yieldOwnership();
         return new org.gtk.gsk.RenderNode(RESULT, Ownership.FULL);
     }
     
@@ -422,6 +428,7 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        this.yieldOwnership();
         return new org.gtk.gdk.Paintable.PaintableImpl(RESULT, Ownership.FULL);
     }
     
@@ -639,10 +646,11 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
                     handle(),
                     shader.handle(),
                     bounds.handle(),
-                    takeArgs.refcounted().unowned().handle());
+                    takeArgs.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        takeArgs.yieldOwnership();
     }
     
     /**

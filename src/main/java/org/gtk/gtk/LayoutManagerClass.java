@@ -10,7 +10,7 @@ import org.jetbrains.annotations.*;
  * should only be accessed through the provided API, or when subclassing
  * {@code GtkLayoutManager}.
  */
-public class LayoutManagerClass extends io.github.jwharm.javagi.ResourceBase {
+public class LayoutManagerClass extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         Gtk.javagi$ensureInitialized();

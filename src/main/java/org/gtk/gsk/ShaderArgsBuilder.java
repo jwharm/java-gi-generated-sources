@@ -8,7 +8,7 @@ import org.jetbrains.annotations.*;
 /**
  * An object to build the uniforms data for a {@code GskGLShader}.
  */
-public class ShaderArgsBuilder extends io.github.jwharm.javagi.ResourceBase {
+public class ShaderArgsBuilder extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         Gsk.javagi$ensureInitialized();

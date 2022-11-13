@@ -20,7 +20,7 @@ import org.jetbrains.annotations.*;
  * g_rec_mutex_ functions.
  * @version 2.32
  */
-public class RecMutex extends io.github.jwharm.javagi.ResourceBase {
+public class RecMutex extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         GLib.javagi$ensureInitialized();

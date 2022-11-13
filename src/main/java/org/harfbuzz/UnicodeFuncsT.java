@@ -15,7 +15,7 @@ import org.jetbrains.annotations.*;
  * needed, and replace the default by calling the setter for a
  * method.
  */
-public class UnicodeFuncsT extends io.github.jwharm.javagi.ResourceBase {
+public class UnicodeFuncsT extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         HarfBuzz.javagi$ensureInitialized();

@@ -17,7 +17,7 @@ import org.jetbrains.annotations.*;
  * for a usage example.
  * @version 2.66
  */
-public class UriParamsIter extends io.github.jwharm.javagi.ResourceBase {
+public class UriParamsIter extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         GLib.javagi$ensureInitialized();

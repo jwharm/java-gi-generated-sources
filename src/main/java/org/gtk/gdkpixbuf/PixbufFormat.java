@@ -13,7 +13,7 @@ import org.jetbrains.annotations.*;
  * use the {@code gdk_pixbuf_format_*} family of functions.
  * @version 2.2
  */
-public class PixbufFormat extends io.github.jwharm.javagi.ResourceBase {
+public class PixbufFormat extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         GdkPixbuf.javagi$ensureInitialized();

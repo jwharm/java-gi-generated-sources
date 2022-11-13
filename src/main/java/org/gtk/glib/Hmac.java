@@ -11,7 +11,7 @@ import org.jetbrains.annotations.*;
  * a GHmac, use g_hmac_unref().
  * @version 2.30
  */
-public class Hmac extends io.github.jwharm.javagi.ResourceBase {
+public class Hmac extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         GLib.javagi$ensureInitialized();

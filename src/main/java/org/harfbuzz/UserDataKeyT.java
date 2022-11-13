@@ -8,7 +8,7 @@ import org.jetbrains.annotations.*;
 /**
  * Data structure for holding user-data keys.
  */
-public class UserDataKeyT extends io.github.jwharm.javagi.ResourceBase {
+public class UserDataKeyT extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         HarfBuzz.javagi$ensureInitialized();

@@ -9,7 +9,7 @@ import org.jetbrains.annotations.*;
  * The virtual function table for {@link ActionGroup}.
  * @version 2.28
  */
-public class ActionGroupInterface extends io.github.jwharm.javagi.ResourceBase {
+public class ActionGroupInterface extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         Gio.javagi$ensureInitialized();

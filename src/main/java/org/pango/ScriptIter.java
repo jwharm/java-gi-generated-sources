@@ -9,7 +9,7 @@ import org.jetbrains.annotations.*;
  * A {@code PangoScriptIter} is used to iterate through a string
  * and identify ranges in different scripts.
  */
-public class ScriptIter extends io.github.jwharm.javagi.ResourceBase {
+public class ScriptIter extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         Pango.javagi$ensureInitialized();

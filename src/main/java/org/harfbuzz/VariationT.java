@@ -11,7 +11,7 @@ import org.jetbrains.annotations.*;
  * <a href="https://docs.microsoft.com/en-us/typography/opentype/spec/dvaraxisreg">OpenType Axis Tag Registry</a>.
  * @version 1.4.2
  */
-public class VariationT extends io.github.jwharm.javagi.ResourceBase {
+public class VariationT extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         HarfBuzz.javagi$ensureInitialized();

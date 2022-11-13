@@ -9,7 +9,7 @@ import org.jetbrains.annotations.*;
  * The {@code PangoLogAttr} structure stores information about the attributes of a
  * single character.
  */
-public class LogAttr extends io.github.jwharm.javagi.ResourceBase {
+public class LogAttr extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         Pango.javagi$ensureInitialized();

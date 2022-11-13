@@ -12,7 +12,7 @@ import org.jetbrains.annotations.*;
  * accessed directly.
  * @version 1.0
  */
-public class Quad extends io.github.jwharm.javagi.ResourceBase {
+public class Quad extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         Graphene.javagi$ensureInitialized();

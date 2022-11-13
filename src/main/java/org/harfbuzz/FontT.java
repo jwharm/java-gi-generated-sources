@@ -8,7 +8,7 @@ import org.jetbrains.annotations.*;
 /**
  * Data type for holding fonts.
  */
-public class FontT extends io.github.jwharm.javagi.ResourceBase {
+public class FontT extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         HarfBuzz.javagi$ensureInitialized();

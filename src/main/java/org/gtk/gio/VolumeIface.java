@@ -8,7 +8,7 @@ import org.jetbrains.annotations.*;
 /**
  * Interface for implementing operations for mountable volumes.
  */
-public class VolumeIface extends io.github.jwharm.javagi.ResourceBase {
+public class VolumeIface extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         Gio.javagi$ensureInitialized();

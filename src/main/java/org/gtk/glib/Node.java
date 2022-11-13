@@ -8,7 +8,7 @@ import org.jetbrains.annotations.*;
 /**
  * The {@link Node} struct represents one node in a [n-ary tree][glib-N-ary-Trees].
  */
-public class Node extends io.github.jwharm.javagi.ResourceBase {
+public class Node extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         GLib.javagi$ensureInitialized();

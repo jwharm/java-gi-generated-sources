@@ -8,7 +8,7 @@ import org.jetbrains.annotations.*;
 /**
  * A {@link ValueArray} contains an array of {@link Value} elements.
  */
-public class ValueArray extends io.github.jwharm.javagi.ResourceBase {
+public class ValueArray extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         GObject.javagi$ensureInitialized();

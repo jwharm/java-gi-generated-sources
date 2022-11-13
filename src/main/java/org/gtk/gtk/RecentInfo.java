@@ -9,7 +9,7 @@ import org.jetbrains.annotations.*;
  * {@code GtkRecentInfo} contains the metadata associated with an item in the
  * recently used files list.
  */
-public class RecentInfo extends io.github.jwharm.javagi.ResourceBase {
+public class RecentInfo extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         Gtk.javagi$ensureInitialized();

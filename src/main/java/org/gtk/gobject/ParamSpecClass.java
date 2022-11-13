@@ -10,7 +10,7 @@ import org.jetbrains.annotations.*;
  * Normally, GParamSpec classes are filled by
  * g_param_type_register_static().
  */
-public class ParamSpecClass extends io.github.jwharm.javagi.ResourceBase {
+public class ParamSpecClass extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         GObject.javagi$ensureInitialized();

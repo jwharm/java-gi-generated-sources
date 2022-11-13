@@ -18,7 +18,7 @@ import org.jetbrains.annotations.*;
  * }</pre>
  * @version 2.68
  */
-public class StrvBuilder extends io.github.jwharm.javagi.ResourceBase {
+public class StrvBuilder extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         GLib.javagi$ensureInitialized();
@@ -152,6 +152,7 @@ public class StrvBuilder extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        this.yieldOwnership();
     }
     
     /**

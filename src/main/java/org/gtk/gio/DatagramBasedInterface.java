@@ -13,7 +13,7 @@ import org.jetbrains.annotations.*;
  * documented in the interface methods.
  * @version 2.48
  */
-public class DatagramBasedInterface extends io.github.jwharm.javagi.ResourceBase {
+public class DatagramBasedInterface extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         Gio.javagi$ensureInitialized();

@@ -10,7 +10,7 @@ import org.jetbrains.annotations.*;
  * initialization may fail.
  * @version 2.22
  */
-public class AsyncInitableIface extends io.github.jwharm.javagi.ResourceBase {
+public class AsyncInitableIface extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         Gio.javagi$ensureInitialized();

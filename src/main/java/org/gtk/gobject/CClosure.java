@@ -8,7 +8,7 @@ import org.jetbrains.annotations.*;
 /**
  * A {@link CClosure} is a specialization of {@link Closure} for C function callbacks.
  */
-public class CClosure extends io.github.jwharm.javagi.ResourceBase {
+public class CClosure extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         GObject.javagi$ensureInitialized();

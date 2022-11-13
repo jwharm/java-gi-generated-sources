@@ -12,7 +12,7 @@ import org.jetbrains.annotations.*;
  * model-specific data in the three {@code user_data}
  * members.
  */
-public class TreeIter extends io.github.jwharm.javagi.ResourceBase {
+public class TreeIter extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         Gtk.javagi$ensureInitialized();

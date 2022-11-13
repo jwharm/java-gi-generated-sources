@@ -19,7 +19,7 @@ import org.jetbrains.annotations.*;
  * If your document uses different rules for line breaking, you might want
  * run into problems here.
  */
-public class CssLocation extends io.github.jwharm.javagi.ResourceBase {
+public class CssLocation extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         Gtk.javagi$ensureInitialized();

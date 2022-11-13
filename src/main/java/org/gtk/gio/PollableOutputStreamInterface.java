@@ -24,7 +24,7 @@ import org.jetbrains.annotations.*;
  * {@link IOErrorEnum#WOULD_BLOCK}.
  * @version 2.28
  */
-public class PollableOutputStreamInterface extends io.github.jwharm.javagi.ResourceBase {
+public class PollableOutputStreamInterface extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         Gio.javagi$ensureInitialized();

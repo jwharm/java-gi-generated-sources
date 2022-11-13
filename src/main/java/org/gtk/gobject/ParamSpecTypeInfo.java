@@ -15,7 +15,7 @@ import org.jetbrains.annotations.*;
  * does not need to be persistent across invocation of
  * g_param_type_register_static().
  */
-public class ParamSpecTypeInfo extends io.github.jwharm.javagi.ResourceBase {
+public class ParamSpecTypeInfo extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         GObject.javagi$ensureInitialized();

@@ -20,7 +20,7 @@ import org.jetbrains.annotations.*;
  * The algorithm used for normalizing corner sizes is described in
  * <a href="https://drafts.csswg.org/css-backgrounds-3/#border-radius">the CSS specification</a>.
  */
-public class RoundedRect extends io.github.jwharm.javagi.ResourceBase {
+public class RoundedRect extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         Gsk.javagi$ensureInitialized();

@@ -9,7 +9,7 @@ import org.jetbrains.annotations.*;
  * The class structure for the {@link TlsConnection} type.
  * @version 2.28
  */
-public class TlsConnectionClass extends io.github.jwharm.javagi.ResourceBase {
+public class TlsConnectionClass extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         Gio.javagi$ensureInitialized();

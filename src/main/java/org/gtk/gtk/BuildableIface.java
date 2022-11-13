@@ -10,7 +10,7 @@ import org.jetbrains.annotations.*;
  * necessary to allow {@code GtkBuilder} to construct an object from
  * a {@code GtkBuilder} UI definition.
  */
-public class BuildableIface extends io.github.jwharm.javagi.ResourceBase {
+public class BuildableIface extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         Gtk.javagi$ensureInitialized();

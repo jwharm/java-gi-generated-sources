@@ -10,7 +10,7 @@ import org.jetbrains.annotations.*;
  * are primarily used in container implementations when allocating a natural
  * size for children calling. See {@link Gtk#distributeNaturalAllocation}.
  */
-public class RequestedSize extends io.github.jwharm.javagi.ResourceBase {
+public class RequestedSize extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         Gtk.javagi$ensureInitialized();

@@ -12,7 +12,7 @@ import org.jetbrains.annotations.*;
  * Note that no function is mandatory to implement, the default implementation
  * will work fine.
  */
-public class ShortcutManagerInterface extends io.github.jwharm.javagi.ResourceBase {
+public class ShortcutManagerInterface extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         Gtk.javagi$ensureInitialized();

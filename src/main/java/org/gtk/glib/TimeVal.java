@@ -17,7 +17,7 @@ import org.jetbrains.annotations.*;
  * {@code tv_sec} is that on 32-bit systems {@code GTimeVal} is subject to the year 2038
  * problem.
  */
-public class TimeVal extends io.github.jwharm.javagi.ResourceBase {
+public class TimeVal extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         GLib.javagi$ensureInitialized();

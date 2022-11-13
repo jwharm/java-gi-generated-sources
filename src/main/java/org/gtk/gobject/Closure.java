@@ -54,7 +54,7 @@ import org.jetbrains.annotations.*;
  *   automatically removed when the objects they point to go away.
  * </ul>
  */
-public class Closure extends io.github.jwharm.javagi.ResourceBase {
+public class Closure extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         GObject.javagi$ensureInitialized();

@@ -9,7 +9,7 @@ import org.jetbrains.annotations.*;
  * Meta-data to be passed to gtk_recent_manager_add_full() when
  * registering a recently used resource.
  */
-public class RecentData extends io.github.jwharm.javagi.ResourceBase {
+public class RecentData extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         Gtk.javagi$ensureInitialized();

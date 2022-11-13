@@ -10,7 +10,7 @@ import org.jetbrains.annotations.*;
  * {@link PixbufAnimation}, providing suitable implementations of the
  * virtual functions.
  */
-public class PixbufAnimationClass extends io.github.jwharm.javagi.ResourceBase {
+public class PixbufAnimationClass extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         GdkPixbuf.javagi$ensureInitialized();

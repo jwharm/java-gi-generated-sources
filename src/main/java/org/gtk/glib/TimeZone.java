@@ -10,7 +10,7 @@ import org.jetbrains.annotations.*;
  * directly.
  * @version 2.26
  */
-public class TimeZone extends io.github.jwharm.javagi.ResourceBase {
+public class TimeZone extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         GLib.javagi$ensureInitialized();

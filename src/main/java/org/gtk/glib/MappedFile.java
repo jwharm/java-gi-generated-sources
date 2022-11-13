@@ -10,7 +10,7 @@ import org.jetbrains.annotations.*;
  * g_mapped_file_new(). It has only private members and should
  * not be accessed directly.
  */
-public class MappedFile extends io.github.jwharm.javagi.ResourceBase {
+public class MappedFile extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         GLib.javagi$ensureInitialized();

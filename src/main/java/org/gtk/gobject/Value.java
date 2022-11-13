@@ -17,7 +17,7 @@ import org.jetbrains.annotations.*;
  * within the 2 element {@code data} union, and the {@code g_type} member should
  * only be accessed through the G_VALUE_TYPE() macro.
  */
-public class Value extends io.github.jwharm.javagi.ResourceBase {
+public class Value extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         GObject.javagi$ensureInitialized();
@@ -1091,10 +1091,11 @@ public class Value extends io.github.jwharm.javagi.ResourceBase {
         try {
             DowncallHandles.g_value_take_variant.invokeExact(
                     handle(),
-                    (Addressable) (variant == null ? MemoryAddress.NULL : variant.refcounted().unowned().handle()));
+                    (Addressable) (variant == null ? MemoryAddress.NULL : variant.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        variant.yieldOwnership();
     }
     
     /**

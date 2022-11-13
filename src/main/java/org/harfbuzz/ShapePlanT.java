@@ -16,7 +16,7 @@ import org.jetbrains.annotations.*;
  * of specific input parameters (script, language, direction, features,
  * etc.).
  */
-public class ShapePlanT extends io.github.jwharm.javagi.ResourceBase {
+public class ShapePlanT extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         HarfBuzz.javagi$ensureInitialized();

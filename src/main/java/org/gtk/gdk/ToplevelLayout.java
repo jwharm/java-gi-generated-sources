@@ -16,7 +16,7 @@ import org.jetbrains.annotations.*;
  * to the user in various states (maximized, on all workspaces,
  * etc).
  */
-public class ToplevelLayout extends io.github.jwharm.javagi.ResourceBase {
+public class ToplevelLayout extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         Gdk.javagi$ensureInitialized();

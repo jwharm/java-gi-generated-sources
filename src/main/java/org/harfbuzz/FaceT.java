@@ -8,7 +8,7 @@ import org.jetbrains.annotations.*;
 /**
  * Data type for holding font faces.
  */
-public class FaceT extends io.github.jwharm.javagi.ResourceBase {
+public class FaceT extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         HarfBuzz.javagi$ensureInitialized();

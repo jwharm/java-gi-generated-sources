@@ -12,7 +12,7 @@ import org.jetbrains.annotations.*;
  * The functions in this structure should not be called directly. Instead,
  * one should use the wrapper functions provided for {@code PangoAttribute}.
  */
-public class AttrClass extends io.github.jwharm.javagi.ResourceBase {
+public class AttrClass extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         Pango.javagi$ensureInitialized();

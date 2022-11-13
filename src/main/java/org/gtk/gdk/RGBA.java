@@ -16,7 +16,7 @@ import org.jetbrains.annotations.*;
  * (1.0, 1.0, 1.0, 1.0) is opaque white. Other values will
  * be clamped to this range when drawing.
  */
-public class RGBA extends io.github.jwharm.javagi.ResourceBase {
+public class RGBA extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         Gdk.javagi$ensureInitialized();

@@ -21,7 +21,7 @@ import org.jetbrains.annotations.*;
  * {@code msg_handler} field. The type of the message handler function
  * is declared by {@link ScannerMsgFunc}.
  */
-public class Scanner extends io.github.jwharm.javagi.ResourceBase {
+public class Scanner extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         GLib.javagi$ensureInitialized();

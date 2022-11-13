@@ -9,7 +9,7 @@ import org.jetbrains.annotations.*;
  * Information about an argument for a method or a signal.
  * @version 2.26
  */
-public class DBusArgInfo extends io.github.jwharm.javagi.ResourceBase {
+public class DBusArgInfo extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         Gio.javagi$ensureInitialized();

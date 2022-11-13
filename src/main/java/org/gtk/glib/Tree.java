@@ -10,7 +10,7 @@ import org.jetbrains.annotations.*;
  * [balanced binary tree][glib-Balanced-Binary-Trees]. It should be
  * accessed only by using the following functions.
  */
-public class Tree extends io.github.jwharm.javagi.ResourceBase {
+public class Tree extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         GLib.javagi$ensureInitialized();

@@ -9,7 +9,7 @@ import org.jetbrains.annotations.*;
  * Each piece of memory that is pushed onto the stack
  * is cast to a GTrashStack*.
  */
-public class TrashStack extends io.github.jwharm.javagi.ResourceBase {
+public class TrashStack extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         GLib.javagi$ensureInitialized();

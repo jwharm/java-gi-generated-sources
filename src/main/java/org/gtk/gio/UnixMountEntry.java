@@ -9,7 +9,7 @@ import org.jetbrains.annotations.*;
  * Defines a Unix mount entry (e.g. &lt;filename&gt;/media/cdrom&lt;/filename&gt;).
  * This corresponds roughly to a mtab entry.
  */
-public class UnixMountEntry extends io.github.jwharm.javagi.ResourceBase {
+public class UnixMountEntry extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         Gio.javagi$ensureInitialized();

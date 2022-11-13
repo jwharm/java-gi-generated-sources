@@ -10,7 +10,7 @@ import org.jetbrains.annotations.*;
  * are accepted by the commandline option parser. The struct has only private
  * fields and should not be directly accessed.
  */
-public class OptionContext extends io.github.jwharm.javagi.ResourceBase {
+public class OptionContext extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         GLib.javagi$ensureInitialized();
@@ -57,10 +57,11 @@ public class OptionContext extends io.github.jwharm.javagi.ResourceBase {
         try {
             DowncallHandles.g_option_context_add_group.invokeExact(
                     handle(),
-                    group.refcounted().unowned().handle());
+                    group.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        group.yieldOwnership();
     }
     
     /**
@@ -375,10 +376,11 @@ public class OptionContext extends io.github.jwharm.javagi.ResourceBase {
         try {
             DowncallHandles.g_option_context_set_main_group.invokeExact(
                     handle(),
-                    group.refcounted().unowned().handle());
+                    group.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        group.yieldOwnership();
     }
     
     /**

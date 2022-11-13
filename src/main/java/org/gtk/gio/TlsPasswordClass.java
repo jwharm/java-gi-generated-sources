@@ -8,7 +8,7 @@ import org.jetbrains.annotations.*;
 /**
  * Class structure for {@link TlsPassword}.
  */
-public class TlsPasswordClass extends io.github.jwharm.javagi.ResourceBase {
+public class TlsPasswordClass extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         Gio.javagi$ensureInitialized();

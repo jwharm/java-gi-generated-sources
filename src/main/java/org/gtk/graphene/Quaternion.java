@@ -12,7 +12,7 @@ import org.jetbrains.annotations.*;
  * and should never be accessed directly.
  * @version 1.0
  */
-public class Quaternion extends io.github.jwharm.javagi.ResourceBase {
+public class Quaternion extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         Graphene.javagi$ensureInitialized();

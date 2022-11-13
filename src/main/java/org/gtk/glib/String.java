@@ -8,7 +8,7 @@ import org.jetbrains.annotations.*;
 /**
  * The GString struct contains the public fields of a GString.
  */
-public class String extends io.github.jwharm.javagi.ResourceBase {
+public class String extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         GLib.javagi$ensureInitialized();
@@ -466,6 +466,7 @@ public class String extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        this.yieldOwnership();
         return Interop.getStringFrom(RESULT);
     }
     
@@ -488,6 +489,7 @@ public class String extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        this.yieldOwnership();
         return new org.gtk.glib.Bytes(RESULT, Ownership.FULL);
     }
     

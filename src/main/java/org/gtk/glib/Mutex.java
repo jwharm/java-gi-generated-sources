@@ -51,7 +51,7 @@ import org.jetbrains.annotations.*;
  * <p>
  * A {@link Mutex} should only be accessed via g_mutex_ functions.
  */
-public class Mutex extends io.github.jwharm.javagi.ResourceBase {
+public class Mutex extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         GLib.javagi$ensureInitialized();

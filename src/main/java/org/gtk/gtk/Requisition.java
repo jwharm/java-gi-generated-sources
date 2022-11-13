@@ -10,7 +10,7 @@ import org.jetbrains.annotations.*;
  * <a href="class.Widget.html#height-for-width-geometry-management">GtkWidget’s geometry management section</a> for
  * more information.
  */
-public class Requisition extends io.github.jwharm.javagi.ResourceBase {
+public class Requisition extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         Gtk.javagi$ensureInitialized();

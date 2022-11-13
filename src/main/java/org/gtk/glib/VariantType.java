@@ -162,7 +162,7 @@ import org.jetbrains.annotations.*;
  * that, due to the restriction that the key of a dictionary entry must
  * be a basic type, "{**}" is not a valid type string.
  */
-public class VariantType extends io.github.jwharm.javagi.ResourceBase {
+public class VariantType extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         GLib.javagi$ensureInitialized();

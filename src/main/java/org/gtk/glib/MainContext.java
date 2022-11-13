@@ -9,7 +9,7 @@ import org.jetbrains.annotations.*;
  * The {@code GMainContext} struct is an opaque data
  * type representing a set of sources to be handled in a main loop.
  */
-public class MainContext extends io.github.jwharm.javagi.ResourceBase {
+public class MainContext extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         GLib.javagi$ensureInitialized();

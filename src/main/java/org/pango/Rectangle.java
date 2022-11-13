@@ -12,7 +12,7 @@ import org.jetbrains.annotations.*;
  * extents of a single glyph or section of text. (See, for instance,
  * {@link Font#getGlyphExtents}.)
  */
-public class Rectangle extends io.github.jwharm.javagi.ResourceBase {
+public class Rectangle extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         Pango.javagi$ensureInitialized();

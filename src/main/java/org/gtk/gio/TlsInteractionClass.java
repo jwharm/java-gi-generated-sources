@@ -22,7 +22,7 @@ import org.jetbrains.annotations.*;
  * {@code G_IO_ERROR} and code of {@link IOErrorEnum#CANCELLED}.
  * @version 2.30
  */
-public class TlsInteractionClass extends io.github.jwharm.javagi.ResourceBase {
+public class TlsInteractionClass extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         Gio.javagi$ensureInitialized();

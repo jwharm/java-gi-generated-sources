@@ -9,7 +9,7 @@ import org.jetbrains.annotations.*;
  * Defines a Unix mount point (e.g. &lt;filename&gt;/dev&lt;/filename&gt;).
  * This corresponds roughly to a fstab entry.
  */
-public class UnixMountPoint extends io.github.jwharm.javagi.ResourceBase {
+public class UnixMountPoint extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         Gio.javagi$ensureInitialized();

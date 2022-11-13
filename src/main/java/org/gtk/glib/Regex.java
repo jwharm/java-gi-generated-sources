@@ -73,7 +73,7 @@ import org.jetbrains.annotations.*;
  * library written by Philip Hazel.
  * @version 2.14
  */
-public class Regex extends io.github.jwharm.javagi.ResourceBase {
+public class Regex extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         GLib.javagi$ensureInitialized();

@@ -9,7 +9,7 @@ import org.jetbrains.annotations.*;
  * Provides an interface for returning a {@link SocketAddressEnumerator}
  * and {@link ProxyAddressEnumerator}
  */
-public class SocketConnectableIface extends io.github.jwharm.javagi.ResourceBase {
+public class SocketConnectableIface extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         Gio.javagi$ensureInitialized();

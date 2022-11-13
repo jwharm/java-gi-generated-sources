@@ -9,7 +9,7 @@ import org.jetbrains.annotations.*;
  * A table of functions used to handle different types of {@link IOChannel}
  * in a generic way.
  */
-public class IOFuncs extends io.github.jwharm.javagi.ResourceBase {
+public class IOFuncs extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         GLib.javagi$ensureInitialized();

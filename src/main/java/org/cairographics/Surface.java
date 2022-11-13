@@ -5,7 +5,7 @@ import java.lang.foreign.*;
 import java.lang.invoke.*;
 import org.jetbrains.annotations.*;
 
-public class Surface extends io.github.jwharm.javagi.ResourceBase {
+public class Surface extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         Cairo.javagi$ensureInitialized();

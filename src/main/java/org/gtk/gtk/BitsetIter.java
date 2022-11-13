@@ -13,7 +13,7 @@ import org.jetbrains.annotations.*;
  * {@link BitsetIter#initFirst}, {@link BitsetIter#initLast}
  * or {@link BitsetIter#initAt}.
  */
-public class BitsetIter extends io.github.jwharm.javagi.ResourceBase {
+public class BitsetIter extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         Gtk.javagi$ensureInitialized();

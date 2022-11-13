@@ -8,7 +8,7 @@ import org.jetbrains.annotations.*;
 /**
  * The shadow parameters in a shadow node.
  */
-public class Shadow extends io.github.jwharm.javagi.ResourceBase {
+public class Shadow extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         Gsk.javagi$ensureInitialized();

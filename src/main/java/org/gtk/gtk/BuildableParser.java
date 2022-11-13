@@ -8,7 +8,7 @@ import org.jetbrains.annotations.*;
 /**
  * A sub-parser for {@code GtkBuildable} implementations.
  */
-public class BuildableParser extends io.github.jwharm.javagi.ResourceBase {
+public class BuildableParser extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         Gtk.javagi$ensureInitialized();

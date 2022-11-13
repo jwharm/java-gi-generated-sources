@@ -9,7 +9,7 @@ import org.jetbrains.annotations.*;
  * Virtual method table for a {@link DtlsConnection} implementation.
  * @version 2.48
  */
-public class DtlsConnectionInterface extends io.github.jwharm.javagi.ResourceBase {
+public class DtlsConnectionInterface extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         Gio.javagi$ensureInitialized();

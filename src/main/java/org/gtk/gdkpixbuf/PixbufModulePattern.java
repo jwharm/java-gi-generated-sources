@@ -37,7 +37,7 @@ import org.jetbrains.annotations.*;
  * relevance 100, and "blau" with relevance 90.
  * @version 2.2
  */
-public class PixbufModulePattern extends io.github.jwharm.javagi.ResourceBase {
+public class PixbufModulePattern extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         GdkPixbuf.javagi$ensureInitialized();

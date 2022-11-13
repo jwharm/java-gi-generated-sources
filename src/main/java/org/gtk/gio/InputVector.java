@@ -12,7 +12,7 @@ import org.jetbrains.annotations.*;
  * first buffer, switching to the next as needed.
  * @version 2.22
  */
-public class InputVector extends io.github.jwharm.javagi.ResourceBase {
+public class InputVector extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         Gio.javagi$ensureInitialized();

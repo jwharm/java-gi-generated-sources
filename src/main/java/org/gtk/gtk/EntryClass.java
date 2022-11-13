@@ -12,7 +12,7 @@ import org.jetbrains.annotations.*;
  * {@code get_frame_size} non-{@code null}; either use the default implementation, or provide
  * a custom one.
  */
-public class EntryClass extends io.github.jwharm.javagi.ResourceBase {
+public class EntryClass extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         Gtk.javagi$ensureInitialized();

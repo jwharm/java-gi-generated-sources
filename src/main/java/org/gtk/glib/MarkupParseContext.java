@@ -12,7 +12,7 @@ import org.jetbrains.annotations.*;
  * See g_markup_parse_context_new(), {@link MarkupParser}, and so
  * on for more details.
  */
-public class MarkupParseContext extends io.github.jwharm.javagi.ResourceBase {
+public class MarkupParseContext extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         GLib.javagi$ensureInitialized();

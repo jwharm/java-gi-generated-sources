@@ -9,7 +9,7 @@ import org.jetbrains.annotations.*;
  * The class of a flags type holds information about its
  * possible values.
  */
-public class FlagsClass extends io.github.jwharm.javagi.ResourceBase {
+public class FlagsClass extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         GObject.javagi$ensureInitialized();

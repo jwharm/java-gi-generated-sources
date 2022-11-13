@@ -8,7 +8,7 @@ import org.jetbrains.annotations.*;
 /**
  * The {@link List} struct is used for each element in a doubly-linked list.
  */
-public class List extends io.github.jwharm.javagi.ResourceBase {
+public class List extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         GLib.javagi$ensureInitialized();

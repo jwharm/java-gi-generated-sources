@@ -72,7 +72,7 @@ import org.jetbrains.annotations.*;
  * <p>
  * A {@link Cond} should only be accessed via the g_cond_ functions.
  */
-public class Cond extends io.github.jwharm.javagi.ResourceBase {
+public class Cond extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         GLib.javagi$ensureInitialized();

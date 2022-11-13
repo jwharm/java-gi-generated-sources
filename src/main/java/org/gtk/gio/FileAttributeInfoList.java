@@ -9,7 +9,7 @@ import org.jetbrains.annotations.*;
  * Acts as a lightweight registry for possible valid file attributes.
  * The registry stores Key-Value pair formats as {@code GFileAttributeInfos}.
  */
-public class FileAttributeInfoList extends io.github.jwharm.javagi.ResourceBase {
+public class FileAttributeInfoList extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         Gio.javagi$ensureInitialized();

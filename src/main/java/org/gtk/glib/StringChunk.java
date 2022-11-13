@@ -9,7 +9,7 @@ import org.jetbrains.annotations.*;
  * An opaque data structure representing String Chunks.
  * It should only be accessed by using the following functions.
  */
-public class StringChunk extends io.github.jwharm.javagi.ResourceBase {
+public class StringChunk extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         GLib.javagi$ensureInitialized();

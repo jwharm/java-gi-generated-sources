@@ -96,7 +96,7 @@ import org.jetbrains.annotations.*;
  * itself before attempting to create the settings source.
  * @version 2.32
  */
-public class SettingsSchema extends io.github.jwharm.javagi.ResourceBase {
+public class SettingsSchema extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         Gio.javagi$ensureInitialized();

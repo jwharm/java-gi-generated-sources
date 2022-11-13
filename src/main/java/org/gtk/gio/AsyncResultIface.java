@@ -8,7 +8,7 @@ import org.jetbrains.annotations.*;
 /**
  * Interface definition for {@link AsyncResult}.
  */
-public class AsyncResultIface extends io.github.jwharm.javagi.ResourceBase {
+public class AsyncResultIface extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         Gio.javagi$ensureInitialized();

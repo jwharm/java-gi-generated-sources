@@ -13,7 +13,7 @@ import org.jetbrains.annotations.*;
  * {@link Layout#getLine} and are only valid until the text,
  * attributes, or settings of the parent {@code PangoLayout} are modified.
  */
-public class LayoutLine extends io.github.jwharm.javagi.ResourceBase {
+public class LayoutLine extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         Pango.javagi$ensureInitialized();

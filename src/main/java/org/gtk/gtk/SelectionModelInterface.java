@@ -19,7 +19,7 @@ import org.jetbrains.annotations.*;
  * so it is sufficient to implement just that function for full selection
  * support.
  */
-public class SelectionModelInterface extends io.github.jwharm.javagi.ResourceBase {
+public class SelectionModelInterface extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         Gtk.javagi$ensureInitialized();

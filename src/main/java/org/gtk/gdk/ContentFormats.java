@@ -39,7 +39,7 @@ import org.jetbrains.annotations.*;
  * The {@code Gdk.ContentFormatsBuilder} structure is meant to help in this
  * endeavor.
  */
-public class ContentFormats extends io.github.jwharm.javagi.ResourceBase {
+public class ContentFormats extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         Gdk.javagi$ensureInitialized();
@@ -348,6 +348,7 @@ public class ContentFormats extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        this.yieldOwnership();
         return new org.gtk.gdk.ContentFormats(RESULT, Ownership.FULL);
     }
     
@@ -364,6 +365,7 @@ public class ContentFormats extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        this.yieldOwnership();
         return new org.gtk.gdk.ContentFormats(RESULT, Ownership.FULL);
     }
     
@@ -380,6 +382,7 @@ public class ContentFormats extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        this.yieldOwnership();
         return new org.gtk.gdk.ContentFormats(RESULT, Ownership.FULL);
     }
     
@@ -396,6 +399,7 @@ public class ContentFormats extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        this.yieldOwnership();
         return new org.gtk.gdk.ContentFormats(RESULT, Ownership.FULL);
     }
     
@@ -412,6 +416,7 @@ public class ContentFormats extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        this.yieldOwnership();
         return new org.gtk.gdk.ContentFormats(RESULT, Ownership.FULL);
     }
     

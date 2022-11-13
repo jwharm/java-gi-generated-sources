@@ -9,7 +9,7 @@ import org.jetbrains.annotations.*;
  * A point with three components: X, Y, and Z.
  * @version 1.0
  */
-public class Point3D extends io.github.jwharm.javagi.ResourceBase {
+public class Point3D extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         Graphene.javagi$ensureInitialized();

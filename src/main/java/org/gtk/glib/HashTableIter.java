@@ -14,7 +14,7 @@ import org.jetbrains.annotations.*;
  * The iteration order of a {@link HashTableIter} over the keys/values in a hash
  * table is not defined.
  */
-public class HashTableIter extends io.github.jwharm.javagi.ResourceBase {
+public class HashTableIter extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         GLib.javagi$ensureInitialized();

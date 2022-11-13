@@ -13,7 +13,7 @@ import org.jetbrains.annotations.*;
  * which gives an overview of all the objects and data types
  * related to the text widget and how they work together.
  */
-public class TextIter extends io.github.jwharm.javagi.ResourceBase {
+public class TextIter extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         Gtk.javagi$ensureInitialized();

@@ -9,7 +9,7 @@ import org.jetbrains.annotations.*;
  * An opaque type which identifies a specific node in a {@link Tree}.
  * @version 2.68
  */
-public class TreeNode extends io.github.jwharm.javagi.ResourceBase {
+public class TreeNode extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         GLib.javagi$ensureInitialized();

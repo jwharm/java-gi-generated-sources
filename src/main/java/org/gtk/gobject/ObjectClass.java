@@ -32,7 +32,7 @@ import org.jetbrains.annotations.*;
  * }
  * }</pre>
  */
-public class ObjectClass extends io.github.jwharm.javagi.ResourceBase {
+public class ObjectClass extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         GObject.javagi$ensureInitialized();

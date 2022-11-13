@@ -9,7 +9,7 @@ import org.jetbrains.annotations.*;
  * Class structure for {@link DBusInterfaceSkeleton}.
  * @version 2.30
  */
-public class DBusInterfaceSkeletonClass extends io.github.jwharm.javagi.ResourceBase {
+public class DBusInterfaceSkeletonClass extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         Gio.javagi$ensureInitialized();

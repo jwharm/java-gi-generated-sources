@@ -11,7 +11,7 @@ import org.jetbrains.annotations.*;
  * and may fail at any place.
  * @version 2.24
  */
-public class ConverterIface extends io.github.jwharm.javagi.ResourceBase {
+public class ConverterIface extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         Gio.javagi$ensureInitialized();

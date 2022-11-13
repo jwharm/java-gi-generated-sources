@@ -9,7 +9,7 @@ import org.jetbrains.annotations.*;
  * A size.
  * @version 1.0
  */
-public class Size extends io.github.jwharm.javagi.ResourceBase {
+public class Size extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         Graphene.javagi$ensureInitialized();

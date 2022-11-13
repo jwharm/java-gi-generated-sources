@@ -11,7 +11,7 @@ import org.jetbrains.annotations.*;
  * <p>
  * See g_stat() for more information.
  */
-public class StatBuf extends io.github.jwharm.javagi.ResourceBase {
+public class StatBuf extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         GLib.javagi$ensureInitialized();

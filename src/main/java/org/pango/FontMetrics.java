@@ -21,7 +21,7 @@ import org.jetbrains.annotations.*;
  *   &lt;img alt="Font metrics" src="fontmetrics-light.png"&gt;
  * &lt;/picture&gt;
  */
-public class FontMetrics extends io.github.jwharm.javagi.ResourceBase {
+public class FontMetrics extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         Pango.javagi$ensureInitialized();

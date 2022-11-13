@@ -8,7 +8,7 @@ import org.jetbrains.annotations.*;
 /**
  * Interface for implementing operations for mounts.
  */
-public class MountIface extends io.github.jwharm.javagi.ResourceBase {
+public class MountIface extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         Gio.javagi$ensureInitialized();

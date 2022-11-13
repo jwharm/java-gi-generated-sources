@@ -40,14 +40,19 @@ public class StringObject extends org.gtk.gobject.Object {
     
     /**
      * Cast object to StringObject if its GType is a (or inherits from) "GtkStringObject".
+     * <p>
+     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
+     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
+     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
+     * is garbage-collected. 
      * @param  gobject            An object that inherits from GObject
-     * @return                    An instance of "StringObject" that points to the memory address of the provided GObject.
+     * @return                    A new proxy instance of type {@code StringObject} that points to the memory address of the provided GObject.
      *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
      * @throws ClassCastException If the GType is not derived from "GtkStringObject", a ClassCastException will be thrown.
      */
     public static StringObject castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkStringObject"))) {
-            return new StringObject(gobject.handle(), gobject.refcounted().getOwnership());
+            return new StringObject(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkStringObject");
         }

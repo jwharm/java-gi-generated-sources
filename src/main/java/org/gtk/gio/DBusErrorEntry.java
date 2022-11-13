@@ -9,7 +9,7 @@ import org.jetbrains.annotations.*;
  * Struct used in g_dbus_error_register_error_domain().
  * @version 2.26
  */
-public class DBusErrorEntry extends io.github.jwharm.javagi.ResourceBase {
+public class DBusErrorEntry extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         Gio.javagi$ensureInitialized();

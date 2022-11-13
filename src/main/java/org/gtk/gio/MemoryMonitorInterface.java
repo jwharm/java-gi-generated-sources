@@ -9,7 +9,7 @@ import org.jetbrains.annotations.*;
  * The virtual function table for {@link MemoryMonitor}.
  * @version 2.64
  */
-public class MemoryMonitorInterface extends io.github.jwharm.javagi.ResourceBase {
+public class MemoryMonitorInterface extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         Gio.javagi$ensureInitialized();

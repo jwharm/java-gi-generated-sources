@@ -8,7 +8,7 @@ import org.jetbrains.annotations.*;
 /**
  * Class structure for {@link SocketAddressEnumerator}.
  */
-public class SocketAddressEnumeratorClass extends io.github.jwharm.javagi.ResourceBase {
+public class SocketAddressEnumeratorClass extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         Gio.javagi$ensureInitialized();

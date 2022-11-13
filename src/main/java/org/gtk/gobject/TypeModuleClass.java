@@ -9,7 +9,7 @@ import org.jetbrains.annotations.*;
  * In order to implement dynamic loading of types based on {@link TypeModule},
  * the {@code load} and {@code unload} functions in {@link TypeModuleClass} must be implemented.
  */
-public class TypeModuleClass extends io.github.jwharm.javagi.ResourceBase {
+public class TypeModuleClass extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         GObject.javagi$ensureInitialized();

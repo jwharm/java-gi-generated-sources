@@ -10,7 +10,7 @@ import org.jetbrains.annotations.*;
  * may fail.
  * @version 2.22
  */
-public class InitableIface extends io.github.jwharm.javagi.ResourceBase {
+public class InitableIface extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         Gio.javagi$ensureInitialized();

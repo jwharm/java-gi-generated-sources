@@ -8,7 +8,7 @@ import org.jetbrains.annotations.*;
 /**
  * Struct defining a pad action entry.
  */
-public class PadActionEntry extends io.github.jwharm.javagi.ResourceBase {
+public class PadActionEntry extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         Gtk.javagi$ensureInitialized();

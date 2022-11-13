@@ -12,7 +12,7 @@ import org.jetbrains.annotations.*;
  * Setting start to {@code HB_FEATURE_GLOBAL_START} and end to {@code HB_FEATURE_GLOBAL_END}
  * specifies that the feature always applies to the entire buffer.
  */
-public class FeatureT extends io.github.jwharm.javagi.ResourceBase {
+public class FeatureT extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         HarfBuzz.javagi$ensureInitialized();

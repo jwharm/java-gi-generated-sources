@@ -18,7 +18,7 @@ import org.jetbrains.annotations.*;
  * readable.
  * @version 2.28
  */
-public class PollableInputStreamInterface extends io.github.jwharm.javagi.ResourceBase {
+public class PollableInputStreamInterface extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         Gio.javagi$ensureInitialized();

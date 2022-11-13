@@ -9,7 +9,7 @@ import org.jetbrains.annotations.*;
  * vtable for a {@link TlsServerConnection} implementation.
  * @version 2.26
  */
-public class TlsServerConnectionInterface extends io.github.jwharm.javagi.ResourceBase {
+public class TlsServerConnectionInterface extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         Gio.javagi$ensureInitialized();

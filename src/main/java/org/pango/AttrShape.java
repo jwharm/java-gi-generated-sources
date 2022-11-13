@@ -9,7 +9,7 @@ import org.jetbrains.annotations.*;
  * The {@code PangoAttrShape} structure is used to represent attributes which
  * impose shape restrictions.
  */
-public class AttrShape extends io.github.jwharm.javagi.ResourceBase {
+public class AttrShape extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         Pango.javagi$ensureInitialized();

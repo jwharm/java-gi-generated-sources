@@ -9,7 +9,7 @@ import org.jetbrains.annotations.*;
  * The {@link TypeValueTable} provides the functions required by the {@link Value}
  * implementation, to serve as a container for values of a type.
  */
-public class TypeValueTable extends io.github.jwharm.javagi.ResourceBase {
+public class TypeValueTable extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         GObject.javagi$ensureInitialized();

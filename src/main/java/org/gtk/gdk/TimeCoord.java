@@ -8,7 +8,7 @@ import org.jetbrains.annotations.*;
 /**
  * A {@code GdkTimeCoord} stores a single event in a motion history.
  */
-public class TimeCoord extends io.github.jwharm.javagi.ResourceBase {
+public class TimeCoord extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         Gdk.javagi$ensureInitialized();

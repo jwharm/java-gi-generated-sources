@@ -11,7 +11,7 @@ import org.jetbrains.annotations.*;
  * on the fly from parts.
  * @version 1.3.3
  */
-public class OtMathGlyphPartT extends io.github.jwharm.javagi.ResourceBase {
+public class OtMathGlyphPartT extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         HarfBuzz.javagi$ensureInitialized();

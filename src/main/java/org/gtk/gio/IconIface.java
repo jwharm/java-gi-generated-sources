@@ -10,7 +10,7 @@ import org.jetbrains.annotations.*;
  * different systems. See {@link ThemedIcon} and {@link LoadableIcon} for
  * examples of how to implement this interface.
  */
-public class IconIface extends io.github.jwharm.javagi.ResourceBase {
+public class IconIface extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         Gio.javagi$ensureInitialized();

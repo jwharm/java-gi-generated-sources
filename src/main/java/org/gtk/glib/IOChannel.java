@@ -10,7 +10,7 @@ import org.jetbrains.annotations.*;
  * considered private and should only be accessed with the following
  * functions.
  */
-public class IOChannel extends io.github.jwharm.javagi.ResourceBase {
+public class IOChannel extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         GLib.javagi$ensureInitialized();

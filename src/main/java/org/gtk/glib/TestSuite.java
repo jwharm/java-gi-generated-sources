@@ -8,7 +8,7 @@ import org.jetbrains.annotations.*;
 /**
  * An opaque structure representing a test suite.
  */
-public class TestSuite extends io.github.jwharm.javagi.ResourceBase {
+public class TestSuite extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         GLib.javagi$ensureInitialized();

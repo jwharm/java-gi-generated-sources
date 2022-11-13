@@ -12,7 +12,7 @@ import org.jetbrains.annotations.*;
  * one buffer.
  * @version 2.22
  */
-public class OutputVector extends io.github.jwharm.javagi.ResourceBase {
+public class OutputVector extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         Gio.javagi$ensureInitialized();

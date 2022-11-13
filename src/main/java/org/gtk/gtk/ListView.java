@@ -131,14 +131,19 @@ public class ListView extends org.gtk.gtk.ListBase implements org.gtk.gtk.Access
     
     /**
      * Cast object to ListView if its GType is a (or inherits from) "GtkListView".
+     * <p>
+     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
+     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
+     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
+     * is garbage-collected. 
      * @param  gobject            An object that inherits from GObject
-     * @return                    An instance of "ListView" that points to the memory address of the provided GObject.
+     * @return                    A new proxy instance of type {@code ListView} that points to the memory address of the provided GObject.
      *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
      * @throws ClassCastException If the GType is not derived from "GtkListView", a ClassCastException will be thrown.
      */
     public static ListView castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkListView"))) {
-            return new ListView(gobject.handle(), gobject.refcounted().getOwnership());
+            return new ListView(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkListView");
         }
@@ -148,11 +153,13 @@ public class ListView extends org.gtk.gtk.ListBase implements org.gtk.gtk.Access
         Addressable RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_list_view_new.invokeExact(
-                    (Addressable) (model == null ? MemoryAddress.NULL : model.refcounted().unowned().handle()),
-                    (Addressable) (factory == null ? MemoryAddress.NULL : factory.refcounted().unowned().handle()));
+                    (Addressable) (model == null ? MemoryAddress.NULL : model.handle()),
+                    (Addressable) (factory == null ? MemoryAddress.NULL : factory.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        model.yieldOwnership();
+        factory.yieldOwnership();
         return RESULT;
     }
     

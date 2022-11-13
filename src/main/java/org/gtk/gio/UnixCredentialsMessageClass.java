@@ -9,7 +9,7 @@ import org.jetbrains.annotations.*;
  * Class structure for {@link UnixCredentialsMessage}.
  * @version 2.26
  */
-public class UnixCredentialsMessageClass extends io.github.jwharm.javagi.ResourceBase {
+public class UnixCredentialsMessageClass extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         Gio.javagi$ensureInitialized();

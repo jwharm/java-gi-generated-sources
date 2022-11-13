@@ -10,7 +10,7 @@ import org.jetbrains.annotations.*;
  * <p>
  * See also: [Keyed data lists][glib-Keyed-Data-Lists].
  */
-public class Data extends io.github.jwharm.javagi.ResourceBase {
+public class Data extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         GLib.javagi$ensureInitialized();

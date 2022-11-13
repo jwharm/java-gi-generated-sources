@@ -13,7 +13,7 @@ import org.jetbrains.annotations.*;
  * available on the system and also for specifying the characteristics of
  * a font to load.
  */
-public class FontDescription extends io.github.jwharm.javagi.ResourceBase {
+public class FontDescription extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         Pango.javagi$ensureInitialized();

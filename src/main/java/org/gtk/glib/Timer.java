@@ -8,7 +8,7 @@ import org.jetbrains.annotations.*;
 /**
  * Opaque datatype that records a start time.
  */
-public class Timer extends io.github.jwharm.javagi.ResourceBase {
+public class Timer extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         GLib.javagi$ensureInitialized();

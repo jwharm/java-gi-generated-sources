@@ -12,7 +12,7 @@ import org.jetbrains.annotations.*;
  * <p>
  * This functions related to this has been deprecated in 2.46, and no longer work.
  */
-public class MemVTable extends io.github.jwharm.javagi.ResourceBase {
+public class MemVTable extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         GLib.javagi$ensureInitialized();

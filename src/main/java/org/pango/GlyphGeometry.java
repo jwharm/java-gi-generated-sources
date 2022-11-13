@@ -22,7 +22,7 @@ import org.jetbrains.annotations.*;
  * 3. Advance the current point to (x + width, y)
  * 4. Render the next glyph
  */
-public class GlyphGeometry extends io.github.jwharm.javagi.ResourceBase {
+public class GlyphGeometry extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         Pango.javagi$ensureInitialized();

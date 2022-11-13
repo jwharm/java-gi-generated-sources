@@ -8,7 +8,7 @@ import org.jetbrains.annotations.*;
 /**
  * Class structure for {@code GtkNativeDialog}.
  */
-public class NativeDialogClass extends io.github.jwharm.javagi.ResourceBase {
+public class NativeDialogClass extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         Gtk.javagi$ensureInitialized();

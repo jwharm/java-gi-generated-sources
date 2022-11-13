@@ -9,7 +9,7 @@ import org.jetbrains.annotations.*;
  * Class structure for {@link Credentials}.
  * @version 2.26
  */
-public class CredentialsClass extends io.github.jwharm.javagi.ResourceBase {
+public class CredentialsClass extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         Gio.javagi$ensureInitialized();

@@ -13,7 +13,7 @@ import org.jetbrains.annotations.*;
  * or g_io_modules_scan_all_in_directory_with_scope().
  * @version 2.30
  */
-public class IOModuleScope extends io.github.jwharm.javagi.ResourceBase {
+public class IOModuleScope extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         Gio.javagi$ensureInitialized();

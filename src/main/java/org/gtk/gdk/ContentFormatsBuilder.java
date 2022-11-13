@@ -9,7 +9,7 @@ import org.jetbrains.annotations.*;
  * A {@code GdkContentFormatsBuilder} is an auxiliary struct used to create
  * new {@code GdkContentFormats}, and should not be kept around.
  */
-public class ContentFormatsBuilder extends io.github.jwharm.javagi.ResourceBase {
+public class ContentFormatsBuilder extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         Gdk.javagi$ensureInitialized();

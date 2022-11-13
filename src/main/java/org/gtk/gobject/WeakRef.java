@@ -31,7 +31,7 @@ import org.jetbrains.annotations.*;
  * It is invalid to take a {@link WeakRef} on an object during {@link ObjectClass}.dispose
  * without first having or creating a strong reference to the object.
  */
-public class WeakRef extends io.github.jwharm.javagi.ResourceBase {
+public class WeakRef extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         GObject.javagi$ensureInitialized();
@@ -81,6 +81,7 @@ public class WeakRef extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        this.yieldOwnership();
     }
     
     /**
@@ -104,6 +105,7 @@ public class WeakRef extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        this.yieldOwnership();
         return new org.gtk.gobject.Object(RESULT, Ownership.FULL);
     }
     
@@ -127,6 +129,7 @@ public class WeakRef extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        this.yieldOwnership();
     }
     
     /**

@@ -9,7 +9,7 @@ import org.jetbrains.annotations.*;
  * The virtual function table for {@link NetworkMonitor}.
  * @version 2.32
  */
-public class NetworkMonitorInterface extends io.github.jwharm.javagi.ResourceBase {
+public class NetworkMonitorInterface extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         Gio.javagi$ensureInitialized();

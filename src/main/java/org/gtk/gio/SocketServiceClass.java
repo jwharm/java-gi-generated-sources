@@ -8,7 +8,7 @@ import org.jetbrains.annotations.*;
 /**
  * Class structure for {@link SocketService}.
  */
-public class SocketServiceClass extends io.github.jwharm.javagi.ResourceBase {
+public class SocketServiceClass extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         Gio.javagi$ensureInitialized();

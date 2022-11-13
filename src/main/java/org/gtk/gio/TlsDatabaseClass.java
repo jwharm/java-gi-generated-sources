@@ -11,7 +11,7 @@ import org.jetbrains.annotations.*;
  * implementation that runs the corresponding sync method in a thread.
  * @version 2.30
  */
-public class TlsDatabaseClass extends io.github.jwharm.javagi.ResourceBase {
+public class TlsDatabaseClass extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         Gio.javagi$ensureInitialized();

@@ -18,7 +18,7 @@ import org.jetbrains.annotations.*;
  * and height) of a paper size and its name, it also provides
  * default print margins.
  */
-public class PaperSize extends io.github.jwharm.javagi.ResourceBase {
+public class PaperSize extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         Gtk.javagi$ensureInitialized();

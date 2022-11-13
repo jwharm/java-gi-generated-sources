@@ -12,7 +12,7 @@ import org.jetbrains.annotations.*;
  * and should never be accessed directly.
  * @version 1.2
  */
-public class Euler extends io.github.jwharm.javagi.ResourceBase {
+public class Euler extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         Graphene.javagi$ensureInitialized();

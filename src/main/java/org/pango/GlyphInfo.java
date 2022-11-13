@@ -9,7 +9,7 @@ import org.jetbrains.annotations.*;
  * A {@code PangoGlyphInfo} structure represents a single glyph with
  * positioning information and visual attributes.
  */
-public class GlyphInfo extends io.github.jwharm.javagi.ResourceBase {
+public class GlyphInfo extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         Pango.javagi$ensureInitialized();

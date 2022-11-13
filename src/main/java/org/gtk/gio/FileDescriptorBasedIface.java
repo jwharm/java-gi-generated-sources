@@ -8,7 +8,7 @@ import org.jetbrains.annotations.*;
 /**
  * An interface for file descriptor based io objects.
  */
-public class FileDescriptorBasedIface extends io.github.jwharm.javagi.ResourceBase {
+public class FileDescriptorBasedIface extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         Gio.javagi$ensureInitialized();

@@ -11,7 +11,7 @@ import org.jetbrains.annotations.*;
  * Note that typically {@code ascender} is positive and {@code descender}
  * negative, in coordinate systems that grow up.
  */
-public class FontExtentsT extends io.github.jwharm.javagi.ResourceBase {
+public class FontExtentsT extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         HarfBuzz.javagi$ensureInitialized();

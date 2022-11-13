@@ -10,7 +10,7 @@ import org.jetbrains.annotations.*;
  * [Hash Table][glib-Hash-Tables]. It should only be accessed via the
  * following functions.
  */
-public class HashTable extends io.github.jwharm.javagi.ResourceBase {
+public class HashTable extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         GLib.javagi$ensureInitialized();

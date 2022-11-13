@@ -9,7 +9,7 @@ import org.jetbrains.annotations.*;
  * The {@code GSource} struct is an opaque data type
  * representing an event source.
  */
-public class Source extends io.github.jwharm.javagi.ResourceBase {
+public class Source extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         GLib.javagi$ensureInitialized();

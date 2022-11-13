@@ -15,7 +15,7 @@ import org.jetbrains.annotations.*;
  * (as previously set by g_socket_connect()).
  * @version 2.44
  */
-public class OutputMessage extends io.github.jwharm.javagi.ResourceBase {
+public class OutputMessage extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         Gio.javagi$ensureInitialized();

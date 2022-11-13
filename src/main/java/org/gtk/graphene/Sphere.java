@@ -9,7 +9,7 @@ import org.jetbrains.annotations.*;
  * A sphere, represented by its center and radius.
  * @version 1.2
  */
-public class Sphere extends io.github.jwharm.javagi.ResourceBase {
+public class Sphere extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         Graphene.javagi$ensureInitialized();

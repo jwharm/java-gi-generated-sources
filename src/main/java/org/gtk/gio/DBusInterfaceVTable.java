@@ -49,7 +49,7 @@ import org.jetbrains.annotations.*;
  * the call, you must return the value of type {@code G_VARIANT_TYPE_UNIT}.
  * @version 2.26
  */
-public class DBusInterfaceVTable extends io.github.jwharm.javagi.ResourceBase {
+public class DBusInterfaceVTable extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         Gio.javagi$ensureInitialized();

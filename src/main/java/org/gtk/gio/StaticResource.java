@@ -9,7 +9,7 @@ import org.jetbrains.annotations.*;
  * {@link StaticResource} is an opaque data structure and can only be accessed
  * using the following functions.
  */
-public class StaticResource extends io.github.jwharm.javagi.ResourceBase {
+public class StaticResource extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         Gio.javagi$ensureInitialized();

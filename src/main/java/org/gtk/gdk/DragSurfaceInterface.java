@@ -8,7 +8,7 @@ import org.jetbrains.annotations.*;
 /**
  * The {@code GdkDragSurfaceInterface} implementation is private to GDK.
  */
-public class DragSurfaceInterface extends io.github.jwharm.javagi.ResourceBase {
+public class DragSurfaceInterface extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         Gdk.javagi$ensureInitialized();

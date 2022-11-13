@@ -18,7 +18,7 @@ import org.jetbrains.annotations.*;
  * becomes valid after you set it to a Julian day or you set a day, month,
  * and year.
  */
-public class Date extends io.github.jwharm.javagi.ResourceBase {
+public class Date extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         GLib.javagi$ensureInitialized();

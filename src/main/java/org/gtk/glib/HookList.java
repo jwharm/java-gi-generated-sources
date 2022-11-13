@@ -8,7 +8,7 @@ import org.jetbrains.annotations.*;
 /**
  * The {@link HookList} struct represents a list of hook functions.
  */
-public class HookList extends io.github.jwharm.javagi.ResourceBase {
+public class HookList extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         GLib.javagi$ensureInitialized();

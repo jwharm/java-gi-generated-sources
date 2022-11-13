@@ -12,7 +12,7 @@ import org.jetbrains.annotations.*;
  * Each tab stop has an alignment, a position, and optionally
  * a character to use as decimal point.
  */
-public class TabArray extends io.github.jwharm.javagi.ResourceBase {
+public class TabArray extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         Pango.javagi$ensureInitialized();

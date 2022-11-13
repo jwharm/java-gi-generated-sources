@@ -9,7 +9,7 @@ import org.jetbrains.annotations.*;
  * An opaque structure that represents a date and time, including a time zone.
  * @version 2.26
  */
-public class DateTime extends io.github.jwharm.javagi.ResourceBase {
+public class DateTime extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         GLib.javagi$ensureInitialized();

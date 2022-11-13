@@ -27,7 +27,7 @@ import org.jetbrains.annotations.*;
  * {@code MSG_EOR} or {@code MSG_TRUNC}.
  * @version 2.48
  */
-public class InputMessage extends io.github.jwharm.javagi.ResourceBase {
+public class InputMessage extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         Gio.javagi$ensureInitialized();

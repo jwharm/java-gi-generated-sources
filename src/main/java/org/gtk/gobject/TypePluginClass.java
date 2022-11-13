@@ -9,7 +9,7 @@ import org.jetbrains.annotations.*;
  * The {@link TypePlugin} interface is used by the type system in order to handle
  * the lifecycle of dynamically loaded types.
  */
-public class TypePluginClass extends io.github.jwharm.javagi.ResourceBase {
+public class TypePluginClass extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         GObject.javagi$ensureInitialized();

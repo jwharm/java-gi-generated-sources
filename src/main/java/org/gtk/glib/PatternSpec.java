@@ -9,7 +9,7 @@ import org.jetbrains.annotations.*;
  * A GPatternSpec struct is the 'compiled' form of a pattern. This
  * structure is opaque and its fields cannot be accessed directly.
  */
-public class PatternSpec extends io.github.jwharm.javagi.ResourceBase {
+public class PatternSpec extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         GLib.javagi$ensureInitialized();

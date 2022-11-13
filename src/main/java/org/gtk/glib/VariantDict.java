@@ -95,7 +95,7 @@ import org.jetbrains.annotations.*;
  * }</pre>
  * @version 2.40
  */
-public class VariantDict extends io.github.jwharm.javagi.ResourceBase {
+public class VariantDict extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         GLib.javagi$ensureInitialized();
@@ -410,6 +410,7 @@ public class VariantDict extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        this.yieldOwnership();
     }
     
     private static class DowncallHandles {

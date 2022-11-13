@@ -10,7 +10,7 @@ import org.jetbrains.annotations.*;
  * <p>
  * Note that {@code height} is negative, in coordinate systems that grow up.
  */
-public class GlyphExtentsT extends io.github.jwharm.javagi.ResourceBase {
+public class GlyphExtentsT extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         HarfBuzz.javagi$ensureInitialized();

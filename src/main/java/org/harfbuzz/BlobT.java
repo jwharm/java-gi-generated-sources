@@ -10,7 +10,7 @@ import org.jetbrains.annotations.*;
  * data and facilitates its lifecycle management between
  * a client program and HarfBuzz.
  */
-public class BlobT extends io.github.jwharm.javagi.ResourceBase {
+public class BlobT extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         HarfBuzz.javagi$ensureInitialized();

@@ -9,7 +9,7 @@ import org.jetbrains.annotations.*;
  * Associates a string with a bit flag.
  * Used in g_parse_debug_string().
  */
-public class DebugKey extends io.github.jwharm.javagi.ResourceBase {
+public class DebugKey extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         GLib.javagi$ensureInitialized();

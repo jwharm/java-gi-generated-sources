@@ -9,7 +9,7 @@ import org.jetbrains.annotations.*;
  * Represents a file descriptor, which events to poll for, and which events
  * occurred.
  */
-public class PollFD extends io.github.jwharm.javagi.ResourceBase {
+public class PollFD extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         GLib.javagi$ensureInitialized();

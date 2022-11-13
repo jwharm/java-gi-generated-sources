@@ -8,7 +8,7 @@ import org.jetbrains.annotations.*;
 /**
  * Contains the public fields of a pointer array.
  */
-public class PtrArray extends io.github.jwharm.javagi.ResourceBase {
+public class PtrArray extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         GLib.javagi$ensureInitialized();

@@ -17,7 +17,7 @@ import org.jetbrains.annotations.*;
  * <p>
  * See g_action_map_add_action_entries() for an example.
  */
-public class ActionEntry extends io.github.jwharm.javagi.ResourceBase {
+public class ActionEntry extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         Gio.javagi$ensureInitialized();

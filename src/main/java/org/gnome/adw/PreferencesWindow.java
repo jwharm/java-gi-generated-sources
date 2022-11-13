@@ -63,14 +63,19 @@ public class PreferencesWindow extends org.gnome.adw.Window implements org.gtk.g
     
     /**
      * Cast object to PreferencesWindow if its GType is a (or inherits from) "AdwPreferencesWindow".
+     * <p>
+     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
+     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
+     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
+     * is garbage-collected. 
      * @param  gobject            An object that inherits from GObject
-     * @return                    An instance of "PreferencesWindow" that points to the memory address of the provided GObject.
+     * @return                    A new proxy instance of type {@code PreferencesWindow} that points to the memory address of the provided GObject.
      *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
      * @throws ClassCastException If the GType is not derived from "AdwPreferencesWindow", a ClassCastException will be thrown.
      */
     public static PreferencesWindow castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("AdwPreferencesWindow"))) {
-            return new PreferencesWindow(gobject.handle(), gobject.refcounted().getOwnership());
+            return new PreferencesWindow(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of AdwPreferencesWindow");
         }
@@ -119,10 +124,11 @@ public class PreferencesWindow extends org.gnome.adw.Window implements org.gtk.g
         try {
             DowncallHandles.adw_preferences_window_add_toast.invokeExact(
                     handle(),
-                    toast.refcounted().unowned().handle());
+                    toast.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        toast.yieldOwnership();
     }
     
     /**

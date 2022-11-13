@@ -10,7 +10,7 @@ import org.jetbrains.annotations.*;
  * font features as an attribute.
  * @version 1.38
  */
-public class AttrFontFeatures extends io.github.jwharm.javagi.ResourceBase {
+public class AttrFontFeatures extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         Pango.javagi$ensureInitialized();

@@ -11,7 +11,7 @@ import org.jetbrains.annotations.*;
  * The contents of {@code GtkExpressionWatch} should only be accessed through the
  * provided API.
  */
-public class ExpressionWatch extends io.github.jwharm.javagi.ResourceBase {
+public class ExpressionWatch extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         Gtk.javagi$ensureInitialized();
@@ -97,6 +97,7 @@ public class ExpressionWatch extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        this.yieldOwnership();
     }
     
     /**

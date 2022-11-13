@@ -10,7 +10,7 @@ import org.jetbrains.annotations.*;
  * must be added to a {@link OptionGroup} with g_option_context_add_main_entries()
  * or g_option_group_add_entries().
  */
-public class OptionEntry extends io.github.jwharm.javagi.ResourceBase {
+public class OptionEntry extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         GLib.javagi$ensureInitialized();

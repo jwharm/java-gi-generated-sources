@@ -8,7 +8,7 @@ import org.jetbrains.annotations.*;
 /**
  * An opaque data structure representing a set of bookmarks.
  */
-public class BookmarkFile extends io.github.jwharm.javagi.ResourceBase {
+public class BookmarkFile extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         GLib.javagi$ensureInitialized();

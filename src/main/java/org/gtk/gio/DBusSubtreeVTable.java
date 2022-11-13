@@ -9,7 +9,7 @@ import org.jetbrains.annotations.*;
  * Virtual table for handling subtrees registered with g_dbus_connection_register_subtree().
  * @version 2.26
  */
-public class DBusSubtreeVTable extends io.github.jwharm.javagi.ResourceBase {
+public class DBusSubtreeVTable extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         Gio.javagi$ensureInitialized();

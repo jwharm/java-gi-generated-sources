@@ -8,7 +8,7 @@ import org.jetbrains.annotations.*;
 /**
  * Class structure for {@link SocketControlMessage}.
  */
-public class SocketControlMessageClass extends io.github.jwharm.javagi.ResourceBase {
+public class SocketControlMessageClass extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         Gio.javagi$ensureInitialized();

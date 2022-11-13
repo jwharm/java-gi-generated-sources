@@ -47,14 +47,19 @@ public class DragIcon extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     
     /**
      * Cast object to DragIcon if its GType is a (or inherits from) "GtkDragIcon".
+     * <p>
+     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
+     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
+     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
+     * is garbage-collected. 
      * @param  gobject            An object that inherits from GObject
-     * @return                    An instance of "DragIcon" that points to the memory address of the provided GObject.
+     * @return                    A new proxy instance of type {@code DragIcon} that points to the memory address of the provided GObject.
      *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
      * @throws ClassCastException If the GType is not derived from "GtkDragIcon", a ClassCastException will be thrown.
      */
     public static DragIcon castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkDragIcon"))) {
-            return new DragIcon(gobject.handle(), gobject.refcounted().getOwnership());
+            return new DragIcon(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkDragIcon");
         }

@@ -8,7 +8,7 @@ import org.jetbrains.annotations.*;
 /**
  * A {@code GdkKeymapKey} is a hardware key that can be mapped to a keyval.
  */
-public class KeymapKey extends io.github.jwharm.javagi.ResourceBase {
+public class KeymapKey extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         Gdk.javagi$ensureInitialized();

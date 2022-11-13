@@ -11,7 +11,7 @@ import org.jetbrains.annotations.*;
  * The contents of the {@link Matrix} structure are private and
  * should never be accessed directly.
  */
-public class Matrix extends io.github.jwharm.javagi.ResourceBase {
+public class Matrix extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         Graphene.javagi$ensureInitialized();

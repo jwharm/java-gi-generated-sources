@@ -38,7 +38,7 @@ import org.jetbrains.annotations.*;
  * As such
  * @version 1.0
  */
-public class SpringParams extends io.github.jwharm.javagi.ResourceBase {
+public class SpringParams extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         Adw.javagi$ensureInitialized();

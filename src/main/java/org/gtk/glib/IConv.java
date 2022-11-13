@@ -9,7 +9,7 @@ import org.jetbrains.annotations.*;
  * The GIConv struct wraps an iconv() conversion descriptor. It contains
  * private data and should only be accessed using the following functions.
  */
-public class IConv extends io.github.jwharm.javagi.ResourceBase {
+public class IConv extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         GLib.javagi$ensureInitialized();

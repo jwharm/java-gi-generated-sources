@@ -9,7 +9,7 @@ import org.jetbrains.annotations.*;
  * The {@code PangoAttrColor} structure is used to represent attributes that
  * are colors.
  */
-public class AttrColor extends io.github.jwharm.javagi.ResourceBase {
+public class AttrColor extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         Pango.javagi$ensureInitialized();

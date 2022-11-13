@@ -243,7 +243,7 @@ import org.jetbrains.annotations.*;
  * be shared.
  * @version 2.24
  */
-public class Variant extends io.github.jwharm.javagi.ResourceBase {
+public class Variant extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         GLib.javagi$ensureInitialized();

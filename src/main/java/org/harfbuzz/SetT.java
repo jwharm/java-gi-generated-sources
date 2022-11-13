@@ -11,7 +11,7 @@ import org.jetbrains.annotations.*;
  * points, and various other collections of discrete
  * values.
  */
-public class SetT extends io.github.jwharm.javagi.ResourceBase {
+public class SetT extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         HarfBuzz.javagi$ensureInitialized();

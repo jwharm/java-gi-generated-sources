@@ -2293,10 +2293,11 @@ public final class Gtk {
         try {
             DowncallHandles.gtk_value_take_expression.invokeExact(
                     value.handle(),
-                    (Addressable) (expression == null ? MemoryAddress.NULL : expression.refcounted().unowned().handle()));
+                    (Addressable) (expression == null ? MemoryAddress.NULL : expression.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        expression.yieldOwnership();
     }
     
     private static class DowncallHandles {

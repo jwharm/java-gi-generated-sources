@@ -9,7 +9,7 @@ import org.jetbrains.annotations.*;
  * The {@code PangoFontMapClass} structure holds the virtual functions for
  * a particular {@code PangoFontMap} implementation.
  */
-public class FontMapClass extends io.github.jwharm.javagi.ResourceBase {
+public class FontMapClass extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         Pango.javagi$ensureInitialized();

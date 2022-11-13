@@ -8,7 +8,7 @@ import org.jetbrains.annotations.*;
 /**
  * The {@code GtkGLAreaClass} structure contains only private data.
  */
-public class GLAreaClass extends io.github.jwharm.javagi.ResourceBase {
+public class GLAreaClass extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         Gtk.javagi$ensureInitialized();

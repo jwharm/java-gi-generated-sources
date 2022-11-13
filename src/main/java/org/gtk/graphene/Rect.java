@@ -20,7 +20,7 @@ import org.jetbrains.annotations.*;
  * {@link Rect} will always return a normalized rectangle.
  * @version 1.0
  */
-public class Rect extends io.github.jwharm.javagi.ResourceBase {
+public class Rect extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         Graphene.javagi$ensureInitialized();

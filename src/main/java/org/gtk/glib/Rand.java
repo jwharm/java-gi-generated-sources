@@ -9,7 +9,7 @@ import org.jetbrains.annotations.*;
  * The GRand struct is an opaque data structure. It should only be
  * accessed through the g_rand_* functions.
  */
-public class Rand extends io.github.jwharm.javagi.ResourceBase {
+public class Rand extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         GLib.javagi$ensureInitialized();

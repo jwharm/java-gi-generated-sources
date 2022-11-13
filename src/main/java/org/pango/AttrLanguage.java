@@ -9,7 +9,7 @@ import org.jetbrains.annotations.*;
  * The {@code PangoAttrLanguage} structure is used to represent attributes that
  * are languages.
  */
-public class AttrLanguage extends io.github.jwharm.javagi.ResourceBase {
+public class AttrLanguage extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         Pango.javagi$ensureInitialized();

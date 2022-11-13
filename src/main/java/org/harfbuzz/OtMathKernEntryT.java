@@ -9,7 +9,7 @@ import org.jetbrains.annotations.*;
  * Data type to hold math kerning (cut-in) information for a glyph.
  * @version 3.4.0
  */
-public class OtMathKernEntryT extends io.github.jwharm.javagi.ResourceBase {
+public class OtMathKernEntryT extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         HarfBuzz.javagi$ensureInitialized();

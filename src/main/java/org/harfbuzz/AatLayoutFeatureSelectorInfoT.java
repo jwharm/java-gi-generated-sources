@@ -8,7 +8,7 @@ import org.jetbrains.annotations.*;
 /**
  * Structure representing a setting for an {@link AatLayoutFeatureTypeT}.
  */
-public class AatLayoutFeatureSelectorInfoT extends io.github.jwharm.javagi.ResourceBase {
+public class AatLayoutFeatureSelectorInfoT extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         HarfBuzz.javagi$ensureInitialized();

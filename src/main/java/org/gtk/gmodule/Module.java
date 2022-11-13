@@ -10,7 +10,7 @@ import org.jetbrains.annotations.*;
  * [dynamically-loaded module][glib-Dynamic-Loading-of-Modules].
  * It should only be accessed via the following functions.
  */
-public class Module extends io.github.jwharm.javagi.ResourceBase {
+public class Module extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         GModule.javagi$ensureInitialized();

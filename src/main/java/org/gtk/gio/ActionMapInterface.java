@@ -9,7 +9,7 @@ import org.jetbrains.annotations.*;
  * The virtual function table for {@link ActionMap}.
  * @version 2.32
  */
-public class ActionMapInterface extends io.github.jwharm.javagi.ResourceBase {
+public class ActionMapInterface extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         Gio.javagi$ensureInitialized();

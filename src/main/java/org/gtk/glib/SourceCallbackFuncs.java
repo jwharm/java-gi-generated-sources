@@ -9,7 +9,7 @@ import org.jetbrains.annotations.*;
  * The {@code GSourceCallbackFuncs} struct contains
  * functions for managing callback objects.
  */
-public class SourceCallbackFuncs extends io.github.jwharm.javagi.ResourceBase {
+public class SourceCallbackFuncs extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         GLib.javagi$ensureInitialized();

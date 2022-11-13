@@ -8,7 +8,7 @@ import org.jetbrains.annotations.*;
 /**
  * A location in a parse buffer.
  */
-public class ParseLocation extends io.github.jwharm.javagi.ResourceBase {
+public class ParseLocation extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         Gsk.javagi$ensureInitialized();

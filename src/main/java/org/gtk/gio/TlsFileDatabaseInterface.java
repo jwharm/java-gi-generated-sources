@@ -8,7 +8,7 @@ import org.jetbrains.annotations.*;
 /**
  * Provides an interface for {@link TlsFileDatabase} implementations.
  */
-public class TlsFileDatabaseInterface extends io.github.jwharm.javagi.ResourceBase {
+public class TlsFileDatabaseInterface extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         Gio.javagi$ensureInitialized();

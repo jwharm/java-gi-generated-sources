@@ -5,7 +5,7 @@ import java.lang.foreign.*;
 import java.lang.invoke.*;
 import org.jetbrains.annotations.*;
 
-public class PixbufLoaderClass extends io.github.jwharm.javagi.ResourceBase {
+public class PixbufLoaderClass extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         GdkPixbuf.javagi$ensureInitialized();

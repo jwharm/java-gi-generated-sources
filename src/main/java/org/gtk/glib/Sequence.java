@@ -9,7 +9,7 @@ import org.jetbrains.annotations.*;
  * The {@link Sequence} struct is an opaque data type representing a
  * [sequence][glib-Sequences] data type.
  */
-public class Sequence extends io.github.jwharm.javagi.ResourceBase {
+public class Sequence extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         GLib.javagi$ensureInitialized();

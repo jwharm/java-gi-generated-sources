@@ -9,7 +9,7 @@ import org.jetbrains.annotations.*;
  * A point with two coordinates.
  * @version 1.0
  */
-public class Point extends io.github.jwharm.javagi.ResourceBase {
+public class Point extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         Graphene.javagi$ensureInitialized();

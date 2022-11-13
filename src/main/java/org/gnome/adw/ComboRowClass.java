@@ -5,7 +5,7 @@ import java.lang.foreign.*;
 import java.lang.invoke.*;
 import org.jetbrains.annotations.*;
 
-public class ComboRowClass extends io.github.jwharm.javagi.ResourceBase {
+public class ComboRowClass extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         Adw.javagi$ensureInitialized();

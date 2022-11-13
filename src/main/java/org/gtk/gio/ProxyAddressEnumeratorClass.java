@@ -8,7 +8,7 @@ import org.jetbrains.annotations.*;
 /**
  * Class structure for {@link ProxyAddressEnumerator}.
  */
-public class ProxyAddressEnumeratorClass extends io.github.jwharm.javagi.ResourceBase {
+public class ProxyAddressEnumeratorClass extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         Gio.javagi$ensureInitialized();

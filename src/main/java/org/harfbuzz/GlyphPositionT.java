@@ -10,7 +10,7 @@ import org.jetbrains.annotations.*;
  * glyph in both horizontal and vertical directions. All positions in
  * {@link GlyphPositionT} are relative to the current point.
  */
-public class GlyphPositionT extends io.github.jwharm.javagi.ResourceBase {
+public class GlyphPositionT extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         HarfBuzz.javagi$ensureInitialized();

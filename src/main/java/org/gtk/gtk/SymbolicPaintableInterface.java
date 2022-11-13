@@ -9,7 +9,7 @@ import org.jetbrains.annotations.*;
  * The list of virtual functions for the {@code GtkSymbolicPaintable} interface.
  * No function must be implemented, default implementations exist for each one.
  */
-public class SymbolicPaintableInterface extends io.github.jwharm.javagi.ResourceBase {
+public class SymbolicPaintableInterface extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         Gtk.javagi$ensureInitialized();

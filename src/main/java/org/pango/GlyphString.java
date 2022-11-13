@@ -12,7 +12,7 @@ import org.jetbrains.annotations.*;
  * The storage for the glyph information is owned by the structure
  * which simplifies memory management.
  */
-public class GlyphString extends io.github.jwharm.javagi.ResourceBase {
+public class GlyphString extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         Pango.javagi$ensureInitialized();

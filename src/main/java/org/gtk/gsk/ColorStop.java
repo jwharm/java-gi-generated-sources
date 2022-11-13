@@ -8,7 +8,7 @@ import org.jetbrains.annotations.*;
 /**
  * A color stop in a gradient node.
  */
-public class ColorStop extends io.github.jwharm.javagi.ResourceBase {
+public class ColorStop extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         Gsk.javagi$ensureInitialized();

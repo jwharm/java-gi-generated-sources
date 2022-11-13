@@ -8,7 +8,7 @@ import org.jetbrains.annotations.*;
 /**
  * Class structure for {@code GdkContentProvider}.
  */
-public class ContentProviderClass extends io.github.jwharm.javagi.ResourceBase {
+public class ContentProviderClass extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         Gdk.javagi$ensureInitialized();

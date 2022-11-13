@@ -8,7 +8,7 @@ import org.jetbrains.annotations.*;
 /**
  * Determines if a string matches a file attribute.
  */
-public class FileAttributeMatcher extends io.github.jwharm.javagi.ResourceBase {
+public class FileAttributeMatcher extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         Gio.javagi$ensureInitialized();

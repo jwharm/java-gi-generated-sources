@@ -10,7 +10,7 @@ import org.jetbrains.annotations.*;
  * contains private data only.
  * @version 2.28
  */
-public class ApplicationCommandLineClass extends io.github.jwharm.javagi.ResourceBase {
+public class ApplicationCommandLineClass extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         Gio.javagi$ensureInitialized();

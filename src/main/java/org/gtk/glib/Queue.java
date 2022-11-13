@@ -9,7 +9,7 @@ import org.jetbrains.annotations.*;
  * Contains the public fields of a
  * [Queue][glib-Double-ended-Queues].
  */
-public class Queue extends io.github.jwharm.javagi.ResourceBase {
+public class Queue extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         GLib.javagi$ensureInitialized();

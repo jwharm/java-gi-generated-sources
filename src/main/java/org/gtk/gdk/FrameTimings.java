@@ -15,7 +15,7 @@ import org.jetbrains.annotations.*;
  * the event or audio streams, and for measuring quality metrics for the
  * application’s display, such as latency and jitter.
  */
-public class FrameTimings extends io.github.jwharm.javagi.ResourceBase {
+public class FrameTimings extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         Gdk.javagi$ensureInitialized();

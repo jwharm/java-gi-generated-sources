@@ -10,7 +10,7 @@ import org.jetbrains.annotations.*;
  * <p>
  * It should only be accessed through the {@code g_async_queue_*} functions.
  */
-public class AsyncQueue extends io.github.jwharm.javagi.ResourceBase {
+public class AsyncQueue extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         GLib.javagi$ensureInitialized();

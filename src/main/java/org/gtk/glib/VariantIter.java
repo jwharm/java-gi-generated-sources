@@ -9,7 +9,7 @@ import org.jetbrains.annotations.*;
  * {@link VariantIter} is an opaque data structure and can only be accessed
  * using the following functions.
  */
-public class VariantIter extends io.github.jwharm.javagi.ResourceBase {
+public class VariantIter extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         GLib.javagi$ensureInitialized();
@@ -85,6 +85,7 @@ public class VariantIter extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        this.yieldOwnership();
     }
     
     /**

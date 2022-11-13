@@ -9,7 +9,7 @@ import org.jetbrains.annotations.*;
  * The {@code PangoAttrString} structure is used to represent attributes with
  * a string value.
  */
-public class AttrString extends io.github.jwharm.javagi.ResourceBase {
+public class AttrString extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         Pango.javagi$ensureInitialized();

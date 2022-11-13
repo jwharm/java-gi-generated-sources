@@ -16,7 +16,7 @@ import org.jetbrains.annotations.*;
  * image is not dynamic as the default implementation returns no flags and
  * that will make the implementation likely quite slow.
  */
-public class PaintableInterface extends io.github.jwharm.javagi.ResourceBase {
+public class PaintableInterface extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         Gdk.javagi$ensureInitialized();

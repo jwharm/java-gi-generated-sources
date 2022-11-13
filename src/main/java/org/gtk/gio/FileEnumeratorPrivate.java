@@ -5,7 +5,7 @@ import java.lang.foreign.*;
 import java.lang.invoke.*;
 import org.jetbrains.annotations.*;
 
-public class FileEnumeratorPrivate extends io.github.jwharm.javagi.ResourceBase {
+public class FileEnumeratorPrivate extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         Gio.javagi$ensureInitialized();

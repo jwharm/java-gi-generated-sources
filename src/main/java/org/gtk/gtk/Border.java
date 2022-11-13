@@ -10,7 +10,7 @@ import org.jetbrains.annotations.*;
  * <p>
  * Each side can have different width.
  */
-public class Border extends io.github.jwharm.javagi.ResourceBase {
+public class Border extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         Gtk.javagi$ensureInitialized();

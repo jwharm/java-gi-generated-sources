@@ -8,7 +8,7 @@ import org.jetbrains.annotations.*;
 /**
  * A union holding the value of the token.
  */
-public class TokenValue extends io.github.jwharm.javagi.ResourceBase {
+public class TokenValue extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         GLib.javagi$ensureInitialized();

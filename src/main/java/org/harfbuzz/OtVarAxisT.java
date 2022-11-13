@@ -9,7 +9,7 @@ import org.jetbrains.annotations.*;
  * Use {@link OtVarAxisInfoT} instead.
  * @version 1.4.2
  */
-public class OtVarAxisT extends io.github.jwharm.javagi.ResourceBase {
+public class OtVarAxisT extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         HarfBuzz.javagi$ensureInitialized();

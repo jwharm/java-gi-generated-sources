@@ -11,7 +11,7 @@ import org.jetbrains.annotations.*;
  * You typically obtain {@code PangoItems} by itemizing a piece of text
  * with {@link Pango#itemize}.
  */
-public class Item extends io.github.jwharm.javagi.ResourceBase {
+public class Item extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         Pango.javagi$ensureInitialized();

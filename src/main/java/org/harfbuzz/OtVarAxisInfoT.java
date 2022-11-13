@@ -14,7 +14,7 @@ import org.jetbrains.annotations.*;
  * {@code HB_OT_VAR_AXIS_FLAG_HIDDEN}.&lt;/note&gt;
  * @version 2.2.0
  */
-public class OtVarAxisInfoT extends io.github.jwharm.javagi.ResourceBase {
+public class OtVarAxisInfoT extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         HarfBuzz.javagi$ensureInitialized();

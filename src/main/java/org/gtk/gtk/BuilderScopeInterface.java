@@ -10,7 +10,7 @@ import org.jetbrains.annotations.*;
  * Default implementations for each function do exist, but they usually just fail,
  * so it is suggested that implementations implement all of them.
  */
-public class BuilderScopeInterface extends io.github.jwharm.javagi.ResourceBase {
+public class BuilderScopeInterface extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         Gtk.javagi$ensureInitialized();

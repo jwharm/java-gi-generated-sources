@@ -14,7 +14,7 @@ import org.jetbrains.annotations.*;
  * getting a {@code GOptionGroup} holding their options, which
  * the application can then add to its {@link OptionContext}.
  */
-public class OptionGroup extends io.github.jwharm.javagi.ResourceBase {
+public class OptionGroup extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         GLib.javagi$ensureInitialized();

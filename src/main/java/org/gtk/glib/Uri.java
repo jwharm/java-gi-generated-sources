@@ -111,7 +111,7 @@ import org.jetbrains.annotations.*;
  * handle.
  * @version 2.66
  */
-public class Uri extends io.github.jwharm.javagi.ResourceBase {
+public class Uri extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         GLib.javagi$ensureInitialized();

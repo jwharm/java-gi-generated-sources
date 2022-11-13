@@ -42,14 +42,19 @@ public class Event extends org.gtk.gobject.Object {
     
     /**
      * Cast object to Event if its GType is a (or inherits from) "GdkEvent".
+     * <p>
+     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
+     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
+     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
+     * is garbage-collected. 
      * @param  gobject            An object that inherits from GObject
-     * @return                    An instance of "Event" that points to the memory address of the provided GObject.
+     * @return                    A new proxy instance of type {@code Event} that points to the memory address of the provided GObject.
      *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
      * @throws ClassCastException If the GType is not derived from "GdkEvent", a ClassCastException will be thrown.
      */
     public static Event castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GdkEvent"))) {
-            return new Event(gobject.handle(), gobject.refcounted().getOwnership());
+            return new Event(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GdkEvent");
         }
@@ -471,6 +476,7 @@ public class Event extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        this.yieldOwnership();
     }
     
     private static class DowncallHandles {

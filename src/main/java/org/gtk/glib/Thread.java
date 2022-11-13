@@ -20,7 +20,7 @@ import org.jetbrains.annotations.*;
  * The structure is opaque -- none of its fields may be directly
  * accessed.
  */
-public class Thread extends io.github.jwharm.javagi.ResourceBase {
+public class Thread extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         GLib.javagi$ensureInitialized();
@@ -174,6 +174,7 @@ public class Thread extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        this.yieldOwnership();
         return RESULT;
     }
     
@@ -207,6 +208,7 @@ public class Thread extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        this.yieldOwnership();
     }
     
     public static @NotNull org.gtk.glib.Quark errorQuark() {

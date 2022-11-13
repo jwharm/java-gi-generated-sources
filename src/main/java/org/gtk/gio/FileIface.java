@@ -8,7 +8,7 @@ import org.jetbrains.annotations.*;
 /**
  * An interface for writing VFS file handles.
  */
-public class FileIface extends io.github.jwharm.javagi.ResourceBase {
+public class FileIface extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         Gio.javagi$ensureInitialized();

@@ -9,7 +9,7 @@ import org.jetbrains.annotations.*;
  * The {@code PangoAttrFontDesc} structure is used to store an attribute that
  * sets all aspects of the font description at once.
  */
-public class AttrFontDesc extends io.github.jwharm.javagi.ResourceBase {
+public class AttrFontDesc extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         Pango.javagi$ensureInitialized();

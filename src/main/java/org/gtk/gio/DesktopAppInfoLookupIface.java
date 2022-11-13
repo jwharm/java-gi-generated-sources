@@ -9,7 +9,7 @@ import org.jetbrains.annotations.*;
  * Interface that is used by backends to associate default
  * handlers with URI schemes.
  */
-public class DesktopAppInfoLookupIface extends io.github.jwharm.javagi.ResourceBase {
+public class DesktopAppInfoLookupIface extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         Gio.javagi$ensureInitialized();

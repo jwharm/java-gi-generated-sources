@@ -51,7 +51,7 @@ import org.jetbrains.annotations.*;
  *    by the environment variable {@code GDK_PIXBUF_MODULE_FILE})
  * </ul>
  */
-public class PixbufModule extends io.github.jwharm.javagi.ResourceBase {
+public class PixbufModule extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         GdkPixbuf.javagi$ensureInitialized();

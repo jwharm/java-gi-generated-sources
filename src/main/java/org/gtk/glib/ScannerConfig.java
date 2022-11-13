@@ -10,7 +10,7 @@ import org.jetbrains.annotations.*;
  * be changed during the parsing phase and will affect the lexical
  * parsing of the next unpeeked token.
  */
-public class ScannerConfig extends io.github.jwharm.javagi.ResourceBase {
+public class ScannerConfig extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         GLib.javagi$ensureInitialized();

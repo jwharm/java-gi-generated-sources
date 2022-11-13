@@ -9,7 +9,7 @@ import org.jetbrains.annotations.*;
  * Virtual function table for {@link Application}.
  * @version 2.28
  */
-public class ApplicationClass extends io.github.jwharm.javagi.ResourceBase {
+public class ApplicationClass extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         Gio.javagi$ensureInitialized();

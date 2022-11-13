@@ -8,7 +8,7 @@ import org.jetbrains.annotations.*;
 /**
  * The class structure for the GInitiallyUnowned type.
  */
-public class InitiallyUnownedClass extends io.github.jwharm.javagi.ResourceBase {
+public class InitiallyUnownedClass extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         GObject.javagi$ensureInitialized();

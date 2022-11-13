@@ -9,7 +9,7 @@ import org.jetbrains.annotations.*;
  * Provides an interface for handling proxy connection and payload.
  * @version 2.26
  */
-public class ProxyInterface extends io.github.jwharm.javagi.ResourceBase {
+public class ProxyInterface extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         Gio.javagi$ensureInitialized();

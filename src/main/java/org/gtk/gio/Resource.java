@@ -143,7 +143,7 @@ import org.jetbrains.annotations.*;
  * location of a single resource with an individual file.
  * @version 2.32
  */
-public class Resource extends io.github.jwharm.javagi.ResourceBase {
+public class Resource extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         Gio.javagi$ensureInitialized();

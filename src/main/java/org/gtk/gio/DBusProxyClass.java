@@ -9,7 +9,7 @@ import org.jetbrains.annotations.*;
  * Class structure for {@link DBusProxy}.
  * @version 2.26
  */
-public class DBusProxyClass extends io.github.jwharm.javagi.ResourceBase {
+public class DBusProxyClass extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         Gio.javagi$ensureInitialized();

@@ -16,7 +16,7 @@ import org.jetbrains.annotations.*;
  * }</pre>
  * @version 1.6
  */
-public class Matrix extends io.github.jwharm.javagi.ResourceBase {
+public class Matrix extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         Pango.javagi$ensureInitialized();
@@ -389,10 +389,11 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
         try {
             DowncallHandles.pango_matrix_transform_pixel_rectangle.invokeExact(
                     handle(),
-                    rect.refcounted().unowned().handle());
+                    rect.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        rect.yieldOwnership();
     }
     
     /**
@@ -443,10 +444,11 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
         try {
             DowncallHandles.pango_matrix_transform_rectangle.invokeExact(
                     handle(),
-                    rect.refcounted().unowned().handle());
+                    rect.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        rect.yieldOwnership();
     }
     
     /**

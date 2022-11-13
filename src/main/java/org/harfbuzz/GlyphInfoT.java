@@ -9,7 +9,7 @@ import org.jetbrains.annotations.*;
  * The {@link GlyphInfoT} is the structure that holds information about the
  * glyphs and their relation to input text.
  */
-public class GlyphInfoT extends io.github.jwharm.javagi.ResourceBase {
+public class GlyphInfoT extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         HarfBuzz.javagi$ensureInitialized();

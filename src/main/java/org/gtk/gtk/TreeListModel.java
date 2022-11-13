@@ -37,14 +37,19 @@ public class TreeListModel extends org.gtk.gobject.Object implements org.gtk.gio
     
     /**
      * Cast object to TreeListModel if its GType is a (or inherits from) "GtkTreeListModel".
+     * <p>
+     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
+     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
+     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
+     * is garbage-collected. 
      * @param  gobject            An object that inherits from GObject
-     * @return                    An instance of "TreeListModel" that points to the memory address of the provided GObject.
+     * @return                    A new proxy instance of type {@code TreeListModel} that points to the memory address of the provided GObject.
      *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
      * @throws ClassCastException If the GType is not derived from "GtkTreeListModel", a ClassCastException will be thrown.
      */
     public static TreeListModel castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkTreeListModel"))) {
-            return new TreeListModel(gobject.handle(), gobject.refcounted().getOwnership());
+            return new TreeListModel(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkTreeListModel");
         }
@@ -56,7 +61,7 @@ public class TreeListModel extends org.gtk.gobject.Object implements org.gtk.gio
         Addressable RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_tree_list_model_new.invokeExact(
-                    root.refcounted().unowned().handle(),
+                    root.handle(),
                     passthrough ? 1 : 0,
                     autoexpand ? 1 : 0,
                     (Addressable) Linker.nativeLinker().upcallStub(
@@ -69,6 +74,7 @@ public class TreeListModel extends org.gtk.gobject.Object implements org.gtk.gio
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        root.yieldOwnership();
         return RESULT;
     }
     

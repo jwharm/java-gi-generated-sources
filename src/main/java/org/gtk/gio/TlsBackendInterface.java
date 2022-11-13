@@ -9,7 +9,7 @@ import org.jetbrains.annotations.*;
  * Provides an interface for describing TLS-related types.
  * @version 2.28
  */
-public class TlsBackendInterface extends io.github.jwharm.javagi.ResourceBase {
+public class TlsBackendInterface extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         Gio.javagi$ensureInitialized();

@@ -12,7 +12,7 @@ import org.jetbrains.annotations.*;
  * {@code PangoLanguage} pointers can be efficiently
  * copied and compared with each other.
  */
-public class Language extends io.github.jwharm.javagi.ResourceBase {
+public class Language extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         Pango.javagi$ensureInitialized();

@@ -22,7 +22,7 @@ import org.jetbrains.annotations.*;
  * The Graphene library has a number of other data types for regions and
  * volumes in 2D and 3D.
  */
-public class Rectangle extends io.github.jwharm.javagi.ResourceBase {
+public class Rectangle extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         Gdk.javagi$ensureInitialized();

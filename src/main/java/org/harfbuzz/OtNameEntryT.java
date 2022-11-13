@@ -9,7 +9,7 @@ import org.jetbrains.annotations.*;
  * Structure representing a name ID in a particular language.
  * @version 2.1.0
  */
-public class OtNameEntryT extends io.github.jwharm.javagi.ResourceBase {
+public class OtNameEntryT extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         HarfBuzz.javagi$ensureInitialized();

@@ -40,7 +40,7 @@ import org.jetbrains.annotations.*;
  * But you have to be careful avoid changing the size of the popover, or it
  * has to be presented again.
  */
-public class PopupLayout extends io.github.jwharm.javagi.ResourceBase {
+public class PopupLayout extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         Gdk.javagi$ensureInitialized();

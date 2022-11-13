@@ -12,7 +12,7 @@ import org.jetbrains.annotations.*;
  * modified directly.
  * @version 1.2
  */
-public class Plane extends io.github.jwharm.javagi.ResourceBase {
+public class Plane extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         Graphene.javagi$ensureInitialized();

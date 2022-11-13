@@ -9,7 +9,7 @@ import org.jetbrains.annotations.*;
  * The GParameter struct is an auxiliary structure used
  * to hand parameter name/value pairs to g_object_newv().
  */
-public class Parameter extends io.github.jwharm.javagi.ResourceBase {
+public class Parameter extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         GObject.javagi$ensureInitialized();

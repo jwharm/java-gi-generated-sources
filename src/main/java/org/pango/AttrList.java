@@ -18,7 +18,7 @@ import org.jetbrains.annotations.*;
  * suitable for storing attributes for large amounts of text. In general, you
  * should not use a single {@code PangoAttrList} for more than one paragraph of text.
  */
-public class AttrList extends io.github.jwharm.javagi.ResourceBase {
+public class AttrList extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         Pango.javagi$ensureInitialized();
@@ -92,10 +92,11 @@ public class AttrList extends io.github.jwharm.javagi.ResourceBase {
         try {
             DowncallHandles.pango_attr_list_change.invokeExact(
                     handle(),
-                    attr.refcounted().unowned().handle());
+                    attr.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        attr.yieldOwnership();
     }
     
     /**
@@ -216,10 +217,11 @@ public class AttrList extends io.github.jwharm.javagi.ResourceBase {
         try {
             DowncallHandles.pango_attr_list_insert.invokeExact(
                     handle(),
-                    attr.refcounted().unowned().handle());
+                    attr.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        attr.yieldOwnership();
     }
     
     /**
@@ -234,10 +236,11 @@ public class AttrList extends io.github.jwharm.javagi.ResourceBase {
         try {
             DowncallHandles.pango_attr_list_insert_before.invokeExact(
                     handle(),
-                    attr.refcounted().unowned().handle());
+                    attr.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        attr.yieldOwnership();
     }
     
     /**

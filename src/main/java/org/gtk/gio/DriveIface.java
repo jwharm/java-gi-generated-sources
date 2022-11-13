@@ -8,7 +8,7 @@ import org.jetbrains.annotations.*;
 /**
  * Interface for creating {@link Drive} implementations.
  */
-public class DriveIface extends io.github.jwharm.javagi.ResourceBase {
+public class DriveIface extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         Gio.javagi$ensureInitialized();

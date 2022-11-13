@@ -8,7 +8,7 @@ import org.jetbrains.annotations.*;
 /**
  * Class structure for {@link SettingsBackend}.
  */
-public class SettingsBackendClass extends io.github.jwharm.javagi.ResourceBase {
+public class SettingsBackendClass extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         Gio.javagi$ensureInitialized();

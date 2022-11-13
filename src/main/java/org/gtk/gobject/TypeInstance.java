@@ -8,7 +8,7 @@ import org.jetbrains.annotations.*;
 /**
  * An opaque structure used as the base of all type instances.
  */
-public class TypeInstance extends io.github.jwharm.javagi.ResourceBase {
+public class TypeInstance extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         GObject.javagi$ensureInitialized();

@@ -9,7 +9,7 @@ import org.jetbrains.annotations.*;
  * The {@code PangoAttrInt} structure is used to represent attributes with
  * an integer or enumeration value.
  */
-public class AttrInt extends io.github.jwharm.javagi.ResourceBase {
+public class AttrInt extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         Pango.javagi$ensureInitialized();

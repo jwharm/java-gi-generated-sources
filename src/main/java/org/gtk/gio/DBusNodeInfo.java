@@ -9,7 +9,7 @@ import org.jetbrains.annotations.*;
  * Information about nodes in a remote object hierarchy.
  * @version 2.26
  */
-public class DBusNodeInfo extends io.github.jwharm.javagi.ResourceBase {
+public class DBusNodeInfo extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         Gio.javagi$ensureInitialized();

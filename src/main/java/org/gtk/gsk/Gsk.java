@@ -115,10 +115,11 @@ public final class Gsk {
         try {
             DowncallHandles.gsk_value_take_render_node.invokeExact(
                     value.handle(),
-                    (Addressable) (node == null ? MemoryAddress.NULL : node.refcounted().unowned().handle()));
+                    (Addressable) (node == null ? MemoryAddress.NULL : node.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        node.yieldOwnership();
     }
     
     private static class DowncallHandles {

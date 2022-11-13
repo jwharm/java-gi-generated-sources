@@ -8,7 +8,7 @@ import org.jetbrains.annotations.*;
 /**
  * An opaque context struct for {@code GtkBuildableParser}.
  */
-public class BuildableParseContext extends io.github.jwharm.javagi.ResourceBase {
+public class BuildableParseContext extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         Gtk.javagi$ensureInitialized();

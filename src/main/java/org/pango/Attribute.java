@@ -15,7 +15,7 @@ import org.jetbrains.annotations.*;
  * be initialized using {@link Attribute#init}. By default, an attribute
  * will have an all-inclusive range of [0,{@code G_MAXUINT}].
  */
-public class Attribute extends io.github.jwharm.javagi.ResourceBase {
+public class Attribute extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         Pango.javagi$ensureInitialized();

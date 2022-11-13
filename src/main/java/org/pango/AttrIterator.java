@@ -14,7 +14,7 @@ import org.jetbrains.annotations.*;
  * style change, the range of the current style segment and the attributes
  * currently in effect can be queried.
  */
-public class AttrIterator extends io.github.jwharm.javagi.ResourceBase {
+public class AttrIterator extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         Pango.javagi$ensureInitialized();

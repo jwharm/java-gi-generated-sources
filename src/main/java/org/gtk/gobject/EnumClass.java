@@ -9,7 +9,7 @@ import org.jetbrains.annotations.*;
  * The class of an enumeration type holds information about its
  * possible values.
  */
-public class EnumClass extends io.github.jwharm.javagi.ResourceBase {
+public class EnumClass extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         GObject.javagi$ensureInitialized();

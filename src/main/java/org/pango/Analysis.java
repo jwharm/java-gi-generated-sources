@@ -9,7 +9,7 @@ import org.jetbrains.annotations.*;
  * The {@code PangoAnalysis} structure stores information about
  * the properties of a segment of text.
  */
-public class Analysis extends io.github.jwharm.javagi.ResourceBase {
+public class Analysis extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         Pango.javagi$ensureInitialized();

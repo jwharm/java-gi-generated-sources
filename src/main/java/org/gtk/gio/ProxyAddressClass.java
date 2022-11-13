@@ -9,7 +9,7 @@ import org.jetbrains.annotations.*;
  * Class structure for {@link ProxyAddress}.
  * @version 2.26
  */
-public class ProxyAddressClass extends io.github.jwharm.javagi.ResourceBase {
+public class ProxyAddressClass extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         Gio.javagi$ensureInitialized();

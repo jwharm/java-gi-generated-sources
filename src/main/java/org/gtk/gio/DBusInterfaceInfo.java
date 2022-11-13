@@ -9,7 +9,7 @@ import org.jetbrains.annotations.*;
  * Information about a D-Bus interface.
  * @version 2.26
  */
-public class DBusInterfaceInfo extends io.github.jwharm.javagi.ResourceBase {
+public class DBusInterfaceInfo extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         Gio.javagi$ensureInitialized();

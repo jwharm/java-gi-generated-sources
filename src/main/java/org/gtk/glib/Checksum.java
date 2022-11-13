@@ -12,7 +12,7 @@ import org.jetbrains.annotations.*;
  * a GChecksum, use g_checksum_free().
  * @version 2.16
  */
-public class Checksum extends io.github.jwharm.javagi.ResourceBase {
+public class Checksum extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         GLib.javagi$ensureInitialized();

@@ -16,7 +16,7 @@ import org.jetbrains.annotations.*;
  * This means code can safely expose them as properties of objects without
  * having to worry about others changing them.
  */
-public class Transform extends io.github.jwharm.javagi.ResourceBase {
+public class Transform extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         Gsk.javagi$ensureInitialized();
@@ -116,6 +116,7 @@ public class Transform extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        this.yieldOwnership();
         return new org.gtk.gsk.Transform(RESULT, Ownership.FULL);
     }
     
@@ -134,6 +135,7 @@ public class Transform extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        this.yieldOwnership();
         return new org.gtk.gsk.Transform(RESULT, Ownership.FULL);
     }
     
@@ -158,6 +160,7 @@ public class Transform extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        this.yieldOwnership();
         return new org.gtk.gsk.Transform(RESULT, Ownership.FULL);
     }
     
@@ -209,6 +212,7 @@ public class Transform extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        this.yieldOwnership();
         return new org.gtk.gsk.Transform(RESULT, Ownership.FULL);
     }
     
@@ -231,6 +235,7 @@ public class Transform extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        this.yieldOwnership();
         return new org.gtk.gsk.Transform(RESULT, Ownership.FULL);
     }
     
@@ -252,6 +257,7 @@ public class Transform extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        this.yieldOwnership();
         return new org.gtk.gsk.Transform(RESULT, Ownership.FULL);
     }
     
@@ -273,6 +279,7 @@ public class Transform extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        this.yieldOwnership();
         return new org.gtk.gsk.Transform(RESULT, Ownership.FULL);
     }
     
@@ -292,6 +299,7 @@ public class Transform extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        this.yieldOwnership();
         return new org.gtk.gsk.Transform(RESULT, Ownership.FULL);
     }
     
@@ -553,6 +561,7 @@ public class Transform extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        this.yieldOwnership();
         return new org.gtk.gsk.Transform(RESULT, Ownership.FULL);
     }
     
@@ -611,6 +620,7 @@ public class Transform extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        this.yieldOwnership();
         return new org.gtk.gsk.Transform(RESULT, Ownership.FULL);
     }
     
@@ -629,6 +639,7 @@ public class Transform extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        this.yieldOwnership();
         return new org.gtk.gsk.Transform(RESULT, Ownership.FULL);
     }
     

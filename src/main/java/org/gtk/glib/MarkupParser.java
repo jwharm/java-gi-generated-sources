@@ -14,7 +14,7 @@ import org.jetbrains.annotations.*;
  * from a callback, g_markup_parse_context_parse() will report that error
  * back to its caller.
  */
-public class MarkupParser extends io.github.jwharm.javagi.ResourceBase {
+public class MarkupParser extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         GLib.javagi$ensureInitialized();

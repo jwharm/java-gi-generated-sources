@@ -9,7 +9,7 @@ import org.jetbrains.annotations.*;
  * An interface for swipeable widgets.
  * @version 1.0
  */
-public class SwipeableInterface extends io.github.jwharm.javagi.ResourceBase {
+public class SwipeableInterface extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         Adw.javagi$ensureInitialized();

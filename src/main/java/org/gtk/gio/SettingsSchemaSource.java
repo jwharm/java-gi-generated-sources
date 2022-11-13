@@ -9,7 +9,7 @@ import org.jetbrains.annotations.*;
  * This is an opaque structure type.  You may not access it directly.
  * @version 2.32
  */
-public class SettingsSchemaSource extends io.github.jwharm.javagi.ResourceBase {
+public class SettingsSchemaSource extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         Gio.javagi$ensureInitialized();

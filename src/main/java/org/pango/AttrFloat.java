@@ -9,7 +9,7 @@ import org.jetbrains.annotations.*;
  * The {@code PangoAttrFloat} structure is used to represent attributes with
  * a float or double value.
  */
-public class AttrFloat extends io.github.jwharm.javagi.ResourceBase {
+public class AttrFloat extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         Pango.javagi$ensureInitialized();

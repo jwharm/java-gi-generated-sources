@@ -21,7 +21,7 @@ import org.jetbrains.annotations.*;
  * {@link SocketConnectable} interface and not need to worry about
  * {@link SrvTarget} at all.
  */
-public class SrvTarget extends io.github.jwharm.javagi.ResourceBase {
+public class SrvTarget extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         Gio.javagi$ensureInitialized();

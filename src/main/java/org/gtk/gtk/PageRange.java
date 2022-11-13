@@ -10,7 +10,7 @@ import org.jetbrains.annotations.*;
  * <p>
  * See also {@link PrintSettings#setPageRanges}.
  */
-public class PageRange extends io.github.jwharm.javagi.ResourceBase {
+public class PageRange extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         Gtk.javagi$ensureInitialized();

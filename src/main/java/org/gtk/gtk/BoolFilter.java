@@ -38,14 +38,19 @@ public class BoolFilter extends org.gtk.gtk.Filter {
     
     /**
      * Cast object to BoolFilter if its GType is a (or inherits from) "GtkBoolFilter".
+     * <p>
+     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
+     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
+     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
+     * is garbage-collected. 
      * @param  gobject            An object that inherits from GObject
-     * @return                    An instance of "BoolFilter" that points to the memory address of the provided GObject.
+     * @return                    A new proxy instance of type {@code BoolFilter} that points to the memory address of the provided GObject.
      *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
      * @throws ClassCastException If the GType is not derived from "GtkBoolFilter", a ClassCastException will be thrown.
      */
     public static BoolFilter castFrom(org.gtk.gobject.Object gobject) {
         if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkBoolFilter"))) {
-            return new BoolFilter(gobject.handle(), gobject.refcounted().getOwnership());
+            return new BoolFilter(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkBoolFilter");
         }
@@ -55,10 +60,11 @@ public class BoolFilter extends org.gtk.gtk.Filter {
         Addressable RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_bool_filter_new.invokeExact(
-                    (Addressable) (expression == null ? MemoryAddress.NULL : expression.refcounted().unowned().handle()));
+                    (Addressable) (expression == null ? MemoryAddress.NULL : expression.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        expression.yieldOwnership();
         return RESULT;
     }
     

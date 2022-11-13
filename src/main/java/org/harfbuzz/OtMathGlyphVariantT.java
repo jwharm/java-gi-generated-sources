@@ -9,7 +9,7 @@ import org.jetbrains.annotations.*;
  * Data type to hold math-variant information for a glyph.
  * @version 1.3.3
  */
-public class OtMathGlyphVariantT extends io.github.jwharm.javagi.ResourceBase {
+public class OtMathGlyphVariantT extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         HarfBuzz.javagi$ensureInitialized();

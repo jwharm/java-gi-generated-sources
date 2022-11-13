@@ -27,7 +27,7 @@ import org.jetbrains.annotations.*;
  * check function, it tests the results of the poll() call to see if the
  * required condition has been met, and returns {@code true} if so.
  */
-public class SourceFuncs extends io.github.jwharm.javagi.ResourceBase {
+public class SourceFuncs extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         GLib.javagi$ensureInitialized();

@@ -9,7 +9,7 @@ import org.jetbrains.annotations.*;
  * Data type for languages. Each {@link LanguageT} corresponds to a BCP 47
  * language tag.
  */
-public class LanguageT extends io.github.jwharm.javagi.ResourceBase {
+public class LanguageT extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         HarfBuzz.javagi$ensureInitialized();

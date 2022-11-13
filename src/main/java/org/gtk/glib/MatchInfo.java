@@ -9,7 +9,7 @@ import org.jetbrains.annotations.*;
  * A GMatchInfo is an opaque struct used to return information about
  * matches.
  */
-public class MatchInfo extends io.github.jwharm.javagi.ResourceBase {
+public class MatchInfo extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         GLib.javagi$ensureInitialized();

@@ -15,7 +15,7 @@ import org.jetbrains.annotations.*;
  * value.
  * @version 2.50
  */
-public class LogField extends io.github.jwharm.javagi.ResourceBase {
+public class LogField extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         GLib.javagi$ensureInitialized();

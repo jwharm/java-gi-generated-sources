@@ -14,7 +14,7 @@ import org.jetbrains.annotations.*;
  * {@link VariantBuilder} is not threadsafe in any way.  Do not attempt to
  * access it from more than one thread.
  */
-public class VariantBuilder extends io.github.jwharm.javagi.ResourceBase {
+public class VariantBuilder extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         GLib.javagi$ensureInitialized();
@@ -388,6 +388,7 @@ public class VariantBuilder extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        this.yieldOwnership();
     }
     
     private static class DowncallHandles {

@@ -9,7 +9,7 @@ import org.jetbrains.annotations.*;
  * A structure which contains a single enum value, its name, and its
  * nickname.
  */
-public class EnumValue extends io.github.jwharm.javagi.ResourceBase {
+public class EnumValue extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         GObject.javagi$ensureInitialized();

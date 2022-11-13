@@ -10,7 +10,7 @@ import org.jetbrains.annotations.*;
  * same row (a {@code GtkTreePath} refers to a position, not a fixed row). Create a
  * new GtkTreeRowReference with gtk_tree_row_reference_new().
  */
-public class TreeRowReference extends io.github.jwharm.javagi.ResourceBase {
+public class TreeRowReference extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         Gtk.javagi$ensureInitialized();

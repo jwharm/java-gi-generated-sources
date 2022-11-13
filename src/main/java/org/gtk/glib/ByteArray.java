@@ -8,7 +8,7 @@ import org.jetbrains.annotations.*;
 /**
  * Contains the public fields of a GByteArray.
  */
-public class ByteArray extends io.github.jwharm.javagi.ResourceBase {
+public class ByteArray extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         GLib.javagi$ensureInitialized();

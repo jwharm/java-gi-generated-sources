@@ -9,7 +9,7 @@ import org.jetbrains.annotations.*;
  * The {@code GMainLoop} struct is an opaque data type
  * representing the main event loop of a GLib or GTK+ application.
  */
-public class MainLoop extends io.github.jwharm.javagi.ResourceBase {
+public class MainLoop extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         GLib.javagi$ensureInitialized();

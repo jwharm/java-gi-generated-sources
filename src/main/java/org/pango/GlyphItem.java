@@ -13,7 +13,7 @@ import org.jetbrains.annotations.*;
  * of shaping text with {@code PangoLayout} is a list of {@code PangoLayoutLine},
  * each of which contains a list of {@code PangoGlyphItem}.
  */
-public class GlyphItem extends io.github.jwharm.javagi.ResourceBase {
+public class GlyphItem extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         Pango.javagi$ensureInitialized();

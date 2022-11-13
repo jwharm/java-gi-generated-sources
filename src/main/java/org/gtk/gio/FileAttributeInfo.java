@@ -8,7 +8,7 @@ import org.jetbrains.annotations.*;
 /**
  * Information about a specific attribute.
  */
-public class FileAttributeInfo extends io.github.jwharm.javagi.ResourceBase {
+public class FileAttributeInfo extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         Gio.javagi$ensureInitialized();

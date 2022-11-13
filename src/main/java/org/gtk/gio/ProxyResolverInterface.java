@@ -8,7 +8,7 @@ import org.jetbrains.annotations.*;
 /**
  * The virtual function table for {@link ProxyResolver}.
  */
-public class ProxyResolverInterface extends io.github.jwharm.javagi.ResourceBase {
+public class ProxyResolverInterface extends io.github.jwharm.javagi.ProxyBase {
     
     static {
         Gio.javagi$ensureInitialized();
