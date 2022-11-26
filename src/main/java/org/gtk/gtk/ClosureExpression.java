@@ -49,7 +49,7 @@ public class ClosureExpression extends org.gtk.gtk.Expression {
      * @throws ClassCastException If the GType is not derived from "GtkClosureExpression", a ClassCastException will be thrown.
      */
     public static ClosureExpression castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkClosureExpression"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), ClosureExpression.getType())) {
             return new ClosureExpression(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkClosureExpression");
@@ -86,11 +86,66 @@ public class ClosureExpression extends org.gtk.gtk.Expression {
         super(constructNew(valueType, closure, nParams, params), Ownership.FULL);
     }
     
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.gtk_closure_expression_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gtk.Expression.Build {
+        
+         /**
+         * A {@link ClosureExpression.Build} object constructs a {@link ClosureExpression} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link ClosureExpression} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link ClosureExpression} using {@link ClosureExpression#castFrom}.
+         * @return A new instance of {@code ClosureExpression} with the properties 
+         *         that were set in the Build object.
+         */
+        public ClosureExpression construct() {
+            return ClosureExpression.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    ClosureExpression.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+    }
+    
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_closure_expression_new = Interop.downcallHandle(
             "gtk_closure_expression_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+            false
+        );
+        
+        private static final MethodHandle gtk_closure_expression_get_type = Interop.downcallHandle(
+            "gtk_closure_expression_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }

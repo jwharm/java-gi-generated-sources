@@ -11,7 +11,7 @@ import org.jetbrains.annotations.*;
  * Because sections are nested into one another, you can use
  * {@code CssSection#getParent} to get the containing region.
  */
-public class CssSection extends io.github.jwharm.javagi.ProxyBase {
+public class CssSection extends Struct {
     
     static {
         Gtk.javagi$ensureInitialized();
@@ -30,6 +30,10 @@ public class CssSection extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link CssSection}
+     * @return A new, uninitialized @{link CssSection}
+     */
     public static CssSection allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         CssSection newInstance = new CssSection(segment.address(), Ownership.NONE);
@@ -214,56 +218,84 @@ public class CssSection extends io.github.jwharm.javagi.ProxyBase {
         
         private static final MethodHandle gtk_css_section_new = Interop.downcallHandle(
             "gtk_css_section_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_css_section_get_end_location = Interop.downcallHandle(
             "gtk_css_section_get_end_location",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_css_section_get_file = Interop.downcallHandle(
             "gtk_css_section_get_file",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_css_section_get_parent = Interop.downcallHandle(
             "gtk_css_section_get_parent",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_css_section_get_start_location = Interop.downcallHandle(
             "gtk_css_section_get_start_location",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_css_section_print = Interop.downcallHandle(
             "gtk_css_section_print",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_css_section_ref = Interop.downcallHandle(
             "gtk_css_section_ref",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_css_section_to_string = Interop.downcallHandle(
             "gtk_css_section_to_string",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_css_section_unref = Interop.downcallHandle(
             "gtk_css_section_unref",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private CssSection struct;
+        
+         /**
+         * A {@link CssSection.Build} object constructs a {@link CssSection} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = CssSection.allocate();
+        }
+        
+         /**
+         * Finish building the {@link CssSection} struct.
+         * @return A new instance of {@code CssSection} with the fields 
+         *         that were set in the Build object.
+         */
+        public CssSection construct() {
+            return struct;
+        }
     }
 }

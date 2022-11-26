@@ -5,7 +5,7 @@ import java.lang.foreign.*;
 import java.lang.invoke.*;
 import org.jetbrains.annotations.*;
 
-public class TestLogMsg extends io.github.jwharm.javagi.ProxyBase {
+public class TestLogMsg extends Struct {
     
     static {
         GLib.javagi$ensureInitialized();
@@ -13,11 +13,11 @@ public class TestLogMsg extends io.github.jwharm.javagi.ProxyBase {
     
     private static final java.lang.String C_TYPE_NAME = "GTestLogMsg";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
         Interop.valueLayout.C_INT.withName("log_type"),
-        ValueLayout.JAVA_INT.withName("n_strings"),
+        Interop.valueLayout.C_INT.withName("n_strings"),
         Interop.valueLayout.ADDRESS.withName("strings"),
-        ValueLayout.JAVA_INT.withName("n_nums"),
+        Interop.valueLayout.C_INT.withName("n_nums"),
         MemoryLayout.paddingLayout(32),
         Interop.valueLayout.ADDRESS.withName("nums")
     ).withName(C_TYPE_NAME);
@@ -33,6 +33,10 @@ public class TestLogMsg extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link TestLogMsg}
+     * @return A new, uninitialized @{link TestLogMsg}
+     */
     public static TestLogMsg allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         TestLogMsg newInstance = new TestLogMsg(segment.address(), Ownership.NONE);
@@ -171,8 +175,71 @@ public class TestLogMsg extends io.github.jwharm.javagi.ProxyBase {
         
         private static final MethodHandle g_test_log_msg_free = Interop.downcallHandle(
             "g_test_log_msg_free",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private TestLogMsg struct;
+        
+         /**
+         * A {@link TestLogMsg.Build} object constructs a {@link TestLogMsg} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = TestLogMsg.allocate();
+        }
+        
+         /**
+         * Finish building the {@link TestLogMsg} struct.
+         * @return A new instance of {@code TestLogMsg} with the fields 
+         *         that were set in the Build object.
+         */
+        public TestLogMsg construct() {
+            return struct;
+        }
+        
+        public Build setLogType(org.gtk.glib.TestLogType log_type) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("log_type"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (log_type == null ? MemoryAddress.NULL : log_type.getValue()));
+            return this;
+        }
+        
+        public Build setNStrings(int n_strings) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("n_strings"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), n_strings);
+            return this;
+        }
+        
+        public Build setStrings(PointerString strings) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("strings"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (strings == null ? MemoryAddress.NULL : strings.handle()));
+            return this;
+        }
+        
+        public Build setNNums(int n_nums) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("n_nums"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), n_nums);
+            return this;
+        }
+        
+        public Build setNums(PointerDouble nums) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("nums"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (nums == null ? MemoryAddress.NULL : nums.handle()));
+            return this;
+        }
     }
 }

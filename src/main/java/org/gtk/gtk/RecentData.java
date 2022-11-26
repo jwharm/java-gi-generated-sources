@@ -9,7 +9,7 @@ import org.jetbrains.annotations.*;
  * Meta-data to be passed to gtk_recent_manager_add_full() when
  * registering a recently used resource.
  */
-public class RecentData extends io.github.jwharm.javagi.ProxyBase {
+public class RecentData extends Struct {
     
     static {
         Gtk.javagi$ensureInitialized();
@@ -17,14 +17,14 @@ public class RecentData extends io.github.jwharm.javagi.ProxyBase {
     
     private static final java.lang.String C_TYPE_NAME = "GtkRecentData";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
         Interop.valueLayout.ADDRESS.withName("display_name"),
         Interop.valueLayout.ADDRESS.withName("description"),
         Interop.valueLayout.ADDRESS.withName("mime_type"),
         Interop.valueLayout.ADDRESS.withName("app_name"),
         Interop.valueLayout.ADDRESS.withName("app_exec"),
         Interop.valueLayout.ADDRESS.withName("groups"),
-        ValueLayout.JAVA_INT.withName("is_private")
+        Interop.valueLayout.C_INT.withName("is_private")
     ).withName(C_TYPE_NAME);
     
     /**
@@ -38,6 +38,10 @@ public class RecentData extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link RecentData}
+     * @return A new, uninitialized @{link RecentData}
+     */
     public static RecentData allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         RecentData newInstance = new RecentData(segment.address(), Ownership.NONE);
@@ -179,5 +183,125 @@ public class RecentData extends io.github.jwharm.javagi.ProxyBase {
     @ApiStatus.Internal
     public RecentData(Addressable address, Ownership ownership) {
         super(address, ownership);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private RecentData struct;
+        
+         /**
+         * A {@link RecentData.Build} object constructs a {@link RecentData} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = RecentData.allocate();
+        }
+        
+         /**
+         * Finish building the {@link RecentData} struct.
+         * @return A new instance of {@code RecentData} with the fields 
+         *         that were set in the Build object.
+         */
+        public RecentData construct() {
+            return struct;
+        }
+        
+        /**
+         * a UTF-8 encoded string, containing the name of the recently
+         *   used resource to be displayed, or {@code null};
+         * @param display_name The value for the {@code display_name} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setDisplayName(java.lang.String display_name) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("display_name"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (display_name == null ? MemoryAddress.NULL : Interop.allocateNativeString(display_name)));
+            return this;
+        }
+        
+        /**
+         * a UTF-8 encoded string, containing a short description of
+         *   the resource, or {@code null};
+         * @param description The value for the {@code description} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setDescription(java.lang.String description) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("description"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (description == null ? MemoryAddress.NULL : Interop.allocateNativeString(description)));
+            return this;
+        }
+        
+        /**
+         * the MIME type of the resource;
+         * @param mime_type The value for the {@code mime_type} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setMimeType(java.lang.String mime_type) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("mime_type"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (mime_type == null ? MemoryAddress.NULL : Interop.allocateNativeString(mime_type)));
+            return this;
+        }
+        
+        /**
+         * the name of the application that is registering this recently
+         *   used resource;
+         * @param app_name The value for the {@code app_name} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setAppName(java.lang.String app_name) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("app_name"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (app_name == null ? MemoryAddress.NULL : Interop.allocateNativeString(app_name)));
+            return this;
+        }
+        
+        /**
+         * command line used to launch this resource; may contain the
+         *   “\\{@code f}” and “\\{@code u}” escape characters which will be expanded
+         *   to the resource file path and URI respectively when the command line
+         *   is retrieved;
+         * @param app_exec The value for the {@code app_exec} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setAppExec(java.lang.String app_exec) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("app_exec"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (app_exec == null ? MemoryAddress.NULL : Interop.allocateNativeString(app_exec)));
+            return this;
+        }
+        
+        /**
+         * a vector of strings containing
+         *   groups names;
+         * @param groups The value for the {@code groups} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setGroups(java.lang.String[] groups) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("groups"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (groups == null ? MemoryAddress.NULL : Interop.allocateNativeArray(groups, false)));
+            return this;
+        }
+        
+        /**
+         * whether this resource should be displayed only by the
+         *   applications that have registered it or not.
+         * @param is_private The value for the {@code is_private} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setIsPrivate(boolean is_private) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("is_private"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), is_private ? 1 : 0);
+            return this;
+        }
     }
 }

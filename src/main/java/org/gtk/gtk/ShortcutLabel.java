@@ -50,7 +50,7 @@ public class ShortcutLabel extends org.gtk.gtk.Widget implements org.gtk.gtk.Acc
      * @throws ClassCastException If the GType is not derived from "GtkShortcutLabel", a ClassCastException will be thrown.
      */
     public static ShortcutLabel castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkShortcutLabel"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), ShortcutLabel.getType())) {
             return new ShortcutLabel(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkShortcutLabel");
@@ -138,35 +138,115 @@ public class ShortcutLabel extends org.gtk.gtk.Widget implements org.gtk.gtk.Acc
         }
     }
     
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.gtk_shortcut_label_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gtk.Widget.Build {
+        
+         /**
+         * A {@link ShortcutLabel.Build} object constructs a {@link ShortcutLabel} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link ShortcutLabel} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link ShortcutLabel} using {@link ShortcutLabel#castFrom}.
+         * @return A new instance of {@code ShortcutLabel} with the properties 
+         *         that were set in the Build object.
+         */
+        public ShortcutLabel construct() {
+            return ShortcutLabel.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    ShortcutLabel.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+        
+        /**
+         * The accelerator that {@code self} displays.
+         * <p>
+         * See {@code Gtk.ShortcutsShortcut:accelerator}
+         * for the accepted syntax.
+         * @param accelerator The value for the {@code accelerator} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setAccelerator(java.lang.String accelerator) {
+            names.add("accelerator");
+            values.add(org.gtk.gobject.Value.create(accelerator));
+            return this;
+        }
+        
+        /**
+         * The text that is displayed when no accelerator is set.
+         * @param disabledText The value for the {@code disabled-text} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setDisabledText(java.lang.String disabledText) {
+            names.add("disabled-text");
+            values.add(org.gtk.gobject.Value.create(disabledText));
+            return this;
+        }
+    }
+    
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_shortcut_label_new = Interop.downcallHandle(
             "gtk_shortcut_label_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_shortcut_label_get_accelerator = Interop.downcallHandle(
             "gtk_shortcut_label_get_accelerator",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_shortcut_label_get_disabled_text = Interop.downcallHandle(
             "gtk_shortcut_label_get_disabled_text",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_shortcut_label_set_accelerator = Interop.downcallHandle(
             "gtk_shortcut_label_set_accelerator",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_shortcut_label_set_disabled_text = Interop.downcallHandle(
             "gtk_shortcut_label_set_disabled_text",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+            false
+        );
+        
+        private static final MethodHandle gtk_shortcut_label_get_type = Interop.downcallHandle(
+            "gtk_shortcut_label_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }

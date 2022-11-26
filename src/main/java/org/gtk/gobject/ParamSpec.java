@@ -27,18 +27,18 @@ public class ParamSpec extends org.gtk.gobject.Object {
     
     private static final java.lang.String C_TYPE_NAME = "GParamSpec";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gobject.TypeInstance.getMemoryLayout().withName("g_type_instance"),
         Interop.valueLayout.ADDRESS.withName("name"),
         Interop.valueLayout.C_INT.withName("flags"),
         MemoryLayout.paddingLayout(32),
-        ValueLayout.JAVA_LONG.withName("value_type"),
-        ValueLayout.JAVA_LONG.withName("owner_type"),
+        Interop.valueLayout.C_LONG.withName("value_type"),
+        Interop.valueLayout.C_LONG.withName("owner_type"),
         Interop.valueLayout.ADDRESS.withName("_nick"),
         Interop.valueLayout.ADDRESS.withName("_blurb"),
         Interop.valueLayout.ADDRESS.withName("qdata"),
-        ValueLayout.JAVA_INT.withName("ref_count"),
-        ValueLayout.JAVA_INT.withName("param_id")
+        Interop.valueLayout.C_INT.withName("ref_count"),
+        Interop.valueLayout.C_INT.withName("param_id")
     ).withName(C_TYPE_NAME);
     
     /**
@@ -166,7 +166,7 @@ public class ParamSpec extends org.gtk.gobject.Object {
      * @throws ClassCastException If the GType is not derived from "GParamSpec", a ClassCastException will be thrown.
      */
     public static ParamSpec castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GParamSpec"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), ParamSpec.getType())) {
             return new ParamSpec(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GParamSpec");
@@ -339,7 +339,7 @@ public class ParamSpec extends org.gtk.gobject.Object {
             DowncallHandles.g_param_spec_set_qdata.invokeExact(
                     handle(),
                     quark.getValue().intValue(),
-                    data);
+                    (Addressable) data);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -362,7 +362,7 @@ public class ParamSpec extends org.gtk.gobject.Object {
             DowncallHandles.g_param_spec_set_qdata_full.invokeExact(
                     handle(),
                     quark.getValue().intValue(),
-                    data,
+                    (Addressable) data,
                     Interop.cbDestroyNotifySymbol());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -421,17 +421,32 @@ public class ParamSpec extends org.gtk.gobject.Object {
     }
     
     /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.intern.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+    
+    /**
      * Creates a new {@link ParamSpec} instance.
      * <p>
      * See [canonical parameter names][canonical-parameter-names] for details of
      * the rules for {@code name}. Names which violate these rules lead to undefined
      * behaviour.
      * <p>
-     * Beyond the name, {@code GParamSpecs} have two more descriptive
-     * strings associated with them, the {@code nick}, which should be suitable
-     * for use as a label for the property in a property editor, and the
-     * {@code blurb}, which should be a somewhat longer description, suitable for
-     * e.g. a tooltip. The {@code nick} and {@code blurb} should ideally be localized.
+     * Beyond the name, {@code GParamSpecs} have two more descriptive strings, the
+     * {@code nick} and {@code blurb}, which may be used as a localized label and description.
+     * For GTK and related libraries these are considered deprecated and may be
+     * omitted, while for other libraries such as GStreamer and its plugins they
+     * are essential. When in doubt, follow the conventions used in the
+     * surrounding code and supporting libraries.
      * @param paramType the {@link Type} for the property; must be derived from {@code G_TYPE_PARAM}
      * @param name the canonical name of the property
      * @param nick the nickname of the property
@@ -440,19 +455,17 @@ public class ParamSpec extends org.gtk.gobject.Object {
      * @return (transfer floating): a newly allocated
      *     {@link ParamSpec} instance, which is initially floating
      */
-    public static @NotNull org.gtk.gobject.ParamSpec internal(@NotNull org.gtk.glib.Type paramType, @NotNull java.lang.String name, @NotNull java.lang.String nick, @NotNull java.lang.String blurb, @NotNull org.gtk.gobject.ParamFlags flags) {
+    public static @NotNull org.gtk.gobject.ParamSpec internal(@NotNull org.gtk.glib.Type paramType, @NotNull java.lang.String name, @Nullable java.lang.String nick, @Nullable java.lang.String blurb, @NotNull org.gtk.gobject.ParamFlags flags) {
         java.util.Objects.requireNonNull(paramType, "Parameter 'paramType' must not be null");
         java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
-        java.util.Objects.requireNonNull(nick, "Parameter 'nick' must not be null");
-        java.util.Objects.requireNonNull(blurb, "Parameter 'blurb' must not be null");
         java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_param_spec_internal.invokeExact(
                     paramType.getValue().longValue(),
                     Interop.allocateNativeString(name),
-                    Interop.allocateNativeString(nick),
-                    Interop.allocateNativeString(blurb),
+                    (Addressable) (nick == null ? MemoryAddress.NULL : Interop.allocateNativeString(nick)),
+                    (Addressable) (blurb == null ? MemoryAddress.NULL : Interop.allocateNativeString(blurb)),
                     flags.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -481,102 +494,143 @@ public class ParamSpec extends org.gtk.gobject.Object {
         }
         return RESULT != 0;
     }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends io.github.jwharm.javagi.Build {
+        
+         /**
+         * A {@link ParamSpec.Build} object constructs a {@link ParamSpec} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link ParamSpec} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link ParamSpec} using {@link ParamSpec#castFrom}.
+         * @return A new instance of {@code ParamSpec} with the properties 
+         *         that were set in the Build object.
+         */
+        public ParamSpec construct() {
+            return ParamSpec.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    ParamSpec.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+    }
     
     private static class DowncallHandles {
         
         private static final MethodHandle g_param_spec_get_blurb = Interop.downcallHandle(
             "g_param_spec_get_blurb",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_param_spec_get_default_value = Interop.downcallHandle(
             "g_param_spec_get_default_value",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_param_spec_get_name = Interop.downcallHandle(
             "g_param_spec_get_name",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_param_spec_get_name_quark = Interop.downcallHandle(
             "g_param_spec_get_name_quark",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_param_spec_get_nick = Interop.downcallHandle(
             "g_param_spec_get_nick",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_param_spec_get_qdata = Interop.downcallHandle(
             "g_param_spec_get_qdata",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_param_spec_get_redirect_target = Interop.downcallHandle(
             "g_param_spec_get_redirect_target",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_param_spec_ref = Interop.downcallHandle(
             "g_param_spec_ref",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_param_spec_ref_sink = Interop.downcallHandle(
             "g_param_spec_ref_sink",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_param_spec_set_qdata = Interop.downcallHandle(
             "g_param_spec_set_qdata",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_param_spec_set_qdata_full = Interop.downcallHandle(
             "g_param_spec_set_qdata_full",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_param_spec_sink = Interop.downcallHandle(
             "g_param_spec_sink",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_param_spec_steal_qdata = Interop.downcallHandle(
             "g_param_spec_steal_qdata",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_param_spec_unref = Interop.downcallHandle(
             "g_param_spec_unref",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+            false
+        );
+        
+        private static final MethodHandle intern = Interop.downcallHandle(
+            "intern",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
         
         private static final MethodHandle g_param_spec_internal = Interop.downcallHandle(
             "g_param_spec_internal",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_param_spec_is_valid_name = Interop.downcallHandle(
             "g_param_spec_is_valid_name",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
     }

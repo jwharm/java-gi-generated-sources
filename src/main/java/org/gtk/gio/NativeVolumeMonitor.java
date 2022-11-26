@@ -13,7 +13,7 @@ public class NativeVolumeMonitor extends org.gtk.gio.VolumeMonitor {
     
     private static final java.lang.String C_TYPE_NAME = "GNativeVolumeMonitor";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gio.VolumeMonitor.getMemoryLayout().withName("parent_instance")
     ).withName(C_TYPE_NAME);
     
@@ -58,10 +58,68 @@ public class NativeVolumeMonitor extends org.gtk.gio.VolumeMonitor {
      * @throws ClassCastException If the GType is not derived from "GNativeVolumeMonitor", a ClassCastException will be thrown.
      */
     public static NativeVolumeMonitor castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GNativeVolumeMonitor"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), NativeVolumeMonitor.getType())) {
             return new NativeVolumeMonitor(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GNativeVolumeMonitor");
         }
+    }
+    
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.g_native_volume_monitor_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gio.VolumeMonitor.Build {
+        
+         /**
+         * A {@link NativeVolumeMonitor.Build} object constructs a {@link NativeVolumeMonitor} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link NativeVolumeMonitor} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link NativeVolumeMonitor} using {@link NativeVolumeMonitor#castFrom}.
+         * @return A new instance of {@code NativeVolumeMonitor} with the properties 
+         *         that were set in the Build object.
+         */
+        public NativeVolumeMonitor construct() {
+            return NativeVolumeMonitor.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    NativeVolumeMonitor.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+    }
+    
+    private static class DowncallHandles {
+        
+        private static final MethodHandle g_native_volume_monitor_get_type = Interop.downcallHandle(
+            "g_native_volume_monitor_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+            false
+        );
     }
 }

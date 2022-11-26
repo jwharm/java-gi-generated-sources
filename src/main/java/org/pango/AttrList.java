@@ -18,7 +18,7 @@ import org.jetbrains.annotations.*;
  * suitable for storing attributes for large amounts of text. In general, you
  * should not use a single {@code PangoAttrList} for more than one paragraph of text.
  */
-public class AttrList extends io.github.jwharm.javagi.ProxyBase {
+public class AttrList extends Struct {
     
     static {
         Pango.javagi$ensureInitialized();
@@ -37,6 +37,10 @@ public class AttrList extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link AttrList}
+     * @return A new, uninitialized @{link AttrList}
+     */
     public static AttrList allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         AttrList newInstance = new AttrList(segment.address(), Ownership.NONE);
@@ -160,7 +164,7 @@ public class AttrList extends io.github.jwharm.javagi.ProxyBase {
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Pango.Callbacks.class, "cbAttrFilterFunc",
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                         Interop.getScope()),
                     (Addressable) (Interop.registerCallback(func)));
         } catch (Throwable ERR) {
@@ -300,12 +304,37 @@ public class AttrList extends io.github.jwharm.javagi.ProxyBase {
     /**
      * Serializes a {@code PangoAttrList} to a string.
      * <p>
-     * No guarantees are made about the format of the string,
-     * it may change between Pango versions.
+     * In the resulting string, serialized attributes are separated by newlines or commas.
+     * Individual attributes are serialized to a string of the form
      * <p>
-     * The intended use of this function is testing and
-     * debugging. The format is not meant as a permanent
-     * storage format.
+     *   START END TYPE VALUE
+     * <p>
+     * Where START and END are the indices (with -1 being accepted in place
+     * of MAXUINT), TYPE is the nickname of the attribute value type, e.g.
+     * _weight_ or _stretch_, and the value is serialized according to its type:
+     * <ul>
+     * <li>enum values as nick or numeric value
+     * <li>boolean values as _true_ or _false_
+     * <li>integers and floats as numbers
+     * <li>strings as string, optionally quoted
+     * <li>font features as quoted string
+     * <li>PangoLanguage as string
+     * <li>PangoFontDescription as serialized by {@link FontDescription#toString}, quoted
+     * <li>PangoColor as serialized by {@link Color#toString}
+     * </ul>
+     * <p>
+     * Examples:
+     * <pre>{@code 
+     * 0 10 foreground red, 5 15 weight bold, 0 200 font-desc "Sans 10"
+     * }</pre>
+     * <pre>{@code 
+     * 0 -1 weight 700
+     * 0 100 family Times
+     * }</pre>
+     * <p>
+     * To parse the returned value, use {@link AttrList#fromString}.
+     * <p>
+     * Note that shape attributes can not be serialized.
      * @return a newly allocated string
      */
     public @NotNull java.lang.String toString() {
@@ -390,92 +419,120 @@ public class AttrList extends io.github.jwharm.javagi.ProxyBase {
         
         private static final MethodHandle pango_attr_list_new = Interop.downcallHandle(
             "pango_attr_list_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle pango_attr_list_change = Interop.downcallHandle(
             "pango_attr_list_change",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle pango_attr_list_copy = Interop.downcallHandle(
             "pango_attr_list_copy",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle pango_attr_list_equal = Interop.downcallHandle(
             "pango_attr_list_equal",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle pango_attr_list_filter = Interop.downcallHandle(
             "pango_attr_list_filter",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle pango_attr_list_get_attributes = Interop.downcallHandle(
             "pango_attr_list_get_attributes",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle pango_attr_list_get_iterator = Interop.downcallHandle(
             "pango_attr_list_get_iterator",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle pango_attr_list_insert = Interop.downcallHandle(
             "pango_attr_list_insert",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle pango_attr_list_insert_before = Interop.downcallHandle(
             "pango_attr_list_insert_before",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle pango_attr_list_ref = Interop.downcallHandle(
             "pango_attr_list_ref",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle pango_attr_list_splice = Interop.downcallHandle(
             "pango_attr_list_splice",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle pango_attr_list_to_string = Interop.downcallHandle(
             "pango_attr_list_to_string",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle pango_attr_list_unref = Interop.downcallHandle(
             "pango_attr_list_unref",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle pango_attr_list_update = Interop.downcallHandle(
             "pango_attr_list_update",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle pango_attr_list_from_string = Interop.downcallHandle(
             "pango_attr_list_from_string",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private AttrList struct;
+        
+         /**
+         * A {@link AttrList.Build} object constructs a {@link AttrList} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = AttrList.allocate();
+        }
+        
+         /**
+         * Finish building the {@link AttrList} struct.
+         * @return A new instance of {@code AttrList} with the fields 
+         *         that were set in the Build object.
+         */
+        public AttrList construct() {
+            return struct;
+        }
     }
 }

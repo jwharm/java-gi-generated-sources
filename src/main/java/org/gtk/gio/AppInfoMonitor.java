@@ -65,11 +65,25 @@ public class AppInfoMonitor extends org.gtk.gobject.Object {
      * @throws ClassCastException If the GType is not derived from "GAppInfoMonitor", a ClassCastException will be thrown.
      */
     public static AppInfoMonitor castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GAppInfoMonitor"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), AppInfoMonitor.getType())) {
             return new AppInfoMonitor(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GAppInfoMonitor");
         }
+    }
+    
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.g_app_info_monitor_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
     }
     
     /**
@@ -113,7 +127,7 @@ public class AppInfoMonitor extends org.gtk.gobject.Object {
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(AppInfoMonitor.Callbacks.class, "signalAppInfoMonitorChanged",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                     Interop.getScope()),
                 Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
@@ -122,12 +136,53 @@ public class AppInfoMonitor extends org.gtk.gobject.Object {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gobject.Object.Build {
+        
+         /**
+         * A {@link AppInfoMonitor.Build} object constructs a {@link AppInfoMonitor} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link AppInfoMonitor} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link AppInfoMonitor} using {@link AppInfoMonitor#castFrom}.
+         * @return A new instance of {@code AppInfoMonitor} with the properties 
+         *         that were set in the Build object.
+         */
+        public AppInfoMonitor construct() {
+            return AppInfoMonitor.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    AppInfoMonitor.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+    }
     
     private static class DowncallHandles {
         
+        private static final MethodHandle g_app_info_monitor_get_type = Interop.downcallHandle(
+            "g_app_info_monitor_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+            false
+        );
+        
         private static final MethodHandle g_app_info_monitor_get = Interop.downcallHandle(
             "g_app_info_monitor_get",
-            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
             false
         );
     }
@@ -135,9 +190,9 @@ public class AppInfoMonitor extends org.gtk.gobject.Object {
     private static class Callbacks {
         
         public static void signalAppInfoMonitorChanged(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (AppInfoMonitor.Changed) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new AppInfoMonitor(source, Ownership.UNKNOWN));
+            HANDLER.signalReceived(new AppInfoMonitor(source, Ownership.NONE));
         }
     }
 }

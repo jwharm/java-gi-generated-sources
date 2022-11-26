@@ -9,7 +9,7 @@ import org.jetbrains.annotations.*;
  * Class structure for {@link ProxyAddress}.
  * @version 2.26
  */
-public class ProxyAddressClass extends io.github.jwharm.javagi.ProxyBase {
+public class ProxyAddressClass extends Struct {
     
     static {
         Gio.javagi$ensureInitialized();
@@ -17,7 +17,7 @@ public class ProxyAddressClass extends io.github.jwharm.javagi.ProxyBase {
     
     private static final java.lang.String C_TYPE_NAME = "GProxyAddressClass";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gio.InetSocketAddressClass.getMemoryLayout().withName("parent_class")
     ).withName(C_TYPE_NAME);
     
@@ -32,6 +32,10 @@ public class ProxyAddressClass extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link ProxyAddressClass}
+     * @return A new, uninitialized @{link ProxyAddressClass}
+     */
     public static ProxyAddressClass allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         ProxyAddressClass newInstance = new ProxyAddressClass(segment.address(), Ownership.NONE);
@@ -56,5 +60,40 @@ public class ProxyAddressClass extends io.github.jwharm.javagi.ProxyBase {
     @ApiStatus.Internal
     public ProxyAddressClass(Addressable address, Ownership ownership) {
         super(address, ownership);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private ProxyAddressClass struct;
+        
+         /**
+         * A {@link ProxyAddressClass.Build} object constructs a {@link ProxyAddressClass} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = ProxyAddressClass.allocate();
+        }
+        
+         /**
+         * Finish building the {@link ProxyAddressClass} struct.
+         * @return A new instance of {@code ProxyAddressClass} with the fields 
+         *         that were set in the Build object.
+         */
+        public ProxyAddressClass construct() {
+            return struct;
+        }
+        
+        public Build setParentClass(org.gtk.gio.InetSocketAddressClass parent_class) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parent_class == null ? MemoryAddress.NULL : parent_class.handle()));
+            return this;
+        }
     }
 }

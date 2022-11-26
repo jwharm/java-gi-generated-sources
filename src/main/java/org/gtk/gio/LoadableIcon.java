@@ -24,7 +24,7 @@ public interface LoadableIcon extends io.github.jwharm.javagi.Proxy {
      * @throws ClassCastException If the GType is not derived from "GLoadableIcon", a ClassCastException will be thrown.
      */
     public static LoadableIcon castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GLoadableIcon"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), LoadableIcon.getType())) {
             return new LoadableIconImpl(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GLoadableIcon");
@@ -44,8 +44,8 @@ public interface LoadableIcon extends io.github.jwharm.javagi.Proxy {
      */
     default @NotNull org.gtk.gio.InputStream load(int size, @NotNull Out<java.lang.String> type, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(type, "Parameter 'type' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        MemorySegment typePOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment typePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_loadable_icon_load.invokeExact(
@@ -60,7 +60,7 @@ public interface LoadableIcon extends io.github.jwharm.javagi.Proxy {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        type.set(Interop.getStringFrom(typePOINTER.get(ValueLayout.ADDRESS, 0)));
+        type.set(Interop.getStringFrom(typePOINTER.get(Interop.valueLayout.ADDRESS, 0)));
         return new org.gtk.gio.InputStream(RESULT, Ownership.FULL);
     }
     
@@ -82,7 +82,7 @@ public interface LoadableIcon extends io.github.jwharm.javagi.Proxy {
                     (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                         Interop.getScope())),
                     (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
         } catch (Throwable ERR) {
@@ -101,8 +101,8 @@ public interface LoadableIcon extends io.github.jwharm.javagi.Proxy {
     default @NotNull org.gtk.gio.InputStream loadFinish(@NotNull org.gtk.gio.AsyncResult res, @NotNull Out<java.lang.String> type) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
         java.util.Objects.requireNonNull(type, "Parameter 'type' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        MemorySegment typePOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment typePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_loadable_icon_load_finish.invokeExact(
@@ -116,8 +116,22 @@ public interface LoadableIcon extends io.github.jwharm.javagi.Proxy {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        type.set(Interop.getStringFrom(typePOINTER.get(ValueLayout.ADDRESS, 0)));
+        type.set(Interop.getStringFrom(typePOINTER.get(Interop.valueLayout.ADDRESS, 0)));
         return new org.gtk.gio.InputStream(RESULT, Ownership.FULL);
+    }
+    
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.g_loadable_icon_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
     }
     
     @ApiStatus.Internal
@@ -126,21 +140,28 @@ public interface LoadableIcon extends io.github.jwharm.javagi.Proxy {
         @ApiStatus.Internal
         static final MethodHandle g_loadable_icon_load = Interop.downcallHandle(
             "g_loadable_icon_load",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_loadable_icon_load_async = Interop.downcallHandle(
             "g_loadable_icon_load_async",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_loadable_icon_load_finish = Interop.downcallHandle(
             "g_loadable_icon_load_finish",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+            false
+        );
+        
+        @ApiStatus.Internal
+        static final MethodHandle g_loadable_icon_get_type = Interop.downcallHandle(
+            "g_loadable_icon_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }

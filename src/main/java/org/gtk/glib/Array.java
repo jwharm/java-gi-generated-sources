@@ -8,7 +8,7 @@ import org.jetbrains.annotations.*;
 /**
  * Contains the public fields of a GArray.
  */
-public class Array extends io.github.jwharm.javagi.ProxyBase {
+public class Array extends Struct {
     
     static {
         GLib.javagi$ensureInitialized();
@@ -16,9 +16,9 @@ public class Array extends io.github.jwharm.javagi.ProxyBase {
     
     private static final java.lang.String C_TYPE_NAME = "GArray";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
         Interop.valueLayout.ADDRESS.withName("data"),
-        ValueLayout.JAVA_INT.withName("len")
+        Interop.valueLayout.C_INT.withName("len")
     ).withName(C_TYPE_NAME);
     
     /**
@@ -32,6 +32,10 @@ public class Array extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link Array}
+     * @return A new, uninitialized @{link Array}
+     */
     public static Array allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         Array newInstance = new Array(segment.address(), Ownership.NONE);
@@ -104,7 +108,7 @@ public class Array extends io.github.jwharm.javagi.ProxyBase {
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_array_append_vals.invokeExact(
                     Interop.allocateNativeArray(array, false),
-                    data,
+                    (Addressable) data,
                     len);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -245,7 +249,7 @@ public class Array extends io.github.jwharm.javagi.ProxyBase {
             RESULT = (MemoryAddress) DowncallHandles.g_array_insert_vals.invokeExact(
                     Interop.allocateNativeArray(array, false),
                     index,
-                    data,
+                    (Addressable) data,
                     len);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -295,7 +299,7 @@ public class Array extends io.github.jwharm.javagi.ProxyBase {
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_array_prepend_vals.invokeExact(
                     Interop.allocateNativeArray(array, false),
-                    data,
+                    (Addressable) data,
                     len);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -505,7 +509,7 @@ public class Array extends io.github.jwharm.javagi.ProxyBase {
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbCompareDataFunc",
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                         Interop.getScope()),
                     (Addressable) (Interop.registerCallback(compareFunc)));
         } catch (Throwable ERR) {
@@ -541,7 +545,7 @@ public class Array extends io.github.jwharm.javagi.ProxyBase {
     public static @Nullable java.lang.foreign.MemoryAddress steal(@NotNull java.lang.foreign.MemoryAddress[] array, Out<Long> len) {
         java.util.Objects.requireNonNull(array, "Parameter 'array' must not be null");
         java.util.Objects.requireNonNull(len, "Parameter 'len' must not be null");
-        MemorySegment lenPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_LONG);
+        MemorySegment lenPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_array_steal.invokeExact(
@@ -550,7 +554,7 @@ public class Array extends io.github.jwharm.javagi.ProxyBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        len.set(lenPOINTER.get(ValueLayout.JAVA_LONG, 0));
+        len.set(lenPOINTER.get(Interop.valueLayout.C_LONG, 0));
         return RESULT;
     }
     
@@ -575,116 +579,170 @@ public class Array extends io.github.jwharm.javagi.ProxyBase {
         
         private static final MethodHandle g_array_append_vals = Interop.downcallHandle(
             "g_array_append_vals",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_array_binary_search = Interop.downcallHandle(
             "g_array_binary_search",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_array_copy = Interop.downcallHandle(
             "g_array_copy",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_array_free = Interop.downcallHandle(
             "g_array_free",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_array_get_element_size = Interop.downcallHandle(
             "g_array_get_element_size",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_array_insert_vals = Interop.downcallHandle(
             "g_array_insert_vals",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_array_new = Interop.downcallHandle(
             "g_array_new",
-            FunctionDescriptor.ofVoid(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_array_prepend_vals = Interop.downcallHandle(
             "g_array_prepend_vals",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_array_ref = Interop.downcallHandle(
             "g_array_ref",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_array_remove_index = Interop.downcallHandle(
             "g_array_remove_index",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_array_remove_index_fast = Interop.downcallHandle(
             "g_array_remove_index_fast",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_array_remove_range = Interop.downcallHandle(
             "g_array_remove_range",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_array_set_clear_func = Interop.downcallHandle(
             "g_array_set_clear_func",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_array_set_size = Interop.downcallHandle(
             "g_array_set_size",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_array_sized_new = Interop.downcallHandle(
             "g_array_sized_new",
-            FunctionDescriptor.ofVoid(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_array_sort = Interop.downcallHandle(
             "g_array_sort",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_array_sort_with_data = Interop.downcallHandle(
             "g_array_sort_with_data",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_array_steal = Interop.downcallHandle(
             "g_array_steal",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_array_unref = Interop.downcallHandle(
             "g_array_unref",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private Array struct;
+        
+         /**
+         * A {@link Array.Build} object constructs a {@link Array} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = Array.allocate();
+        }
+        
+         /**
+         * Finish building the {@link Array} struct.
+         * @return A new instance of {@code Array} with the fields 
+         *         that were set in the Build object.
+         */
+        public Array construct() {
+            return struct;
+        }
+        
+        /**
+         * a pointer to the element data. The data may be moved as
+         *     elements are added to the {@link Array}.
+         * @param data The value for the {@code data} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setData(java.lang.String data) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("data"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (data == null ? MemoryAddress.NULL : Interop.allocateNativeString(data)));
+            return this;
+        }
+        
+        /**
+         * the number of elements in the {@link Array} not including the
+         *     possible terminating zero element.
+         * @param len The value for the {@code len} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setLen(int len) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("len"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), len);
+            return this;
+        }
     }
 }

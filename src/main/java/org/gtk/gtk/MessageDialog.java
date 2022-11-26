@@ -69,7 +69,7 @@ public class MessageDialog extends org.gtk.gtk.Dialog implements org.gtk.gtk.Acc
     
     private static final java.lang.String C_TYPE_NAME = "GtkMessageDialog";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gtk.Dialog.getMemoryLayout().withName("parent_instance")
     ).withName(C_TYPE_NAME);
     
@@ -114,7 +114,7 @@ public class MessageDialog extends org.gtk.gtk.Dialog implements org.gtk.gtk.Acc
      * @throws ClassCastException If the GType is not derived from "GtkMessageDialog", a ClassCastException will be thrown.
      */
     public static MessageDialog castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkMessageDialog"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), MessageDialog.getType())) {
             return new MessageDialog(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkMessageDialog");
@@ -301,41 +301,177 @@ public class MessageDialog extends org.gtk.gtk.Dialog implements org.gtk.gtk.Acc
         }
     }
     
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.gtk_message_dialog_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gtk.Dialog.Build {
+        
+         /**
+         * A {@link MessageDialog.Build} object constructs a {@link MessageDialog} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link MessageDialog} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link MessageDialog} using {@link MessageDialog#castFrom}.
+         * @return A new instance of {@code MessageDialog} with the properties 
+         *         that were set in the Build object.
+         */
+        public MessageDialog construct() {
+            return MessageDialog.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    MessageDialog.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+        
+        public Build setButtons(org.gtk.gtk.ButtonsType buttons) {
+            names.add("buttons");
+            values.add(org.gtk.gobject.Value.create(buttons));
+            return this;
+        }
+        
+        /**
+         * The {@code GtkBox} that corresponds to the message area of this dialog.
+         * <p>
+         * See {@link MessageDialog#getMessageArea} for a detailed
+         * description of this area.
+         * @param messageArea The value for the {@code message-area} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setMessageArea(org.gtk.gtk.Widget messageArea) {
+            names.add("message-area");
+            values.add(org.gtk.gobject.Value.create(messageArea));
+            return this;
+        }
+        
+        /**
+         * The type of the message.
+         * @param messageType The value for the {@code message-type} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setMessageType(org.gtk.gtk.MessageType messageType) {
+            names.add("message-type");
+            values.add(org.gtk.gobject.Value.create(messageType));
+            return this;
+        }
+        
+        /**
+         * The secondary text of the message dialog.
+         * @param secondaryText The value for the {@code secondary-text} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setSecondaryText(java.lang.String secondaryText) {
+            names.add("secondary-text");
+            values.add(org.gtk.gobject.Value.create(secondaryText));
+            return this;
+        }
+        
+        /**
+         * {@code true} if the secondary text of the dialog includes Pango markup.
+         * <p>
+         * See {@link org.pango.Pango#parseMarkup}.
+         * @param secondaryUseMarkup The value for the {@code secondary-use-markup} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setSecondaryUseMarkup(boolean secondaryUseMarkup) {
+            names.add("secondary-use-markup");
+            values.add(org.gtk.gobject.Value.create(secondaryUseMarkup));
+            return this;
+        }
+        
+        /**
+         * The primary text of the message dialog.
+         * <p>
+         * If the dialog has a secondary text, this will appear as the title.
+         * @param text The value for the {@code text} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setText(java.lang.String text) {
+            names.add("text");
+            values.add(org.gtk.gobject.Value.create(text));
+            return this;
+        }
+        
+        /**
+         * {@code true} if the primary text of the dialog includes Pango markup.
+         * <p>
+         * See {@link org.pango.Pango#parseMarkup}.
+         * @param useMarkup The value for the {@code use-markup} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setUseMarkup(boolean useMarkup) {
+            names.add("use-markup");
+            values.add(org.gtk.gobject.Value.create(useMarkup));
+            return this;
+        }
+    }
+    
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_message_dialog_new = Interop.downcallHandle(
             "gtk_message_dialog_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             true
         );
         
         private static final MethodHandle gtk_message_dialog_new_with_markup = Interop.downcallHandle(
             "gtk_message_dialog_new_with_markup",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             true
         );
         
         private static final MethodHandle gtk_message_dialog_format_secondary_markup = Interop.downcallHandle(
             "gtk_message_dialog_format_secondary_markup",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             true
         );
         
         private static final MethodHandle gtk_message_dialog_format_secondary_text = Interop.downcallHandle(
             "gtk_message_dialog_format_secondary_text",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             true
         );
         
         private static final MethodHandle gtk_message_dialog_get_message_area = Interop.downcallHandle(
             "gtk_message_dialog_get_message_area",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_message_dialog_set_markup = Interop.downcallHandle(
             "gtk_message_dialog_set_markup",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+            false
+        );
+        
+        private static final MethodHandle gtk_message_dialog_get_type = Interop.downcallHandle(
+            "gtk_message_dialog_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }

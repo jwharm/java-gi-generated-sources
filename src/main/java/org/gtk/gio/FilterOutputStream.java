@@ -19,7 +19,7 @@ public class FilterOutputStream extends org.gtk.gio.OutputStream {
     
     private static final java.lang.String C_TYPE_NAME = "GFilterOutputStream";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gio.OutputStream.getMemoryLayout().withName("parent_instance"),
         Interop.valueLayout.ADDRESS.withName("base_stream")
     ).withName(C_TYPE_NAME);
@@ -86,7 +86,7 @@ public class FilterOutputStream extends org.gtk.gio.OutputStream {
      * @throws ClassCastException If the GType is not derived from "GFilterOutputStream", a ClassCastException will be thrown.
      */
     public static FilterOutputStream castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GFilterOutputStream"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), FilterOutputStream.getType())) {
             return new FilterOutputStream(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GFilterOutputStream");
@@ -138,23 +138,90 @@ public class FilterOutputStream extends org.gtk.gio.OutputStream {
         }
     }
     
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.g_filter_output_stream_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gio.OutputStream.Build {
+        
+         /**
+         * A {@link FilterOutputStream.Build} object constructs a {@link FilterOutputStream} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link FilterOutputStream} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link FilterOutputStream} using {@link FilterOutputStream#castFrom}.
+         * @return A new instance of {@code FilterOutputStream} with the properties 
+         *         that were set in the Build object.
+         */
+        public FilterOutputStream construct() {
+            return FilterOutputStream.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    FilterOutputStream.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+        
+        public Build setBaseStream(org.gtk.gio.OutputStream baseStream) {
+            names.add("base-stream");
+            values.add(org.gtk.gobject.Value.create(baseStream));
+            return this;
+        }
+        
+        public Build setCloseBaseStream(boolean closeBaseStream) {
+            names.add("close-base-stream");
+            values.add(org.gtk.gobject.Value.create(closeBaseStream));
+            return this;
+        }
+    }
+    
     private static class DowncallHandles {
         
         private static final MethodHandle g_filter_output_stream_get_base_stream = Interop.downcallHandle(
             "g_filter_output_stream_get_base_stream",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_filter_output_stream_get_close_base_stream = Interop.downcallHandle(
             "g_filter_output_stream_get_close_base_stream",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_filter_output_stream_set_close_base_stream = Interop.downcallHandle(
             "g_filter_output_stream_set_close_base_stream",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+            false
+        );
+        
+        private static final MethodHandle g_filter_output_stream_get_type = Interop.downcallHandle(
+            "g_filter_output_stream_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }

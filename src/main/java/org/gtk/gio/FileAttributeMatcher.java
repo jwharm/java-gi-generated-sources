@@ -8,7 +8,7 @@ import org.jetbrains.annotations.*;
 /**
  * Determines if a string matches a file attribute.
  */
-public class FileAttributeMatcher extends io.github.jwharm.javagi.ProxyBase {
+public class FileAttributeMatcher extends Struct {
     
     static {
         Gio.javagi$ensureInitialized();
@@ -27,6 +27,10 @@ public class FileAttributeMatcher extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link FileAttributeMatcher}
+     * @return A new, uninitialized @{link FileAttributeMatcher}
+     */
     public static FileAttributeMatcher allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         FileAttributeMatcher newInstance = new FileAttributeMatcher(segment.address(), Ownership.NONE);
@@ -238,56 +242,84 @@ public class FileAttributeMatcher extends io.github.jwharm.javagi.ProxyBase {
         
         private static final MethodHandle g_file_attribute_matcher_new = Interop.downcallHandle(
             "g_file_attribute_matcher_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_file_attribute_matcher_enumerate_namespace = Interop.downcallHandle(
             "g_file_attribute_matcher_enumerate_namespace",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_file_attribute_matcher_enumerate_next = Interop.downcallHandle(
             "g_file_attribute_matcher_enumerate_next",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_file_attribute_matcher_matches = Interop.downcallHandle(
             "g_file_attribute_matcher_matches",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_file_attribute_matcher_matches_only = Interop.downcallHandle(
             "g_file_attribute_matcher_matches_only",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_file_attribute_matcher_ref = Interop.downcallHandle(
             "g_file_attribute_matcher_ref",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_file_attribute_matcher_subtract = Interop.downcallHandle(
             "g_file_attribute_matcher_subtract",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_file_attribute_matcher_to_string = Interop.downcallHandle(
             "g_file_attribute_matcher_to_string",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_file_attribute_matcher_unref = Interop.downcallHandle(
             "g_file_attribute_matcher_unref",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private FileAttributeMatcher struct;
+        
+         /**
+         * A {@link FileAttributeMatcher.Build} object constructs a {@link FileAttributeMatcher} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = FileAttributeMatcher.allocate();
+        }
+        
+         /**
+         * Finish building the {@link FileAttributeMatcher} struct.
+         * @return A new instance of {@code FileAttributeMatcher} with the fields 
+         *         that were set in the Build object.
+         */
+        public FileAttributeMatcher construct() {
+            return struct;
+        }
     }
 }

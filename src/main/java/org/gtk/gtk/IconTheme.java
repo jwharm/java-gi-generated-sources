@@ -78,7 +78,7 @@ public class IconTheme extends org.gtk.gobject.Object {
      * @throws ClassCastException If the GType is not derived from "GtkIconTheme", a ClassCastException will be thrown.
      */
     public static IconTheme castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkIconTheme"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), IconTheme.getType())) {
             return new IconTheme(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkIconTheme");
@@ -443,6 +443,20 @@ public class IconTheme extends org.gtk.gobject.Object {
     }
     
     /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.gtk_icon_theme_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+    
+    /**
      * Gets the icon theme object associated with {@code display}.
      * <p>
      * If this function has not previously been called for the given
@@ -490,7 +504,7 @@ public class IconTheme extends org.gtk.gobject.Object {
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(IconTheme.Callbacks.class, "signalIconThemeChanged",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                     Interop.getScope()),
                 Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
@@ -499,108 +513,175 @@ public class IconTheme extends org.gtk.gobject.Object {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gobject.Object.Build {
+        
+         /**
+         * A {@link IconTheme.Build} object constructs a {@link IconTheme} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link IconTheme} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link IconTheme} using {@link IconTheme#castFrom}.
+         * @return A new instance of {@code IconTheme} with the properties 
+         *         that were set in the Build object.
+         */
+        public IconTheme construct() {
+            return IconTheme.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    IconTheme.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+        
+        /**
+         * The display that this icon theme object is attached to.
+         * @param display The value for the {@code display} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setDisplay(org.gtk.gdk.Display display) {
+            names.add("display");
+            values.add(org.gtk.gobject.Value.create(display));
+            return this;
+        }
+        
+        /**
+         * The name of the icon theme that is being used.
+         * <p>
+         * Unless set to a different value, this will be the value of
+         * the {@code GtkSettings:gtk-icon-theme-name} property of the {@code GtkSettings}
+         * object associated to the display of the icontheme object.
+         * @param themeName The value for the {@code theme-name} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setThemeName(java.lang.String themeName) {
+            names.add("theme-name");
+            values.add(org.gtk.gobject.Value.create(themeName));
+            return this;
+        }
+    }
     
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_icon_theme_new = Interop.downcallHandle(
             "gtk_icon_theme_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_icon_theme_add_resource_path = Interop.downcallHandle(
             "gtk_icon_theme_add_resource_path",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_icon_theme_add_search_path = Interop.downcallHandle(
             "gtk_icon_theme_add_search_path",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_icon_theme_get_display = Interop.downcallHandle(
             "gtk_icon_theme_get_display",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_icon_theme_get_icon_names = Interop.downcallHandle(
             "gtk_icon_theme_get_icon_names",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_icon_theme_get_icon_sizes = Interop.downcallHandle(
             "gtk_icon_theme_get_icon_sizes",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_icon_theme_get_resource_path = Interop.downcallHandle(
             "gtk_icon_theme_get_resource_path",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_icon_theme_get_search_path = Interop.downcallHandle(
             "gtk_icon_theme_get_search_path",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_icon_theme_get_theme_name = Interop.downcallHandle(
             "gtk_icon_theme_get_theme_name",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_icon_theme_has_gicon = Interop.downcallHandle(
             "gtk_icon_theme_has_gicon",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_icon_theme_has_icon = Interop.downcallHandle(
             "gtk_icon_theme_has_icon",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_icon_theme_lookup_by_gicon = Interop.downcallHandle(
             "gtk_icon_theme_lookup_by_gicon",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_icon_theme_lookup_icon = Interop.downcallHandle(
             "gtk_icon_theme_lookup_icon",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_icon_theme_set_resource_path = Interop.downcallHandle(
             "gtk_icon_theme_set_resource_path",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_icon_theme_set_search_path = Interop.downcallHandle(
             "gtk_icon_theme_set_search_path",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_icon_theme_set_theme_name = Interop.downcallHandle(
             "gtk_icon_theme_set_theme_name",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+            false
+        );
+        
+        private static final MethodHandle gtk_icon_theme_get_type = Interop.downcallHandle(
+            "gtk_icon_theme_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
         
         private static final MethodHandle gtk_icon_theme_get_for_display = Interop.downcallHandle(
             "gtk_icon_theme_get_for_display",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
     }
@@ -608,9 +689,9 @@ public class IconTheme extends org.gtk.gobject.Object {
     private static class Callbacks {
         
         public static void signalIconThemeChanged(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (IconTheme.Changed) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new IconTheme(source, Ownership.UNKNOWN));
+            HANDLER.signalReceived(new IconTheme(source, Ownership.NONE));
         }
     }
 }

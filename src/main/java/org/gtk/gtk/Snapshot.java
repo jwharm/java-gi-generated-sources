@@ -25,7 +25,7 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
         Gtk.javagi$ensureInitialized();
     }
     
-    private static final java.lang.String C_TYPE_NAME = "null";
+    private static final java.lang.String C_TYPE_NAME = "Snapshot";
     
     /**
      * Memory layout of the native struct is unknown.
@@ -47,7 +47,7 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
     }
     
     /**
-     * Cast object to Snapshot if its GType is a (or inherits from) "null".
+     * Cast object to Snapshot if its GType is a (or inherits from) "Snapshot".
      * <p>
      * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
      * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
@@ -56,13 +56,13 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
      * @param  gobject            An object that inherits from GObject
      * @return                    A new proxy instance of type {@code Snapshot} that points to the memory address of the provided GObject.
      *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "null", a ClassCastException will be thrown.
+     * @throws ClassCastException If the GType is not derived from "Snapshot", a ClassCastException will be thrown.
      */
     public static Snapshot castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("null"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), Snapshot.getType())) {
             return new Snapshot(gobject.handle(), gobject.yieldOwnership());
         } else {
-            throw new ClassCastException("Object type is not an instance of null");
+            throw new ClassCastException("Object type is not an instance of Snapshot");
         }
     }
     
@@ -102,7 +102,7 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
                     handle(),
                     outline.handle(),
                     Interop.allocateNativeArray(borderWidth, false),
-                    Interop.allocateNativeArray(borderColor, false));
+                    Interop.allocateNativeArray(borderColor, org.gtk.gdk.RGBA.getMemoryLayout(), false));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -170,7 +170,7 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
                     bounds.handle(),
                     center.handle(),
                     rotation,
-                    Interop.allocateNativeArray(stops, false),
+                    Interop.allocateNativeArray(stops, org.gtk.gsk.ColorStop.getMemoryLayout(), false),
                     nStops);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -235,7 +235,7 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
                     bounds.handle(),
                     startPoint.handle(),
                     endPoint.handle(),
-                    Interop.allocateNativeArray(stops, false),
+                    Interop.allocateNativeArray(stops, org.gtk.gsk.ColorStop.getMemoryLayout(), false),
                     nStops);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -311,7 +311,7 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
                     vradius,
                     start,
                     end,
-                    Interop.allocateNativeArray(stops, false),
+                    Interop.allocateNativeArray(stops, org.gtk.gsk.ColorStop.getMemoryLayout(), false),
                     nStops);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -337,7 +337,7 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
                     bounds.handle(),
                     startPoint.handle(),
                     endPoint.handle(),
-                    Interop.allocateNativeArray(stops, false),
+                    Interop.allocateNativeArray(stops, org.gtk.gsk.ColorStop.getMemoryLayout(), false),
                     nStops);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -368,7 +368,7 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
                     vradius,
                     start,
                     end,
-                    Interop.allocateNativeArray(stops, false),
+                    Interop.allocateNativeArray(stops, org.gtk.gsk.ColorStop.getMemoryLayout(), false),
                     nStops);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -718,7 +718,7 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
         try {
             DowncallHandles.gtk_snapshot_push_shadow.invokeExact(
                     handle(),
-                    Interop.allocateNativeArray(shadow, false),
+                    Interop.allocateNativeArray(shadow, org.gtk.gsk.Shadow.getMemoryLayout(), false),
                     nShadows);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -1062,287 +1062,342 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
         }
     }
     
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.gtk_snapshot_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gdk.Snapshot.Build {
+        
+         /**
+         * A {@link Snapshot.Build} object constructs a {@link Snapshot} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link Snapshot} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link Snapshot} using {@link Snapshot#castFrom}.
+         * @return A new instance of {@code Snapshot} with the properties 
+         *         that were set in the Build object.
+         */
+        public Snapshot construct() {
+            return Snapshot.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    Snapshot.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+    }
+    
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_snapshot_new = Interop.downcallHandle(
             "gtk_snapshot_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_snapshot_append_border = Interop.downcallHandle(
             "gtk_snapshot_append_border",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_snapshot_append_cairo = Interop.downcallHandle(
             "gtk_snapshot_append_cairo",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_snapshot_append_color = Interop.downcallHandle(
             "gtk_snapshot_append_color",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_snapshot_append_conic_gradient = Interop.downcallHandle(
             "gtk_snapshot_append_conic_gradient",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_FLOAT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
             false
         );
         
         private static final MethodHandle gtk_snapshot_append_inset_shadow = Interop.downcallHandle(
             "gtk_snapshot_append_inset_shadow",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_FLOAT, Interop.valueLayout.C_FLOAT, Interop.valueLayout.C_FLOAT, Interop.valueLayout.C_FLOAT),
             false
         );
         
         private static final MethodHandle gtk_snapshot_append_layout = Interop.downcallHandle(
             "gtk_snapshot_append_layout",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_snapshot_append_linear_gradient = Interop.downcallHandle(
             "gtk_snapshot_append_linear_gradient",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
             false
         );
         
         private static final MethodHandle gtk_snapshot_append_node = Interop.downcallHandle(
             "gtk_snapshot_append_node",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_snapshot_append_outset_shadow = Interop.downcallHandle(
             "gtk_snapshot_append_outset_shadow",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_FLOAT, Interop.valueLayout.C_FLOAT, Interop.valueLayout.C_FLOAT, Interop.valueLayout.C_FLOAT),
             false
         );
         
         private static final MethodHandle gtk_snapshot_append_radial_gradient = Interop.downcallHandle(
             "gtk_snapshot_append_radial_gradient",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_FLOAT, Interop.valueLayout.C_FLOAT, Interop.valueLayout.C_FLOAT, Interop.valueLayout.C_FLOAT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
             false
         );
         
         private static final MethodHandle gtk_snapshot_append_repeating_linear_gradient = Interop.downcallHandle(
             "gtk_snapshot_append_repeating_linear_gradient",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
             false
         );
         
         private static final MethodHandle gtk_snapshot_append_repeating_radial_gradient = Interop.downcallHandle(
             "gtk_snapshot_append_repeating_radial_gradient",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_FLOAT, Interop.valueLayout.C_FLOAT, Interop.valueLayout.C_FLOAT, Interop.valueLayout.C_FLOAT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
             false
         );
         
         private static final MethodHandle gtk_snapshot_append_texture = Interop.downcallHandle(
             "gtk_snapshot_append_texture",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_snapshot_free_to_node = Interop.downcallHandle(
             "gtk_snapshot_free_to_node",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_snapshot_free_to_paintable = Interop.downcallHandle(
             "gtk_snapshot_free_to_paintable",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_snapshot_gl_shader_pop_texture = Interop.downcallHandle(
             "gtk_snapshot_gl_shader_pop_texture",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_snapshot_perspective = Interop.downcallHandle(
             "gtk_snapshot_perspective",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_FLOAT),
             false
         );
         
         private static final MethodHandle gtk_snapshot_pop = Interop.downcallHandle(
             "gtk_snapshot_pop",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_snapshot_push_blend = Interop.downcallHandle(
             "gtk_snapshot_push_blend",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_snapshot_push_blur = Interop.downcallHandle(
             "gtk_snapshot_push_blur",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE),
             false
         );
         
         private static final MethodHandle gtk_snapshot_push_clip = Interop.downcallHandle(
             "gtk_snapshot_push_clip",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_snapshot_push_color_matrix = Interop.downcallHandle(
             "gtk_snapshot_push_color_matrix",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_snapshot_push_cross_fade = Interop.downcallHandle(
             "gtk_snapshot_push_cross_fade",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE),
             false
         );
         
         private static final MethodHandle gtk_snapshot_push_debug = Interop.downcallHandle(
             "gtk_snapshot_push_debug",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             true
         );
         
         private static final MethodHandle gtk_snapshot_push_gl_shader = Interop.downcallHandle(
             "gtk_snapshot_push_gl_shader",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_snapshot_push_opacity = Interop.downcallHandle(
             "gtk_snapshot_push_opacity",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE),
             false
         );
         
         private static final MethodHandle gtk_snapshot_push_repeat = Interop.downcallHandle(
             "gtk_snapshot_push_repeat",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_snapshot_push_rounded_clip = Interop.downcallHandle(
             "gtk_snapshot_push_rounded_clip",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_snapshot_push_shadow = Interop.downcallHandle(
             "gtk_snapshot_push_shadow",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
             false
         );
         
         private static final MethodHandle gtk_snapshot_render_background = Interop.downcallHandle(
             "gtk_snapshot_render_background",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_DOUBLE),
             false
         );
         
         private static final MethodHandle gtk_snapshot_render_focus = Interop.downcallHandle(
             "gtk_snapshot_render_focus",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_DOUBLE),
             false
         );
         
         private static final MethodHandle gtk_snapshot_render_frame = Interop.downcallHandle(
             "gtk_snapshot_render_frame",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_DOUBLE),
             false
         );
         
         private static final MethodHandle gtk_snapshot_render_insertion_cursor = Interop.downcallHandle(
             "gtk_snapshot_render_insertion_cursor",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_snapshot_render_layout = Interop.downcallHandle(
             "gtk_snapshot_render_layout",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_snapshot_restore = Interop.downcallHandle(
             "gtk_snapshot_restore",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_snapshot_rotate = Interop.downcallHandle(
             "gtk_snapshot_rotate",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_FLOAT),
             false
         );
         
         private static final MethodHandle gtk_snapshot_rotate_3d = Interop.downcallHandle(
             "gtk_snapshot_rotate_3d",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_FLOAT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_snapshot_save = Interop.downcallHandle(
             "gtk_snapshot_save",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_snapshot_scale = Interop.downcallHandle(
             "gtk_snapshot_scale",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_FLOAT, Interop.valueLayout.C_FLOAT),
             false
         );
         
         private static final MethodHandle gtk_snapshot_scale_3d = Interop.downcallHandle(
             "gtk_snapshot_scale_3d",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_FLOAT, Interop.valueLayout.C_FLOAT, Interop.valueLayout.C_FLOAT),
             false
         );
         
         private static final MethodHandle gtk_snapshot_to_node = Interop.downcallHandle(
             "gtk_snapshot_to_node",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_snapshot_to_paintable = Interop.downcallHandle(
             "gtk_snapshot_to_paintable",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_snapshot_transform = Interop.downcallHandle(
             "gtk_snapshot_transform",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_snapshot_transform_matrix = Interop.downcallHandle(
             "gtk_snapshot_transform_matrix",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_snapshot_translate = Interop.downcallHandle(
             "gtk_snapshot_translate",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_snapshot_translate_3d = Interop.downcallHandle(
             "gtk_snapshot_translate_3d",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+            false
+        );
+        
+        private static final MethodHandle gtk_snapshot_get_type = Interop.downcallHandle(
+            "gtk_snapshot_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }

@@ -5,7 +5,7 @@ import java.lang.foreign.*;
 import java.lang.invoke.*;
 import org.jetbrains.annotations.*;
 
-public class ScaleClass extends io.github.jwharm.javagi.ProxyBase {
+public class ScaleClass extends Struct {
     
     static {
         Gtk.javagi$ensureInitialized();
@@ -13,11 +13,10 @@ public class ScaleClass extends io.github.jwharm.javagi.ProxyBase {
     
     private static final java.lang.String C_TYPE_NAME = "GtkScaleClass";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gtk.RangeClass.getMemoryLayout().withName("parent_class"),
         Interop.valueLayout.ADDRESS.withName("get_layout_offsets"),
-        MemoryLayout.paddingLayout(384),
-        MemoryLayout.sequenceLayout(8, ValueLayout.ADDRESS).withName("padding")
+        MemoryLayout.sequenceLayout(8, Interop.valueLayout.ADDRESS).withName("padding")
     ).withName(C_TYPE_NAME);
     
     /**
@@ -31,6 +30,10 @@ public class ScaleClass extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link ScaleClass}
+     * @return A new, uninitialized @{link ScaleClass}
+     */
     public static ScaleClass allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         ScaleClass newInstance = new ScaleClass(segment.address(), Ownership.NONE);
@@ -55,5 +58,54 @@ public class ScaleClass extends io.github.jwharm.javagi.ProxyBase {
     @ApiStatus.Internal
     public ScaleClass(Addressable address, Ownership ownership) {
         super(address, ownership);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private ScaleClass struct;
+        
+         /**
+         * A {@link ScaleClass.Build} object constructs a {@link ScaleClass} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = ScaleClass.allocate();
+        }
+        
+         /**
+         * Finish building the {@link ScaleClass} struct.
+         * @return A new instance of {@code ScaleClass} with the fields 
+         *         that were set in the Build object.
+         */
+        public ScaleClass construct() {
+            return struct;
+        }
+        
+        public Build setParentClass(org.gtk.gtk.RangeClass parent_class) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parent_class == null ? MemoryAddress.NULL : parent_class.handle()));
+            return this;
+        }
+        
+        public Build setGetLayoutOffsets(java.lang.foreign.MemoryAddress get_layout_offsets) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("get_layout_offsets"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (get_layout_offsets == null ? MemoryAddress.NULL : get_layout_offsets));
+            return this;
+        }
+        
+        public Build setPadding(java.lang.foreign.MemoryAddress[] padding) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("padding"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (padding == null ? MemoryAddress.NULL : Interop.allocateNativeArray(padding, false)));
+            return this;
+        }
     }
 }

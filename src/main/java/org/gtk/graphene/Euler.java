@@ -12,7 +12,7 @@ import org.jetbrains.annotations.*;
  * and should never be accessed directly.
  * @version 1.2
  */
-public class Euler extends io.github.jwharm.javagi.ProxyBase {
+public class Euler extends Struct {
     
     static {
         Graphene.javagi$ensureInitialized();
@@ -20,7 +20,7 @@ public class Euler extends io.github.jwharm.javagi.ProxyBase {
     
     private static final java.lang.String C_TYPE_NAME = "graphene_euler_t";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.graphene.Vec3.getMemoryLayout().withName("angles"),
         Interop.valueLayout.C_INT.withName("order")
     ).withName(C_TYPE_NAME);
@@ -36,6 +36,10 @@ public class Euler extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link Euler}
+     * @return A new, uninitialized @{link Euler}
+     */
     public static Euler allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         Euler newInstance = new Euler(segment.address(), Ownership.NONE);
@@ -475,128 +479,170 @@ public class Euler extends io.github.jwharm.javagi.ProxyBase {
         
         private static final MethodHandle graphene_euler_alloc = Interop.downcallHandle(
             "graphene_euler_alloc",
-            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle graphene_euler_equal = Interop.downcallHandle(
             "graphene_euler_equal",
-            FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_BOOLEAN, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle graphene_euler_free = Interop.downcallHandle(
             "graphene_euler_free",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle graphene_euler_get_alpha = Interop.downcallHandle(
             "graphene_euler_get_alpha",
-            FunctionDescriptor.of(ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_FLOAT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle graphene_euler_get_beta = Interop.downcallHandle(
             "graphene_euler_get_beta",
-            FunctionDescriptor.of(ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_FLOAT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle graphene_euler_get_gamma = Interop.downcallHandle(
             "graphene_euler_get_gamma",
-            FunctionDescriptor.of(ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_FLOAT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle graphene_euler_get_order = Interop.downcallHandle(
             "graphene_euler_get_order",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle graphene_euler_get_x = Interop.downcallHandle(
             "graphene_euler_get_x",
-            FunctionDescriptor.of(ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_FLOAT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle graphene_euler_get_y = Interop.downcallHandle(
             "graphene_euler_get_y",
-            FunctionDescriptor.of(ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_FLOAT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle graphene_euler_get_z = Interop.downcallHandle(
             "graphene_euler_get_z",
-            FunctionDescriptor.of(ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_FLOAT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle graphene_euler_init = Interop.downcallHandle(
             "graphene_euler_init",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_FLOAT, Interop.valueLayout.C_FLOAT, Interop.valueLayout.C_FLOAT),
             false
         );
         
         private static final MethodHandle graphene_euler_init_from_euler = Interop.downcallHandle(
             "graphene_euler_init_from_euler",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle graphene_euler_init_from_matrix = Interop.downcallHandle(
             "graphene_euler_init_from_matrix",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle graphene_euler_init_from_quaternion = Interop.downcallHandle(
             "graphene_euler_init_from_quaternion",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle graphene_euler_init_from_radians = Interop.downcallHandle(
             "graphene_euler_init_from_radians",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_FLOAT, Interop.valueLayout.C_FLOAT, Interop.valueLayout.C_FLOAT, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle graphene_euler_init_from_vec3 = Interop.downcallHandle(
             "graphene_euler_init_from_vec3",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle graphene_euler_init_with_order = Interop.downcallHandle(
             "graphene_euler_init_with_order",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_FLOAT, Interop.valueLayout.C_FLOAT, Interop.valueLayout.C_FLOAT, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle graphene_euler_reorder = Interop.downcallHandle(
             "graphene_euler_reorder",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle graphene_euler_to_matrix = Interop.downcallHandle(
             "graphene_euler_to_matrix",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle graphene_euler_to_quaternion = Interop.downcallHandle(
             "graphene_euler_to_quaternion",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle graphene_euler_to_vec3 = Interop.downcallHandle(
             "graphene_euler_to_vec3",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private Euler struct;
+        
+         /**
+         * A {@link Euler.Build} object constructs a {@link Euler} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = Euler.allocate();
+        }
+        
+         /**
+         * Finish building the {@link Euler} struct.
+         * @return A new instance of {@code Euler} with the fields 
+         *         that were set in the Build object.
+         */
+        public Euler construct() {
+            return struct;
+        }
+        
+        public Build setAngles(org.gtk.graphene.Vec3 angles) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("angles"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (angles == null ? MemoryAddress.NULL : angles.handle()));
+            return this;
+        }
+        
+        public Build setOrder(org.gtk.graphene.EulerOrder order) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("order"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (order == null ? MemoryAddress.NULL : order.getValue()));
+            return this;
+        }
     }
 }

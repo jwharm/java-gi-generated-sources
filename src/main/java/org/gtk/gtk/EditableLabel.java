@@ -74,7 +74,7 @@ public class EditableLabel extends org.gtk.gtk.Widget implements org.gtk.gtk.Acc
      * @throws ClassCastException If the GType is not derived from "GtkEditableLabel", a ClassCastException will be thrown.
      */
     public static EditableLabel castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkEditableLabel"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), EditableLabel.getType())) {
             return new EditableLabel(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkEditableLabel");
@@ -147,29 +147,95 @@ public class EditableLabel extends org.gtk.gtk.Widget implements org.gtk.gtk.Acc
         }
     }
     
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.gtk_editable_label_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gtk.Widget.Build {
+        
+         /**
+         * A {@link EditableLabel.Build} object constructs a {@link EditableLabel} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link EditableLabel} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link EditableLabel} using {@link EditableLabel#castFrom}.
+         * @return A new instance of {@code EditableLabel} with the properties 
+         *         that were set in the Build object.
+         */
+        public EditableLabel construct() {
+            return EditableLabel.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    EditableLabel.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+        
+        /**
+         * This property is {@code true} while the widget is in edit mode.
+         * @param editing The value for the {@code editing} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setEditing(boolean editing) {
+            names.add("editing");
+            values.add(org.gtk.gobject.Value.create(editing));
+            return this;
+        }
+    }
+    
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_editable_label_new = Interop.downcallHandle(
             "gtk_editable_label_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_editable_label_get_editing = Interop.downcallHandle(
             "gtk_editable_label_get_editing",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_editable_label_start_editing = Interop.downcallHandle(
             "gtk_editable_label_start_editing",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_editable_label_stop_editing = Interop.downcallHandle(
             "gtk_editable_label_stop_editing",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+            false
+        );
+        
+        private static final MethodHandle gtk_editable_label_get_type = Interop.downcallHandle(
+            "gtk_editable_label_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }

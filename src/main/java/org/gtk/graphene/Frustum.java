@@ -12,7 +12,7 @@ import org.jetbrains.annotations.*;
  * modified directly.
  * @version 1.2
  */
-public class Frustum extends io.github.jwharm.javagi.ProxyBase {
+public class Frustum extends Struct {
     
     static {
         Graphene.javagi$ensureInitialized();
@@ -20,8 +20,8 @@ public class Frustum extends io.github.jwharm.javagi.ProxyBase {
     
     private static final java.lang.String C_TYPE_NAME = "graphene_frustum_t";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
-        MemoryLayout.sequenceLayout(6, ValueLayout.ADDRESS).withName("planes")
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
+        MemoryLayout.sequenceLayout(6, org.gtk.graphene.Plane.getMemoryLayout()).withName("planes")
     ).withName(C_TYPE_NAME);
     
     /**
@@ -35,6 +35,10 @@ public class Frustum extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link Frustum}
+     * @return A new, uninitialized @{link Frustum}
+     */
     public static Frustum allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         Frustum newInstance = new Frustum(segment.address(), Ownership.NONE);
@@ -130,7 +134,7 @@ public class Frustum extends io.github.jwharm.javagi.ProxyBase {
      */
     public void getPlanes(@NotNull Out<org.gtk.graphene.Plane[]> planes) {
         java.util.Objects.requireNonNull(planes, "Parameter 'planes' must not be null");
-        MemorySegment planesPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment planesPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         try {
             DowncallHandles.graphene_frustum_get_planes.invokeExact(
                     handle(),
@@ -140,7 +144,7 @@ public class Frustum extends io.github.jwharm.javagi.ProxyBase {
         }
         org.gtk.graphene.Plane[] planesARRAY = new org.gtk.graphene.Plane[6];
         for (int I = 0; I < 6; I++) {
-            var OBJ = planesPOINTER.get(ValueLayout.ADDRESS, I);
+            var OBJ = planesPOINTER.get(Interop.valueLayout.ADDRESS, I);
             planesARRAY[I] = new org.gtk.graphene.Plane(OBJ, Ownership.NONE);
         }
         planes.set(planesARRAY);
@@ -259,62 +263,97 @@ public class Frustum extends io.github.jwharm.javagi.ProxyBase {
         
         private static final MethodHandle graphene_frustum_alloc = Interop.downcallHandle(
             "graphene_frustum_alloc",
-            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle graphene_frustum_contains_point = Interop.downcallHandle(
             "graphene_frustum_contains_point",
-            FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_BOOLEAN, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle graphene_frustum_equal = Interop.downcallHandle(
             "graphene_frustum_equal",
-            FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_BOOLEAN, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle graphene_frustum_free = Interop.downcallHandle(
             "graphene_frustum_free",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle graphene_frustum_get_planes = Interop.downcallHandle(
             "graphene_frustum_get_planes",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle graphene_frustum_init = Interop.downcallHandle(
             "graphene_frustum_init",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle graphene_frustum_init_from_frustum = Interop.downcallHandle(
             "graphene_frustum_init_from_frustum",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle graphene_frustum_init_from_matrix = Interop.downcallHandle(
             "graphene_frustum_init_from_matrix",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle graphene_frustum_intersects_box = Interop.downcallHandle(
             "graphene_frustum_intersects_box",
-            FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_BOOLEAN, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle graphene_frustum_intersects_sphere = Interop.downcallHandle(
             "graphene_frustum_intersects_sphere",
-            FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_BOOLEAN, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private Frustum struct;
+        
+         /**
+         * A {@link Frustum.Build} object constructs a {@link Frustum} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = Frustum.allocate();
+        }
+        
+         /**
+         * Finish building the {@link Frustum} struct.
+         * @return A new instance of {@code Frustum} with the fields 
+         *         that were set in the Build object.
+         */
+        public Frustum construct() {
+            return struct;
+        }
+        
+        public Build setPlanes(org.gtk.graphene.Plane[] planes) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("planes"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (planes == null ? MemoryAddress.NULL : Interop.allocateNativeArray(planes, org.gtk.graphene.Plane.getMemoryLayout(), false)));
+            return this;
+        }
     }
 }

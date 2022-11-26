@@ -61,7 +61,7 @@ public class Drop extends org.gtk.gobject.Object {
      * @throws ClassCastException If the GType is not derived from "GdkDrop", a ClassCastException will be thrown.
      */
     public static Drop castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GdkDrop"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), Drop.getType())) {
             return new Drop(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GdkDrop");
@@ -213,7 +213,7 @@ public class Drop extends org.gtk.gobject.Object {
                     (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gdk.Callbacks.class, "cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                         Interop.getScope())),
                     (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
         } catch (Throwable ERR) {
@@ -238,8 +238,8 @@ public class Drop extends org.gtk.gobject.Object {
     public @Nullable org.gtk.gio.InputStream readFinish(@NotNull org.gtk.gio.AsyncResult result, @NotNull Out<java.lang.String> outMimeType) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(result, "Parameter 'result' must not be null");
         java.util.Objects.requireNonNull(outMimeType, "Parameter 'outMimeType' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        MemorySegment outMimeTypePOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment outMimeTypePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gdk_drop_read_finish.invokeExact(
@@ -253,7 +253,7 @@ public class Drop extends org.gtk.gobject.Object {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        outMimeType.set(Interop.getStringFrom(outMimeTypePOINTER.get(ValueLayout.ADDRESS, 0)));
+        outMimeType.set(Interop.getStringFrom(outMimeTypePOINTER.get(Interop.valueLayout.ADDRESS, 0)));
         return new org.gtk.gio.InputStream(RESULT, Ownership.FULL);
     }
     
@@ -284,7 +284,7 @@ public class Drop extends org.gtk.gobject.Object {
                     (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gdk.Callbacks.class, "cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                         Interop.getScope())),
                     (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
         } catch (Throwable ERR) {
@@ -302,7 +302,7 @@ public class Drop extends org.gtk.gobject.Object {
      */
     public @NotNull org.gtk.gobject.Value readValueFinish(@NotNull org.gtk.gio.AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(result, "Parameter 'result' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gdk_drop_read_value_finish.invokeExact(
@@ -350,77 +350,198 @@ public class Drop extends org.gtk.gobject.Object {
         }
     }
     
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.gdk_drop_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gobject.Object.Build {
+        
+         /**
+         * A {@link Drop.Build} object constructs a {@link Drop} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link Drop} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link Drop} using {@link Drop#castFrom}.
+         * @return A new instance of {@code Drop} with the properties 
+         *         that were set in the Build object.
+         */
+        public Drop construct() {
+            return Drop.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    Drop.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+        
+        /**
+         * The possible actions for this drop
+         * @param actions The value for the {@code actions} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setActions(org.gtk.gdk.DragAction actions) {
+            names.add("actions");
+            values.add(org.gtk.gobject.Value.create(actions));
+            return this;
+        }
+        
+        /**
+         * The {@code GdkDevice} performing the drop
+         * @param device The value for the {@code device} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setDevice(org.gtk.gdk.Device device) {
+            names.add("device");
+            values.add(org.gtk.gobject.Value.create(device));
+            return this;
+        }
+        
+        /**
+         * The {@code GdkDisplay} that the drop belongs to.
+         * @param display The value for the {@code display} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setDisplay(org.gtk.gdk.Display display) {
+            names.add("display");
+            values.add(org.gtk.gobject.Value.create(display));
+            return this;
+        }
+        
+        /**
+         * The {@code GdkDrag} that initiated this drop
+         * @param drag The value for the {@code drag} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setDrag(org.gtk.gdk.Drag drag) {
+            names.add("drag");
+            values.add(org.gtk.gobject.Value.create(drag));
+            return this;
+        }
+        
+        /**
+         * The possible formats that the drop can provide its data in.
+         * @param formats The value for the {@code formats} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setFormats(org.gtk.gdk.ContentFormats formats) {
+            names.add("formats");
+            values.add(org.gtk.gobject.Value.create(formats));
+            return this;
+        }
+        
+        /**
+         * The {@code GdkSurface} the drop happens on
+         * @param surface The value for the {@code surface} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setSurface(org.gtk.gdk.Surface surface) {
+            names.add("surface");
+            values.add(org.gtk.gobject.Value.create(surface));
+            return this;
+        }
+    }
+    
     private static class DowncallHandles {
         
         private static final MethodHandle gdk_drop_finish = Interop.downcallHandle(
             "gdk_drop_finish",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gdk_drop_get_actions = Interop.downcallHandle(
             "gdk_drop_get_actions",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_drop_get_device = Interop.downcallHandle(
             "gdk_drop_get_device",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_drop_get_display = Interop.downcallHandle(
             "gdk_drop_get_display",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_drop_get_drag = Interop.downcallHandle(
             "gdk_drop_get_drag",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_drop_get_formats = Interop.downcallHandle(
             "gdk_drop_get_formats",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_drop_get_surface = Interop.downcallHandle(
             "gdk_drop_get_surface",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_drop_read_async = Interop.downcallHandle(
             "gdk_drop_read_async",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_drop_read_finish = Interop.downcallHandle(
             "gdk_drop_read_finish",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_drop_read_value_async = Interop.downcallHandle(
             "gdk_drop_read_value_async",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_drop_read_value_finish = Interop.downcallHandle(
             "gdk_drop_read_value_finish",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_drop_status = Interop.downcallHandle(
             "gdk_drop_status",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
+            false
+        );
+        
+        private static final MethodHandle gdk_drop_get_type = Interop.downcallHandle(
+            "gdk_drop_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }

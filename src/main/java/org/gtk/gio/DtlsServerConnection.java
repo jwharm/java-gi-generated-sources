@@ -25,11 +25,25 @@ public interface DtlsServerConnection extends io.github.jwharm.javagi.Proxy {
      * @throws ClassCastException If the GType is not derived from "GDtlsServerConnection", a ClassCastException will be thrown.
      */
     public static DtlsServerConnection castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GDtlsServerConnection"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), DtlsServerConnection.getType())) {
             return new DtlsServerConnectionImpl(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GDtlsServerConnection");
         }
+    }
+    
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.g_dtls_server_connection_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
     }
     
     /**
@@ -42,7 +56,7 @@ public interface DtlsServerConnection extends io.github.jwharm.javagi.Proxy {
      */
     public static @NotNull org.gtk.gio.DtlsServerConnection new_(@NotNull org.gtk.gio.DatagramBased baseSocket, @Nullable org.gtk.gio.TlsCertificate certificate) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(baseSocket, "Parameter 'baseSocket' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_dtls_server_connection_new.invokeExact(
@@ -62,9 +76,16 @@ public interface DtlsServerConnection extends io.github.jwharm.javagi.Proxy {
     static class DowncallHandles {
         
         @ApiStatus.Internal
+        static final MethodHandle g_dtls_server_connection_get_type = Interop.downcallHandle(
+            "g_dtls_server_connection_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+            false
+        );
+        
+        @ApiStatus.Internal
         static final MethodHandle g_dtls_server_connection_new = Interop.downcallHandle(
             "g_dtls_server_connection_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
     }

@@ -12,7 +12,7 @@ import org.jetbrains.annotations.*;
  * The storage for the glyph information is owned by the structure
  * which simplifies memory management.
  */
-public class GlyphString extends io.github.jwharm.javagi.ProxyBase {
+public class GlyphString extends Struct {
     
     static {
         Pango.javagi$ensureInitialized();
@@ -20,12 +20,12 @@ public class GlyphString extends io.github.jwharm.javagi.ProxyBase {
     
     private static final java.lang.String C_TYPE_NAME = "PangoGlyphString";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
-        ValueLayout.JAVA_INT.withName("num_glyphs"),
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
+        Interop.valueLayout.C_INT.withName("num_glyphs"),
         MemoryLayout.paddingLayout(32),
         Interop.valueLayout.ADDRESS.withName("glyphs"),
         Interop.valueLayout.ADDRESS.withName("log_clusters"),
-        ValueLayout.JAVA_INT.withName("space")
+        Interop.valueLayout.C_INT.withName("space")
     ).withName(C_TYPE_NAME);
     
     /**
@@ -39,6 +39,10 @@ public class GlyphString extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link GlyphString}
+     * @return A new, uninitialized @{link GlyphString}
+     */
     public static GlyphString allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         GlyphString newInstance = new GlyphString(segment.address(), Ownership.NONE);
@@ -276,7 +280,7 @@ public class GlyphString extends io.github.jwharm.javagi.ProxyBase {
         java.util.Objects.requireNonNull(text, "Parameter 'text' must not be null");
         java.util.Objects.requireNonNull(analysis, "Parameter 'analysis' must not be null");
         java.util.Objects.requireNonNull(xPos, "Parameter 'xPos' must not be null");
-        MemorySegment xPosPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
+        MemorySegment xPosPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         try {
             DowncallHandles.pango_glyph_string_index_to_x.invokeExact(
                     handle(),
@@ -289,7 +293,7 @@ public class GlyphString extends io.github.jwharm.javagi.ProxyBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        xPos.set(xPosPOINTER.get(ValueLayout.JAVA_INT, 0));
+        xPos.set(xPosPOINTER.get(Interop.valueLayout.C_INT, 0));
     }
     
     /**
@@ -312,7 +316,7 @@ public class GlyphString extends io.github.jwharm.javagi.ProxyBase {
         java.util.Objects.requireNonNull(text, "Parameter 'text' must not be null");
         java.util.Objects.requireNonNull(analysis, "Parameter 'analysis' must not be null");
         java.util.Objects.requireNonNull(xPos, "Parameter 'xPos' must not be null");
-        MemorySegment xPosPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
+        MemorySegment xPosPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         try {
             DowncallHandles.pango_glyph_string_index_to_x_full.invokeExact(
                     handle(),
@@ -326,7 +330,7 @@ public class GlyphString extends io.github.jwharm.javagi.ProxyBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        xPos.set(xPosPOINTER.get(ValueLayout.JAVA_INT, 0));
+        xPos.set(xPosPOINTER.get(Interop.valueLayout.C_INT, 0));
     }
     
     /**
@@ -363,9 +367,9 @@ public class GlyphString extends io.github.jwharm.javagi.ProxyBase {
         java.util.Objects.requireNonNull(text, "Parameter 'text' must not be null");
         java.util.Objects.requireNonNull(analysis, "Parameter 'analysis' must not be null");
         java.util.Objects.requireNonNull(index, "Parameter 'index' must not be null");
+        MemorySegment indexPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         java.util.Objects.requireNonNull(trailing, "Parameter 'trailing' must not be null");
-        MemorySegment indexPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
-        MemorySegment trailingPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
+        MemorySegment trailingPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         try {
             DowncallHandles.pango_glyph_string_x_to_index.invokeExact(
                     handle(),
@@ -378,76 +382,148 @@ public class GlyphString extends io.github.jwharm.javagi.ProxyBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        index.set(indexPOINTER.get(ValueLayout.JAVA_INT, 0));
-        trailing.set(trailingPOINTER.get(ValueLayout.JAVA_INT, 0));
+        index.set(indexPOINTER.get(Interop.valueLayout.C_INT, 0));
+        trailing.set(trailingPOINTER.get(Interop.valueLayout.C_INT, 0));
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle pango_glyph_string_new = Interop.downcallHandle(
             "pango_glyph_string_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle pango_glyph_string_copy = Interop.downcallHandle(
             "pango_glyph_string_copy",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle pango_glyph_string_extents = Interop.downcallHandle(
             "pango_glyph_string_extents",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle pango_glyph_string_extents_range = Interop.downcallHandle(
             "pango_glyph_string_extents_range",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle pango_glyph_string_free = Interop.downcallHandle(
             "pango_glyph_string_free",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle pango_glyph_string_get_logical_widths = Interop.downcallHandle(
             "pango_glyph_string_get_logical_widths",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle pango_glyph_string_get_width = Interop.downcallHandle(
             "pango_glyph_string_get_width",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle pango_glyph_string_index_to_x = Interop.downcallHandle(
             "pango_glyph_string_index_to_x",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle pango_glyph_string_index_to_x_full = Interop.downcallHandle(
             "pango_glyph_string_index_to_x_full",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle pango_glyph_string_set_size = Interop.downcallHandle(
             "pango_glyph_string_set_size",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle pango_glyph_string_x_to_index = Interop.downcallHandle(
             "pango_glyph_string_x_to_index",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private GlyphString struct;
+        
+         /**
+         * A {@link GlyphString.Build} object constructs a {@link GlyphString} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = GlyphString.allocate();
+        }
+        
+         /**
+         * Finish building the {@link GlyphString} struct.
+         * @return A new instance of {@code GlyphString} with the fields 
+         *         that were set in the Build object.
+         */
+        public GlyphString construct() {
+            return struct;
+        }
+        
+        /**
+         * number of glyphs in this glyph string
+         * @param num_glyphs The value for the {@code num_glyphs} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setNumGlyphs(int num_glyphs) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("num_glyphs"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), num_glyphs);
+            return this;
+        }
+        
+        /**
+         * array of glyph information
+         * @param glyphs The value for the {@code glyphs} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setGlyphs(org.pango.GlyphInfo[] glyphs) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("glyphs"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (glyphs == null ? MemoryAddress.NULL : Interop.allocateNativeArray(glyphs, org.pango.GlyphInfo.getMemoryLayout(), false)));
+            return this;
+        }
+        
+        /**
+         * logical cluster info, indexed by the byte index
+         *   within the text corresponding to the glyph string
+         * @param log_clusters The value for the {@code log_clusters} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setLogClusters(PointerInteger log_clusters) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("log_clusters"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (log_clusters == null ? MemoryAddress.NULL : log_clusters.handle()));
+            return this;
+        }
+        
+        public Build setSpace(int space) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("space"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), space);
+            return this;
+        }
     }
 }

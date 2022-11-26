@@ -66,7 +66,7 @@ public class DBusServer extends org.gtk.gobject.Object implements org.gtk.gio.In
      * @throws ClassCastException If the GType is not derived from "GDBusServer", a ClassCastException will be thrown.
      */
     public static DBusServer castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GDBusServer"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), DBusServer.getType())) {
             return new DBusServer(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GDBusServer");
@@ -77,7 +77,7 @@ public class DBusServer extends org.gtk.gobject.Object implements org.gtk.gio.In
         java.util.Objects.requireNonNull(address, "Parameter 'address' must not be null");
         java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
         java.util.Objects.requireNonNull(guid, "Parameter 'guid' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         Addressable RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_dbus_server_new_sync.invokeExact(
@@ -219,6 +219,20 @@ public class DBusServer extends org.gtk.gobject.Object implements org.gtk.gio.In
         }
     }
     
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.g_dbus_server_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+    
     @FunctionalInterface
     public interface NewConnection {
         boolean signalReceived(DBusServer source, @NotNull org.gtk.gio.DBusConnection connection);
@@ -257,7 +271,7 @@ public class DBusServer extends org.gtk.gobject.Object implements org.gtk.gio.In
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(DBusServer.Callbacks.class, "signalDBusServerNewConnection",
                         MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                    FunctionDescriptor.of(Interop.valueLayout.C_BOOLEAN, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                     Interop.getScope()),
                 Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
@@ -266,48 +280,157 @@ public class DBusServer extends org.gtk.gobject.Object implements org.gtk.gio.In
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gobject.Object.Build {
+        
+         /**
+         * A {@link DBusServer.Build} object constructs a {@link DBusServer} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link DBusServer} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link DBusServer} using {@link DBusServer#castFrom}.
+         * @return A new instance of {@code DBusServer} with the properties 
+         *         that were set in the Build object.
+         */
+        public DBusServer construct() {
+            return DBusServer.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    DBusServer.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+        
+        /**
+         * Whether the server is currently active.
+         * @param active The value for the {@code active} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setActive(boolean active) {
+            names.add("active");
+            values.add(org.gtk.gobject.Value.create(active));
+            return this;
+        }
+        
+        /**
+         * The D-Bus address to listen on.
+         * @param address The value for the {@code address} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setAddress(java.lang.String address) {
+            names.add("address");
+            values.add(org.gtk.gobject.Value.create(address));
+            return this;
+        }
+        
+        /**
+         * A {@link DBusAuthObserver} object to assist in the authentication process or {@code null}.
+         * @param authenticationObserver The value for the {@code authentication-observer} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setAuthenticationObserver(org.gtk.gio.DBusAuthObserver authenticationObserver) {
+            names.add("authentication-observer");
+            values.add(org.gtk.gobject.Value.create(authenticationObserver));
+            return this;
+        }
+        
+        /**
+         * The D-Bus address that clients can use.
+         * @param clientAddress The value for the {@code client-address} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setClientAddress(java.lang.String clientAddress) {
+            names.add("client-address");
+            values.add(org.gtk.gobject.Value.create(clientAddress));
+            return this;
+        }
+        
+        /**
+         * Flags from the {@link DBusServerFlags} enumeration.
+         * @param flags The value for the {@code flags} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setFlags(org.gtk.gio.DBusServerFlags flags) {
+            names.add("flags");
+            values.add(org.gtk.gobject.Value.create(flags));
+            return this;
+        }
+        
+        /**
+         * The GUID of the server.
+         * <p>
+         * See {@link DBusConnection}:guid for more details.
+         * @param guid The value for the {@code guid} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setGuid(java.lang.String guid) {
+            names.add("guid");
+            values.add(org.gtk.gobject.Value.create(guid));
+            return this;
+        }
+    }
     
     private static class DowncallHandles {
         
         private static final MethodHandle g_dbus_server_new_sync = Interop.downcallHandle(
             "g_dbus_server_new_sync",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_dbus_server_get_client_address = Interop.downcallHandle(
             "g_dbus_server_get_client_address",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_dbus_server_get_flags = Interop.downcallHandle(
             "g_dbus_server_get_flags",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_dbus_server_get_guid = Interop.downcallHandle(
             "g_dbus_server_get_guid",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_dbus_server_is_active = Interop.downcallHandle(
             "g_dbus_server_is_active",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_dbus_server_start = Interop.downcallHandle(
             "g_dbus_server_start",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_dbus_server_stop = Interop.downcallHandle(
             "g_dbus_server_stop",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+            false
+        );
+        
+        private static final MethodHandle g_dbus_server_get_type = Interop.downcallHandle(
+            "g_dbus_server_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }
@@ -315,9 +438,9 @@ public class DBusServer extends org.gtk.gobject.Object implements org.gtk.gio.In
     private static class Callbacks {
         
         public static boolean signalDBusServerNewConnection(MemoryAddress source, MemoryAddress connection, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (DBusServer.NewConnection) Interop.signalRegistry.get(HASH);
-            return HANDLER.signalReceived(new DBusServer(source, Ownership.UNKNOWN), new org.gtk.gio.DBusConnection(connection, Ownership.NONE));
+            return HANDLER.signalReceived(new DBusServer(source, Ownership.NONE), new org.gtk.gio.DBusConnection(connection, Ownership.NONE));
         }
     }
 }

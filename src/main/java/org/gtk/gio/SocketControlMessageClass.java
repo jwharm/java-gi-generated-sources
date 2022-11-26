@@ -8,7 +8,7 @@ import org.jetbrains.annotations.*;
 /**
  * Class structure for {@link SocketControlMessage}.
  */
-public class SocketControlMessageClass extends io.github.jwharm.javagi.ProxyBase {
+public class SocketControlMessageClass extends Struct {
     
     static {
         Gio.javagi$ensureInitialized();
@@ -16,7 +16,7 @@ public class SocketControlMessageClass extends io.github.jwharm.javagi.ProxyBase
     
     private static final java.lang.String C_TYPE_NAME = "GSocketControlMessageClass";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gobject.ObjectClass.getMemoryLayout().withName("parent_class"),
         Interop.valueLayout.ADDRESS.withName("get_size"),
         Interop.valueLayout.ADDRESS.withName("get_level"),
@@ -41,6 +41,10 @@ public class SocketControlMessageClass extends io.github.jwharm.javagi.ProxyBase
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link SocketControlMessageClass}
+     * @return A new, uninitialized @{link SocketControlMessageClass}
+     */
     public static SocketControlMessageClass allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         SocketControlMessageClass newInstance = new SocketControlMessageClass(segment.address(), Ownership.NONE);
@@ -65,5 +69,110 @@ public class SocketControlMessageClass extends io.github.jwharm.javagi.ProxyBase
     @ApiStatus.Internal
     public SocketControlMessageClass(Addressable address, Ownership ownership) {
         super(address, ownership);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private SocketControlMessageClass struct;
+        
+         /**
+         * A {@link SocketControlMessageClass.Build} object constructs a {@link SocketControlMessageClass} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = SocketControlMessageClass.allocate();
+        }
+        
+         /**
+         * Finish building the {@link SocketControlMessageClass} struct.
+         * @return A new instance of {@code SocketControlMessageClass} with the fields 
+         *         that were set in the Build object.
+         */
+        public SocketControlMessageClass construct() {
+            return struct;
+        }
+        
+        public Build setParentClass(org.gtk.gobject.ObjectClass parent_class) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parent_class == null ? MemoryAddress.NULL : parent_class.handle()));
+            return this;
+        }
+        
+        public Build setGetSize(java.lang.foreign.MemoryAddress get_size) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("get_size"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (get_size == null ? MemoryAddress.NULL : get_size));
+            return this;
+        }
+        
+        public Build setGetLevel(java.lang.foreign.MemoryAddress get_level) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("get_level"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (get_level == null ? MemoryAddress.NULL : get_level));
+            return this;
+        }
+        
+        public Build setGetType(java.lang.foreign.MemoryAddress get_type) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("get_type"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (get_type == null ? MemoryAddress.NULL : get_type));
+            return this;
+        }
+        
+        public Build setSerialize(java.lang.foreign.MemoryAddress serialize) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("serialize"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (serialize == null ? MemoryAddress.NULL : serialize));
+            return this;
+        }
+        
+        public Build setDeserialize(java.lang.foreign.MemoryAddress deserialize) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("deserialize"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (deserialize == null ? MemoryAddress.NULL : deserialize));
+            return this;
+        }
+        
+        public Build setGReserved1(java.lang.foreign.MemoryAddress _g_reserved1) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("_g_reserved1"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (_g_reserved1 == null ? MemoryAddress.NULL : _g_reserved1));
+            return this;
+        }
+        
+        public Build setGReserved2(java.lang.foreign.MemoryAddress _g_reserved2) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("_g_reserved2"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (_g_reserved2 == null ? MemoryAddress.NULL : _g_reserved2));
+            return this;
+        }
+        
+        public Build setGReserved3(java.lang.foreign.MemoryAddress _g_reserved3) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("_g_reserved3"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (_g_reserved3 == null ? MemoryAddress.NULL : _g_reserved3));
+            return this;
+        }
+        
+        public Build setGReserved4(java.lang.foreign.MemoryAddress _g_reserved4) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("_g_reserved4"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (_g_reserved4 == null ? MemoryAddress.NULL : _g_reserved4));
+            return this;
+        }
+        
+        public Build setGReserved5(java.lang.foreign.MemoryAddress _g_reserved5) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("_g_reserved5"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (_g_reserved5 == null ? MemoryAddress.NULL : _g_reserved5));
+            return this;
+        }
     }
 }

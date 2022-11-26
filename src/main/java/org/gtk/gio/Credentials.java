@@ -85,7 +85,7 @@ public class Credentials extends org.gtk.gobject.Object {
      * @throws ClassCastException If the GType is not derived from "GCredentials", a ClassCastException will be thrown.
      */
     public static Credentials castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GCredentials"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), Credentials.getType())) {
             return new Credentials(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GCredentials");
@@ -147,7 +147,7 @@ public class Credentials extends org.gtk.gobject.Object {
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public int getUnixPid() throws io.github.jwharm.javagi.GErrorException {
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_credentials_get_unix_pid.invokeExact(
@@ -173,7 +173,7 @@ public class Credentials extends org.gtk.gobject.Object {
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public int getUnixUser() throws io.github.jwharm.javagi.GErrorException {
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_credentials_get_unix_user.invokeExact(
@@ -200,7 +200,7 @@ public class Credentials extends org.gtk.gobject.Object {
      */
     public boolean isSameUser(@NotNull org.gtk.gio.Credentials otherCredentials) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(otherCredentials, "Parameter 'otherCredentials' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_credentials_is_same_user.invokeExact(
@@ -233,7 +233,7 @@ public class Credentials extends org.gtk.gobject.Object {
             DowncallHandles.g_credentials_set_native.invokeExact(
                     handle(),
                     nativeType.getValue(),
-                    native_);
+                    (Addressable) native_);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -252,7 +252,7 @@ public class Credentials extends org.gtk.gobject.Object {
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public boolean setUnixUser(int uid) throws io.github.jwharm.javagi.GErrorException {
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_credentials_set_unix_user.invokeExact(
@@ -285,53 +285,108 @@ public class Credentials extends org.gtk.gobject.Object {
         return Interop.getStringFrom(RESULT);
     }
     
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.g_credentials_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gobject.Object.Build {
+        
+         /**
+         * A {@link Credentials.Build} object constructs a {@link Credentials} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link Credentials} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link Credentials} using {@link Credentials#castFrom}.
+         * @return A new instance of {@code Credentials} with the properties 
+         *         that were set in the Build object.
+         */
+        public Credentials construct() {
+            return Credentials.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    Credentials.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+    }
+    
     private static class DowncallHandles {
         
         private static final MethodHandle g_credentials_new = Interop.downcallHandle(
             "g_credentials_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_credentials_get_native = Interop.downcallHandle(
             "g_credentials_get_native",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_credentials_get_unix_pid = Interop.downcallHandle(
             "g_credentials_get_unix_pid",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_credentials_get_unix_user = Interop.downcallHandle(
             "g_credentials_get_unix_user",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_credentials_is_same_user = Interop.downcallHandle(
             "g_credentials_is_same_user",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_credentials_set_native = Interop.downcallHandle(
             "g_credentials_set_native",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_credentials_set_unix_user = Interop.downcallHandle(
             "g_credentials_set_unix_user",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_credentials_to_string = Interop.downcallHandle(
             "g_credentials_to_string",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+            false
+        );
+        
+        private static final MethodHandle g_credentials_get_type = Interop.downcallHandle(
+            "g_credentials_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }

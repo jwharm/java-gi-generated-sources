@@ -29,7 +29,7 @@ public class SocketClient extends org.gtk.gobject.Object {
     
     private static final java.lang.String C_TYPE_NAME = "GSocketClient";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gobject.Object.getMemoryLayout().withName("parent_instance"),
         Interop.valueLayout.ADDRESS.withName("priv")
     ).withName(C_TYPE_NAME);
@@ -75,7 +75,7 @@ public class SocketClient extends org.gtk.gobject.Object {
      * @throws ClassCastException If the GType is not derived from "GSocketClient", a ClassCastException will be thrown.
      */
     public static SocketClient castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GSocketClient"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), SocketClient.getType())) {
             return new SocketClient(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GSocketClient");
@@ -158,7 +158,7 @@ public class SocketClient extends org.gtk.gobject.Object {
      */
     public @NotNull org.gtk.gio.SocketConnection connect(@NotNull org.gtk.gio.SocketConnectable connectable, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(connectable, "Parameter 'connectable' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_socket_client_connect.invokeExact(
@@ -204,7 +204,7 @@ public class SocketClient extends org.gtk.gobject.Object {
                     (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                         Interop.getScope())),
                     (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
         } catch (Throwable ERR) {
@@ -220,7 +220,7 @@ public class SocketClient extends org.gtk.gobject.Object {
      */
     public @NotNull org.gtk.gio.SocketConnection connectFinish(@NotNull org.gtk.gio.AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(result, "Parameter 'result' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_socket_client_connect_finish.invokeExact(
@@ -275,7 +275,7 @@ public class SocketClient extends org.gtk.gobject.Object {
      */
     public @NotNull org.gtk.gio.SocketConnection connectToHost(@NotNull java.lang.String hostAndPort, short defaultPort, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(hostAndPort, "Parameter 'hostAndPort' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_socket_client_connect_to_host.invokeExact(
@@ -315,7 +315,7 @@ public class SocketClient extends org.gtk.gobject.Object {
                     (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                         Interop.getScope())),
                     (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
         } catch (Throwable ERR) {
@@ -331,7 +331,7 @@ public class SocketClient extends org.gtk.gobject.Object {
      */
     public @NotNull org.gtk.gio.SocketConnection connectToHostFinish(@NotNull org.gtk.gio.AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(result, "Parameter 'result' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_socket_client_connect_to_host_finish.invokeExact(
@@ -371,7 +371,7 @@ public class SocketClient extends org.gtk.gobject.Object {
     public @NotNull org.gtk.gio.SocketConnection connectToService(@NotNull java.lang.String domain, @NotNull java.lang.String service, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(domain, "Parameter 'domain' must not be null");
         java.util.Objects.requireNonNull(service, "Parameter 'service' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_socket_client_connect_to_service.invokeExact(
@@ -409,7 +409,7 @@ public class SocketClient extends org.gtk.gobject.Object {
                     (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                         Interop.getScope())),
                     (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
         } catch (Throwable ERR) {
@@ -425,7 +425,7 @@ public class SocketClient extends org.gtk.gobject.Object {
      */
     public @NotNull org.gtk.gio.SocketConnection connectToServiceFinish(@NotNull org.gtk.gio.AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(result, "Parameter 'result' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_socket_client_connect_to_service_finish.invokeExact(
@@ -471,7 +471,7 @@ public class SocketClient extends org.gtk.gobject.Object {
      */
     public @NotNull org.gtk.gio.SocketConnection connectToUri(@NotNull java.lang.String uri, short defaultPort, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(uri, "Parameter 'uri' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_socket_client_connect_to_uri.invokeExact(
@@ -511,7 +511,7 @@ public class SocketClient extends org.gtk.gobject.Object {
                     (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                         Interop.getScope())),
                     (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
         } catch (Throwable ERR) {
@@ -527,7 +527,7 @@ public class SocketClient extends org.gtk.gobject.Object {
      */
     public @NotNull org.gtk.gio.SocketConnection connectToUriFinish(@NotNull org.gtk.gio.AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(result, "Parameter 'result' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_socket_client_connect_to_uri_finish.invokeExact(
@@ -893,6 +893,20 @@ public class SocketClient extends org.gtk.gobject.Object {
         }
     }
     
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.g_socket_client_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+    
     @FunctionalInterface
     public interface Event {
         void signalReceived(SocketClient source, @NotNull org.gtk.gio.SocketClientEvent event, @NotNull org.gtk.gio.SocketConnectable connectable, @Nullable org.gtk.gio.IOStream connection);
@@ -968,7 +982,7 @@ public class SocketClient extends org.gtk.gobject.Object {
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(SocketClient.Callbacks.class, "signalSocketClientEvent",
                         MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                     Interop.getScope()),
                 Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
@@ -977,198 +991,318 @@ public class SocketClient extends org.gtk.gobject.Object {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gobject.Object.Build {
+        
+         /**
+         * A {@link SocketClient.Build} object constructs a {@link SocketClient} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link SocketClient} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link SocketClient} using {@link SocketClient#castFrom}.
+         * @return A new instance of {@code SocketClient} with the properties 
+         *         that were set in the Build object.
+         */
+        public SocketClient construct() {
+            return SocketClient.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    SocketClient.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+        
+        public Build setEnableProxy(boolean enableProxy) {
+            names.add("enable-proxy");
+            values.add(org.gtk.gobject.Value.create(enableProxy));
+            return this;
+        }
+        
+        public Build setFamily(org.gtk.gio.SocketFamily family) {
+            names.add("family");
+            values.add(org.gtk.gobject.Value.create(family));
+            return this;
+        }
+        
+        public Build setLocalAddress(org.gtk.gio.SocketAddress localAddress) {
+            names.add("local-address");
+            values.add(org.gtk.gobject.Value.create(localAddress));
+            return this;
+        }
+        
+        public Build setProtocol(org.gtk.gio.SocketProtocol protocol) {
+            names.add("protocol");
+            values.add(org.gtk.gobject.Value.create(protocol));
+            return this;
+        }
+        
+        /**
+         * The proxy resolver to use
+         * @param proxyResolver The value for the {@code proxy-resolver} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setProxyResolver(org.gtk.gio.ProxyResolver proxyResolver) {
+            names.add("proxy-resolver");
+            values.add(org.gtk.gobject.Value.create(proxyResolver));
+            return this;
+        }
+        
+        public Build setTimeout(int timeout) {
+            names.add("timeout");
+            values.add(org.gtk.gobject.Value.create(timeout));
+            return this;
+        }
+        
+        public Build setTls(boolean tls) {
+            names.add("tls");
+            values.add(org.gtk.gobject.Value.create(tls));
+            return this;
+        }
+        
+        /**
+         * The TLS validation flags used when creating TLS connections. The
+         * default value is {@link TlsCertificateFlags#VALIDATE_ALL}.
+         * <p>
+         * GLib guarantees that if certificate verification fails, at least one
+         * flag will be set, but it does not guarantee that all possible flags
+         * will be set. Accordingly, you may not safely decide to ignore any
+         * particular type of error. For example, it would be incorrect to mask
+         * {@link TlsCertificateFlags#EXPIRED} if you want to allow expired certificates,
+         * because this could potentially be the only error flag set even if
+         * other problems exist with the certificate. Therefore, there is no
+         * safe way to use this property. This is not a horrible problem,
+         * though, because you should not be attempting to ignore validation
+         * errors anyway. If you really must ignore TLS certificate errors,
+         * connect to the {@link SocketClient}::event signal, wait for it to be
+         * emitted with {@link SocketClientEvent#TLS_HANDSHAKING}, and use that to
+         * connect to {@link TlsConnection}::accept-certificate.
+         * @param tlsValidationFlags The value for the {@code tls-validation-flags} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setTlsValidationFlags(org.gtk.gio.TlsCertificateFlags tlsValidationFlags) {
+            names.add("tls-validation-flags");
+            values.add(org.gtk.gobject.Value.create(tlsValidationFlags));
+            return this;
+        }
+        
+        public Build setType(org.gtk.gio.SocketType type) {
+            names.add("type");
+            values.add(org.gtk.gobject.Value.create(type));
+            return this;
+        }
+    }
     
     private static class DowncallHandles {
         
         private static final MethodHandle g_socket_client_new = Interop.downcallHandle(
             "g_socket_client_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_socket_client_add_application_proxy = Interop.downcallHandle(
             "g_socket_client_add_application_proxy",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_socket_client_connect = Interop.downcallHandle(
             "g_socket_client_connect",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_socket_client_connect_async = Interop.downcallHandle(
             "g_socket_client_connect_async",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_socket_client_connect_finish = Interop.downcallHandle(
             "g_socket_client_connect_finish",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_socket_client_connect_to_host = Interop.downcallHandle(
             "g_socket_client_connect_to_host",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_SHORT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_SHORT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_socket_client_connect_to_host_async = Interop.downcallHandle(
             "g_socket_client_connect_to_host_async",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_SHORT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_SHORT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_socket_client_connect_to_host_finish = Interop.downcallHandle(
             "g_socket_client_connect_to_host_finish",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_socket_client_connect_to_service = Interop.downcallHandle(
             "g_socket_client_connect_to_service",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_socket_client_connect_to_service_async = Interop.downcallHandle(
             "g_socket_client_connect_to_service_async",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_socket_client_connect_to_service_finish = Interop.downcallHandle(
             "g_socket_client_connect_to_service_finish",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_socket_client_connect_to_uri = Interop.downcallHandle(
             "g_socket_client_connect_to_uri",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_SHORT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_SHORT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_socket_client_connect_to_uri_async = Interop.downcallHandle(
             "g_socket_client_connect_to_uri_async",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_SHORT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_SHORT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_socket_client_connect_to_uri_finish = Interop.downcallHandle(
             "g_socket_client_connect_to_uri_finish",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_socket_client_get_enable_proxy = Interop.downcallHandle(
             "g_socket_client_get_enable_proxy",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_socket_client_get_family = Interop.downcallHandle(
             "g_socket_client_get_family",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_socket_client_get_local_address = Interop.downcallHandle(
             "g_socket_client_get_local_address",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_socket_client_get_protocol = Interop.downcallHandle(
             "g_socket_client_get_protocol",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_socket_client_get_proxy_resolver = Interop.downcallHandle(
             "g_socket_client_get_proxy_resolver",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_socket_client_get_socket_type = Interop.downcallHandle(
             "g_socket_client_get_socket_type",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_socket_client_get_timeout = Interop.downcallHandle(
             "g_socket_client_get_timeout",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_socket_client_get_tls = Interop.downcallHandle(
             "g_socket_client_get_tls",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_socket_client_get_tls_validation_flags = Interop.downcallHandle(
             "g_socket_client_get_tls_validation_flags",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_socket_client_set_enable_proxy = Interop.downcallHandle(
             "g_socket_client_set_enable_proxy",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_socket_client_set_family = Interop.downcallHandle(
             "g_socket_client_set_family",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_socket_client_set_local_address = Interop.downcallHandle(
             "g_socket_client_set_local_address",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_socket_client_set_protocol = Interop.downcallHandle(
             "g_socket_client_set_protocol",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_socket_client_set_proxy_resolver = Interop.downcallHandle(
             "g_socket_client_set_proxy_resolver",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_socket_client_set_socket_type = Interop.downcallHandle(
             "g_socket_client_set_socket_type",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_socket_client_set_timeout = Interop.downcallHandle(
             "g_socket_client_set_timeout",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_socket_client_set_tls = Interop.downcallHandle(
             "g_socket_client_set_tls",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_socket_client_set_tls_validation_flags = Interop.downcallHandle(
             "g_socket_client_set_tls_validation_flags",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+            false
+        );
+        
+        private static final MethodHandle g_socket_client_get_type = Interop.downcallHandle(
+            "g_socket_client_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }
@@ -1176,9 +1310,9 @@ public class SocketClient extends org.gtk.gobject.Object {
     private static class Callbacks {
         
         public static void signalSocketClientEvent(MemoryAddress source, int event, MemoryAddress connectable, MemoryAddress connection, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (SocketClient.Event) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new SocketClient(source, Ownership.UNKNOWN), new org.gtk.gio.SocketClientEvent(event), new org.gtk.gio.SocketConnectable.SocketConnectableImpl(connectable, Ownership.NONE), new org.gtk.gio.IOStream(connection, Ownership.NONE));
+            HANDLER.signalReceived(new SocketClient(source, Ownership.NONE), new org.gtk.gio.SocketClientEvent(event), new org.gtk.gio.SocketConnectable.SocketConnectableImpl(connectable, Ownership.NONE), new org.gtk.gio.IOStream(connection, Ownership.NONE));
         }
     }
 }

@@ -10,7 +10,7 @@ import org.jetbrains.annotations.*;
  * are primarily used in container implementations when allocating a natural
  * size for children calling. See {@link Gtk#distributeNaturalAllocation}.
  */
-public class RequestedSize extends io.github.jwharm.javagi.ProxyBase {
+public class RequestedSize extends Struct {
     
     static {
         Gtk.javagi$ensureInitialized();
@@ -18,10 +18,10 @@ public class RequestedSize extends io.github.jwharm.javagi.ProxyBase {
     
     private static final java.lang.String C_TYPE_NAME = "GtkRequestedSize";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
         Interop.valueLayout.ADDRESS.withName("data"),
-        ValueLayout.JAVA_INT.withName("minimum_size"),
-        ValueLayout.JAVA_INT.withName("natural_size")
+        Interop.valueLayout.C_INT.withName("minimum_size"),
+        Interop.valueLayout.C_INT.withName("natural_size")
     ).withName(C_TYPE_NAME);
     
     /**
@@ -35,6 +35,10 @@ public class RequestedSize extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link RequestedSize}
+     * @return A new, uninitialized @{link RequestedSize}
+     */
     public static RequestedSize allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         RequestedSize newInstance = new RequestedSize(segment.address(), Ownership.NONE);
@@ -60,7 +64,7 @@ public class RequestedSize extends io.github.jwharm.javagi.ProxyBase {
     public void data$set(java.lang.foreign.MemoryAddress data) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("data"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), data);
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) data);
     }
     
     /**
@@ -113,5 +117,69 @@ public class RequestedSize extends io.github.jwharm.javagi.ProxyBase {
     @ApiStatus.Internal
     public RequestedSize(Addressable address, Ownership ownership) {
         super(address, ownership);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private RequestedSize struct;
+        
+         /**
+         * A {@link RequestedSize.Build} object constructs a {@link RequestedSize} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = RequestedSize.allocate();
+        }
+        
+         /**
+         * Finish building the {@link RequestedSize} struct.
+         * @return A new instance of {@code RequestedSize} with the fields 
+         *         that were set in the Build object.
+         */
+        public RequestedSize construct() {
+            return struct;
+        }
+        
+        /**
+         * A client pointer
+         * @param data The value for the {@code data} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setData(java.lang.foreign.MemoryAddress data) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("data"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (data == null ? MemoryAddress.NULL : (Addressable) data));
+            return this;
+        }
+        
+        /**
+         * The minimum size needed for allocation in a given orientation
+         * @param minimum_size The value for the {@code minimum_size} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setMinimumSize(int minimum_size) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("minimum_size"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), minimum_size);
+            return this;
+        }
+        
+        /**
+         * The natural size for allocation in a given orientation
+         * @param natural_size The value for the {@code natural_size} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setNaturalSize(int natural_size) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("natural_size"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), natural_size);
+            return this;
+        }
     }
 }

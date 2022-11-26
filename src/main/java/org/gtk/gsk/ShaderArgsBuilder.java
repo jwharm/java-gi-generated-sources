@@ -8,7 +8,7 @@ import org.jetbrains.annotations.*;
 /**
  * An object to build the uniforms data for a {@code GskGLShader}.
  */
-public class ShaderArgsBuilder extends io.github.jwharm.javagi.ProxyBase {
+public class ShaderArgsBuilder extends Struct {
     
     static {
         Gsk.javagi$ensureInitialized();
@@ -27,6 +27,10 @@ public class ShaderArgsBuilder extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link ShaderArgsBuilder}
+     * @return A new, uninitialized @{link ShaderArgsBuilder}
+     */
     public static ShaderArgsBuilder allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         ShaderArgsBuilder newInstance = new ShaderArgsBuilder(segment.address(), Ownership.NONE);
@@ -275,74 +279,102 @@ public class ShaderArgsBuilder extends io.github.jwharm.javagi.ProxyBase {
         
         private static final MethodHandle gsk_shader_args_builder_new = Interop.downcallHandle(
             "gsk_shader_args_builder_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gsk_shader_args_builder_free_to_args = Interop.downcallHandle(
             "gsk_shader_args_builder_free_to_args",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gsk_shader_args_builder_ref = Interop.downcallHandle(
             "gsk_shader_args_builder_ref",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gsk_shader_args_builder_set_bool = Interop.downcallHandle(
             "gsk_shader_args_builder_set_bool",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gsk_shader_args_builder_set_float = Interop.downcallHandle(
             "gsk_shader_args_builder_set_float",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_FLOAT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_FLOAT),
             false
         );
         
         private static final MethodHandle gsk_shader_args_builder_set_int = Interop.downcallHandle(
             "gsk_shader_args_builder_set_int",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gsk_shader_args_builder_set_uint = Interop.downcallHandle(
             "gsk_shader_args_builder_set_uint",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gsk_shader_args_builder_set_vec2 = Interop.downcallHandle(
             "gsk_shader_args_builder_set_vec2",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gsk_shader_args_builder_set_vec3 = Interop.downcallHandle(
             "gsk_shader_args_builder_set_vec3",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gsk_shader_args_builder_set_vec4 = Interop.downcallHandle(
             "gsk_shader_args_builder_set_vec4",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gsk_shader_args_builder_to_args = Interop.downcallHandle(
             "gsk_shader_args_builder_to_args",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gsk_shader_args_builder_unref = Interop.downcallHandle(
             "gsk_shader_args_builder_unref",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private ShaderArgsBuilder struct;
+        
+         /**
+         * A {@link ShaderArgsBuilder.Build} object constructs a {@link ShaderArgsBuilder} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = ShaderArgsBuilder.allocate();
+        }
+        
+         /**
+         * Finish building the {@link ShaderArgsBuilder} struct.
+         * @return A new instance of {@code ShaderArgsBuilder} with the fields 
+         *         that were set in the Build object.
+         */
+        public ShaderArgsBuilder construct() {
+            return struct;
+        }
     }
 }

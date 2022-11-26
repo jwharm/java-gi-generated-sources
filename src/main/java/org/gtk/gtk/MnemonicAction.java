@@ -48,11 +48,25 @@ public class MnemonicAction extends org.gtk.gtk.ShortcutAction {
      * @throws ClassCastException If the GType is not derived from "GtkMnemonicAction", a ClassCastException will be thrown.
      */
     public static MnemonicAction castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkMnemonicAction"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), MnemonicAction.getType())) {
             return new MnemonicAction(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkMnemonicAction");
         }
+    }
+    
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.gtk_mnemonic_action_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
     }
     
     /**
@@ -71,12 +85,53 @@ public class MnemonicAction extends org.gtk.gtk.ShortcutAction {
         }
         return new org.gtk.gtk.MnemonicAction(RESULT, Ownership.NONE);
     }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gtk.ShortcutAction.Build {
+        
+         /**
+         * A {@link MnemonicAction.Build} object constructs a {@link MnemonicAction} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link MnemonicAction} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link MnemonicAction} using {@link MnemonicAction#castFrom}.
+         * @return A new instance of {@code MnemonicAction} with the properties 
+         *         that were set in the Build object.
+         */
+        public MnemonicAction construct() {
+            return MnemonicAction.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    MnemonicAction.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+    }
     
     private static class DowncallHandles {
         
+        private static final MethodHandle gtk_mnemonic_action_get_type = Interop.downcallHandle(
+            "gtk_mnemonic_action_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+            false
+        );
+        
         private static final MethodHandle gtk_mnemonic_action_get = Interop.downcallHandle(
             "gtk_mnemonic_action_get",
-            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
             false
         );
     }

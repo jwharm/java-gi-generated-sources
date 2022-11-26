@@ -25,7 +25,7 @@ public class InetAddress extends org.gtk.gobject.Object {
     
     private static final java.lang.String C_TYPE_NAME = "GInetAddress";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gobject.Object.getMemoryLayout().withName("parent_instance"),
         Interop.valueLayout.ADDRESS.withName("priv")
     ).withName(C_TYPE_NAME);
@@ -71,7 +71,7 @@ public class InetAddress extends org.gtk.gobject.Object {
      * @throws ClassCastException If the GType is not derived from "GInetAddress", a ClassCastException will be thrown.
      */
     public static InetAddress castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GInetAddress"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), InetAddress.getType())) {
             return new InetAddress(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GInetAddress");
@@ -412,119 +412,306 @@ public class InetAddress extends org.gtk.gobject.Object {
         return Interop.getStringFrom(RESULT);
     }
     
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.g_inet_address_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gobject.Object.Build {
+        
+         /**
+         * A {@link InetAddress.Build} object constructs a {@link InetAddress} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link InetAddress} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link InetAddress} using {@link InetAddress#castFrom}.
+         * @return A new instance of {@code InetAddress} with the properties 
+         *         that were set in the Build object.
+         */
+        public InetAddress construct() {
+            return InetAddress.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    InetAddress.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+        
+        public Build setBytes(java.lang.foreign.MemoryAddress bytes) {
+            names.add("bytes");
+            values.add(org.gtk.gobject.Value.create(bytes));
+            return this;
+        }
+        
+        public Build setFamily(org.gtk.gio.SocketFamily family) {
+            names.add("family");
+            values.add(org.gtk.gobject.Value.create(family));
+            return this;
+        }
+        
+        /**
+         * Whether this is the "any" address for its family.
+         * See g_inet_address_get_is_any().
+         * @param isAny The value for the {@code is-any} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setIsAny(boolean isAny) {
+            names.add("is-any");
+            values.add(org.gtk.gobject.Value.create(isAny));
+            return this;
+        }
+        
+        /**
+         * Whether this is a link-local address.
+         * See g_inet_address_get_is_link_local().
+         * @param isLinkLocal The value for the {@code is-link-local} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setIsLinkLocal(boolean isLinkLocal) {
+            names.add("is-link-local");
+            values.add(org.gtk.gobject.Value.create(isLinkLocal));
+            return this;
+        }
+        
+        /**
+         * Whether this is the loopback address for its family.
+         * See g_inet_address_get_is_loopback().
+         * @param isLoopback The value for the {@code is-loopback} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setIsLoopback(boolean isLoopback) {
+            names.add("is-loopback");
+            values.add(org.gtk.gobject.Value.create(isLoopback));
+            return this;
+        }
+        
+        /**
+         * Whether this is a global multicast address.
+         * See g_inet_address_get_is_mc_global().
+         * @param isMcGlobal The value for the {@code is-mc-global} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setIsMcGlobal(boolean isMcGlobal) {
+            names.add("is-mc-global");
+            values.add(org.gtk.gobject.Value.create(isMcGlobal));
+            return this;
+        }
+        
+        /**
+         * Whether this is a link-local multicast address.
+         * See g_inet_address_get_is_mc_link_local().
+         * @param isMcLinkLocal The value for the {@code is-mc-link-local} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setIsMcLinkLocal(boolean isMcLinkLocal) {
+            names.add("is-mc-link-local");
+            values.add(org.gtk.gobject.Value.create(isMcLinkLocal));
+            return this;
+        }
+        
+        /**
+         * Whether this is a node-local multicast address.
+         * See g_inet_address_get_is_mc_node_local().
+         * @param isMcNodeLocal The value for the {@code is-mc-node-local} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setIsMcNodeLocal(boolean isMcNodeLocal) {
+            names.add("is-mc-node-local");
+            values.add(org.gtk.gobject.Value.create(isMcNodeLocal));
+            return this;
+        }
+        
+        /**
+         * Whether this is an organization-local multicast address.
+         * See g_inet_address_get_is_mc_org_local().
+         * @param isMcOrgLocal The value for the {@code is-mc-org-local} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setIsMcOrgLocal(boolean isMcOrgLocal) {
+            names.add("is-mc-org-local");
+            values.add(org.gtk.gobject.Value.create(isMcOrgLocal));
+            return this;
+        }
+        
+        /**
+         * Whether this is a site-local multicast address.
+         * See g_inet_address_get_is_mc_site_local().
+         * @param isMcSiteLocal The value for the {@code is-mc-site-local} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setIsMcSiteLocal(boolean isMcSiteLocal) {
+            names.add("is-mc-site-local");
+            values.add(org.gtk.gobject.Value.create(isMcSiteLocal));
+            return this;
+        }
+        
+        /**
+         * Whether this is a multicast address.
+         * See g_inet_address_get_is_multicast().
+         * @param isMulticast The value for the {@code is-multicast} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setIsMulticast(boolean isMulticast) {
+            names.add("is-multicast");
+            values.add(org.gtk.gobject.Value.create(isMulticast));
+            return this;
+        }
+        
+        /**
+         * Whether this is a site-local address.
+         * See g_inet_address_get_is_loopback().
+         * @param isSiteLocal The value for the {@code is-site-local} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setIsSiteLocal(boolean isSiteLocal) {
+            names.add("is-site-local");
+            values.add(org.gtk.gobject.Value.create(isSiteLocal));
+            return this;
+        }
+    }
+    
     private static class DowncallHandles {
         
         private static final MethodHandle g_inet_address_new_any = Interop.downcallHandle(
             "g_inet_address_new_any",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_inet_address_new_from_bytes = Interop.downcallHandle(
             "g_inet_address_new_from_bytes",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_inet_address_new_from_string = Interop.downcallHandle(
             "g_inet_address_new_from_string",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_inet_address_new_loopback = Interop.downcallHandle(
             "g_inet_address_new_loopback",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_inet_address_equal = Interop.downcallHandle(
             "g_inet_address_equal",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_inet_address_get_family = Interop.downcallHandle(
             "g_inet_address_get_family",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_inet_address_get_is_any = Interop.downcallHandle(
             "g_inet_address_get_is_any",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_inet_address_get_is_link_local = Interop.downcallHandle(
             "g_inet_address_get_is_link_local",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_inet_address_get_is_loopback = Interop.downcallHandle(
             "g_inet_address_get_is_loopback",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_inet_address_get_is_mc_global = Interop.downcallHandle(
             "g_inet_address_get_is_mc_global",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_inet_address_get_is_mc_link_local = Interop.downcallHandle(
             "g_inet_address_get_is_mc_link_local",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_inet_address_get_is_mc_node_local = Interop.downcallHandle(
             "g_inet_address_get_is_mc_node_local",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_inet_address_get_is_mc_org_local = Interop.downcallHandle(
             "g_inet_address_get_is_mc_org_local",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_inet_address_get_is_mc_site_local = Interop.downcallHandle(
             "g_inet_address_get_is_mc_site_local",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_inet_address_get_is_multicast = Interop.downcallHandle(
             "g_inet_address_get_is_multicast",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_inet_address_get_is_site_local = Interop.downcallHandle(
             "g_inet_address_get_is_site_local",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_inet_address_get_native_size = Interop.downcallHandle(
             "g_inet_address_get_native_size",
-            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_inet_address_to_bytes = Interop.downcallHandle(
             "g_inet_address_to_bytes",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_inet_address_to_string = Interop.downcallHandle(
             "g_inet_address_to_string",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+            false
+        );
+        
+        private static final MethodHandle g_inet_address_get_type = Interop.downcallHandle(
+            "g_inet_address_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }

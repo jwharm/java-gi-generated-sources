@@ -48,7 +48,7 @@ public class CrossFadeNode extends org.gtk.gsk.RenderNode {
      * @throws ClassCastException If the GType is not derived from "GskCrossFadeNode", a ClassCastException will be thrown.
      */
     public static CrossFadeNode castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GskCrossFadeNode"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), CrossFadeNode.getType())) {
             return new CrossFadeNode(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GskCrossFadeNode");
@@ -126,29 +126,84 @@ public class CrossFadeNode extends org.gtk.gsk.RenderNode {
         return new org.gtk.gsk.RenderNode(RESULT, Ownership.NONE);
     }
     
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.gsk_cross_fade_node_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gsk.RenderNode.Build {
+        
+         /**
+         * A {@link CrossFadeNode.Build} object constructs a {@link CrossFadeNode} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link CrossFadeNode} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link CrossFadeNode} using {@link CrossFadeNode#castFrom}.
+         * @return A new instance of {@code CrossFadeNode} with the properties 
+         *         that were set in the Build object.
+         */
+        public CrossFadeNode construct() {
+            return CrossFadeNode.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    CrossFadeNode.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+    }
+    
     private static class DowncallHandles {
         
         private static final MethodHandle gsk_cross_fade_node_new = Interop.downcallHandle(
             "gsk_cross_fade_node_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_FLOAT),
             false
         );
         
         private static final MethodHandle gsk_cross_fade_node_get_end_child = Interop.downcallHandle(
             "gsk_cross_fade_node_get_end_child",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gsk_cross_fade_node_get_progress = Interop.downcallHandle(
             "gsk_cross_fade_node_get_progress",
-            FunctionDescriptor.of(ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_FLOAT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gsk_cross_fade_node_get_start_child = Interop.downcallHandle(
             "gsk_cross_fade_node_get_start_child",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+            false
+        );
+        
+        private static final MethodHandle gsk_cross_fade_node_get_type = Interop.downcallHandle(
+            "gsk_cross_fade_node_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }

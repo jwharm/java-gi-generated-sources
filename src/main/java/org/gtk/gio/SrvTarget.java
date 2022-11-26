@@ -21,7 +21,7 @@ import org.jetbrains.annotations.*;
  * {@link SocketConnectable} interface and not need to worry about
  * {@link SrvTarget} at all.
  */
-public class SrvTarget extends io.github.jwharm.javagi.ProxyBase {
+public class SrvTarget extends Struct {
     
     static {
         Gio.javagi$ensureInitialized();
@@ -40,6 +40,10 @@ public class SrvTarget extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link SrvTarget}
+     * @return A new, uninitialized @{link SrvTarget}
+     */
     public static SrvTarget allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         SrvTarget newInstance = new SrvTarget(segment.address(), Ownership.NONE);
@@ -201,50 +205,78 @@ public class SrvTarget extends io.github.jwharm.javagi.ProxyBase {
         
         private static final MethodHandle g_srv_target_new = Interop.downcallHandle(
             "g_srv_target_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_SHORT, ValueLayout.JAVA_SHORT, ValueLayout.JAVA_SHORT),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_SHORT, Interop.valueLayout.C_SHORT, Interop.valueLayout.C_SHORT),
             false
         );
         
         private static final MethodHandle g_srv_target_copy = Interop.downcallHandle(
             "g_srv_target_copy",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_srv_target_free = Interop.downcallHandle(
             "g_srv_target_free",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_srv_target_get_hostname = Interop.downcallHandle(
             "g_srv_target_get_hostname",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_srv_target_get_port = Interop.downcallHandle(
             "g_srv_target_get_port",
-            FunctionDescriptor.of(ValueLayout.JAVA_SHORT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_SHORT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_srv_target_get_priority = Interop.downcallHandle(
             "g_srv_target_get_priority",
-            FunctionDescriptor.of(ValueLayout.JAVA_SHORT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_SHORT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_srv_target_get_weight = Interop.downcallHandle(
             "g_srv_target_get_weight",
-            FunctionDescriptor.of(ValueLayout.JAVA_SHORT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_SHORT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_srv_target_list_sort = Interop.downcallHandle(
             "g_srv_target_list_sort",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private SrvTarget struct;
+        
+         /**
+         * A {@link SrvTarget.Build} object constructs a {@link SrvTarget} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = SrvTarget.allocate();
+        }
+        
+         /**
+         * Finish building the {@link SrvTarget} struct.
+         * @return A new instance of {@code SrvTarget} with the fields 
+         *         that were set in the Build object.
+         */
+        public SrvTarget construct() {
+            return struct;
+        }
     }
 }

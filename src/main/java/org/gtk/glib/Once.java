@@ -11,7 +11,7 @@ import org.jetbrains.annotations.*;
  * struct.
  * @version 2.4
  */
-public class Once extends io.github.jwharm.javagi.ProxyBase {
+public class Once extends Struct {
     
     static {
         GLib.javagi$ensureInitialized();
@@ -19,7 +19,7 @@ public class Once extends io.github.jwharm.javagi.ProxyBase {
     
     private static final java.lang.String C_TYPE_NAME = "GOnce";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
         Interop.valueLayout.C_INT.withName("status"),
         MemoryLayout.paddingLayout(32),
         Interop.valueLayout.ADDRESS.withName("retval")
@@ -36,6 +36,10 @@ public class Once extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link Once}
+     * @return A new, uninitialized @{link Once}
+     */
     public static Once allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         Once newInstance = new Once(segment.address(), Ownership.NONE);
@@ -82,7 +86,7 @@ public class Once extends io.github.jwharm.javagi.ProxyBase {
     public void retval$set(java.lang.foreign.MemoryAddress retval) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("retval"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), retval);
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) retval);
     }
     
     /**
@@ -134,7 +138,7 @@ public class Once extends io.github.jwharm.javagi.ProxyBase {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_once_init_enter.invokeExact(
-                    location);
+                    (Addressable) location);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -158,7 +162,7 @@ public class Once extends io.github.jwharm.javagi.ProxyBase {
         java.util.Objects.requireNonNull(location, "Parameter 'location' must not be null");
         try {
             DowncallHandles.g_once_init_leave.invokeExact(
-                    location,
+                    (Addressable) location,
                     result);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -169,20 +173,73 @@ public class Once extends io.github.jwharm.javagi.ProxyBase {
         
         private static final MethodHandle g_once_impl = Interop.downcallHandle(
             "g_once_impl",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_once_init_enter = Interop.downcallHandle(
             "g_once_init_enter",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_once_init_leave = Interop.downcallHandle(
             "g_once_init_leave",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
             false
         );
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private Once struct;
+        
+         /**
+         * A {@link Once.Build} object constructs a {@link Once} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = Once.allocate();
+        }
+        
+         /**
+         * Finish building the {@link Once} struct.
+         * @return A new instance of {@code Once} with the fields 
+         *         that were set in the Build object.
+         */
+        public Once construct() {
+            return struct;
+        }
+        
+        /**
+         * the status of the {@link Once}
+         * @param status The value for the {@code status} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setStatus(org.gtk.glib.OnceStatus status) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("status"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (status == null ? MemoryAddress.NULL : status.getValue()));
+            return this;
+        }
+        
+        /**
+         * the value returned by the call to the function, if {@code status}
+         *          is {@link OnceStatus#READY}
+         * @param retval The value for the {@code retval} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setRetval(java.lang.foreign.MemoryAddress retval) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("retval"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (retval == null ? MemoryAddress.NULL : (Addressable) retval));
+            return this;
+        }
     }
 }

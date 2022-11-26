@@ -17,7 +17,7 @@ import org.jetbrains.annotations.*;
  * for a usage example.
  * @version 2.66
  */
-public class UriParamsIter extends io.github.jwharm.javagi.ProxyBase {
+public class UriParamsIter extends Struct {
     
     static {
         GLib.javagi$ensureInitialized();
@@ -25,13 +25,12 @@ public class UriParamsIter extends io.github.jwharm.javagi.ProxyBase {
     
     private static final java.lang.String C_TYPE_NAME = "GUriParamsIter";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
-        ValueLayout.JAVA_INT.withName("dummy0"),
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
+        Interop.valueLayout.C_INT.withName("dummy0"),
         MemoryLayout.paddingLayout(32),
         Interop.valueLayout.ADDRESS.withName("dummy1"),
         Interop.valueLayout.ADDRESS.withName("dummy2"),
-        MemoryLayout.paddingLayout(1856),
-        MemoryLayout.sequenceLayout(256, ValueLayout.JAVA_BYTE).withName("dummy3")
+        MemoryLayout.sequenceLayout(256, Interop.valueLayout.C_BYTE).withName("dummy3")
     ).withName(C_TYPE_NAME);
     
     /**
@@ -45,6 +44,10 @@ public class UriParamsIter extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link UriParamsIter}
+     * @return A new, uninitialized @{link UriParamsIter}
+     */
     public static UriParamsIter allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         UriParamsIter newInstance = new UriParamsIter(segment.address(), Ownership.NONE);
@@ -140,9 +143,9 @@ public class UriParamsIter extends io.github.jwharm.javagi.ProxyBase {
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public boolean next(@Nullable Out<java.lang.String> attribute, @Nullable Out<java.lang.String> value) throws io.github.jwharm.javagi.GErrorException {
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        MemorySegment attributePOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        MemorySegment valuePOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment attributePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
+        MemorySegment valuePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_uri_params_iter_next.invokeExact(
@@ -156,8 +159,8 @@ public class UriParamsIter extends io.github.jwharm.javagi.ProxyBase {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        if (attribute != null) attribute.set(Interop.getStringFrom(attributePOINTER.get(ValueLayout.ADDRESS, 0)));
-        if (value != null) value.set(Interop.getStringFrom(valuePOINTER.get(ValueLayout.ADDRESS, 0)));
+        if (attribute != null) attribute.set(Interop.getStringFrom(attributePOINTER.get(Interop.valueLayout.ADDRESS, 0)));
+        if (value != null) value.set(Interop.getStringFrom(valuePOINTER.get(Interop.valueLayout.ADDRESS, 0)));
         return RESULT != 0;
     }
     
@@ -165,14 +168,70 @@ public class UriParamsIter extends io.github.jwharm.javagi.ProxyBase {
         
         private static final MethodHandle g_uri_params_iter_init = Interop.downcallHandle(
             "g_uri_params_iter_init",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_uri_params_iter_next = Interop.downcallHandle(
             "g_uri_params_iter_next",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private UriParamsIter struct;
+        
+         /**
+         * A {@link UriParamsIter.Build} object constructs a {@link UriParamsIter} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = UriParamsIter.allocate();
+        }
+        
+         /**
+         * Finish building the {@link UriParamsIter} struct.
+         * @return A new instance of {@code UriParamsIter} with the fields 
+         *         that were set in the Build object.
+         */
+        public UriParamsIter construct() {
+            return struct;
+        }
+        
+        public Build setDummy0(int dummy0) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("dummy0"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), dummy0);
+            return this;
+        }
+        
+        public Build setDummy1(java.lang.foreign.MemoryAddress dummy1) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("dummy1"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (dummy1 == null ? MemoryAddress.NULL : (Addressable) dummy1));
+            return this;
+        }
+        
+        public Build setDummy2(java.lang.foreign.MemoryAddress dummy2) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("dummy2"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (dummy2 == null ? MemoryAddress.NULL : (Addressable) dummy2));
+            return this;
+        }
+        
+        public Build setDummy3(byte[] dummy3) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("dummy3"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (dummy3 == null ? MemoryAddress.NULL : Interop.allocateNativeArray(dummy3, false)));
+            return this;
+        }
     }
 }

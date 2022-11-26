@@ -74,7 +74,7 @@ public class MapListModel extends org.gtk.gobject.Object implements org.gtk.gio.
      * @throws ClassCastException If the GType is not derived from "GtkMapListModel", a ClassCastException will be thrown.
      */
     public static MapListModel castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkMapListModel"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), MapListModel.getType())) {
             return new MapListModel(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkMapListModel");
@@ -89,7 +89,7 @@ public class MapListModel extends org.gtk.gobject.Object implements org.gtk.gio.
                     (Addressable) (mapFunc == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gtk.Callbacks.class, "cbMapListModelMapFunc",
                             MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                         Interop.getScope())),
                     (Addressable) (mapFunc == null ? MemoryAddress.NULL : Interop.registerCallback(mapFunc)),
                     Interop.cbDestroyNotifySymbol());
@@ -160,7 +160,7 @@ public class MapListModel extends org.gtk.gobject.Object implements org.gtk.gio.
                     (Addressable) (mapFunc == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gtk.Callbacks.class, "cbMapListModelMapFunc",
                             MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                         Interop.getScope())),
                     (Addressable) (mapFunc == null ? MemoryAddress.NULL : Interop.registerCallback(mapFunc)),
                     Interop.cbDestroyNotifySymbol());
@@ -187,35 +187,134 @@ public class MapListModel extends org.gtk.gobject.Object implements org.gtk.gio.
         }
     }
     
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.gtk_map_list_model_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gobject.Object.Build {
+        
+         /**
+         * A {@link MapListModel.Build} object constructs a {@link MapListModel} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link MapListModel} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link MapListModel} using {@link MapListModel#castFrom}.
+         * @return A new instance of {@code MapListModel} with the properties 
+         *         that were set in the Build object.
+         */
+        public MapListModel construct() {
+            return MapListModel.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    MapListModel.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+        
+        /**
+         * If a map is set for this model
+         * @param hasMap The value for the {@code has-map} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setHasMap(boolean hasMap) {
+            names.add("has-map");
+            values.add(org.gtk.gobject.Value.create(hasMap));
+            return this;
+        }
+        
+        /**
+         * The type of items. See {@link org.gtk.gio.ListModel#getItemType}.
+         * @param itemType The value for the {@code item-type} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setItemType(org.gtk.glib.Type itemType) {
+            names.add("item-type");
+            values.add(org.gtk.gobject.Value.create(itemType));
+            return this;
+        }
+        
+        /**
+         * The model being mapped.
+         * @param model The value for the {@code model} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setModel(org.gtk.gio.ListModel model) {
+            names.add("model");
+            values.add(org.gtk.gobject.Value.create(model));
+            return this;
+        }
+        
+        /**
+         * The number of items. See {@link org.gtk.gio.ListModel#getNItems}.
+         * @param nItems The value for the {@code n-items} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setNItems(int nItems) {
+            names.add("n-items");
+            values.add(org.gtk.gobject.Value.create(nItems));
+            return this;
+        }
+    }
+    
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_map_list_model_new = Interop.downcallHandle(
             "gtk_map_list_model_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_map_list_model_get_model = Interop.downcallHandle(
             "gtk_map_list_model_get_model",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_map_list_model_has_map = Interop.downcallHandle(
             "gtk_map_list_model_has_map",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_map_list_model_set_map_func = Interop.downcallHandle(
             "gtk_map_list_model_set_map_func",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_map_list_model_set_model = Interop.downcallHandle(
             "gtk_map_list_model_set_model",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+            false
+        );
+        
+        private static final MethodHandle gtk_map_list_model_get_type = Interop.downcallHandle(
+            "gtk_map_list_model_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }

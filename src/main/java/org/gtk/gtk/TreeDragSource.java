@@ -23,7 +23,7 @@ public interface TreeDragSource extends io.github.jwharm.javagi.Proxy {
      * @throws ClassCastException If the GType is not derived from "GtkTreeDragSource", a ClassCastException will be thrown.
      */
     public static TreeDragSource castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkTreeDragSource"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), TreeDragSource.getType())) {
             return new TreeDragSourceImpl(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkTreeDragSource");
@@ -93,27 +93,48 @@ public interface TreeDragSource extends io.github.jwharm.javagi.Proxy {
         return RESULT != 0;
     }
     
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.gtk_tree_drag_source_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+    
     @ApiStatus.Internal
     static class DowncallHandles {
         
         @ApiStatus.Internal
         static final MethodHandle gtk_tree_drag_source_drag_data_delete = Interop.downcallHandle(
             "gtk_tree_drag_source_drag_data_delete",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_tree_drag_source_drag_data_get = Interop.downcallHandle(
             "gtk_tree_drag_source_drag_data_get",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_tree_drag_source_row_draggable = Interop.downcallHandle(
             "gtk_tree_drag_source_row_draggable",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+            false
+        );
+        
+        @ApiStatus.Internal
+        static final MethodHandle gtk_tree_drag_source_get_type = Interop.downcallHandle(
+            "gtk_tree_drag_source_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }

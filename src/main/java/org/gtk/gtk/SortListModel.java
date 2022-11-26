@@ -66,7 +66,7 @@ public class SortListModel extends org.gtk.gobject.Object implements org.gtk.gio
      * @throws ClassCastException If the GType is not derived from "GtkSortListModel", a ClassCastException will be thrown.
      */
     public static SortListModel castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkSortListModel"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), SortListModel.getType())) {
             return new SortListModel(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkSortListModel");
@@ -233,53 +233,174 @@ public class SortListModel extends org.gtk.gobject.Object implements org.gtk.gio
         }
     }
     
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.gtk_sort_list_model_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gobject.Object.Build {
+        
+         /**
+         * A {@link SortListModel.Build} object constructs a {@link SortListModel} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link SortListModel} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link SortListModel} using {@link SortListModel#castFrom}.
+         * @return A new instance of {@code SortListModel} with the properties 
+         *         that were set in the Build object.
+         */
+        public SortListModel construct() {
+            return SortListModel.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    SortListModel.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+        
+        /**
+         * If the model should sort items incrementally.
+         * @param incremental The value for the {@code incremental} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setIncremental(boolean incremental) {
+            names.add("incremental");
+            values.add(org.gtk.gobject.Value.create(incremental));
+            return this;
+        }
+        
+        /**
+         * The type of items. See {@link org.gtk.gio.ListModel#getItemType}.
+         * @param itemType The value for the {@code item-type} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setItemType(org.gtk.glib.Type itemType) {
+            names.add("item-type");
+            values.add(org.gtk.gobject.Value.create(itemType));
+            return this;
+        }
+        
+        /**
+         * The model being sorted.
+         * @param model The value for the {@code model} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setModel(org.gtk.gio.ListModel model) {
+            names.add("model");
+            values.add(org.gtk.gobject.Value.create(model));
+            return this;
+        }
+        
+        /**
+         * The number of items. See {@link org.gtk.gio.ListModel#getNItems}.
+         * @param nItems The value for the {@code n-items} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setNItems(int nItems) {
+            names.add("n-items");
+            values.add(org.gtk.gobject.Value.create(nItems));
+            return this;
+        }
+        
+        /**
+         * Estimate of unsorted items remaining.
+         * @param pending The value for the {@code pending} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setPending(int pending) {
+            names.add("pending");
+            values.add(org.gtk.gobject.Value.create(pending));
+            return this;
+        }
+        
+        /**
+         * The sorter for this model.
+         * @param sorter The value for the {@code sorter} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setSorter(org.gtk.gtk.Sorter sorter) {
+            names.add("sorter");
+            values.add(org.gtk.gobject.Value.create(sorter));
+            return this;
+        }
+    }
+    
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_sort_list_model_new = Interop.downcallHandle(
             "gtk_sort_list_model_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_sort_list_model_get_incremental = Interop.downcallHandle(
             "gtk_sort_list_model_get_incremental",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_sort_list_model_get_model = Interop.downcallHandle(
             "gtk_sort_list_model_get_model",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_sort_list_model_get_pending = Interop.downcallHandle(
             "gtk_sort_list_model_get_pending",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_sort_list_model_get_sorter = Interop.downcallHandle(
             "gtk_sort_list_model_get_sorter",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_sort_list_model_set_incremental = Interop.downcallHandle(
             "gtk_sort_list_model_set_incremental",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_sort_list_model_set_model = Interop.downcallHandle(
             "gtk_sort_list_model_set_model",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_sort_list_model_set_sorter = Interop.downcallHandle(
             "gtk_sort_list_model_set_sorter",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+            false
+        );
+        
+        private static final MethodHandle gtk_sort_list_model_get_type = Interop.downcallHandle(
+            "gtk_sort_list_model_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }

@@ -54,7 +54,7 @@ public class Monitor extends org.gtk.gobject.Object {
      * @throws ClassCastException If the GType is not derived from "GdkMonitor", a ClassCastException will be thrown.
      */
     public static Monitor castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GdkMonitor"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), Monitor.getType())) {
             return new Monitor(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GdkMonitor");
@@ -252,6 +252,20 @@ public class Monitor extends org.gtk.gobject.Object {
         return RESULT != 0;
     }
     
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.gdk_monitor_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+    
     @FunctionalInterface
     public interface Invalidate {
         void signalReceived(Monitor source);
@@ -270,7 +284,7 @@ public class Monitor extends org.gtk.gobject.Object {
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(Monitor.Callbacks.class, "signalMonitorInvalidate",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                     Interop.getScope()),
                 Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
@@ -279,72 +293,234 @@ public class Monitor extends org.gtk.gobject.Object {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gobject.Object.Build {
+        
+         /**
+         * A {@link Monitor.Build} object constructs a {@link Monitor} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link Monitor} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link Monitor} using {@link Monitor#castFrom}.
+         * @return A new instance of {@code Monitor} with the properties 
+         *         that were set in the Build object.
+         */
+        public Monitor construct() {
+            return Monitor.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    Monitor.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+        
+        /**
+         * The connector name.
+         * @param connector The value for the {@code connector} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setConnector(java.lang.String connector) {
+            names.add("connector");
+            values.add(org.gtk.gobject.Value.create(connector));
+            return this;
+        }
+        
+        /**
+         * The {@code GdkDisplay} of the monitor.
+         * @param display The value for the {@code display} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setDisplay(org.gtk.gdk.Display display) {
+            names.add("display");
+            values.add(org.gtk.gobject.Value.create(display));
+            return this;
+        }
+        
+        /**
+         * The geometry of the monitor.
+         * @param geometry The value for the {@code geometry} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setGeometry(org.gtk.gdk.Rectangle geometry) {
+            names.add("geometry");
+            values.add(org.gtk.gobject.Value.create(geometry));
+            return this;
+        }
+        
+        /**
+         * The height of the monitor, in millimeters.
+         * @param heightMm The value for the {@code height-mm} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setHeightMm(int heightMm) {
+            names.add("height-mm");
+            values.add(org.gtk.gobject.Value.create(heightMm));
+            return this;
+        }
+        
+        /**
+         * The manufacturer name.
+         * @param manufacturer The value for the {@code manufacturer} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setManufacturer(java.lang.String manufacturer) {
+            names.add("manufacturer");
+            values.add(org.gtk.gobject.Value.create(manufacturer));
+            return this;
+        }
+        
+        /**
+         * The model name.
+         * @param model The value for the {@code model} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setModel(java.lang.String model) {
+            names.add("model");
+            values.add(org.gtk.gobject.Value.create(model));
+            return this;
+        }
+        
+        /**
+         * The refresh rate, in milli-Hertz.
+         * @param refreshRate The value for the {@code refresh-rate} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setRefreshRate(int refreshRate) {
+            names.add("refresh-rate");
+            values.add(org.gtk.gobject.Value.create(refreshRate));
+            return this;
+        }
+        
+        /**
+         * The scale factor.
+         * @param scaleFactor The value for the {@code scale-factor} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setScaleFactor(int scaleFactor) {
+            names.add("scale-factor");
+            values.add(org.gtk.gobject.Value.create(scaleFactor));
+            return this;
+        }
+        
+        /**
+         * The subpixel layout.
+         * @param subpixelLayout The value for the {@code subpixel-layout} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setSubpixelLayout(org.gtk.gdk.SubpixelLayout subpixelLayout) {
+            names.add("subpixel-layout");
+            values.add(org.gtk.gobject.Value.create(subpixelLayout));
+            return this;
+        }
+        
+        /**
+         * Whether the object is still valid.
+         * @param valid The value for the {@code valid} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setValid(boolean valid) {
+            names.add("valid");
+            values.add(org.gtk.gobject.Value.create(valid));
+            return this;
+        }
+        
+        /**
+         * The width of the monitor, in millimeters.
+         * @param widthMm The value for the {@code width-mm} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setWidthMm(int widthMm) {
+            names.add("width-mm");
+            values.add(org.gtk.gobject.Value.create(widthMm));
+            return this;
+        }
+    }
     
     private static class DowncallHandles {
         
         private static final MethodHandle gdk_monitor_get_connector = Interop.downcallHandle(
             "gdk_monitor_get_connector",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_monitor_get_display = Interop.downcallHandle(
             "gdk_monitor_get_display",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_monitor_get_geometry = Interop.downcallHandle(
             "gdk_monitor_get_geometry",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_monitor_get_height_mm = Interop.downcallHandle(
             "gdk_monitor_get_height_mm",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_monitor_get_manufacturer = Interop.downcallHandle(
             "gdk_monitor_get_manufacturer",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_monitor_get_model = Interop.downcallHandle(
             "gdk_monitor_get_model",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_monitor_get_refresh_rate = Interop.downcallHandle(
             "gdk_monitor_get_refresh_rate",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_monitor_get_scale_factor = Interop.downcallHandle(
             "gdk_monitor_get_scale_factor",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_monitor_get_subpixel_layout = Interop.downcallHandle(
             "gdk_monitor_get_subpixel_layout",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_monitor_get_width_mm = Interop.downcallHandle(
             "gdk_monitor_get_width_mm",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_monitor_is_valid = Interop.downcallHandle(
             "gdk_monitor_is_valid",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+            false
+        );
+        
+        private static final MethodHandle gdk_monitor_get_type = Interop.downcallHandle(
+            "gdk_monitor_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }
@@ -352,9 +528,9 @@ public class Monitor extends org.gtk.gobject.Object {
     private static class Callbacks {
         
         public static void signalMonitorInvalidate(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (Monitor.Invalidate) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Monitor(source, Ownership.UNKNOWN));
+            HANDLER.signalReceived(new Monitor(source, Ownership.NONE));
         }
     }
 }

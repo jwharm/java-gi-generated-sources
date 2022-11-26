@@ -10,7 +10,7 @@ import org.jetbrains.annotations.*;
  * [dynamically-loaded module][glib-Dynamic-Loading-of-Modules].
  * It should only be accessed via the following functions.
  */
-public class Module extends io.github.jwharm.javagi.ProxyBase {
+public class Module extends Struct {
     
     static {
         GModule.javagi$ensureInitialized();
@@ -29,6 +29,10 @@ public class Module extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link Module}
+     * @return A new, uninitialized @{link Module}
+     */
     public static Module allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         Module newInstance = new Module(segment.address(), Ownership.NONE);
@@ -100,7 +104,7 @@ public class Module extends io.github.jwharm.javagi.ProxyBase {
      */
     public boolean symbol(@NotNull java.lang.String symbolName, @Nullable Out<java.lang.foreign.MemoryAddress> symbol) {
         java.util.Objects.requireNonNull(symbolName, "Parameter 'symbolName' must not be null");
-        MemorySegment symbolPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment symbolPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_module_symbol.invokeExact(
@@ -110,7 +114,7 @@ public class Module extends io.github.jwharm.javagi.ProxyBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        if (symbol != null) symbol.set(symbolPOINTER.get(ValueLayout.ADDRESS, 0));
+        if (symbol != null) symbol.set(symbolPOINTER.get(Interop.valueLayout.ADDRESS, 0));
         return RESULT != 0;
     }
     
@@ -215,7 +219,7 @@ public class Module extends io.github.jwharm.javagi.ProxyBase {
      */
     public static @NotNull org.gtk.gmodule.Module openFull(@Nullable java.lang.String fileName, @NotNull org.gtk.gmodule.ModuleFlags flags) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_module_open_full.invokeExact(
@@ -249,62 +253,90 @@ public class Module extends io.github.jwharm.javagi.ProxyBase {
         
         private static final MethodHandle g_module_close = Interop.downcallHandle(
             "g_module_close",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_module_make_resident = Interop.downcallHandle(
             "g_module_make_resident",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_module_name = Interop.downcallHandle(
             "g_module_name",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_module_symbol = Interop.downcallHandle(
             "g_module_symbol",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_module_build_path = Interop.downcallHandle(
             "g_module_build_path",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_module_error = Interop.downcallHandle(
             "g_module_error",
-            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_module_error_quark = Interop.downcallHandle(
             "g_module_error_quark",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_module_open = Interop.downcallHandle(
             "g_module_open",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_module_open_full = Interop.downcallHandle(
             "g_module_open_full",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_module_supported = Interop.downcallHandle(
             "g_module_supported",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT),
             false
         );
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private Module struct;
+        
+         /**
+         * A {@link Module.Build} object constructs a {@link Module} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = Module.allocate();
+        }
+        
+         /**
+         * Finish building the {@link Module} struct.
+         * @return A new instance of {@code Module} with the fields 
+         *         that were set in the Build object.
+         */
+        public Module construct() {
+            return struct;
+        }
     }
 }

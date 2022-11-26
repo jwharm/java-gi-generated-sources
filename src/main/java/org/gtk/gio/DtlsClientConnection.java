@@ -25,7 +25,7 @@ public interface DtlsClientConnection extends io.github.jwharm.javagi.Proxy {
      * @throws ClassCastException If the GType is not derived from "GDtlsClientConnection", a ClassCastException will be thrown.
      */
     public static DtlsClientConnection castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GDtlsClientConnection"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), DtlsClientConnection.getType())) {
             return new DtlsClientConnectionImpl(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GDtlsClientConnection");
@@ -74,8 +74,14 @@ public interface DtlsClientConnection extends io.github.jwharm.javagi.Proxy {
     
     /**
      * Gets {@code conn}'s validation flags
+     * <p>
+     * This function does not work as originally designed and is impossible
+     * to use correctly. See {@link DtlsClientConnection}:validation-flags for more
+     * information.
      * @return the validation flags
+     * @deprecated Do not attempt to ignore validation errors.
      */
+    @Deprecated
     default @NotNull org.gtk.gio.TlsCertificateFlags getValidationFlags() {
         int RESULT;
         try {
@@ -109,8 +115,14 @@ public interface DtlsClientConnection extends io.github.jwharm.javagi.Proxy {
      * Sets {@code conn}'s validation flags, to override the default set of
      * checks performed when validating a server certificate. By default,
      * {@link TlsCertificateFlags#VALIDATE_ALL} is used.
+     * <p>
+     * This function does not work as originally designed and is impossible
+     * to use correctly. See {@link DtlsClientConnection}:validation-flags for more
+     * information.
      * @param flags the {@link TlsCertificateFlags} to use
+     * @deprecated Do not attempt to ignore validation errors.
      */
+    @Deprecated
     default void setValidationFlags(@NotNull org.gtk.gio.TlsCertificateFlags flags) {
         java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
         try {
@@ -120,6 +132,20 @@ public interface DtlsClientConnection extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+    }
+    
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.g_dtls_client_connection_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
     }
     
     /**
@@ -133,7 +159,7 @@ public interface DtlsClientConnection extends io.github.jwharm.javagi.Proxy {
      */
     public static @NotNull org.gtk.gio.DtlsClientConnection new_(@NotNull org.gtk.gio.DatagramBased baseSocket, @Nullable org.gtk.gio.SocketConnectable serverIdentity) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(baseSocket, "Parameter 'baseSocket' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_dtls_client_connection_new.invokeExact(
@@ -155,42 +181,49 @@ public interface DtlsClientConnection extends io.github.jwharm.javagi.Proxy {
         @ApiStatus.Internal
         static final MethodHandle g_dtls_client_connection_get_accepted_cas = Interop.downcallHandle(
             "g_dtls_client_connection_get_accepted_cas",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_dtls_client_connection_get_server_identity = Interop.downcallHandle(
             "g_dtls_client_connection_get_server_identity",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_dtls_client_connection_get_validation_flags = Interop.downcallHandle(
             "g_dtls_client_connection_get_validation_flags",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_dtls_client_connection_set_server_identity = Interop.downcallHandle(
             "g_dtls_client_connection_set_server_identity",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_dtls_client_connection_set_validation_flags = Interop.downcallHandle(
             "g_dtls_client_connection_set_validation_flags",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+            false
+        );
+        
+        @ApiStatus.Internal
+        static final MethodHandle g_dtls_client_connection_get_type = Interop.downcallHandle(
+            "g_dtls_client_connection_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_dtls_client_connection_new = Interop.downcallHandle(
             "g_dtls_client_connection_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
     }

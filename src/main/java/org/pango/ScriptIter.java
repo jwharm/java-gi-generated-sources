@@ -9,7 +9,7 @@ import org.jetbrains.annotations.*;
  * A {@code PangoScriptIter} is used to iterate through a string
  * and identify ranges in different scripts.
  */
-public class ScriptIter extends io.github.jwharm.javagi.ProxyBase {
+public class ScriptIter extends Struct {
     
     static {
         Pango.javagi$ensureInitialized();
@@ -28,6 +28,10 @@ public class ScriptIter extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link ScriptIter}
+     * @return A new, uninitialized @{link ScriptIter}
+     */
     public static ScriptIter allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         ScriptIter newInstance = new ScriptIter(segment.address(), Ownership.NONE);
@@ -100,11 +104,11 @@ public class ScriptIter extends io.github.jwharm.javagi.ProxyBase {
      */
     public void getRange(@NotNull Out<java.lang.String> start, @NotNull Out<java.lang.String> end, @NotNull Out<org.pango.Script> script) {
         java.util.Objects.requireNonNull(start, "Parameter 'start' must not be null");
+        MemorySegment startPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         java.util.Objects.requireNonNull(end, "Parameter 'end' must not be null");
+        MemorySegment endPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         java.util.Objects.requireNonNull(script, "Parameter 'script' must not be null");
-        MemorySegment startPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        MemorySegment endPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        MemorySegment scriptPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
+        MemorySegment scriptPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         try {
             DowncallHandles.pango_script_iter_get_range.invokeExact(
                     handle(),
@@ -114,9 +118,9 @@ public class ScriptIter extends io.github.jwharm.javagi.ProxyBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        start.set(Interop.getStringFrom(startPOINTER.get(ValueLayout.ADDRESS, 0)));
-        end.set(Interop.getStringFrom(endPOINTER.get(ValueLayout.ADDRESS, 0)));
-        script.set(new org.pango.Script(scriptPOINTER.get(ValueLayout.JAVA_INT, 0)));
+        start.set(Interop.getStringFrom(startPOINTER.get(Interop.valueLayout.ADDRESS, 0)));
+        end.set(Interop.getStringFrom(endPOINTER.get(Interop.valueLayout.ADDRESS, 0)));
+        script.set(new org.pango.Script(scriptPOINTER.get(Interop.valueLayout.C_INT, 0)));
     }
     
     /**
@@ -141,26 +145,54 @@ public class ScriptIter extends io.github.jwharm.javagi.ProxyBase {
         
         private static final MethodHandle pango_script_iter_new = Interop.downcallHandle(
             "pango_script_iter_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle pango_script_iter_free = Interop.downcallHandle(
             "pango_script_iter_free",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle pango_script_iter_get_range = Interop.downcallHandle(
             "pango_script_iter_get_range",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle pango_script_iter_next = Interop.downcallHandle(
             "pango_script_iter_next",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private ScriptIter struct;
+        
+         /**
+         * A {@link ScriptIter.Build} object constructs a {@link ScriptIter} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = ScriptIter.allocate();
+        }
+        
+         /**
+         * Finish building the {@link ScriptIter} struct.
+         * @return A new instance of {@code ScriptIter} with the fields 
+         *         that were set in the Build object.
+         */
+        public ScriptIter construct() {
+            return struct;
+        }
     }
 }

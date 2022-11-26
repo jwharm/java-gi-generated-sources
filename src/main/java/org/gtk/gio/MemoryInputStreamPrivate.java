@@ -5,7 +5,7 @@ import java.lang.foreign.*;
 import java.lang.invoke.*;
 import org.jetbrains.annotations.*;
 
-public class MemoryInputStreamPrivate extends io.github.jwharm.javagi.ProxyBase {
+public class MemoryInputStreamPrivate extends Struct {
     
     static {
         Gio.javagi$ensureInitialized();
@@ -24,6 +24,10 @@ public class MemoryInputStreamPrivate extends io.github.jwharm.javagi.ProxyBase 
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link MemoryInputStreamPrivate}
+     * @return A new, uninitialized @{link MemoryInputStreamPrivate}
+     */
     public static MemoryInputStreamPrivate allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         MemoryInputStreamPrivate newInstance = new MemoryInputStreamPrivate(segment.address(), Ownership.NONE);
@@ -39,5 +43,33 @@ public class MemoryInputStreamPrivate extends io.github.jwharm.javagi.ProxyBase 
     @ApiStatus.Internal
     public MemoryInputStreamPrivate(Addressable address, Ownership ownership) {
         super(address, ownership);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private MemoryInputStreamPrivate struct;
+        
+         /**
+         * A {@link MemoryInputStreamPrivate.Build} object constructs a {@link MemoryInputStreamPrivate} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = MemoryInputStreamPrivate.allocate();
+        }
+        
+         /**
+         * Finish building the {@link MemoryInputStreamPrivate} struct.
+         * @return A new instance of {@code MemoryInputStreamPrivate} with the fields 
+         *         that were set in the Build object.
+         */
+        public MemoryInputStreamPrivate construct() {
+            return struct;
+        }
     }
 }

@@ -11,7 +11,7 @@ import org.jetbrains.annotations.*;
  * The contents of the {@link Vec4} structure are private and should
  * never be accessed directly.
  */
-public class Vec4 extends io.github.jwharm.javagi.ProxyBase {
+public class Vec4 extends Struct {
     
     static {
         Graphene.javagi$ensureInitialized();
@@ -19,7 +19,7 @@ public class Vec4 extends io.github.jwharm.javagi.ProxyBase {
     
     private static final java.lang.String C_TYPE_NAME = "graphene_vec4_t";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.graphene.Simd4F.getMemoryLayout().withName("value")
     ).withName(C_TYPE_NAME);
     
@@ -34,6 +34,10 @@ public class Vec4 extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link Vec4}
+     * @return A new, uninitialized @{link Vec4}
+     */
     public static Vec4 allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         Vec4 newInstance = new Vec4(segment.address(), Ownership.NONE);
@@ -548,7 +552,7 @@ public class Vec4 extends io.github.jwharm.javagi.ProxyBase {
      */
     public void toFloat(@NotNull Out<float[]> dest) {
         java.util.Objects.requireNonNull(dest, "Parameter 'dest' must not be null");
-        MemorySegment destPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment destPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         try {
             DowncallHandles.graphene_vec4_to_float.invokeExact(
                     handle(),
@@ -556,7 +560,7 @@ public class Vec4 extends io.github.jwharm.javagi.ProxyBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        dest.set(MemorySegment.ofAddress(destPOINTER.get(ValueLayout.ADDRESS, 0), 4 * ValueLayout.JAVA_FLOAT.byteSize(), Interop.getScope()).toArray(ValueLayout.JAVA_FLOAT));
+        dest.set(MemorySegment.ofAddress(destPOINTER.get(Interop.valueLayout.ADDRESS, 0), 4 * Interop.valueLayout.C_FLOAT.byteSize(), Interop.getScope()).toArray(Interop.valueLayout.C_FLOAT));
     }
     
     /**
@@ -653,206 +657,241 @@ public class Vec4 extends io.github.jwharm.javagi.ProxyBase {
         
         private static final MethodHandle graphene_vec4_alloc = Interop.downcallHandle(
             "graphene_vec4_alloc",
-            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle graphene_vec4_add = Interop.downcallHandle(
             "graphene_vec4_add",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle graphene_vec4_divide = Interop.downcallHandle(
             "graphene_vec4_divide",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle graphene_vec4_dot = Interop.downcallHandle(
             "graphene_vec4_dot",
-            FunctionDescriptor.of(ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_FLOAT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle graphene_vec4_equal = Interop.downcallHandle(
             "graphene_vec4_equal",
-            FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_BOOLEAN, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle graphene_vec4_free = Interop.downcallHandle(
             "graphene_vec4_free",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle graphene_vec4_get_w = Interop.downcallHandle(
             "graphene_vec4_get_w",
-            FunctionDescriptor.of(ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_FLOAT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle graphene_vec4_get_x = Interop.downcallHandle(
             "graphene_vec4_get_x",
-            FunctionDescriptor.of(ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_FLOAT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle graphene_vec4_get_xy = Interop.downcallHandle(
             "graphene_vec4_get_xy",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle graphene_vec4_get_xyz = Interop.downcallHandle(
             "graphene_vec4_get_xyz",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle graphene_vec4_get_y = Interop.downcallHandle(
             "graphene_vec4_get_y",
-            FunctionDescriptor.of(ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_FLOAT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle graphene_vec4_get_z = Interop.downcallHandle(
             "graphene_vec4_get_z",
-            FunctionDescriptor.of(ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_FLOAT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle graphene_vec4_init = Interop.downcallHandle(
             "graphene_vec4_init",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_FLOAT, Interop.valueLayout.C_FLOAT, Interop.valueLayout.C_FLOAT, Interop.valueLayout.C_FLOAT),
             false
         );
         
         private static final MethodHandle graphene_vec4_init_from_float = Interop.downcallHandle(
             "graphene_vec4_init_from_float",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle graphene_vec4_init_from_vec2 = Interop.downcallHandle(
             "graphene_vec4_init_from_vec2",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_FLOAT, Interop.valueLayout.C_FLOAT),
             false
         );
         
         private static final MethodHandle graphene_vec4_init_from_vec3 = Interop.downcallHandle(
             "graphene_vec4_init_from_vec3",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_FLOAT),
             false
         );
         
         private static final MethodHandle graphene_vec4_init_from_vec4 = Interop.downcallHandle(
             "graphene_vec4_init_from_vec4",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle graphene_vec4_interpolate = Interop.downcallHandle(
             "graphene_vec4_interpolate",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle graphene_vec4_length = Interop.downcallHandle(
             "graphene_vec4_length",
-            FunctionDescriptor.of(ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_FLOAT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle graphene_vec4_max = Interop.downcallHandle(
             "graphene_vec4_max",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle graphene_vec4_min = Interop.downcallHandle(
             "graphene_vec4_min",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle graphene_vec4_multiply = Interop.downcallHandle(
             "graphene_vec4_multiply",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle graphene_vec4_near = Interop.downcallHandle(
             "graphene_vec4_near",
-            FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT),
+            FunctionDescriptor.of(Interop.valueLayout.C_BOOLEAN, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_FLOAT),
             false
         );
         
         private static final MethodHandle graphene_vec4_negate = Interop.downcallHandle(
             "graphene_vec4_negate",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle graphene_vec4_normalize = Interop.downcallHandle(
             "graphene_vec4_normalize",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle graphene_vec4_scale = Interop.downcallHandle(
             "graphene_vec4_scale",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_FLOAT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle graphene_vec4_subtract = Interop.downcallHandle(
             "graphene_vec4_subtract",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle graphene_vec4_to_float = Interop.downcallHandle(
             "graphene_vec4_to_float",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle graphene_vec4_one = Interop.downcallHandle(
             "graphene_vec4_one",
-            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle graphene_vec4_w_axis = Interop.downcallHandle(
             "graphene_vec4_w_axis",
-            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle graphene_vec4_x_axis = Interop.downcallHandle(
             "graphene_vec4_x_axis",
-            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle graphene_vec4_y_axis = Interop.downcallHandle(
             "graphene_vec4_y_axis",
-            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle graphene_vec4_z_axis = Interop.downcallHandle(
             "graphene_vec4_z_axis",
-            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle graphene_vec4_zero = Interop.downcallHandle(
             "graphene_vec4_zero",
-            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
             false
         );
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private Vec4 struct;
+        
+         /**
+         * A {@link Vec4.Build} object constructs a {@link Vec4} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = Vec4.allocate();
+        }
+        
+         /**
+         * Finish building the {@link Vec4} struct.
+         * @return A new instance of {@code Vec4} with the fields 
+         *         that were set in the Build object.
+         */
+        public Vec4 construct() {
+            return struct;
+        }
+        
+        public Build setValue(org.gtk.graphene.Simd4F value) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("value"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (value == null ? MemoryAddress.NULL : value.handle()));
+            return this;
+        }
     }
 }

@@ -33,7 +33,7 @@ public class Filter extends org.gtk.gobject.Object {
     
     private static final java.lang.String C_TYPE_NAME = "GtkFilter";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gobject.Object.getMemoryLayout().withName("parent_instance")
     ).withName(C_TYPE_NAME);
     
@@ -78,7 +78,7 @@ public class Filter extends org.gtk.gobject.Object {
      * @throws ClassCastException If the GType is not derived from "GtkFilter", a ClassCastException will be thrown.
      */
     public static Filter castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkFilter"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), Filter.getType())) {
             return new Filter(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkFilter");
@@ -153,6 +153,20 @@ public class Filter extends org.gtk.gobject.Object {
         return RESULT != 0;
     }
     
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.gtk_filter_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+    
     @FunctionalInterface
     public interface Changed {
         void signalReceived(Filter source, @NotNull org.gtk.gtk.FilterChange change);
@@ -180,7 +194,7 @@ public class Filter extends org.gtk.gobject.Object {
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(Filter.Callbacks.class, "signalFilterChanged",
                         MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
                     Interop.getScope()),
                 Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
@@ -189,24 +203,65 @@ public class Filter extends org.gtk.gobject.Object {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gobject.Object.Build {
+        
+         /**
+         * A {@link Filter.Build} object constructs a {@link Filter} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link Filter} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link Filter} using {@link Filter#castFrom}.
+         * @return A new instance of {@code Filter} with the properties 
+         *         that were set in the Build object.
+         */
+        public Filter construct() {
+            return Filter.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    Filter.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+    }
     
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_filter_changed = Interop.downcallHandle(
             "gtk_filter_changed",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_filter_get_strictness = Interop.downcallHandle(
             "gtk_filter_get_strictness",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_filter_match = Interop.downcallHandle(
             "gtk_filter_match",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+            false
+        );
+        
+        private static final MethodHandle gtk_filter_get_type = Interop.downcallHandle(
+            "gtk_filter_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }
@@ -214,9 +269,9 @@ public class Filter extends org.gtk.gobject.Object {
     private static class Callbacks {
         
         public static void signalFilterChanged(MemoryAddress source, int change, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (Filter.Changed) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Filter(source, Ownership.UNKNOWN), new org.gtk.gtk.FilterChange(change));
+            HANDLER.signalReceived(new Filter(source, Ownership.NONE), new org.gtk.gtk.FilterChange(change));
         }
     }
 }

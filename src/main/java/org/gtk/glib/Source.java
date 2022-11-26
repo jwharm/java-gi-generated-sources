@@ -9,7 +9,7 @@ import org.jetbrains.annotations.*;
  * The {@code GSource} struct is an opaque data type
  * representing an event source.
  */
-public class Source extends io.github.jwharm.javagi.ProxyBase {
+public class Source extends Struct {
     
     static {
         GLib.javagi$ensureInitialized();
@@ -17,16 +17,16 @@ public class Source extends io.github.jwharm.javagi.ProxyBase {
     
     private static final java.lang.String C_TYPE_NAME = "GSource";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
         Interop.valueLayout.ADDRESS.withName("callback_data"),
         Interop.valueLayout.ADDRESS.withName("callback_funcs"),
         Interop.valueLayout.ADDRESS.withName("source_funcs"),
-        ValueLayout.JAVA_INT.withName("ref_count"),
+        Interop.valueLayout.C_INT.withName("ref_count"),
         MemoryLayout.paddingLayout(32),
         Interop.valueLayout.ADDRESS.withName("context"),
-        ValueLayout.JAVA_INT.withName("priority"),
-        ValueLayout.JAVA_INT.withName("flags"),
-        ValueLayout.JAVA_INT.withName("source_id"),
+        Interop.valueLayout.C_INT.withName("priority"),
+        Interop.valueLayout.C_INT.withName("flags"),
+        Interop.valueLayout.C_INT.withName("source_id"),
         MemoryLayout.paddingLayout(32),
         Interop.valueLayout.ADDRESS.withName("poll_fds"),
         Interop.valueLayout.ADDRESS.withName("prev"),
@@ -46,6 +46,10 @@ public class Source extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link Source}
+     * @return A new, uninitialized @{link Source}
+     */
     public static Source allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         Source newInstance = new Source(segment.address(), Ownership.NONE);
@@ -493,7 +497,7 @@ public class Source extends io.github.jwharm.javagi.ProxyBase {
         try {
             DowncallHandles.g_source_modify_unix_fd.invokeExact(
                     handle(),
-                    tag,
+                    (Addressable) tag,
                     newEvents.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -520,7 +524,7 @@ public class Source extends io.github.jwharm.javagi.ProxyBase {
         try {
             RESULT = (int) DowncallHandles.g_source_query_unix_fd.invokeExact(
                     handle(),
-                    tag);
+                    (Addressable) tag);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -598,7 +602,7 @@ public class Source extends io.github.jwharm.javagi.ProxyBase {
         try {
             DowncallHandles.g_source_remove_unix_fd.invokeExact(
                     handle(),
-                    tag);
+                    (Addressable) tag);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -635,7 +639,7 @@ public class Source extends io.github.jwharm.javagi.ProxyBase {
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbSourceFunc",
                             MethodType.methodType(int.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+                        FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
                         Interop.getScope()),
                     (Addressable) (Interop.registerCallback(func)),
                     Interop.cbDestroyNotifySymbol());
@@ -664,7 +668,7 @@ public class Source extends io.github.jwharm.javagi.ProxyBase {
         try {
             DowncallHandles.g_source_set_callback_indirect.invokeExact(
                     handle(),
-                    callbackData,
+                    (Addressable) callbackData,
                     callbackFuncs.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -895,7 +899,7 @@ public class Source extends io.github.jwharm.javagi.ProxyBase {
         try {
             RESULT = (int) DowncallHandles.g_source_remove_by_funcs_user_data.invokeExact(
                     funcs.handle(),
-                    userData);
+                    (Addressable) userData);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -913,7 +917,7 @@ public class Source extends io.github.jwharm.javagi.ProxyBase {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_source_remove_by_user_data.invokeExact(
-                    userData);
+                    (Addressable) userData);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -955,212 +959,331 @@ public class Source extends io.github.jwharm.javagi.ProxyBase {
         
         private static final MethodHandle g_source_new = Interop.downcallHandle(
             "g_source_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_source_add_child_source = Interop.downcallHandle(
             "g_source_add_child_source",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_source_add_poll = Interop.downcallHandle(
             "g_source_add_poll",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_source_add_unix_fd = Interop.downcallHandle(
             "g_source_add_unix_fd",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_source_attach = Interop.downcallHandle(
             "g_source_attach",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_source_destroy = Interop.downcallHandle(
             "g_source_destroy",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_source_get_can_recurse = Interop.downcallHandle(
             "g_source_get_can_recurse",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_source_get_context = Interop.downcallHandle(
             "g_source_get_context",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_source_get_current_time = Interop.downcallHandle(
             "g_source_get_current_time",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_source_get_id = Interop.downcallHandle(
             "g_source_get_id",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_source_get_name = Interop.downcallHandle(
             "g_source_get_name",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_source_get_priority = Interop.downcallHandle(
             "g_source_get_priority",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_source_get_ready_time = Interop.downcallHandle(
             "g_source_get_ready_time",
-            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_source_get_time = Interop.downcallHandle(
             "g_source_get_time",
-            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_source_is_destroyed = Interop.downcallHandle(
             "g_source_is_destroyed",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_source_modify_unix_fd = Interop.downcallHandle(
             "g_source_modify_unix_fd",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_source_query_unix_fd = Interop.downcallHandle(
             "g_source_query_unix_fd",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_source_ref = Interop.downcallHandle(
             "g_source_ref",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_source_remove_child_source = Interop.downcallHandle(
             "g_source_remove_child_source",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_source_remove_poll = Interop.downcallHandle(
             "g_source_remove_poll",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_source_remove_unix_fd = Interop.downcallHandle(
             "g_source_remove_unix_fd",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_source_set_callback = Interop.downcallHandle(
             "g_source_set_callback",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_source_set_callback_indirect = Interop.downcallHandle(
             "g_source_set_callback_indirect",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_source_set_can_recurse = Interop.downcallHandle(
             "g_source_set_can_recurse",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_source_set_dispose_function = Interop.downcallHandle(
             "g_source_set_dispose_function",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_source_set_funcs = Interop.downcallHandle(
             "g_source_set_funcs",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_source_set_name = Interop.downcallHandle(
             "g_source_set_name",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_source_set_priority = Interop.downcallHandle(
             "g_source_set_priority",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_source_set_ready_time = Interop.downcallHandle(
             "g_source_set_ready_time",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
             false
         );
         
         private static final MethodHandle g_source_set_static_name = Interop.downcallHandle(
             "g_source_set_static_name",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_source_unref = Interop.downcallHandle(
             "g_source_unref",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_source_remove = Interop.downcallHandle(
             "g_source_remove",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_source_remove_by_funcs_user_data = Interop.downcallHandle(
             "g_source_remove_by_funcs_user_data",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_source_remove_by_user_data = Interop.downcallHandle(
             "g_source_remove_by_user_data",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_source_set_name_by_id = Interop.downcallHandle(
             "g_source_set_name_by_id",
-            FunctionDescriptor.ofVoid(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private Source struct;
+        
+         /**
+         * A {@link Source.Build} object constructs a {@link Source} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = Source.allocate();
+        }
+        
+         /**
+         * Finish building the {@link Source} struct.
+         * @return A new instance of {@code Source} with the fields 
+         *         that were set in the Build object.
+         */
+        public Source construct() {
+            return struct;
+        }
+        
+        public Build setCallbackData(java.lang.foreign.MemoryAddress callback_data) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("callback_data"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (callback_data == null ? MemoryAddress.NULL : (Addressable) callback_data));
+            return this;
+        }
+        
+        public Build setCallbackFuncs(org.gtk.glib.SourceCallbackFuncs callback_funcs) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("callback_funcs"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (callback_funcs == null ? MemoryAddress.NULL : callback_funcs.handle()));
+            return this;
+        }
+        
+        public Build setSourceFuncs(org.gtk.glib.SourceFuncs source_funcs) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("source_funcs"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (source_funcs == null ? MemoryAddress.NULL : source_funcs.handle()));
+            return this;
+        }
+        
+        public Build setRefCount(int ref_count) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("ref_count"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), ref_count);
+            return this;
+        }
+        
+        public Build setContext(org.gtk.glib.MainContext context) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("context"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (context == null ? MemoryAddress.NULL : context.handle()));
+            return this;
+        }
+        
+        public Build setPriority(int priority) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("priority"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), priority);
+            return this;
+        }
+        
+        public Build setFlags(int flags) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("flags"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), flags);
+            return this;
+        }
+        
+        public Build setSourceId(int source_id) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("source_id"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), source_id);
+            return this;
+        }
+        
+        public Build setPollFds(org.gtk.glib.SList poll_fds) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("poll_fds"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (poll_fds == null ? MemoryAddress.NULL : poll_fds.handle()));
+            return this;
+        }
+        
+        public Build setPrev(org.gtk.glib.Source prev) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("prev"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (prev == null ? MemoryAddress.NULL : prev.handle()));
+            return this;
+        }
+        
+        public Build setNext(org.gtk.glib.Source next) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("next"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (next == null ? MemoryAddress.NULL : next.handle()));
+            return this;
+        }
+        
+        public Build setName(java.lang.String name) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("name"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (name == null ? MemoryAddress.NULL : Interop.allocateNativeString(name)));
+            return this;
+        }
+        
+        public Build setPriv(org.gtk.glib.SourcePrivate priv) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("priv"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (priv == null ? MemoryAddress.NULL : priv.handle()));
+            return this;
+        }
     }
 }

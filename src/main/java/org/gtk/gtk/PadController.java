@@ -93,7 +93,7 @@ public class PadController extends org.gtk.gtk.EventController {
      * @throws ClassCastException If the GType is not derived from "GtkPadController", a ClassCastException will be thrown.
      */
     public static PadController castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkPadController"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), PadController.getType())) {
             return new PadController(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkPadController");
@@ -182,10 +182,71 @@ public class PadController extends org.gtk.gtk.EventController {
         try {
             DowncallHandles.gtk_pad_controller_set_action_entries.invokeExact(
                     handle(),
-                    Interop.allocateNativeArray(entries, false),
+                    Interop.allocateNativeArray(entries, org.gtk.gtk.PadActionEntry.getMemoryLayout(), false),
                     nEntries);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+    }
+    
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.gtk_pad_controller_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gtk.EventController.Build {
+        
+         /**
+         * A {@link PadController.Build} object constructs a {@link PadController} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link PadController} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link PadController} using {@link PadController#castFrom}.
+         * @return A new instance of {@code PadController} with the properties 
+         *         that were set in the Build object.
+         */
+        public PadController construct() {
+            return PadController.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    PadController.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+        
+        public Build setActionGroup(org.gtk.gio.ActionGroup actionGroup) {
+            names.add("action-group");
+            values.add(org.gtk.gobject.Value.create(actionGroup));
+            return this;
+        }
+        
+        public Build setPad(org.gtk.gdk.Device pad) {
+            names.add("pad");
+            values.add(org.gtk.gobject.Value.create(pad));
+            return this;
         }
     }
     
@@ -193,19 +254,25 @@ public class PadController extends org.gtk.gtk.EventController {
         
         private static final MethodHandle gtk_pad_controller_new = Interop.downcallHandle(
             "gtk_pad_controller_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_pad_controller_set_action = Interop.downcallHandle(
             "gtk_pad_controller_set_action",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_pad_controller_set_action_entries = Interop.downcallHandle(
             "gtk_pad_controller_set_action_entries",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+            false
+        );
+        
+        private static final MethodHandle gtk_pad_controller_get_type = Interop.downcallHandle(
+            "gtk_pad_controller_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }

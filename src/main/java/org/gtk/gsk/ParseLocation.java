@@ -8,7 +8,7 @@ import org.jetbrains.annotations.*;
 /**
  * A location in a parse buffer.
  */
-public class ParseLocation extends io.github.jwharm.javagi.ProxyBase {
+public class ParseLocation extends Struct {
     
     static {
         Gsk.javagi$ensureInitialized();
@@ -16,12 +16,12 @@ public class ParseLocation extends io.github.jwharm.javagi.ProxyBase {
     
     private static final java.lang.String C_TYPE_NAME = "GskParseLocation";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
-        ValueLayout.JAVA_LONG.withName("bytes"),
-        ValueLayout.JAVA_LONG.withName("chars"),
-        ValueLayout.JAVA_LONG.withName("lines"),
-        ValueLayout.JAVA_LONG.withName("line_bytes"),
-        ValueLayout.JAVA_LONG.withName("line_chars")
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
+        Interop.valueLayout.C_LONG.withName("bytes"),
+        Interop.valueLayout.C_LONG.withName("chars"),
+        Interop.valueLayout.C_LONG.withName("lines"),
+        Interop.valueLayout.C_LONG.withName("line_bytes"),
+        Interop.valueLayout.C_LONG.withName("line_chars")
     ).withName(C_TYPE_NAME);
     
     /**
@@ -35,6 +35,10 @@ public class ParseLocation extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link ParseLocation}
+     * @return A new, uninitialized @{link ParseLocation}
+     */
     public static ParseLocation allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         ParseLocation newInstance = new ParseLocation(segment.address(), Ownership.NONE);
@@ -155,5 +159,93 @@ public class ParseLocation extends io.github.jwharm.javagi.ProxyBase {
     @ApiStatus.Internal
     public ParseLocation(Addressable address, Ownership ownership) {
         super(address, ownership);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private ParseLocation struct;
+        
+         /**
+         * A {@link ParseLocation.Build} object constructs a {@link ParseLocation} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = ParseLocation.allocate();
+        }
+        
+         /**
+         * Finish building the {@link ParseLocation} struct.
+         * @return A new instance of {@code ParseLocation} with the fields 
+         *         that were set in the Build object.
+         */
+        public ParseLocation construct() {
+            return struct;
+        }
+        
+        /**
+         * the offset of the location in the parse buffer, as bytes
+         * @param bytes The value for the {@code bytes} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setBytes(long bytes) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("bytes"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), bytes);
+            return this;
+        }
+        
+        /**
+         * the offset of the location in the parse buffer, as characters
+         * @param chars The value for the {@code chars} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setChars(long chars) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("chars"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), chars);
+            return this;
+        }
+        
+        /**
+         * the line of the location in the parse buffer
+         * @param lines The value for the {@code lines} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setLines(long lines) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("lines"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), lines);
+            return this;
+        }
+        
+        /**
+         * the position in the line, as bytes
+         * @param line_bytes The value for the {@code line_bytes} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setLineBytes(long line_bytes) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("line_bytes"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), line_bytes);
+            return this;
+        }
+        
+        /**
+         * the position in the line, as characters
+         * @param line_chars The value for the {@code line_chars} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setLineChars(long line_chars) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("line_chars"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), line_chars);
+            return this;
+        }
     }
 }

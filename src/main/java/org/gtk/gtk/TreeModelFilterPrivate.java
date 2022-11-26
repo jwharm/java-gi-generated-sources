@@ -5,7 +5,7 @@ import java.lang.foreign.*;
 import java.lang.invoke.*;
 import org.jetbrains.annotations.*;
 
-public class TreeModelFilterPrivate extends io.github.jwharm.javagi.ProxyBase {
+public class TreeModelFilterPrivate extends Struct {
     
     static {
         Gtk.javagi$ensureInitialized();
@@ -24,6 +24,10 @@ public class TreeModelFilterPrivate extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link TreeModelFilterPrivate}
+     * @return A new, uninitialized @{link TreeModelFilterPrivate}
+     */
     public static TreeModelFilterPrivate allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         TreeModelFilterPrivate newInstance = new TreeModelFilterPrivate(segment.address(), Ownership.NONE);
@@ -39,5 +43,33 @@ public class TreeModelFilterPrivate extends io.github.jwharm.javagi.ProxyBase {
     @ApiStatus.Internal
     public TreeModelFilterPrivate(Addressable address, Ownership ownership) {
         super(address, ownership);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private TreeModelFilterPrivate struct;
+        
+         /**
+         * A {@link TreeModelFilterPrivate.Build} object constructs a {@link TreeModelFilterPrivate} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = TreeModelFilterPrivate.allocate();
+        }
+        
+         /**
+         * Finish building the {@link TreeModelFilterPrivate} struct.
+         * @return A new instance of {@code TreeModelFilterPrivate} with the fields 
+         *         that were set in the Build object.
+         */
+        public TreeModelFilterPrivate construct() {
+            return struct;
+        }
     }
 }

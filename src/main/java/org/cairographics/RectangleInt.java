@@ -5,7 +5,7 @@ import java.lang.foreign.*;
 import java.lang.invoke.*;
 import org.jetbrains.annotations.*;
 
-public class RectangleInt extends io.github.jwharm.javagi.ProxyBase {
+public class RectangleInt extends Struct {
     
     static {
         Cairo.javagi$ensureInitialized();
@@ -13,11 +13,11 @@ public class RectangleInt extends io.github.jwharm.javagi.ProxyBase {
     
     private static final java.lang.String C_TYPE_NAME = "cairo_rectangle_int_t";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
-        ValueLayout.JAVA_INT.withName("x"),
-        ValueLayout.JAVA_INT.withName("y"),
-        ValueLayout.JAVA_INT.withName("width"),
-        ValueLayout.JAVA_INT.withName("height")
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
+        Interop.valueLayout.C_INT.withName("x"),
+        Interop.valueLayout.C_INT.withName("y"),
+        Interop.valueLayout.C_INT.withName("width"),
+        Interop.valueLayout.C_INT.withName("height")
     ).withName(C_TYPE_NAME);
     
     /**
@@ -31,6 +31,10 @@ public class RectangleInt extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link RectangleInt}
+     * @return A new, uninitialized @{link RectangleInt}
+     */
     public static RectangleInt allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         RectangleInt newInstance = new RectangleInt(segment.address(), Ownership.NONE);
@@ -130,5 +134,61 @@ public class RectangleInt extends io.github.jwharm.javagi.ProxyBase {
     @ApiStatus.Internal
     public RectangleInt(Addressable address, Ownership ownership) {
         super(address, ownership);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private RectangleInt struct;
+        
+         /**
+         * A {@link RectangleInt.Build} object constructs a {@link RectangleInt} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = RectangleInt.allocate();
+        }
+        
+         /**
+         * Finish building the {@link RectangleInt} struct.
+         * @return A new instance of {@code RectangleInt} with the fields 
+         *         that were set in the Build object.
+         */
+        public RectangleInt construct() {
+            return struct;
+        }
+        
+        public Build setX(int x) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("x"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), x);
+            return this;
+        }
+        
+        public Build setY(int y) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("y"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), y);
+            return this;
+        }
+        
+        public Build setWidth(int width) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("width"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), width);
+            return this;
+        }
+        
+        public Build setHeight(int height) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("height"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), height);
+            return this;
+        }
     }
 }

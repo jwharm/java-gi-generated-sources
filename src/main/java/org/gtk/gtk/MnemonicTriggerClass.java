@@ -5,7 +5,7 @@ import java.lang.foreign.*;
 import java.lang.invoke.*;
 import org.jetbrains.annotations.*;
 
-public class MnemonicTriggerClass extends io.github.jwharm.javagi.ProxyBase {
+public class MnemonicTriggerClass extends Struct {
     
     static {
         Gtk.javagi$ensureInitialized();
@@ -24,6 +24,10 @@ public class MnemonicTriggerClass extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link MnemonicTriggerClass}
+     * @return A new, uninitialized @{link MnemonicTriggerClass}
+     */
     public static MnemonicTriggerClass allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         MnemonicTriggerClass newInstance = new MnemonicTriggerClass(segment.address(), Ownership.NONE);
@@ -39,5 +43,33 @@ public class MnemonicTriggerClass extends io.github.jwharm.javagi.ProxyBase {
     @ApiStatus.Internal
     public MnemonicTriggerClass(Addressable address, Ownership ownership) {
         super(address, ownership);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private MnemonicTriggerClass struct;
+        
+         /**
+         * A {@link MnemonicTriggerClass.Build} object constructs a {@link MnemonicTriggerClass} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = MnemonicTriggerClass.allocate();
+        }
+        
+         /**
+         * Finish building the {@link MnemonicTriggerClass} struct.
+         * @return A new instance of {@code MnemonicTriggerClass} with the fields 
+         *         that were set in the Build object.
+         */
+        public MnemonicTriggerClass construct() {
+            return struct;
+        }
     }
 }

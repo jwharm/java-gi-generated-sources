@@ -21,7 +21,7 @@ public class TcpWrapperConnection extends org.gtk.gio.TcpConnection {
     
     private static final java.lang.String C_TYPE_NAME = "GTcpWrapperConnection";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gio.TcpConnection.getMemoryLayout().withName("parent_instance"),
         Interop.valueLayout.ADDRESS.withName("priv")
     ).withName(C_TYPE_NAME);
@@ -67,7 +67,7 @@ public class TcpWrapperConnection extends org.gtk.gio.TcpConnection {
      * @throws ClassCastException If the GType is not derived from "GTcpWrapperConnection", a ClassCastException will be thrown.
      */
     public static TcpWrapperConnection castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GTcpWrapperConnection"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), TcpWrapperConnection.getType())) {
             return new TcpWrapperConnection(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GTcpWrapperConnection");
@@ -112,17 +112,78 @@ public class TcpWrapperConnection extends org.gtk.gio.TcpConnection {
         return new org.gtk.gio.IOStream(RESULT, Ownership.NONE);
     }
     
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.g_tcp_wrapper_connection_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gio.TcpConnection.Build {
+        
+         /**
+         * A {@link TcpWrapperConnection.Build} object constructs a {@link TcpWrapperConnection} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link TcpWrapperConnection} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link TcpWrapperConnection} using {@link TcpWrapperConnection#castFrom}.
+         * @return A new instance of {@code TcpWrapperConnection} with the properties 
+         *         that were set in the Build object.
+         */
+        public TcpWrapperConnection construct() {
+            return TcpWrapperConnection.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    TcpWrapperConnection.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+        
+        public Build setBaseIoStream(org.gtk.gio.IOStream baseIoStream) {
+            names.add("base-io-stream");
+            values.add(org.gtk.gobject.Value.create(baseIoStream));
+            return this;
+        }
+    }
+    
     private static class DowncallHandles {
         
         private static final MethodHandle g_tcp_wrapper_connection_new = Interop.downcallHandle(
             "g_tcp_wrapper_connection_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_tcp_wrapper_connection_get_base_io_stream = Interop.downcallHandle(
             "g_tcp_wrapper_connection_get_base_io_stream",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+            false
+        );
+        
+        private static final MethodHandle g_tcp_wrapper_connection_get_type = Interop.downcallHandle(
+            "g_tcp_wrapper_connection_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }

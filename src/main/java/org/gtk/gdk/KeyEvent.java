@@ -48,7 +48,7 @@ public class KeyEvent extends org.gtk.gdk.Event {
      * @throws ClassCastException If the GType is not derived from "GdkKeyEvent", a ClassCastException will be thrown.
      */
     public static KeyEvent castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GdkKeyEvent"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), KeyEvent.getType())) {
             return new KeyEvent(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GdkKeyEvent");
@@ -141,9 +141,9 @@ public class KeyEvent extends org.gtk.gdk.Event {
      */
     public boolean getMatch(Out<Integer> keyval, @NotNull Out<org.gtk.gdk.ModifierType> modifiers) {
         java.util.Objects.requireNonNull(keyval, "Parameter 'keyval' must not be null");
+        MemorySegment keyvalPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         java.util.Objects.requireNonNull(modifiers, "Parameter 'modifiers' must not be null");
-        MemorySegment keyvalPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
-        MemorySegment modifiersPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
+        MemorySegment modifiersPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gdk_key_event_get_match.invokeExact(
@@ -153,8 +153,8 @@ public class KeyEvent extends org.gtk.gdk.Event {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        keyval.set(keyvalPOINTER.get(ValueLayout.JAVA_INT, 0));
-        modifiers.set(new org.gtk.gdk.ModifierType(modifiersPOINTER.get(ValueLayout.JAVA_INT, 0)));
+        keyval.set(keyvalPOINTER.get(Interop.valueLayout.C_INT, 0));
+        modifiers.set(new org.gtk.gdk.ModifierType(modifiersPOINTER.get(Interop.valueLayout.C_INT, 0)));
         return RESULT != 0;
     }
     
@@ -200,53 +200,108 @@ public class KeyEvent extends org.gtk.gdk.Event {
         return new org.gtk.gdk.KeyMatch(RESULT);
     }
     
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.gdk_key_event_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gdk.Event.Build {
+        
+         /**
+         * A {@link KeyEvent.Build} object constructs a {@link KeyEvent} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link KeyEvent} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link KeyEvent} using {@link KeyEvent#castFrom}.
+         * @return A new instance of {@code KeyEvent} with the properties 
+         *         that were set in the Build object.
+         */
+        public KeyEvent construct() {
+            return KeyEvent.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    KeyEvent.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+    }
+    
     private static class DowncallHandles {
         
         private static final MethodHandle gdk_key_event_get_consumed_modifiers = Interop.downcallHandle(
             "gdk_key_event_get_consumed_modifiers",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_key_event_get_keycode = Interop.downcallHandle(
             "gdk_key_event_get_keycode",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_key_event_get_keyval = Interop.downcallHandle(
             "gdk_key_event_get_keyval",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_key_event_get_layout = Interop.downcallHandle(
             "gdk_key_event_get_layout",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_key_event_get_level = Interop.downcallHandle(
             "gdk_key_event_get_level",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_key_event_get_match = Interop.downcallHandle(
             "gdk_key_event_get_match",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gdk_key_event_is_modifier = Interop.downcallHandle(
             "gdk_key_event_is_modifier",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_key_event_matches = Interop.downcallHandle(
             "gdk_key_event_matches",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
+            false
+        );
+        
+        private static final MethodHandle gdk_key_event_get_type = Interop.downcallHandle(
+            "gdk_key_event_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }

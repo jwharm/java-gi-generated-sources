@@ -50,11 +50,25 @@ public class DBusActionGroup extends org.gtk.gobject.Object implements org.gtk.g
      * @throws ClassCastException If the GType is not derived from "GDBusActionGroup", a ClassCastException will be thrown.
      */
     public static DBusActionGroup castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GDBusActionGroup"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), DBusActionGroup.getType())) {
             return new DBusActionGroup(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GDBusActionGroup");
         }
+    }
+    
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.g_dbus_action_group_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
     }
     
     /**
@@ -91,12 +105,53 @@ public class DBusActionGroup extends org.gtk.gobject.Object implements org.gtk.g
         }
         return new org.gtk.gio.DBusActionGroup(RESULT, Ownership.FULL);
     }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gobject.Object.Build {
+        
+         /**
+         * A {@link DBusActionGroup.Build} object constructs a {@link DBusActionGroup} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link DBusActionGroup} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link DBusActionGroup} using {@link DBusActionGroup#castFrom}.
+         * @return A new instance of {@code DBusActionGroup} with the properties 
+         *         that were set in the Build object.
+         */
+        public DBusActionGroup construct() {
+            return DBusActionGroup.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    DBusActionGroup.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+    }
     
     private static class DowncallHandles {
         
+        private static final MethodHandle g_dbus_action_group_get_type = Interop.downcallHandle(
+            "g_dbus_action_group_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+            false
+        );
+        
         private static final MethodHandle g_dbus_action_group_get = Interop.downcallHandle(
             "g_dbus_action_group_get",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
     }

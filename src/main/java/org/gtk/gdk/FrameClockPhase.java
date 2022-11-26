@@ -35,7 +35,7 @@ public class FrameClockPhase extends io.github.jwharm.javagi.Bitfield {
     public static final FrameClockPhase UPDATE = new FrameClockPhase(4);
     
     /**
-     * corresponds to GdkFrameClock::layout. Should not be handled by applicatiosn.
+     * corresponds to GdkFrameClock::layout. Should not be handled by applications.
      */
     public static final FrameClockPhase LAYOUT = new FrameClockPhase(8);
     

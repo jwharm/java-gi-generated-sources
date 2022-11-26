@@ -89,7 +89,7 @@ public class SearchEntry extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
      * @throws ClassCastException If the GType is not derived from "GtkSearchEntry", a ClassCastException will be thrown.
      */
     public static SearchEntry castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkSearchEntry"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), SearchEntry.getType())) {
             return new SearchEntry(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkSearchEntry");
@@ -129,6 +129,22 @@ public class SearchEntry extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
     }
     
     /**
+     * Get the delay to be used between the last keypress and the
+     * {@code Gtk.SearchEntry::search-changed} signal being emitted.
+     * @return a delay in milliseconds.
+     */
+    public int getSearchDelay() {
+        int RESULT;
+        try {
+            RESULT = (int) DowncallHandles.gtk_search_entry_get_search_delay.invokeExact(
+                    handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return RESULT;
+    }
+    
+    /**
      * Sets {@code widget} as the widget that {@code entry} will capture key
      * events from.
      * <p>
@@ -158,6 +174,35 @@ public class SearchEntry extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
         }
     }
     
+    /**
+     * Set the delay to be used between the last keypress and the
+     * {@code Gtk.SearchEntry::search-changed} signal being emitted.
+     * @param delay a delay in milliseconds
+     */
+    public void setSearchDelay(int delay) {
+        try {
+            DowncallHandles.gtk_search_entry_set_search_delay.invokeExact(
+                    handle(),
+                    delay);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+    }
+    
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.gtk_search_entry_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+    
     @FunctionalInterface
     public interface Activate {
         void signalReceived(SearchEntry source);
@@ -178,7 +223,7 @@ public class SearchEntry extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(SearchEntry.Callbacks.class, "signalSearchEntryActivate",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                     Interop.getScope()),
                 Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
@@ -214,7 +259,7 @@ public class SearchEntry extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(SearchEntry.Callbacks.class, "signalSearchEntryNextMatch",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                     Interop.getScope()),
                 Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
@@ -250,7 +295,7 @@ public class SearchEntry extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(SearchEntry.Callbacks.class, "signalSearchEntryPreviousMatch",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                     Interop.getScope()),
                 Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
@@ -266,8 +311,9 @@ public class SearchEntry extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
     }
     
     /**
-     * Emitted with a short delay of 150 milliseconds after the
-     * last change to the entry text.
+     * Emitted with a delay. The length of the delay can be
+     * changed with the {@code Gtk.SearchEntry:search-delay}
+     * property.
      * @param handler The signal handler
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
@@ -279,7 +325,7 @@ public class SearchEntry extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(SearchEntry.Callbacks.class, "signalSearchEntrySearchChanged",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                     Interop.getScope()),
                 Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
@@ -307,7 +353,7 @@ public class SearchEntry extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(SearchEntry.Callbacks.class, "signalSearchEntrySearchStarted",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                     Interop.getScope()),
                 Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
@@ -342,7 +388,7 @@ public class SearchEntry extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(SearchEntry.Callbacks.class, "signalSearchEntryStopSearch",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                     Interop.getScope()),
                 Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
@@ -351,24 +397,112 @@ public class SearchEntry extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gtk.Widget.Build {
+        
+         /**
+         * A {@link SearchEntry.Build} object constructs a {@link SearchEntry} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link SearchEntry} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link SearchEntry} using {@link SearchEntry#castFrom}.
+         * @return A new instance of {@code SearchEntry} with the properties 
+         *         that were set in the Build object.
+         */
+        public SearchEntry construct() {
+            return SearchEntry.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    SearchEntry.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+        
+        /**
+         * Whether to activate the default widget when Enter is pressed.
+         * @param activatesDefault The value for the {@code activates-default} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setActivatesDefault(boolean activatesDefault) {
+            names.add("activates-default");
+            values.add(org.gtk.gobject.Value.create(activatesDefault));
+            return this;
+        }
+        
+        /**
+         * The text that will be displayed in the {@code GtkSearchEntry}
+         * when it is empty and unfocused.
+         * @param placeholderText The value for the {@code placeholder-text} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setPlaceholderText(java.lang.String placeholderText) {
+            names.add("placeholder-text");
+            values.add(org.gtk.gobject.Value.create(placeholderText));
+            return this;
+        }
+        
+        /**
+         * The delay in milliseconds from last keypress to the search
+         * changed signal.
+         * @param searchDelay The value for the {@code search-delay} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setSearchDelay(int searchDelay) {
+            names.add("search-delay");
+            values.add(org.gtk.gobject.Value.create(searchDelay));
+            return this;
+        }
+    }
     
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_search_entry_new = Interop.downcallHandle(
             "gtk_search_entry_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_search_entry_get_key_capture_widget = Interop.downcallHandle(
             "gtk_search_entry_get_key_capture_widget",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+            false
+        );
+        
+        private static final MethodHandle gtk_search_entry_get_search_delay = Interop.downcallHandle(
+            "gtk_search_entry_get_search_delay",
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_search_entry_set_key_capture_widget = Interop.downcallHandle(
             "gtk_search_entry_set_key_capture_widget",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+            false
+        );
+        
+        private static final MethodHandle gtk_search_entry_set_search_delay = Interop.downcallHandle(
+            "gtk_search_entry_set_search_delay",
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+            false
+        );
+        
+        private static final MethodHandle gtk_search_entry_get_type = Interop.downcallHandle(
+            "gtk_search_entry_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }
@@ -376,39 +510,39 @@ public class SearchEntry extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
     private static class Callbacks {
         
         public static void signalSearchEntryActivate(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (SearchEntry.Activate) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new SearchEntry(source, Ownership.UNKNOWN));
+            HANDLER.signalReceived(new SearchEntry(source, Ownership.NONE));
         }
         
         public static void signalSearchEntryNextMatch(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (SearchEntry.NextMatch) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new SearchEntry(source, Ownership.UNKNOWN));
+            HANDLER.signalReceived(new SearchEntry(source, Ownership.NONE));
         }
         
         public static void signalSearchEntryPreviousMatch(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (SearchEntry.PreviousMatch) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new SearchEntry(source, Ownership.UNKNOWN));
+            HANDLER.signalReceived(new SearchEntry(source, Ownership.NONE));
         }
         
         public static void signalSearchEntrySearchChanged(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (SearchEntry.SearchChanged) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new SearchEntry(source, Ownership.UNKNOWN));
+            HANDLER.signalReceived(new SearchEntry(source, Ownership.NONE));
         }
         
         public static void signalSearchEntrySearchStarted(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (SearchEntry.SearchStarted) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new SearchEntry(source, Ownership.UNKNOWN));
+            HANDLER.signalReceived(new SearchEntry(source, Ownership.NONE));
         }
         
         public static void signalSearchEntryStopSearch(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (SearchEntry.StopSearch) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new SearchEntry(source, Ownership.UNKNOWN));
+            HANDLER.signalReceived(new SearchEntry(source, Ownership.NONE));
         }
     }
 }

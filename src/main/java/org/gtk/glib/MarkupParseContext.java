@@ -12,7 +12,7 @@ import org.jetbrains.annotations.*;
  * See g_markup_parse_context_new(), {@link MarkupParser}, and so
  * on for more details.
  */
-public class MarkupParseContext extends io.github.jwharm.javagi.ProxyBase {
+public class MarkupParseContext extends Struct {
     
     static {
         GLib.javagi$ensureInitialized();
@@ -31,6 +31,10 @@ public class MarkupParseContext extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link MarkupParseContext}
+     * @return A new, uninitialized @{link MarkupParseContext}
+     */
     public static MarkupParseContext allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         MarkupParseContext newInstance = new MarkupParseContext(segment.address(), Ownership.NONE);
@@ -56,7 +60,7 @@ public class MarkupParseContext extends io.github.jwharm.javagi.ProxyBase {
             RESULT = (MemoryAddress) DowncallHandles.g_markup_parse_context_new.invokeExact(
                     parser.handle(),
                     flags.getValue(),
-                    userData,
+                    (Addressable) userData,
                     Interop.cbDestroyNotifySymbol());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -90,7 +94,7 @@ public class MarkupParseContext extends io.github.jwharm.javagi.ProxyBase {
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public boolean endParse() throws io.github.jwharm.javagi.GErrorException {
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_markup_parse_context_end_parse.invokeExact(
@@ -174,9 +178,9 @@ public class MarkupParseContext extends io.github.jwharm.javagi.ProxyBase {
      */
     public void getPosition(Out<Integer> lineNumber, Out<Integer> charNumber) {
         java.util.Objects.requireNonNull(lineNumber, "Parameter 'lineNumber' must not be null");
+        MemorySegment lineNumberPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         java.util.Objects.requireNonNull(charNumber, "Parameter 'charNumber' must not be null");
-        MemorySegment lineNumberPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
-        MemorySegment charNumberPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
+        MemorySegment charNumberPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         try {
             DowncallHandles.g_markup_parse_context_get_position.invokeExact(
                     handle(),
@@ -185,8 +189,8 @@ public class MarkupParseContext extends io.github.jwharm.javagi.ProxyBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        lineNumber.set(lineNumberPOINTER.get(ValueLayout.JAVA_INT, 0));
-        charNumber.set(charNumberPOINTER.get(ValueLayout.JAVA_INT, 0));
+        lineNumber.set(lineNumberPOINTER.get(Interop.valueLayout.C_INT, 0));
+        charNumber.set(charNumberPOINTER.get(Interop.valueLayout.C_INT, 0));
     }
     
     /**
@@ -228,7 +232,7 @@ public class MarkupParseContext extends io.github.jwharm.javagi.ProxyBase {
      */
     public boolean parse(@NotNull java.lang.String text, long textLen) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(text, "Parameter 'text' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_markup_parse_context_parse.invokeExact(
@@ -393,7 +397,7 @@ public class MarkupParseContext extends io.github.jwharm.javagi.ProxyBase {
             DowncallHandles.g_markup_parse_context_push.invokeExact(
                     handle(),
                     parser.handle(),
-                    userData);
+                    (Addressable) userData);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -431,74 +435,102 @@ public class MarkupParseContext extends io.github.jwharm.javagi.ProxyBase {
         
         private static final MethodHandle g_markup_parse_context_new = Interop.downcallHandle(
             "g_markup_parse_context_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_markup_parse_context_end_parse = Interop.downcallHandle(
             "g_markup_parse_context_end_parse",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_markup_parse_context_free = Interop.downcallHandle(
             "g_markup_parse_context_free",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_markup_parse_context_get_element = Interop.downcallHandle(
             "g_markup_parse_context_get_element",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_markup_parse_context_get_element_stack = Interop.downcallHandle(
             "g_markup_parse_context_get_element_stack",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_markup_parse_context_get_position = Interop.downcallHandle(
             "g_markup_parse_context_get_position",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_markup_parse_context_get_user_data = Interop.downcallHandle(
             "g_markup_parse_context_get_user_data",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_markup_parse_context_parse = Interop.downcallHandle(
             "g_markup_parse_context_parse",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_markup_parse_context_pop = Interop.downcallHandle(
             "g_markup_parse_context_pop",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_markup_parse_context_push = Interop.downcallHandle(
             "g_markup_parse_context_push",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_markup_parse_context_ref = Interop.downcallHandle(
             "g_markup_parse_context_ref",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_markup_parse_context_unref = Interop.downcallHandle(
             "g_markup_parse_context_unref",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private MarkupParseContext struct;
+        
+         /**
+         * A {@link MarkupParseContext.Build} object constructs a {@link MarkupParseContext} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = MarkupParseContext.allocate();
+        }
+        
+         /**
+         * Finish building the {@link MarkupParseContext} struct.
+         * @return A new instance of {@code MarkupParseContext} with the fields 
+         *         that were set in the Build object.
+         */
+        public MarkupParseContext construct() {
+            return struct;
+        }
     }
 }

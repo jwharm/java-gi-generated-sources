@@ -21,7 +21,7 @@ public class IMMulticontext extends org.gtk.gtk.IMContext {
     
     private static final java.lang.String C_TYPE_NAME = "GtkIMMulticontext";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gtk.IMContext.getMemoryLayout().withName("object"),
         Interop.valueLayout.ADDRESS.withName("priv")
     ).withName(C_TYPE_NAME);
@@ -67,7 +67,7 @@ public class IMMulticontext extends org.gtk.gtk.IMContext {
      * @throws ClassCastException If the GType is not derived from "GtkIMMulticontext", a ClassCastException will be thrown.
      */
     public static IMMulticontext castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkIMMulticontext"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), IMMulticontext.getType())) {
             return new IMMulticontext(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkIMMulticontext");
@@ -127,23 +127,78 @@ public class IMMulticontext extends org.gtk.gtk.IMContext {
         }
     }
     
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.gtk_im_multicontext_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gtk.IMContext.Build {
+        
+         /**
+         * A {@link IMMulticontext.Build} object constructs a {@link IMMulticontext} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link IMMulticontext} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link IMMulticontext} using {@link IMMulticontext#castFrom}.
+         * @return A new instance of {@code IMMulticontext} with the properties 
+         *         that were set in the Build object.
+         */
+        public IMMulticontext construct() {
+            return IMMulticontext.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    IMMulticontext.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+    }
+    
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_im_multicontext_new = Interop.downcallHandle(
             "gtk_im_multicontext_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_im_multicontext_get_context_id = Interop.downcallHandle(
             "gtk_im_multicontext_get_context_id",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_im_multicontext_set_context_id = Interop.downcallHandle(
             "gtk_im_multicontext_set_context_id",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+            false
+        );
+        
+        private static final MethodHandle gtk_im_multicontext_get_type = Interop.downcallHandle(
+            "gtk_im_multicontext_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }

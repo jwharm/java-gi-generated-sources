@@ -14,7 +14,7 @@ import org.jetbrains.annotations.*;
  * {@link VariantBuilder} is not threadsafe in any way.  Do not attempt to
  * access it from more than one thread.
  */
-public class VariantBuilder extends io.github.jwharm.javagi.ProxyBase {
+public class VariantBuilder extends Struct {
     
     static {
         GLib.javagi$ensureInitialized();
@@ -33,6 +33,10 @@ public class VariantBuilder extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link VariantBuilder}
+     * @return A new, uninitialized @{link VariantBuilder}
+     */
     public static VariantBuilder allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         VariantBuilder newInstance = new VariantBuilder(segment.address(), Ownership.NONE);
@@ -395,68 +399,96 @@ public class VariantBuilder extends io.github.jwharm.javagi.ProxyBase {
         
         private static final MethodHandle g_variant_builder_new = Interop.downcallHandle(
             "g_variant_builder_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_variant_builder_add = Interop.downcallHandle(
             "g_variant_builder_add",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             true
         );
         
         private static final MethodHandle g_variant_builder_add_parsed = Interop.downcallHandle(
             "g_variant_builder_add_parsed",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             true
         );
         
         private static final MethodHandle g_variant_builder_add_value = Interop.downcallHandle(
             "g_variant_builder_add_value",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_variant_builder_clear = Interop.downcallHandle(
             "g_variant_builder_clear",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_variant_builder_close = Interop.downcallHandle(
             "g_variant_builder_close",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_variant_builder_end = Interop.downcallHandle(
             "g_variant_builder_end",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_variant_builder_init = Interop.downcallHandle(
             "g_variant_builder_init",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_variant_builder_open = Interop.downcallHandle(
             "g_variant_builder_open",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_variant_builder_ref = Interop.downcallHandle(
             "g_variant_builder_ref",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_variant_builder_unref = Interop.downcallHandle(
             "g_variant_builder_unref",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private VariantBuilder struct;
+        
+         /**
+         * A {@link VariantBuilder.Build} object constructs a {@link VariantBuilder} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = VariantBuilder.allocate();
+        }
+        
+         /**
+         * Finish building the {@link VariantBuilder} struct.
+         * @return A new instance of {@code VariantBuilder} with the fields 
+         *         that were set in the Build object.
+         */
+        public VariantBuilder construct() {
+            return struct;
+        }
     }
 }

@@ -9,7 +9,7 @@ import org.jetbrains.annotations.*;
  * Data type to hold math-variant information for a glyph.
  * @version 1.3.3
  */
-public class OtMathGlyphVariantT extends io.github.jwharm.javagi.ProxyBase {
+public class OtMathGlyphVariantT extends Struct {
     
     static {
         HarfBuzz.javagi$ensureInitialized();
@@ -17,9 +17,9 @@ public class OtMathGlyphVariantT extends io.github.jwharm.javagi.ProxyBase {
     
     private static final java.lang.String C_TYPE_NAME = "hb_ot_math_glyph_variant_t";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
-        ValueLayout.JAVA_INT.withName("glyph"),
-        ValueLayout.JAVA_INT.withName("advance")
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
+        Interop.valueLayout.C_INT.withName("glyph"),
+        Interop.valueLayout.C_INT.withName("advance")
     ).withName(C_TYPE_NAME);
     
     /**
@@ -33,6 +33,10 @@ public class OtMathGlyphVariantT extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link OtMathGlyphVariantT}
+     * @return A new, uninitialized @{link OtMathGlyphVariantT}
+     */
     public static OtMathGlyphVariantT allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         OtMathGlyphVariantT newInstance = new OtMathGlyphVariantT(segment.address(), Ownership.NONE);
@@ -90,5 +94,57 @@ public class OtMathGlyphVariantT extends io.github.jwharm.javagi.ProxyBase {
     @ApiStatus.Internal
     public OtMathGlyphVariantT(Addressable address, Ownership ownership) {
         super(address, ownership);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private OtMathGlyphVariantT struct;
+        
+         /**
+         * A {@link OtMathGlyphVariantT.Build} object constructs a {@link OtMathGlyphVariantT} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = OtMathGlyphVariantT.allocate();
+        }
+        
+         /**
+         * Finish building the {@link OtMathGlyphVariantT} struct.
+         * @return A new instance of {@code OtMathGlyphVariantT} with the fields 
+         *         that were set in the Build object.
+         */
+        public OtMathGlyphVariantT construct() {
+            return struct;
+        }
+        
+        /**
+         * The glyph index of the variant
+         * @param glyph The value for the {@code glyph} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setGlyph(org.harfbuzz.CodepointT glyph) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("glyph"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (glyph == null ? MemoryAddress.NULL : glyph.getValue().intValue()));
+            return this;
+        }
+        
+        /**
+         * The advance width of the variant
+         * @param advance The value for the {@code advance} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setAdvance(org.harfbuzz.PositionT advance) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("advance"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (advance == null ? MemoryAddress.NULL : advance.getValue().intValue()));
+            return this;
+        }
     }
 }

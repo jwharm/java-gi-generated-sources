@@ -48,7 +48,7 @@ public class ScrollEvent extends org.gtk.gdk.Event {
      * @throws ClassCastException If the GType is not derived from "GdkScrollEvent", a ClassCastException will be thrown.
      */
     public static ScrollEvent castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GdkScrollEvent"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), ScrollEvent.getType())) {
             return new ScrollEvent(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GdkScrollEvent");
@@ -60,14 +60,17 @@ public class ScrollEvent extends org.gtk.gdk.Event {
      * <p>
      * The deltas will be zero unless the scroll direction
      * is {@link ScrollDirection#SMOOTH}.
+     * <p>
+     * For the representation unit of these deltas, see
+     * {@link ScrollEvent#getUnit}.
      * @param deltaX return location for x scroll delta
      * @param deltaY return location for y scroll delta
      */
     public void getDeltas(Out<Double> deltaX, Out<Double> deltaY) {
         java.util.Objects.requireNonNull(deltaX, "Parameter 'deltaX' must not be null");
+        MemorySegment deltaXPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_DOUBLE);
         java.util.Objects.requireNonNull(deltaY, "Parameter 'deltaY' must not be null");
-        MemorySegment deltaXPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_DOUBLE);
-        MemorySegment deltaYPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_DOUBLE);
+        MemorySegment deltaYPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_DOUBLE);
         try {
             DowncallHandles.gdk_scroll_event_get_deltas.invokeExact(
                     handle(),
@@ -76,8 +79,8 @@ public class ScrollEvent extends org.gtk.gdk.Event {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        deltaX.set(deltaXPOINTER.get(ValueLayout.JAVA_DOUBLE, 0));
-        deltaY.set(deltaYPOINTER.get(ValueLayout.JAVA_DOUBLE, 0));
+        deltaX.set(deltaXPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
+        deltaY.set(deltaYPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
     }
     
     /**
@@ -93,6 +96,24 @@ public class ScrollEvent extends org.gtk.gdk.Event {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return new org.gtk.gdk.ScrollDirection(RESULT);
+    }
+    
+    /**
+     * Extracts the scroll delta unit of a scroll event.
+     * <p>
+     * The unit will always be {@link ScrollUnit#WHEEL} if the scroll direction is not
+     * {@link ScrollDirection#SMOOTH}.
+     * @return the scroll unit.
+     */
+    public @NotNull org.gtk.gdk.ScrollUnit getUnit() {
+        int RESULT;
+        try {
+            RESULT = (int) DowncallHandles.gdk_scroll_event_get_unit.invokeExact(
+                    handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.gdk.ScrollUnit(RESULT);
     }
     
     /**
@@ -118,23 +139,84 @@ public class ScrollEvent extends org.gtk.gdk.Event {
         return RESULT != 0;
     }
     
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.gdk_scroll_event_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gdk.Event.Build {
+        
+         /**
+         * A {@link ScrollEvent.Build} object constructs a {@link ScrollEvent} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link ScrollEvent} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link ScrollEvent} using {@link ScrollEvent#castFrom}.
+         * @return A new instance of {@code ScrollEvent} with the properties 
+         *         that were set in the Build object.
+         */
+        public ScrollEvent construct() {
+            return ScrollEvent.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    ScrollEvent.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+    }
+    
     private static class DowncallHandles {
         
         private static final MethodHandle gdk_scroll_event_get_deltas = Interop.downcallHandle(
             "gdk_scroll_event_get_deltas",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_scroll_event_get_direction = Interop.downcallHandle(
             "gdk_scroll_event_get_direction",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+            false
+        );
+        
+        private static final MethodHandle gdk_scroll_event_get_unit = Interop.downcallHandle(
+            "gdk_scroll_event_get_unit",
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_scroll_event_is_stop = Interop.downcallHandle(
             "gdk_scroll_event_is_stop",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+            false
+        );
+        
+        private static final MethodHandle gdk_scroll_event_get_type = Interop.downcallHandle(
+            "gdk_scroll_event_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }

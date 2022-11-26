@@ -17,7 +17,7 @@ public class InetSocketAddress extends org.gtk.gio.SocketAddress implements org.
     
     private static final java.lang.String C_TYPE_NAME = "GInetSocketAddress";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gio.SocketAddress.getMemoryLayout().withName("parent_instance"),
         Interop.valueLayout.ADDRESS.withName("priv")
     ).withName(C_TYPE_NAME);
@@ -63,7 +63,7 @@ public class InetSocketAddress extends org.gtk.gio.SocketAddress implements org.
      * @throws ClassCastException If the GType is not derived from "GInetSocketAddress", a ClassCastException will be thrown.
      */
     public static InetSocketAddress castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GInetSocketAddress"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), InetSocketAddress.getType())) {
             return new InetSocketAddress(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GInetSocketAddress");
@@ -182,41 +182,125 @@ public class InetSocketAddress extends org.gtk.gio.SocketAddress implements org.
         return RESULT;
     }
     
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.g_inet_socket_address_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gio.SocketAddress.Build {
+        
+         /**
+         * A {@link InetSocketAddress.Build} object constructs a {@link InetSocketAddress} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link InetSocketAddress} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link InetSocketAddress} using {@link InetSocketAddress#castFrom}.
+         * @return A new instance of {@code InetSocketAddress} with the properties 
+         *         that were set in the Build object.
+         */
+        public InetSocketAddress construct() {
+            return InetSocketAddress.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    InetSocketAddress.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+        
+        public Build setAddress(org.gtk.gio.InetAddress address) {
+            names.add("address");
+            values.add(org.gtk.gobject.Value.create(address));
+            return this;
+        }
+        
+        /**
+         * The {@code sin6_flowinfo} field, for IPv6 addresses.
+         * @param flowinfo The value for the {@code flowinfo} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setFlowinfo(int flowinfo) {
+            names.add("flowinfo");
+            values.add(org.gtk.gobject.Value.create(flowinfo));
+            return this;
+        }
+        
+        public Build setPort(int port) {
+            names.add("port");
+            values.add(org.gtk.gobject.Value.create(port));
+            return this;
+        }
+        
+        public Build setScopeId(int scopeId) {
+            names.add("scope-id");
+            values.add(org.gtk.gobject.Value.create(scopeId));
+            return this;
+        }
+    }
+    
     private static class DowncallHandles {
         
         private static final MethodHandle g_inet_socket_address_new = Interop.downcallHandle(
             "g_inet_socket_address_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_SHORT),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_SHORT),
             false
         );
         
         private static final MethodHandle g_inet_socket_address_new_from_string = Interop.downcallHandle(
             "g_inet_socket_address_new_from_string",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_inet_socket_address_get_address = Interop.downcallHandle(
             "g_inet_socket_address_get_address",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_inet_socket_address_get_flowinfo = Interop.downcallHandle(
             "g_inet_socket_address_get_flowinfo",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_inet_socket_address_get_port = Interop.downcallHandle(
             "g_inet_socket_address_get_port",
-            FunctionDescriptor.of(ValueLayout.JAVA_SHORT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_SHORT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_inet_socket_address_get_scope_id = Interop.downcallHandle(
             "g_inet_socket_address_get_scope_id",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+            false
+        );
+        
+        private static final MethodHandle g_inet_socket_address_get_type = Interop.downcallHandle(
+            "g_inet_socket_address_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }

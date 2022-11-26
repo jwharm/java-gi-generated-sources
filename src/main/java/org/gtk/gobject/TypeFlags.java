@@ -13,6 +13,11 @@ public class TypeFlags extends io.github.jwharm.javagi.Bitfield {
     private static final java.lang.String C_TYPE_NAME = "GTypeFlags";
     
     /**
+     * No special flags. Since: 2.74
+     */
+    public static final TypeFlags NONE = new TypeFlags(0);
+    
+    /**
      * Indicates an abstract type. No instances can be
      *  created for an abstract type
      */

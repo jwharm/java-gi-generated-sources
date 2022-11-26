@@ -8,7 +8,7 @@ import org.jetbrains.annotations.*;
 /**
  * An opaque structure representing an opened directory.
  */
-public class Dir extends io.github.jwharm.javagi.ProxyBase {
+public class Dir extends Struct {
     
     static {
         GLib.javagi$ensureInitialized();
@@ -27,6 +27,10 @@ public class Dir extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link Dir}
+     * @return A new, uninitialized @{link Dir}
+     */
     public static Dir allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         Dir newInstance = new Dir(segment.address(), Ownership.NONE);
@@ -119,7 +123,7 @@ public class Dir extends io.github.jwharm.javagi.ProxyBase {
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public static @NotNull java.lang.String makeTmp(@Nullable java.lang.String tmpl) throws io.github.jwharm.javagi.GErrorException {
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_dir_make_tmp.invokeExact(
@@ -148,7 +152,7 @@ public class Dir extends io.github.jwharm.javagi.ProxyBase {
      */
     public static @NotNull org.gtk.glib.Dir open(@NotNull java.lang.String path, int flags) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(path, "Parameter 'path' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_dir_open.invokeExact(
@@ -168,32 +172,60 @@ public class Dir extends io.github.jwharm.javagi.ProxyBase {
         
         private static final MethodHandle g_dir_close = Interop.downcallHandle(
             "g_dir_close",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_dir_read_name = Interop.downcallHandle(
             "g_dir_read_name",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_dir_rewind = Interop.downcallHandle(
             "g_dir_rewind",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_dir_make_tmp = Interop.downcallHandle(
             "g_dir_make_tmp",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_dir_open = Interop.downcallHandle(
             "g_dir_open",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private Dir struct;
+        
+         /**
+         * A {@link Dir.Build} object constructs a {@link Dir} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = Dir.allocate();
+        }
+        
+         /**
+         * Finish building the {@link Dir} struct.
+         * @return A new instance of {@code Dir} with the fields 
+         *         that were set in the Build object.
+         */
+        public Dir construct() {
+            return struct;
+        }
     }
 }

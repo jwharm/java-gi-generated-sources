@@ -15,7 +15,7 @@ import org.jetbrains.annotations.*;
  * the event or audio streams, and for measuring quality metrics for the
  * application’s display, such as latency and jitter.
  */
-public class FrameTimings extends io.github.jwharm.javagi.ProxyBase {
+public class FrameTimings extends Struct {
     
     static {
         Gdk.javagi$ensureInitialized();
@@ -34,6 +34,10 @@ public class FrameTimings extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link FrameTimings}
+     * @return A new, uninitialized @{link FrameTimings}
+     */
     public static FrameTimings allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         FrameTimings newInstance = new FrameTimings(segment.address(), Ownership.NONE);
@@ -215,50 +219,78 @@ public class FrameTimings extends io.github.jwharm.javagi.ProxyBase {
         
         private static final MethodHandle gdk_frame_timings_get_complete = Interop.downcallHandle(
             "gdk_frame_timings_get_complete",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_frame_timings_get_frame_counter = Interop.downcallHandle(
             "gdk_frame_timings_get_frame_counter",
-            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_frame_timings_get_frame_time = Interop.downcallHandle(
             "gdk_frame_timings_get_frame_time",
-            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_frame_timings_get_predicted_presentation_time = Interop.downcallHandle(
             "gdk_frame_timings_get_predicted_presentation_time",
-            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_frame_timings_get_presentation_time = Interop.downcallHandle(
             "gdk_frame_timings_get_presentation_time",
-            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_frame_timings_get_refresh_interval = Interop.downcallHandle(
             "gdk_frame_timings_get_refresh_interval",
-            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_frame_timings_ref = Interop.downcallHandle(
             "gdk_frame_timings_ref",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_frame_timings_unref = Interop.downcallHandle(
             "gdk_frame_timings_unref",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private FrameTimings struct;
+        
+         /**
+         * A {@link FrameTimings.Build} object constructs a {@link FrameTimings} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = FrameTimings.allocate();
+        }
+        
+         /**
+         * Finish building the {@link FrameTimings} struct.
+         * @return A new instance of {@code FrameTimings} with the fields 
+         *         that were set in the Build object.
+         */
+        public FrameTimings construct() {
+            return struct;
+        }
     }
 }

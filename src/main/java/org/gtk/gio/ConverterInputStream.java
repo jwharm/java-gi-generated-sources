@@ -20,7 +20,7 @@ public class ConverterInputStream extends org.gtk.gio.FilterInputStream implemen
     
     private static final java.lang.String C_TYPE_NAME = "GConverterInputStream";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gio.FilterInputStream.getMemoryLayout().withName("parent_instance"),
         Interop.valueLayout.ADDRESS.withName("priv")
     ).withName(C_TYPE_NAME);
@@ -66,7 +66,7 @@ public class ConverterInputStream extends org.gtk.gio.FilterInputStream implemen
      * @throws ClassCastException If the GType is not derived from "GConverterInputStream", a ClassCastException will be thrown.
      */
     public static ConverterInputStream castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GConverterInputStream"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), ConverterInputStream.getType())) {
             return new ConverterInputStream(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GConverterInputStream");
@@ -111,17 +111,78 @@ public class ConverterInputStream extends org.gtk.gio.FilterInputStream implemen
         return new org.gtk.gio.Converter.ConverterImpl(RESULT, Ownership.NONE);
     }
     
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.g_converter_input_stream_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gio.FilterInputStream.Build {
+        
+         /**
+         * A {@link ConverterInputStream.Build} object constructs a {@link ConverterInputStream} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link ConverterInputStream} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link ConverterInputStream} using {@link ConverterInputStream#castFrom}.
+         * @return A new instance of {@code ConverterInputStream} with the properties 
+         *         that were set in the Build object.
+         */
+        public ConverterInputStream construct() {
+            return ConverterInputStream.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    ConverterInputStream.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+        
+        public Build setConverter(org.gtk.gio.Converter converter) {
+            names.add("converter");
+            values.add(org.gtk.gobject.Value.create(converter));
+            return this;
+        }
+    }
+    
     private static class DowncallHandles {
         
         private static final MethodHandle g_converter_input_stream_new = Interop.downcallHandle(
             "g_converter_input_stream_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_converter_input_stream_get_converter = Interop.downcallHandle(
             "g_converter_input_stream_get_converter",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+            false
+        );
+        
+        private static final MethodHandle g_converter_input_stream_get_type = Interop.downcallHandle(
+            "g_converter_input_stream_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }

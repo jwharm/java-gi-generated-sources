@@ -9,7 +9,7 @@ import org.jetbrains.annotations.*;
  * Data type for languages. Each {@link LanguageT} corresponds to a BCP 47
  * language tag.
  */
-public class LanguageT extends io.github.jwharm.javagi.ProxyBase {
+public class LanguageT extends Struct {
     
     static {
         HarfBuzz.javagi$ensureInitialized();
@@ -28,6 +28,10 @@ public class LanguageT extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link LanguageT}
+     * @return A new, uninitialized @{link LanguageT}
+     */
     public static LanguageT allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         LanguageT newInstance = new LanguageT(segment.address(), Ownership.NONE);
@@ -47,7 +51,7 @@ public class LanguageT extends io.github.jwharm.javagi.ProxyBase {
     
     /**
      * Converts an {@link LanguageT} to a string.
-     * @return A {@code null}-terminated string representing the {@code language}. Must not be freed by
+     * @return A {@code NULL}-terminated string representing the {@code language}. Must not be freed by
      * the caller.
      */
     public @NotNull java.lang.String String() {
@@ -65,8 +69,36 @@ public class LanguageT extends io.github.jwharm.javagi.ProxyBase {
         
         private static final MethodHandle hb_language_to_string = Interop.downcallHandle(
             "hb_language_to_string",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private LanguageT struct;
+        
+         /**
+         * A {@link LanguageT.Build} object constructs a {@link LanguageT} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = LanguageT.allocate();
+        }
+        
+         /**
+         * Finish building the {@link LanguageT} struct.
+         * @return A new instance of {@code LanguageT} with the fields 
+         *         that were set in the Build object.
+         */
+        public LanguageT construct() {
+            return struct;
+        }
     }
 }

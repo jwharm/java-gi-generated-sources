@@ -61,7 +61,7 @@ public class Video extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      * @throws ClassCastException If the GType is not derived from "GtkVideo", a ClassCastException will be thrown.
      */
     public static Video castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkVideo"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), Video.getType())) {
             return new Video(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkVideo");
@@ -328,95 +328,194 @@ public class Video extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
         }
     }
     
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.gtk_video_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gtk.Widget.Build {
+        
+         /**
+         * A {@link Video.Build} object constructs a {@link Video} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link Video} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link Video} using {@link Video#castFrom}.
+         * @return A new instance of {@code Video} with the properties 
+         *         that were set in the Build object.
+         */
+        public Video construct() {
+            return Video.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    Video.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+        
+        /**
+         * If the video should automatically begin playing.
+         * @param autoplay The value for the {@code autoplay} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setAutoplay(boolean autoplay) {
+            names.add("autoplay");
+            values.add(org.gtk.gobject.Value.create(autoplay));
+            return this;
+        }
+        
+        /**
+         * The file played by this video if the video is playing a file.
+         * @param file The value for the {@code file} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setFile(org.gtk.gio.File file) {
+            names.add("file");
+            values.add(org.gtk.gobject.Value.create(file));
+            return this;
+        }
+        
+        /**
+         * If new media files should be set to loop.
+         * @param loop The value for the {@code loop} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setLoop(boolean loop) {
+            names.add("loop");
+            values.add(org.gtk.gobject.Value.create(loop));
+            return this;
+        }
+        
+        /**
+         * The media-stream played
+         * @param mediaStream The value for the {@code media-stream} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setMediaStream(org.gtk.gtk.MediaStream mediaStream) {
+            names.add("media-stream");
+            values.add(org.gtk.gobject.Value.create(mediaStream));
+            return this;
+        }
+    }
+    
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_video_new = Interop.downcallHandle(
             "gtk_video_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_video_new_for_file = Interop.downcallHandle(
             "gtk_video_new_for_file",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_video_new_for_filename = Interop.downcallHandle(
             "gtk_video_new_for_filename",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_video_new_for_media_stream = Interop.downcallHandle(
             "gtk_video_new_for_media_stream",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_video_new_for_resource = Interop.downcallHandle(
             "gtk_video_new_for_resource",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_video_get_autoplay = Interop.downcallHandle(
             "gtk_video_get_autoplay",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_video_get_file = Interop.downcallHandle(
             "gtk_video_get_file",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_video_get_loop = Interop.downcallHandle(
             "gtk_video_get_loop",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_video_get_media_stream = Interop.downcallHandle(
             "gtk_video_get_media_stream",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_video_set_autoplay = Interop.downcallHandle(
             "gtk_video_set_autoplay",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_video_set_file = Interop.downcallHandle(
             "gtk_video_set_file",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_video_set_filename = Interop.downcallHandle(
             "gtk_video_set_filename",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_video_set_loop = Interop.downcallHandle(
             "gtk_video_set_loop",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_video_set_media_stream = Interop.downcallHandle(
             "gtk_video_set_media_stream",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_video_set_resource = Interop.downcallHandle(
             "gtk_video_set_resource",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+            false
+        );
+        
+        private static final MethodHandle gtk_video_get_type = Interop.downcallHandle(
+            "gtk_video_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }

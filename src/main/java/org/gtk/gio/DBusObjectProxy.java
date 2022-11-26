@@ -20,7 +20,7 @@ public class DBusObjectProxy extends org.gtk.gobject.Object implements org.gtk.g
     
     private static final java.lang.String C_TYPE_NAME = "GDBusObjectProxy";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gobject.Object.getMemoryLayout().withName("parent_instance"),
         Interop.valueLayout.ADDRESS.withName("priv")
     ).withName(C_TYPE_NAME);
@@ -57,7 +57,7 @@ public class DBusObjectProxy extends org.gtk.gobject.Object implements org.gtk.g
      * @throws ClassCastException If the GType is not derived from "GDBusObjectProxy", a ClassCastException will be thrown.
      */
     public static DBusObjectProxy castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GDBusObjectProxy"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), DBusObjectProxy.getType())) {
             return new DBusObjectProxy(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GDBusObjectProxy");
@@ -104,17 +104,94 @@ public class DBusObjectProxy extends org.gtk.gobject.Object implements org.gtk.g
         return new org.gtk.gio.DBusConnection(RESULT, Ownership.NONE);
     }
     
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.g_dbus_object_proxy_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gobject.Object.Build {
+        
+         /**
+         * A {@link DBusObjectProxy.Build} object constructs a {@link DBusObjectProxy} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link DBusObjectProxy} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link DBusObjectProxy} using {@link DBusObjectProxy#castFrom}.
+         * @return A new instance of {@code DBusObjectProxy} with the properties 
+         *         that were set in the Build object.
+         */
+        public DBusObjectProxy construct() {
+            return DBusObjectProxy.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    DBusObjectProxy.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+        
+        /**
+         * The connection of the proxy.
+         * @param gConnection The value for the {@code g-connection} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setGConnection(org.gtk.gio.DBusConnection gConnection) {
+            names.add("g-connection");
+            values.add(org.gtk.gobject.Value.create(gConnection));
+            return this;
+        }
+        
+        /**
+         * The object path of the proxy.
+         * @param gObjectPath The value for the {@code g-object-path} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setGObjectPath(java.lang.String gObjectPath) {
+            names.add("g-object-path");
+            values.add(org.gtk.gobject.Value.create(gObjectPath));
+            return this;
+        }
+    }
+    
     private static class DowncallHandles {
         
         private static final MethodHandle g_dbus_object_proxy_new = Interop.downcallHandle(
             "g_dbus_object_proxy_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_dbus_object_proxy_get_connection = Interop.downcallHandle(
             "g_dbus_object_proxy_get_connection",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+            false
+        );
+        
+        private static final MethodHandle g_dbus_object_proxy_get_type = Interop.downcallHandle(
+            "g_dbus_object_proxy_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }

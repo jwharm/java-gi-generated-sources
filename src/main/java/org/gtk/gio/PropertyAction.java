@@ -99,7 +99,7 @@ public class PropertyAction extends org.gtk.gobject.Object implements org.gtk.gi
      * @throws ClassCastException If the GType is not derived from "GPropertyAction", a ClassCastException will be thrown.
      */
     public static PropertyAction castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GPropertyAction"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), PropertyAction.getType())) {
             return new PropertyAction(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GPropertyAction");
@@ -140,11 +140,166 @@ public class PropertyAction extends org.gtk.gobject.Object implements org.gtk.gi
         super(constructNew(name, object, propertyName), Ownership.FULL);
     }
     
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.g_property_action_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gobject.Object.Build {
+        
+         /**
+         * A {@link PropertyAction.Build} object constructs a {@link PropertyAction} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link PropertyAction} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link PropertyAction} using {@link PropertyAction#castFrom}.
+         * @return A new instance of {@code PropertyAction} with the properties 
+         *         that were set in the Build object.
+         */
+        public PropertyAction construct() {
+            return PropertyAction.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    PropertyAction.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+        
+        /**
+         * If {@code action} is currently enabled.
+         * <p>
+         * If the action is disabled then calls to g_action_activate() and
+         * g_action_change_state() have no effect.
+         * @param enabled The value for the {@code enabled} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setEnabled(boolean enabled) {
+            names.add("enabled");
+            values.add(org.gtk.gobject.Value.create(enabled));
+            return this;
+        }
+        
+        /**
+         * If {@code true}, the state of the action will be the negation of the
+         * property value, provided the property is boolean.
+         * @param invertBoolean The value for the {@code invert-boolean} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setInvertBoolean(boolean invertBoolean) {
+            names.add("invert-boolean");
+            values.add(org.gtk.gobject.Value.create(invertBoolean));
+            return this;
+        }
+        
+        /**
+         * The name of the action.  This is mostly meaningful for identifying
+         * the action once it has been added to a {@link ActionMap}.
+         * @param name The value for the {@code name} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setName(java.lang.String name) {
+            names.add("name");
+            values.add(org.gtk.gobject.Value.create(name));
+            return this;
+        }
+        
+        /**
+         * The object to wrap a property on.
+         * <p>
+         * The object must be a non-{@code null} {@link org.gtk.gobject.Object} with properties.
+         * @param object The value for the {@code object} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setObject(org.gtk.gobject.Object object) {
+            names.add("object");
+            values.add(org.gtk.gobject.Value.create(object));
+            return this;
+        }
+        
+        /**
+         * The type of the parameter that must be given when activating the
+         * action.
+         * @param parameterType The value for the {@code parameter-type} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setParameterType(org.gtk.glib.VariantType parameterType) {
+            names.add("parameter-type");
+            values.add(org.gtk.gobject.Value.create(parameterType));
+            return this;
+        }
+        
+        /**
+         * The name of the property to wrap on the object.
+         * <p>
+         * The property must exist on the passed-in object and it must be
+         * readable and writable (and not construct-only).
+         * @param propertyName The value for the {@code property-name} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setPropertyName(java.lang.String propertyName) {
+            names.add("property-name");
+            values.add(org.gtk.gobject.Value.create(propertyName));
+            return this;
+        }
+        
+        /**
+         * The state of the action, or {@code null} if the action is stateless.
+         * @param state The value for the {@code state} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setState(org.gtk.glib.Variant state) {
+            names.add("state");
+            values.add(org.gtk.gobject.Value.create(state));
+            return this;
+        }
+        
+        /**
+         * The {@link org.gtk.glib.VariantType} of the state that the action has, or {@code null} if the
+         * action is stateless.
+         * @param stateType The value for the {@code state-type} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setStateType(org.gtk.glib.VariantType stateType) {
+            names.add("state-type");
+            values.add(org.gtk.gobject.Value.create(stateType));
+            return this;
+        }
+    }
+    
     private static class DowncallHandles {
         
         private static final MethodHandle g_property_action_new = Interop.downcallHandle(
             "g_property_action_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+            false
+        );
+        
+        private static final MethodHandle g_property_action_get_type = Interop.downcallHandle(
+            "g_property_action_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }

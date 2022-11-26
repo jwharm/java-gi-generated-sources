@@ -9,7 +9,7 @@ import org.jetbrains.annotations.*;
  * Information about a method on an D-Bus interface.
  * @version 2.26
  */
-public class DBusMethodInfo extends io.github.jwharm.javagi.ProxyBase {
+public class DBusMethodInfo extends Struct {
     
     static {
         Gio.javagi$ensureInitialized();
@@ -17,8 +17,8 @@ public class DBusMethodInfo extends io.github.jwharm.javagi.ProxyBase {
     
     private static final java.lang.String C_TYPE_NAME = "GDBusMethodInfo";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
-        ValueLayout.JAVA_INT.withName("ref_count"),
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
+        Interop.valueLayout.C_INT.withName("ref_count"),
         MemoryLayout.paddingLayout(32),
         Interop.valueLayout.ADDRESS.withName("name"),
         Interop.valueLayout.ADDRESS.withName("in_args"),
@@ -37,6 +37,10 @@ public class DBusMethodInfo extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link DBusMethodInfo}
+     * @return A new, uninitialized @{link DBusMethodInfo}
+     */
     public static DBusMethodInfo allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         DBusMethodInfo newInstance = new DBusMethodInfo(segment.address(), Ownership.NONE);
@@ -130,14 +134,102 @@ public class DBusMethodInfo extends io.github.jwharm.javagi.ProxyBase {
         
         private static final MethodHandle g_dbus_method_info_ref = Interop.downcallHandle(
             "g_dbus_method_info_ref",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_dbus_method_info_unref = Interop.downcallHandle(
             "g_dbus_method_info_unref",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private DBusMethodInfo struct;
+        
+         /**
+         * A {@link DBusMethodInfo.Build} object constructs a {@link DBusMethodInfo} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = DBusMethodInfo.allocate();
+        }
+        
+         /**
+         * Finish building the {@link DBusMethodInfo} struct.
+         * @return A new instance of {@code DBusMethodInfo} with the fields 
+         *         that were set in the Build object.
+         */
+        public DBusMethodInfo construct() {
+            return struct;
+        }
+        
+        /**
+         * The reference count or -1 if statically allocated.
+         * @param ref_count The value for the {@code ref_count} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setRefCount(int ref_count) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("ref_count"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), ref_count);
+            return this;
+        }
+        
+        /**
+         * The name of the D-Bus method, e.g. {@code RequestName}.
+         * @param name The value for the {@code name} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setName(java.lang.String name) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("name"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (name == null ? MemoryAddress.NULL : Interop.allocateNativeString(name)));
+            return this;
+        }
+        
+        /**
+         * A pointer to a {@code null}-terminated array of pointers to {@link DBusArgInfo} structures or {@code null} if there are no in arguments.
+         * @param in_args The value for the {@code in_args} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setInArgs(org.gtk.gio.DBusArgInfo[] in_args) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("in_args"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (in_args == null ? MemoryAddress.NULL : Interop.allocateNativeArray(in_args, false)));
+            return this;
+        }
+        
+        /**
+         * A pointer to a {@code null}-terminated array of pointers to {@link DBusArgInfo} structures or {@code null} if there are no out arguments.
+         * @param out_args The value for the {@code out_args} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setOutArgs(org.gtk.gio.DBusArgInfo[] out_args) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("out_args"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (out_args == null ? MemoryAddress.NULL : Interop.allocateNativeArray(out_args, false)));
+            return this;
+        }
+        
+        /**
+         * A pointer to a {@code null}-terminated array of pointers to {@link DBusAnnotationInfo} structures or {@code null} if there are no annotations.
+         * @param annotations The value for the {@code annotations} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setAnnotations(org.gtk.gio.DBusAnnotationInfo[] annotations) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("annotations"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (annotations == null ? MemoryAddress.NULL : Interop.allocateNativeArray(annotations, false)));
+            return this;
+        }
     }
 }

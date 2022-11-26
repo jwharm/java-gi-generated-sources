@@ -5,7 +5,7 @@ import java.lang.foreign.*;
 import java.lang.invoke.*;
 import org.jetbrains.annotations.*;
 
-public class WidgetClass extends io.github.jwharm.javagi.ProxyBase {
+public class WidgetClass extends Struct {
     
     static {
         Gtk.javagi$ensureInitialized();
@@ -13,7 +13,7 @@ public class WidgetClass extends io.github.jwharm.javagi.ProxyBase {
     
     private static final java.lang.String C_TYPE_NAME = "GtkWidgetClass";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gobject.InitiallyUnownedClass.getMemoryLayout().withName("parent_class"),
         Interop.valueLayout.ADDRESS.withName("show"),
         Interop.valueLayout.ADDRESS.withName("hide"),
@@ -41,8 +41,7 @@ public class WidgetClass extends io.github.jwharm.javagi.ProxyBase {
         Interop.valueLayout.ADDRESS.withName("snapshot"),
         Interop.valueLayout.ADDRESS.withName("contains"),
         Interop.valueLayout.ADDRESS.withName("priv"),
-        MemoryLayout.paddingLayout(320),
-        MemoryLayout.sequenceLayout(8, ValueLayout.ADDRESS).withName("padding")
+        MemoryLayout.sequenceLayout(8, Interop.valueLayout.ADDRESS).withName("padding")
     ).withName(C_TYPE_NAME);
     
     /**
@@ -56,6 +55,10 @@ public class WidgetClass extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link WidgetClass}
+     * @return A new, uninitialized @{link WidgetClass}
+     */
     public static WidgetClass allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         WidgetClass newInstance = new WidgetClass(segment.address(), Ownership.NONE);
@@ -401,10 +404,10 @@ public class WidgetClass extends io.github.jwharm.javagi.ProxyBase {
      */
     public boolean queryAction(int index, @NotNull Out<org.gtk.glib.Type> owner, @NotNull Out<java.lang.String> actionName, @Nullable PointerProxy<org.gtk.glib.VariantType> parameterType, @Nullable Out<java.lang.String> propertyName) {
         java.util.Objects.requireNonNull(owner, "Parameter 'owner' must not be null");
+        MemorySegment ownerPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
         java.util.Objects.requireNonNull(actionName, "Parameter 'actionName' must not be null");
-        MemorySegment ownerPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_LONG);
-        MemorySegment actionNamePOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        MemorySegment propertyNamePOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment actionNamePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
+        MemorySegment propertyNamePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_widget_class_query_action.invokeExact(
@@ -417,9 +420,9 @@ public class WidgetClass extends io.github.jwharm.javagi.ProxyBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        owner.set(new org.gtk.glib.Type(ownerPOINTER.get(ValueLayout.JAVA_LONG, 0)));
-        actionName.set(Interop.getStringFrom(actionNamePOINTER.get(ValueLayout.ADDRESS, 0)));
-        if (propertyName != null) propertyName.set(Interop.getStringFrom(propertyNamePOINTER.get(ValueLayout.ADDRESS, 0)));
+        owner.set(new org.gtk.glib.Type(ownerPOINTER.get(Interop.valueLayout.C_LONG, 0)));
+        actionName.set(Interop.getStringFrom(actionNamePOINTER.get(Interop.valueLayout.ADDRESS, 0)));
+        if (propertyName != null) propertyName.set(Interop.getStringFrom(propertyNamePOINTER.get(Interop.valueLayout.ADDRESS, 0)));
         return RESULT != 0;
     }
     
@@ -590,128 +593,360 @@ public class WidgetClass extends io.github.jwharm.javagi.ProxyBase {
         
         private static final MethodHandle gtk_widget_class_add_binding = Interop.downcallHandle(
             "gtk_widget_class_add_binding",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             true
         );
         
         private static final MethodHandle gtk_widget_class_add_binding_action = Interop.downcallHandle(
             "gtk_widget_class_add_binding_action",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             true
         );
         
         private static final MethodHandle gtk_widget_class_add_binding_signal = Interop.downcallHandle(
             "gtk_widget_class_add_binding_signal",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             true
         );
         
         private static final MethodHandle gtk_widget_class_add_shortcut = Interop.downcallHandle(
             "gtk_widget_class_add_shortcut",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_widget_class_bind_template_callback_full = Interop.downcallHandle(
             "gtk_widget_class_bind_template_callback_full",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_widget_class_bind_template_child_full = Interop.downcallHandle(
             "gtk_widget_class_bind_template_child_full",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_LONG),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_LONG),
             false
         );
         
         private static final MethodHandle gtk_widget_class_get_accessible_role = Interop.downcallHandle(
             "gtk_widget_class_get_accessible_role",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_widget_class_get_activate_signal = Interop.downcallHandle(
             "gtk_widget_class_get_activate_signal",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_widget_class_get_css_name = Interop.downcallHandle(
             "gtk_widget_class_get_css_name",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_widget_class_get_layout_manager_type = Interop.downcallHandle(
             "gtk_widget_class_get_layout_manager_type",
-            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_widget_class_install_action = Interop.downcallHandle(
             "gtk_widget_class_install_action",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_widget_class_install_property_action = Interop.downcallHandle(
             "gtk_widget_class_install_property_action",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_widget_class_query_action = Interop.downcallHandle(
             "gtk_widget_class_query_action",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_widget_class_set_accessible_role = Interop.downcallHandle(
             "gtk_widget_class_set_accessible_role",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_widget_class_set_activate_signal = Interop.downcallHandle(
             "gtk_widget_class_set_activate_signal",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_widget_class_set_activate_signal_from_name = Interop.downcallHandle(
             "gtk_widget_class_set_activate_signal_from_name",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_widget_class_set_css_name = Interop.downcallHandle(
             "gtk_widget_class_set_css_name",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_widget_class_set_layout_manager_type = Interop.downcallHandle(
             "gtk_widget_class_set_layout_manager_type",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
             false
         );
         
         private static final MethodHandle gtk_widget_class_set_template = Interop.downcallHandle(
             "gtk_widget_class_set_template",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_widget_class_set_template_from_resource = Interop.downcallHandle(
             "gtk_widget_class_set_template_from_resource",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_widget_class_set_template_scope = Interop.downcallHandle(
             "gtk_widget_class_set_template_scope",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private WidgetClass struct;
+        
+         /**
+         * A {@link WidgetClass.Build} object constructs a {@link WidgetClass} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = WidgetClass.allocate();
+        }
+        
+         /**
+         * Finish building the {@link WidgetClass} struct.
+         * @return A new instance of {@code WidgetClass} with the fields 
+         *         that were set in the Build object.
+         */
+        public WidgetClass construct() {
+            return struct;
+        }
+        
+        /**
+         * The object class structure needs to be the first
+         *   element in the widget class structure in order for the class mechanism
+         *   to work correctly. This allows a GtkWidgetClass pointer to be cast to
+         *   a GObjectClass pointer.
+         * @param parent_class The value for the {@code parent_class} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setParentClass(org.gtk.gobject.InitiallyUnownedClass parent_class) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parent_class == null ? MemoryAddress.NULL : parent_class.handle()));
+            return this;
+        }
+        
+        public Build setShow(java.lang.foreign.MemoryAddress show) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("show"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (show == null ? MemoryAddress.NULL : show));
+            return this;
+        }
+        
+        public Build setHide(java.lang.foreign.MemoryAddress hide) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("hide"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (hide == null ? MemoryAddress.NULL : hide));
+            return this;
+        }
+        
+        public Build setMap(java.lang.foreign.MemoryAddress map) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("map"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (map == null ? MemoryAddress.NULL : map));
+            return this;
+        }
+        
+        public Build setUnmap(java.lang.foreign.MemoryAddress unmap) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("unmap"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (unmap == null ? MemoryAddress.NULL : unmap));
+            return this;
+        }
+        
+        public Build setRealize(java.lang.foreign.MemoryAddress realize) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("realize"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (realize == null ? MemoryAddress.NULL : realize));
+            return this;
+        }
+        
+        public Build setUnrealize(java.lang.foreign.MemoryAddress unrealize) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("unrealize"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (unrealize == null ? MemoryAddress.NULL : unrealize));
+            return this;
+        }
+        
+        public Build setRoot(java.lang.foreign.MemoryAddress root) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("root"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (root == null ? MemoryAddress.NULL : root));
+            return this;
+        }
+        
+        public Build setUnroot(java.lang.foreign.MemoryAddress unroot) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("unroot"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (unroot == null ? MemoryAddress.NULL : unroot));
+            return this;
+        }
+        
+        public Build setSizeAllocate(java.lang.foreign.MemoryAddress size_allocate) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("size_allocate"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (size_allocate == null ? MemoryAddress.NULL : size_allocate));
+            return this;
+        }
+        
+        public Build setStateFlagsChanged(java.lang.foreign.MemoryAddress state_flags_changed) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("state_flags_changed"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (state_flags_changed == null ? MemoryAddress.NULL : state_flags_changed));
+            return this;
+        }
+        
+        public Build setDirectionChanged(java.lang.foreign.MemoryAddress direction_changed) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("direction_changed"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (direction_changed == null ? MemoryAddress.NULL : direction_changed));
+            return this;
+        }
+        
+        public Build setGetRequestMode(java.lang.foreign.MemoryAddress get_request_mode) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("get_request_mode"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (get_request_mode == null ? MemoryAddress.NULL : get_request_mode));
+            return this;
+        }
+        
+        public Build setMeasure(java.lang.foreign.MemoryAddress measure) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("measure"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (measure == null ? MemoryAddress.NULL : measure));
+            return this;
+        }
+        
+        public Build setMnemonicActivate(java.lang.foreign.MemoryAddress mnemonic_activate) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("mnemonic_activate"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (mnemonic_activate == null ? MemoryAddress.NULL : mnemonic_activate));
+            return this;
+        }
+        
+        public Build setGrabFocus(java.lang.foreign.MemoryAddress grab_focus) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("grab_focus"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (grab_focus == null ? MemoryAddress.NULL : grab_focus));
+            return this;
+        }
+        
+        public Build setFocus(java.lang.foreign.MemoryAddress focus) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("focus"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (focus == null ? MemoryAddress.NULL : focus));
+            return this;
+        }
+        
+        public Build setSetFocusChild(java.lang.foreign.MemoryAddress set_focus_child) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("set_focus_child"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (set_focus_child == null ? MemoryAddress.NULL : set_focus_child));
+            return this;
+        }
+        
+        public Build setMoveFocus(java.lang.foreign.MemoryAddress move_focus) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("move_focus"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (move_focus == null ? MemoryAddress.NULL : move_focus));
+            return this;
+        }
+        
+        public Build setKeynavFailed(java.lang.foreign.MemoryAddress keynav_failed) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("keynav_failed"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (keynav_failed == null ? MemoryAddress.NULL : keynav_failed));
+            return this;
+        }
+        
+        public Build setQueryTooltip(java.lang.foreign.MemoryAddress query_tooltip) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("query_tooltip"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (query_tooltip == null ? MemoryAddress.NULL : query_tooltip));
+            return this;
+        }
+        
+        public Build setComputeExpand(java.lang.foreign.MemoryAddress compute_expand) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("compute_expand"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (compute_expand == null ? MemoryAddress.NULL : compute_expand));
+            return this;
+        }
+        
+        public Build setCssChanged(java.lang.foreign.MemoryAddress css_changed) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("css_changed"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (css_changed == null ? MemoryAddress.NULL : css_changed));
+            return this;
+        }
+        
+        public Build setSystemSettingChanged(java.lang.foreign.MemoryAddress system_setting_changed) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("system_setting_changed"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (system_setting_changed == null ? MemoryAddress.NULL : system_setting_changed));
+            return this;
+        }
+        
+        public Build setSnapshot(java.lang.foreign.MemoryAddress snapshot) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("snapshot"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (snapshot == null ? MemoryAddress.NULL : snapshot));
+            return this;
+        }
+        
+        public Build setContains(java.lang.foreign.MemoryAddress contains) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("contains"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (contains == null ? MemoryAddress.NULL : contains));
+            return this;
+        }
+        
+        public Build setPriv(org.gtk.gtk.WidgetClassPrivate priv) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("priv"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (priv == null ? MemoryAddress.NULL : priv.handle()));
+            return this;
+        }
+        
+        public Build setPadding(java.lang.foreign.MemoryAddress[] padding) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("padding"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (padding == null ? MemoryAddress.NULL : Interop.allocateNativeArray(padding, false)));
+            return this;
+        }
     }
 }

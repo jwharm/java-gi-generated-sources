@@ -50,7 +50,7 @@ public class IconPaintable extends org.gtk.gobject.Object implements org.gtk.gdk
      * @throws ClassCastException If the GType is not derived from "GtkIconPaintable", a ClassCastException will be thrown.
      */
     public static IconPaintable castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkIconPaintable"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), IconPaintable.getType())) {
             return new IconPaintable(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkIconPaintable");
@@ -147,29 +147,117 @@ public class IconPaintable extends org.gtk.gobject.Object implements org.gtk.gdk
         return RESULT != 0;
     }
     
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.gtk_icon_paintable_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gobject.Object.Build {
+        
+         /**
+         * A {@link IconPaintable.Build} object constructs a {@link IconPaintable} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link IconPaintable} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link IconPaintable} using {@link IconPaintable#castFrom}.
+         * @return A new instance of {@code IconPaintable} with the properties 
+         *         that were set in the Build object.
+         */
+        public IconPaintable construct() {
+            return IconPaintable.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    IconPaintable.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+        
+        /**
+         * The file representing the icon, if any.
+         * @param file The value for the {@code file} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setFile(org.gtk.gio.File file) {
+            names.add("file");
+            values.add(org.gtk.gobject.Value.create(file));
+            return this;
+        }
+        
+        /**
+         * The icon name that was chosen during lookup.
+         * @param iconName The value for the {@code icon-name} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setIconName(java.lang.String iconName) {
+            names.add("icon-name");
+            values.add(org.gtk.gobject.Value.create(iconName));
+            return this;
+        }
+        
+        /**
+         * Whether the icon is symbolic or not.
+         * @param isSymbolic The value for the {@code is-symbolic} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setIsSymbolic(boolean isSymbolic) {
+            names.add("is-symbolic");
+            values.add(org.gtk.gobject.Value.create(isSymbolic));
+            return this;
+        }
+    }
+    
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_icon_paintable_new_for_file = Interop.downcallHandle(
             "gtk_icon_paintable_new_for_file",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_icon_paintable_get_file = Interop.downcallHandle(
             "gtk_icon_paintable_get_file",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_icon_paintable_get_icon_name = Interop.downcallHandle(
             "gtk_icon_paintable_get_icon_name",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_icon_paintable_is_symbolic = Interop.downcallHandle(
             "gtk_icon_paintable_is_symbolic",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+            false
+        );
+        
+        private static final MethodHandle gtk_icon_paintable_get_type = Interop.downcallHandle(
+            "gtk_icon_paintable_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }

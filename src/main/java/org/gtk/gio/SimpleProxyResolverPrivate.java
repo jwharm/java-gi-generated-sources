@@ -5,7 +5,7 @@ import java.lang.foreign.*;
 import java.lang.invoke.*;
 import org.jetbrains.annotations.*;
 
-public class SimpleProxyResolverPrivate extends io.github.jwharm.javagi.ProxyBase {
+public class SimpleProxyResolverPrivate extends Struct {
     
     static {
         Gio.javagi$ensureInitialized();
@@ -24,6 +24,10 @@ public class SimpleProxyResolverPrivate extends io.github.jwharm.javagi.ProxyBas
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link SimpleProxyResolverPrivate}
+     * @return A new, uninitialized @{link SimpleProxyResolverPrivate}
+     */
     public static SimpleProxyResolverPrivate allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         SimpleProxyResolverPrivate newInstance = new SimpleProxyResolverPrivate(segment.address(), Ownership.NONE);
@@ -39,5 +43,33 @@ public class SimpleProxyResolverPrivate extends io.github.jwharm.javagi.ProxyBas
     @ApiStatus.Internal
     public SimpleProxyResolverPrivate(Addressable address, Ownership ownership) {
         super(address, ownership);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private SimpleProxyResolverPrivate struct;
+        
+         /**
+         * A {@link SimpleProxyResolverPrivate.Build} object constructs a {@link SimpleProxyResolverPrivate} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = SimpleProxyResolverPrivate.allocate();
+        }
+        
+         /**
+         * Finish building the {@link SimpleProxyResolverPrivate} struct.
+         * @return A new instance of {@code SimpleProxyResolverPrivate} with the fields 
+         *         that were set in the Build object.
+         */
+        public SimpleProxyResolverPrivate construct() {
+            return struct;
+        }
     }
 }

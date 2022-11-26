@@ -48,10 +48,68 @@ public class ProximityEvent extends org.gtk.gdk.Event {
      * @throws ClassCastException If the GType is not derived from "GdkProximityEvent", a ClassCastException will be thrown.
      */
     public static ProximityEvent castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GdkProximityEvent"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), ProximityEvent.getType())) {
             return new ProximityEvent(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GdkProximityEvent");
         }
+    }
+    
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.gdk_proximity_event_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gdk.Event.Build {
+        
+         /**
+         * A {@link ProximityEvent.Build} object constructs a {@link ProximityEvent} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link ProximityEvent} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link ProximityEvent} using {@link ProximityEvent#castFrom}.
+         * @return A new instance of {@code ProximityEvent} with the properties 
+         *         that were set in the Build object.
+         */
+        public ProximityEvent construct() {
+            return ProximityEvent.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    ProximityEvent.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+    }
+    
+    private static class DowncallHandles {
+        
+        private static final MethodHandle gdk_proximity_event_get_type = Interop.downcallHandle(
+            "gdk_proximity_event_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+            false
+        );
     }
 }

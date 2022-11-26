@@ -9,7 +9,7 @@ import org.jetbrains.annotations.*;
  * An opaque type representing a list of files.
  * @version 4.6
  */
-public class FileList extends io.github.jwharm.javagi.ProxyBase {
+public class FileList extends Struct {
     
     static {
         Gdk.javagi$ensureInitialized();
@@ -28,6 +28,10 @@ public class FileList extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link FileList}
+     * @return A new, uninitialized @{link FileList}
+     */
     public static FileList allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         FileList newInstance = new FileList(segment.address(), Ownership.NONE);
@@ -43,6 +47,55 @@ public class FileList extends io.github.jwharm.javagi.ProxyBase {
     @ApiStatus.Internal
     public FileList(Addressable address, Ownership ownership) {
         super(address, ownership);
+    }
+    
+    private static Addressable constructNewFromArray(@NotNull org.gtk.gio.File[] files, long nFiles) {
+        java.util.Objects.requireNonNull(files, "Parameter 'files' must not be null");
+        Addressable RESULT;
+        try {
+            RESULT = (MemoryAddress) DowncallHandles.gdk_file_list_new_from_array.invokeExact(
+                    Interop.allocateNativeArray(files, false),
+                    nFiles);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return RESULT;
+    }
+    
+    /**
+     * Creates a new {@code GdkFileList} for the given array of files.
+     * <p>
+     * This function is meant to be used by language bindings.
+     * @param files the files to add to the list
+     * @param nFiles the number of files in the array
+     * @return the newly create files list
+     */
+    public static FileList newFromArray(@NotNull org.gtk.gio.File[] files, long nFiles) {
+        return new FileList(constructNewFromArray(files, nFiles), Ownership.FULL);
+    }
+    
+    private static Addressable constructNewFromList(@NotNull org.gtk.glib.SList files) {
+        java.util.Objects.requireNonNull(files, "Parameter 'files' must not be null");
+        Addressable RESULT;
+        try {
+            RESULT = (MemoryAddress) DowncallHandles.gdk_file_list_new_from_list.invokeExact(
+                    files.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return RESULT;
+    }
+    
+    /**
+     * Creates a new files list container from a singly linked list of
+     * {@code GFile} instances.
+     * <p>
+     * This function is meant to be used by language bindings
+     * @param files a list of files
+     * @return the newly created files list
+     */
+    public static FileList newFromList(@NotNull org.gtk.glib.SList files) {
+        return new FileList(constructNewFromList(files), Ownership.FULL);
     }
     
     /**
@@ -64,10 +117,50 @@ public class FileList extends io.github.jwharm.javagi.ProxyBase {
     
     private static class DowncallHandles {
         
-        private static final MethodHandle gdk_file_list_get_files = Interop.downcallHandle(
-            "gdk_file_list_get_files",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+        private static final MethodHandle gdk_file_list_new_from_array = Interop.downcallHandle(
+            "gdk_file_list_new_from_array",
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
             false
         );
+        
+        private static final MethodHandle gdk_file_list_new_from_list = Interop.downcallHandle(
+            "gdk_file_list_new_from_list",
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+            false
+        );
+        
+        private static final MethodHandle gdk_file_list_get_files = Interop.downcallHandle(
+            "gdk_file_list_get_files",
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+            false
+        );
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private FileList struct;
+        
+         /**
+         * A {@link FileList.Build} object constructs a {@link FileList} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = FileList.allocate();
+        }
+        
+         /**
+         * Finish building the {@link FileList} struct.
+         * @return A new instance of {@code FileList} with the fields 
+         *         that were set in the Build object.
+         */
+        public FileList construct() {
+            return struct;
+        }
     }
 }

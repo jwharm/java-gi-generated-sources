@@ -59,7 +59,7 @@ public class ColorChooserDialog extends org.gtk.gtk.Dialog implements org.gtk.gt
      * @throws ClassCastException If the GType is not derived from "GtkColorChooserDialog", a ClassCastException will be thrown.
      */
     public static ColorChooserDialog castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkColorChooserDialog"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), ColorChooserDialog.getType())) {
             return new ColorChooserDialog(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkColorChooserDialog");
@@ -87,11 +87,72 @@ public class ColorChooserDialog extends org.gtk.gtk.Dialog implements org.gtk.gt
         super(constructNew(title, parent), Ownership.NONE);
     }
     
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.gtk_color_chooser_dialog_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gtk.Dialog.Build {
+        
+         /**
+         * A {@link ColorChooserDialog.Build} object constructs a {@link ColorChooserDialog} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link ColorChooserDialog} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link ColorChooserDialog} using {@link ColorChooserDialog#castFrom}.
+         * @return A new instance of {@code ColorChooserDialog} with the properties 
+         *         that were set in the Build object.
+         */
+        public ColorChooserDialog construct() {
+            return ColorChooserDialog.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    ColorChooserDialog.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+        
+        public Build setShowEditor(boolean showEditor) {
+            names.add("show-editor");
+            values.add(org.gtk.gobject.Value.create(showEditor));
+            return this;
+        }
+    }
+    
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_color_chooser_dialog_new = Interop.downcallHandle(
             "gtk_color_chooser_dialog_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+            false
+        );
+        
+        private static final MethodHandle gtk_color_chooser_dialog_get_type = Interop.downcallHandle(
+            "gtk_color_chooser_dialog_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }

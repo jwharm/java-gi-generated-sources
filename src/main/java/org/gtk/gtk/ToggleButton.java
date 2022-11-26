@@ -83,7 +83,7 @@ public class ToggleButton extends org.gtk.gtk.Button implements org.gtk.gtk.Acce
     
     private static final java.lang.String C_TYPE_NAME = "GtkToggleButton";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gtk.Button.getMemoryLayout().withName("button")
     ).withName(C_TYPE_NAME);
     
@@ -119,7 +119,7 @@ public class ToggleButton extends org.gtk.gtk.Button implements org.gtk.gtk.Acce
      * @throws ClassCastException If the GType is not derived from "GtkToggleButton", a ClassCastException will be thrown.
      */
     public static ToggleButton castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkToggleButton"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), ToggleButton.getType())) {
             return new ToggleButton(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkToggleButton");
@@ -268,6 +268,20 @@ public class ToggleButton extends org.gtk.gtk.Button implements org.gtk.gtk.Acce
         }
     }
     
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.gtk_toggle_button_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+    
     @FunctionalInterface
     public interface Toggled {
         void signalReceived(ToggleButton source);
@@ -286,7 +300,7 @@ public class ToggleButton extends org.gtk.gtk.Button implements org.gtk.gtk.Acce
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(ToggleButton.Callbacks.class, "signalToggleButtonToggled",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                     Interop.getScope()),
                 Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
@@ -295,48 +309,111 @@ public class ToggleButton extends org.gtk.gtk.Button implements org.gtk.gtk.Acce
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gtk.Button.Build {
+        
+         /**
+         * A {@link ToggleButton.Build} object constructs a {@link ToggleButton} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link ToggleButton} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link ToggleButton} using {@link ToggleButton#castFrom}.
+         * @return A new instance of {@code ToggleButton} with the properties 
+         *         that were set in the Build object.
+         */
+        public ToggleButton construct() {
+            return ToggleButton.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    ToggleButton.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+        
+        /**
+         * If the toggle button should be pressed in.
+         * @param active The value for the {@code active} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setActive(boolean active) {
+            names.add("active");
+            values.add(org.gtk.gobject.Value.create(active));
+            return this;
+        }
+        
+        /**
+         * The toggle button whose group this widget belongs to.
+         * @param group The value for the {@code group} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setGroup(org.gtk.gtk.ToggleButton group) {
+            names.add("group");
+            values.add(org.gtk.gobject.Value.create(group));
+            return this;
+        }
+    }
     
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_toggle_button_new = Interop.downcallHandle(
             "gtk_toggle_button_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_toggle_button_new_with_label = Interop.downcallHandle(
             "gtk_toggle_button_new_with_label",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_toggle_button_new_with_mnemonic = Interop.downcallHandle(
             "gtk_toggle_button_new_with_mnemonic",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_toggle_button_get_active = Interop.downcallHandle(
             "gtk_toggle_button_get_active",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_toggle_button_set_active = Interop.downcallHandle(
             "gtk_toggle_button_set_active",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_toggle_button_set_group = Interop.downcallHandle(
             "gtk_toggle_button_set_group",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_toggle_button_toggled = Interop.downcallHandle(
             "gtk_toggle_button_toggled",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+            false
+        );
+        
+        private static final MethodHandle gtk_toggle_button_get_type = Interop.downcallHandle(
+            "gtk_toggle_button_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }
@@ -344,9 +421,9 @@ public class ToggleButton extends org.gtk.gtk.Button implements org.gtk.gtk.Acce
     private static class Callbacks {
         
         public static void signalToggleButtonToggled(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (ToggleButton.Toggled) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new ToggleButton(source, Ownership.UNKNOWN));
+            HANDLER.signalReceived(new ToggleButton(source, Ownership.NONE));
         }
     }
 }

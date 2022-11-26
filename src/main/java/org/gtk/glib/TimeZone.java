@@ -10,7 +10,7 @@ import org.jetbrains.annotations.*;
  * directly.
  * @version 2.26
  */
-public class TimeZone extends io.github.jwharm.javagi.ProxyBase {
+public class TimeZone extends Struct {
     
     static {
         GLib.javagi$ensureInitialized();
@@ -29,6 +29,10 @@ public class TimeZone extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link TimeZone}
+     * @return A new, uninitialized @{link TimeZone}
+     */
     public static TimeZone allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         TimeZone newInstance = new TimeZone(segment.address(), Ownership.NONE);
@@ -174,8 +178,14 @@ public class TimeZone extends io.github.jwharm.javagi.ProxyBase {
      * <p>
      * This is equivalent to calling g_time_zone_new() with a string in the form
      * {@code [+|-]hh[:mm[:ss]]}.
+     * <p>
+     * It is possible for this function to fail if {@code seconds} is too big (greater than
+     * 24 hours), in which case this function will return the UTC timezone for
+     * backwards compatibility. To detect failures like this, use
+     * g_time_zone_new_identifier() directly.
      * @param seconds offset to UTC, in seconds
-     * @return a timezone at the given offset from UTC
+     * @return a timezone at the given offset from UTC, or UTC on
+     *   failure
      */
     public static TimeZone newOffset(int seconds) {
         return new TimeZone(constructNewOffset(seconds), Ownership.FULL);
@@ -394,80 +404,108 @@ public class TimeZone extends io.github.jwharm.javagi.ProxyBase {
         
         private static final MethodHandle g_time_zone_new = Interop.downcallHandle(
             "g_time_zone_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_time_zone_new_identifier = Interop.downcallHandle(
             "g_time_zone_new_identifier",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_time_zone_new_local = Interop.downcallHandle(
             "g_time_zone_new_local",
-            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_time_zone_new_offset = Interop.downcallHandle(
             "g_time_zone_new_offset",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_time_zone_new_utc = Interop.downcallHandle(
             "g_time_zone_new_utc",
-            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_time_zone_adjust_time = Interop.downcallHandle(
             "g_time_zone_adjust_time",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_time_zone_find_interval = Interop.downcallHandle(
             "g_time_zone_find_interval",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_LONG),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_LONG),
             false
         );
         
         private static final MethodHandle g_time_zone_get_abbreviation = Interop.downcallHandle(
             "g_time_zone_get_abbreviation",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_time_zone_get_identifier = Interop.downcallHandle(
             "g_time_zone_get_identifier",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_time_zone_get_offset = Interop.downcallHandle(
             "g_time_zone_get_offset",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_time_zone_is_dst = Interop.downcallHandle(
             "g_time_zone_is_dst",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_time_zone_ref = Interop.downcallHandle(
             "g_time_zone_ref",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_time_zone_unref = Interop.downcallHandle(
             "g_time_zone_unref",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private TimeZone struct;
+        
+         /**
+         * A {@link TimeZone.Build} object constructs a {@link TimeZone} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = TimeZone.allocate();
+        }
+        
+         /**
+         * Finish building the {@link TimeZone} struct.
+         * @return A new instance of {@code TimeZone} with the fields 
+         *         that were set in the Build object.
+         */
+        public TimeZone construct() {
+            return struct;
+        }
     }
 }

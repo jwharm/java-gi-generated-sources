@@ -9,7 +9,7 @@ import org.jetbrains.annotations.*;
  * {@link IOExtensionPoint} is an opaque data structure and can only be accessed
  * using the following functions.
  */
-public class IOExtensionPoint extends io.github.jwharm.javagi.ProxyBase {
+public class IOExtensionPoint extends Struct {
     
     static {
         Gio.javagi$ensureInitialized();
@@ -28,6 +28,10 @@ public class IOExtensionPoint extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link IOExtensionPoint}
+     * @return A new, uninitialized @{link IOExtensionPoint}
+     */
     public static IOExtensionPoint allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         IOExtensionPoint newInstance = new IOExtensionPoint(segment.address(), Ownership.NONE);
@@ -183,44 +187,72 @@ public class IOExtensionPoint extends io.github.jwharm.javagi.ProxyBase {
         
         private static final MethodHandle g_io_extension_point_get_extension_by_name = Interop.downcallHandle(
             "g_io_extension_point_get_extension_by_name",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_io_extension_point_get_extensions = Interop.downcallHandle(
             "g_io_extension_point_get_extensions",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_io_extension_point_get_required_type = Interop.downcallHandle(
             "g_io_extension_point_get_required_type",
-            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_io_extension_point_set_required_type = Interop.downcallHandle(
             "g_io_extension_point_set_required_type",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
             false
         );
         
         private static final MethodHandle g_io_extension_point_implement = Interop.downcallHandle(
             "g_io_extension_point_implement",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_io_extension_point_lookup = Interop.downcallHandle(
             "g_io_extension_point_lookup",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_io_extension_point_register = Interop.downcallHandle(
             "g_io_extension_point_register",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private IOExtensionPoint struct;
+        
+         /**
+         * A {@link IOExtensionPoint.Build} object constructs a {@link IOExtensionPoint} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = IOExtensionPoint.allocate();
+        }
+        
+         /**
+         * Finish building the {@link IOExtensionPoint} struct.
+         * @return A new instance of {@code IOExtensionPoint} with the fields 
+         *         that were set in the Build object.
+         */
+        public IOExtensionPoint construct() {
+            return struct;
+        }
     }
 }

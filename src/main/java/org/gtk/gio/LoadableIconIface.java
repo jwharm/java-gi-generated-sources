@@ -8,7 +8,7 @@ import org.jetbrains.annotations.*;
 /**
  * Interface for icons that can be loaded as a stream.
  */
-public class LoadableIconIface extends io.github.jwharm.javagi.ProxyBase {
+public class LoadableIconIface extends Struct {
     
     static {
         Gio.javagi$ensureInitialized();
@@ -16,7 +16,7 @@ public class LoadableIconIface extends io.github.jwharm.javagi.ProxyBase {
     
     private static final java.lang.String C_TYPE_NAME = "GLoadableIconIface";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gobject.TypeInterface.getMemoryLayout().withName("g_iface"),
         Interop.valueLayout.ADDRESS.withName("load"),
         Interop.valueLayout.ADDRESS.withName("load_async"),
@@ -34,6 +34,10 @@ public class LoadableIconIface extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link LoadableIconIface}
+     * @return A new, uninitialized @{link LoadableIconIface}
+     */
     public static LoadableIconIface allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         LoadableIconIface newInstance = new LoadableIconIface(segment.address(), Ownership.NONE);
@@ -58,5 +62,66 @@ public class LoadableIconIface extends io.github.jwharm.javagi.ProxyBase {
     @ApiStatus.Internal
     public LoadableIconIface(Addressable address, Ownership ownership) {
         super(address, ownership);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private LoadableIconIface struct;
+        
+         /**
+         * A {@link LoadableIconIface.Build} object constructs a {@link LoadableIconIface} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = LoadableIconIface.allocate();
+        }
+        
+         /**
+         * Finish building the {@link LoadableIconIface} struct.
+         * @return A new instance of {@code LoadableIconIface} with the fields 
+         *         that were set in the Build object.
+         */
+        public LoadableIconIface construct() {
+            return struct;
+        }
+        
+        /**
+         * The parent interface.
+         * @param g_iface The value for the {@code g_iface} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setGIface(org.gtk.gobject.TypeInterface g_iface) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("g_iface"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (g_iface == null ? MemoryAddress.NULL : g_iface.handle()));
+            return this;
+        }
+        
+        public Build setLoad(java.lang.foreign.MemoryAddress load) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("load"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (load == null ? MemoryAddress.NULL : load));
+            return this;
+        }
+        
+        public Build setLoadAsync(java.lang.foreign.MemoryAddress load_async) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("load_async"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (load_async == null ? MemoryAddress.NULL : load_async));
+            return this;
+        }
+        
+        public Build setLoadFinish(java.lang.foreign.MemoryAddress load_finish) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("load_finish"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (load_finish == null ? MemoryAddress.NULL : load_finish));
+            return this;
+        }
     }
 }

@@ -92,7 +92,7 @@ public class AboutDialog extends org.gtk.gtk.Window implements org.gtk.gtk.Acces
      * @throws ClassCastException If the GType is not derived from "GtkAboutDialog", a ClassCastException will be thrown.
      */
     public static AboutDialog castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkAboutDialog"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), AboutDialog.getType())) {
             return new AboutDialog(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkAboutDialog");
@@ -656,6 +656,20 @@ public class AboutDialog extends org.gtk.gtk.Window implements org.gtk.gtk.Acces
         }
     }
     
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.gtk_about_dialog_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+    
     @FunctionalInterface
     public interface ActivateLink {
         boolean signalReceived(AboutDialog source, @NotNull java.lang.String uri);
@@ -677,7 +691,7 @@ public class AboutDialog extends org.gtk.gtk.Window implements org.gtk.gtk.Acces
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(AboutDialog.Callbacks.class, "signalAboutDialogActivateLink",
                         MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                    FunctionDescriptor.of(Interop.valueLayout.C_BOOLEAN, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                     Interop.getScope()),
                 Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
@@ -686,210 +700,448 @@ public class AboutDialog extends org.gtk.gtk.Window implements org.gtk.gtk.Acces
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gtk.Window.Build {
+        
+         /**
+         * A {@link AboutDialog.Build} object constructs a {@link AboutDialog} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link AboutDialog} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link AboutDialog} using {@link AboutDialog#castFrom}.
+         * @return A new instance of {@code AboutDialog} with the properties 
+         *         that were set in the Build object.
+         */
+        public AboutDialog construct() {
+            return AboutDialog.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    AboutDialog.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+        
+        /**
+         * Comments about the program.
+         * <p>
+         * This string is displayed in a label in the main dialog, thus it
+         * should be a short explanation of the main purpose of the program,
+         * not a detailed list of features.
+         * @param comments The value for the {@code comments} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setComments(java.lang.String comments) {
+            names.add("comments");
+            values.add(org.gtk.gobject.Value.create(comments));
+            return this;
+        }
+        
+        /**
+         * Copyright information for the program.
+         * @param copyright The value for the {@code copyright} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setCopyright(java.lang.String copyright) {
+            names.add("copyright");
+            values.add(org.gtk.gobject.Value.create(copyright));
+            return this;
+        }
+        
+        /**
+         * The license of the program, as free-form text.
+         * <p>
+         * This string is displayed in a text view in a secondary dialog, therefore
+         * it is fine to use a long multi-paragraph text. Note that the text is only
+         * wrapped in the text view if the "wrap-license" property is set to {@code TRUE};
+         * otherwise the text itself must contain the intended linebreaks.
+         * <p>
+         * When setting this property to a non-{@code NULL} value, the
+         * {@code Gtk.AboutDialog:license-type} property is set to
+         * {@code GTK_LICENSE_CUSTOM} as a side effect.
+         * <p>
+         * The text may contain links in this format {@code <http://www.some.place/>}
+         * and email references in the form {@code <mail-to@some.body>}, and these will
+         * be converted into clickable links.
+         * @param license The value for the {@code license} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setLicense(java.lang.String license) {
+            names.add("license");
+            values.add(org.gtk.gobject.Value.create(license));
+            return this;
+        }
+        
+        /**
+         * The license of the program.
+         * <p>
+         * The {@code GtkAboutDialog} will automatically fill out a standard disclaimer
+         * and link the user to the appropriate online resource for the license
+         * text.
+         * <p>
+         * If {@code GTK_LICENSE_UNKNOWN} is used, the link used will be the same
+         * specified in the {@code Gtk.AboutDialog:website} property.
+         * <p>
+         * If {@code GTK_LICENSE_CUSTOM} is used, the current contents of the
+         * {@code Gtk.AboutDialog:license} property are used.
+         * <p>
+         * For any other {@code Gtk.License} value, the contents of the
+         * {@code Gtk.AboutDialog:license} property are also set by this property as
+         * a side effect.
+         * @param licenseType The value for the {@code license-type} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setLicenseType(org.gtk.gtk.License licenseType) {
+            names.add("license-type");
+            values.add(org.gtk.gobject.Value.create(licenseType));
+            return this;
+        }
+        
+        /**
+         * A logo for the about box.
+         * <p>
+         * If it is {@code NULL}, the default window icon set with
+         * {@link Window#setDefaultIconName} will be used.
+         * @param logo The value for the {@code logo} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setLogo(org.gtk.gdk.Paintable logo) {
+            names.add("logo");
+            values.add(org.gtk.gobject.Value.create(logo));
+            return this;
+        }
+        
+        /**
+         * A named icon to use as the logo for the about box.
+         * <p>
+         * This property overrides the {@code Gtk.AboutDialog:logo} property.
+         * @param logoIconName The value for the {@code logo-icon-name} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setLogoIconName(java.lang.String logoIconName) {
+            names.add("logo-icon-name");
+            values.add(org.gtk.gobject.Value.create(logoIconName));
+            return this;
+        }
+        
+        /**
+         * The name of the program.
+         * <p>
+         * If this is not set, it defaults to the value returned by
+         * {@code g_get_application_name()}.
+         * @param programName The value for the {@code program-name} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setProgramName(java.lang.String programName) {
+            names.add("program-name");
+            values.add(org.gtk.gobject.Value.create(programName));
+            return this;
+        }
+        
+        /**
+         * Information about the system on which the program is running.
+         * <p>
+         * This information is displayed in a separate page, therefore it is fine
+         * to use a long multi-paragraph text. Note that the text should contain
+         * the intended linebreaks.
+         * <p>
+         * The text may contain links in this format {@code <http://www.some.place/>}
+         * and email references in the form {@code <mail-to@some.body>}, and these will
+         * be converted into clickable links.
+         * @param systemInformation The value for the {@code system-information} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setSystemInformation(java.lang.String systemInformation) {
+            names.add("system-information");
+            values.add(org.gtk.gobject.Value.create(systemInformation));
+            return this;
+        }
+        
+        /**
+         * Credits to the translators.
+         * <p>
+         * This string should be marked as translatable.
+         * <p>
+         * The string may contain email addresses and URLs, which will be displayed
+         * as links, see the introduction for more details.
+         * @param translatorCredits The value for the {@code translator-credits} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setTranslatorCredits(java.lang.String translatorCredits) {
+            names.add("translator-credits");
+            values.add(org.gtk.gobject.Value.create(translatorCredits));
+            return this;
+        }
+        
+        /**
+         * The version of the program.
+         * @param version The value for the {@code version} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setVersion(java.lang.String version) {
+            names.add("version");
+            values.add(org.gtk.gobject.Value.create(version));
+            return this;
+        }
+        
+        /**
+         * The URL for the link to the website of the program.
+         * <p>
+         * This should be a string starting with {@code http://} or {@code https://}.
+         * @param website The value for the {@code website} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setWebsite(java.lang.String website) {
+            names.add("website");
+            values.add(org.gtk.gobject.Value.create(website));
+            return this;
+        }
+        
+        /**
+         * The label for the link to the website of the program.
+         * @param websiteLabel The value for the {@code website-label} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setWebsiteLabel(java.lang.String websiteLabel) {
+            names.add("website-label");
+            values.add(org.gtk.gobject.Value.create(websiteLabel));
+            return this;
+        }
+        
+        /**
+         * Whether to wrap the text in the license dialog.
+         * @param wrapLicense The value for the {@code wrap-license} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setWrapLicense(boolean wrapLicense) {
+            names.add("wrap-license");
+            values.add(org.gtk.gobject.Value.create(wrapLicense));
+            return this;
+        }
+    }
     
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_about_dialog_new = Interop.downcallHandle(
             "gtk_about_dialog_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_about_dialog_add_credit_section = Interop.downcallHandle(
             "gtk_about_dialog_add_credit_section",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_about_dialog_get_artists = Interop.downcallHandle(
             "gtk_about_dialog_get_artists",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_about_dialog_get_authors = Interop.downcallHandle(
             "gtk_about_dialog_get_authors",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_about_dialog_get_comments = Interop.downcallHandle(
             "gtk_about_dialog_get_comments",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_about_dialog_get_copyright = Interop.downcallHandle(
             "gtk_about_dialog_get_copyright",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_about_dialog_get_documenters = Interop.downcallHandle(
             "gtk_about_dialog_get_documenters",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_about_dialog_get_license = Interop.downcallHandle(
             "gtk_about_dialog_get_license",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_about_dialog_get_license_type = Interop.downcallHandle(
             "gtk_about_dialog_get_license_type",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_about_dialog_get_logo = Interop.downcallHandle(
             "gtk_about_dialog_get_logo",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_about_dialog_get_logo_icon_name = Interop.downcallHandle(
             "gtk_about_dialog_get_logo_icon_name",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_about_dialog_get_program_name = Interop.downcallHandle(
             "gtk_about_dialog_get_program_name",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_about_dialog_get_system_information = Interop.downcallHandle(
             "gtk_about_dialog_get_system_information",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_about_dialog_get_translator_credits = Interop.downcallHandle(
             "gtk_about_dialog_get_translator_credits",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_about_dialog_get_version = Interop.downcallHandle(
             "gtk_about_dialog_get_version",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_about_dialog_get_website = Interop.downcallHandle(
             "gtk_about_dialog_get_website",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_about_dialog_get_website_label = Interop.downcallHandle(
             "gtk_about_dialog_get_website_label",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_about_dialog_get_wrap_license = Interop.downcallHandle(
             "gtk_about_dialog_get_wrap_license",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_about_dialog_set_artists = Interop.downcallHandle(
             "gtk_about_dialog_set_artists",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_about_dialog_set_authors = Interop.downcallHandle(
             "gtk_about_dialog_set_authors",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_about_dialog_set_comments = Interop.downcallHandle(
             "gtk_about_dialog_set_comments",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_about_dialog_set_copyright = Interop.downcallHandle(
             "gtk_about_dialog_set_copyright",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_about_dialog_set_documenters = Interop.downcallHandle(
             "gtk_about_dialog_set_documenters",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_about_dialog_set_license = Interop.downcallHandle(
             "gtk_about_dialog_set_license",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_about_dialog_set_license_type = Interop.downcallHandle(
             "gtk_about_dialog_set_license_type",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_about_dialog_set_logo = Interop.downcallHandle(
             "gtk_about_dialog_set_logo",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_about_dialog_set_logo_icon_name = Interop.downcallHandle(
             "gtk_about_dialog_set_logo_icon_name",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_about_dialog_set_program_name = Interop.downcallHandle(
             "gtk_about_dialog_set_program_name",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_about_dialog_set_system_information = Interop.downcallHandle(
             "gtk_about_dialog_set_system_information",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_about_dialog_set_translator_credits = Interop.downcallHandle(
             "gtk_about_dialog_set_translator_credits",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_about_dialog_set_version = Interop.downcallHandle(
             "gtk_about_dialog_set_version",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_about_dialog_set_website = Interop.downcallHandle(
             "gtk_about_dialog_set_website",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_about_dialog_set_website_label = Interop.downcallHandle(
             "gtk_about_dialog_set_website_label",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_about_dialog_set_wrap_license = Interop.downcallHandle(
             "gtk_about_dialog_set_wrap_license",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+            false
+        );
+        
+        private static final MethodHandle gtk_about_dialog_get_type = Interop.downcallHandle(
+            "gtk_about_dialog_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }
@@ -897,9 +1149,9 @@ public class AboutDialog extends org.gtk.gtk.Window implements org.gtk.gtk.Acces
     private static class Callbacks {
         
         public static boolean signalAboutDialogActivateLink(MemoryAddress source, MemoryAddress uri, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (AboutDialog.ActivateLink) Interop.signalRegistry.get(HASH);
-            return HANDLER.signalReceived(new AboutDialog(source, Ownership.UNKNOWN), Interop.getStringFrom(uri));
+            return HANDLER.signalReceived(new AboutDialog(source, Ownership.NONE), Interop.getStringFrom(uri));
         }
     }
 }

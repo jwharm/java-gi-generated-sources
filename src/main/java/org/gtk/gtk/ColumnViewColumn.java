@@ -59,7 +59,7 @@ public class ColumnViewColumn extends org.gtk.gobject.Object {
      * @throws ClassCastException If the GType is not derived from "GtkColumnViewColumn", a ClassCastException will be thrown.
      */
     public static ColumnViewColumn castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkColumnViewColumn"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), ColumnViewColumn.getType())) {
             return new ColumnViewColumn(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkColumnViewColumn");
@@ -370,113 +370,268 @@ public class ColumnViewColumn extends org.gtk.gobject.Object {
         }
     }
     
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.gtk_column_view_column_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gobject.Object.Build {
+        
+         /**
+         * A {@link ColumnViewColumn.Build} object constructs a {@link ColumnViewColumn} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link ColumnViewColumn} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link ColumnViewColumn} using {@link ColumnViewColumn#castFrom}.
+         * @return A new instance of {@code ColumnViewColumn} with the properties 
+         *         that were set in the Build object.
+         */
+        public ColumnViewColumn construct() {
+            return ColumnViewColumn.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    ColumnViewColumn.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+        
+        /**
+         * The {@code GtkColumnView} this column is a part of.
+         * @param columnView The value for the {@code column-view} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setColumnView(org.gtk.gtk.ColumnView columnView) {
+            names.add("column-view");
+            values.add(org.gtk.gobject.Value.create(columnView));
+            return this;
+        }
+        
+        /**
+         * Column gets share of extra width allocated to the view.
+         * @param expand The value for the {@code expand} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setExpand(boolean expand) {
+            names.add("expand");
+            values.add(org.gtk.gobject.Value.create(expand));
+            return this;
+        }
+        
+        /**
+         * Factory for populating list items.
+         * @param factory The value for the {@code factory} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setFactory(org.gtk.gtk.ListItemFactory factory) {
+            names.add("factory");
+            values.add(org.gtk.gobject.Value.create(factory));
+            return this;
+        }
+        
+        /**
+         * If not -1, this is the width that the column is allocated,
+         * regardless of the size of its content.
+         * @param fixedWidth The value for the {@code fixed-width} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setFixedWidth(int fixedWidth) {
+            names.add("fixed-width");
+            values.add(org.gtk.gobject.Value.create(fixedWidth));
+            return this;
+        }
+        
+        /**
+         * Menu model used to create the context menu for the column header.
+         * @param headerMenu The value for the {@code header-menu} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setHeaderMenu(org.gtk.gio.MenuModel headerMenu) {
+            names.add("header-menu");
+            values.add(org.gtk.gobject.Value.create(headerMenu));
+            return this;
+        }
+        
+        /**
+         * Whether this column is resizable.
+         * @param resizable The value for the {@code resizable} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setResizable(boolean resizable) {
+            names.add("resizable");
+            values.add(org.gtk.gobject.Value.create(resizable));
+            return this;
+        }
+        
+        /**
+         * Sorter for sorting items according to this column.
+         * @param sorter The value for the {@code sorter} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setSorter(org.gtk.gtk.Sorter sorter) {
+            names.add("sorter");
+            values.add(org.gtk.gobject.Value.create(sorter));
+            return this;
+        }
+        
+        /**
+         * Title displayed in the header.
+         * @param title The value for the {@code title} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setTitle(java.lang.String title) {
+            names.add("title");
+            values.add(org.gtk.gobject.Value.create(title));
+            return this;
+        }
+        
+        /**
+         * Whether this column is visible.
+         * @param visible The value for the {@code visible} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setVisible(boolean visible) {
+            names.add("visible");
+            values.add(org.gtk.gobject.Value.create(visible));
+            return this;
+        }
+    }
+    
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_column_view_column_new = Interop.downcallHandle(
             "gtk_column_view_column_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_column_view_column_get_column_view = Interop.downcallHandle(
             "gtk_column_view_column_get_column_view",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_column_view_column_get_expand = Interop.downcallHandle(
             "gtk_column_view_column_get_expand",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_column_view_column_get_factory = Interop.downcallHandle(
             "gtk_column_view_column_get_factory",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_column_view_column_get_fixed_width = Interop.downcallHandle(
             "gtk_column_view_column_get_fixed_width",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_column_view_column_get_header_menu = Interop.downcallHandle(
             "gtk_column_view_column_get_header_menu",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_column_view_column_get_resizable = Interop.downcallHandle(
             "gtk_column_view_column_get_resizable",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_column_view_column_get_sorter = Interop.downcallHandle(
             "gtk_column_view_column_get_sorter",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_column_view_column_get_title = Interop.downcallHandle(
             "gtk_column_view_column_get_title",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_column_view_column_get_visible = Interop.downcallHandle(
             "gtk_column_view_column_get_visible",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_column_view_column_set_expand = Interop.downcallHandle(
             "gtk_column_view_column_set_expand",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_column_view_column_set_factory = Interop.downcallHandle(
             "gtk_column_view_column_set_factory",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_column_view_column_set_fixed_width = Interop.downcallHandle(
             "gtk_column_view_column_set_fixed_width",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_column_view_column_set_header_menu = Interop.downcallHandle(
             "gtk_column_view_column_set_header_menu",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_column_view_column_set_resizable = Interop.downcallHandle(
             "gtk_column_view_column_set_resizable",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_column_view_column_set_sorter = Interop.downcallHandle(
             "gtk_column_view_column_set_sorter",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_column_view_column_set_title = Interop.downcallHandle(
             "gtk_column_view_column_set_title",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_column_view_column_set_visible = Interop.downcallHandle(
             "gtk_column_view_column_set_visible",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+            false
+        );
+        
+        private static final MethodHandle gtk_column_view_column_get_type = Interop.downcallHandle(
+            "gtk_column_view_column_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }

@@ -9,7 +9,7 @@ import org.jetbrains.annotations.*;
  * A structure that provides information to the type system which is
  * used specifically for managing fundamental types.
  */
-public class TypeFundamentalInfo extends io.github.jwharm.javagi.ProxyBase {
+public class TypeFundamentalInfo extends Struct {
     
     static {
         GObject.javagi$ensureInitialized();
@@ -17,7 +17,7 @@ public class TypeFundamentalInfo extends io.github.jwharm.javagi.ProxyBase {
     
     private static final java.lang.String C_TYPE_NAME = "GTypeFundamentalInfo";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
         Interop.valueLayout.C_INT.withName("type_flags")
     ).withName(C_TYPE_NAME);
     
@@ -32,6 +32,10 @@ public class TypeFundamentalInfo extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link TypeFundamentalInfo}
+     * @return A new, uninitialized @{link TypeFundamentalInfo}
+     */
     public static TypeFundamentalInfo allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         TypeFundamentalInfo newInstance = new TypeFundamentalInfo(segment.address(), Ownership.NONE);
@@ -68,5 +72,45 @@ public class TypeFundamentalInfo extends io.github.jwharm.javagi.ProxyBase {
     @ApiStatus.Internal
     public TypeFundamentalInfo(Addressable address, Ownership ownership) {
         super(address, ownership);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private TypeFundamentalInfo struct;
+        
+         /**
+         * A {@link TypeFundamentalInfo.Build} object constructs a {@link TypeFundamentalInfo} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = TypeFundamentalInfo.allocate();
+        }
+        
+         /**
+         * Finish building the {@link TypeFundamentalInfo} struct.
+         * @return A new instance of {@code TypeFundamentalInfo} with the fields 
+         *         that were set in the Build object.
+         */
+        public TypeFundamentalInfo construct() {
+            return struct;
+        }
+        
+        /**
+         * {@link TypeFundamentalFlags} describing the characteristics of the fundamental type
+         * @param type_flags The value for the {@code type_flags} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setTypeFlags(org.gtk.gobject.TypeFundamentalFlags type_flags) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("type_flags"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (type_flags == null ? MemoryAddress.NULL : type_flags.getValue()));
+            return this;
+        }
     }
 }

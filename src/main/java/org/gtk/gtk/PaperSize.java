@@ -18,7 +18,7 @@ import org.jetbrains.annotations.*;
  * and height) of a paper size and its name, it also provides
  * default print margins.
  */
-public class PaperSize extends io.github.jwharm.javagi.ProxyBase {
+public class PaperSize extends Struct {
     
     static {
         Gtk.javagi$ensureInitialized();
@@ -37,6 +37,10 @@ public class PaperSize extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link PaperSize}
+     * @return A new, uninitialized @{link PaperSize}
+     */
     public static PaperSize allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         PaperSize newInstance = new PaperSize(segment.address(), Ownership.NONE);
@@ -168,7 +172,7 @@ public class PaperSize extends io.github.jwharm.javagi.ProxyBase {
     
     private static Addressable constructNewFromKeyFile(@NotNull org.gtk.glib.KeyFile keyFile, @Nullable java.lang.String groupName) throws GErrorException {
         java.util.Objects.requireNonNull(keyFile, "Parameter 'keyFile' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         Addressable RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_paper_size_new_from_key_file.invokeExact(
@@ -553,152 +557,180 @@ public class PaperSize extends io.github.jwharm.javagi.ProxyBase {
         
         private static final MethodHandle gtk_paper_size_new = Interop.downcallHandle(
             "gtk_paper_size_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_paper_size_new_custom = Interop.downcallHandle(
             "gtk_paper_size_new_custom",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_paper_size_new_from_gvariant = Interop.downcallHandle(
             "gtk_paper_size_new_from_gvariant",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_paper_size_new_from_ipp = Interop.downcallHandle(
             "gtk_paper_size_new_from_ipp",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_DOUBLE),
             false
         );
         
         private static final MethodHandle gtk_paper_size_new_from_key_file = Interop.downcallHandle(
             "gtk_paper_size_new_from_key_file",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_paper_size_new_from_ppd = Interop.downcallHandle(
             "gtk_paper_size_new_from_ppd",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_DOUBLE),
             false
         );
         
         private static final MethodHandle gtk_paper_size_copy = Interop.downcallHandle(
             "gtk_paper_size_copy",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_paper_size_free = Interop.downcallHandle(
             "gtk_paper_size_free",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_paper_size_get_default_bottom_margin = Interop.downcallHandle(
             "gtk_paper_size_get_default_bottom_margin",
-            FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.C_DOUBLE, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_paper_size_get_default_left_margin = Interop.downcallHandle(
             "gtk_paper_size_get_default_left_margin",
-            FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.C_DOUBLE, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_paper_size_get_default_right_margin = Interop.downcallHandle(
             "gtk_paper_size_get_default_right_margin",
-            FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.C_DOUBLE, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_paper_size_get_default_top_margin = Interop.downcallHandle(
             "gtk_paper_size_get_default_top_margin",
-            FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.C_DOUBLE, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_paper_size_get_display_name = Interop.downcallHandle(
             "gtk_paper_size_get_display_name",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_paper_size_get_height = Interop.downcallHandle(
             "gtk_paper_size_get_height",
-            FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.C_DOUBLE, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_paper_size_get_name = Interop.downcallHandle(
             "gtk_paper_size_get_name",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_paper_size_get_ppd_name = Interop.downcallHandle(
             "gtk_paper_size_get_ppd_name",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_paper_size_get_width = Interop.downcallHandle(
             "gtk_paper_size_get_width",
-            FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.C_DOUBLE, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_paper_size_is_custom = Interop.downcallHandle(
             "gtk_paper_size_is_custom",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_paper_size_is_equal = Interop.downcallHandle(
             "gtk_paper_size_is_equal",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_paper_size_is_ipp = Interop.downcallHandle(
             "gtk_paper_size_is_ipp",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_paper_size_set_size = Interop.downcallHandle(
             "gtk_paper_size_set_size",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_paper_size_to_gvariant = Interop.downcallHandle(
             "gtk_paper_size_to_gvariant",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_paper_size_to_key_file = Interop.downcallHandle(
             "gtk_paper_size_to_key_file",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_paper_size_get_default = Interop.downcallHandle(
             "gtk_paper_size_get_default",
-            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_paper_size_get_paper_sizes = Interop.downcallHandle(
             "gtk_paper_size_get_paper_sizes",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private PaperSize struct;
+        
+         /**
+         * A {@link PaperSize.Build} object constructs a {@link PaperSize} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = PaperSize.allocate();
+        }
+        
+         /**
+         * Finish building the {@link PaperSize} struct.
+         * @return A new instance of {@code PaperSize} with the fields 
+         *         that were set in the Build object.
+         */
+        public PaperSize construct() {
+            return struct;
+        }
     }
 }

@@ -23,7 +23,7 @@ public interface DragSurface extends io.github.jwharm.javagi.Proxy {
      * @throws ClassCastException If the GType is not derived from "GdkDragSurface", a ClassCastException will be thrown.
      */
     public static DragSurface castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GdkDragSurface"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), DragSurface.getType())) {
             return new DragSurfaceImpl(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GdkDragSurface");
@@ -49,13 +49,34 @@ public interface DragSurface extends io.github.jwharm.javagi.Proxy {
         return RESULT != 0;
     }
     
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.gdk_drag_surface_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+    
     @ApiStatus.Internal
     static class DowncallHandles {
         
         @ApiStatus.Internal
         static final MethodHandle gdk_drag_surface_present = Interop.downcallHandle(
             "gdk_drag_surface_present",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
+            false
+        );
+        
+        @ApiStatus.Internal
+        static final MethodHandle gdk_drag_surface_get_type = Interop.downcallHandle(
+            "gdk_drag_surface_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }

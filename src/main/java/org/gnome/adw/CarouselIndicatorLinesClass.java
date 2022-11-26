@@ -5,7 +5,7 @@ import java.lang.foreign.*;
 import java.lang.invoke.*;
 import org.jetbrains.annotations.*;
 
-public class CarouselIndicatorLinesClass extends io.github.jwharm.javagi.ProxyBase {
+public class CarouselIndicatorLinesClass extends Struct {
     
     static {
         Adw.javagi$ensureInitialized();
@@ -13,7 +13,7 @@ public class CarouselIndicatorLinesClass extends io.github.jwharm.javagi.ProxyBa
     
     private static final java.lang.String C_TYPE_NAME = "AdwCarouselIndicatorLinesClass";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gtk.WidgetClass.getMemoryLayout().withName("parent_class")
     ).withName(C_TYPE_NAME);
     
@@ -28,6 +28,10 @@ public class CarouselIndicatorLinesClass extends io.github.jwharm.javagi.ProxyBa
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link CarouselIndicatorLinesClass}
+     * @return A new, uninitialized @{link CarouselIndicatorLinesClass}
+     */
     public static CarouselIndicatorLinesClass allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         CarouselIndicatorLinesClass newInstance = new CarouselIndicatorLinesClass(segment.address(), Ownership.NONE);
@@ -52,5 +56,40 @@ public class CarouselIndicatorLinesClass extends io.github.jwharm.javagi.ProxyBa
     @ApiStatus.Internal
     public CarouselIndicatorLinesClass(Addressable address, Ownership ownership) {
         super(address, ownership);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private CarouselIndicatorLinesClass struct;
+        
+         /**
+         * A {@link CarouselIndicatorLinesClass.Build} object constructs a {@link CarouselIndicatorLinesClass} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = CarouselIndicatorLinesClass.allocate();
+        }
+        
+         /**
+         * Finish building the {@link CarouselIndicatorLinesClass} struct.
+         * @return A new instance of {@code CarouselIndicatorLinesClass} with the fields 
+         *         that were set in the Build object.
+         */
+        public CarouselIndicatorLinesClass construct() {
+            return struct;
+        }
+        
+        public Build setParentClass(org.gtk.gtk.WidgetClass parent_class) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parent_class == null ? MemoryAddress.NULL : parent_class.handle()));
+            return this;
+        }
     }
 }

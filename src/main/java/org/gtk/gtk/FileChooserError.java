@@ -57,7 +57,7 @@ public class FileChooserError extends io.github.jwharm.javagi.Enumeration {
         
         private static final MethodHandle gtk_file_chooser_error_quark = Interop.downcallHandle(
             "gtk_file_chooser_error_quark",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT),
             false
         );
     }

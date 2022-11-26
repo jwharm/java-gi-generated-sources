@@ -9,7 +9,7 @@ import org.jetbrains.annotations.*;
  * The {@code PangoAttrSize} structure is used to represent attributes which
  * set font size.
  */
-public class AttrSize extends io.github.jwharm.javagi.ProxyBase {
+public class AttrSize extends Struct {
     
     static {
         Pango.javagi$ensureInitialized();
@@ -17,10 +17,10 @@ public class AttrSize extends io.github.jwharm.javagi.ProxyBase {
     
     private static final java.lang.String C_TYPE_NAME = "PangoAttrSize";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.pango.Attribute.getMemoryLayout().withName("attr"),
-        ValueLayout.JAVA_INT.withName("size"),
-        ValueLayout.JAVA_INT.withName("absolute")
+        Interop.valueLayout.C_INT.withName("size"),
+        Interop.valueLayout.C_INT.withName("absolute")
     ).withName(C_TYPE_NAME);
     
     /**
@@ -34,6 +34,10 @@ public class AttrSize extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link AttrSize}
+     * @return A new, uninitialized @{link AttrSize}
+     */
     public static AttrSize allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         AttrSize newInstance = new AttrSize(segment.address(), Ownership.NONE);
@@ -142,14 +146,82 @@ public class AttrSize extends io.github.jwharm.javagi.ProxyBase {
         
         private static final MethodHandle pango_attr_size_new = Interop.downcallHandle(
             "pango_attr_size_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle pango_attr_size_new_absolute = Interop.downcallHandle(
             "pango_attr_size_new_absolute",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private AttrSize struct;
+        
+         /**
+         * A {@link AttrSize.Build} object constructs a {@link AttrSize} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = AttrSize.allocate();
+        }
+        
+         /**
+         * Finish building the {@link AttrSize} struct.
+         * @return A new instance of {@code AttrSize} with the fields 
+         *         that were set in the Build object.
+         */
+        public AttrSize construct() {
+            return struct;
+        }
+        
+        /**
+         * the common portion of the attribute
+         * @param attr The value for the {@code attr} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setAttr(org.pango.Attribute attr) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("attr"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (attr == null ? MemoryAddress.NULL : attr.handle()));
+            return this;
+        }
+        
+        /**
+         * size of font, in units of 1/{@code PANGO_SCALE} of a point (for
+         *   {@link AttrType#SIZE}) or of a device unit (for {@link AttrType#ABSOLUTE_SIZE})
+         * @param size The value for the {@code size} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setSize(int size) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("size"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), size);
+            return this;
+        }
+        
+        /**
+         * whether the font size is in device units or points.
+         *   This field is only present for compatibility with Pango-1.8.0
+         *   ({@link AttrType#ABSOLUTE_SIZE} was added in 1.8.1); and always will
+         *   be {@code false} for {@link AttrType#SIZE} and {@code true} for {@link AttrType#ABSOLUTE_SIZE}.
+         * @param absolute The value for the {@code absolute} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setAbsolute(int absolute) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("absolute"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), absolute);
+            return this;
+        }
     }
 }

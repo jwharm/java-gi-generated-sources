@@ -8,7 +8,7 @@ import org.jetbrains.annotations.*;
 /**
  * The class structure for the GInitiallyUnowned type.
  */
-public class InitiallyUnownedClass extends io.github.jwharm.javagi.ProxyBase {
+public class InitiallyUnownedClass extends Struct {
     
     static {
         GObject.javagi$ensureInitialized();
@@ -16,7 +16,7 @@ public class InitiallyUnownedClass extends io.github.jwharm.javagi.ProxyBase {
     
     private static final java.lang.String C_TYPE_NAME = "GInitiallyUnownedClass";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gobject.TypeClass.getMemoryLayout().withName("g_type_class"),
         Interop.valueLayout.ADDRESS.withName("construct_properties"),
         Interop.valueLayout.ADDRESS.withName("constructor"),
@@ -27,9 +27,11 @@ public class InitiallyUnownedClass extends io.github.jwharm.javagi.ProxyBase {
         Interop.valueLayout.ADDRESS.withName("dispatch_properties_changed"),
         Interop.valueLayout.ADDRESS.withName("notify"),
         Interop.valueLayout.ADDRESS.withName("constructed"),
-        ValueLayout.JAVA_LONG.withName("flags"),
-        MemoryLayout.paddingLayout(64),
-        MemoryLayout.sequenceLayout(6, ValueLayout.ADDRESS).withName("pdummy")
+        Interop.valueLayout.C_LONG.withName("flags"),
+        Interop.valueLayout.C_LONG.withName("n_construct_properties"),
+        Interop.valueLayout.ADDRESS.withName("pspecs"),
+        Interop.valueLayout.C_LONG.withName("n_pspecs"),
+        MemoryLayout.sequenceLayout(3, Interop.valueLayout.ADDRESS).withName("pdummy")
     ).withName(C_TYPE_NAME);
     
     /**
@@ -43,6 +45,10 @@ public class InitiallyUnownedClass extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link InitiallyUnownedClass}
+     * @return A new, uninitialized @{link InitiallyUnownedClass}
+     */
     public static InitiallyUnownedClass allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         InitiallyUnownedClass newInstance = new InitiallyUnownedClass(segment.address(), Ownership.NONE);
@@ -67,5 +73,143 @@ public class InitiallyUnownedClass extends io.github.jwharm.javagi.ProxyBase {
     @ApiStatus.Internal
     public InitiallyUnownedClass(Addressable address, Ownership ownership) {
         super(address, ownership);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private InitiallyUnownedClass struct;
+        
+         /**
+         * A {@link InitiallyUnownedClass.Build} object constructs a {@link InitiallyUnownedClass} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = InitiallyUnownedClass.allocate();
+        }
+        
+         /**
+         * Finish building the {@link InitiallyUnownedClass} struct.
+         * @return A new instance of {@code InitiallyUnownedClass} with the fields 
+         *         that were set in the Build object.
+         */
+        public InitiallyUnownedClass construct() {
+            return struct;
+        }
+        
+        /**
+         * the parent class
+         * @param g_type_class The value for the {@code g_type_class} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setGTypeClass(org.gtk.gobject.TypeClass g_type_class) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("g_type_class"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (g_type_class == null ? MemoryAddress.NULL : g_type_class.handle()));
+            return this;
+        }
+        
+        public Build setConstructProperties(org.gtk.glib.SList construct_properties) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("construct_properties"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (construct_properties == null ? MemoryAddress.NULL : construct_properties.handle()));
+            return this;
+        }
+        
+        public Build setConstructor(java.lang.foreign.MemoryAddress constructor) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("constructor"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (constructor == null ? MemoryAddress.NULL : constructor));
+            return this;
+        }
+        
+        public Build setSetProperty(java.lang.foreign.MemoryAddress set_property) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("set_property"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (set_property == null ? MemoryAddress.NULL : set_property));
+            return this;
+        }
+        
+        public Build setGetProperty(java.lang.foreign.MemoryAddress get_property) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("get_property"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (get_property == null ? MemoryAddress.NULL : get_property));
+            return this;
+        }
+        
+        public Build setDispose(java.lang.foreign.MemoryAddress dispose) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("dispose"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (dispose == null ? MemoryAddress.NULL : dispose));
+            return this;
+        }
+        
+        public Build setFinalize(java.lang.foreign.MemoryAddress finalize) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("finalize"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (finalize == null ? MemoryAddress.NULL : finalize));
+            return this;
+        }
+        
+        public Build setDispatchPropertiesChanged(java.lang.foreign.MemoryAddress dispatch_properties_changed) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("dispatch_properties_changed"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (dispatch_properties_changed == null ? MemoryAddress.NULL : dispatch_properties_changed));
+            return this;
+        }
+        
+        public Build setNotify(java.lang.foreign.MemoryAddress notify) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("notify"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (notify == null ? MemoryAddress.NULL : notify));
+            return this;
+        }
+        
+        public Build setConstructed(java.lang.foreign.MemoryAddress constructed) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("constructed"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (constructed == null ? MemoryAddress.NULL : constructed));
+            return this;
+        }
+        
+        public Build setFlags(long flags) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("flags"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), flags);
+            return this;
+        }
+        
+        public Build setNConstructProperties(long n_construct_properties) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("n_construct_properties"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), n_construct_properties);
+            return this;
+        }
+        
+        public Build setPspecs(java.lang.foreign.MemoryAddress pspecs) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("pspecs"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (pspecs == null ? MemoryAddress.NULL : (Addressable) pspecs));
+            return this;
+        }
+        
+        public Build setNPspecs(long n_pspecs) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("n_pspecs"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), n_pspecs);
+            return this;
+        }
+        
+        public Build setPdummy(java.lang.foreign.MemoryAddress[] pdummy) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("pdummy"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (pdummy == null ? MemoryAddress.NULL : Interop.allocateNativeArray(pdummy, false)));
+            return this;
+        }
     }
 }

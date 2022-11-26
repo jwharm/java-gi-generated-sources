@@ -37,7 +37,7 @@ public interface Native extends io.github.jwharm.javagi.Proxy {
      * @throws ClassCastException If the GType is not derived from "GtkNative", a ClassCastException will be thrown.
      */
     public static Native castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkNative"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), Native.getType())) {
             return new NativeImpl(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkNative");
@@ -84,9 +84,9 @@ public interface Native extends io.github.jwharm.javagi.Proxy {
      */
     default void getSurfaceTransform(Out<Double> x, Out<Double> y) {
         java.util.Objects.requireNonNull(x, "Parameter 'x' must not be null");
+        MemorySegment xPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_DOUBLE);
         java.util.Objects.requireNonNull(y, "Parameter 'y' must not be null");
-        MemorySegment xPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_DOUBLE);
-        MemorySegment yPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_DOUBLE);
+        MemorySegment yPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_DOUBLE);
         try {
             DowncallHandles.gtk_native_get_surface_transform.invokeExact(
                     handle(),
@@ -95,8 +95,8 @@ public interface Native extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        x.set(xPOINTER.get(ValueLayout.JAVA_DOUBLE, 0));
-        y.set(yPOINTER.get(ValueLayout.JAVA_DOUBLE, 0));
+        x.set(xPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
+        y.set(yPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
     }
     
     /**
@@ -128,6 +128,20 @@ public interface Native extends io.github.jwharm.javagi.Proxy {
     }
     
     /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.gtk_native_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+    
+    /**
      * Finds the {@code GtkNative} associated with the surface.
      * @param surface a {@code GdkSurface}
      * @return the {@code GtkNative} that is associated with {@code surface}
@@ -150,42 +164,49 @@ public interface Native extends io.github.jwharm.javagi.Proxy {
         @ApiStatus.Internal
         static final MethodHandle gtk_native_get_renderer = Interop.downcallHandle(
             "gtk_native_get_renderer",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_native_get_surface = Interop.downcallHandle(
             "gtk_native_get_surface",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_native_get_surface_transform = Interop.downcallHandle(
             "gtk_native_get_surface_transform",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_native_realize = Interop.downcallHandle(
             "gtk_native_realize",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_native_unrealize = Interop.downcallHandle(
             "gtk_native_unrealize",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+            false
+        );
+        
+        @ApiStatus.Internal
+        static final MethodHandle gtk_native_get_type = Interop.downcallHandle(
+            "gtk_native_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_native_get_for_surface = Interop.downcallHandle(
             "gtk_native_get_for_surface",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
     }

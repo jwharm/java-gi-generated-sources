@@ -16,7 +16,7 @@ import org.jetbrains.annotations.*;
  * (1.0, 1.0, 1.0, 1.0) is opaque white. Other values will
  * be clamped to this range when drawing.
  */
-public class RGBA extends io.github.jwharm.javagi.ProxyBase {
+public class RGBA extends Struct {
     
     static {
         Gdk.javagi$ensureInitialized();
@@ -24,11 +24,11 @@ public class RGBA extends io.github.jwharm.javagi.ProxyBase {
     
     private static final java.lang.String C_TYPE_NAME = "GdkRGBA";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
-        ValueLayout.JAVA_FLOAT.withName("red"),
-        ValueLayout.JAVA_FLOAT.withName("green"),
-        ValueLayout.JAVA_FLOAT.withName("blue"),
-        ValueLayout.JAVA_FLOAT.withName("alpha")
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
+        Interop.valueLayout.C_FLOAT.withName("red"),
+        Interop.valueLayout.C_FLOAT.withName("green"),
+        Interop.valueLayout.C_FLOAT.withName("blue"),
+        Interop.valueLayout.C_FLOAT.withName("alpha")
     ).withName(C_TYPE_NAME);
     
     /**
@@ -42,6 +42,10 @@ public class RGBA extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link RGBA}
+     * @return A new, uninitialized @{link RGBA}
+     */
     public static RGBA allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         RGBA newInstance = new RGBA(segment.address(), Ownership.NONE);
@@ -308,50 +312,127 @@ public class RGBA extends io.github.jwharm.javagi.ProxyBase {
         
         private static final MethodHandle gdk_rgba_copy = Interop.downcallHandle(
             "gdk_rgba_copy",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_rgba_equal = Interop.downcallHandle(
             "gdk_rgba_equal",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_rgba_free = Interop.downcallHandle(
             "gdk_rgba_free",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_rgba_hash = Interop.downcallHandle(
             "gdk_rgba_hash",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_rgba_is_clear = Interop.downcallHandle(
             "gdk_rgba_is_clear",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_rgba_is_opaque = Interop.downcallHandle(
             "gdk_rgba_is_opaque",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_rgba_parse = Interop.downcallHandle(
             "gdk_rgba_parse",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_rgba_to_string = Interop.downcallHandle(
             "gdk_rgba_to_string",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private RGBA struct;
+        
+         /**
+         * A {@link RGBA.Build} object constructs a {@link RGBA} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = RGBA.allocate();
+        }
+        
+         /**
+         * Finish building the {@link RGBA} struct.
+         * @return A new instance of {@code RGBA} with the fields 
+         *         that were set in the Build object.
+         */
+        public RGBA construct() {
+            return struct;
+        }
+        
+        /**
+         * The intensity of the red channel from 0.0 to 1.0 inclusive
+         * @param red The value for the {@code red} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setRed(float red) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("red"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), red);
+            return this;
+        }
+        
+        /**
+         * The intensity of the green channel from 0.0 to 1.0 inclusive
+         * @param green The value for the {@code green} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setGreen(float green) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("green"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), green);
+            return this;
+        }
+        
+        /**
+         * The intensity of the blue channel from 0.0 to 1.0 inclusive
+         * @param blue The value for the {@code blue} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setBlue(float blue) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("blue"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), blue);
+            return this;
+        }
+        
+        /**
+         * The opacity of the color from 0.0 for completely translucent to
+         *   1.0 for opaque
+         * @param alpha The value for the {@code alpha} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setAlpha(float alpha) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("alpha"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), alpha);
+            return this;
+        }
     }
 }

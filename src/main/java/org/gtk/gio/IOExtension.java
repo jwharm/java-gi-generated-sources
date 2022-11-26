@@ -9,7 +9,7 @@ import org.jetbrains.annotations.*;
  * {@link IOExtension} is an opaque data structure and can only be accessed
  * using the following functions.
  */
-public class IOExtension extends io.github.jwharm.javagi.ProxyBase {
+public class IOExtension extends Struct {
     
     static {
         Gio.javagi$ensureInitialized();
@@ -28,6 +28,10 @@ public class IOExtension extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link IOExtension}
+     * @return A new, uninitialized @{link IOExtension}
+     */
     public static IOExtension allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         IOExtension newInstance = new IOExtension(segment.address(), Ownership.NONE);
@@ -113,26 +117,54 @@ public class IOExtension extends io.github.jwharm.javagi.ProxyBase {
         
         private static final MethodHandle g_io_extension_get_name = Interop.downcallHandle(
             "g_io_extension_get_name",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_io_extension_get_priority = Interop.downcallHandle(
             "g_io_extension_get_priority",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_io_extension_get_type = Interop.downcallHandle(
             "g_io_extension_get_type",
-            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_io_extension_ref_class = Interop.downcallHandle(
             "g_io_extension_ref_class",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private IOExtension struct;
+        
+         /**
+         * A {@link IOExtension.Build} object constructs a {@link IOExtension} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = IOExtension.allocate();
+        }
+        
+         /**
+         * Finish building the {@link IOExtension} struct.
+         * @return A new instance of {@code IOExtension} with the fields 
+         *         that were set in the Build object.
+         */
+        public IOExtension construct() {
+            return struct;
+        }
     }
 }

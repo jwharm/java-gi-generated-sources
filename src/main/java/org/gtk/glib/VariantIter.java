@@ -9,7 +9,7 @@ import org.jetbrains.annotations.*;
  * {@link VariantIter} is an opaque data structure and can only be accessed
  * using the following functions.
  */
-public class VariantIter extends io.github.jwharm.javagi.ProxyBase {
+public class VariantIter extends Struct {
     
     static {
         GLib.javagi$ensureInitialized();
@@ -17,8 +17,8 @@ public class VariantIter extends io.github.jwharm.javagi.ProxyBase {
     
     private static final java.lang.String C_TYPE_NAME = "GVariantIter";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
-        MemoryLayout.sequenceLayout(16, ValueLayout.JAVA_LONG).withName("x")
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
+        MemoryLayout.sequenceLayout(16, Interop.valueLayout.C_LONG).withName("x")
     ).withName(C_TYPE_NAME);
     
     /**
@@ -32,6 +32,10 @@ public class VariantIter extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link VariantIter}
+     * @return A new, uninitialized @{link VariantIter}
+     */
     public static VariantIter allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         VariantIter newInstance = new VariantIter(segment.address(), Ownership.NONE);
@@ -317,44 +321,79 @@ public class VariantIter extends io.github.jwharm.javagi.ProxyBase {
         
         private static final MethodHandle g_variant_iter_copy = Interop.downcallHandle(
             "g_variant_iter_copy",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_variant_iter_free = Interop.downcallHandle(
             "g_variant_iter_free",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_variant_iter_init = Interop.downcallHandle(
             "g_variant_iter_init",
-            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_variant_iter_loop = Interop.downcallHandle(
             "g_variant_iter_loop",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             true
         );
         
         private static final MethodHandle g_variant_iter_n_children = Interop.downcallHandle(
             "g_variant_iter_n_children",
-            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_variant_iter_next = Interop.downcallHandle(
             "g_variant_iter_next",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             true
         );
         
         private static final MethodHandle g_variant_iter_next_value = Interop.downcallHandle(
             "g_variant_iter_next_value",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private VariantIter struct;
+        
+         /**
+         * A {@link VariantIter.Build} object constructs a {@link VariantIter} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = VariantIter.allocate();
+        }
+        
+         /**
+         * Finish building the {@link VariantIter} struct.
+         * @return A new instance of {@code VariantIter} with the fields 
+         *         that were set in the Build object.
+         */
+        public VariantIter construct() {
+            return struct;
+        }
+        
+        public Build setX(long[] x) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("x"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (x == null ? MemoryAddress.NULL : Interop.allocateNativeArray(x, false)));
+            return this;
+        }
     }
 }

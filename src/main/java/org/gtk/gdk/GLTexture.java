@@ -48,7 +48,7 @@ public class GLTexture extends org.gtk.gdk.Texture implements org.gtk.gdk.Painta
      * @throws ClassCastException If the GType is not derived from "GdkGLTexture", a ClassCastException will be thrown.
      */
     public static GLTexture castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GdkGLTexture"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), GLTexture.getType())) {
             return new GLTexture(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GdkGLTexture");
@@ -65,7 +65,7 @@ public class GLTexture extends org.gtk.gdk.Texture implements org.gtk.gdk.Painta
                     width,
                     height,
                     Interop.cbDestroyNotifySymbol(),
-                    data);
+                    (Addressable) data);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -106,17 +106,72 @@ public class GLTexture extends org.gtk.gdk.Texture implements org.gtk.gdk.Painta
         }
     }
     
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.gdk_gl_texture_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gdk.Texture.Build {
+        
+         /**
+         * A {@link GLTexture.Build} object constructs a {@link GLTexture} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link GLTexture} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link GLTexture} using {@link GLTexture#castFrom}.
+         * @return A new instance of {@code GLTexture} with the properties 
+         *         that were set in the Build object.
+         */
+        public GLTexture construct() {
+            return GLTexture.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    GLTexture.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+    }
+    
     private static class DowncallHandles {
         
         private static final MethodHandle gdk_gl_texture_new = Interop.downcallHandle(
             "gdk_gl_texture_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_gl_texture_release = Interop.downcallHandle(
             "gdk_gl_texture_release",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+            false
+        );
+        
+        private static final MethodHandle gdk_gl_texture_get_type = Interop.downcallHandle(
+            "gdk_gl_texture_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }

@@ -61,7 +61,7 @@ public class GestureSingle extends org.gtk.gtk.Gesture {
      * @throws ClassCastException If the GType is not derived from "GtkGestureSingle", a ClassCastException will be thrown.
      */
     public static GestureSingle castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkGestureSingle"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), GestureSingle.getType())) {
             return new GestureSingle(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkGestureSingle");
@@ -205,53 +205,143 @@ public class GestureSingle extends org.gtk.gtk.Gesture {
         }
     }
     
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.gtk_gesture_single_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gtk.Gesture.Build {
+        
+         /**
+         * A {@link GestureSingle.Build} object constructs a {@link GestureSingle} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link GestureSingle} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link GestureSingle} using {@link GestureSingle#castFrom}.
+         * @return A new instance of {@code GestureSingle} with the properties 
+         *         that were set in the Build object.
+         */
+        public GestureSingle construct() {
+            return GestureSingle.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    GestureSingle.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+        
+        /**
+         * Mouse button number to listen to, or 0 to listen for any button.
+         * @param button The value for the {@code button} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setButton(int button) {
+            names.add("button");
+            values.add(org.gtk.gobject.Value.create(button));
+            return this;
+        }
+        
+        /**
+         * Whether the gesture is exclusive.
+         * <p>
+         * Exclusive gestures only listen to pointer and pointer emulated events.
+         * @param exclusive The value for the {@code exclusive} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setExclusive(boolean exclusive) {
+            names.add("exclusive");
+            values.add(org.gtk.gobject.Value.create(exclusive));
+            return this;
+        }
+        
+        /**
+         * Whether the gesture handles only touch events.
+         * @param touchOnly The value for the {@code touch-only} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setTouchOnly(boolean touchOnly) {
+            names.add("touch-only");
+            values.add(org.gtk.gobject.Value.create(touchOnly));
+            return this;
+        }
+    }
+    
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_gesture_single_get_button = Interop.downcallHandle(
             "gtk_gesture_single_get_button",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_gesture_single_get_current_button = Interop.downcallHandle(
             "gtk_gesture_single_get_current_button",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_gesture_single_get_current_sequence = Interop.downcallHandle(
             "gtk_gesture_single_get_current_sequence",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_gesture_single_get_exclusive = Interop.downcallHandle(
             "gtk_gesture_single_get_exclusive",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_gesture_single_get_touch_only = Interop.downcallHandle(
             "gtk_gesture_single_get_touch_only",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_gesture_single_set_button = Interop.downcallHandle(
             "gtk_gesture_single_set_button",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_gesture_single_set_exclusive = Interop.downcallHandle(
             "gtk_gesture_single_set_exclusive",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_gesture_single_set_touch_only = Interop.downcallHandle(
             "gtk_gesture_single_set_touch_only",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+            false
+        );
+        
+        private static final MethodHandle gtk_gesture_single_get_type = Interop.downcallHandle(
+            "gtk_gesture_single_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }

@@ -122,7 +122,7 @@ public class Binding extends org.gtk.gobject.Object {
      * @throws ClassCastException If the GType is not derived from "GBinding", a ClassCastException will be thrown.
      */
     public static Binding castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GBinding"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), Binding.getType())) {
             return new Binding(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GBinding");
@@ -292,53 +292,171 @@ public class Binding extends org.gtk.gobject.Object {
         }
     }
     
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.g_binding_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gobject.Object.Build {
+        
+         /**
+         * A {@link Binding.Build} object constructs a {@link Binding} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link Binding} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link Binding} using {@link Binding#castFrom}.
+         * @return A new instance of {@code Binding} with the properties 
+         *         that were set in the Build object.
+         */
+        public Binding construct() {
+            return Binding.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    Binding.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+        
+        /**
+         * Flags to be used to control the {@link Binding}
+         * @param flags The value for the {@code flags} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setFlags(org.gtk.gobject.BindingFlags flags) {
+            names.add("flags");
+            values.add(org.gtk.gobject.Value.create(flags));
+            return this;
+        }
+        
+        /**
+         * The {@link Object} that should be used as the source of the binding
+         * @param source The value for the {@code source} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setSource(org.gtk.gobject.Object source) {
+            names.add("source");
+            values.add(org.gtk.gobject.Value.create(source));
+            return this;
+        }
+        
+        /**
+         * The name of the property of {@link Binding}:source that should be used
+         * as the source of the binding.
+         * <p>
+         * This should be in [canonical form][canonical-parameter-names] to get the
+         * best performance.
+         * @param sourceProperty The value for the {@code source-property} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setSourceProperty(java.lang.String sourceProperty) {
+            names.add("source-property");
+            values.add(org.gtk.gobject.Value.create(sourceProperty));
+            return this;
+        }
+        
+        /**
+         * The {@link Object} that should be used as the target of the binding
+         * @param target The value for the {@code target} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setTarget(org.gtk.gobject.Object target) {
+            names.add("target");
+            values.add(org.gtk.gobject.Value.create(target));
+            return this;
+        }
+        
+        /**
+         * The name of the property of {@link Binding}:target that should be used
+         * as the target of the binding.
+         * <p>
+         * This should be in [canonical form][canonical-parameter-names] to get the
+         * best performance.
+         * @param targetProperty The value for the {@code target-property} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setTargetProperty(java.lang.String targetProperty) {
+            names.add("target-property");
+            values.add(org.gtk.gobject.Value.create(targetProperty));
+            return this;
+        }
+    }
+    
     private static class DowncallHandles {
         
         private static final MethodHandle g_binding_dup_source = Interop.downcallHandle(
             "g_binding_dup_source",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_binding_dup_target = Interop.downcallHandle(
             "g_binding_dup_target",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_binding_get_flags = Interop.downcallHandle(
             "g_binding_get_flags",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_binding_get_source = Interop.downcallHandle(
             "g_binding_get_source",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_binding_get_source_property = Interop.downcallHandle(
             "g_binding_get_source_property",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_binding_get_target = Interop.downcallHandle(
             "g_binding_get_target",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_binding_get_target_property = Interop.downcallHandle(
             "g_binding_get_target_property",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_binding_unbind = Interop.downcallHandle(
             "g_binding_unbind",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+            false
+        );
+        
+        private static final MethodHandle g_binding_get_type = Interop.downcallHandle(
+            "g_binding_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }

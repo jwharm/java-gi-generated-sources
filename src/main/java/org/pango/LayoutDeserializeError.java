@@ -48,7 +48,7 @@ public class LayoutDeserializeError extends io.github.jwharm.javagi.Enumeration 
         
         private static final MethodHandle pango_layout_deserialize_error_quark = Interop.downcallHandle(
             "pango_layout_deserialize_error_quark",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT),
             false
         );
     }

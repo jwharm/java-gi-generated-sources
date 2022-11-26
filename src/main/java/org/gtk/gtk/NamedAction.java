@@ -48,7 +48,7 @@ public class NamedAction extends org.gtk.gtk.ShortcutAction {
      * @throws ClassCastException If the GType is not derived from "GtkNamedAction", a ClassCastException will be thrown.
      */
     public static NamedAction castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkNamedAction"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), NamedAction.getType())) {
             return new NamedAction(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkNamedAction");
@@ -96,17 +96,83 @@ public class NamedAction extends org.gtk.gtk.ShortcutAction {
         return Interop.getStringFrom(RESULT);
     }
     
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.gtk_named_action_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gtk.ShortcutAction.Build {
+        
+         /**
+         * A {@link NamedAction.Build} object constructs a {@link NamedAction} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link NamedAction} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link NamedAction} using {@link NamedAction#castFrom}.
+         * @return A new instance of {@code NamedAction} with the properties 
+         *         that were set in the Build object.
+         */
+        public NamedAction construct() {
+            return NamedAction.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    NamedAction.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+        
+        /**
+         * The name of the action to activate.
+         * @param actionName The value for the {@code action-name} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setActionName(java.lang.String actionName) {
+            names.add("action-name");
+            values.add(org.gtk.gobject.Value.create(actionName));
+            return this;
+        }
+    }
+    
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_named_action_new = Interop.downcallHandle(
             "gtk_named_action_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_named_action_get_action_name = Interop.downcallHandle(
             "gtk_named_action_get_action_name",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+            false
+        );
+        
+        private static final MethodHandle gtk_named_action_get_type = Interop.downcallHandle(
+            "gtk_named_action_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }

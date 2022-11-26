@@ -9,7 +9,7 @@ import org.jetbrains.annotations.*;
  * The {@code PangoAttrShape} structure is used to represent attributes which
  * impose shape restrictions.
  */
-public class AttrShape extends io.github.jwharm.javagi.ProxyBase {
+public class AttrShape extends Struct {
     
     static {
         Pango.javagi$ensureInitialized();
@@ -17,7 +17,7 @@ public class AttrShape extends io.github.jwharm.javagi.ProxyBase {
     
     private static final java.lang.String C_TYPE_NAME = "PangoAttrShape";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.pango.Attribute.getMemoryLayout().withName("attr"),
         org.pango.Rectangle.getMemoryLayout().withName("ink_rect"),
         org.pango.Rectangle.getMemoryLayout().withName("logical_rect"),
@@ -37,6 +37,10 @@ public class AttrShape extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link AttrShape}
+     * @return A new, uninitialized @{link AttrShape}
+     */
     public static AttrShape allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         AttrShape newInstance = new AttrShape(segment.address(), Ownership.NONE);
@@ -89,7 +93,7 @@ public class AttrShape extends io.github.jwharm.javagi.ProxyBase {
     public void data$set(java.lang.foreign.MemoryAddress data) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("data"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), data);
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) data);
     }
     
     /**
@@ -178,7 +182,7 @@ public class AttrShape extends io.github.jwharm.javagi.ProxyBase {
                     (Addressable) (copyFunc == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Pango.Callbacks.class, "cbAttrDataCopyFunc",
                             MethodType.methodType(MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                         Interop.getScope())),
                     Interop.cbDestroyNotifySymbol());
         } catch (Throwable ERR) {
@@ -191,14 +195,114 @@ public class AttrShape extends io.github.jwharm.javagi.ProxyBase {
         
         private static final MethodHandle pango_attr_shape_new = Interop.downcallHandle(
             "pango_attr_shape_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle pango_attr_shape_new_with_data = Interop.downcallHandle(
             "pango_attr_shape_new_with_data",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private AttrShape struct;
+        
+         /**
+         * A {@link AttrShape.Build} object constructs a {@link AttrShape} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = AttrShape.allocate();
+        }
+        
+         /**
+         * Finish building the {@link AttrShape} struct.
+         * @return A new instance of {@code AttrShape} with the fields 
+         *         that were set in the Build object.
+         */
+        public AttrShape construct() {
+            return struct;
+        }
+        
+        /**
+         * the common portion of the attribute
+         * @param attr The value for the {@code attr} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setAttr(org.pango.Attribute attr) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("attr"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (attr == null ? MemoryAddress.NULL : attr.handle()));
+            return this;
+        }
+        
+        /**
+         * the ink rectangle to restrict to
+         * @param ink_rect The value for the {@code ink_rect} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setInkRect(org.pango.Rectangle ink_rect) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("ink_rect"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (ink_rect == null ? MemoryAddress.NULL : ink_rect.handle()));
+            return this;
+        }
+        
+        /**
+         * the logical rectangle to restrict to
+         * @param logical_rect The value for the {@code logical_rect} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setLogicalRect(org.pango.Rectangle logical_rect) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("logical_rect"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (logical_rect == null ? MemoryAddress.NULL : logical_rect.handle()));
+            return this;
+        }
+        
+        /**
+         * user data set (see {@link AttrShape#newWithData})
+         * @param data The value for the {@code data} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setData(java.lang.foreign.MemoryAddress data) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("data"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (data == null ? MemoryAddress.NULL : (Addressable) data));
+            return this;
+        }
+        
+        /**
+         * copy function for the user data
+         * @param copy_func The value for the {@code copy_func} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setCopyFunc(java.lang.foreign.MemoryAddress copy_func) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("copy_func"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (copy_func == null ? MemoryAddress.NULL : copy_func));
+            return this;
+        }
+        
+        /**
+         * destroy function for the user data
+         * @param destroy_func The value for the {@code destroy_func} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setDestroyFunc(java.lang.foreign.MemoryAddress destroy_func) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("destroy_func"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (destroy_func == null ? MemoryAddress.NULL : destroy_func));
+            return this;
+        }
     }
 }

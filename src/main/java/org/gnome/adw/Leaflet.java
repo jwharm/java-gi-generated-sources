@@ -78,7 +78,7 @@ public class Leaflet extends org.gtk.gtk.Widget implements org.gnome.adw.Swipeab
      * @throws ClassCastException If the GType is not derived from "AdwLeaflet", a ClassCastException will be thrown.
      */
     public static Leaflet castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("AdwLeaflet"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), Leaflet.getType())) {
             return new Leaflet(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of AdwLeaflet");
@@ -690,203 +690,469 @@ public class Leaflet extends org.gtk.gtk.Widget implements org.gnome.adw.Swipeab
         }
     }
     
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.adw_leaflet_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gtk.Widget.Build {
+        
+         /**
+         * A {@link Leaflet.Build} object constructs a {@link Leaflet} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link Leaflet} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link Leaflet} using {@link Leaflet#castFrom}.
+         * @return A new instance of {@code Leaflet} with the properties 
+         *         that were set in the Build object.
+         */
+        public Leaflet construct() {
+            return Leaflet.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    Leaflet.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+        
+        /**
+         * Whether gestures and shortcuts for navigating backward are enabled.
+         * <p>
+         * The supported gestures are:
+         * <ul>
+         * <li>One-finger swipe on touchscreens
+         * <li>Horizontal scrolling on touchpads (usually two-finger swipe)
+         * <li>Back/forward mouse buttons
+         * </ul>
+         * <p>
+         * The keyboard back/forward keys are also supported, as well as the
+         * &lt;kbd&gt;Alt&lt;/kbd&gt;+&lt;kbd&gt;←&lt;/kbd&gt; shortcut for horizontal orientation, or
+         * &lt;kbd&gt;Alt&lt;/kbd&gt;+&lt;kbd&gt;↑&lt;/kbd&gt; for vertical orientation.
+         * <p>
+         * If the orientation is horizontal, for right-to-left locales, gestures and
+         * shortcuts are reversed.
+         * <p>
+         * Only children that have {@code LeafletPage:navigatable} set to {@code TRUE}
+         * can be navigated to.
+         * @param canNavigateBack The value for the {@code can-navigate-back} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setCanNavigateBack(boolean canNavigateBack) {
+            names.add("can-navigate-back");
+            values.add(org.gtk.gobject.Value.create(canNavigateBack));
+            return this;
+        }
+        
+        /**
+         * Whether gestures and shortcuts for navigating forward are enabled.
+         * <p>
+         * The supported gestures are:
+         * <ul>
+         * <li>One-finger swipe on touchscreens
+         * <li>Horizontal scrolling on touchpads (usually two-finger swipe)
+         * <li>Back/forward mouse buttons
+         * </ul>
+         * <p>
+         * The keyboard back/forward keys are also supported, as well as the
+         * &lt;kbd&gt;Alt&lt;/kbd&gt;+&lt;kbd&gt;→&lt;/kbd&gt; shortcut for horizontal orientation, or
+         * &lt;kbd&gt;Alt&lt;/kbd&gt;+&lt;kbd&gt;↓&lt;/kbd&gt; for vertical orientation.
+         * <p>
+         * If the orientation is horizontal, for right-to-left locales, gestures and
+         * shortcuts are reversed.
+         * <p>
+         * Only children that have {@code LeafletPage:navigatable} set to {@code TRUE}
+         * can be navigated to.
+         * @param canNavigateForward The value for the {@code can-navigate-forward} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setCanNavigateForward(boolean canNavigateForward) {
+            names.add("can-navigate-forward");
+            values.add(org.gtk.gobject.Value.create(canNavigateForward));
+            return this;
+        }
+        
+        /**
+         * Whether or not the leaflet can unfold.
+         * @param canUnfold The value for the {@code can-unfold} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setCanUnfold(boolean canUnfold) {
+            names.add("can-unfold");
+            values.add(org.gtk.gobject.Value.create(canUnfold));
+            return this;
+        }
+        
+        /**
+         * The child transition spring parameters.
+         * <p>
+         * The default value is equivalent to:
+         * <pre>{@code c
+         * adw_spring_params_new (1, 0.5, 500)
+         * }</pre>
+         * @param childTransitionParams The value for the {@code child-transition-params} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setChildTransitionParams(org.gnome.adw.SpringParams childTransitionParams) {
+            names.add("child-transition-params");
+            values.add(org.gtk.gobject.Value.create(childTransitionParams));
+            return this;
+        }
+        
+        /**
+         * Whether a child transition is currently running.
+         * @param childTransitionRunning The value for the {@code child-transition-running} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setChildTransitionRunning(boolean childTransitionRunning) {
+            names.add("child-transition-running");
+            values.add(org.gtk.gobject.Value.create(childTransitionRunning));
+            return this;
+        }
+        
+        /**
+         * Determines when the leaflet will fold.
+         * <p>
+         * If set to {@code ADW_FOLD_THRESHOLD_POLICY_MINIMUM}, it will only fold when the
+         * children cannot fit anymore. With {@code ADW_FOLD_THRESHOLD_POLICY_NATURAL}, it
+         * will fold as soon as children don't get their natural size.
+         * <p>
+         * This can be useful if you have a long ellipsizing label and want to let it
+         * ellipsize instead of immediately folding.
+         * @param foldThresholdPolicy The value for the {@code fold-threshold-policy} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setFoldThresholdPolicy(org.gnome.adw.FoldThresholdPolicy foldThresholdPolicy) {
+            names.add("fold-threshold-policy");
+            values.add(org.gtk.gobject.Value.create(foldThresholdPolicy));
+            return this;
+        }
+        
+        /**
+         * Whether the leaflet is folded.
+         * <p>
+         * The leaflet will be folded if the size allocated to it is smaller than the
+         * sum of the minimum or natural sizes of the children (see
+         * {@code Leaflet:fold-threshold-policy}), it will be unfolded otherwise.
+         * @param folded The value for the {@code folded} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setFolded(boolean folded) {
+            names.add("folded");
+            values.add(org.gtk.gobject.Value.create(folded));
+            return this;
+        }
+        
+        /**
+         * Whether the leaflet allocates the same size for all children when folded.
+         * <p>
+         * If set to {@code FALSE}, different children can have different size along the
+         * opposite orientation.
+         * @param homogeneous The value for the {@code homogeneous} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setHomogeneous(boolean homogeneous) {
+            names.add("homogeneous");
+            values.add(org.gtk.gobject.Value.create(homogeneous));
+            return this;
+        }
+        
+        /**
+         * The mode transition animation duration, in milliseconds.
+         * @param modeTransitionDuration The value for the {@code mode-transition-duration} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setModeTransitionDuration(int modeTransitionDuration) {
+            names.add("mode-transition-duration");
+            values.add(org.gtk.gobject.Value.create(modeTransitionDuration));
+            return this;
+        }
+        
+        /**
+         * A selection model with the leaflet's pages.
+         * <p>
+         * This can be used to keep an up-to-date view. The model also implements
+         * {@code Gtk.SelectionModel} and can be used to track and change the visible
+         * page.
+         * @param pages The value for the {@code pages} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setPages(org.gtk.gtk.SelectionModel pages) {
+            names.add("pages");
+            values.add(org.gtk.gobject.Value.create(pages));
+            return this;
+        }
+        
+        /**
+         * The type of animation used for transitions between modes and children.
+         * <p>
+         * The transition type can be changed without problems at runtime, so it is
+         * possible to change the animation based on the mode or child that is about
+         * to become current.
+         * @param transitionType The value for the {@code transition-type} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setTransitionType(org.gnome.adw.LeafletTransitionType transitionType) {
+            names.add("transition-type");
+            values.add(org.gtk.gobject.Value.create(transitionType));
+            return this;
+        }
+        
+        /**
+         * The widget currently visible when the leaflet is folded.
+         * <p>
+         * The transition is determined by {@code Leaflet:transition-type} and
+         * {@code Leaflet:child-transition-params}. The transition can be cancelled
+         * by the user, in which case visible child will change back to the previously
+         * visible child.
+         * @param visibleChild The value for the {@code visible-child} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setVisibleChild(org.gtk.gtk.Widget visibleChild) {
+            names.add("visible-child");
+            values.add(org.gtk.gobject.Value.create(visibleChild));
+            return this;
+        }
+        
+        /**
+         * The name of the widget currently visible when the leaflet is folded.
+         * <p>
+         * See {@code Leaflet:visible-child}.
+         * @param visibleChildName The value for the {@code visible-child-name} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setVisibleChildName(java.lang.String visibleChildName) {
+            names.add("visible-child-name");
+            values.add(org.gtk.gobject.Value.create(visibleChildName));
+            return this;
+        }
+    }
+    
     private static class DowncallHandles {
         
         private static final MethodHandle adw_leaflet_new = Interop.downcallHandle(
             "adw_leaflet_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_leaflet_append = Interop.downcallHandle(
             "adw_leaflet_append",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_leaflet_get_adjacent_child = Interop.downcallHandle(
             "adw_leaflet_get_adjacent_child",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle adw_leaflet_get_can_navigate_back = Interop.downcallHandle(
             "adw_leaflet_get_can_navigate_back",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_leaflet_get_can_navigate_forward = Interop.downcallHandle(
             "adw_leaflet_get_can_navigate_forward",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_leaflet_get_can_unfold = Interop.downcallHandle(
             "adw_leaflet_get_can_unfold",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_leaflet_get_child_by_name = Interop.downcallHandle(
             "adw_leaflet_get_child_by_name",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_leaflet_get_child_transition_params = Interop.downcallHandle(
             "adw_leaflet_get_child_transition_params",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_leaflet_get_child_transition_running = Interop.downcallHandle(
             "adw_leaflet_get_child_transition_running",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_leaflet_get_fold_threshold_policy = Interop.downcallHandle(
             "adw_leaflet_get_fold_threshold_policy",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_leaflet_get_folded = Interop.downcallHandle(
             "adw_leaflet_get_folded",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_leaflet_get_homogeneous = Interop.downcallHandle(
             "adw_leaflet_get_homogeneous",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_leaflet_get_mode_transition_duration = Interop.downcallHandle(
             "adw_leaflet_get_mode_transition_duration",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_leaflet_get_page = Interop.downcallHandle(
             "adw_leaflet_get_page",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_leaflet_get_pages = Interop.downcallHandle(
             "adw_leaflet_get_pages",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_leaflet_get_transition_type = Interop.downcallHandle(
             "adw_leaflet_get_transition_type",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_leaflet_get_visible_child = Interop.downcallHandle(
             "adw_leaflet_get_visible_child",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_leaflet_get_visible_child_name = Interop.downcallHandle(
             "adw_leaflet_get_visible_child_name",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_leaflet_insert_child_after = Interop.downcallHandle(
             "adw_leaflet_insert_child_after",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_leaflet_navigate = Interop.downcallHandle(
             "adw_leaflet_navigate",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle adw_leaflet_prepend = Interop.downcallHandle(
             "adw_leaflet_prepend",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_leaflet_remove = Interop.downcallHandle(
             "adw_leaflet_remove",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_leaflet_reorder_child_after = Interop.downcallHandle(
             "adw_leaflet_reorder_child_after",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_leaflet_set_can_navigate_back = Interop.downcallHandle(
             "adw_leaflet_set_can_navigate_back",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle adw_leaflet_set_can_navigate_forward = Interop.downcallHandle(
             "adw_leaflet_set_can_navigate_forward",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle adw_leaflet_set_can_unfold = Interop.downcallHandle(
             "adw_leaflet_set_can_unfold",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle adw_leaflet_set_child_transition_params = Interop.downcallHandle(
             "adw_leaflet_set_child_transition_params",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_leaflet_set_fold_threshold_policy = Interop.downcallHandle(
             "adw_leaflet_set_fold_threshold_policy",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle adw_leaflet_set_homogeneous = Interop.downcallHandle(
             "adw_leaflet_set_homogeneous",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle adw_leaflet_set_mode_transition_duration = Interop.downcallHandle(
             "adw_leaflet_set_mode_transition_duration",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle adw_leaflet_set_transition_type = Interop.downcallHandle(
             "adw_leaflet_set_transition_type",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle adw_leaflet_set_visible_child = Interop.downcallHandle(
             "adw_leaflet_set_visible_child",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_leaflet_set_visible_child_name = Interop.downcallHandle(
             "adw_leaflet_set_visible_child_name",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+            false
+        );
+        
+        private static final MethodHandle adw_leaflet_get_type = Interop.downcallHandle(
+            "adw_leaflet_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }

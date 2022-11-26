@@ -5,7 +5,7 @@ import java.lang.foreign.*;
 import java.lang.invoke.*;
 import org.jetbrains.annotations.*;
 
-public class MenuAttributeIterPrivate extends io.github.jwharm.javagi.ProxyBase {
+public class MenuAttributeIterPrivate extends Struct {
     
     static {
         Gio.javagi$ensureInitialized();
@@ -24,6 +24,10 @@ public class MenuAttributeIterPrivate extends io.github.jwharm.javagi.ProxyBase 
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link MenuAttributeIterPrivate}
+     * @return A new, uninitialized @{link MenuAttributeIterPrivate}
+     */
     public static MenuAttributeIterPrivate allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         MenuAttributeIterPrivate newInstance = new MenuAttributeIterPrivate(segment.address(), Ownership.NONE);
@@ -39,5 +43,33 @@ public class MenuAttributeIterPrivate extends io.github.jwharm.javagi.ProxyBase 
     @ApiStatus.Internal
     public MenuAttributeIterPrivate(Addressable address, Ownership ownership) {
         super(address, ownership);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private MenuAttributeIterPrivate struct;
+        
+         /**
+         * A {@link MenuAttributeIterPrivate.Build} object constructs a {@link MenuAttributeIterPrivate} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = MenuAttributeIterPrivate.allocate();
+        }
+        
+         /**
+         * Finish building the {@link MenuAttributeIterPrivate} struct.
+         * @return A new instance of {@code MenuAttributeIterPrivate} with the fields 
+         *         that were set in the Build object.
+         */
+        public MenuAttributeIterPrivate construct() {
+            return struct;
+        }
     }
 }

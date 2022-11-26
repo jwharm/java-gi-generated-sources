@@ -14,6 +14,11 @@ public class TestTrapFlags extends io.github.jwharm.javagi.Bitfield {
     private static final java.lang.String C_TYPE_NAME = "GTestTrapFlags";
     
     /**
+     * Default behaviour. Since: 2.74
+     */
+    public static final TestTrapFlags DEFAULT = new TestTrapFlags(0);
+    
+    /**
      * Redirect stdout of the test child to
      *     {@code /dev/null} so it cannot be observed on the console during test
      *     runs. The actual output is still captured though to allow later

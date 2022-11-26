@@ -63,7 +63,7 @@ public class Carousel extends org.gtk.gtk.Widget implements org.gnome.adw.Swipea
      * @throws ClassCastException If the GType is not derived from "AdwCarousel", a ClassCastException will be thrown.
      */
     public static Carousel castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("AdwCarousel"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), Carousel.getType())) {
             return new Carousel(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of AdwCarousel");
@@ -461,6 +461,20 @@ public class Carousel extends org.gtk.gtk.Widget implements org.gnome.adw.Swipea
         }
     }
     
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.adw_carousel_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+    
     @FunctionalInterface
     public interface PageChanged {
         void signalReceived(Carousel source, int index);
@@ -482,7 +496,7 @@ public class Carousel extends org.gtk.gtk.Widget implements org.gnome.adw.Swipea
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(Carousel.Callbacks.class, "signalCarouselPageChanged",
                         MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
                     Interop.getScope()),
                 Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
@@ -491,150 +505,308 @@ public class Carousel extends org.gtk.gtk.Widget implements org.gnome.adw.Swipea
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gtk.Widget.Build {
+        
+         /**
+         * A {@link Carousel.Build} object constructs a {@link Carousel} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link Carousel} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link Carousel} using {@link Carousel#castFrom}.
+         * @return A new instance of {@code Carousel} with the properties 
+         *         that were set in the Build object.
+         */
+        public Carousel construct() {
+            return Carousel.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    Carousel.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+        
+        /**
+         * Whether to allow swiping for more than one page at a time.
+         * <p>
+         * If the value is {@code FALSE}, each swipe can only move to the adjacent pages.
+         * @param allowLongSwipes The value for the {@code allow-long-swipes} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setAllowLongSwipes(boolean allowLongSwipes) {
+            names.add("allow-long-swipes");
+            values.add(org.gtk.gobject.Value.create(allowLongSwipes));
+            return this;
+        }
+        
+        /**
+         * Sets whether the {@code AdwCarousel} can be dragged with mouse pointer.
+         * <p>
+         * If the value is {@code FALSE}, dragging is only available on touch.
+         * @param allowMouseDrag The value for the {@code allow-mouse-drag} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setAllowMouseDrag(boolean allowMouseDrag) {
+            names.add("allow-mouse-drag");
+            values.add(org.gtk.gobject.Value.create(allowMouseDrag));
+            return this;
+        }
+        
+        /**
+         * Whether the widget will respond to scroll wheel events.
+         * <p>
+         * If the value is {@code FALSE}, wheel events will be ignored.
+         * @param allowScrollWheel The value for the {@code allow-scroll-wheel} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setAllowScrollWheel(boolean allowScrollWheel) {
+            names.add("allow-scroll-wheel");
+            values.add(org.gtk.gobject.Value.create(allowScrollWheel));
+            return this;
+        }
+        
+        /**
+         * Whether the carousel can be navigated.
+         * <p>
+         * This can be used to temporarily disable the carousel to only allow
+         * navigating it in a certain state.
+         * @param interactive The value for the {@code interactive} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setInteractive(boolean interactive) {
+            names.add("interactive");
+            values.add(org.gtk.gobject.Value.create(interactive));
+            return this;
+        }
+        
+        /**
+         * The number of pages in a {@code AdwCarousel}.
+         * @param nPages The value for the {@code n-pages} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setNPages(int nPages) {
+            names.add("n-pages");
+            values.add(org.gtk.gobject.Value.create(nPages));
+            return this;
+        }
+        
+        /**
+         * Current scrolling position, unitless.
+         * <p>
+         * 1 matches 1 page. Use {@code Carousel#scrollTo} for changing it.
+         * @param position The value for the {@code position} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setPosition(double position) {
+            names.add("position");
+            values.add(org.gtk.gobject.Value.create(position));
+            return this;
+        }
+        
+        /**
+         * Page reveal duration, in milliseconds.
+         * <p>
+         * Reveal duration is used when animating adding or removing pages.
+         * @param revealDuration The value for the {@code reveal-duration} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setRevealDuration(int revealDuration) {
+            names.add("reveal-duration");
+            values.add(org.gtk.gobject.Value.create(revealDuration));
+            return this;
+        }
+        
+        /**
+         * Scroll animation spring parameters.
+         * <p>
+         * The default value is equivalent to:
+         * <pre>{@code c
+         * adw_spring_params_new (1, 0.5, 500)
+         * }</pre>
+         * @param scrollParams The value for the {@code scroll-params} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setScrollParams(org.gnome.adw.SpringParams scrollParams) {
+            names.add("scroll-params");
+            values.add(org.gtk.gobject.Value.create(scrollParams));
+            return this;
+        }
+        
+        /**
+         * Spacing between pages in pixels.
+         * @param spacing The value for the {@code spacing} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setSpacing(int spacing) {
+            names.add("spacing");
+            values.add(org.gtk.gobject.Value.create(spacing));
+            return this;
+        }
+    }
     
     private static class DowncallHandles {
         
         private static final MethodHandle adw_carousel_new = Interop.downcallHandle(
             "adw_carousel_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_carousel_append = Interop.downcallHandle(
             "adw_carousel_append",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_carousel_get_allow_long_swipes = Interop.downcallHandle(
             "adw_carousel_get_allow_long_swipes",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_carousel_get_allow_mouse_drag = Interop.downcallHandle(
             "adw_carousel_get_allow_mouse_drag",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_carousel_get_allow_scroll_wheel = Interop.downcallHandle(
             "adw_carousel_get_allow_scroll_wheel",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_carousel_get_interactive = Interop.downcallHandle(
             "adw_carousel_get_interactive",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_carousel_get_n_pages = Interop.downcallHandle(
             "adw_carousel_get_n_pages",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_carousel_get_nth_page = Interop.downcallHandle(
             "adw_carousel_get_nth_page",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle adw_carousel_get_position = Interop.downcallHandle(
             "adw_carousel_get_position",
-            FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_DOUBLE, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_carousel_get_reveal_duration = Interop.downcallHandle(
             "adw_carousel_get_reveal_duration",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_carousel_get_scroll_params = Interop.downcallHandle(
             "adw_carousel_get_scroll_params",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_carousel_get_spacing = Interop.downcallHandle(
             "adw_carousel_get_spacing",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_carousel_insert = Interop.downcallHandle(
             "adw_carousel_insert",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle adw_carousel_prepend = Interop.downcallHandle(
             "adw_carousel_prepend",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_carousel_remove = Interop.downcallHandle(
             "adw_carousel_remove",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_carousel_reorder = Interop.downcallHandle(
             "adw_carousel_reorder",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle adw_carousel_scroll_to = Interop.downcallHandle(
             "adw_carousel_scroll_to",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle adw_carousel_set_allow_long_swipes = Interop.downcallHandle(
             "adw_carousel_set_allow_long_swipes",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle adw_carousel_set_allow_mouse_drag = Interop.downcallHandle(
             "adw_carousel_set_allow_mouse_drag",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle adw_carousel_set_allow_scroll_wheel = Interop.downcallHandle(
             "adw_carousel_set_allow_scroll_wheel",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle adw_carousel_set_interactive = Interop.downcallHandle(
             "adw_carousel_set_interactive",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle adw_carousel_set_reveal_duration = Interop.downcallHandle(
             "adw_carousel_set_reveal_duration",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle adw_carousel_set_scroll_params = Interop.downcallHandle(
             "adw_carousel_set_scroll_params",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_carousel_set_spacing = Interop.downcallHandle(
             "adw_carousel_set_spacing",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+            false
+        );
+        
+        private static final MethodHandle adw_carousel_get_type = Interop.downcallHandle(
+            "adw_carousel_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }
@@ -642,9 +814,9 @@ public class Carousel extends org.gtk.gtk.Widget implements org.gnome.adw.Swipea
     private static class Callbacks {
         
         public static void signalCarouselPageChanged(MemoryAddress source, int index, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (Carousel.PageChanged) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Carousel(source, Ownership.UNKNOWN), index);
+            HANDLER.signalReceived(new Carousel(source, Ownership.NONE), index);
         }
     }
 }

@@ -48,7 +48,7 @@ public class LeafletPage extends org.gtk.gobject.Object {
      * @throws ClassCastException If the GType is not derived from "AdwLeafletPage", a ClassCastException will be thrown.
      */
     public static LeafletPage castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("AdwLeafletPage"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), LeafletPage.getType())) {
             return new LeafletPage(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of AdwLeafletPage");
@@ -133,35 +133,129 @@ public class LeafletPage extends org.gtk.gobject.Object {
         }
     }
     
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.adw_leaflet_page_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gobject.Object.Build {
+        
+         /**
+         * A {@link LeafletPage.Build} object constructs a {@link LeafletPage} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link LeafletPage} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link LeafletPage} using {@link LeafletPage#castFrom}.
+         * @return A new instance of {@code LeafletPage} with the properties 
+         *         that were set in the Build object.
+         */
+        public LeafletPage construct() {
+            return LeafletPage.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    LeafletPage.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+        
+        /**
+         * The leaflet child to which the page belongs.
+         * @param child The value for the {@code child} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setChild(org.gtk.gtk.Widget child) {
+            names.add("child");
+            values.add(org.gtk.gobject.Value.create(child));
+            return this;
+        }
+        
+        /**
+         * The name of the child page.
+         * @param name The value for the {@code name} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setName(java.lang.String name) {
+            names.add("name");
+            values.add(org.gtk.gobject.Value.create(name));
+            return this;
+        }
+        
+        /**
+         * Whether the child can be navigated to when folded.
+         * <p>
+         * If {@code FALSE}, the child will be ignored by
+         * {@code Leaflet.get_adjacent_child#], [method@Leaflet.navigate}, and swipe
+         * gestures.
+         * <p>
+         * This can be used used to prevent switching to widgets like separators.
+         * @param navigatable The value for the {@code navigatable} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setNavigatable(boolean navigatable) {
+            names.add("navigatable");
+            values.add(org.gtk.gobject.Value.create(navigatable));
+            return this;
+        }
+    }
+    
     private static class DowncallHandles {
         
         private static final MethodHandle adw_leaflet_page_get_child = Interop.downcallHandle(
             "adw_leaflet_page_get_child",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_leaflet_page_get_name = Interop.downcallHandle(
             "adw_leaflet_page_get_name",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_leaflet_page_get_navigatable = Interop.downcallHandle(
             "adw_leaflet_page_get_navigatable",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_leaflet_page_set_name = Interop.downcallHandle(
             "adw_leaflet_page_set_name",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_leaflet_page_set_navigatable = Interop.downcallHandle(
             "adw_leaflet_page_set_navigatable",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+            false
+        );
+        
+        private static final MethodHandle adw_leaflet_page_get_type = Interop.downcallHandle(
+            "adw_leaflet_page_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }

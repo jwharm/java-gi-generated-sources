@@ -9,7 +9,7 @@ import org.jetbrains.annotations.*;
  * A point with two coordinates.
  * @version 1.0
  */
-public class Point extends io.github.jwharm.javagi.ProxyBase {
+public class Point extends Struct {
     
     static {
         Graphene.javagi$ensureInitialized();
@@ -17,9 +17,9 @@ public class Point extends io.github.jwharm.javagi.ProxyBase {
     
     private static final java.lang.String C_TYPE_NAME = "graphene_point_t";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
-        ValueLayout.JAVA_FLOAT.withName("x"),
-        ValueLayout.JAVA_FLOAT.withName("y")
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
+        Interop.valueLayout.C_FLOAT.withName("x"),
+        Interop.valueLayout.C_FLOAT.withName("y")
     ).withName(C_TYPE_NAME);
     
     /**
@@ -33,6 +33,10 @@ public class Point extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link Point}
+     * @return A new, uninitialized @{link Point}
+     */
     public static Point allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         Point newInstance = new Point(segment.address(), Ownership.NONE);
@@ -140,9 +144,9 @@ public class Point extends io.github.jwharm.javagi.ProxyBase {
     public float distance(@NotNull org.gtk.graphene.Point b, Out<Float> dX, Out<Float> dY) {
         java.util.Objects.requireNonNull(b, "Parameter 'b' must not be null");
         java.util.Objects.requireNonNull(dX, "Parameter 'dX' must not be null");
+        MemorySegment dXPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_FLOAT);
         java.util.Objects.requireNonNull(dY, "Parameter 'dY' must not be null");
-        MemorySegment dXPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_FLOAT);
-        MemorySegment dYPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_FLOAT);
+        MemorySegment dYPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_FLOAT);
         float RESULT;
         try {
             RESULT = (float) DowncallHandles.graphene_point_distance.invokeExact(
@@ -153,8 +157,8 @@ public class Point extends io.github.jwharm.javagi.ProxyBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        dX.set(dXPOINTER.get(ValueLayout.JAVA_FLOAT, 0));
-        dY.set(dYPOINTER.get(ValueLayout.JAVA_FLOAT, 0));
+        dX.set(dXPOINTER.get(Interop.valueLayout.C_FLOAT, 0));
+        dY.set(dYPOINTER.get(Interop.valueLayout.C_FLOAT, 0));
         return RESULT;
     }
     
@@ -327,68 +331,120 @@ public class Point extends io.github.jwharm.javagi.ProxyBase {
         
         private static final MethodHandle graphene_point_alloc = Interop.downcallHandle(
             "graphene_point_alloc",
-            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle graphene_point_distance = Interop.downcallHandle(
             "graphene_point_distance",
-            FunctionDescriptor.of(ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_FLOAT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle graphene_point_equal = Interop.downcallHandle(
             "graphene_point_equal",
-            FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_BOOLEAN, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle graphene_point_free = Interop.downcallHandle(
             "graphene_point_free",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle graphene_point_init = Interop.downcallHandle(
             "graphene_point_init",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_FLOAT, Interop.valueLayout.C_FLOAT),
             false
         );
         
         private static final MethodHandle graphene_point_init_from_point = Interop.downcallHandle(
             "graphene_point_init_from_point",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle graphene_point_init_from_vec2 = Interop.downcallHandle(
             "graphene_point_init_from_vec2",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle graphene_point_interpolate = Interop.downcallHandle(
             "graphene_point_interpolate",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle graphene_point_near = Interop.downcallHandle(
             "graphene_point_near",
-            FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT),
+            FunctionDescriptor.of(Interop.valueLayout.C_BOOLEAN, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_FLOAT),
             false
         );
         
         private static final MethodHandle graphene_point_to_vec2 = Interop.downcallHandle(
             "graphene_point_to_vec2",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle graphene_point_zero = Interop.downcallHandle(
             "graphene_point_zero",
-            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
             false
         );
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private Point struct;
+        
+         /**
+         * A {@link Point.Build} object constructs a {@link Point} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = Point.allocate();
+        }
+        
+         /**
+         * Finish building the {@link Point} struct.
+         * @return A new instance of {@code Point} with the fields 
+         *         that were set in the Build object.
+         */
+        public Point construct() {
+            return struct;
+        }
+        
+        /**
+         * the X coordinate of the point
+         * @param x The value for the {@code x} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setX(float x) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("x"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), x);
+            return this;
+        }
+        
+        /**
+         * the Y coordinate of the point
+         * @param y The value for the {@code y} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setY(float y) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("y"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), y);
+            return this;
+        }
     }
 }

@@ -61,7 +61,7 @@ public class GesturePan extends org.gtk.gtk.GestureDrag {
      * @throws ClassCastException If the GType is not derived from "GtkGesturePan", a ClassCastException will be thrown.
      */
     public static GesturePan castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkGesturePan"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), GesturePan.getType())) {
             return new GesturePan(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkGesturePan");
@@ -118,6 +118,20 @@ public class GesturePan extends org.gtk.gtk.GestureDrag {
         }
     }
     
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.gtk_gesture_pan_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+    
     @FunctionalInterface
     public interface Pan {
         void signalReceived(GesturePan source, @NotNull org.gtk.gtk.PanDirection direction, double offset);
@@ -136,7 +150,7 @@ public class GesturePan extends org.gtk.gtk.GestureDrag {
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(GesturePan.Callbacks.class, "signalGesturePanPan",
                         MethodType.methodType(void.class, MemoryAddress.class, int.class, double.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS),
+                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.ADDRESS),
                     Interop.getScope()),
                 Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
@@ -145,24 +159,76 @@ public class GesturePan extends org.gtk.gtk.GestureDrag {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gtk.GestureDrag.Build {
+        
+         /**
+         * A {@link GesturePan.Build} object constructs a {@link GesturePan} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link GesturePan} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link GesturePan} using {@link GesturePan#castFrom}.
+         * @return A new instance of {@code GesturePan} with the properties 
+         *         that were set in the Build object.
+         */
+        public GesturePan construct() {
+            return GesturePan.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    GesturePan.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+        
+        /**
+         * The expected orientation of pan gestures.
+         * @param orientation The value for the {@code orientation} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setOrientation(org.gtk.gtk.Orientation orientation) {
+            names.add("orientation");
+            values.add(org.gtk.gobject.Value.create(orientation));
+            return this;
+        }
+    }
     
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_gesture_pan_new = Interop.downcallHandle(
             "gtk_gesture_pan_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_gesture_pan_get_orientation = Interop.downcallHandle(
             "gtk_gesture_pan_get_orientation",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_gesture_pan_set_orientation = Interop.downcallHandle(
             "gtk_gesture_pan_set_orientation",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+            false
+        );
+        
+        private static final MethodHandle gtk_gesture_pan_get_type = Interop.downcallHandle(
+            "gtk_gesture_pan_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }
@@ -170,9 +236,9 @@ public class GesturePan extends org.gtk.gtk.GestureDrag {
     private static class Callbacks {
         
         public static void signalGesturePanPan(MemoryAddress source, int direction, double offset, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (GesturePan.Pan) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new GesturePan(source, Ownership.UNKNOWN), new org.gtk.gtk.PanDirection(direction), offset);
+            HANDLER.signalReceived(new GesturePan(source, Ownership.NONE), new org.gtk.gtk.PanDirection(direction), offset);
         }
     }
 }

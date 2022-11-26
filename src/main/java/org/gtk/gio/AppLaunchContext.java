@@ -18,7 +18,7 @@ public class AppLaunchContext extends org.gtk.gobject.Object {
     
     private static final java.lang.String C_TYPE_NAME = "GAppLaunchContext";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gobject.Object.getMemoryLayout().withName("parent_instance"),
         Interop.valueLayout.ADDRESS.withName("priv")
     ).withName(C_TYPE_NAME);
@@ -64,7 +64,7 @@ public class AppLaunchContext extends org.gtk.gobject.Object {
      * @throws ClassCastException If the GType is not derived from "GAppLaunchContext", a ClassCastException will be thrown.
      */
     public static AppLaunchContext castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GAppLaunchContext"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), AppLaunchContext.getType())) {
             return new AppLaunchContext(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GAppLaunchContext");
@@ -207,6 +207,20 @@ public class AppLaunchContext extends org.gtk.gobject.Object {
         }
     }
     
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.g_app_launch_context_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+    
     @FunctionalInterface
     public interface LaunchFailed {
         void signalReceived(AppLaunchContext source, @NotNull java.lang.String startupNotifyId);
@@ -216,6 +230,10 @@ public class AppLaunchContext extends org.gtk.gobject.Object {
      * The {@link AppLaunchContext}::launch-failed signal is emitted when a {@link AppInfo} launch
      * fails. The startup notification id is provided, so that the launcher
      * can cancel the startup notification.
+     * <p>
+     * Because a launch operation may involve spawning multiple instances of the
+     * target application, you should expect this signal to be emitted multiple
+     * times, one for each spawned instance.
      * @param handler The signal handler
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
@@ -227,7 +245,7 @@ public class AppLaunchContext extends org.gtk.gobject.Object {
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(AppLaunchContext.Callbacks.class, "signalAppLaunchContextLaunchFailed",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                     Interop.getScope()),
                 Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
@@ -257,6 +275,10 @@ public class AppLaunchContext extends org.gtk.gobject.Object {
      * <p>
      * It is guaranteed that this signal is followed by either a {@link AppLaunchContext}::launched or
      * {@link AppLaunchContext}::launch-failed signal.
+     * <p>
+     * Because a launch operation may involve spawning multiple instances of the
+     * target application, you should expect this signal to be emitted multiple
+     * times, one for each spawned instance.
      * @param handler The signal handler
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
@@ -268,7 +290,7 @@ public class AppLaunchContext extends org.gtk.gobject.Object {
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(AppLaunchContext.Callbacks.class, "signalAppLaunchContextLaunchStarted",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                     Interop.getScope()),
                 Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
@@ -285,7 +307,13 @@ public class AppLaunchContext extends org.gtk.gobject.Object {
     
     /**
      * The {@link AppLaunchContext}::launched signal is emitted when a {@link AppInfo} is successfully
-     * launched. The {@code platform_data} is an GVariant dictionary mapping
+     * launched.
+     * <p>
+     * Because a launch operation may involve spawning multiple instances of the
+     * target application, you should expect this signal to be emitted multiple
+     * times, one time for each spawned instance.
+     * <p>
+     * The {@code platform_data} is an GVariant dictionary mapping
      * strings to variants (ie {@code a{sv}}), which contains additional,
      * platform-specific data about this launch. On UNIX, at least the
      * {@code pid} and {@code startup-notification-id} keys will be present.
@@ -293,6 +321,11 @@ public class AppLaunchContext extends org.gtk.gobject.Object {
      * Since 2.72 the {@code pid} may be 0 if the process id wasn't known (for
      * example if the process was launched via D-Bus). The {@code pid} may not be
      * set at all in subsequent releases.
+     * <p>
+     * On Windows, {@code pid} is guaranteed to be valid only for the duration of the
+     * {@link AppLaunchContext}::launched signal emission; after the signal is emitted,
+     * GLib will call g_spawn_close_pid(). If you need to keep the {@link org.gtk.glib.Pid} after the
+     * signal has been emitted, then you can duplicate {@code pid} using {@code DuplicateHandle()}.
      * @param handler The signal handler
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
@@ -304,7 +337,7 @@ public class AppLaunchContext extends org.gtk.gobject.Object {
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(AppLaunchContext.Callbacks.class, "signalAppLaunchContextLaunched",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                     Interop.getScope()),
                 Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
@@ -313,48 +346,89 @@ public class AppLaunchContext extends org.gtk.gobject.Object {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gobject.Object.Build {
+        
+         /**
+         * A {@link AppLaunchContext.Build} object constructs a {@link AppLaunchContext} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link AppLaunchContext} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link AppLaunchContext} using {@link AppLaunchContext#castFrom}.
+         * @return A new instance of {@code AppLaunchContext} with the properties 
+         *         that were set in the Build object.
+         */
+        public AppLaunchContext construct() {
+            return AppLaunchContext.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    AppLaunchContext.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+    }
     
     private static class DowncallHandles {
         
         private static final MethodHandle g_app_launch_context_new = Interop.downcallHandle(
             "g_app_launch_context_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_app_launch_context_get_display = Interop.downcallHandle(
             "g_app_launch_context_get_display",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_app_launch_context_get_environment = Interop.downcallHandle(
             "g_app_launch_context_get_environment",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_app_launch_context_get_startup_notify_id = Interop.downcallHandle(
             "g_app_launch_context_get_startup_notify_id",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_app_launch_context_launch_failed = Interop.downcallHandle(
             "g_app_launch_context_launch_failed",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_app_launch_context_setenv = Interop.downcallHandle(
             "g_app_launch_context_setenv",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_app_launch_context_unsetenv = Interop.downcallHandle(
             "g_app_launch_context_unsetenv",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+            false
+        );
+        
+        private static final MethodHandle g_app_launch_context_get_type = Interop.downcallHandle(
+            "g_app_launch_context_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }
@@ -362,21 +436,21 @@ public class AppLaunchContext extends org.gtk.gobject.Object {
     private static class Callbacks {
         
         public static void signalAppLaunchContextLaunchFailed(MemoryAddress source, MemoryAddress startupNotifyId, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (AppLaunchContext.LaunchFailed) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new AppLaunchContext(source, Ownership.UNKNOWN), Interop.getStringFrom(startupNotifyId));
+            HANDLER.signalReceived(new AppLaunchContext(source, Ownership.NONE), Interop.getStringFrom(startupNotifyId));
         }
         
         public static void signalAppLaunchContextLaunchStarted(MemoryAddress source, MemoryAddress info, MemoryAddress platformData, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (AppLaunchContext.LaunchStarted) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new AppLaunchContext(source, Ownership.UNKNOWN), new org.gtk.gio.AppInfo.AppInfoImpl(info, Ownership.NONE), new org.gtk.glib.Variant(platformData, Ownership.NONE));
+            HANDLER.signalReceived(new AppLaunchContext(source, Ownership.NONE), new org.gtk.gio.AppInfo.AppInfoImpl(info, Ownership.NONE), new org.gtk.glib.Variant(platformData, Ownership.NONE));
         }
         
         public static void signalAppLaunchContextLaunched(MemoryAddress source, MemoryAddress info, MemoryAddress platformData, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (AppLaunchContext.Launched) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new AppLaunchContext(source, Ownership.UNKNOWN), new org.gtk.gio.AppInfo.AppInfoImpl(info, Ownership.NONE), new org.gtk.glib.Variant(platformData, Ownership.NONE));
+            HANDLER.signalReceived(new AppLaunchContext(source, Ownership.NONE), new org.gtk.gio.AppInfo.AppInfoImpl(info, Ownership.NONE), new org.gtk.glib.Variant(platformData, Ownership.NONE));
         }
     }
 }

@@ -12,7 +12,7 @@ import org.jetbrains.annotations.*;
  * {@code get_frame_size} non-{@code null}; either use the default implementation, or provide
  * a custom one.
  */
-public class EntryClass extends io.github.jwharm.javagi.ProxyBase {
+public class EntryClass extends Struct {
     
     static {
         Gtk.javagi$ensureInitialized();
@@ -20,11 +20,10 @@ public class EntryClass extends io.github.jwharm.javagi.ProxyBase {
     
     private static final java.lang.String C_TYPE_NAME = "GtkEntryClass";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gtk.WidgetClass.getMemoryLayout().withName("parent_class"),
         Interop.valueLayout.ADDRESS.withName("activate"),
-        MemoryLayout.paddingLayout(384),
-        MemoryLayout.sequenceLayout(8, ValueLayout.ADDRESS).withName("padding")
+        MemoryLayout.sequenceLayout(8, Interop.valueLayout.ADDRESS).withName("padding")
     ).withName(C_TYPE_NAME);
     
     /**
@@ -38,6 +37,10 @@ public class EntryClass extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link EntryClass}
+     * @return A new, uninitialized @{link EntryClass}
+     */
     public static EntryClass allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         EntryClass newInstance = new EntryClass(segment.address(), Ownership.NONE);
@@ -62,5 +65,59 @@ public class EntryClass extends io.github.jwharm.javagi.ProxyBase {
     @ApiStatus.Internal
     public EntryClass(Addressable address, Ownership ownership) {
         super(address, ownership);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private EntryClass struct;
+        
+         /**
+         * A {@link EntryClass.Build} object constructs a {@link EntryClass} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = EntryClass.allocate();
+        }
+        
+         /**
+         * Finish building the {@link EntryClass} struct.
+         * @return A new instance of {@code EntryClass} with the fields 
+         *         that were set in the Build object.
+         */
+        public EntryClass construct() {
+            return struct;
+        }
+        
+        /**
+         * The parent class.
+         * @param parent_class The value for the {@code parent_class} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setParentClass(org.gtk.gtk.WidgetClass parent_class) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parent_class == null ? MemoryAddress.NULL : parent_class.handle()));
+            return this;
+        }
+        
+        public Build setActivate(java.lang.foreign.MemoryAddress activate) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("activate"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (activate == null ? MemoryAddress.NULL : activate));
+            return this;
+        }
+        
+        public Build setPadding(java.lang.foreign.MemoryAddress[] padding) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("padding"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (padding == null ? MemoryAddress.NULL : Interop.allocateNativeArray(padding, false)));
+            return this;
+        }
     }
 }

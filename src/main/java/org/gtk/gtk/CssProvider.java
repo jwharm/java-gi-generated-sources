@@ -44,7 +44,7 @@ public class CssProvider extends org.gtk.gobject.Object implements org.gtk.gtk.S
     
     private static final java.lang.String C_TYPE_NAME = "GtkCssProvider";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gobject.Object.getMemoryLayout().withName("parent_instance")
     ).withName(C_TYPE_NAME);
     
@@ -89,7 +89,7 @@ public class CssProvider extends org.gtk.gobject.Object implements org.gtk.gtk.S
      * @throws ClassCastException If the GType is not derived from "GtkCssProvider", a ClassCastException will be thrown.
      */
     public static CssProvider castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkCssProvider"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), CssProvider.getType())) {
             return new CssProvider(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkCssProvider");
@@ -229,6 +229,20 @@ public class CssProvider extends org.gtk.gobject.Object implements org.gtk.gtk.S
         return Interop.getStringFrom(RESULT);
     }
     
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.gtk_css_provider_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+    
     @FunctionalInterface
     public interface ParsingError {
         void signalReceived(CssProvider source, @NotNull org.gtk.gtk.CssSection section, @NotNull org.gtk.glib.Error error);
@@ -259,7 +273,7 @@ public class CssProvider extends org.gtk.gobject.Object implements org.gtk.gtk.S
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(CssProvider.Callbacks.class, "signalCssProviderParsingError",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                     Interop.getScope()),
                 Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
@@ -268,48 +282,89 @@ public class CssProvider extends org.gtk.gobject.Object implements org.gtk.gtk.S
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gobject.Object.Build {
+        
+         /**
+         * A {@link CssProvider.Build} object constructs a {@link CssProvider} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link CssProvider} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link CssProvider} using {@link CssProvider#castFrom}.
+         * @return A new instance of {@code CssProvider} with the properties 
+         *         that were set in the Build object.
+         */
+        public CssProvider construct() {
+            return CssProvider.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    CssProvider.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+    }
     
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_css_provider_new = Interop.downcallHandle(
             "gtk_css_provider_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_css_provider_load_from_data = Interop.downcallHandle(
             "gtk_css_provider_load_from_data",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
             false
         );
         
         private static final MethodHandle gtk_css_provider_load_from_file = Interop.downcallHandle(
             "gtk_css_provider_load_from_file",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_css_provider_load_from_path = Interop.downcallHandle(
             "gtk_css_provider_load_from_path",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_css_provider_load_from_resource = Interop.downcallHandle(
             "gtk_css_provider_load_from_resource",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_css_provider_load_named = Interop.downcallHandle(
             "gtk_css_provider_load_named",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_css_provider_to_string = Interop.downcallHandle(
             "gtk_css_provider_to_string",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+            false
+        );
+        
+        private static final MethodHandle gtk_css_provider_get_type = Interop.downcallHandle(
+            "gtk_css_provider_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }
@@ -317,9 +372,9 @@ public class CssProvider extends org.gtk.gobject.Object implements org.gtk.gtk.S
     private static class Callbacks {
         
         public static void signalCssProviderParsingError(MemoryAddress source, MemoryAddress section, MemoryAddress error, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (CssProvider.ParsingError) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new CssProvider(source, Ownership.UNKNOWN), new org.gtk.gtk.CssSection(section, Ownership.NONE), new org.gtk.glib.Error(error, Ownership.NONE));
+            HANDLER.signalReceived(new CssProvider(source, Ownership.NONE), new org.gtk.gtk.CssSection(section, Ownership.NONE), new org.gtk.glib.Error(error, Ownership.NONE));
         }
     }
 }

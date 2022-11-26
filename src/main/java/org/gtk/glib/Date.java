@@ -18,7 +18,7 @@ import org.jetbrains.annotations.*;
  * becomes valid after you set it to a Julian day or you set a day, month,
  * and year.
  */
-public class Date extends io.github.jwharm.javagi.ProxyBase {
+public class Date extends Struct {
     
     static {
         GLib.javagi$ensureInitialized();
@@ -26,13 +26,13 @@ public class Date extends io.github.jwharm.javagi.ProxyBase {
     
     private static final java.lang.String C_TYPE_NAME = "GDate";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
-        ValueLayout.JAVA_INT.withName("julian_days"),
-        ValueLayout.JAVA_INT.withName("julian"),
-        ValueLayout.JAVA_INT.withName("dmy"),
-        ValueLayout.JAVA_INT.withName("day"),
-        ValueLayout.JAVA_INT.withName("month"),
-        ValueLayout.JAVA_INT.withName("year")
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
+        Interop.valueLayout.C_INT.withName("julian_days"),
+        Interop.valueLayout.C_INT.withName("julian"),
+        Interop.valueLayout.C_INT.withName("dmy"),
+        Interop.valueLayout.C_INT.withName("day"),
+        Interop.valueLayout.C_INT.withName("month"),
+        Interop.valueLayout.C_INT.withName("year")
     ).withName(C_TYPE_NAME);
     
     /**
@@ -46,6 +46,10 @@ public class Date extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link Date}
+     * @return A new, uninitialized @{link Date}
+     */
     public static Date allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         Date newInstance = new Date(segment.address(), Ownership.NONE);
@@ -853,7 +857,7 @@ public class Date extends io.github.jwharm.javagi.ProxyBase {
         try {
             DowncallHandles.g_date_to_struct_tm.invokeExact(
                     handle(),
-                    tm);
+                    (Addressable) tm);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1120,296 +1124,398 @@ public class Date extends io.github.jwharm.javagi.ProxyBase {
         
         private static final MethodHandle g_date_new = Interop.downcallHandle(
             "g_date_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_date_new_dmy = Interop.downcallHandle(
             "g_date_new_dmy",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_BYTE, ValueLayout.JAVA_INT, ValueLayout.JAVA_SHORT),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_BYTE, Interop.valueLayout.C_INT, Interop.valueLayout.C_SHORT),
             false
         );
         
         private static final MethodHandle g_date_new_julian = Interop.downcallHandle(
             "g_date_new_julian",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_date_add_days = Interop.downcallHandle(
             "g_date_add_days",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_date_add_months = Interop.downcallHandle(
             "g_date_add_months",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_date_add_years = Interop.downcallHandle(
             "g_date_add_years",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_date_clamp = Interop.downcallHandle(
             "g_date_clamp",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_date_clear = Interop.downcallHandle(
             "g_date_clear",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_date_compare = Interop.downcallHandle(
             "g_date_compare",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_date_copy = Interop.downcallHandle(
             "g_date_copy",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_date_days_between = Interop.downcallHandle(
             "g_date_days_between",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_date_free = Interop.downcallHandle(
             "g_date_free",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_date_get_day = Interop.downcallHandle(
             "g_date_get_day",
-            FunctionDescriptor.of(ValueLayout.JAVA_BYTE, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_BYTE, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_date_get_day_of_year = Interop.downcallHandle(
             "g_date_get_day_of_year",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_date_get_iso8601_week_of_year = Interop.downcallHandle(
             "g_date_get_iso8601_week_of_year",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_date_get_julian = Interop.downcallHandle(
             "g_date_get_julian",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_date_get_monday_week_of_year = Interop.downcallHandle(
             "g_date_get_monday_week_of_year",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_date_get_month = Interop.downcallHandle(
             "g_date_get_month",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_date_get_sunday_week_of_year = Interop.downcallHandle(
             "g_date_get_sunday_week_of_year",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_date_get_weekday = Interop.downcallHandle(
             "g_date_get_weekday",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_date_get_year = Interop.downcallHandle(
             "g_date_get_year",
-            FunctionDescriptor.of(ValueLayout.JAVA_SHORT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_SHORT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_date_is_first_of_month = Interop.downcallHandle(
             "g_date_is_first_of_month",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_date_is_last_of_month = Interop.downcallHandle(
             "g_date_is_last_of_month",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_date_order = Interop.downcallHandle(
             "g_date_order",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_date_set_day = Interop.downcallHandle(
             "g_date_set_day",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_BYTE),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_BYTE),
             false
         );
         
         private static final MethodHandle g_date_set_dmy = Interop.downcallHandle(
             "g_date_set_dmy",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_BYTE, ValueLayout.JAVA_INT, ValueLayout.JAVA_SHORT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_BYTE, Interop.valueLayout.C_INT, Interop.valueLayout.C_SHORT),
             false
         );
         
         private static final MethodHandle g_date_set_julian = Interop.downcallHandle(
             "g_date_set_julian",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_date_set_month = Interop.downcallHandle(
             "g_date_set_month",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_date_set_parse = Interop.downcallHandle(
             "g_date_set_parse",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_date_set_time = Interop.downcallHandle(
             "g_date_set_time",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_date_set_time_t = Interop.downcallHandle(
             "g_date_set_time_t",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
             false
         );
         
         private static final MethodHandle g_date_set_time_val = Interop.downcallHandle(
             "g_date_set_time_val",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_date_set_year = Interop.downcallHandle(
             "g_date_set_year",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_SHORT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_SHORT),
             false
         );
         
         private static final MethodHandle g_date_subtract_days = Interop.downcallHandle(
             "g_date_subtract_days",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_date_subtract_months = Interop.downcallHandle(
             "g_date_subtract_months",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_date_subtract_years = Interop.downcallHandle(
             "g_date_subtract_years",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_date_to_struct_tm = Interop.downcallHandle(
             "g_date_to_struct_tm",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_date_valid = Interop.downcallHandle(
             "g_date_valid",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_date_get_days_in_month = Interop.downcallHandle(
             "g_date_get_days_in_month",
-            FunctionDescriptor.of(ValueLayout.JAVA_BYTE, ValueLayout.JAVA_INT, ValueLayout.JAVA_SHORT),
+            FunctionDescriptor.of(Interop.valueLayout.C_BYTE, Interop.valueLayout.C_INT, Interop.valueLayout.C_SHORT),
             false
         );
         
         private static final MethodHandle g_date_get_monday_weeks_in_year = Interop.downcallHandle(
             "g_date_get_monday_weeks_in_year",
-            FunctionDescriptor.of(ValueLayout.JAVA_BYTE, ValueLayout.JAVA_SHORT),
+            FunctionDescriptor.of(Interop.valueLayout.C_BYTE, Interop.valueLayout.C_SHORT),
             false
         );
         
         private static final MethodHandle g_date_get_sunday_weeks_in_year = Interop.downcallHandle(
             "g_date_get_sunday_weeks_in_year",
-            FunctionDescriptor.of(ValueLayout.JAVA_BYTE, ValueLayout.JAVA_SHORT),
+            FunctionDescriptor.of(Interop.valueLayout.C_BYTE, Interop.valueLayout.C_SHORT),
             false
         );
         
         private static final MethodHandle g_date_is_leap_year = Interop.downcallHandle(
             "g_date_is_leap_year",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_SHORT),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.C_SHORT),
             false
         );
         
         private static final MethodHandle g_date_strftime = Interop.downcallHandle(
             "g_date_strftime",
-            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_date_valid_day = Interop.downcallHandle(
             "g_date_valid_day",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_BYTE),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.C_BYTE),
             false
         );
         
         private static final MethodHandle g_date_valid_dmy = Interop.downcallHandle(
             "g_date_valid_dmy",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_BYTE, ValueLayout.JAVA_INT, ValueLayout.JAVA_SHORT),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.C_BYTE, Interop.valueLayout.C_INT, Interop.valueLayout.C_SHORT),
             false
         );
         
         private static final MethodHandle g_date_valid_julian = Interop.downcallHandle(
             "g_date_valid_julian",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_date_valid_month = Interop.downcallHandle(
             "g_date_valid_month",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_date_valid_weekday = Interop.downcallHandle(
             "g_date_valid_weekday",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_date_valid_year = Interop.downcallHandle(
             "g_date_valid_year",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_SHORT),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.C_SHORT),
             false
         );
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private Date struct;
+        
+         /**
+         * A {@link Date.Build} object constructs a {@link Date} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = Date.allocate();
+        }
+        
+         /**
+         * Finish building the {@link Date} struct.
+         * @return A new instance of {@code Date} with the fields 
+         *         that were set in the Build object.
+         */
+        public Date construct() {
+            return struct;
+        }
+        
+        /**
+         * the Julian representation of the date
+         * @param julian_days The value for the {@code julian_days} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setJulianDays(int julian_days) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("julian_days"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), julian_days);
+            return this;
+        }
+        
+        /**
+         * this bit is set if {@code julian_days} is valid
+         * @param julian The value for the {@code julian} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setJulian(int julian) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("julian"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), julian);
+            return this;
+        }
+        
+        /**
+         * this is set if {@code day}, {@code month} and {@code year} are valid
+         * @param dmy The value for the {@code dmy} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setDmy(int dmy) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("dmy"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), dmy);
+            return this;
+        }
+        
+        /**
+         * the day of the day-month-year representation of the date,
+         *   as a number between 1 and 31
+         * @param day The value for the {@code day} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setDay(int day) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("day"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), day);
+            return this;
+        }
+        
+        /**
+         * the day of the day-month-year representation of the date,
+         *   as a number between 1 and 12
+         * @param month The value for the {@code month} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setMonth(int month) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("month"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), month);
+            return this;
+        }
+        
+        /**
+         * the day of the day-month-year representation of the date
+         * @param year The value for the {@code year} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setYear(int year) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("year"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), year);
+            return this;
+        }
     }
 }

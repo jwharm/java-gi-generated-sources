@@ -17,7 +17,7 @@ public class Font extends org.gtk.gobject.Object {
     
     private static final java.lang.String C_TYPE_NAME = "PangoFont";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gobject.Object.getMemoryLayout().withName("parent_instance")
     ).withName(C_TYPE_NAME);
     
@@ -62,7 +62,7 @@ public class Font extends org.gtk.gobject.Object {
      * @throws ClassCastException If the GType is not derived from "PangoFont", a ClassCastException will be thrown.
      */
     public static Font castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("PangoFont"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), Font.getType())) {
             return new Font(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of PangoFont");
@@ -153,10 +153,10 @@ public class Font extends org.gtk.gobject.Object {
      */
     public void getFeatures(@NotNull Out<org.harfbuzz.FeatureT[]> features, Out<Integer> len, Out<Integer> numFeatures) {
         java.util.Objects.requireNonNull(features, "Parameter 'features' must not be null");
+        MemorySegment featuresPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
+        MemorySegment lenPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         java.util.Objects.requireNonNull(numFeatures, "Parameter 'numFeatures' must not be null");
-        MemorySegment featuresPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        MemorySegment lenPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
-        MemorySegment numFeaturesPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
+        MemorySegment numFeaturesPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         try {
             DowncallHandles.pango_font_get_features.invokeExact(
                     handle(),
@@ -166,11 +166,11 @@ public class Font extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        len.set(lenPOINTER.get(ValueLayout.JAVA_INT, 0));
-        numFeatures.set(numFeaturesPOINTER.get(ValueLayout.JAVA_INT, 0));
+        len.set(lenPOINTER.get(Interop.valueLayout.C_INT, 0));
+        numFeatures.set(numFeaturesPOINTER.get(Interop.valueLayout.C_INT, 0));
         org.harfbuzz.FeatureT[] featuresARRAY = new org.harfbuzz.FeatureT[len.get().intValue()];
         for (int I = 0; I < len.get().intValue(); I++) {
-            var OBJ = featuresPOINTER.get(ValueLayout.ADDRESS, I);
+            var OBJ = featuresPOINTER.get(Interop.valueLayout.ADDRESS, I);
             featuresARRAY[I] = new org.harfbuzz.FeatureT(OBJ, Ownership.NONE);
         }
         features.set(featuresARRAY);
@@ -343,6 +343,20 @@ public class Font extends org.gtk.gobject.Object {
     }
     
     /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.pango_font_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+    
+    /**
      * Frees an array of font descriptions.
      * @param descs a pointer
      *   to an array of {@code PangoFontDescription}, may be {@code null}
@@ -374,7 +388,7 @@ public class Font extends org.gtk.gobject.Object {
     public static @Nullable org.pango.Font deserialize(@NotNull org.pango.Context context, @NotNull org.gtk.glib.Bytes bytes) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(context, "Parameter 'context' must not be null");
         java.util.Objects.requireNonNull(bytes, "Parameter 'bytes' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.pango_font_deserialize.invokeExact(
@@ -389,90 +403,131 @@ public class Font extends org.gtk.gobject.Object {
         }
         return new org.pango.Font(RESULT, Ownership.FULL);
     }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gobject.Object.Build {
+        
+         /**
+         * A {@link Font.Build} object constructs a {@link Font} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link Font} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link Font} using {@link Font#castFrom}.
+         * @return A new instance of {@code Font} with the properties 
+         *         that were set in the Build object.
+         */
+        public Font construct() {
+            return Font.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    Font.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+    }
     
     private static class DowncallHandles {
         
         private static final MethodHandle pango_font_describe = Interop.downcallHandle(
             "pango_font_describe",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle pango_font_describe_with_absolute_size = Interop.downcallHandle(
             "pango_font_describe_with_absolute_size",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle pango_font_get_coverage = Interop.downcallHandle(
             "pango_font_get_coverage",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle pango_font_get_face = Interop.downcallHandle(
             "pango_font_get_face",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle pango_font_get_features = Interop.downcallHandle(
             "pango_font_get_features",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle pango_font_get_font_map = Interop.downcallHandle(
             "pango_font_get_font_map",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle pango_font_get_glyph_extents = Interop.downcallHandle(
             "pango_font_get_glyph_extents",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle pango_font_get_hb_font = Interop.downcallHandle(
             "pango_font_get_hb_font",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle pango_font_get_languages = Interop.downcallHandle(
             "pango_font_get_languages",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle pango_font_get_metrics = Interop.downcallHandle(
             "pango_font_get_metrics",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle pango_font_has_char = Interop.downcallHandle(
             "pango_font_has_char",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle pango_font_serialize = Interop.downcallHandle(
             "pango_font_serialize",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+            false
+        );
+        
+        private static final MethodHandle pango_font_get_type = Interop.downcallHandle(
+            "pango_font_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
         
         private static final MethodHandle pango_font_descriptions_free = Interop.downcallHandle(
             "pango_font_descriptions_free",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle pango_font_deserialize = Interop.downcallHandle(
             "pango_font_deserialize",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
     }

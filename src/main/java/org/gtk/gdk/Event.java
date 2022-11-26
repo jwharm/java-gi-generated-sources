@@ -53,7 +53,7 @@ public class Event extends org.gtk.gobject.Object {
      * @throws ClassCastException If the GType is not derived from "GdkEvent", a ClassCastException will be thrown.
      */
     public static Event castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GdkEvent"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), Event.getType())) {
             return new Event(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GdkEvent");
@@ -76,7 +76,7 @@ public class Event extends org.gtk.gobject.Object {
     public boolean GetAngle(@NotNull org.gtk.gdk.Event event2, Out<Double> angle) {
         java.util.Objects.requireNonNull(event2, "Parameter 'event2' must not be null");
         java.util.Objects.requireNonNull(angle, "Parameter 'angle' must not be null");
-        MemorySegment anglePOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_DOUBLE);
+        MemorySegment anglePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_DOUBLE);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gdk_events_get_angle.invokeExact(
@@ -86,7 +86,7 @@ public class Event extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        angle.set(anglePOINTER.get(ValueLayout.JAVA_DOUBLE, 0));
+        angle.set(anglePOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
         return RESULT != 0;
     }
     
@@ -103,9 +103,9 @@ public class Event extends org.gtk.gobject.Object {
     public boolean GetCenter(@NotNull org.gtk.gdk.Event event2, Out<Double> x, Out<Double> y) {
         java.util.Objects.requireNonNull(event2, "Parameter 'event2' must not be null");
         java.util.Objects.requireNonNull(x, "Parameter 'x' must not be null");
+        MemorySegment xPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_DOUBLE);
         java.util.Objects.requireNonNull(y, "Parameter 'y' must not be null");
-        MemorySegment xPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_DOUBLE);
-        MemorySegment yPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_DOUBLE);
+        MemorySegment yPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_DOUBLE);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gdk_events_get_center.invokeExact(
@@ -116,8 +116,8 @@ public class Event extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        x.set(xPOINTER.get(ValueLayout.JAVA_DOUBLE, 0));
-        y.set(yPOINTER.get(ValueLayout.JAVA_DOUBLE, 0));
+        x.set(xPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
+        y.set(yPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
         return RESULT != 0;
     }
     
@@ -133,7 +133,7 @@ public class Event extends org.gtk.gobject.Object {
     public boolean GetDistance(@NotNull org.gtk.gdk.Event event2, Out<Double> distance) {
         java.util.Objects.requireNonNull(event2, "Parameter 'event2' must not be null");
         java.util.Objects.requireNonNull(distance, "Parameter 'distance' must not be null");
-        MemorySegment distancePOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_DOUBLE);
+        MemorySegment distancePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_DOUBLE);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gdk_events_get_distance.invokeExact(
@@ -143,7 +143,7 @@ public class Event extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        distance.set(distancePOINTER.get(ValueLayout.JAVA_DOUBLE, 0));
+        distance.set(distancePOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
         return RESULT != 0;
     }
     
@@ -158,9 +158,9 @@ public class Event extends org.gtk.gobject.Object {
      */
     public boolean getAxes(@NotNull Out<double[]> axes, Out<Integer> nAxes) {
         java.util.Objects.requireNonNull(axes, "Parameter 'axes' must not be null");
+        MemorySegment axesPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         java.util.Objects.requireNonNull(nAxes, "Parameter 'nAxes' must not be null");
-        MemorySegment axesPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        MemorySegment nAxesPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
+        MemorySegment nAxesPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gdk_event_get_axes.invokeExact(
@@ -170,8 +170,8 @@ public class Event extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        nAxes.set(nAxesPOINTER.get(ValueLayout.JAVA_INT, 0));
-        axes.set(MemorySegment.ofAddress(axesPOINTER.get(ValueLayout.ADDRESS, 0), nAxes.get().intValue() * ValueLayout.JAVA_DOUBLE.byteSize(), Interop.getScope()).toArray(ValueLayout.JAVA_DOUBLE));
+        nAxes.set(nAxesPOINTER.get(Interop.valueLayout.C_INT, 0));
+        axes.set(MemorySegment.ofAddress(axesPOINTER.get(Interop.valueLayout.ADDRESS, 0), nAxes.get().intValue() * Interop.valueLayout.C_DOUBLE.byteSize(), Interop.getScope()).toArray(Interop.valueLayout.C_DOUBLE));
         return RESULT != 0;
     }
     
@@ -188,7 +188,7 @@ public class Event extends org.gtk.gobject.Object {
     public boolean getAxis(@NotNull org.gtk.gdk.AxisUse axisUse, Out<Double> value) {
         java.util.Objects.requireNonNull(axisUse, "Parameter 'axisUse' must not be null");
         java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
-        MemorySegment valuePOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_DOUBLE);
+        MemorySegment valuePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_DOUBLE);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gdk_event_get_axis.invokeExact(
@@ -198,7 +198,7 @@ public class Event extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        value.set(valuePOINTER.get(ValueLayout.JAVA_DOUBLE, 0));
+        value.set(valuePOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
         return RESULT != 0;
     }
     
@@ -305,7 +305,7 @@ public class Event extends org.gtk.gobject.Object {
      */
     public @Nullable org.gtk.gdk.TimeCoord[] getHistory(Out<Integer> outNCoords) {
         java.util.Objects.requireNonNull(outNCoords, "Parameter 'outNCoords' must not be null");
-        MemorySegment outNCoordsPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
+        MemorySegment outNCoordsPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gdk_event_get_history.invokeExact(
@@ -314,11 +314,11 @@ public class Event extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        outNCoords.set(outNCoordsPOINTER.get(ValueLayout.JAVA_INT, 0));
+        outNCoords.set(outNCoordsPOINTER.get(Interop.valueLayout.C_INT, 0));
         if (RESULT.equals(MemoryAddress.NULL)) return null;
         org.gtk.gdk.TimeCoord[] resultARRAY = new org.gtk.gdk.TimeCoord[outNCoords.get().intValue()];
         for (int I = 0; I < outNCoords.get().intValue(); I++) {
-            var OBJ = RESULT.get(ValueLayout.ADDRESS, I);
+            var OBJ = RESULT.get(Interop.valueLayout.ADDRESS, I);
             resultARRAY[I] = new org.gtk.gdk.TimeCoord(OBJ, Ownership.CONTAINER);
         }
         return resultARRAY;
@@ -363,9 +363,9 @@ public class Event extends org.gtk.gobject.Object {
      */
     public boolean getPosition(Out<Double> x, Out<Double> y) {
         java.util.Objects.requireNonNull(x, "Parameter 'x' must not be null");
+        MemorySegment xPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_DOUBLE);
         java.util.Objects.requireNonNull(y, "Parameter 'y' must not be null");
-        MemorySegment xPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_DOUBLE);
-        MemorySegment yPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_DOUBLE);
+        MemorySegment yPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_DOUBLE);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gdk_event_get_position.invokeExact(
@@ -375,8 +375,8 @@ public class Event extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        x.set(xPOINTER.get(ValueLayout.JAVA_DOUBLE, 0));
-        y.set(yPOINTER.get(ValueLayout.JAVA_DOUBLE, 0));
+        x.set(xPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
+        y.set(yPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
         return RESULT != 0;
     }
     
@@ -479,125 +479,180 @@ public class Event extends org.gtk.gobject.Object {
         this.yieldOwnership();
     }
     
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.gdk_event_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends io.github.jwharm.javagi.Build {
+        
+         /**
+         * A {@link Event.Build} object constructs a {@link Event} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link Event} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link Event} using {@link Event#castFrom}.
+         * @return A new instance of {@code Event} with the properties 
+         *         that were set in the Build object.
+         */
+        public Event construct() {
+            return Event.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    Event.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+    }
+    
     private static class DowncallHandles {
         
         private static final MethodHandle gdk_events_get_angle = Interop.downcallHandle(
             "gdk_events_get_angle",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_events_get_center = Interop.downcallHandle(
             "gdk_events_get_center",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_events_get_distance = Interop.downcallHandle(
             "gdk_events_get_distance",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_event_get_axes = Interop.downcallHandle(
             "gdk_event_get_axes",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_event_get_axis = Interop.downcallHandle(
             "gdk_event_get_axis",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_event_get_device = Interop.downcallHandle(
             "gdk_event_get_device",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_event_get_device_tool = Interop.downcallHandle(
             "gdk_event_get_device_tool",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_event_get_display = Interop.downcallHandle(
             "gdk_event_get_display",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_event_get_event_sequence = Interop.downcallHandle(
             "gdk_event_get_event_sequence",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_event_get_event_type = Interop.downcallHandle(
             "gdk_event_get_event_type",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_event_get_history = Interop.downcallHandle(
             "gdk_event_get_history",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_event_get_modifier_state = Interop.downcallHandle(
             "gdk_event_get_modifier_state",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_event_get_pointer_emulated = Interop.downcallHandle(
             "gdk_event_get_pointer_emulated",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_event_get_position = Interop.downcallHandle(
             "gdk_event_get_position",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_event_get_seat = Interop.downcallHandle(
             "gdk_event_get_seat",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_event_get_surface = Interop.downcallHandle(
             "gdk_event_get_surface",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_event_get_time = Interop.downcallHandle(
             "gdk_event_get_time",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_event_ref = Interop.downcallHandle(
             "gdk_event_ref",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_event_triggers_context_menu = Interop.downcallHandle(
             "gdk_event_triggers_context_menu",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_event_unref = Interop.downcallHandle(
             "gdk_event_unref",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+            false
+        );
+        
+        private static final MethodHandle gdk_event_get_type = Interop.downcallHandle(
+            "gdk_event_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }

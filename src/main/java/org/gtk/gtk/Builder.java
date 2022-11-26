@@ -224,7 +224,7 @@ public class Builder extends org.gtk.gobject.Object {
      * @throws ClassCastException If the GType is not derived from "GtkBuilder", a ClassCastException will be thrown.
      */
     public static Builder castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkBuilder"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), Builder.getType())) {
             return new Builder(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkBuilder");
@@ -357,7 +357,7 @@ public class Builder extends org.gtk.gobject.Object {
      */
     public boolean addFromFile(@NotNull java.lang.String filename) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(filename, "Parameter 'filename' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_builder_add_from_file.invokeExact(
@@ -395,7 +395,7 @@ public class Builder extends org.gtk.gobject.Object {
      */
     public boolean addFromResource(@NotNull java.lang.String resourcePath) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(resourcePath, "Parameter 'resourcePath' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_builder_add_from_resource.invokeExact(
@@ -434,7 +434,7 @@ public class Builder extends org.gtk.gobject.Object {
      */
     public boolean addFromString(@NotNull java.lang.String buffer, long length) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_builder_add_from_string.invokeExact(
@@ -471,7 +471,7 @@ public class Builder extends org.gtk.gobject.Object {
     public boolean addObjectsFromFile(@NotNull java.lang.String filename, @NotNull java.lang.String[] objectIds) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(filename, "Parameter 'filename' must not be null");
         java.util.Objects.requireNonNull(objectIds, "Parameter 'objectIds' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_builder_add_objects_from_file.invokeExact(
@@ -508,7 +508,7 @@ public class Builder extends org.gtk.gobject.Object {
     public boolean addObjectsFromResource(@NotNull java.lang.String resourcePath, @NotNull java.lang.String[] objectIds) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(resourcePath, "Parameter 'resourcePath' must not be null");
         java.util.Objects.requireNonNull(objectIds, "Parameter 'objectIds' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_builder_add_objects_from_resource.invokeExact(
@@ -545,7 +545,7 @@ public class Builder extends org.gtk.gobject.Object {
     public boolean addObjectsFromString(@NotNull java.lang.String buffer, long length, @NotNull java.lang.String[] objectIds) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
         java.util.Objects.requireNonNull(objectIds, "Parameter 'objectIds' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_builder_add_objects_from_string.invokeExact(
@@ -580,7 +580,7 @@ public class Builder extends org.gtk.gobject.Object {
     public @Nullable org.gtk.gobject.Closure createClosure(@NotNull java.lang.String functionName, @NotNull org.gtk.gtk.BuilderClosureFlags flags, @Nullable org.gtk.gobject.Object object) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(functionName, "Parameter 'functionName' must not be null");
         java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_builder_create_closure.invokeExact(
@@ -601,6 +601,11 @@ public class Builder extends org.gtk.gobject.Object {
     /**
      * Add {@code object} to the {@code builder} object pool so it can be
      * referenced just like any other object built by builder.
+     * <p>
+     * Only a single object may be added using {@code name}. However,
+     * it is not an error to expose the same object under multiple
+     * names. {@code gtk_builder_get_object()} may be used to determine
+     * if an object has already been added with {@code name}.
      * @param name the name of the object exposed to the builder
      * @param object the object to expose
      */
@@ -621,8 +626,8 @@ public class Builder extends org.gtk.gobject.Object {
      * Main private entry point for building composite components
      * from template XML.
      * <p>
-     * This is exported purely to let {@code gtk-builder-tool} validate
-     * templates, applications have no need to call this function.
+     * Most likely you do not need to call this function in applications as
+     * templates are handled by {@code GtkWidget}.
      * @param object the object that is being extended
      * @param templateType the type that the template is for
      * @param buffer the string to parse
@@ -634,7 +639,7 @@ public class Builder extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(object, "Parameter 'object' must not be null");
         java.util.Objects.requireNonNull(templateType, "Parameter 'templateType' must not be null");
         java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_builder_extend_with_template.invokeExact(
@@ -837,7 +842,7 @@ public class Builder extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(pspec, "Parameter 'pspec' must not be null");
         java.util.Objects.requireNonNull(string, "Parameter 'string' must not be null");
         java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_builder_value_from_string.invokeExact(
@@ -876,7 +881,7 @@ public class Builder extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(type, "Parameter 'type' must not be null");
         java.util.Objects.requireNonNull(string, "Parameter 'string' must not be null");
         java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_builder_value_from_string_type.invokeExact(
@@ -894,149 +899,241 @@ public class Builder extends org.gtk.gobject.Object {
         return RESULT != 0;
     }
     
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.gtk_builder_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gobject.Object.Build {
+        
+         /**
+         * A {@link Builder.Build} object constructs a {@link Builder} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link Builder} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link Builder} using {@link Builder#castFrom}.
+         * @return A new instance of {@code Builder} with the properties 
+         *         that were set in the Build object.
+         */
+        public Builder construct() {
+            return Builder.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    Builder.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+        
+        /**
+         * The object the builder is evaluating for.
+         * @param currentObject The value for the {@code current-object} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setCurrentObject(org.gtk.gobject.Object currentObject) {
+            names.add("current-object");
+            values.add(org.gtk.gobject.Value.create(currentObject));
+            return this;
+        }
+        
+        /**
+         * The scope the builder is operating in
+         * @param scope The value for the {@code scope} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setScope(org.gtk.gtk.BuilderScope scope) {
+            names.add("scope");
+            values.add(org.gtk.gobject.Value.create(scope));
+            return this;
+        }
+        
+        /**
+         * The translation domain used when translating property values that
+         * have been marked as translatable.
+         * <p>
+         * If the translation domain is {@code null}, {@code GtkBuilder} uses gettext(),
+         * otherwise g_dgettext().
+         * @param translationDomain The value for the {@code translation-domain} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setTranslationDomain(java.lang.String translationDomain) {
+            names.add("translation-domain");
+            values.add(org.gtk.gobject.Value.create(translationDomain));
+            return this;
+        }
+    }
+    
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_builder_new = Interop.downcallHandle(
             "gtk_builder_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_builder_new_from_file = Interop.downcallHandle(
             "gtk_builder_new_from_file",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_builder_new_from_resource = Interop.downcallHandle(
             "gtk_builder_new_from_resource",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_builder_new_from_string = Interop.downcallHandle(
             "gtk_builder_new_from_string",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
             false
         );
         
         private static final MethodHandle gtk_builder_add_from_file = Interop.downcallHandle(
             "gtk_builder_add_from_file",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_builder_add_from_resource = Interop.downcallHandle(
             "gtk_builder_add_from_resource",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_builder_add_from_string = Interop.downcallHandle(
             "gtk_builder_add_from_string",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_builder_add_objects_from_file = Interop.downcallHandle(
             "gtk_builder_add_objects_from_file",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_builder_add_objects_from_resource = Interop.downcallHandle(
             "gtk_builder_add_objects_from_resource",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_builder_add_objects_from_string = Interop.downcallHandle(
             "gtk_builder_add_objects_from_string",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_builder_create_closure = Interop.downcallHandle(
             "gtk_builder_create_closure",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_builder_expose_object = Interop.downcallHandle(
             "gtk_builder_expose_object",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_builder_extend_with_template = Interop.downcallHandle(
             "gtk_builder_extend_with_template",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_builder_get_current_object = Interop.downcallHandle(
             "gtk_builder_get_current_object",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_builder_get_object = Interop.downcallHandle(
             "gtk_builder_get_object",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_builder_get_objects = Interop.downcallHandle(
             "gtk_builder_get_objects",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_builder_get_scope = Interop.downcallHandle(
             "gtk_builder_get_scope",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_builder_get_translation_domain = Interop.downcallHandle(
             "gtk_builder_get_translation_domain",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_builder_get_type_from_name = Interop.downcallHandle(
             "gtk_builder_get_type_from_name",
-            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_builder_set_current_object = Interop.downcallHandle(
             "gtk_builder_set_current_object",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_builder_set_scope = Interop.downcallHandle(
             "gtk_builder_set_scope",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_builder_set_translation_domain = Interop.downcallHandle(
             "gtk_builder_set_translation_domain",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_builder_value_from_string = Interop.downcallHandle(
             "gtk_builder_value_from_string",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_builder_value_from_string_type = Interop.downcallHandle(
             "gtk_builder_value_from_string_type",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+            false
+        );
+        
+        private static final MethodHandle gtk_builder_get_type = Interop.downcallHandle(
+            "gtk_builder_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }

@@ -93,7 +93,7 @@ public class GLContext extends org.gtk.gdk.DrawContext {
      * @throws ClassCastException If the GType is not derived from "GdkGLContext", a ClassCastException will be thrown.
      */
     public static GLContext castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GdkGLContext"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), GLContext.getType())) {
             return new GLContext(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GdkGLContext");
@@ -182,15 +182,18 @@ public class GLContext extends org.gtk.gdk.DrawContext {
     }
     
     /**
-     * Retrieves required OpenGL version.
+     * Retrieves required OpenGL version set as a requirement for the {@code context}
+     * realization. It will not change even if a greater OpenGL version is supported
+     * and used after the {@code context} is realized. See
+     * {@link GLContext#getVersion} for the real version in use.
      * <p>
      * See {@link GLContext#setRequiredVersion}.
      * @param major return location for the major version to request
      * @param minor return location for the minor version to request
      */
     public void getRequiredVersion(Out<Integer> major, Out<Integer> minor) {
-        MemorySegment majorPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
-        MemorySegment minorPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
+        MemorySegment majorPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
+        MemorySegment minorPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         try {
             DowncallHandles.gdk_gl_context_get_required_version.invokeExact(
                     handle(),
@@ -199,8 +202,8 @@ public class GLContext extends org.gtk.gdk.DrawContext {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        if (major != null) major.set(majorPOINTER.get(ValueLayout.JAVA_INT, 0));
-        if (minor != null) minor.set(minorPOINTER.get(ValueLayout.JAVA_INT, 0));
+        if (major != null) major.set(majorPOINTER.get(Interop.valueLayout.C_INT, 0));
+        if (minor != null) minor.set(minorPOINTER.get(Interop.valueLayout.C_INT, 0));
     }
     
     /**
@@ -241,7 +244,9 @@ public class GLContext extends org.gtk.gdk.DrawContext {
     
     /**
      * Checks whether the {@code context} is using an OpenGL or OpenGL ES profile.
-     * @return {@code true} if the {@code GdkGLContext} is using an OpenGL ES profile
+     * @return {@code true} if the {@code GdkGLContext} is using an OpenGL ES profile;
+     * {@code false} if other profile is in use of if the {@code context} has not yet
+     * been realized.
      */
     public boolean getUseEs() {
         int RESULT;
@@ -258,14 +263,17 @@ public class GLContext extends org.gtk.gdk.DrawContext {
      * Retrieves the OpenGL version of the {@code context}.
      * <p>
      * The {@code context} must be realized prior to calling this function.
+     * <p>
+     * If the {@code context} has never been made current, the version cannot
+     * be known and it will return 0 for both {@code major} and {@code minor}.
      * @param major return location for the major version
      * @param minor return location for the minor version
      */
     public void getVersion(Out<Integer> major, Out<Integer> minor) {
         java.util.Objects.requireNonNull(major, "Parameter 'major' must not be null");
+        MemorySegment majorPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         java.util.Objects.requireNonNull(minor, "Parameter 'minor' must not be null");
-        MemorySegment majorPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
-        MemorySegment minorPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
+        MemorySegment minorPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         try {
             DowncallHandles.gdk_gl_context_get_version.invokeExact(
                     handle(),
@@ -274,8 +282,8 @@ public class GLContext extends org.gtk.gdk.DrawContext {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        major.set(majorPOINTER.get(ValueLayout.JAVA_INT, 0));
-        minor.set(minorPOINTER.get(ValueLayout.JAVA_INT, 0));
+        major.set(majorPOINTER.get(Interop.valueLayout.C_INT, 0));
+        minor.set(minorPOINTER.get(Interop.valueLayout.C_INT, 0));
     }
     
     /**
@@ -357,7 +365,7 @@ public class GLContext extends org.gtk.gdk.DrawContext {
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public boolean realize() throws io.github.jwharm.javagi.GErrorException {
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gdk_gl_context_realize.invokeExact(
@@ -440,7 +448,10 @@ public class GLContext extends org.gtk.gdk.DrawContext {
      * <p>
      * Setting {@code major} and {@code minor} to zero will use the default values.
      * <p>
-     * The {@code GdkGLContext} must not be realized or made current prior to calling
+     * Setting {@code major} and {@code minor} lower than the minimum versions required
+     * by GTK will result in the context choosing the minimum version.
+     * <p>
+     * The {@code context} must not be realized or made current prior to calling
      * this function.
      * @param major the major version to request
      * @param minor the minor version to request
@@ -484,6 +495,20 @@ public class GLContext extends org.gtk.gdk.DrawContext {
     }
     
     /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.gdk_gl_context_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+    
+    /**
      * Clears the current {@code GdkGLContext}.
      * <p>
      * Any OpenGL call after this function returns will be ignored
@@ -510,120 +535,197 @@ public class GLContext extends org.gtk.gdk.DrawContext {
         }
         return new org.gtk.gdk.GLContext(RESULT, Ownership.NONE);
     }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gdk.DrawContext.Build {
+        
+         /**
+         * A {@link GLContext.Build} object constructs a {@link GLContext} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link GLContext} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link GLContext} using {@link GLContext#castFrom}.
+         * @return A new instance of {@code GLContext} with the properties 
+         *         that were set in the Build object.
+         */
+        public GLContext construct() {
+            return GLContext.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    GLContext.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+        
+        /**
+         * The allowed APIs.
+         * @param allowedApis The value for the {@code allowed-apis} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setAllowedApis(org.gtk.gdk.GLAPI allowedApis) {
+            names.add("allowed-apis");
+            values.add(org.gtk.gobject.Value.create(allowedApis));
+            return this;
+        }
+        
+        /**
+         * The API currently in use.
+         * @param api The value for the {@code api} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setApi(org.gtk.gdk.GLAPI api) {
+            names.add("api");
+            values.add(org.gtk.gobject.Value.create(api));
+            return this;
+        }
+        
+        /**
+         * Always {@code null}
+         * <p>
+         * As many contexts can share data now and no single shared context exists
+         * anymore, this function has been deprecated and now always returns {@code null}.
+         * @param sharedContext The value for the {@code shared-context} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setSharedContext(org.gtk.gdk.GLContext sharedContext) {
+            names.add("shared-context");
+            values.add(org.gtk.gobject.Value.create(sharedContext));
+            return this;
+        }
+    }
     
     private static class DowncallHandles {
         
         private static final MethodHandle gdk_gl_context_get_allowed_apis = Interop.downcallHandle(
             "gdk_gl_context_get_allowed_apis",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_gl_context_get_api = Interop.downcallHandle(
             "gdk_gl_context_get_api",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_gl_context_get_debug_enabled = Interop.downcallHandle(
             "gdk_gl_context_get_debug_enabled",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_gl_context_get_display = Interop.downcallHandle(
             "gdk_gl_context_get_display",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_gl_context_get_forward_compatible = Interop.downcallHandle(
             "gdk_gl_context_get_forward_compatible",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_gl_context_get_required_version = Interop.downcallHandle(
             "gdk_gl_context_get_required_version",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_gl_context_get_shared_context = Interop.downcallHandle(
             "gdk_gl_context_get_shared_context",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_gl_context_get_surface = Interop.downcallHandle(
             "gdk_gl_context_get_surface",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_gl_context_get_use_es = Interop.downcallHandle(
             "gdk_gl_context_get_use_es",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_gl_context_get_version = Interop.downcallHandle(
             "gdk_gl_context_get_version",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_gl_context_is_legacy = Interop.downcallHandle(
             "gdk_gl_context_is_legacy",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_gl_context_is_shared = Interop.downcallHandle(
             "gdk_gl_context_is_shared",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_gl_context_make_current = Interop.downcallHandle(
             "gdk_gl_context_make_current",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_gl_context_realize = Interop.downcallHandle(
             "gdk_gl_context_realize",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_gl_context_set_allowed_apis = Interop.downcallHandle(
             "gdk_gl_context_set_allowed_apis",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gdk_gl_context_set_debug_enabled = Interop.downcallHandle(
             "gdk_gl_context_set_debug_enabled",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gdk_gl_context_set_forward_compatible = Interop.downcallHandle(
             "gdk_gl_context_set_forward_compatible",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gdk_gl_context_set_required_version = Interop.downcallHandle(
             "gdk_gl_context_set_required_version",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gdk_gl_context_set_use_es = Interop.downcallHandle(
             "gdk_gl_context_set_use_es",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+            false
+        );
+        
+        private static final MethodHandle gdk_gl_context_get_type = Interop.downcallHandle(
+            "gdk_gl_context_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
         
@@ -635,7 +737,7 @@ public class GLContext extends org.gtk.gdk.DrawContext {
         
         private static final MethodHandle gdk_gl_context_get_current = Interop.downcallHandle(
             "gdk_gl_context_get_current",
-            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
             false
         );
     }

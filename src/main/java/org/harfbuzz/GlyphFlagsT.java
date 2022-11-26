@@ -62,7 +62,7 @@ public class GlyphFlagsT extends io.github.jwharm.javagi.Bitfield {
      * 				   from there, and repeat.
      * 				   At the start of next line a similar algorithm can
      * 				   be implemented. That is: 1. Iterate forward from
-     * 				   the line-break position untill the first cluster
+     * 				   the line-break position until the first cluster
      * 				   start position that is NOT unsafe-to-concat, 2.
      * 				   shape the segment from beginning of the line to
      * 				   that position, 3. check whether the resulting
@@ -91,9 +91,22 @@ public class GlyphFlagsT extends io.github.jwharm.javagi.Bitfield {
     public static final GlyphFlagsT UNSAFE_TO_CONCAT = new GlyphFlagsT(2);
     
     /**
+     * In scripts that use elongation (Arabic,
+     * 				   Mongolian, Syriac, etc.), this flag signifies
+     * 				   that it is safe to insert a U+0640 TATWEEL
+     * 				   character before this cluster for elongation.
+     * 				   This flag does not determine the
+     * 				   script-specific elongation places, but only
+     * 				   when it is safe to do the elongation without
+     * 				   interrupting text shaping.
+     * 				   Since: 5.1.0
+     */
+    public static final GlyphFlagsT SAFE_TO_INSERT_TATWEEL = new GlyphFlagsT(4);
+    
+    /**
      * All the currently defined flags.
      */
-    public static final GlyphFlagsT DEFINED = new GlyphFlagsT(3);
+    public static final GlyphFlagsT DEFINED = new GlyphFlagsT(7);
     
     public GlyphFlagsT(int value) {
         super(value);

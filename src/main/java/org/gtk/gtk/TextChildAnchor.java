@@ -19,7 +19,7 @@ public class TextChildAnchor extends org.gtk.gobject.Object {
     
     private static final java.lang.String C_TYPE_NAME = "GtkTextChildAnchor";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gobject.Object.getMemoryLayout().withName("parent_instance"),
         Interop.valueLayout.ADDRESS.withName("segment")
     ).withName(C_TYPE_NAME);
@@ -65,7 +65,7 @@ public class TextChildAnchor extends org.gtk.gobject.Object {
      * @throws ClassCastException If the GType is not derived from "GtkTextChildAnchor", a ClassCastException will be thrown.
      */
     public static TextChildAnchor castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkTextChildAnchor"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), TextChildAnchor.getType())) {
             return new TextChildAnchor(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkTextChildAnchor");
@@ -149,7 +149,7 @@ public class TextChildAnchor extends org.gtk.gobject.Object {
      */
     public @NotNull org.gtk.gtk.Widget[] getWidgets(Out<Integer> outLen) {
         java.util.Objects.requireNonNull(outLen, "Parameter 'outLen' must not be null");
-        MemorySegment outLenPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
+        MemorySegment outLenPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_text_child_anchor_get_widgets.invokeExact(
@@ -158,38 +158,93 @@ public class TextChildAnchor extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        outLen.set(outLenPOINTER.get(ValueLayout.JAVA_INT, 0));
+        outLen.set(outLenPOINTER.get(Interop.valueLayout.C_INT, 0));
         org.gtk.gtk.Widget[] resultARRAY = new org.gtk.gtk.Widget[outLen.get().intValue()];
         for (int I = 0; I < outLen.get().intValue(); I++) {
-            var OBJ = RESULT.get(ValueLayout.ADDRESS, I);
+            var OBJ = RESULT.get(Interop.valueLayout.ADDRESS, I);
             resultARRAY[I] = new org.gtk.gtk.Widget(OBJ, Ownership.CONTAINER);
         }
         return resultARRAY;
+    }
+    
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.gtk_text_child_anchor_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gobject.Object.Build {
+        
+         /**
+         * A {@link TextChildAnchor.Build} object constructs a {@link TextChildAnchor} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link TextChildAnchor} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link TextChildAnchor} using {@link TextChildAnchor#castFrom}.
+         * @return A new instance of {@code TextChildAnchor} with the properties 
+         *         that were set in the Build object.
+         */
+        public TextChildAnchor construct() {
+            return TextChildAnchor.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    TextChildAnchor.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_text_child_anchor_new = Interop.downcallHandle(
             "gtk_text_child_anchor_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_text_child_anchor_new_with_replacement = Interop.downcallHandle(
             "gtk_text_child_anchor_new_with_replacement",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_text_child_anchor_get_deleted = Interop.downcallHandle(
             "gtk_text_child_anchor_get_deleted",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_text_child_anchor_get_widgets = Interop.downcallHandle(
             "gtk_text_child_anchor_get_widgets",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+            false
+        );
+        
+        private static final MethodHandle gtk_text_child_anchor_get_type = Interop.downcallHandle(
+            "gtk_text_child_anchor_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }

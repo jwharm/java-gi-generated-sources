@@ -28,7 +28,7 @@ public interface Font extends io.github.jwharm.javagi.Proxy {
      * @throws ClassCastException If the GType is not derived from "PangoCairoFont", a ClassCastException will be thrown.
      */
     public static Font castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("PangoCairoFont"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), Font.getType())) {
             return new FontImpl(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of PangoCairoFont");
@@ -53,13 +53,34 @@ public interface Font extends io.github.jwharm.javagi.Proxy {
         return new org.cairographics.ScaledFont(RESULT, Ownership.NONE);
     }
     
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.pango_cairo_font_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+    
     @ApiStatus.Internal
     static class DowncallHandles {
         
         @ApiStatus.Internal
         static final MethodHandle pango_cairo_font_get_scaled_font = Interop.downcallHandle(
             "pango_cairo_font_get_scaled_font",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+            false
+        );
+        
+        @ApiStatus.Internal
+        static final MethodHandle pango_cairo_font_get_type = Interop.downcallHandle(
+            "pango_cairo_font_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }

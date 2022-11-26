@@ -59,7 +59,7 @@ public class EventController extends org.gtk.gobject.Object {
      * @throws ClassCastException If the GType is not derived from "GtkEventController", a ClassCastException will be thrown.
      */
     public static EventController castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkEventController"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), EventController.getType())) {
             return new EventController(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkEventController");
@@ -262,77 +262,196 @@ public class EventController extends org.gtk.gobject.Object {
         }
     }
     
+    /**
+     * Sets a name on the controller that can be used for debugging.
+     * @param name a name for {@code controller}, must be a static string
+     */
+    public void setStaticName(@Nullable java.lang.String name) {
+        try {
+            DowncallHandles.gtk_event_controller_set_static_name.invokeExact(
+                    handle(),
+                    (Addressable) (name == null ? MemoryAddress.NULL : Interop.allocateNativeString(name)));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+    }
+    
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.gtk_event_controller_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gobject.Object.Build {
+        
+         /**
+         * A {@link EventController.Build} object constructs a {@link EventController} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link EventController} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link EventController} using {@link EventController#castFrom}.
+         * @return A new instance of {@code EventController} with the properties 
+         *         that were set in the Build object.
+         */
+        public EventController construct() {
+            return EventController.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    EventController.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+        
+        /**
+         * The name for this controller, typically used for debugging purposes.
+         * @param name The value for the {@code name} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setName(java.lang.String name) {
+            names.add("name");
+            values.add(org.gtk.gobject.Value.create(name));
+            return this;
+        }
+        
+        /**
+         * The limit for which events this controller will handle.
+         * @param propagationLimit The value for the {@code propagation-limit} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setPropagationLimit(org.gtk.gtk.PropagationLimit propagationLimit) {
+            names.add("propagation-limit");
+            values.add(org.gtk.gobject.Value.create(propagationLimit));
+            return this;
+        }
+        
+        /**
+         * The propagation phase at which this controller will handle events.
+         * @param propagationPhase The value for the {@code propagation-phase} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setPropagationPhase(org.gtk.gtk.PropagationPhase propagationPhase) {
+            names.add("propagation-phase");
+            values.add(org.gtk.gobject.Value.create(propagationPhase));
+            return this;
+        }
+        
+        /**
+         * The widget receiving the {@code GdkEvents} that the controller will handle.
+         * @param widget The value for the {@code widget} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setWidget(org.gtk.gtk.Widget widget) {
+            names.add("widget");
+            values.add(org.gtk.gobject.Value.create(widget));
+            return this;
+        }
+    }
+    
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_event_controller_get_current_event = Interop.downcallHandle(
             "gtk_event_controller_get_current_event",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_event_controller_get_current_event_device = Interop.downcallHandle(
             "gtk_event_controller_get_current_event_device",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_event_controller_get_current_event_state = Interop.downcallHandle(
             "gtk_event_controller_get_current_event_state",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_event_controller_get_current_event_time = Interop.downcallHandle(
             "gtk_event_controller_get_current_event_time",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_event_controller_get_name = Interop.downcallHandle(
             "gtk_event_controller_get_name",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_event_controller_get_propagation_limit = Interop.downcallHandle(
             "gtk_event_controller_get_propagation_limit",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_event_controller_get_propagation_phase = Interop.downcallHandle(
             "gtk_event_controller_get_propagation_phase",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_event_controller_get_widget = Interop.downcallHandle(
             "gtk_event_controller_get_widget",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_event_controller_reset = Interop.downcallHandle(
             "gtk_event_controller_reset",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_event_controller_set_name = Interop.downcallHandle(
             "gtk_event_controller_set_name",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_event_controller_set_propagation_limit = Interop.downcallHandle(
             "gtk_event_controller_set_propagation_limit",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_event_controller_set_propagation_phase = Interop.downcallHandle(
             "gtk_event_controller_set_propagation_phase",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+            false
+        );
+        
+        private static final MethodHandle gtk_event_controller_set_static_name = Interop.downcallHandle(
+            "gtk_event_controller_set_static_name",
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+            false
+        );
+        
+        private static final MethodHandle gtk_event_controller_get_type = Interop.downcallHandle(
+            "gtk_event_controller_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }

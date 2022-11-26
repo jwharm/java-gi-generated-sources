@@ -20,7 +20,7 @@ import org.jetbrains.annotations.*;
  * g_rec_mutex_ functions.
  * @version 2.32
  */
-public class RecMutex extends io.github.jwharm.javagi.ProxyBase {
+public class RecMutex extends Struct {
     
     static {
         GLib.javagi$ensureInitialized();
@@ -28,9 +28,9 @@ public class RecMutex extends io.github.jwharm.javagi.ProxyBase {
     
     private static final java.lang.String C_TYPE_NAME = "GRecMutex";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
         Interop.valueLayout.ADDRESS.withName("p"),
-        MemoryLayout.sequenceLayout(2, ValueLayout.JAVA_INT).withName("i")
+        MemoryLayout.sequenceLayout(2, Interop.valueLayout.C_INT).withName("i")
     ).withName(C_TYPE_NAME);
     
     /**
@@ -44,6 +44,10 @@ public class RecMutex extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link RecMutex}
+     * @return A new, uninitialized @{link RecMutex}
+     */
     public static RecMutex allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         RecMutex newInstance = new RecMutex(segment.address(), Ownership.NONE);
@@ -70,8 +74,6 @@ public class RecMutex extends io.github.jwharm.javagi.ProxyBase {
      * <p>
      * Calling g_rec_mutex_clear() on a locked recursive mutex leads
      * to undefined behaviour.
-     * <p>
-     * Sine: 2.32
      */
     public void clear() {
         try {
@@ -173,32 +175,74 @@ public class RecMutex extends io.github.jwharm.javagi.ProxyBase {
         
         private static final MethodHandle g_rec_mutex_clear = Interop.downcallHandle(
             "g_rec_mutex_clear",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_rec_mutex_init = Interop.downcallHandle(
             "g_rec_mutex_init",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_rec_mutex_lock = Interop.downcallHandle(
             "g_rec_mutex_lock",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_rec_mutex_trylock = Interop.downcallHandle(
             "g_rec_mutex_trylock",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_rec_mutex_unlock = Interop.downcallHandle(
             "g_rec_mutex_unlock",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private RecMutex struct;
+        
+         /**
+         * A {@link RecMutex.Build} object constructs a {@link RecMutex} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = RecMutex.allocate();
+        }
+        
+         /**
+         * Finish building the {@link RecMutex} struct.
+         * @return A new instance of {@code RecMutex} with the fields 
+         *         that were set in the Build object.
+         */
+        public RecMutex construct() {
+            return struct;
+        }
+        
+        public Build setP(java.lang.foreign.MemoryAddress p) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("p"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (p == null ? MemoryAddress.NULL : (Addressable) p));
+            return this;
+        }
+        
+        public Build setI(int[] i) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("i"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (i == null ? MemoryAddress.NULL : Interop.allocateNativeArray(i, false)));
+            return this;
+        }
     }
 }

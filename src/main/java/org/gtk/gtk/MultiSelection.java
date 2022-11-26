@@ -49,7 +49,7 @@ public class MultiSelection extends org.gtk.gobject.Object implements org.gtk.gi
      * @throws ClassCastException If the GType is not derived from "GtkMultiSelection", a ClassCastException will be thrown.
      */
     public static MultiSelection castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkMultiSelection"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), MultiSelection.getType())) {
             return new MultiSelection(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkMultiSelection");
@@ -107,23 +107,111 @@ public class MultiSelection extends org.gtk.gobject.Object implements org.gtk.gi
         }
     }
     
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.gtk_multi_selection_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gobject.Object.Build {
+        
+         /**
+         * A {@link MultiSelection.Build} object constructs a {@link MultiSelection} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link MultiSelection} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link MultiSelection} using {@link MultiSelection#castFrom}.
+         * @return A new instance of {@code MultiSelection} with the properties 
+         *         that were set in the Build object.
+         */
+        public MultiSelection construct() {
+            return MultiSelection.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    MultiSelection.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+        
+        /**
+         * The type of items. See {@link org.gtk.gio.ListModel#getItemType}.
+         * @param itemType The value for the {@code item-type} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setItemType(org.gtk.glib.Type itemType) {
+            names.add("item-type");
+            values.add(org.gtk.gobject.Value.create(itemType));
+            return this;
+        }
+        
+        /**
+         * The list managed by this selection.
+         * @param model The value for the {@code model} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setModel(org.gtk.gio.ListModel model) {
+            names.add("model");
+            values.add(org.gtk.gobject.Value.create(model));
+            return this;
+        }
+        
+        /**
+         * The number of items. See {@link org.gtk.gio.ListModel#getNItems}.
+         * @param nItems The value for the {@code n-items} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setNItems(int nItems) {
+            names.add("n-items");
+            values.add(org.gtk.gobject.Value.create(nItems));
+            return this;
+        }
+    }
+    
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_multi_selection_new = Interop.downcallHandle(
             "gtk_multi_selection_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_multi_selection_get_model = Interop.downcallHandle(
             "gtk_multi_selection_get_model",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_multi_selection_set_model = Interop.downcallHandle(
             "gtk_multi_selection_set_model",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+            false
+        );
+        
+        private static final MethodHandle gtk_multi_selection_get_type = Interop.downcallHandle(
+            "gtk_multi_selection_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }

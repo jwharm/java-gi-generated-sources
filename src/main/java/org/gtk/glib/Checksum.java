@@ -12,7 +12,7 @@ import org.jetbrains.annotations.*;
  * a GChecksum, use g_checksum_free().
  * @version 2.16
  */
-public class Checksum extends io.github.jwharm.javagi.ProxyBase {
+public class Checksum extends Struct {
     
     static {
         GLib.javagi$ensureInitialized();
@@ -31,6 +31,10 @@ public class Checksum extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link Checksum}
+     * @return A new, uninitialized @{link Checksum}
+     */
     public static Checksum allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         Checksum newInstance = new Checksum(segment.address(), Ownership.NONE);
@@ -123,7 +127,7 @@ public class Checksum extends io.github.jwharm.javagi.ProxyBase {
     public void getDigest(@NotNull byte[] buffer, Out<Long> digestLen) {
         java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
         java.util.Objects.requireNonNull(digestLen, "Parameter 'digestLen' must not be null");
-        MemorySegment digestLenPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_LONG);
+        MemorySegment digestLenPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
         try {
             DowncallHandles.g_checksum_get_digest.invokeExact(
                     handle(),
@@ -132,7 +136,7 @@ public class Checksum extends io.github.jwharm.javagi.ProxyBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        digestLen.set(digestLenPOINTER.get(ValueLayout.JAVA_LONG, 0));
+        digestLen.set(digestLenPOINTER.get(Interop.valueLayout.C_LONG, 0));
     }
     
     /**
@@ -210,50 +214,78 @@ public class Checksum extends io.github.jwharm.javagi.ProxyBase {
         
         private static final MethodHandle g_checksum_new = Interop.downcallHandle(
             "g_checksum_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_checksum_copy = Interop.downcallHandle(
             "g_checksum_copy",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_checksum_free = Interop.downcallHandle(
             "g_checksum_free",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_checksum_get_digest = Interop.downcallHandle(
             "g_checksum_get_digest",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_checksum_get_string = Interop.downcallHandle(
             "g_checksum_get_string",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_checksum_reset = Interop.downcallHandle(
             "g_checksum_reset",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_checksum_update = Interop.downcallHandle(
             "g_checksum_update",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
             false
         );
         
         private static final MethodHandle g_checksum_type_get_length = Interop.downcallHandle(
             "g_checksum_type_get_length",
-            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.C_INT),
             false
         );
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private Checksum struct;
+        
+         /**
+         * A {@link Checksum.Build} object constructs a {@link Checksum} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = Checksum.allocate();
+        }
+        
+         /**
+         * Finish building the {@link Checksum} struct.
+         * @return A new instance of {@code Checksum} with the fields 
+         *         that were set in the Build object.
+         */
+        public Checksum construct() {
+            return struct;
+        }
     }
 }

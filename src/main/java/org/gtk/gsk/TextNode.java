@@ -48,7 +48,7 @@ public class TextNode extends org.gtk.gsk.RenderNode {
      * @throws ClassCastException If the GType is not derived from "GskTextNode", a ClassCastException will be thrown.
      */
     public static TextNode castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GskTextNode"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), TextNode.getType())) {
             return new TextNode(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GskTextNode");
@@ -124,7 +124,7 @@ public class TextNode extends org.gtk.gsk.RenderNode {
      */
     public @NotNull org.pango.GlyphInfo[] getGlyphs(Out<Integer> nGlyphs) {
         java.util.Objects.requireNonNull(nGlyphs, "Parameter 'nGlyphs' must not be null");
-        MemorySegment nGlyphsPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
+        MemorySegment nGlyphsPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gsk_text_node_get_glyphs.invokeExact(
@@ -133,10 +133,10 @@ public class TextNode extends org.gtk.gsk.RenderNode {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        nGlyphs.set(nGlyphsPOINTER.get(ValueLayout.JAVA_INT, 0));
+        nGlyphs.set(nGlyphsPOINTER.get(Interop.valueLayout.C_INT, 0));
         org.pango.GlyphInfo[] resultARRAY = new org.pango.GlyphInfo[nGlyphs.get().intValue()];
         for (int I = 0; I < nGlyphs.get().intValue(); I++) {
-            var OBJ = RESULT.get(ValueLayout.ADDRESS, I);
+            var OBJ = RESULT.get(Interop.valueLayout.ADDRESS, I);
             resultARRAY[I] = new org.pango.GlyphInfo(OBJ, Ownership.NONE);
         }
         return resultARRAY;
@@ -187,47 +187,102 @@ public class TextNode extends org.gtk.gsk.RenderNode {
         return RESULT != 0;
     }
     
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.gsk_text_node_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gsk.RenderNode.Build {
+        
+         /**
+         * A {@link TextNode.Build} object constructs a {@link TextNode} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link TextNode} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link TextNode} using {@link TextNode#castFrom}.
+         * @return A new instance of {@code TextNode} with the properties 
+         *         that were set in the Build object.
+         */
+        public TextNode construct() {
+            return TextNode.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    TextNode.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+    }
+    
     private static class DowncallHandles {
         
         private static final MethodHandle gsk_text_node_new = Interop.downcallHandle(
             "gsk_text_node_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gsk_text_node_get_color = Interop.downcallHandle(
             "gsk_text_node_get_color",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gsk_text_node_get_font = Interop.downcallHandle(
             "gsk_text_node_get_font",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gsk_text_node_get_glyphs = Interop.downcallHandle(
             "gsk_text_node_get_glyphs",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gsk_text_node_get_num_glyphs = Interop.downcallHandle(
             "gsk_text_node_get_num_glyphs",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gsk_text_node_get_offset = Interop.downcallHandle(
             "gsk_text_node_get_offset",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gsk_text_node_has_color_glyphs = Interop.downcallHandle(
             "gsk_text_node_has_color_glyphs",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+            false
+        );
+        
+        private static final MethodHandle gsk_text_node_get_type = Interop.downcallHandle(
+            "gsk_text_node_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }

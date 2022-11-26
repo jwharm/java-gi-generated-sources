@@ -5,7 +5,7 @@ import java.lang.foreign.*;
 import java.lang.invoke.*;
 import org.jetbrains.annotations.*;
 
-public class EventControllerKeyClass extends io.github.jwharm.javagi.ProxyBase {
+public class EventControllerKeyClass extends Struct {
     
     static {
         Gtk.javagi$ensureInitialized();
@@ -24,6 +24,10 @@ public class EventControllerKeyClass extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link EventControllerKeyClass}
+     * @return A new, uninitialized @{link EventControllerKeyClass}
+     */
     public static EventControllerKeyClass allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         EventControllerKeyClass newInstance = new EventControllerKeyClass(segment.address(), Ownership.NONE);
@@ -39,5 +43,33 @@ public class EventControllerKeyClass extends io.github.jwharm.javagi.ProxyBase {
     @ApiStatus.Internal
     public EventControllerKeyClass(Addressable address, Ownership ownership) {
         super(address, ownership);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private EventControllerKeyClass struct;
+        
+         /**
+         * A {@link EventControllerKeyClass.Build} object constructs a {@link EventControllerKeyClass} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = EventControllerKeyClass.allocate();
+        }
+        
+         /**
+         * Finish building the {@link EventControllerKeyClass} struct.
+         * @return A new instance of {@code EventControllerKeyClass} with the fields 
+         *         that were set in the Build object.
+         */
+        public EventControllerKeyClass construct() {
+            return struct;
+        }
     }
 }

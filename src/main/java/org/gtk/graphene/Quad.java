@@ -12,7 +12,7 @@ import org.jetbrains.annotations.*;
  * accessed directly.
  * @version 1.0
  */
-public class Quad extends io.github.jwharm.javagi.ProxyBase {
+public class Quad extends Struct {
     
     static {
         Graphene.javagi$ensureInitialized();
@@ -20,8 +20,8 @@ public class Quad extends io.github.jwharm.javagi.ProxyBase {
     
     private static final java.lang.String C_TYPE_NAME = "graphene_quad_t";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
-        MemoryLayout.sequenceLayout(4, ValueLayout.ADDRESS).withName("points")
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
+        MemoryLayout.sequenceLayout(4, org.gtk.graphene.Point.getMemoryLayout()).withName("points")
     ).withName(C_TYPE_NAME);
     
     /**
@@ -35,6 +35,10 @@ public class Quad extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link Quad}
+     * @return A new, uninitialized @{link Quad}
+     */
     public static Quad allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         Quad newInstance = new Quad(segment.address(), Ownership.NONE);
@@ -172,7 +176,7 @@ public class Quad extends io.github.jwharm.javagi.ProxyBase {
         try {
             RESULT = (MemoryAddress) DowncallHandles.graphene_quad_init_from_points.invokeExact(
                     handle(),
-                    Interop.allocateNativeArray(points, false));
+                    Interop.allocateNativeArray(points, org.gtk.graphene.Point.getMemoryLayout(), false));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -202,50 +206,85 @@ public class Quad extends io.github.jwharm.javagi.ProxyBase {
         
         private static final MethodHandle graphene_quad_alloc = Interop.downcallHandle(
             "graphene_quad_alloc",
-            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle graphene_quad_bounds = Interop.downcallHandle(
             "graphene_quad_bounds",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle graphene_quad_contains = Interop.downcallHandle(
             "graphene_quad_contains",
-            FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_BOOLEAN, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle graphene_quad_free = Interop.downcallHandle(
             "graphene_quad_free",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle graphene_quad_get_point = Interop.downcallHandle(
             "graphene_quad_get_point",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle graphene_quad_init = Interop.downcallHandle(
             "graphene_quad_init",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle graphene_quad_init_from_points = Interop.downcallHandle(
             "graphene_quad_init_from_points",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle graphene_quad_init_from_rect = Interop.downcallHandle(
             "graphene_quad_init_from_rect",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private Quad struct;
+        
+         /**
+         * A {@link Quad.Build} object constructs a {@link Quad} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = Quad.allocate();
+        }
+        
+         /**
+         * Finish building the {@link Quad} struct.
+         * @return A new instance of {@code Quad} with the fields 
+         *         that were set in the Build object.
+         */
+        public Quad construct() {
+            return struct;
+        }
+        
+        public Build setPoints(org.gtk.graphene.Point[] points) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("points"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (points == null ? MemoryAddress.NULL : Interop.allocateNativeArray(points, org.gtk.graphene.Point.getMemoryLayout(), false)));
+            return this;
+        }
     }
 }

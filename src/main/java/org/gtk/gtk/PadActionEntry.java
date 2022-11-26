@@ -8,7 +8,7 @@ import org.jetbrains.annotations.*;
 /**
  * Struct defining a pad action entry.
  */
-public class PadActionEntry extends io.github.jwharm.javagi.ProxyBase {
+public class PadActionEntry extends Struct {
     
     static {
         Gtk.javagi$ensureInitialized();
@@ -16,10 +16,10 @@ public class PadActionEntry extends io.github.jwharm.javagi.ProxyBase {
     
     private static final java.lang.String C_TYPE_NAME = "GtkPadActionEntry";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
         Interop.valueLayout.C_INT.withName("type"),
-        ValueLayout.JAVA_INT.withName("index"),
-        ValueLayout.JAVA_INT.withName("mode"),
+        Interop.valueLayout.C_INT.withName("index"),
+        Interop.valueLayout.C_INT.withName("mode"),
         MemoryLayout.paddingLayout(32),
         Interop.valueLayout.ADDRESS.withName("label"),
         Interop.valueLayout.ADDRESS.withName("action_name")
@@ -36,6 +36,10 @@ public class PadActionEntry extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link PadActionEntry}
+     * @return A new, uninitialized @{link PadActionEntry}
+     */
     public static PadActionEntry allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         PadActionEntry newInstance = new PadActionEntry(segment.address(), Ownership.NONE);
@@ -156,5 +160,95 @@ public class PadActionEntry extends io.github.jwharm.javagi.ProxyBase {
     @ApiStatus.Internal
     public PadActionEntry(Addressable address, Ownership ownership) {
         super(address, ownership);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private PadActionEntry struct;
+        
+         /**
+         * A {@link PadActionEntry.Build} object constructs a {@link PadActionEntry} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = PadActionEntry.allocate();
+        }
+        
+         /**
+         * Finish building the {@link PadActionEntry} struct.
+         * @return A new instance of {@code PadActionEntry} with the fields 
+         *         that were set in the Build object.
+         */
+        public PadActionEntry construct() {
+            return struct;
+        }
+        
+        /**
+         * the type of pad feature that will trigger this action entry.
+         * @param type The value for the {@code type} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setType(org.gtk.gtk.PadActionType type) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("type"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (type == null ? MemoryAddress.NULL : type.getValue()));
+            return this;
+        }
+        
+        /**
+         * the 0-indexed button/ring/strip number that will trigger this action
+         *   entry.
+         * @param index The value for the {@code index} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setIndex(int index) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("index"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), index);
+            return this;
+        }
+        
+        /**
+         * the mode that will trigger this action entry, or -1 for all modes.
+         * @param mode The value for the {@code mode} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setMode(int mode) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("mode"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), mode);
+            return this;
+        }
+        
+        /**
+         * Human readable description of this action entry, this string should
+         *   be deemed user-visible.
+         * @param label The value for the {@code label} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setLabel(java.lang.String label) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("label"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (label == null ? MemoryAddress.NULL : Interop.allocateNativeString(label)));
+            return this;
+        }
+        
+        /**
+         * action name that will be activated in the {@code GActionGroup}.
+         * @param action_name The value for the {@code action_name} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setActionName(java.lang.String action_name) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("action_name"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (action_name == null ? MemoryAddress.NULL : Interop.allocateNativeString(action_name)));
+            return this;
+        }
     }
 }

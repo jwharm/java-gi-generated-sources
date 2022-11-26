@@ -25,7 +25,7 @@ public interface TlsClientConnection extends io.github.jwharm.javagi.Proxy {
      * @throws ClassCastException If the GType is not derived from "GTlsClientConnection", a ClassCastException will be thrown.
      */
     public static TlsClientConnection castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GTlsClientConnection"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), TlsClientConnection.getType())) {
             return new TlsClientConnectionImpl(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GTlsClientConnection");
@@ -220,6 +220,20 @@ public interface TlsClientConnection extends io.github.jwharm.javagi.Proxy {
     }
     
     /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.g_tls_client_connection_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+    
+    /**
      * Creates a new {@link TlsClientConnection} wrapping {@code base_io_stream} (which
      * must have pollable input and output streams) which is assumed to
      * communicate with the server identified by {@code server_identity}.
@@ -235,7 +249,7 @@ public interface TlsClientConnection extends io.github.jwharm.javagi.Proxy {
      */
     public static @NotNull org.gtk.gio.TlsClientConnection new_(@NotNull org.gtk.gio.IOStream baseIoStream, @Nullable org.gtk.gio.SocketConnectable serverIdentity) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(baseIoStream, "Parameter 'baseIoStream' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_tls_client_connection_new.invokeExact(
@@ -257,63 +271,70 @@ public interface TlsClientConnection extends io.github.jwharm.javagi.Proxy {
         @ApiStatus.Internal
         static final MethodHandle g_tls_client_connection_copy_session_state = Interop.downcallHandle(
             "g_tls_client_connection_copy_session_state",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_tls_client_connection_get_accepted_cas = Interop.downcallHandle(
             "g_tls_client_connection_get_accepted_cas",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_tls_client_connection_get_server_identity = Interop.downcallHandle(
             "g_tls_client_connection_get_server_identity",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_tls_client_connection_get_use_ssl3 = Interop.downcallHandle(
             "g_tls_client_connection_get_use_ssl3",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_tls_client_connection_get_validation_flags = Interop.downcallHandle(
             "g_tls_client_connection_get_validation_flags",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_tls_client_connection_set_server_identity = Interop.downcallHandle(
             "g_tls_client_connection_set_server_identity",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_tls_client_connection_set_use_ssl3 = Interop.downcallHandle(
             "g_tls_client_connection_set_use_ssl3",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_tls_client_connection_set_validation_flags = Interop.downcallHandle(
             "g_tls_client_connection_set_validation_flags",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+            false
+        );
+        
+        @ApiStatus.Internal
+        static final MethodHandle g_tls_client_connection_get_type = Interop.downcallHandle(
+            "g_tls_client_connection_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_tls_client_connection_new = Interop.downcallHandle(
             "g_tls_client_connection_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
     }

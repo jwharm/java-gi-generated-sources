@@ -20,7 +20,7 @@ import org.jetbrains.annotations.*;
  * The algorithm used for normalizing corner sizes is described in
  * <a href="https://drafts.csswg.org/css-backgrounds-3/#border-radius">the CSS specification</a>.
  */
-public class RoundedRect extends io.github.jwharm.javagi.ProxyBase {
+public class RoundedRect extends Struct {
     
     static {
         Gsk.javagi$ensureInitialized();
@@ -28,10 +28,9 @@ public class RoundedRect extends io.github.jwharm.javagi.ProxyBase {
     
     private static final java.lang.String C_TYPE_NAME = "GskRoundedRect";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.graphene.Rect.getMemoryLayout().withName("bounds"),
-        MemoryLayout.paddingLayout(192),
-        MemoryLayout.sequenceLayout(4, ValueLayout.ADDRESS).withName("corner")
+        MemoryLayout.sequenceLayout(4, org.gtk.graphene.Size.getMemoryLayout()).withName("corner")
     ).withName(C_TYPE_NAME);
     
     /**
@@ -45,6 +44,10 @@ public class RoundedRect extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link RoundedRect}
+     * @return A new, uninitialized @{link RoundedRect}
+     */
     public static RoundedRect allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         RoundedRect newInstance = new RoundedRect(segment.address(), Ownership.NONE);
@@ -293,62 +296,114 @@ public class RoundedRect extends io.github.jwharm.javagi.ProxyBase {
         
         private static final MethodHandle gsk_rounded_rect_contains_point = Interop.downcallHandle(
             "gsk_rounded_rect_contains_point",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gsk_rounded_rect_contains_rect = Interop.downcallHandle(
             "gsk_rounded_rect_contains_rect",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gsk_rounded_rect_init = Interop.downcallHandle(
             "gsk_rounded_rect_init",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gsk_rounded_rect_init_copy = Interop.downcallHandle(
             "gsk_rounded_rect_init_copy",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gsk_rounded_rect_init_from_rect = Interop.downcallHandle(
             "gsk_rounded_rect_init_from_rect",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_FLOAT),
             false
         );
         
         private static final MethodHandle gsk_rounded_rect_intersects_rect = Interop.downcallHandle(
             "gsk_rounded_rect_intersects_rect",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gsk_rounded_rect_is_rectilinear = Interop.downcallHandle(
             "gsk_rounded_rect_is_rectilinear",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gsk_rounded_rect_normalize = Interop.downcallHandle(
             "gsk_rounded_rect_normalize",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gsk_rounded_rect_offset = Interop.downcallHandle(
             "gsk_rounded_rect_offset",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_FLOAT, Interop.valueLayout.C_FLOAT),
             false
         );
         
         private static final MethodHandle gsk_rounded_rect_shrink = Interop.downcallHandle(
             "gsk_rounded_rect_shrink",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_FLOAT, Interop.valueLayout.C_FLOAT, Interop.valueLayout.C_FLOAT, Interop.valueLayout.C_FLOAT),
             false
         );
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private RoundedRect struct;
+        
+         /**
+         * A {@link RoundedRect.Build} object constructs a {@link RoundedRect} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = RoundedRect.allocate();
+        }
+        
+         /**
+         * Finish building the {@link RoundedRect} struct.
+         * @return A new instance of {@code RoundedRect} with the fields 
+         *         that were set in the Build object.
+         */
+        public RoundedRect construct() {
+            return struct;
+        }
+        
+        /**
+         * the bounds of the rectangle
+         * @param bounds The value for the {@code bounds} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setBounds(org.gtk.graphene.Rect bounds) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("bounds"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (bounds == null ? MemoryAddress.NULL : bounds.handle()));
+            return this;
+        }
+        
+        /**
+         * the size of the 4 rounded corners
+         * @param corner The value for the {@code corner} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setCorner(org.gtk.graphene.Size[] corner) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("corner"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (corner == null ? MemoryAddress.NULL : Interop.allocateNativeArray(corner, org.gtk.graphene.Size.getMemoryLayout(), false)));
+            return this;
+        }
     }
 }

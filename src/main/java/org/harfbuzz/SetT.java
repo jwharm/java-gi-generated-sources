@@ -11,7 +11,7 @@ import org.jetbrains.annotations.*;
  * points, and various other collections of discrete
  * values.
  */
-public class SetT extends io.github.jwharm.javagi.ProxyBase {
+public class SetT extends Struct {
     
     static {
         HarfBuzz.javagi$ensureInitialized();
@@ -30,6 +30,10 @@ public class SetT extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link SetT}
+     * @return A new, uninitialized @{link SetT}
+     */
     public static SetT allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         SetT newInstance = new SetT(segment.address(), Ownership.NONE);
@@ -45,5 +49,33 @@ public class SetT extends io.github.jwharm.javagi.ProxyBase {
     @ApiStatus.Internal
     public SetT(Addressable address, Ownership ownership) {
         super(address, ownership);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private SetT struct;
+        
+         /**
+         * A {@link SetT.Build} object constructs a {@link SetT} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = SetT.allocate();
+        }
+        
+         /**
+         * Finish building the {@link SetT} struct.
+         * @return A new instance of {@code SetT} with the fields 
+         *         that were set in the Build object.
+         */
+        public SetT construct() {
+            return struct;
+        }
     }
 }

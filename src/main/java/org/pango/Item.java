@@ -11,7 +11,7 @@ import org.jetbrains.annotations.*;
  * You typically obtain {@code PangoItems} by itemizing a piece of text
  * with {@link Pango#itemize}.
  */
-public class Item extends io.github.jwharm.javagi.ProxyBase {
+public class Item extends Struct {
     
     static {
         Pango.javagi$ensureInitialized();
@@ -19,10 +19,10 @@ public class Item extends io.github.jwharm.javagi.ProxyBase {
     
     private static final java.lang.String C_TYPE_NAME = "PangoItem";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
-        ValueLayout.JAVA_INT.withName("offset"),
-        ValueLayout.JAVA_INT.withName("length"),
-        ValueLayout.JAVA_INT.withName("num_chars"),
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
+        Interop.valueLayout.C_INT.withName("offset"),
+        Interop.valueLayout.C_INT.withName("length"),
+        Interop.valueLayout.C_INT.withName("num_chars"),
         MemoryLayout.paddingLayout(32),
         org.pango.Analysis.getMemoryLayout().withName("analysis")
     ).withName(C_TYPE_NAME);
@@ -38,6 +38,10 @@ public class Item extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link Item}
+     * @return A new, uninitialized @{link Item}
+     */
     public static Item allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         Item newInstance = new Item(segment.address(), Ownership.NONE);
@@ -232,32 +236,108 @@ public class Item extends io.github.jwharm.javagi.ProxyBase {
         
         private static final MethodHandle pango_item_new = Interop.downcallHandle(
             "pango_item_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle pango_item_apply_attrs = Interop.downcallHandle(
             "pango_item_apply_attrs",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle pango_item_copy = Interop.downcallHandle(
             "pango_item_copy",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle pango_item_free = Interop.downcallHandle(
             "pango_item_free",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle pango_item_split = Interop.downcallHandle(
             "pango_item_split",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
             false
         );
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private Item struct;
+        
+         /**
+         * A {@link Item.Build} object constructs a {@link Item} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = Item.allocate();
+        }
+        
+         /**
+         * Finish building the {@link Item} struct.
+         * @return A new instance of {@code Item} with the fields 
+         *         that were set in the Build object.
+         */
+        public Item construct() {
+            return struct;
+        }
+        
+        /**
+         * byte offset of the start of this item in text.
+         * @param offset The value for the {@code offset} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setOffset(int offset) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("offset"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), offset);
+            return this;
+        }
+        
+        /**
+         * length of this item in bytes.
+         * @param length The value for the {@code length} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setLength(int length) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("length"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), length);
+            return this;
+        }
+        
+        /**
+         * number of Unicode characters in the item.
+         * @param num_chars The value for the {@code num_chars} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setNumChars(int num_chars) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("num_chars"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), num_chars);
+            return this;
+        }
+        
+        /**
+         * analysis results for the item.
+         * @param analysis The value for the {@code analysis} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setAnalysis(org.pango.Analysis analysis) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("analysis"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (analysis == null ? MemoryAddress.NULL : analysis.handle()));
+            return this;
+        }
     }
 }

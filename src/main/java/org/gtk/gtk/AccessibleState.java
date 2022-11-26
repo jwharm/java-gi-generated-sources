@@ -85,7 +85,7 @@ public class AccessibleState extends io.github.jwharm.javagi.Enumeration {
         
         private static final MethodHandle gtk_accessible_state_init_value = Interop.downcallHandle(
             "gtk_accessible_state_init_value",
-            FunctionDescriptor.ofVoid(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
     }

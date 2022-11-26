@@ -8,7 +8,7 @@ import org.jetbrains.annotations.*;
 /**
  * The {@link Hook} struct represents a single hook function in a {@link HookList}.
  */
-public class Hook extends io.github.jwharm.javagi.ProxyBase {
+public class Hook extends Struct {
     
     static {
         GLib.javagi$ensureInitialized();
@@ -16,14 +16,14 @@ public class Hook extends io.github.jwharm.javagi.ProxyBase {
     
     private static final java.lang.String C_TYPE_NAME = "GHook";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
         Interop.valueLayout.ADDRESS.withName("data"),
         Interop.valueLayout.ADDRESS.withName("next"),
         Interop.valueLayout.ADDRESS.withName("prev"),
-        ValueLayout.JAVA_INT.withName("ref_count"),
+        Interop.valueLayout.C_INT.withName("ref_count"),
         MemoryLayout.paddingLayout(32),
-        ValueLayout.JAVA_LONG.withName("hook_id"),
-        ValueLayout.JAVA_INT.withName("flags"),
+        Interop.valueLayout.C_LONG.withName("hook_id"),
+        Interop.valueLayout.C_INT.withName("flags"),
         MemoryLayout.paddingLayout(32),
         Interop.valueLayout.ADDRESS.withName("func"),
         Interop.valueLayout.ADDRESS.withName("destroy")
@@ -40,6 +40,10 @@ public class Hook extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link Hook}
+     * @return A new, uninitialized @{link Hook}
+     */
     public static Hook allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         Hook newInstance = new Hook(segment.address(), Ownership.NONE);
@@ -65,7 +69,7 @@ public class Hook extends io.github.jwharm.javagi.ProxyBase {
     public void data$set(java.lang.foreign.MemoryAddress data) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("data"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), data);
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) data);
     }
     
     /**
@@ -191,7 +195,7 @@ public class Hook extends io.github.jwharm.javagi.ProxyBase {
     public void func$set(java.lang.foreign.MemoryAddress func) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("func"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), func);
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) func);
     }
     
     /**
@@ -309,7 +313,7 @@ public class Hook extends io.github.jwharm.javagi.ProxyBase {
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbHookFindFunc",
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                         Interop.getScope()),
                     (Addressable) (Interop.registerCallback(func)));
         } catch (Throwable ERR) {
@@ -334,7 +338,7 @@ public class Hook extends io.github.jwharm.javagi.ProxyBase {
             RESULT = (MemoryAddress) DowncallHandles.g_hook_find_data.invokeExact(
                     hookList.handle(),
                     needValids ? 1 : 0,
-                    data);
+                    (Addressable) data);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -357,7 +361,7 @@ public class Hook extends io.github.jwharm.javagi.ProxyBase {
             RESULT = (MemoryAddress) DowncallHandles.g_hook_find_func.invokeExact(
                     hookList.handle(),
                     needValids ? 1 : 0,
-                    (Addressable) (func == null ? MemoryAddress.NULL : func));
+                    (Addressable) (func == null ? MemoryAddress.NULL : (Addressable) func));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -382,8 +386,8 @@ public class Hook extends io.github.jwharm.javagi.ProxyBase {
             RESULT = (MemoryAddress) DowncallHandles.g_hook_find_func_data.invokeExact(
                     hookList.handle(),
                     needValids ? 1 : 0,
-                    func,
-                    data);
+                    (Addressable) func,
+                    (Addressable) data);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -567,104 +571,231 @@ public class Hook extends io.github.jwharm.javagi.ProxyBase {
         
         private static final MethodHandle g_hook_compare_ids = Interop.downcallHandle(
             "g_hook_compare_ids",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_hook_alloc = Interop.downcallHandle(
             "g_hook_alloc",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_hook_destroy = Interop.downcallHandle(
             "g_hook_destroy",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
             false
         );
         
         private static final MethodHandle g_hook_destroy_link = Interop.downcallHandle(
             "g_hook_destroy_link",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_hook_find = Interop.downcallHandle(
             "g_hook_find",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_hook_find_data = Interop.downcallHandle(
             "g_hook_find_data",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_hook_find_func = Interop.downcallHandle(
             "g_hook_find_func",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_hook_find_func_data = Interop.downcallHandle(
             "g_hook_find_func_data",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_hook_first_valid = Interop.downcallHandle(
             "g_hook_first_valid",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_hook_free = Interop.downcallHandle(
             "g_hook_free",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_hook_get = Interop.downcallHandle(
             "g_hook_get",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
             false
         );
         
         private static final MethodHandle g_hook_insert_before = Interop.downcallHandle(
             "g_hook_insert_before",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_hook_insert_sorted = Interop.downcallHandle(
             "g_hook_insert_sorted",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_hook_next_valid = Interop.downcallHandle(
             "g_hook_next_valid",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_hook_prepend = Interop.downcallHandle(
             "g_hook_prepend",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_hook_ref = Interop.downcallHandle(
             "g_hook_ref",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_hook_unref = Interop.downcallHandle(
             "g_hook_unref",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private Hook struct;
+        
+         /**
+         * A {@link Hook.Build} object constructs a {@link Hook} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = Hook.allocate();
+        }
+        
+         /**
+         * Finish building the {@link Hook} struct.
+         * @return A new instance of {@code Hook} with the fields 
+         *         that were set in the Build object.
+         */
+        public Hook construct() {
+            return struct;
+        }
+        
+        /**
+         * data which is passed to func when this hook is invoked
+         * @param data The value for the {@code data} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setData(java.lang.foreign.MemoryAddress data) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("data"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (data == null ? MemoryAddress.NULL : (Addressable) data));
+            return this;
+        }
+        
+        /**
+         * pointer to the next hook in the list
+         * @param next The value for the {@code next} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setNext(org.gtk.glib.Hook next) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("next"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (next == null ? MemoryAddress.NULL : next.handle()));
+            return this;
+        }
+        
+        /**
+         * pointer to the previous hook in the list
+         * @param prev The value for the {@code prev} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setPrev(org.gtk.glib.Hook prev) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("prev"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (prev == null ? MemoryAddress.NULL : prev.handle()));
+            return this;
+        }
+        
+        /**
+         * the reference count of this hook
+         * @param ref_count The value for the {@code ref_count} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setRefCount(int ref_count) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("ref_count"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), ref_count);
+            return this;
+        }
+        
+        /**
+         * the id of this hook, which is unique within its list
+         * @param hook_id The value for the {@code hook_id} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setHookId(long hook_id) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("hook_id"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), hook_id);
+            return this;
+        }
+        
+        /**
+         * flags which are set for this hook. See {@link HookFlagMask} for
+         *     predefined flags
+         * @param flags The value for the {@code flags} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setFlags(int flags) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("flags"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), flags);
+            return this;
+        }
+        
+        /**
+         * the function to call when this hook is invoked. The possible
+         *     signatures for this function are {@link HookFunc} and {@link HookCheckFunc}
+         * @param func The value for the {@code func} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setFunc(java.lang.foreign.MemoryAddress func) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("func"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (func == null ? MemoryAddress.NULL : (Addressable) func));
+            return this;
+        }
+        
+        /**
+         * the default {@code finalize_hook} function of a {@link HookList} calls
+         *     this member of the hook that is being finalized
+         * @param destroy The value for the {@code destroy} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setDestroy(java.lang.foreign.MemoryAddress destroy) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("destroy"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (destroy == null ? MemoryAddress.NULL : destroy));
+            return this;
+        }
     }
 }

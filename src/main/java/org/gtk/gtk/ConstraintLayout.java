@@ -202,7 +202,7 @@ public class ConstraintLayout extends org.gtk.gtk.LayoutManager implements org.g
      * @throws ClassCastException If the GType is not derived from "GtkConstraintLayout", a ClassCastException will be thrown.
      */
     public static ConstraintLayout castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkConstraintLayout"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), ConstraintLayout.getType())) {
             return new ConstraintLayout(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkConstraintLayout");
@@ -385,7 +385,7 @@ public class ConstraintLayout extends org.gtk.gtk.LayoutManager implements org.g
     public @NotNull org.gtk.glib.List addConstraintsFromDescriptionv(@NotNull java.lang.String[] lines, long nLines, int hspacing, int vspacing, @NotNull org.gtk.glib.HashTable views) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(lines, "Parameter 'lines' must not be null");
         java.util.Objects.requireNonNull(views, "Parameter 'views' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_constraint_layout_add_constraints_from_descriptionv.invokeExact(
@@ -519,65 +519,120 @@ public class ConstraintLayout extends org.gtk.gtk.LayoutManager implements org.g
         }
     }
     
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.gtk_constraint_layout_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gtk.LayoutManager.Build {
+        
+         /**
+         * A {@link ConstraintLayout.Build} object constructs a {@link ConstraintLayout} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link ConstraintLayout} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link ConstraintLayout} using {@link ConstraintLayout#castFrom}.
+         * @return A new instance of {@code ConstraintLayout} with the properties 
+         *         that were set in the Build object.
+         */
+        public ConstraintLayout construct() {
+            return ConstraintLayout.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    ConstraintLayout.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+    }
+    
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_constraint_layout_new = Interop.downcallHandle(
             "gtk_constraint_layout_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_constraint_layout_add_constraint = Interop.downcallHandle(
             "gtk_constraint_layout_add_constraint",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_constraint_layout_add_constraints_from_description = Interop.downcallHandle(
             "gtk_constraint_layout_add_constraints_from_description",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             true
         );
         
         private static final MethodHandle gtk_constraint_layout_add_constraints_from_descriptionv = Interop.downcallHandle(
             "gtk_constraint_layout_add_constraints_from_descriptionv",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_constraint_layout_add_guide = Interop.downcallHandle(
             "gtk_constraint_layout_add_guide",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_constraint_layout_observe_constraints = Interop.downcallHandle(
             "gtk_constraint_layout_observe_constraints",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_constraint_layout_observe_guides = Interop.downcallHandle(
             "gtk_constraint_layout_observe_guides",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_constraint_layout_remove_all_constraints = Interop.downcallHandle(
             "gtk_constraint_layout_remove_all_constraints",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_constraint_layout_remove_constraint = Interop.downcallHandle(
             "gtk_constraint_layout_remove_constraint",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_constraint_layout_remove_guide = Interop.downcallHandle(
             "gtk_constraint_layout_remove_guide",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+            false
+        );
+        
+        private static final MethodHandle gtk_constraint_layout_get_type = Interop.downcallHandle(
+            "gtk_constraint_layout_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }

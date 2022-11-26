@@ -9,7 +9,7 @@ import org.jetbrains.annotations.*;
  * vtable for a {@link DtlsClientConnection} implementation.
  * @version 2.48
  */
-public class DtlsClientConnectionInterface extends io.github.jwharm.javagi.ProxyBase {
+public class DtlsClientConnectionInterface extends Struct {
     
     static {
         Gio.javagi$ensureInitialized();
@@ -17,7 +17,7 @@ public class DtlsClientConnectionInterface extends io.github.jwharm.javagi.Proxy
     
     private static final java.lang.String C_TYPE_NAME = "GDtlsClientConnectionInterface";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gobject.TypeInterface.getMemoryLayout().withName("g_iface")
     ).withName(C_TYPE_NAME);
     
@@ -32,6 +32,10 @@ public class DtlsClientConnectionInterface extends io.github.jwharm.javagi.Proxy
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link DtlsClientConnectionInterface}
+     * @return A new, uninitialized @{link DtlsClientConnectionInterface}
+     */
     public static DtlsClientConnectionInterface allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         DtlsClientConnectionInterface newInstance = new DtlsClientConnectionInterface(segment.address(), Ownership.NONE);
@@ -56,5 +60,45 @@ public class DtlsClientConnectionInterface extends io.github.jwharm.javagi.Proxy
     @ApiStatus.Internal
     public DtlsClientConnectionInterface(Addressable address, Ownership ownership) {
         super(address, ownership);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private DtlsClientConnectionInterface struct;
+        
+         /**
+         * A {@link DtlsClientConnectionInterface.Build} object constructs a {@link DtlsClientConnectionInterface} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = DtlsClientConnectionInterface.allocate();
+        }
+        
+         /**
+         * Finish building the {@link DtlsClientConnectionInterface} struct.
+         * @return A new instance of {@code DtlsClientConnectionInterface} with the fields 
+         *         that were set in the Build object.
+         */
+        public DtlsClientConnectionInterface construct() {
+            return struct;
+        }
+        
+        /**
+         * The parent interface.
+         * @param g_iface The value for the {@code g_iface} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setGIface(org.gtk.gobject.TypeInterface g_iface) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("g_iface"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (g_iface == null ? MemoryAddress.NULL : g_iface.handle()));
+            return this;
+        }
     }
 }

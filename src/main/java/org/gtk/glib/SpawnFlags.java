@@ -75,6 +75,21 @@ public class SpawnFlags extends io.github.jwharm.javagi.Bitfield {
      */
     public static final SpawnFlags CLOEXEC_PIPES = new SpawnFlags(256);
     
+    /**
+     * The child will inherit the parent's standard output.
+     */
+    public static final SpawnFlags CHILD_INHERITS_STDOUT = new SpawnFlags(512);
+    
+    /**
+     * The child will inherit the parent's standard error.
+     */
+    public static final SpawnFlags CHILD_INHERITS_STDERR = new SpawnFlags(1024);
+    
+    /**
+     * The child's standard input is attached to {@code /dev/null}.
+     */
+    public static final SpawnFlags STDIN_FROM_DEV_NULL = new SpawnFlags(2048);
+    
     public SpawnFlags(int value) {
         super(value);
     }

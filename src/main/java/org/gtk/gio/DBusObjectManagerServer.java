@@ -38,7 +38,7 @@ public class DBusObjectManagerServer extends org.gtk.gobject.Object implements o
     
     private static final java.lang.String C_TYPE_NAME = "GDBusObjectManagerServer";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gobject.Object.getMemoryLayout().withName("parent_instance"),
         Interop.valueLayout.ADDRESS.withName("priv")
     ).withName(C_TYPE_NAME);
@@ -75,7 +75,7 @@ public class DBusObjectManagerServer extends org.gtk.gobject.Object implements o
      * @throws ClassCastException If the GType is not derived from "GDBusObjectManagerServer", a ClassCastException will be thrown.
      */
     public static DBusObjectManagerServer castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GDBusObjectManagerServer"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), DBusObjectManagerServer.getType())) {
             return new DBusObjectManagerServer(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GDBusObjectManagerServer");
@@ -222,47 +222,124 @@ public class DBusObjectManagerServer extends org.gtk.gobject.Object implements o
         return RESULT != 0;
     }
     
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.g_dbus_object_manager_server_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gobject.Object.Build {
+        
+         /**
+         * A {@link DBusObjectManagerServer.Build} object constructs a {@link DBusObjectManagerServer} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link DBusObjectManagerServer} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link DBusObjectManagerServer} using {@link DBusObjectManagerServer#castFrom}.
+         * @return A new instance of {@code DBusObjectManagerServer} with the properties 
+         *         that were set in the Build object.
+         */
+        public DBusObjectManagerServer construct() {
+            return DBusObjectManagerServer.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    DBusObjectManagerServer.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+        
+        /**
+         * The {@link DBusConnection} to export objects on.
+         * @param connection The value for the {@code connection} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setConnection(org.gtk.gio.DBusConnection connection) {
+            names.add("connection");
+            values.add(org.gtk.gobject.Value.create(connection));
+            return this;
+        }
+        
+        /**
+         * The object path to register the manager object at.
+         * @param objectPath The value for the {@code object-path} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setObjectPath(java.lang.String objectPath) {
+            names.add("object-path");
+            values.add(org.gtk.gobject.Value.create(objectPath));
+            return this;
+        }
+    }
+    
     private static class DowncallHandles {
         
         private static final MethodHandle g_dbus_object_manager_server_new = Interop.downcallHandle(
             "g_dbus_object_manager_server_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_dbus_object_manager_server_export = Interop.downcallHandle(
             "g_dbus_object_manager_server_export",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_dbus_object_manager_server_export_uniquely = Interop.downcallHandle(
             "g_dbus_object_manager_server_export_uniquely",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_dbus_object_manager_server_get_connection = Interop.downcallHandle(
             "g_dbus_object_manager_server_get_connection",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_dbus_object_manager_server_is_exported = Interop.downcallHandle(
             "g_dbus_object_manager_server_is_exported",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_dbus_object_manager_server_set_connection = Interop.downcallHandle(
             "g_dbus_object_manager_server_set_connection",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_dbus_object_manager_server_unexport = Interop.downcallHandle(
             "g_dbus_object_manager_server_unexport",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+            false
+        );
+        
+        private static final MethodHandle g_dbus_object_manager_server_get_type = Interop.downcallHandle(
+            "g_dbus_object_manager_server_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }

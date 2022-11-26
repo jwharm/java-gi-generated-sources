@@ -118,7 +118,7 @@ public class InfoBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      * @throws ClassCastException If the GType is not derived from "GtkInfoBar", a ClassCastException will be thrown.
      */
     public static InfoBar castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkInfoBar"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), InfoBar.getType())) {
             return new InfoBar(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkInfoBar");
@@ -444,6 +444,20 @@ public class InfoBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
         }
     }
     
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.gtk_info_bar_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+    
     @FunctionalInterface
     public interface Close {
         void signalReceived(InfoBar source);
@@ -466,7 +480,7 @@ public class InfoBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(InfoBar.Callbacks.class, "signalInfoBarClose",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                     Interop.getScope()),
                 Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
@@ -498,7 +512,7 @@ public class InfoBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(InfoBar.Callbacks.class, "signalInfoBarResponse",
                         MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
                     Interop.getScope()),
                 Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
@@ -507,108 +521,184 @@ public class InfoBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gtk.Widget.Build {
+        
+         /**
+         * A {@link InfoBar.Build} object constructs a {@link InfoBar} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link InfoBar} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link InfoBar} using {@link InfoBar#castFrom}.
+         * @return A new instance of {@code InfoBar} with the properties 
+         *         that were set in the Build object.
+         */
+        public InfoBar construct() {
+            return InfoBar.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    InfoBar.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+        
+        /**
+         * The type of the message.
+         * <p>
+         * The type may be used to determine the appearance of the info bar.
+         * @param messageType The value for the {@code message-type} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setMessageType(org.gtk.gtk.MessageType messageType) {
+            names.add("message-type");
+            values.add(org.gtk.gobject.Value.create(messageType));
+            return this;
+        }
+        
+        /**
+         * Whether the info bar shows its contents.
+         * @param revealed The value for the {@code revealed} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setRevealed(boolean revealed) {
+            names.add("revealed");
+            values.add(org.gtk.gobject.Value.create(revealed));
+            return this;
+        }
+        
+        /**
+         * Whether to include a standard close button.
+         * @param showCloseButton The value for the {@code show-close-button} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setShowCloseButton(boolean showCloseButton) {
+            names.add("show-close-button");
+            values.add(org.gtk.gobject.Value.create(showCloseButton));
+            return this;
+        }
+    }
     
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_info_bar_new = Interop.downcallHandle(
             "gtk_info_bar_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_info_bar_new_with_buttons = Interop.downcallHandle(
             "gtk_info_bar_new_with_buttons",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             true
         );
         
         private static final MethodHandle gtk_info_bar_add_action_widget = Interop.downcallHandle(
             "gtk_info_bar_add_action_widget",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_info_bar_add_button = Interop.downcallHandle(
             "gtk_info_bar_add_button",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_info_bar_add_buttons = Interop.downcallHandle(
             "gtk_info_bar_add_buttons",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             true
         );
         
         private static final MethodHandle gtk_info_bar_add_child = Interop.downcallHandle(
             "gtk_info_bar_add_child",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_info_bar_get_message_type = Interop.downcallHandle(
             "gtk_info_bar_get_message_type",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_info_bar_get_revealed = Interop.downcallHandle(
             "gtk_info_bar_get_revealed",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_info_bar_get_show_close_button = Interop.downcallHandle(
             "gtk_info_bar_get_show_close_button",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_info_bar_remove_action_widget = Interop.downcallHandle(
             "gtk_info_bar_remove_action_widget",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_info_bar_remove_child = Interop.downcallHandle(
             "gtk_info_bar_remove_child",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_info_bar_response = Interop.downcallHandle(
             "gtk_info_bar_response",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_info_bar_set_default_response = Interop.downcallHandle(
             "gtk_info_bar_set_default_response",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_info_bar_set_message_type = Interop.downcallHandle(
             "gtk_info_bar_set_message_type",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_info_bar_set_response_sensitive = Interop.downcallHandle(
             "gtk_info_bar_set_response_sensitive",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_info_bar_set_revealed = Interop.downcallHandle(
             "gtk_info_bar_set_revealed",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_info_bar_set_show_close_button = Interop.downcallHandle(
             "gtk_info_bar_set_show_close_button",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+            false
+        );
+        
+        private static final MethodHandle gtk_info_bar_get_type = Interop.downcallHandle(
+            "gtk_info_bar_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }
@@ -616,15 +706,15 @@ public class InfoBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
     private static class Callbacks {
         
         public static void signalInfoBarClose(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (InfoBar.Close) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new InfoBar(source, Ownership.UNKNOWN));
+            HANDLER.signalReceived(new InfoBar(source, Ownership.NONE));
         }
         
         public static void signalInfoBarResponse(MemoryAddress source, int responseId, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (InfoBar.Response) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new InfoBar(source, Ownership.UNKNOWN), responseId);
+            HANDLER.signalReceived(new InfoBar(source, Ownership.NONE), responseId);
         }
     }
 }

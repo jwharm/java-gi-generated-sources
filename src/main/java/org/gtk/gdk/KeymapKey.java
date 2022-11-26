@@ -8,7 +8,7 @@ import org.jetbrains.annotations.*;
 /**
  * A {@code GdkKeymapKey} is a hardware key that can be mapped to a keyval.
  */
-public class KeymapKey extends io.github.jwharm.javagi.ProxyBase {
+public class KeymapKey extends Struct {
     
     static {
         Gdk.javagi$ensureInitialized();
@@ -16,10 +16,10 @@ public class KeymapKey extends io.github.jwharm.javagi.ProxyBase {
     
     private static final java.lang.String C_TYPE_NAME = "GdkKeymapKey";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
-        ValueLayout.JAVA_INT.withName("keycode"),
-        ValueLayout.JAVA_INT.withName("group"),
-        ValueLayout.JAVA_INT.withName("level")
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
+        Interop.valueLayout.C_INT.withName("keycode"),
+        Interop.valueLayout.C_INT.withName("group"),
+        Interop.valueLayout.C_INT.withName("level")
     ).withName(C_TYPE_NAME);
     
     /**
@@ -33,6 +33,10 @@ public class KeymapKey extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link KeymapKey}
+     * @return A new, uninitialized @{link KeymapKey}
+     */
     public static KeymapKey allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         KeymapKey newInstance = new KeymapKey(segment.address(), Ownership.NONE);
@@ -111,5 +115,78 @@ public class KeymapKey extends io.github.jwharm.javagi.ProxyBase {
     @ApiStatus.Internal
     public KeymapKey(Addressable address, Ownership ownership) {
         super(address, ownership);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private KeymapKey struct;
+        
+         /**
+         * A {@link KeymapKey.Build} object constructs a {@link KeymapKey} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = KeymapKey.allocate();
+        }
+        
+         /**
+         * Finish building the {@link KeymapKey} struct.
+         * @return A new instance of {@code KeymapKey} with the fields 
+         *         that were set in the Build object.
+         */
+        public KeymapKey construct() {
+            return struct;
+        }
+        
+        /**
+         * the hardware keycode. This is an identifying number for a
+         *   physical key.
+         * @param keycode The value for the {@code keycode} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setKeycode(int keycode) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("keycode"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), keycode);
+            return this;
+        }
+        
+        /**
+         * indicates movement in a horizontal direction. Usually groups are used
+         *   for two different languages. In group 0, a key might have two English
+         *   characters, and in group 1 it might have two Hebrew characters. The Hebrew
+         *   characters will be printed on the key next to the English characters.
+         * @param group The value for the {@code group} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setGroup(int group) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("group"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), group);
+            return this;
+        }
+        
+        /**
+         * indicates which symbol on the key will be used, in a vertical direction.
+         *   So on a standard US keyboard, the key with the number “1” on it also has the
+         *   exclamation point ("!") character on it. The level indicates whether to use
+         *   the “1” or the “!” symbol. The letter keys are considered to have a lowercase
+         *   letter at level 0, and an uppercase letter at level 1, though only the
+         *   uppercase letter is printed.
+         * @param level The value for the {@code level} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setLevel(int level) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("level"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), level);
+            return this;
+        }
     }
 }

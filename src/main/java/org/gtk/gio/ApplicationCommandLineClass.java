@@ -10,7 +10,7 @@ import org.jetbrains.annotations.*;
  * contains private data only.
  * @version 2.28
  */
-public class ApplicationCommandLineClass extends io.github.jwharm.javagi.ProxyBase {
+public class ApplicationCommandLineClass extends Struct {
     
     static {
         Gio.javagi$ensureInitialized();
@@ -18,13 +18,12 @@ public class ApplicationCommandLineClass extends io.github.jwharm.javagi.ProxyBa
     
     private static final java.lang.String C_TYPE_NAME = "GApplicationCommandLineClass";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gobject.ObjectClass.getMemoryLayout().withName("parent_class"),
         Interop.valueLayout.ADDRESS.withName("print_literal"),
         Interop.valueLayout.ADDRESS.withName("printerr_literal"),
         Interop.valueLayout.ADDRESS.withName("get_stdin"),
-        MemoryLayout.paddingLayout(448),
-        MemoryLayout.sequenceLayout(11, ValueLayout.ADDRESS).withName("padding")
+        MemoryLayout.sequenceLayout(11, Interop.valueLayout.ADDRESS).withName("padding")
     ).withName(C_TYPE_NAME);
     
     /**
@@ -38,6 +37,10 @@ public class ApplicationCommandLineClass extends io.github.jwharm.javagi.ProxyBa
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link ApplicationCommandLineClass}
+     * @return A new, uninitialized @{link ApplicationCommandLineClass}
+     */
     public static ApplicationCommandLineClass allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         ApplicationCommandLineClass newInstance = new ApplicationCommandLineClass(segment.address(), Ownership.NONE);
@@ -53,5 +56,68 @@ public class ApplicationCommandLineClass extends io.github.jwharm.javagi.ProxyBa
     @ApiStatus.Internal
     public ApplicationCommandLineClass(Addressable address, Ownership ownership) {
         super(address, ownership);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private ApplicationCommandLineClass struct;
+        
+         /**
+         * A {@link ApplicationCommandLineClass.Build} object constructs a {@link ApplicationCommandLineClass} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = ApplicationCommandLineClass.allocate();
+        }
+        
+         /**
+         * Finish building the {@link ApplicationCommandLineClass} struct.
+         * @return A new instance of {@code ApplicationCommandLineClass} with the fields 
+         *         that were set in the Build object.
+         */
+        public ApplicationCommandLineClass construct() {
+            return struct;
+        }
+        
+        public Build setParentClass(org.gtk.gobject.ObjectClass parent_class) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parent_class == null ? MemoryAddress.NULL : parent_class.handle()));
+            return this;
+        }
+        
+        public Build setPrintLiteral(java.lang.foreign.MemoryAddress print_literal) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("print_literal"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (print_literal == null ? MemoryAddress.NULL : print_literal));
+            return this;
+        }
+        
+        public Build setPrinterrLiteral(java.lang.foreign.MemoryAddress printerr_literal) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("printerr_literal"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (printerr_literal == null ? MemoryAddress.NULL : printerr_literal));
+            return this;
+        }
+        
+        public Build setGetStdin(java.lang.foreign.MemoryAddress get_stdin) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("get_stdin"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (get_stdin == null ? MemoryAddress.NULL : get_stdin));
+            return this;
+        }
+        
+        public Build setPadding(java.lang.foreign.MemoryAddress[] padding) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("padding"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (padding == null ? MemoryAddress.NULL : Interop.allocateNativeArray(padding, false)));
+            return this;
+        }
     }
 }

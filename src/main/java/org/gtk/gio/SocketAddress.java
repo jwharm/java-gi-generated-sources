@@ -18,7 +18,7 @@ public class SocketAddress extends org.gtk.gobject.Object implements org.gtk.gio
     
     private static final java.lang.String C_TYPE_NAME = "GSocketAddress";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gobject.Object.getMemoryLayout().withName("parent_instance")
     ).withName(C_TYPE_NAME);
     
@@ -63,7 +63,7 @@ public class SocketAddress extends org.gtk.gobject.Object implements org.gtk.gio
      * @throws ClassCastException If the GType is not derived from "GSocketAddress", a ClassCastException will be thrown.
      */
     public static SocketAddress castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GSocketAddress"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), SocketAddress.getType())) {
             return new SocketAddress(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GSocketAddress");
@@ -75,7 +75,7 @@ public class SocketAddress extends org.gtk.gobject.Object implements org.gtk.gio
         Addressable RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_socket_address_new_from_native.invokeExact(
-                    native_,
+                    (Addressable) native_,
                     len);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -143,12 +143,12 @@ public class SocketAddress extends org.gtk.gobject.Object implements org.gtk.gio
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public boolean toNative(@Nullable java.lang.foreign.MemoryAddress dest, long destlen) throws io.github.jwharm.javagi.GErrorException {
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_socket_address_to_native.invokeExact(
                     handle(),
-                    (Addressable) (dest == null ? MemoryAddress.NULL : dest),
+                    (Addressable) (dest == null ? MemoryAddress.NULL : (Addressable) dest),
                     destlen,
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
@@ -160,29 +160,90 @@ public class SocketAddress extends org.gtk.gobject.Object implements org.gtk.gio
         return RESULT != 0;
     }
     
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.g_socket_address_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gobject.Object.Build {
+        
+         /**
+         * A {@link SocketAddress.Build} object constructs a {@link SocketAddress} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link SocketAddress} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link SocketAddress} using {@link SocketAddress#castFrom}.
+         * @return A new instance of {@code SocketAddress} with the properties 
+         *         that were set in the Build object.
+         */
+        public SocketAddress construct() {
+            return SocketAddress.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    SocketAddress.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+        
+        public Build setFamily(org.gtk.gio.SocketFamily family) {
+            names.add("family");
+            values.add(org.gtk.gobject.Value.create(family));
+            return this;
+        }
+    }
+    
     private static class DowncallHandles {
         
         private static final MethodHandle g_socket_address_new_from_native = Interop.downcallHandle(
             "g_socket_address_new_from_native",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
             false
         );
         
         private static final MethodHandle g_socket_address_get_family = Interop.downcallHandle(
             "g_socket_address_get_family",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_socket_address_get_native_size = Interop.downcallHandle(
             "g_socket_address_get_native_size",
-            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_socket_address_to_native = Interop.downcallHandle(
             "g_socket_address_to_native",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
+            false
+        );
+        
+        private static final MethodHandle g_socket_address_get_type = Interop.downcallHandle(
+            "g_socket_address_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }

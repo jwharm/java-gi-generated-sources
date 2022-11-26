@@ -69,7 +69,7 @@ public class RecentManager extends org.gtk.gobject.Object {
     
     private static final java.lang.String C_TYPE_NAME = "GtkRecentManager";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gobject.Object.getMemoryLayout().withName("parent_instance"),
         Interop.valueLayout.ADDRESS.withName("priv")
     ).withName(C_TYPE_NAME);
@@ -106,7 +106,7 @@ public class RecentManager extends org.gtk.gobject.Object {
      * @throws ClassCastException If the GType is not derived from "GtkRecentManager", a ClassCastException will be thrown.
      */
     public static RecentManager castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkRecentManager"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), RecentManager.getType())) {
             return new RecentManager(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkRecentManager");
@@ -256,7 +256,7 @@ public class RecentManager extends org.gtk.gobject.Object {
      */
     public @Nullable org.gtk.gtk.RecentInfo lookupItem(@NotNull java.lang.String uri) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(uri, "Parameter 'uri' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_recent_manager_lookup_item.invokeExact(
@@ -285,7 +285,7 @@ public class RecentManager extends org.gtk.gobject.Object {
      */
     public boolean moveItem(@NotNull java.lang.String uri, @Nullable java.lang.String newUri) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(uri, "Parameter 'uri' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_recent_manager_move_item.invokeExact(
@@ -309,7 +309,7 @@ public class RecentManager extends org.gtk.gobject.Object {
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public int purgeItems() throws io.github.jwharm.javagi.GErrorException {
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_recent_manager_purge_items.invokeExact(
@@ -334,7 +334,7 @@ public class RecentManager extends org.gtk.gobject.Object {
      */
     public boolean removeItem(@NotNull java.lang.String uri) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(uri, "Parameter 'uri' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_recent_manager_remove_item.invokeExact(
@@ -348,6 +348,20 @@ public class RecentManager extends org.gtk.gobject.Object {
             throw new GErrorException(GERROR);
         }
         return RESULT != 0;
+    }
+    
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.gtk_recent_manager_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
     }
     
     /**
@@ -388,7 +402,7 @@ public class RecentManager extends org.gtk.gobject.Object {
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(RecentManager.Callbacks.class, "signalRecentManagerChanged",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                     Interop.getScope()),
                 Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
@@ -397,66 +411,130 @@ public class RecentManager extends org.gtk.gobject.Object {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gobject.Object.Build {
+        
+         /**
+         * A {@link RecentManager.Build} object constructs a {@link RecentManager} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link RecentManager} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link RecentManager} using {@link RecentManager#castFrom}.
+         * @return A new instance of {@code RecentManager} with the properties 
+         *         that were set in the Build object.
+         */
+        public RecentManager construct() {
+            return RecentManager.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    RecentManager.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+        
+        /**
+         * The full path to the file to be used to store and read the
+         * recently used resources list
+         * @param filename The value for the {@code filename} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setFilename(java.lang.String filename) {
+            names.add("filename");
+            values.add(org.gtk.gobject.Value.create(filename));
+            return this;
+        }
+        
+        /**
+         * The size of the recently used resources list.
+         * @param size The value for the {@code size} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setSize(int size) {
+            names.add("size");
+            values.add(org.gtk.gobject.Value.create(size));
+            return this;
+        }
+    }
     
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_recent_manager_new = Interop.downcallHandle(
             "gtk_recent_manager_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_recent_manager_add_full = Interop.downcallHandle(
             "gtk_recent_manager_add_full",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_recent_manager_add_item = Interop.downcallHandle(
             "gtk_recent_manager_add_item",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_recent_manager_get_items = Interop.downcallHandle(
             "gtk_recent_manager_get_items",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_recent_manager_has_item = Interop.downcallHandle(
             "gtk_recent_manager_has_item",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_recent_manager_lookup_item = Interop.downcallHandle(
             "gtk_recent_manager_lookup_item",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_recent_manager_move_item = Interop.downcallHandle(
             "gtk_recent_manager_move_item",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_recent_manager_purge_items = Interop.downcallHandle(
             "gtk_recent_manager_purge_items",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_recent_manager_remove_item = Interop.downcallHandle(
             "gtk_recent_manager_remove_item",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+            false
+        );
+        
+        private static final MethodHandle gtk_recent_manager_get_type = Interop.downcallHandle(
+            "gtk_recent_manager_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
         
         private static final MethodHandle gtk_recent_manager_get_default = Interop.downcallHandle(
             "gtk_recent_manager_get_default",
-            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
             false
         );
     }
@@ -464,9 +542,9 @@ public class RecentManager extends org.gtk.gobject.Object {
     private static class Callbacks {
         
         public static void signalRecentManagerChanged(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (RecentManager.Changed) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new RecentManager(source, Ownership.UNKNOWN));
+            HANDLER.signalReceived(new RecentManager(source, Ownership.NONE));
         }
     }
 }

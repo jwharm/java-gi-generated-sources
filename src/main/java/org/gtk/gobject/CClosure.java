@@ -8,7 +8,7 @@ import org.jetbrains.annotations.*;
 /**
  * A {@link CClosure} is a specialization of {@link Closure} for C function callbacks.
  */
-public class CClosure extends io.github.jwharm.javagi.ProxyBase {
+public class CClosure extends Struct {
     
     static {
         GObject.javagi$ensureInitialized();
@@ -16,7 +16,7 @@ public class CClosure extends io.github.jwharm.javagi.ProxyBase {
     
     private static final java.lang.String C_TYPE_NAME = "GCClosure";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gobject.Closure.getMemoryLayout().withName("closure"),
         Interop.valueLayout.ADDRESS.withName("callback")
     ).withName(C_TYPE_NAME);
@@ -32,6 +32,10 @@ public class CClosure extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link CClosure}
+     * @return A new, uninitialized @{link CClosure}
+     */
     public static CClosure allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         CClosure newInstance = new CClosure(segment.address(), Ownership.NONE);
@@ -66,7 +70,7 @@ public class CClosure extends io.github.jwharm.javagi.ProxyBase {
     public void callback$set(java.lang.foreign.MemoryAddress callback) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("callback"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), callback);
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) callback);
     }
     
     /**
@@ -106,8 +110,8 @@ public class CClosure extends io.github.jwharm.javagi.ProxyBase {
                     returnValue.handle(),
                     nParamValues,
                     paramValues.handle(),
-                    (Addressable) (invocationHint == null ? MemoryAddress.NULL : invocationHint),
-                    marshalData);
+                    (Addressable) (invocationHint == null ? MemoryAddress.NULL : (Addressable) invocationHint),
+                    (Addressable) marshalData);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -139,7 +143,7 @@ public class CClosure extends io.github.jwharm.javagi.ProxyBase {
                     (Addressable) (returnValue == null ? MemoryAddress.NULL : returnValue.handle()),
                     instance.handle(),
                     args,
-                    marshalData,
+                    (Addressable) marshalData,
                     nParams,
                     Interop.allocateNativeArray(org.gtk.glib.Type.getLongValues(paramTypes), false));
         } catch (Throwable ERR) {
@@ -169,8 +173,8 @@ public class CClosure extends io.github.jwharm.javagi.ProxyBase {
                     returnValue.handle(),
                     nParamValues,
                     paramValues.handle(),
-                    (Addressable) (invocationHint == null ? MemoryAddress.NULL : invocationHint),
-                    marshalData);
+                    (Addressable) (invocationHint == null ? MemoryAddress.NULL : (Addressable) invocationHint),
+                    (Addressable) marshalData);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -202,7 +206,7 @@ public class CClosure extends io.github.jwharm.javagi.ProxyBase {
                     (Addressable) (returnValue == null ? MemoryAddress.NULL : returnValue.handle()),
                     instance.handle(),
                     args,
-                    marshalData,
+                    (Addressable) marshalData,
                     nParams,
                     Interop.allocateNativeArray(org.gtk.glib.Type.getLongValues(paramTypes), false));
         } catch (Throwable ERR) {
@@ -231,8 +235,8 @@ public class CClosure extends io.github.jwharm.javagi.ProxyBase {
                     returnValue.handle(),
                     nParamValues,
                     paramValues.handle(),
-                    (Addressable) (invocationHint == null ? MemoryAddress.NULL : invocationHint),
-                    marshalData);
+                    (Addressable) (invocationHint == null ? MemoryAddress.NULL : (Addressable) invocationHint),
+                    (Addressable) marshalData);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -264,7 +268,7 @@ public class CClosure extends io.github.jwharm.javagi.ProxyBase {
                     (Addressable) (returnValue == null ? MemoryAddress.NULL : returnValue.handle()),
                     instance.handle(),
                     args,
-                    marshalData,
+                    (Addressable) marshalData,
                     nParams,
                     Interop.allocateNativeArray(org.gtk.glib.Type.getLongValues(paramTypes), false));
         } catch (Throwable ERR) {
@@ -293,8 +297,8 @@ public class CClosure extends io.github.jwharm.javagi.ProxyBase {
                     returnValue.handle(),
                     nParamValues,
                     paramValues.handle(),
-                    (Addressable) (invocationHint == null ? MemoryAddress.NULL : invocationHint),
-                    marshalData);
+                    (Addressable) (invocationHint == null ? MemoryAddress.NULL : (Addressable) invocationHint),
+                    (Addressable) marshalData);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -326,7 +330,7 @@ public class CClosure extends io.github.jwharm.javagi.ProxyBase {
                     (Addressable) (returnValue == null ? MemoryAddress.NULL : returnValue.handle()),
                     instance.handle(),
                     args,
-                    marshalData,
+                    (Addressable) marshalData,
                     nParams,
                     Interop.allocateNativeArray(org.gtk.glib.Type.getLongValues(paramTypes), false));
         } catch (Throwable ERR) {
@@ -355,8 +359,8 @@ public class CClosure extends io.github.jwharm.javagi.ProxyBase {
                     returnValue.handle(),
                     nParamValues,
                     paramValues.handle(),
-                    (Addressable) (invocationHint == null ? MemoryAddress.NULL : invocationHint),
-                    marshalData);
+                    (Addressable) (invocationHint == null ? MemoryAddress.NULL : (Addressable) invocationHint),
+                    (Addressable) marshalData);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -388,7 +392,7 @@ public class CClosure extends io.github.jwharm.javagi.ProxyBase {
                     (Addressable) (returnValue == null ? MemoryAddress.NULL : returnValue.handle()),
                     instance.handle(),
                     args,
-                    marshalData,
+                    (Addressable) marshalData,
                     nParams,
                     Interop.allocateNativeArray(org.gtk.glib.Type.getLongValues(paramTypes), false));
         } catch (Throwable ERR) {
@@ -417,8 +421,8 @@ public class CClosure extends io.github.jwharm.javagi.ProxyBase {
                     returnValue.handle(),
                     nParamValues,
                     paramValues.handle(),
-                    (Addressable) (invocationHint == null ? MemoryAddress.NULL : invocationHint),
-                    marshalData);
+                    (Addressable) (invocationHint == null ? MemoryAddress.NULL : (Addressable) invocationHint),
+                    (Addressable) marshalData);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -450,7 +454,7 @@ public class CClosure extends io.github.jwharm.javagi.ProxyBase {
                     (Addressable) (returnValue == null ? MemoryAddress.NULL : returnValue.handle()),
                     instance.handle(),
                     args,
-                    marshalData,
+                    (Addressable) marshalData,
                     nParams,
                     Interop.allocateNativeArray(org.gtk.glib.Type.getLongValues(paramTypes), false));
         } catch (Throwable ERR) {
@@ -479,8 +483,8 @@ public class CClosure extends io.github.jwharm.javagi.ProxyBase {
                     returnValue.handle(),
                     nParamValues,
                     paramValues.handle(),
-                    (Addressable) (invocationHint == null ? MemoryAddress.NULL : invocationHint),
-                    marshalData);
+                    (Addressable) (invocationHint == null ? MemoryAddress.NULL : (Addressable) invocationHint),
+                    (Addressable) marshalData);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -512,7 +516,7 @@ public class CClosure extends io.github.jwharm.javagi.ProxyBase {
                     (Addressable) (returnValue == null ? MemoryAddress.NULL : returnValue.handle()),
                     instance.handle(),
                     args,
-                    marshalData,
+                    (Addressable) marshalData,
                     nParams,
                     Interop.allocateNativeArray(org.gtk.glib.Type.getLongValues(paramTypes), false));
         } catch (Throwable ERR) {
@@ -541,8 +545,8 @@ public class CClosure extends io.github.jwharm.javagi.ProxyBase {
                     returnValue.handle(),
                     nParamValues,
                     paramValues.handle(),
-                    (Addressable) (invocationHint == null ? MemoryAddress.NULL : invocationHint),
-                    marshalData);
+                    (Addressable) (invocationHint == null ? MemoryAddress.NULL : (Addressable) invocationHint),
+                    (Addressable) marshalData);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -574,7 +578,7 @@ public class CClosure extends io.github.jwharm.javagi.ProxyBase {
                     (Addressable) (returnValue == null ? MemoryAddress.NULL : returnValue.handle()),
                     instance.handle(),
                     args,
-                    marshalData,
+                    (Addressable) marshalData,
                     nParams,
                     Interop.allocateNativeArray(org.gtk.glib.Type.getLongValues(paramTypes), false));
         } catch (Throwable ERR) {
@@ -603,8 +607,8 @@ public class CClosure extends io.github.jwharm.javagi.ProxyBase {
                     returnValue.handle(),
                     nParamValues,
                     paramValues.handle(),
-                    (Addressable) (invocationHint == null ? MemoryAddress.NULL : invocationHint),
-                    marshalData);
+                    (Addressable) (invocationHint == null ? MemoryAddress.NULL : (Addressable) invocationHint),
+                    (Addressable) marshalData);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -636,7 +640,7 @@ public class CClosure extends io.github.jwharm.javagi.ProxyBase {
                     (Addressable) (returnValue == null ? MemoryAddress.NULL : returnValue.handle()),
                     instance.handle(),
                     args,
-                    marshalData,
+                    (Addressable) marshalData,
                     nParams,
                     Interop.allocateNativeArray(org.gtk.glib.Type.getLongValues(paramTypes), false));
         } catch (Throwable ERR) {
@@ -665,8 +669,8 @@ public class CClosure extends io.github.jwharm.javagi.ProxyBase {
                     returnValue.handle(),
                     nParamValues,
                     paramValues.handle(),
-                    (Addressable) (invocationHint == null ? MemoryAddress.NULL : invocationHint),
-                    marshalData);
+                    (Addressable) (invocationHint == null ? MemoryAddress.NULL : (Addressable) invocationHint),
+                    (Addressable) marshalData);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -698,7 +702,7 @@ public class CClosure extends io.github.jwharm.javagi.ProxyBase {
                     (Addressable) (returnValue == null ? MemoryAddress.NULL : returnValue.handle()),
                     instance.handle(),
                     args,
-                    marshalData,
+                    (Addressable) marshalData,
                     nParams,
                     Interop.allocateNativeArray(org.gtk.glib.Type.getLongValues(paramTypes), false));
         } catch (Throwable ERR) {
@@ -727,8 +731,8 @@ public class CClosure extends io.github.jwharm.javagi.ProxyBase {
                     returnValue.handle(),
                     nParamValues,
                     paramValues.handle(),
-                    (Addressable) (invocationHint == null ? MemoryAddress.NULL : invocationHint),
-                    marshalData);
+                    (Addressable) (invocationHint == null ? MemoryAddress.NULL : (Addressable) invocationHint),
+                    (Addressable) marshalData);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -760,7 +764,7 @@ public class CClosure extends io.github.jwharm.javagi.ProxyBase {
                     (Addressable) (returnValue == null ? MemoryAddress.NULL : returnValue.handle()),
                     instance.handle(),
                     args,
-                    marshalData,
+                    (Addressable) marshalData,
                     nParams,
                     Interop.allocateNativeArray(org.gtk.glib.Type.getLongValues(paramTypes), false));
         } catch (Throwable ERR) {
@@ -789,8 +793,8 @@ public class CClosure extends io.github.jwharm.javagi.ProxyBase {
                     returnValue.handle(),
                     nParamValues,
                     paramValues.handle(),
-                    (Addressable) (invocationHint == null ? MemoryAddress.NULL : invocationHint),
-                    marshalData);
+                    (Addressable) (invocationHint == null ? MemoryAddress.NULL : (Addressable) invocationHint),
+                    (Addressable) marshalData);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -822,7 +826,7 @@ public class CClosure extends io.github.jwharm.javagi.ProxyBase {
                     (Addressable) (returnValue == null ? MemoryAddress.NULL : returnValue.handle()),
                     instance.handle(),
                     args,
-                    marshalData,
+                    (Addressable) marshalData,
                     nParams,
                     Interop.allocateNativeArray(org.gtk.glib.Type.getLongValues(paramTypes), false));
         } catch (Throwable ERR) {
@@ -851,8 +855,8 @@ public class CClosure extends io.github.jwharm.javagi.ProxyBase {
                     returnValue.handle(),
                     nParamValues,
                     paramValues.handle(),
-                    (Addressable) (invocationHint == null ? MemoryAddress.NULL : invocationHint),
-                    marshalData);
+                    (Addressable) (invocationHint == null ? MemoryAddress.NULL : (Addressable) invocationHint),
+                    (Addressable) marshalData);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -884,7 +888,7 @@ public class CClosure extends io.github.jwharm.javagi.ProxyBase {
                     (Addressable) (returnValue == null ? MemoryAddress.NULL : returnValue.handle()),
                     instance.handle(),
                     args,
-                    marshalData,
+                    (Addressable) marshalData,
                     nParams,
                     Interop.allocateNativeArray(org.gtk.glib.Type.getLongValues(paramTypes), false));
         } catch (Throwable ERR) {
@@ -913,8 +917,8 @@ public class CClosure extends io.github.jwharm.javagi.ProxyBase {
                     returnValue.handle(),
                     nParamValues,
                     paramValues.handle(),
-                    (Addressable) (invocationHint == null ? MemoryAddress.NULL : invocationHint),
-                    marshalData);
+                    (Addressable) (invocationHint == null ? MemoryAddress.NULL : (Addressable) invocationHint),
+                    (Addressable) marshalData);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -946,7 +950,7 @@ public class CClosure extends io.github.jwharm.javagi.ProxyBase {
                     (Addressable) (returnValue == null ? MemoryAddress.NULL : returnValue.handle()),
                     instance.handle(),
                     args,
-                    marshalData,
+                    (Addressable) marshalData,
                     nParams,
                     Interop.allocateNativeArray(org.gtk.glib.Type.getLongValues(paramTypes), false));
         } catch (Throwable ERR) {
@@ -975,8 +979,8 @@ public class CClosure extends io.github.jwharm.javagi.ProxyBase {
                     returnValue.handle(),
                     nParamValues,
                     paramValues.handle(),
-                    (Addressable) (invocationHint == null ? MemoryAddress.NULL : invocationHint),
-                    marshalData);
+                    (Addressable) (invocationHint == null ? MemoryAddress.NULL : (Addressable) invocationHint),
+                    (Addressable) marshalData);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1008,7 +1012,7 @@ public class CClosure extends io.github.jwharm.javagi.ProxyBase {
                     (Addressable) (returnValue == null ? MemoryAddress.NULL : returnValue.handle()),
                     instance.handle(),
                     args,
-                    marshalData,
+                    (Addressable) marshalData,
                     nParams,
                     Interop.allocateNativeArray(org.gtk.glib.Type.getLongValues(paramTypes), false));
         } catch (Throwable ERR) {
@@ -1037,8 +1041,8 @@ public class CClosure extends io.github.jwharm.javagi.ProxyBase {
                     returnValue.handle(),
                     nParamValues,
                     paramValues.handle(),
-                    (Addressable) (invocationHint == null ? MemoryAddress.NULL : invocationHint),
-                    marshalData);
+                    (Addressable) (invocationHint == null ? MemoryAddress.NULL : (Addressable) invocationHint),
+                    (Addressable) marshalData);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1070,7 +1074,7 @@ public class CClosure extends io.github.jwharm.javagi.ProxyBase {
                     (Addressable) (returnValue == null ? MemoryAddress.NULL : returnValue.handle()),
                     instance.handle(),
                     args,
-                    marshalData,
+                    (Addressable) marshalData,
                     nParams,
                     Interop.allocateNativeArray(org.gtk.glib.Type.getLongValues(paramTypes), false));
         } catch (Throwable ERR) {
@@ -1099,8 +1103,8 @@ public class CClosure extends io.github.jwharm.javagi.ProxyBase {
                     returnValue.handle(),
                     nParamValues,
                     paramValues.handle(),
-                    (Addressable) (invocationHint == null ? MemoryAddress.NULL : invocationHint),
-                    marshalData);
+                    (Addressable) (invocationHint == null ? MemoryAddress.NULL : (Addressable) invocationHint),
+                    (Addressable) marshalData);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1132,7 +1136,7 @@ public class CClosure extends io.github.jwharm.javagi.ProxyBase {
                     (Addressable) (returnValue == null ? MemoryAddress.NULL : returnValue.handle()),
                     instance.handle(),
                     args,
-                    marshalData,
+                    (Addressable) marshalData,
                     nParams,
                     Interop.allocateNativeArray(org.gtk.glib.Type.getLongValues(paramTypes), false));
         } catch (Throwable ERR) {
@@ -1161,8 +1165,8 @@ public class CClosure extends io.github.jwharm.javagi.ProxyBase {
                     returnValue.handle(),
                     nParamValues,
                     paramValues.handle(),
-                    (Addressable) (invocationHint == null ? MemoryAddress.NULL : invocationHint),
-                    marshalData);
+                    (Addressable) (invocationHint == null ? MemoryAddress.NULL : (Addressable) invocationHint),
+                    (Addressable) marshalData);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1189,8 +1193,8 @@ public class CClosure extends io.github.jwharm.javagi.ProxyBase {
                     returnValue.handle(),
                     nParamValues,
                     paramValues.handle(),
-                    (Addressable) (invocationHint == null ? MemoryAddress.NULL : invocationHint),
-                    marshalData);
+                    (Addressable) (invocationHint == null ? MemoryAddress.NULL : (Addressable) invocationHint),
+                    (Addressable) marshalData);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1222,7 +1226,7 @@ public class CClosure extends io.github.jwharm.javagi.ProxyBase {
                     (Addressable) (returnValue == null ? MemoryAddress.NULL : returnValue.handle()),
                     instance.handle(),
                     args,
-                    marshalData,
+                    (Addressable) marshalData,
                     nParams,
                     Interop.allocateNativeArray(org.gtk.glib.Type.getLongValues(paramTypes), false));
         } catch (Throwable ERR) {
@@ -1256,7 +1260,7 @@ public class CClosure extends io.github.jwharm.javagi.ProxyBase {
                     (Addressable) (returnValue == null ? MemoryAddress.NULL : returnValue.handle()),
                     instance.handle(),
                     args,
-                    marshalData,
+                    (Addressable) marshalData,
                     nParams,
                     Interop.allocateNativeArray(org.gtk.glib.Type.getLongValues(paramTypes), false));
         } catch (Throwable ERR) {
@@ -1285,8 +1289,8 @@ public class CClosure extends io.github.jwharm.javagi.ProxyBase {
                     returnValue.handle(),
                     nParamValues,
                     paramValues.handle(),
-                    (Addressable) (invocationHint == null ? MemoryAddress.NULL : invocationHint),
-                    marshalData);
+                    (Addressable) (invocationHint == null ? MemoryAddress.NULL : (Addressable) invocationHint),
+                    (Addressable) marshalData);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1318,7 +1322,7 @@ public class CClosure extends io.github.jwharm.javagi.ProxyBase {
                     (Addressable) (returnValue == null ? MemoryAddress.NULL : returnValue.handle()),
                     instance.handle(),
                     args,
-                    marshalData,
+                    (Addressable) marshalData,
                     nParams,
                     Interop.allocateNativeArray(org.gtk.glib.Type.getLongValues(paramTypes), false));
         } catch (Throwable ERR) {
@@ -1347,8 +1351,8 @@ public class CClosure extends io.github.jwharm.javagi.ProxyBase {
                     returnValue.handle(),
                     nParamValues,
                     paramValues.handle(),
-                    (Addressable) (invocationHint == null ? MemoryAddress.NULL : invocationHint),
-                    marshalData);
+                    (Addressable) (invocationHint == null ? MemoryAddress.NULL : (Addressable) invocationHint),
+                    (Addressable) marshalData);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1380,7 +1384,7 @@ public class CClosure extends io.github.jwharm.javagi.ProxyBase {
                     (Addressable) (returnValue == null ? MemoryAddress.NULL : returnValue.handle()),
                     instance.handle(),
                     args,
-                    marshalData,
+                    (Addressable) marshalData,
                     nParams,
                     Interop.allocateNativeArray(org.gtk.glib.Type.getLongValues(paramTypes), false));
         } catch (Throwable ERR) {
@@ -1409,8 +1413,8 @@ public class CClosure extends io.github.jwharm.javagi.ProxyBase {
                     returnValue.handle(),
                     nParamValues,
                     paramValues.handle(),
-                    (Addressable) (invocationHint == null ? MemoryAddress.NULL : invocationHint),
-                    marshalData);
+                    (Addressable) (invocationHint == null ? MemoryAddress.NULL : (Addressable) invocationHint),
+                    (Addressable) marshalData);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1442,7 +1446,7 @@ public class CClosure extends io.github.jwharm.javagi.ProxyBase {
                     (Addressable) (returnValue == null ? MemoryAddress.NULL : returnValue.handle()),
                     instance.handle(),
                     args,
-                    marshalData,
+                    (Addressable) marshalData,
                     nParams,
                     Interop.allocateNativeArray(org.gtk.glib.Type.getLongValues(paramTypes), false));
         } catch (Throwable ERR) {
@@ -1478,8 +1482,8 @@ public class CClosure extends io.github.jwharm.javagi.ProxyBase {
                     returnGvalue.handle(),
                     nParamValues,
                     paramValues.handle(),
-                    (Addressable) (invocationHint == null ? MemoryAddress.NULL : invocationHint),
-                    marshalData);
+                    (Addressable) (invocationHint == null ? MemoryAddress.NULL : (Addressable) invocationHint),
+                    (Addressable) marshalData);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1513,7 +1517,7 @@ public class CClosure extends io.github.jwharm.javagi.ProxyBase {
                     (Addressable) (returnValue == null ? MemoryAddress.NULL : returnValue.handle()),
                     instance.handle(),
                     argsList,
-                    marshalData,
+                    (Addressable) marshalData,
                     nParams,
                     Interop.allocateNativeArray(org.gtk.glib.Type.getLongValues(paramTypes), false));
         } catch (Throwable ERR) {
@@ -1615,302 +1619,354 @@ public class CClosure extends io.github.jwharm.javagi.ProxyBase {
         
         private static final MethodHandle g_cclosure_marshal_BOOLEAN__BOXED_BOXED = Interop.downcallHandle(
             "g_cclosure_marshal_BOOLEAN__BOXED_BOXED",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_cclosure_marshal_BOOLEAN__BOXED_BOXEDv = Interop.downcallHandle(
             "g_cclosure_marshal_BOOLEAN__BOXED_BOXEDv",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_cclosure_marshal_BOOLEAN__FLAGS = Interop.downcallHandle(
             "g_cclosure_marshal_BOOLEAN__FLAGS",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_cclosure_marshal_BOOLEAN__FLAGSv = Interop.downcallHandle(
             "g_cclosure_marshal_BOOLEAN__FLAGSv",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_cclosure_marshal_STRING__OBJECT_POINTER = Interop.downcallHandle(
             "g_cclosure_marshal_STRING__OBJECT_POINTER",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_cclosure_marshal_STRING__OBJECT_POINTERv = Interop.downcallHandle(
             "g_cclosure_marshal_STRING__OBJECT_POINTERv",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_cclosure_marshal_VOID__BOOLEAN = Interop.downcallHandle(
             "g_cclosure_marshal_VOID__BOOLEAN",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_cclosure_marshal_VOID__BOOLEANv = Interop.downcallHandle(
             "g_cclosure_marshal_VOID__BOOLEANv",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_cclosure_marshal_VOID__BOXED = Interop.downcallHandle(
             "g_cclosure_marshal_VOID__BOXED",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_cclosure_marshal_VOID__BOXEDv = Interop.downcallHandle(
             "g_cclosure_marshal_VOID__BOXEDv",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_cclosure_marshal_VOID__CHAR = Interop.downcallHandle(
             "g_cclosure_marshal_VOID__CHAR",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_cclosure_marshal_VOID__CHARv = Interop.downcallHandle(
             "g_cclosure_marshal_VOID__CHARv",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_cclosure_marshal_VOID__DOUBLE = Interop.downcallHandle(
             "g_cclosure_marshal_VOID__DOUBLE",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_cclosure_marshal_VOID__DOUBLEv = Interop.downcallHandle(
             "g_cclosure_marshal_VOID__DOUBLEv",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_cclosure_marshal_VOID__ENUM = Interop.downcallHandle(
             "g_cclosure_marshal_VOID__ENUM",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_cclosure_marshal_VOID__ENUMv = Interop.downcallHandle(
             "g_cclosure_marshal_VOID__ENUMv",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_cclosure_marshal_VOID__FLAGS = Interop.downcallHandle(
             "g_cclosure_marshal_VOID__FLAGS",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_cclosure_marshal_VOID__FLAGSv = Interop.downcallHandle(
             "g_cclosure_marshal_VOID__FLAGSv",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_cclosure_marshal_VOID__FLOAT = Interop.downcallHandle(
             "g_cclosure_marshal_VOID__FLOAT",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_cclosure_marshal_VOID__FLOATv = Interop.downcallHandle(
             "g_cclosure_marshal_VOID__FLOATv",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_cclosure_marshal_VOID__INT = Interop.downcallHandle(
             "g_cclosure_marshal_VOID__INT",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_cclosure_marshal_VOID__INTv = Interop.downcallHandle(
             "g_cclosure_marshal_VOID__INTv",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_cclosure_marshal_VOID__LONG = Interop.downcallHandle(
             "g_cclosure_marshal_VOID__LONG",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_cclosure_marshal_VOID__LONGv = Interop.downcallHandle(
             "g_cclosure_marshal_VOID__LONGv",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_cclosure_marshal_VOID__OBJECT = Interop.downcallHandle(
             "g_cclosure_marshal_VOID__OBJECT",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_cclosure_marshal_VOID__OBJECTv = Interop.downcallHandle(
             "g_cclosure_marshal_VOID__OBJECTv",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_cclosure_marshal_VOID__PARAM = Interop.downcallHandle(
             "g_cclosure_marshal_VOID__PARAM",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_cclosure_marshal_VOID__PARAMv = Interop.downcallHandle(
             "g_cclosure_marshal_VOID__PARAMv",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_cclosure_marshal_VOID__POINTER = Interop.downcallHandle(
             "g_cclosure_marshal_VOID__POINTER",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_cclosure_marshal_VOID__POINTERv = Interop.downcallHandle(
             "g_cclosure_marshal_VOID__POINTERv",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_cclosure_marshal_VOID__STRING = Interop.downcallHandle(
             "g_cclosure_marshal_VOID__STRING",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_cclosure_marshal_VOID__STRINGv = Interop.downcallHandle(
             "g_cclosure_marshal_VOID__STRINGv",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_cclosure_marshal_VOID__UCHAR = Interop.downcallHandle(
             "g_cclosure_marshal_VOID__UCHAR",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_cclosure_marshal_VOID__UCHARv = Interop.downcallHandle(
             "g_cclosure_marshal_VOID__UCHARv",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_cclosure_marshal_VOID__UINT = Interop.downcallHandle(
             "g_cclosure_marshal_VOID__UINT",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_cclosure_marshal_VOID__UINT_POINTER = Interop.downcallHandle(
             "g_cclosure_marshal_VOID__UINT_POINTER",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_cclosure_marshal_VOID__UINT_POINTERv = Interop.downcallHandle(
             "g_cclosure_marshal_VOID__UINT_POINTERv",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_cclosure_marshal_VOID__UINTv = Interop.downcallHandle(
             "g_cclosure_marshal_VOID__UINTv",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_cclosure_marshal_VOID__ULONG = Interop.downcallHandle(
             "g_cclosure_marshal_VOID__ULONG",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_cclosure_marshal_VOID__ULONGv = Interop.downcallHandle(
             "g_cclosure_marshal_VOID__ULONGv",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_cclosure_marshal_VOID__VARIANT = Interop.downcallHandle(
             "g_cclosure_marshal_VOID__VARIANT",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_cclosure_marshal_VOID__VARIANTv = Interop.downcallHandle(
             "g_cclosure_marshal_VOID__VARIANTv",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_cclosure_marshal_VOID__VOID = Interop.downcallHandle(
             "g_cclosure_marshal_VOID__VOID",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_cclosure_marshal_VOID__VOIDv = Interop.downcallHandle(
             "g_cclosure_marshal_VOID__VOIDv",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_cclosure_marshal_generic = Interop.downcallHandle(
             "g_cclosure_marshal_generic",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_cclosure_marshal_generic_va = Interop.downcallHandle(
             "g_cclosure_marshal_generic_va",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_cclosure_new = Interop.downcallHandle(
             "g_cclosure_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_cclosure_new_object = Interop.downcallHandle(
             "g_cclosure_new_object",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_cclosure_new_object_swap = Interop.downcallHandle(
             "g_cclosure_new_object_swap",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_cclosure_new_swap = Interop.downcallHandle(
             "g_cclosure_new_swap",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private CClosure struct;
+        
+         /**
+         * A {@link CClosure.Build} object constructs a {@link CClosure} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = CClosure.allocate();
+        }
+        
+         /**
+         * Finish building the {@link CClosure} struct.
+         * @return A new instance of {@code CClosure} with the fields 
+         *         that were set in the Build object.
+         */
+        public CClosure construct() {
+            return struct;
+        }
+        
+        /**
+         * the {@link Closure}
+         * @param closure The value for the {@code closure} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setClosure(org.gtk.gobject.Closure closure) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("closure"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (closure == null ? MemoryAddress.NULL : closure.handle()));
+            return this;
+        }
+        
+        /**
+         * the callback function
+         * @param callback The value for the {@code callback} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setCallback(java.lang.foreign.MemoryAddress callback) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("callback"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) callback));
+            return this;
+        }
     }
 }

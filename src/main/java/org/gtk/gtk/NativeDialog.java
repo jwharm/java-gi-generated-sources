@@ -32,7 +32,7 @@ public class NativeDialog extends org.gtk.gobject.Object {
     
     private static final java.lang.String C_TYPE_NAME = "GtkNativeDialog";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gobject.Object.getMemoryLayout().withName("parent_instance")
     ).withName(C_TYPE_NAME);
     
@@ -77,7 +77,7 @@ public class NativeDialog extends org.gtk.gobject.Object {
      * @throws ClassCastException If the GType is not derived from "GtkNativeDialog", a ClassCastException will be thrown.
      */
     public static NativeDialog castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkNativeDialog"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), NativeDialog.getType())) {
             return new NativeDialog(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkNativeDialog");
@@ -260,6 +260,20 @@ public class NativeDialog extends org.gtk.gobject.Object {
         }
     }
     
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.gtk_native_dialog_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+    
     @FunctionalInterface
     public interface Response {
         void signalReceived(NativeDialog source, int responseId);
@@ -283,7 +297,7 @@ public class NativeDialog extends org.gtk.gobject.Object {
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(NativeDialog.Callbacks.class, "signalNativeDialogResponse",
                         MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
                     Interop.getScope()),
                 Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
@@ -292,66 +306,151 @@ public class NativeDialog extends org.gtk.gobject.Object {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gobject.Object.Build {
+        
+         /**
+         * A {@link NativeDialog.Build} object constructs a {@link NativeDialog} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link NativeDialog} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link NativeDialog} using {@link NativeDialog#castFrom}.
+         * @return A new instance of {@code NativeDialog} with the properties 
+         *         that were set in the Build object.
+         */
+        public NativeDialog construct() {
+            return NativeDialog.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    NativeDialog.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+        
+        /**
+         * Whether the window should be modal with respect to its transient parent.
+         * @param modal The value for the {@code modal} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setModal(boolean modal) {
+            names.add("modal");
+            values.add(org.gtk.gobject.Value.create(modal));
+            return this;
+        }
+        
+        /**
+         * The title of the dialog window
+         * @param title The value for the {@code title} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setTitle(java.lang.String title) {
+            names.add("title");
+            values.add(org.gtk.gobject.Value.create(title));
+            return this;
+        }
+        
+        /**
+         * The transient parent of the dialog, or {@code null} for none.
+         * @param transientFor The value for the {@code transient-for} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setTransientFor(org.gtk.gtk.Window transientFor) {
+            names.add("transient-for");
+            values.add(org.gtk.gobject.Value.create(transientFor));
+            return this;
+        }
+        
+        /**
+         * Whether the window is currently visible.
+         * @param visible The value for the {@code visible} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setVisible(boolean visible) {
+            names.add("visible");
+            values.add(org.gtk.gobject.Value.create(visible));
+            return this;
+        }
+    }
     
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_native_dialog_destroy = Interop.downcallHandle(
             "gtk_native_dialog_destroy",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_native_dialog_get_modal = Interop.downcallHandle(
             "gtk_native_dialog_get_modal",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_native_dialog_get_title = Interop.downcallHandle(
             "gtk_native_dialog_get_title",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_native_dialog_get_transient_for = Interop.downcallHandle(
             "gtk_native_dialog_get_transient_for",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_native_dialog_get_visible = Interop.downcallHandle(
             "gtk_native_dialog_get_visible",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_native_dialog_hide = Interop.downcallHandle(
             "gtk_native_dialog_hide",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_native_dialog_set_modal = Interop.downcallHandle(
             "gtk_native_dialog_set_modal",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_native_dialog_set_title = Interop.downcallHandle(
             "gtk_native_dialog_set_title",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_native_dialog_set_transient_for = Interop.downcallHandle(
             "gtk_native_dialog_set_transient_for",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_native_dialog_show = Interop.downcallHandle(
             "gtk_native_dialog_show",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+            false
+        );
+        
+        private static final MethodHandle gtk_native_dialog_get_type = Interop.downcallHandle(
+            "gtk_native_dialog_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }
@@ -359,9 +458,9 @@ public class NativeDialog extends org.gtk.gobject.Object {
     private static class Callbacks {
         
         public static void signalNativeDialogResponse(MemoryAddress source, int responseId, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (NativeDialog.Response) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new NativeDialog(source, Ownership.UNKNOWN), responseId);
+            HANDLER.signalReceived(new NativeDialog(source, Ownership.NONE), responseId);
         }
     }
 }

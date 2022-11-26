@@ -831,6 +831,16 @@ public class ScriptT extends io.github.jwharm.javagi.Enumeration {
     public static final ScriptT MATH = new ScriptT(1517122664);
     
     /**
+     * {@code Kawi}, Since: 5.2.0
+     */
+    public static final ScriptT KAWI = new ScriptT(1264678761);
+    
+    /**
+     * {@code Nagm}, Since: 5.2.0
+     */
+    public static final ScriptT NAG_MUNDARI = new ScriptT(1315006317);
+    
+    /**
      * No script set
      */
     public static final ScriptT INVALID = new ScriptT(0);

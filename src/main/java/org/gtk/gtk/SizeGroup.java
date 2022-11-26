@@ -78,7 +78,7 @@ public class SizeGroup extends org.gtk.gobject.Object implements org.gtk.gtk.Bui
     
     private static final java.lang.String C_TYPE_NAME = "GtkSizeGroup";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gobject.Object.getMemoryLayout().withName("parent_instance")
     ).withName(C_TYPE_NAME);
     
@@ -123,7 +123,7 @@ public class SizeGroup extends org.gtk.gobject.Object implements org.gtk.gtk.Bui
      * @throws ClassCastException If the GType is not derived from "GtkSizeGroup", a ClassCastException will be thrown.
      */
     public static SizeGroup castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkSizeGroup"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), SizeGroup.getType())) {
             return new SizeGroup(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkSizeGroup");
@@ -242,41 +242,107 @@ public class SizeGroup extends org.gtk.gobject.Object implements org.gtk.gtk.Bui
         }
     }
     
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.gtk_size_group_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gobject.Object.Build {
+        
+         /**
+         * A {@link SizeGroup.Build} object constructs a {@link SizeGroup} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link SizeGroup} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link SizeGroup} using {@link SizeGroup#castFrom}.
+         * @return A new instance of {@code SizeGroup} with the properties 
+         *         that were set in the Build object.
+         */
+        public SizeGroup construct() {
+            return SizeGroup.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    SizeGroup.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+        
+        /**
+         * The direction in which the size group affects requested sizes.
+         * @param mode The value for the {@code mode} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setMode(org.gtk.gtk.SizeGroupMode mode) {
+            names.add("mode");
+            values.add(org.gtk.gobject.Value.create(mode));
+            return this;
+        }
+    }
+    
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_size_group_new = Interop.downcallHandle(
             "gtk_size_group_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_size_group_add_widget = Interop.downcallHandle(
             "gtk_size_group_add_widget",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_size_group_get_mode = Interop.downcallHandle(
             "gtk_size_group_get_mode",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_size_group_get_widgets = Interop.downcallHandle(
             "gtk_size_group_get_widgets",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_size_group_remove_widget = Interop.downcallHandle(
             "gtk_size_group_remove_widget",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_size_group_set_mode = Interop.downcallHandle(
             "gtk_size_group_set_mode",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+            false
+        );
+        
+        private static final MethodHandle gtk_size_group_get_type = Interop.downcallHandle(
+            "gtk_size_group_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }

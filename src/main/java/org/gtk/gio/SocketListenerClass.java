@@ -8,7 +8,7 @@ import org.jetbrains.annotations.*;
 /**
  * Class structure for {@link SocketListener}.
  */
-public class SocketListenerClass extends io.github.jwharm.javagi.ProxyBase {
+public class SocketListenerClass extends Struct {
     
     static {
         Gio.javagi$ensureInitialized();
@@ -16,7 +16,7 @@ public class SocketListenerClass extends io.github.jwharm.javagi.ProxyBase {
     
     private static final java.lang.String C_TYPE_NAME = "GSocketListenerClass";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gobject.ObjectClass.getMemoryLayout().withName("parent_class"),
         Interop.valueLayout.ADDRESS.withName("changed"),
         Interop.valueLayout.ADDRESS.withName("event"),
@@ -38,6 +38,10 @@ public class SocketListenerClass extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link SocketListenerClass}
+     * @return A new, uninitialized @{link SocketListenerClass}
+     */
     public static SocketListenerClass allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         SocketListenerClass newInstance = new SocketListenerClass(segment.address(), Ownership.NONE);
@@ -62,5 +66,89 @@ public class SocketListenerClass extends io.github.jwharm.javagi.ProxyBase {
     @ApiStatus.Internal
     public SocketListenerClass(Addressable address, Ownership ownership) {
         super(address, ownership);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private SocketListenerClass struct;
+        
+         /**
+         * A {@link SocketListenerClass.Build} object constructs a {@link SocketListenerClass} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = SocketListenerClass.allocate();
+        }
+        
+         /**
+         * Finish building the {@link SocketListenerClass} struct.
+         * @return A new instance of {@code SocketListenerClass} with the fields 
+         *         that were set in the Build object.
+         */
+        public SocketListenerClass construct() {
+            return struct;
+        }
+        
+        public Build setParentClass(org.gtk.gobject.ObjectClass parent_class) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parent_class == null ? MemoryAddress.NULL : parent_class.handle()));
+            return this;
+        }
+        
+        public Build setChanged(java.lang.foreign.MemoryAddress changed) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("changed"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (changed == null ? MemoryAddress.NULL : changed));
+            return this;
+        }
+        
+        public Build setEvent(java.lang.foreign.MemoryAddress event) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("event"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (event == null ? MemoryAddress.NULL : event));
+            return this;
+        }
+        
+        public Build setGReserved2(java.lang.foreign.MemoryAddress _g_reserved2) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("_g_reserved2"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (_g_reserved2 == null ? MemoryAddress.NULL : _g_reserved2));
+            return this;
+        }
+        
+        public Build setGReserved3(java.lang.foreign.MemoryAddress _g_reserved3) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("_g_reserved3"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (_g_reserved3 == null ? MemoryAddress.NULL : _g_reserved3));
+            return this;
+        }
+        
+        public Build setGReserved4(java.lang.foreign.MemoryAddress _g_reserved4) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("_g_reserved4"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (_g_reserved4 == null ? MemoryAddress.NULL : _g_reserved4));
+            return this;
+        }
+        
+        public Build setGReserved5(java.lang.foreign.MemoryAddress _g_reserved5) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("_g_reserved5"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (_g_reserved5 == null ? MemoryAddress.NULL : _g_reserved5));
+            return this;
+        }
+        
+        public Build setGReserved6(java.lang.foreign.MemoryAddress _g_reserved6) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("_g_reserved6"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (_g_reserved6 == null ? MemoryAddress.NULL : _g_reserved6));
+            return this;
+        }
     }
 }

@@ -56,7 +56,7 @@ public class SubprocessLauncher extends org.gtk.gobject.Object {
      * @throws ClassCastException If the GType is not derived from "GSubprocessLauncher", a ClassCastException will be thrown.
      */
     public static SubprocessLauncher castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GSubprocessLauncher"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), SubprocessLauncher.getType())) {
             return new SubprocessLauncher(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GSubprocessLauncher");
@@ -155,7 +155,7 @@ public class SubprocessLauncher extends org.gtk.gobject.Object {
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbSpawnChildSetupFunc",
                             MethodType.methodType(void.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
                         Interop.getScope()),
                     (Addressable) (Interop.registerCallback(childSetup)),
                     Interop.cbDestroyNotifySymbol());
@@ -372,7 +372,7 @@ public class SubprocessLauncher extends org.gtk.gobject.Object {
      */
     public @NotNull org.gtk.gio.Subprocess spawnv(@NotNull java.lang.String[] argv) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(argv, "Parameter 'argv' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_subprocess_launcher_spawnv.invokeExact(
@@ -525,113 +525,174 @@ public class SubprocessLauncher extends org.gtk.gobject.Object {
         }
     }
     
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.g_subprocess_launcher_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gobject.Object.Build {
+        
+         /**
+         * A {@link SubprocessLauncher.Build} object constructs a {@link SubprocessLauncher} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link SubprocessLauncher} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link SubprocessLauncher} using {@link SubprocessLauncher#castFrom}.
+         * @return A new instance of {@code SubprocessLauncher} with the properties 
+         *         that were set in the Build object.
+         */
+        public SubprocessLauncher construct() {
+            return SubprocessLauncher.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    SubprocessLauncher.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+        
+        public Build setFlags(org.gtk.gio.SubprocessFlags flags) {
+            names.add("flags");
+            values.add(org.gtk.gobject.Value.create(flags));
+            return this;
+        }
+    }
+    
     private static class DowncallHandles {
         
         private static final MethodHandle g_subprocess_launcher_new = Interop.downcallHandle(
             "g_subprocess_launcher_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_subprocess_launcher_close = Interop.downcallHandle(
             "g_subprocess_launcher_close",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_subprocess_launcher_getenv = Interop.downcallHandle(
             "g_subprocess_launcher_getenv",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_subprocess_launcher_set_child_setup = Interop.downcallHandle(
             "g_subprocess_launcher_set_child_setup",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_subprocess_launcher_set_cwd = Interop.downcallHandle(
             "g_subprocess_launcher_set_cwd",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_subprocess_launcher_set_environ = Interop.downcallHandle(
             "g_subprocess_launcher_set_environ",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_subprocess_launcher_set_flags = Interop.downcallHandle(
             "g_subprocess_launcher_set_flags",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_subprocess_launcher_set_stderr_file_path = Interop.downcallHandle(
             "g_subprocess_launcher_set_stderr_file_path",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_subprocess_launcher_set_stdin_file_path = Interop.downcallHandle(
             "g_subprocess_launcher_set_stdin_file_path",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_subprocess_launcher_set_stdout_file_path = Interop.downcallHandle(
             "g_subprocess_launcher_set_stdout_file_path",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_subprocess_launcher_setenv = Interop.downcallHandle(
             "g_subprocess_launcher_setenv",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_subprocess_launcher_spawn = Interop.downcallHandle(
             "g_subprocess_launcher_spawn",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             true
         );
         
         private static final MethodHandle g_subprocess_launcher_spawnv = Interop.downcallHandle(
             "g_subprocess_launcher_spawnv",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_subprocess_launcher_take_fd = Interop.downcallHandle(
             "g_subprocess_launcher_take_fd",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_subprocess_launcher_take_stderr_fd = Interop.downcallHandle(
             "g_subprocess_launcher_take_stderr_fd",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_subprocess_launcher_take_stdin_fd = Interop.downcallHandle(
             "g_subprocess_launcher_take_stdin_fd",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_subprocess_launcher_take_stdout_fd = Interop.downcallHandle(
             "g_subprocess_launcher_take_stdout_fd",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_subprocess_launcher_unsetenv = Interop.downcallHandle(
             "g_subprocess_launcher_unsetenv",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+            false
+        );
+        
+        private static final MethodHandle g_subprocess_launcher_get_type = Interop.downcallHandle(
+            "g_subprocess_launcher_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }

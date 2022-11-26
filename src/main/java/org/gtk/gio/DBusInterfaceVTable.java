@@ -49,7 +49,7 @@ import org.jetbrains.annotations.*;
  * the call, you must return the value of type {@code G_VARIANT_TYPE_UNIT}.
  * @version 2.26
  */
-public class DBusInterfaceVTable extends io.github.jwharm.javagi.ProxyBase {
+public class DBusInterfaceVTable extends Struct {
     
     static {
         Gio.javagi$ensureInitialized();
@@ -57,12 +57,11 @@ public class DBusInterfaceVTable extends io.github.jwharm.javagi.ProxyBase {
     
     private static final java.lang.String C_TYPE_NAME = "GDBusInterfaceVTable";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
         Interop.valueLayout.ADDRESS.withName("method_call"),
         Interop.valueLayout.ADDRESS.withName("get_property"),
         Interop.valueLayout.ADDRESS.withName("set_property"),
-        MemoryLayout.paddingLayout(320),
-        MemoryLayout.sequenceLayout(8, ValueLayout.ADDRESS).withName("padding")
+        MemoryLayout.sequenceLayout(8, Interop.valueLayout.ADDRESS).withName("padding")
     ).withName(C_TYPE_NAME);
     
     /**
@@ -76,6 +75,10 @@ public class DBusInterfaceVTable extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link DBusInterfaceVTable}
+     * @return A new, uninitialized @{link DBusInterfaceVTable}
+     */
     public static DBusInterfaceVTable allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         DBusInterfaceVTable newInstance = new DBusInterfaceVTable(segment.address(), Ownership.NONE);
@@ -124,5 +127,76 @@ public class DBusInterfaceVTable extends io.github.jwharm.javagi.ProxyBase {
     @ApiStatus.Internal
     public DBusInterfaceVTable(Addressable address, Ownership ownership) {
         super(address, ownership);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private DBusInterfaceVTable struct;
+        
+         /**
+         * A {@link DBusInterfaceVTable.Build} object constructs a {@link DBusInterfaceVTable} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = DBusInterfaceVTable.allocate();
+        }
+        
+         /**
+         * Finish building the {@link DBusInterfaceVTable} struct.
+         * @return A new instance of {@code DBusInterfaceVTable} with the fields 
+         *         that were set in the Build object.
+         */
+        public DBusInterfaceVTable construct() {
+            return struct;
+        }
+        
+        /**
+         * Function for handling incoming method calls.
+         * @param method_call The value for the {@code method_call} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setMethodCall(java.lang.foreign.MemoryAddress method_call) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("method_call"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (method_call == null ? MemoryAddress.NULL : method_call));
+            return this;
+        }
+        
+        /**
+         * Function for getting a property.
+         * @param get_property The value for the {@code get_property} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setGetProperty(java.lang.foreign.MemoryAddress get_property) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("get_property"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (get_property == null ? MemoryAddress.NULL : get_property));
+            return this;
+        }
+        
+        /**
+         * Function for setting a property.
+         * @param set_property The value for the {@code set_property} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setSetProperty(java.lang.foreign.MemoryAddress set_property) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("set_property"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (set_property == null ? MemoryAddress.NULL : set_property));
+            return this;
+        }
+        
+        public Build setPadding(java.lang.foreign.MemoryAddress[] padding) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("padding"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (padding == null ? MemoryAddress.NULL : Interop.allocateNativeArray(padding, false)));
+            return this;
+        }
     }
 }

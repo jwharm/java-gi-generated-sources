@@ -17,7 +17,7 @@ public class TlsPassword extends org.gtk.gobject.Object {
     
     private static final java.lang.String C_TYPE_NAME = "GTlsPassword";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gobject.Object.getMemoryLayout().withName("parent_instance"),
         Interop.valueLayout.ADDRESS.withName("priv")
     ).withName(C_TYPE_NAME);
@@ -63,7 +63,7 @@ public class TlsPassword extends org.gtk.gobject.Object {
      * @throws ClassCastException If the GType is not derived from "GTlsPassword", a ClassCastException will be thrown.
      */
     public static TlsPassword castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GTlsPassword"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), TlsPassword.getType())) {
             return new TlsPassword(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GTlsPassword");
@@ -134,7 +134,7 @@ public class TlsPassword extends org.gtk.gobject.Object {
      */
     public @NotNull byte[] getValue(Out<Long> length) {
         java.util.Objects.requireNonNull(length, "Parameter 'length' must not be null");
-        MemorySegment lengthPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_LONG);
+        MemorySegment lengthPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_tls_password_get_value.invokeExact(
@@ -143,8 +143,8 @@ public class TlsPassword extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        length.set(lengthPOINTER.get(ValueLayout.JAVA_LONG, 0));
-        return MemorySegment.ofAddress(RESULT.get(ValueLayout.ADDRESS, 0), length.get().intValue() * ValueLayout.JAVA_BYTE.byteSize(), Interop.getScope()).toArray(ValueLayout.JAVA_BYTE);
+        length.set(lengthPOINTER.get(Interop.valueLayout.C_LONG, 0));
+        return MemorySegment.ofAddress(RESULT.get(Interop.valueLayout.ADDRESS, 0), length.get().intValue() * Interop.valueLayout.C_BYTE.byteSize(), Interop.getScope()).toArray(Interop.valueLayout.C_BYTE);
     }
     
     /**
@@ -252,65 +252,138 @@ public class TlsPassword extends org.gtk.gobject.Object {
         }
     }
     
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.g_tls_password_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gobject.Object.Build {
+        
+         /**
+         * A {@link TlsPassword.Build} object constructs a {@link TlsPassword} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link TlsPassword} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link TlsPassword} using {@link TlsPassword#castFrom}.
+         * @return A new instance of {@code TlsPassword} with the properties 
+         *         that were set in the Build object.
+         */
+        public TlsPassword construct() {
+            return TlsPassword.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    TlsPassword.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+        
+        public Build setDescription(java.lang.String description) {
+            names.add("description");
+            values.add(org.gtk.gobject.Value.create(description));
+            return this;
+        }
+        
+        public Build setFlags(org.gtk.gio.TlsPasswordFlags flags) {
+            names.add("flags");
+            values.add(org.gtk.gobject.Value.create(flags));
+            return this;
+        }
+        
+        public Build setWarning(java.lang.String warning) {
+            names.add("warning");
+            values.add(org.gtk.gobject.Value.create(warning));
+            return this;
+        }
+    }
+    
     private static class DowncallHandles {
         
         private static final MethodHandle g_tls_password_new = Interop.downcallHandle(
             "g_tls_password_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_tls_password_get_description = Interop.downcallHandle(
             "g_tls_password_get_description",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_tls_password_get_flags = Interop.downcallHandle(
             "g_tls_password_get_flags",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_tls_password_get_value = Interop.downcallHandle(
             "g_tls_password_get_value",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_tls_password_get_warning = Interop.downcallHandle(
             "g_tls_password_get_warning",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_tls_password_set_description = Interop.downcallHandle(
             "g_tls_password_set_description",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_tls_password_set_flags = Interop.downcallHandle(
             "g_tls_password_set_flags",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_tls_password_set_value = Interop.downcallHandle(
             "g_tls_password_set_value",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
             false
         );
         
         private static final MethodHandle g_tls_password_set_value_full = Interop.downcallHandle(
             "g_tls_password_set_value_full",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_tls_password_set_warning = Interop.downcallHandle(
             "g_tls_password_set_warning",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+            false
+        );
+        
+        private static final MethodHandle g_tls_password_get_type = Interop.downcallHandle(
+            "g_tls_password_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }

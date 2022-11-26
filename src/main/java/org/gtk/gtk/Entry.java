@@ -99,7 +99,7 @@ public class Entry extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     
     private static final java.lang.String C_TYPE_NAME = "GtkEntry";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gtk.Widget.getMemoryLayout().withName("parent_instance")
     ).withName(C_TYPE_NAME);
     
@@ -135,7 +135,7 @@ public class Entry extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      * @throws ClassCastException If the GType is not derived from "GtkEntry", a ClassCastException will be thrown.
      */
     public static Entry castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkEntry"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), Entry.getType())) {
             return new Entry(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkEntry");
@@ -1265,6 +1265,20 @@ public class Entry extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
         }
     }
     
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.gtk_entry_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+    
     @FunctionalInterface
     public interface Activate {
         void signalReceived(Entry source);
@@ -1285,7 +1299,7 @@ public class Entry extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(Entry.Callbacks.class, "signalEntryActivate",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                     Interop.getScope()),
                 Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
@@ -1313,7 +1327,7 @@ public class Entry extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(Entry.Callbacks.class, "signalEntryIconPress",
                         MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
                     Interop.getScope()),
                 Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
@@ -1342,7 +1356,7 @@ public class Entry extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(Entry.Callbacks.class, "signalEntryIconRelease",
                         MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
                     Interop.getScope()),
                 Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
@@ -1351,366 +1365,888 @@ public class Entry extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gtk.Widget.Build {
+        
+         /**
+         * A {@link Entry.Build} object constructs a {@link Entry} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link Entry} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link Entry} using {@link Entry#castFrom}.
+         * @return A new instance of {@code Entry} with the properties 
+         *         that were set in the Build object.
+         */
+        public Entry construct() {
+            return Entry.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    Entry.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+        
+        /**
+         * Whether to activate the default widget when Enter is pressed.
+         * @param activatesDefault The value for the {@code activates-default} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setActivatesDefault(boolean activatesDefault) {
+            names.add("activates-default");
+            values.add(org.gtk.gobject.Value.create(activatesDefault));
+            return this;
+        }
+        
+        /**
+         * A list of Pango attributes to apply to the text of the entry.
+         * <p>
+         * This is mainly useful to change the size or weight of the text.
+         * <p>
+         * The {@code PangoAttribute}'s {@code start_index} and {@code end_index} must refer to the
+         * {@link EntryBuffer} text, i.e. without the preedit string.
+         * @param attributes The value for the {@code attributes} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setAttributes(org.pango.AttrList attributes) {
+            names.add("attributes");
+            values.add(org.gtk.gobject.Value.create(attributes));
+            return this;
+        }
+        
+        /**
+         * The buffer object which actually stores the text.
+         * @param buffer The value for the {@code buffer} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setBuffer(org.gtk.gtk.EntryBuffer buffer) {
+            names.add("buffer");
+            values.add(org.gtk.gobject.Value.create(buffer));
+            return this;
+        }
+        
+        /**
+         * The auxiliary completion object to use with the entry.
+         * @param completion The value for the {@code completion} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setCompletion(org.gtk.gtk.EntryCompletion completion) {
+            names.add("completion");
+            values.add(org.gtk.gobject.Value.create(completion));
+            return this;
+        }
+        
+        /**
+         * Whether to suggest Emoji replacements for :-delimited names
+         * like {@code :heart:}.
+         * @param enableEmojiCompletion The value for the {@code enable-emoji-completion} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setEnableEmojiCompletion(boolean enableEmojiCompletion) {
+            names.add("enable-emoji-completion");
+            values.add(org.gtk.gobject.Value.create(enableEmojiCompletion));
+            return this;
+        }
+        
+        /**
+         * A menu model whose contents will be appended to the context menu.
+         * @param extraMenu The value for the {@code extra-menu} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setExtraMenu(org.gtk.gio.MenuModel extraMenu) {
+            names.add("extra-menu");
+            values.add(org.gtk.gobject.Value.create(extraMenu));
+            return this;
+        }
+        
+        /**
+         * Whehter the entry should draw a frame.
+         * @param hasFrame The value for the {@code has-frame} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setHasFrame(boolean hasFrame) {
+            names.add("has-frame");
+            values.add(org.gtk.gobject.Value.create(hasFrame));
+            return this;
+        }
+        
+        /**
+         * Which IM (input method) module should be used for this entry.
+         * <p>
+         * See {@link IMContext}.
+         * <p>
+         * Setting this to a non-{@code null} value overrides the system-wide IM
+         * module setting. See the GtkSettings {@code Gtk.Settings:gtk-im-module}
+         * property.
+         * @param imModule The value for the {@code im-module} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setImModule(java.lang.String imModule) {
+            names.add("im-module");
+            values.add(org.gtk.gobject.Value.create(imModule));
+            return this;
+        }
+        
+        /**
+         * Additional hints that allow input methods to fine-tune their behavior.
+         * <p>
+         * Also see {@code Gtk.Entry:input-purpose}
+         * @param inputHints The value for the {@code input-hints} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setInputHints(org.gtk.gtk.InputHints inputHints) {
+            names.add("input-hints");
+            values.add(org.gtk.gobject.Value.create(inputHints));
+            return this;
+        }
+        
+        /**
+         * The purpose of this text field.
+         * <p>
+         * This property can be used by on-screen keyboards and other input
+         * methods to adjust their behaviour.
+         * <p>
+         * Note that setting the purpose to {@link InputPurpose#PASSWORD} or
+         * {@link InputPurpose#PIN} is independent from setting
+         * {@code Gtk.Entry:visibility}.
+         * @param inputPurpose The value for the {@code input-purpose} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setInputPurpose(org.gtk.gtk.InputPurpose inputPurpose) {
+            names.add("input-purpose");
+            values.add(org.gtk.gobject.Value.create(inputPurpose));
+            return this;
+        }
+        
+        /**
+         * The character to use when masking entry contents (“password mode”).
+         * @param invisibleChar The value for the {@code invisible-char} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setInvisibleChar(int invisibleChar) {
+            names.add("invisible-char");
+            values.add(org.gtk.gobject.Value.create(invisibleChar));
+            return this;
+        }
+        
+        /**
+         * Whether the invisible char has been set for the {@code GtkEntry}.
+         * @param invisibleCharSet The value for the {@code invisible-char-set} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setInvisibleCharSet(boolean invisibleCharSet) {
+            names.add("invisible-char-set");
+            values.add(org.gtk.gobject.Value.create(invisibleCharSet));
+            return this;
+        }
+        
+        /**
+         * Maximum number of characters for this entry.
+         * @param maxLength The value for the {@code max-length} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setMaxLength(int maxLength) {
+            names.add("max-length");
+            values.add(org.gtk.gobject.Value.create(maxLength));
+            return this;
+        }
+        
+        /**
+         * If text is overwritten when typing in the {@code GtkEntry}.
+         * @param overwriteMode The value for the {@code overwrite-mode} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setOverwriteMode(boolean overwriteMode) {
+            names.add("overwrite-mode");
+            values.add(org.gtk.gobject.Value.create(overwriteMode));
+            return this;
+        }
+        
+        /**
+         * The text that will be displayed in the {@code GtkEntry} when it is empty
+         * and unfocused.
+         * @param placeholderText The value for the {@code placeholder-text} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setPlaceholderText(java.lang.String placeholderText) {
+            names.add("placeholder-text");
+            values.add(org.gtk.gobject.Value.create(placeholderText));
+            return this;
+        }
+        
+        /**
+         * Whether the primary icon is activatable.
+         * <p>
+         * GTK emits the {@code Gtk.Entry::icon-press} and
+         * {@code Gtk.Entry::icon-release} signals only on sensitive,
+         * activatable icons.
+         * <p>
+         * Sensitive, but non-activatable icons can be used for purely
+         * informational purposes.
+         * @param primaryIconActivatable The value for the {@code primary-icon-activatable} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setPrimaryIconActivatable(boolean primaryIconActivatable) {
+            names.add("primary-icon-activatable");
+            values.add(org.gtk.gobject.Value.create(primaryIconActivatable));
+            return this;
+        }
+        
+        /**
+         * The {@code GIcon} to use for the primary icon for the entry.
+         * @param primaryIconGicon The value for the {@code primary-icon-gicon} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setPrimaryIconGicon(org.gtk.gio.Icon primaryIconGicon) {
+            names.add("primary-icon-gicon");
+            values.add(org.gtk.gobject.Value.create(primaryIconGicon));
+            return this;
+        }
+        
+        /**
+         * The icon name to use for the primary icon for the entry.
+         * @param primaryIconName The value for the {@code primary-icon-name} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setPrimaryIconName(java.lang.String primaryIconName) {
+            names.add("primary-icon-name");
+            values.add(org.gtk.gobject.Value.create(primaryIconName));
+            return this;
+        }
+        
+        /**
+         * A {@code GdkPaintable} to use as the primary icon for the entry.
+         * @param primaryIconPaintable The value for the {@code primary-icon-paintable} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setPrimaryIconPaintable(org.gtk.gdk.Paintable primaryIconPaintable) {
+            names.add("primary-icon-paintable");
+            values.add(org.gtk.gobject.Value.create(primaryIconPaintable));
+            return this;
+        }
+        
+        /**
+         * Whether the primary icon is sensitive.
+         * <p>
+         * An insensitive icon appears grayed out. GTK does not emit the
+         * {@code Gtk.Entry::icon-press} and {@code Gtk.Entry::icon-release}
+         * signals and does not allow DND from insensitive icons.
+         * <p>
+         * An icon should be set insensitive if the action that would trigger
+         * when clicked is currently not available.
+         * @param primaryIconSensitive The value for the {@code primary-icon-sensitive} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setPrimaryIconSensitive(boolean primaryIconSensitive) {
+            names.add("primary-icon-sensitive");
+            values.add(org.gtk.gobject.Value.create(primaryIconSensitive));
+            return this;
+        }
+        
+        /**
+         * The representation which is used for the primary icon of the entry.
+         * @param primaryIconStorageType The value for the {@code primary-icon-storage-type} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setPrimaryIconStorageType(org.gtk.gtk.ImageType primaryIconStorageType) {
+            names.add("primary-icon-storage-type");
+            values.add(org.gtk.gobject.Value.create(primaryIconStorageType));
+            return this;
+        }
+        
+        /**
+         * The contents of the tooltip on the primary icon, with markup.
+         * <p>
+         * Also see {@link Entry#setIconTooltipMarkup}.
+         * @param primaryIconTooltipMarkup The value for the {@code primary-icon-tooltip-markup} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setPrimaryIconTooltipMarkup(java.lang.String primaryIconTooltipMarkup) {
+            names.add("primary-icon-tooltip-markup");
+            values.add(org.gtk.gobject.Value.create(primaryIconTooltipMarkup));
+            return this;
+        }
+        
+        /**
+         * The contents of the tooltip on the primary icon.
+         * <p>
+         * Also see {@link Entry#setIconTooltipText}.
+         * @param primaryIconTooltipText The value for the {@code primary-icon-tooltip-text} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setPrimaryIconTooltipText(java.lang.String primaryIconTooltipText) {
+            names.add("primary-icon-tooltip-text");
+            values.add(org.gtk.gobject.Value.create(primaryIconTooltipText));
+            return this;
+        }
+        
+        /**
+         * The current fraction of the task that's been completed.
+         * @param progressFraction The value for the {@code progress-fraction} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setProgressFraction(double progressFraction) {
+            names.add("progress-fraction");
+            values.add(org.gtk.gobject.Value.create(progressFraction));
+            return this;
+        }
+        
+        /**
+         * The fraction of total entry width to move the progress
+         * bouncing block for each pulse.
+         * <p>
+         * See {@link Entry#progressPulse}.
+         * @param progressPulseStep The value for the {@code progress-pulse-step} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setProgressPulseStep(double progressPulseStep) {
+            names.add("progress-pulse-step");
+            values.add(org.gtk.gobject.Value.create(progressPulseStep));
+            return this;
+        }
+        
+        /**
+         * Number of pixels of the entry scrolled off the screen to the left.
+         * @param scrollOffset The value for the {@code scroll-offset} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setScrollOffset(int scrollOffset) {
+            names.add("scroll-offset");
+            values.add(org.gtk.gobject.Value.create(scrollOffset));
+            return this;
+        }
+        
+        /**
+         * Whether the secondary icon is activatable.
+         * <p>
+         * GTK emits the {@code Gtk.Entry::icon-press} and
+         * {@code Gtk.Entry::icon-release} signals only on sensitive,
+         * activatable icons.
+         * <p>
+         * Sensitive, but non-activatable icons can be used for purely
+         * informational purposes.
+         * @param secondaryIconActivatable The value for the {@code secondary-icon-activatable} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setSecondaryIconActivatable(boolean secondaryIconActivatable) {
+            names.add("secondary-icon-activatable");
+            values.add(org.gtk.gobject.Value.create(secondaryIconActivatable));
+            return this;
+        }
+        
+        /**
+         * The {@code GIcon} to use for the secondary icon for the entry.
+         * @param secondaryIconGicon The value for the {@code secondary-icon-gicon} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setSecondaryIconGicon(org.gtk.gio.Icon secondaryIconGicon) {
+            names.add("secondary-icon-gicon");
+            values.add(org.gtk.gobject.Value.create(secondaryIconGicon));
+            return this;
+        }
+        
+        /**
+         * The icon name to use for the secondary icon for the entry.
+         * @param secondaryIconName The value for the {@code secondary-icon-name} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setSecondaryIconName(java.lang.String secondaryIconName) {
+            names.add("secondary-icon-name");
+            values.add(org.gtk.gobject.Value.create(secondaryIconName));
+            return this;
+        }
+        
+        /**
+         * A {@code GdkPaintable} to use as the secondary icon for the entry.
+         * @param secondaryIconPaintable The value for the {@code secondary-icon-paintable} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setSecondaryIconPaintable(org.gtk.gdk.Paintable secondaryIconPaintable) {
+            names.add("secondary-icon-paintable");
+            values.add(org.gtk.gobject.Value.create(secondaryIconPaintable));
+            return this;
+        }
+        
+        /**
+         * Whether the secondary icon is sensitive.
+         * <p>
+         * An insensitive icon appears grayed out. GTK does not emit the
+         * {@code Gtk.Entry::icon-press[ and [signal@Gtk.Entry::icon-release}
+         * signals and does not allow DND from insensitive icons.
+         * <p>
+         * An icon should be set insensitive if the action that would trigger
+         * when clicked is currently not available.
+         * @param secondaryIconSensitive The value for the {@code secondary-icon-sensitive} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setSecondaryIconSensitive(boolean secondaryIconSensitive) {
+            names.add("secondary-icon-sensitive");
+            values.add(org.gtk.gobject.Value.create(secondaryIconSensitive));
+            return this;
+        }
+        
+        /**
+         * The representation which is used for the secondary icon of the entry.
+         * @param secondaryIconStorageType The value for the {@code secondary-icon-storage-type} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setSecondaryIconStorageType(org.gtk.gtk.ImageType secondaryIconStorageType) {
+            names.add("secondary-icon-storage-type");
+            values.add(org.gtk.gobject.Value.create(secondaryIconStorageType));
+            return this;
+        }
+        
+        /**
+         * The contents of the tooltip on the secondary icon, with markup.
+         * <p>
+         * Also see {@link Entry#setIconTooltipMarkup}.
+         * @param secondaryIconTooltipMarkup The value for the {@code secondary-icon-tooltip-markup} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setSecondaryIconTooltipMarkup(java.lang.String secondaryIconTooltipMarkup) {
+            names.add("secondary-icon-tooltip-markup");
+            values.add(org.gtk.gobject.Value.create(secondaryIconTooltipMarkup));
+            return this;
+        }
+        
+        /**
+         * The contents of the tooltip on the secondary icon.
+         * <p>
+         * Also see {@link Entry#setIconTooltipText}.
+         * @param secondaryIconTooltipText The value for the {@code secondary-icon-tooltip-text} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setSecondaryIconTooltipText(java.lang.String secondaryIconTooltipText) {
+            names.add("secondary-icon-tooltip-text");
+            values.add(org.gtk.gobject.Value.create(secondaryIconTooltipText));
+            return this;
+        }
+        
+        public Build setShowEmojiIcon(boolean showEmojiIcon) {
+            names.add("show-emoji-icon");
+            values.add(org.gtk.gobject.Value.create(showEmojiIcon));
+            return this;
+        }
+        
+        public Build setTabs(org.pango.TabArray tabs) {
+            names.add("tabs");
+            values.add(org.gtk.gobject.Value.create(tabs));
+            return this;
+        }
+        
+        /**
+         * The length of the text in the {@code GtkEntry}.
+         * @param textLength The value for the {@code text-length} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setTextLength(int textLength) {
+            names.add("text-length");
+            values.add(org.gtk.gobject.Value.create(textLength));
+            return this;
+        }
+        
+        /**
+         * When {@code true}, pasted multi-line text is truncated to the first line.
+         * @param truncateMultiline The value for the {@code truncate-multiline} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setTruncateMultiline(boolean truncateMultiline) {
+            names.add("truncate-multiline");
+            values.add(org.gtk.gobject.Value.create(truncateMultiline));
+            return this;
+        }
+        
+        /**
+         * Whether the entry should show the “invisible char” instead of the
+         * actual text (“password mode”).
+         * @param visibility The value for the {@code visibility} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setVisibility(boolean visibility) {
+            names.add("visibility");
+            values.add(org.gtk.gobject.Value.create(visibility));
+            return this;
+        }
+    }
     
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_entry_new = Interop.downcallHandle(
             "gtk_entry_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_entry_new_with_buffer = Interop.downcallHandle(
             "gtk_entry_new_with_buffer",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_entry_get_activates_default = Interop.downcallHandle(
             "gtk_entry_get_activates_default",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_entry_get_alignment = Interop.downcallHandle(
             "gtk_entry_get_alignment",
-            FunctionDescriptor.of(ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_FLOAT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_entry_get_attributes = Interop.downcallHandle(
             "gtk_entry_get_attributes",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_entry_get_buffer = Interop.downcallHandle(
             "gtk_entry_get_buffer",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_entry_get_completion = Interop.downcallHandle(
             "gtk_entry_get_completion",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_entry_get_current_icon_drag_source = Interop.downcallHandle(
             "gtk_entry_get_current_icon_drag_source",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_entry_get_extra_menu = Interop.downcallHandle(
             "gtk_entry_get_extra_menu",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_entry_get_has_frame = Interop.downcallHandle(
             "gtk_entry_get_has_frame",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_entry_get_icon_activatable = Interop.downcallHandle(
             "gtk_entry_get_icon_activatable",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_entry_get_icon_area = Interop.downcallHandle(
             "gtk_entry_get_icon_area",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_entry_get_icon_at_pos = Interop.downcallHandle(
             "gtk_entry_get_icon_at_pos",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_entry_get_icon_gicon = Interop.downcallHandle(
             "gtk_entry_get_icon_gicon",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_entry_get_icon_name = Interop.downcallHandle(
             "gtk_entry_get_icon_name",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_entry_get_icon_paintable = Interop.downcallHandle(
             "gtk_entry_get_icon_paintable",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_entry_get_icon_sensitive = Interop.downcallHandle(
             "gtk_entry_get_icon_sensitive",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_entry_get_icon_storage_type = Interop.downcallHandle(
             "gtk_entry_get_icon_storage_type",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_entry_get_icon_tooltip_markup = Interop.downcallHandle(
             "gtk_entry_get_icon_tooltip_markup",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_entry_get_icon_tooltip_text = Interop.downcallHandle(
             "gtk_entry_get_icon_tooltip_text",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_entry_get_input_hints = Interop.downcallHandle(
             "gtk_entry_get_input_hints",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_entry_get_input_purpose = Interop.downcallHandle(
             "gtk_entry_get_input_purpose",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_entry_get_invisible_char = Interop.downcallHandle(
             "gtk_entry_get_invisible_char",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_entry_get_max_length = Interop.downcallHandle(
             "gtk_entry_get_max_length",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_entry_get_overwrite_mode = Interop.downcallHandle(
             "gtk_entry_get_overwrite_mode",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_entry_get_placeholder_text = Interop.downcallHandle(
             "gtk_entry_get_placeholder_text",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_entry_get_progress_fraction = Interop.downcallHandle(
             "gtk_entry_get_progress_fraction",
-            FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_DOUBLE, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_entry_get_progress_pulse_step = Interop.downcallHandle(
             "gtk_entry_get_progress_pulse_step",
-            FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_DOUBLE, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_entry_get_tabs = Interop.downcallHandle(
             "gtk_entry_get_tabs",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_entry_get_text_length = Interop.downcallHandle(
             "gtk_entry_get_text_length",
-            FunctionDescriptor.of(ValueLayout.JAVA_SHORT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_SHORT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_entry_get_visibility = Interop.downcallHandle(
             "gtk_entry_get_visibility",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_entry_grab_focus_without_selecting = Interop.downcallHandle(
             "gtk_entry_grab_focus_without_selecting",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_entry_progress_pulse = Interop.downcallHandle(
             "gtk_entry_progress_pulse",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_entry_reset_im_context = Interop.downcallHandle(
             "gtk_entry_reset_im_context",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_entry_set_activates_default = Interop.downcallHandle(
             "gtk_entry_set_activates_default",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_entry_set_alignment = Interop.downcallHandle(
             "gtk_entry_set_alignment",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_FLOAT),
             false
         );
         
         private static final MethodHandle gtk_entry_set_attributes = Interop.downcallHandle(
             "gtk_entry_set_attributes",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_entry_set_buffer = Interop.downcallHandle(
             "gtk_entry_set_buffer",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_entry_set_completion = Interop.downcallHandle(
             "gtk_entry_set_completion",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_entry_set_extra_menu = Interop.downcallHandle(
             "gtk_entry_set_extra_menu",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_entry_set_has_frame = Interop.downcallHandle(
             "gtk_entry_set_has_frame",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_entry_set_icon_activatable = Interop.downcallHandle(
             "gtk_entry_set_icon_activatable",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_entry_set_icon_drag_source = Interop.downcallHandle(
             "gtk_entry_set_icon_drag_source",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_entry_set_icon_from_gicon = Interop.downcallHandle(
             "gtk_entry_set_icon_from_gicon",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_entry_set_icon_from_icon_name = Interop.downcallHandle(
             "gtk_entry_set_icon_from_icon_name",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_entry_set_icon_from_paintable = Interop.downcallHandle(
             "gtk_entry_set_icon_from_paintable",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_entry_set_icon_sensitive = Interop.downcallHandle(
             "gtk_entry_set_icon_sensitive",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_entry_set_icon_tooltip_markup = Interop.downcallHandle(
             "gtk_entry_set_icon_tooltip_markup",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_entry_set_icon_tooltip_text = Interop.downcallHandle(
             "gtk_entry_set_icon_tooltip_text",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_entry_set_input_hints = Interop.downcallHandle(
             "gtk_entry_set_input_hints",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_entry_set_input_purpose = Interop.downcallHandle(
             "gtk_entry_set_input_purpose",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_entry_set_invisible_char = Interop.downcallHandle(
             "gtk_entry_set_invisible_char",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_entry_set_max_length = Interop.downcallHandle(
             "gtk_entry_set_max_length",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_entry_set_overwrite_mode = Interop.downcallHandle(
             "gtk_entry_set_overwrite_mode",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_entry_set_placeholder_text = Interop.downcallHandle(
             "gtk_entry_set_placeholder_text",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_entry_set_progress_fraction = Interop.downcallHandle(
             "gtk_entry_set_progress_fraction",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE),
             false
         );
         
         private static final MethodHandle gtk_entry_set_progress_pulse_step = Interop.downcallHandle(
             "gtk_entry_set_progress_pulse_step",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE),
             false
         );
         
         private static final MethodHandle gtk_entry_set_tabs = Interop.downcallHandle(
             "gtk_entry_set_tabs",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_entry_set_visibility = Interop.downcallHandle(
             "gtk_entry_set_visibility",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_entry_unset_invisible_char = Interop.downcallHandle(
             "gtk_entry_unset_invisible_char",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+            false
+        );
+        
+        private static final MethodHandle gtk_entry_get_type = Interop.downcallHandle(
+            "gtk_entry_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }
@@ -1718,21 +2254,21 @@ public class Entry extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     private static class Callbacks {
         
         public static void signalEntryActivate(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (Entry.Activate) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Entry(source, Ownership.UNKNOWN));
+            HANDLER.signalReceived(new Entry(source, Ownership.NONE));
         }
         
         public static void signalEntryIconPress(MemoryAddress source, int iconPos, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (Entry.IconPress) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Entry(source, Ownership.UNKNOWN), new org.gtk.gtk.EntryIconPosition(iconPos));
+            HANDLER.signalReceived(new Entry(source, Ownership.NONE), new org.gtk.gtk.EntryIconPosition(iconPos));
         }
         
         public static void signalEntryIconRelease(MemoryAddress source, int iconPos, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (Entry.IconRelease) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Entry(source, Ownership.UNKNOWN), new org.gtk.gtk.EntryIconPosition(iconPos));
+            HANDLER.signalReceived(new Entry(source, Ownership.NONE), new org.gtk.gtk.EntryIconPosition(iconPos));
         }
     }
 }

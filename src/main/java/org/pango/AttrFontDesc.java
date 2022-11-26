@@ -9,7 +9,7 @@ import org.jetbrains.annotations.*;
  * The {@code PangoAttrFontDesc} structure is used to store an attribute that
  * sets all aspects of the font description at once.
  */
-public class AttrFontDesc extends io.github.jwharm.javagi.ProxyBase {
+public class AttrFontDesc extends Struct {
     
     static {
         Pango.javagi$ensureInitialized();
@@ -17,7 +17,7 @@ public class AttrFontDesc extends io.github.jwharm.javagi.ProxyBase {
     
     private static final java.lang.String C_TYPE_NAME = "PangoAttrFontDesc";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.pango.Attribute.getMemoryLayout().withName("attr"),
         Interop.valueLayout.ADDRESS.withName("desc")
     ).withName(C_TYPE_NAME);
@@ -33,6 +33,10 @@ public class AttrFontDesc extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link AttrFontDesc}
+     * @return A new, uninitialized @{link AttrFontDesc}
+     */
     public static AttrFontDesc allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         AttrFontDesc newInstance = new AttrFontDesc(segment.address(), Ownership.NONE);
@@ -106,8 +110,60 @@ public class AttrFontDesc extends io.github.jwharm.javagi.ProxyBase {
         
         private static final MethodHandle pango_attr_font_desc_new = Interop.downcallHandle(
             "pango_attr_font_desc_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private AttrFontDesc struct;
+        
+         /**
+         * A {@link AttrFontDesc.Build} object constructs a {@link AttrFontDesc} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = AttrFontDesc.allocate();
+        }
+        
+         /**
+         * Finish building the {@link AttrFontDesc} struct.
+         * @return A new instance of {@code AttrFontDesc} with the fields 
+         *         that were set in the Build object.
+         */
+        public AttrFontDesc construct() {
+            return struct;
+        }
+        
+        /**
+         * the common portion of the attribute
+         * @param attr The value for the {@code attr} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setAttr(org.pango.Attribute attr) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("attr"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (attr == null ? MemoryAddress.NULL : attr.handle()));
+            return this;
+        }
+        
+        /**
+         * the font description which is the value of this attribute
+         * @param desc The value for the {@code desc} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setDesc(org.pango.FontDescription desc) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("desc"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (desc == null ? MemoryAddress.NULL : desc.handle()));
+            return this;
+        }
     }
 }

@@ -10,7 +10,7 @@ import org.jetbrains.annotations.*;
  * <p>
  * It should only be accessed through the {@code g_async_queue_*} functions.
  */
-public class AsyncQueue extends io.github.jwharm.javagi.ProxyBase {
+public class AsyncQueue extends Struct {
     
     static {
         GLib.javagi$ensureInitialized();
@@ -29,6 +29,10 @@ public class AsyncQueue extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link AsyncQueue}
+     * @return A new, uninitialized @{link AsyncQueue}
+     */
     public static AsyncQueue allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         AsyncQueue newInstance = new AsyncQueue(segment.address(), Ownership.NONE);
@@ -154,7 +158,7 @@ public class AsyncQueue extends io.github.jwharm.javagi.ProxyBase {
         try {
             DowncallHandles.g_async_queue_push.invokeExact(
                     handle(),
-                    data);
+                    (Addressable) data);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -171,7 +175,7 @@ public class AsyncQueue extends io.github.jwharm.javagi.ProxyBase {
         try {
             DowncallHandles.g_async_queue_push_front.invokeExact(
                     handle(),
-                    (Addressable) (item == null ? MemoryAddress.NULL : item));
+                    (Addressable) (item == null ? MemoryAddress.NULL : (Addressable) item));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -190,7 +194,7 @@ public class AsyncQueue extends io.github.jwharm.javagi.ProxyBase {
         try {
             DowncallHandles.g_async_queue_push_front_unlocked.invokeExact(
                     handle(),
-                    (Addressable) (item == null ? MemoryAddress.NULL : item));
+                    (Addressable) (item == null ? MemoryAddress.NULL : (Addressable) item));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -218,7 +222,7 @@ public class AsyncQueue extends io.github.jwharm.javagi.ProxyBase {
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbCompareDataFunc",
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                         Interop.getScope()),
                     (Addressable) (Interop.registerCallback(func)));
         } catch (Throwable ERR) {
@@ -253,7 +257,7 @@ public class AsyncQueue extends io.github.jwharm.javagi.ProxyBase {
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbCompareDataFunc",
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                         Interop.getScope()),
                     (Addressable) (Interop.registerCallback(func)));
         } catch (Throwable ERR) {
@@ -271,7 +275,7 @@ public class AsyncQueue extends io.github.jwharm.javagi.ProxyBase {
         try {
             DowncallHandles.g_async_queue_push_unlocked.invokeExact(
                     handle(),
-                    data);
+                    (Addressable) data);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -319,7 +323,7 @@ public class AsyncQueue extends io.github.jwharm.javagi.ProxyBase {
         try {
             RESULT = (int) DowncallHandles.g_async_queue_remove.invokeExact(
                     handle(),
-                    (Addressable) (item == null ? MemoryAddress.NULL : item));
+                    (Addressable) (item == null ? MemoryAddress.NULL : (Addressable) item));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -338,7 +342,7 @@ public class AsyncQueue extends io.github.jwharm.javagi.ProxyBase {
         try {
             RESULT = (int) DowncallHandles.g_async_queue_remove_unlocked.invokeExact(
                     handle(),
-                    (Addressable) (item == null ? MemoryAddress.NULL : item));
+                    (Addressable) (item == null ? MemoryAddress.NULL : (Addressable) item));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -378,7 +382,7 @@ public class AsyncQueue extends io.github.jwharm.javagi.ProxyBase {
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbCompareDataFunc",
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                         Interop.getScope()),
                     (Addressable) (Interop.registerCallback(func)));
         } catch (Throwable ERR) {
@@ -406,7 +410,7 @@ public class AsyncQueue extends io.github.jwharm.javagi.ProxyBase {
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbCompareDataFunc",
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                         Interop.getScope()),
                     (Addressable) (Interop.registerCallback(func)));
         } catch (Throwable ERR) {
@@ -631,170 +635,198 @@ public class AsyncQueue extends io.github.jwharm.javagi.ProxyBase {
         
         private static final MethodHandle g_async_queue_length = Interop.downcallHandle(
             "g_async_queue_length",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_async_queue_length_unlocked = Interop.downcallHandle(
             "g_async_queue_length_unlocked",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_async_queue_lock = Interop.downcallHandle(
             "g_async_queue_lock",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_async_queue_pop = Interop.downcallHandle(
             "g_async_queue_pop",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_async_queue_pop_unlocked = Interop.downcallHandle(
             "g_async_queue_pop_unlocked",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_async_queue_push = Interop.downcallHandle(
             "g_async_queue_push",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_async_queue_push_front = Interop.downcallHandle(
             "g_async_queue_push_front",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_async_queue_push_front_unlocked = Interop.downcallHandle(
             "g_async_queue_push_front_unlocked",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_async_queue_push_sorted = Interop.downcallHandle(
             "g_async_queue_push_sorted",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_async_queue_push_sorted_unlocked = Interop.downcallHandle(
             "g_async_queue_push_sorted_unlocked",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_async_queue_push_unlocked = Interop.downcallHandle(
             "g_async_queue_push_unlocked",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_async_queue_ref = Interop.downcallHandle(
             "g_async_queue_ref",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_async_queue_ref_unlocked = Interop.downcallHandle(
             "g_async_queue_ref_unlocked",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_async_queue_remove = Interop.downcallHandle(
             "g_async_queue_remove",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_async_queue_remove_unlocked = Interop.downcallHandle(
             "g_async_queue_remove_unlocked",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_async_queue_sort = Interop.downcallHandle(
             "g_async_queue_sort",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_async_queue_sort_unlocked = Interop.downcallHandle(
             "g_async_queue_sort_unlocked",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_async_queue_timed_pop = Interop.downcallHandle(
             "g_async_queue_timed_pop",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_async_queue_timed_pop_unlocked = Interop.downcallHandle(
             "g_async_queue_timed_pop_unlocked",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_async_queue_timeout_pop = Interop.downcallHandle(
             "g_async_queue_timeout_pop",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
             false
         );
         
         private static final MethodHandle g_async_queue_timeout_pop_unlocked = Interop.downcallHandle(
             "g_async_queue_timeout_pop_unlocked",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
             false
         );
         
         private static final MethodHandle g_async_queue_try_pop = Interop.downcallHandle(
             "g_async_queue_try_pop",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_async_queue_try_pop_unlocked = Interop.downcallHandle(
             "g_async_queue_try_pop_unlocked",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_async_queue_unlock = Interop.downcallHandle(
             "g_async_queue_unlock",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_async_queue_unref = Interop.downcallHandle(
             "g_async_queue_unref",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_async_queue_unref_and_unlock = Interop.downcallHandle(
             "g_async_queue_unref_and_unlock",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_async_queue_new = Interop.downcallHandle(
             "g_async_queue_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_async_queue_new_full = Interop.downcallHandle(
             "g_async_queue_new_full",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private AsyncQueue struct;
+        
+         /**
+         * A {@link AsyncQueue.Build} object constructs a {@link AsyncQueue} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = AsyncQueue.allocate();
+        }
+        
+         /**
+         * Finish building the {@link AsyncQueue} struct.
+         * @return A new instance of {@code AsyncQueue} with the fields 
+         *         that were set in the Build object.
+         */
+        public AsyncQueue construct() {
+            return struct;
+        }
     }
 }

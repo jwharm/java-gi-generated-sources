@@ -9,7 +9,7 @@ import org.jetbrains.annotations.*;
  * Acts as a lightweight registry for possible valid file attributes.
  * The registry stores Key-Value pair formats as {@code GFileAttributeInfos}.
  */
-public class FileAttributeInfoList extends io.github.jwharm.javagi.ProxyBase {
+public class FileAttributeInfoList extends Struct {
     
     static {
         Gio.javagi$ensureInitialized();
@@ -17,9 +17,9 @@ public class FileAttributeInfoList extends io.github.jwharm.javagi.ProxyBase {
     
     private static final java.lang.String C_TYPE_NAME = "GFileAttributeInfoList";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
         Interop.valueLayout.ADDRESS.withName("infos"),
-        ValueLayout.JAVA_INT.withName("n_infos")
+        Interop.valueLayout.C_INT.withName("n_infos")
     ).withName(C_TYPE_NAME);
     
     /**
@@ -33,6 +33,10 @@ public class FileAttributeInfoList extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link FileAttributeInfoList}
+     * @return A new, uninitialized @{link FileAttributeInfoList}
+     */
     public static FileAttributeInfoList allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         FileAttributeInfoList newInstance = new FileAttributeInfoList(segment.address(), Ownership.NONE);
@@ -197,38 +201,90 @@ public class FileAttributeInfoList extends io.github.jwharm.javagi.ProxyBase {
         
         private static final MethodHandle g_file_attribute_info_list_new = Interop.downcallHandle(
             "g_file_attribute_info_list_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_file_attribute_info_list_add = Interop.downcallHandle(
             "g_file_attribute_info_list_add",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_file_attribute_info_list_dup = Interop.downcallHandle(
             "g_file_attribute_info_list_dup",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_file_attribute_info_list_lookup = Interop.downcallHandle(
             "g_file_attribute_info_list_lookup",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_file_attribute_info_list_ref = Interop.downcallHandle(
             "g_file_attribute_info_list_ref",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_file_attribute_info_list_unref = Interop.downcallHandle(
             "g_file_attribute_info_list_unref",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private FileAttributeInfoList struct;
+        
+         /**
+         * A {@link FileAttributeInfoList.Build} object constructs a {@link FileAttributeInfoList} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = FileAttributeInfoList.allocate();
+        }
+        
+         /**
+         * Finish building the {@link FileAttributeInfoList} struct.
+         * @return A new instance of {@code FileAttributeInfoList} with the fields 
+         *         that were set in the Build object.
+         */
+        public FileAttributeInfoList construct() {
+            return struct;
+        }
+        
+        /**
+         * an array of {@code GFileAttributeInfos}.
+         * @param infos The value for the {@code infos} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setInfos(org.gtk.gio.FileAttributeInfo infos) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("infos"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (infos == null ? MemoryAddress.NULL : infos.handle()));
+            return this;
+        }
+        
+        /**
+         * the number of values in the array.
+         * @param n_infos The value for the {@code n_infos} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setNInfos(int n_infos) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("n_infos"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), n_infos);
+            return this;
+        }
     }
 }

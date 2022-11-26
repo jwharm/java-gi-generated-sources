@@ -18,7 +18,7 @@ public class TcpConnection extends org.gtk.gio.SocketConnection {
     
     private static final java.lang.String C_TYPE_NAME = "GTcpConnection";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gio.SocketConnection.getMemoryLayout().withName("parent_instance"),
         Interop.valueLayout.ADDRESS.withName("priv")
     ).withName(C_TYPE_NAME);
@@ -64,7 +64,7 @@ public class TcpConnection extends org.gtk.gio.SocketConnection {
      * @throws ClassCastException If the GType is not derived from "GTcpConnection", a ClassCastException will be thrown.
      */
     public static TcpConnection castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GTcpConnection"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), TcpConnection.getType())) {
             return new TcpConnection(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GTcpConnection");
@@ -109,17 +109,78 @@ public class TcpConnection extends org.gtk.gio.SocketConnection {
         }
     }
     
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.g_tcp_connection_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gio.SocketConnection.Build {
+        
+         /**
+         * A {@link TcpConnection.Build} object constructs a {@link TcpConnection} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link TcpConnection} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link TcpConnection} using {@link TcpConnection#castFrom}.
+         * @return A new instance of {@code TcpConnection} with the properties 
+         *         that were set in the Build object.
+         */
+        public TcpConnection construct() {
+            return TcpConnection.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    TcpConnection.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+        
+        public Build setGracefulDisconnect(boolean gracefulDisconnect) {
+            names.add("graceful-disconnect");
+            values.add(org.gtk.gobject.Value.create(gracefulDisconnect));
+            return this;
+        }
+    }
+    
     private static class DowncallHandles {
         
         private static final MethodHandle g_tcp_connection_get_graceful_disconnect = Interop.downcallHandle(
             "g_tcp_connection_get_graceful_disconnect",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_tcp_connection_set_graceful_disconnect = Interop.downcallHandle(
             "g_tcp_connection_set_graceful_disconnect",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+            false
+        );
+        
+        private static final MethodHandle g_tcp_connection_get_type = Interop.downcallHandle(
+            "g_tcp_connection_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }

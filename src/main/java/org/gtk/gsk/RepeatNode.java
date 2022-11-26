@@ -48,7 +48,7 @@ public class RepeatNode extends org.gtk.gsk.RenderNode {
      * @throws ClassCastException If the GType is not derived from "GskRepeatNode", a ClassCastException will be thrown.
      */
     public static RepeatNode castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GskRepeatNode"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), RepeatNode.getType())) {
             return new RepeatNode(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GskRepeatNode");
@@ -112,23 +112,78 @@ public class RepeatNode extends org.gtk.gsk.RenderNode {
         return new org.gtk.graphene.Rect(RESULT, Ownership.NONE);
     }
     
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.gsk_repeat_node_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gsk.RenderNode.Build {
+        
+         /**
+         * A {@link RepeatNode.Build} object constructs a {@link RepeatNode} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link RepeatNode} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link RepeatNode} using {@link RepeatNode#castFrom}.
+         * @return A new instance of {@code RepeatNode} with the properties 
+         *         that were set in the Build object.
+         */
+        public RepeatNode construct() {
+            return RepeatNode.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    RepeatNode.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+    }
+    
     private static class DowncallHandles {
         
         private static final MethodHandle gsk_repeat_node_new = Interop.downcallHandle(
             "gsk_repeat_node_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gsk_repeat_node_get_child = Interop.downcallHandle(
             "gsk_repeat_node_get_child",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gsk_repeat_node_get_child_bounds = Interop.downcallHandle(
             "gsk_repeat_node_get_child_bounds",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+            false
+        );
+        
+        private static final MethodHandle gsk_repeat_node_get_type = Interop.downcallHandle(
+            "gsk_repeat_node_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }

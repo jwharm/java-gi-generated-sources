@@ -61,7 +61,7 @@ public class LayoutManager extends org.gtk.gobject.Object {
     
     private static final java.lang.String C_TYPE_NAME = "GtkLayoutManager";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gobject.Object.getMemoryLayout().withName("parent_instance")
     ).withName(C_TYPE_NAME);
     
@@ -106,7 +106,7 @@ public class LayoutManager extends org.gtk.gobject.Object {
      * @throws ClassCastException If the GType is not derived from "GtkLayoutManager", a ClassCastException will be thrown.
      */
     public static LayoutManager castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkLayoutManager"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), LayoutManager.getType())) {
             return new LayoutManager(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkLayoutManager");
@@ -233,13 +233,13 @@ public class LayoutManager extends org.gtk.gobject.Object {
         java.util.Objects.requireNonNull(widget, "Parameter 'widget' must not be null");
         java.util.Objects.requireNonNull(orientation, "Parameter 'orientation' must not be null");
         java.util.Objects.requireNonNull(minimum, "Parameter 'minimum' must not be null");
+        MemorySegment minimumPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         java.util.Objects.requireNonNull(natural, "Parameter 'natural' must not be null");
+        MemorySegment naturalPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         java.util.Objects.requireNonNull(minimumBaseline, "Parameter 'minimumBaseline' must not be null");
+        MemorySegment minimumBaselinePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         java.util.Objects.requireNonNull(naturalBaseline, "Parameter 'naturalBaseline' must not be null");
-        MemorySegment minimumPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
-        MemorySegment naturalPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
-        MemorySegment minimumBaselinePOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
-        MemorySegment naturalBaselinePOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
+        MemorySegment naturalBaselinePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         try {
             DowncallHandles.gtk_layout_manager_measure.invokeExact(
                     handle(),
@@ -253,47 +253,102 @@ public class LayoutManager extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        minimum.set(minimumPOINTER.get(ValueLayout.JAVA_INT, 0));
-        natural.set(naturalPOINTER.get(ValueLayout.JAVA_INT, 0));
-        minimumBaseline.set(minimumBaselinePOINTER.get(ValueLayout.JAVA_INT, 0));
-        naturalBaseline.set(naturalBaselinePOINTER.get(ValueLayout.JAVA_INT, 0));
+        minimum.set(minimumPOINTER.get(Interop.valueLayout.C_INT, 0));
+        natural.set(naturalPOINTER.get(Interop.valueLayout.C_INT, 0));
+        minimumBaseline.set(minimumBaselinePOINTER.get(Interop.valueLayout.C_INT, 0));
+        naturalBaseline.set(naturalBaselinePOINTER.get(Interop.valueLayout.C_INT, 0));
+    }
+    
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.gtk_layout_manager_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gobject.Object.Build {
+        
+         /**
+         * A {@link LayoutManager.Build} object constructs a {@link LayoutManager} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link LayoutManager} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link LayoutManager} using {@link LayoutManager#castFrom}.
+         * @return A new instance of {@code LayoutManager} with the properties 
+         *         that were set in the Build object.
+         */
+        public LayoutManager construct() {
+            return LayoutManager.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    LayoutManager.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_layout_manager_allocate = Interop.downcallHandle(
             "gtk_layout_manager_allocate",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_layout_manager_get_layout_child = Interop.downcallHandle(
             "gtk_layout_manager_get_layout_child",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_layout_manager_get_request_mode = Interop.downcallHandle(
             "gtk_layout_manager_get_request_mode",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_layout_manager_get_widget = Interop.downcallHandle(
             "gtk_layout_manager_get_widget",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_layout_manager_layout_changed = Interop.downcallHandle(
             "gtk_layout_manager_layout_changed",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_layout_manager_measure = Interop.downcallHandle(
             "gtk_layout_manager_measure",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+            false
+        );
+        
+        private static final MethodHandle gtk_layout_manager_get_type = Interop.downcallHandle(
+            "gtk_layout_manager_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }

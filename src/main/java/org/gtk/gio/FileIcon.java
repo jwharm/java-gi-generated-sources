@@ -49,7 +49,7 @@ public class FileIcon extends org.gtk.gobject.Object implements org.gtk.gio.Icon
      * @throws ClassCastException If the GType is not derived from "GFileIcon", a ClassCastException will be thrown.
      */
     public static FileIcon castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GFileIcon"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), FileIcon.getType())) {
             return new FileIcon(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GFileIcon");
@@ -91,17 +91,83 @@ public class FileIcon extends org.gtk.gobject.Object implements org.gtk.gio.Icon
         return new org.gtk.gio.File.FileImpl(RESULT, Ownership.NONE);
     }
     
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.g_file_icon_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gobject.Object.Build {
+        
+         /**
+         * A {@link FileIcon.Build} object constructs a {@link FileIcon} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link FileIcon} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link FileIcon} using {@link FileIcon#castFrom}.
+         * @return A new instance of {@code FileIcon} with the properties 
+         *         that were set in the Build object.
+         */
+        public FileIcon construct() {
+            return FileIcon.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    FileIcon.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+        
+        /**
+         * The file containing the icon.
+         * @param file The value for the {@code file} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setFile(org.gtk.gio.File file) {
+            names.add("file");
+            values.add(org.gtk.gobject.Value.create(file));
+            return this;
+        }
+    }
+    
     private static class DowncallHandles {
         
         private static final MethodHandle g_file_icon_new = Interop.downcallHandle(
             "g_file_icon_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_file_icon_get_file = Interop.downcallHandle(
             "g_file_icon_get_file",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+            false
+        );
+        
+        private static final MethodHandle g_file_icon_get_type = Interop.downcallHandle(
+            "g_file_icon_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }

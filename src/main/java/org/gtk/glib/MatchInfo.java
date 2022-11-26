@@ -9,7 +9,7 @@ import org.jetbrains.annotations.*;
  * A GMatchInfo is an opaque struct used to return information about
  * matches.
  */
-public class MatchInfo extends io.github.jwharm.javagi.ProxyBase {
+public class MatchInfo extends Struct {
     
     static {
         GLib.javagi$ensureInitialized();
@@ -28,6 +28,10 @@ public class MatchInfo extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link MatchInfo}
+     * @return A new, uninitialized @{link MatchInfo}
+     */
     public static MatchInfo allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         MatchInfo newInstance = new MatchInfo(segment.address(), Ownership.NONE);
@@ -69,7 +73,7 @@ public class MatchInfo extends io.github.jwharm.javagi.ProxyBase {
      */
     public @Nullable java.lang.String expandReferences(@NotNull java.lang.String stringToExpand) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(stringToExpand, "Parameter 'stringToExpand' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_match_info_expand_references.invokeExact(
@@ -194,9 +198,9 @@ public class MatchInfo extends io.github.jwharm.javagi.ProxyBase {
     public boolean fetchNamedPos(@NotNull java.lang.String name, Out<Integer> startPos, Out<Integer> endPos) {
         java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
         java.util.Objects.requireNonNull(startPos, "Parameter 'startPos' must not be null");
+        MemorySegment startPosPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         java.util.Objects.requireNonNull(endPos, "Parameter 'endPos' must not be null");
-        MemorySegment startPosPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
-        MemorySegment endPosPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
+        MemorySegment endPosPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_match_info_fetch_named_pos.invokeExact(
@@ -207,8 +211,8 @@ public class MatchInfo extends io.github.jwharm.javagi.ProxyBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        startPos.set(startPosPOINTER.get(ValueLayout.JAVA_INT, 0));
-        endPos.set(endPosPOINTER.get(ValueLayout.JAVA_INT, 0));
+        startPos.set(startPosPOINTER.get(Interop.valueLayout.C_INT, 0));
+        endPos.set(endPosPOINTER.get(Interop.valueLayout.C_INT, 0));
         return RESULT != 0;
     }
     
@@ -237,9 +241,9 @@ public class MatchInfo extends io.github.jwharm.javagi.ProxyBase {
      */
     public boolean fetchPos(int matchNum, Out<Integer> startPos, Out<Integer> endPos) {
         java.util.Objects.requireNonNull(startPos, "Parameter 'startPos' must not be null");
+        MemorySegment startPosPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         java.util.Objects.requireNonNull(endPos, "Parameter 'endPos' must not be null");
-        MemorySegment startPosPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
-        MemorySegment endPosPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
+        MemorySegment endPosPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_match_info_fetch_pos.invokeExact(
@@ -250,8 +254,8 @@ public class MatchInfo extends io.github.jwharm.javagi.ProxyBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        startPos.set(startPosPOINTER.get(ValueLayout.JAVA_INT, 0));
-        endPos.set(endPosPOINTER.get(ValueLayout.JAVA_INT, 0));
+        startPos.set(startPosPOINTER.get(Interop.valueLayout.C_INT, 0));
+        endPos.set(endPosPOINTER.get(Interop.valueLayout.C_INT, 0));
         return RESULT != 0;
     }
     
@@ -304,7 +308,7 @@ public class MatchInfo extends io.github.jwharm.javagi.ProxyBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.Regex(RESULT, Ownership.FULL);
+        return new org.gtk.glib.Regex(RESULT, Ownership.NONE);
     }
     
     /**
@@ -398,7 +402,7 @@ public class MatchInfo extends io.github.jwharm.javagi.ProxyBase {
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public boolean next() throws io.github.jwharm.javagi.GErrorException {
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_match_info_next.invokeExact(
@@ -445,92 +449,120 @@ public class MatchInfo extends io.github.jwharm.javagi.ProxyBase {
         
         private static final MethodHandle g_match_info_expand_references = Interop.downcallHandle(
             "g_match_info_expand_references",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_match_info_fetch = Interop.downcallHandle(
             "g_match_info_fetch",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_match_info_fetch_all = Interop.downcallHandle(
             "g_match_info_fetch_all",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_match_info_fetch_named = Interop.downcallHandle(
             "g_match_info_fetch_named",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_match_info_fetch_named_pos = Interop.downcallHandle(
             "g_match_info_fetch_named_pos",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_match_info_fetch_pos = Interop.downcallHandle(
             "g_match_info_fetch_pos",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_match_info_free = Interop.downcallHandle(
             "g_match_info_free",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_match_info_get_match_count = Interop.downcallHandle(
             "g_match_info_get_match_count",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_match_info_get_regex = Interop.downcallHandle(
             "g_match_info_get_regex",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_match_info_get_string = Interop.downcallHandle(
             "g_match_info_get_string",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_match_info_is_partial_match = Interop.downcallHandle(
             "g_match_info_is_partial_match",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_match_info_matches = Interop.downcallHandle(
             "g_match_info_matches",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_match_info_next = Interop.downcallHandle(
             "g_match_info_next",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_match_info_ref = Interop.downcallHandle(
             "g_match_info_ref",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_match_info_unref = Interop.downcallHandle(
             "g_match_info_unref",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private MatchInfo struct;
+        
+         /**
+         * A {@link MatchInfo.Build} object constructs a {@link MatchInfo} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = MatchInfo.allocate();
+        }
+        
+         /**
+         * Finish building the {@link MatchInfo} struct.
+         * @return A new instance of {@code MatchInfo} with the fields 
+         *         that were set in the Build object.
+         */
+        public MatchInfo construct() {
+            return struct;
+        }
     }
 }

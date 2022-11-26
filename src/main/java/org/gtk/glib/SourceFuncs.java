@@ -27,7 +27,7 @@ import org.jetbrains.annotations.*;
  * check function, it tests the results of the poll() call to see if the
  * required condition has been met, and returns {@code true} if so.
  */
-public class SourceFuncs extends io.github.jwharm.javagi.ProxyBase {
+public class SourceFuncs extends Struct {
     
     static {
         GLib.javagi$ensureInitialized();
@@ -35,7 +35,7 @@ public class SourceFuncs extends io.github.jwharm.javagi.ProxyBase {
     
     private static final java.lang.String C_TYPE_NAME = "GSourceFuncs";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
         Interop.valueLayout.ADDRESS.withName("prepare"),
         Interop.valueLayout.ADDRESS.withName("check"),
         Interop.valueLayout.ADDRESS.withName("dispatch"),
@@ -55,6 +55,10 @@ public class SourceFuncs extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link SourceFuncs}
+     * @return A new, uninitialized @{link SourceFuncs}
+     */
     public static SourceFuncs allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         SourceFuncs newInstance = new SourceFuncs(segment.address(), Ownership.NONE);
@@ -70,5 +74,75 @@ public class SourceFuncs extends io.github.jwharm.javagi.ProxyBase {
     @ApiStatus.Internal
     public SourceFuncs(Addressable address, Ownership ownership) {
         super(address, ownership);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private SourceFuncs struct;
+        
+         /**
+         * A {@link SourceFuncs.Build} object constructs a {@link SourceFuncs} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = SourceFuncs.allocate();
+        }
+        
+         /**
+         * Finish building the {@link SourceFuncs} struct.
+         * @return A new instance of {@code SourceFuncs} with the fields 
+         *         that were set in the Build object.
+         */
+        public SourceFuncs construct() {
+            return struct;
+        }
+        
+        public Build setPrepare(java.lang.foreign.MemoryAddress prepare) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("prepare"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (prepare == null ? MemoryAddress.NULL : prepare));
+            return this;
+        }
+        
+        public Build setCheck(java.lang.foreign.MemoryAddress check) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("check"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (check == null ? MemoryAddress.NULL : check));
+            return this;
+        }
+        
+        public Build setDispatch(java.lang.foreign.MemoryAddress dispatch) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("dispatch"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (dispatch == null ? MemoryAddress.NULL : dispatch));
+            return this;
+        }
+        
+        public Build setFinalize(java.lang.foreign.MemoryAddress finalize) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("finalize"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (finalize == null ? MemoryAddress.NULL : finalize));
+            return this;
+        }
+        
+        public Build setClosureCallback(java.lang.foreign.MemoryAddress closure_callback) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("closure_callback"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (closure_callback == null ? MemoryAddress.NULL : closure_callback));
+            return this;
+        }
+        
+        public Build setClosureMarshal(java.lang.foreign.MemoryAddress closure_marshal) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("closure_marshal"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (closure_marshal == null ? MemoryAddress.NULL : closure_marshal));
+            return this;
+        }
     }
 }

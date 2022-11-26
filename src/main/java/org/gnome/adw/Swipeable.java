@@ -28,7 +28,7 @@ public interface Swipeable extends io.github.jwharm.javagi.Proxy {
      * @throws ClassCastException If the GType is not derived from "AdwSwipeable", a ClassCastException will be thrown.
      */
     public static Swipeable castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("AdwSwipeable"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), Swipeable.getType())) {
             return new SwipeableImpl(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of AdwSwipeable");
@@ -92,7 +92,7 @@ public interface Swipeable extends io.github.jwharm.javagi.Proxy {
      */
     default @NotNull double[] getSnapPoints(Out<Integer> nSnapPoints) {
         java.util.Objects.requireNonNull(nSnapPoints, "Parameter 'nSnapPoints' must not be null");
-        MemorySegment nSnapPointsPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
+        MemorySegment nSnapPointsPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.adw_swipeable_get_snap_points.invokeExact(
@@ -101,8 +101,8 @@ public interface Swipeable extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        nSnapPoints.set(nSnapPointsPOINTER.get(ValueLayout.JAVA_INT, 0));
-        return MemorySegment.ofAddress(RESULT.get(ValueLayout.ADDRESS, 0), nSnapPoints.get().intValue() * ValueLayout.JAVA_DOUBLE.byteSize(), Interop.getScope()).toArray(ValueLayout.JAVA_DOUBLE);
+        nSnapPoints.set(nSnapPointsPOINTER.get(Interop.valueLayout.C_INT, 0));
+        return MemorySegment.ofAddress(RESULT.get(Interop.valueLayout.ADDRESS, 0), nSnapPoints.get().intValue() * Interop.valueLayout.C_DOUBLE.byteSize(), Interop.getScope()).toArray(Interop.valueLayout.C_DOUBLE);
     }
     
     /**
@@ -133,41 +133,62 @@ public interface Swipeable extends io.github.jwharm.javagi.Proxy {
         }
     }
     
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.adw_swipeable_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+    
     @ApiStatus.Internal
     static class DowncallHandles {
         
         @ApiStatus.Internal
         static final MethodHandle adw_swipeable_get_cancel_progress = Interop.downcallHandle(
             "adw_swipeable_get_cancel_progress",
-            FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_DOUBLE, Interop.valueLayout.ADDRESS),
             false
         );
         
         @ApiStatus.Internal
         static final MethodHandle adw_swipeable_get_distance = Interop.downcallHandle(
             "adw_swipeable_get_distance",
-            FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_DOUBLE, Interop.valueLayout.ADDRESS),
             false
         );
         
         @ApiStatus.Internal
         static final MethodHandle adw_swipeable_get_progress = Interop.downcallHandle(
             "adw_swipeable_get_progress",
-            FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_DOUBLE, Interop.valueLayout.ADDRESS),
             false
         );
         
         @ApiStatus.Internal
         static final MethodHandle adw_swipeable_get_snap_points = Interop.downcallHandle(
             "adw_swipeable_get_snap_points",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         @ApiStatus.Internal
         static final MethodHandle adw_swipeable_get_swipe_area = Interop.downcallHandle(
             "adw_swipeable_get_swipe_area",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+            false
+        );
+        
+        @ApiStatus.Internal
+        static final MethodHandle adw_swipeable_get_type = Interop.downcallHandle(
+            "adw_swipeable_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }

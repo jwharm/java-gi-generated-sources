@@ -105,7 +105,7 @@ public class Subprocess extends org.gtk.gobject.Object implements org.gtk.gio.In
      * @throws ClassCastException If the GType is not derived from "GSubprocess", a ClassCastException will be thrown.
      */
     public static Subprocess castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GSubprocess"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), Subprocess.getType())) {
             return new Subprocess(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GSubprocess");
@@ -148,7 +148,7 @@ public class Subprocess extends org.gtk.gobject.Object implements org.gtk.gio.In
     private static Addressable constructNewv(@NotNull java.lang.String[] argv, @NotNull org.gtk.gio.SubprocessFlags flags) throws GErrorException {
         java.util.Objects.requireNonNull(argv, "Parameter 'argv' must not be null");
         java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         Addressable RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_subprocess_newv.invokeExact(
@@ -228,7 +228,7 @@ public class Subprocess extends org.gtk.gobject.Object implements org.gtk.gio.In
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public boolean communicate(@Nullable org.gtk.glib.Bytes stdinBuf, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable PointerProxy<org.gtk.glib.Bytes> stdoutBuf, @Nullable PointerProxy<org.gtk.glib.Bytes> stderrBuf) throws io.github.jwharm.javagi.GErrorException {
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_subprocess_communicate.invokeExact(
@@ -263,7 +263,7 @@ public class Subprocess extends org.gtk.gobject.Object implements org.gtk.gio.In
                     (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                         Interop.getScope())),
                     (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
         } catch (Throwable ERR) {
@@ -280,7 +280,7 @@ public class Subprocess extends org.gtk.gobject.Object implements org.gtk.gio.In
      */
     public boolean communicateFinish(@NotNull org.gtk.gio.AsyncResult result, @Nullable PointerProxy<org.gtk.glib.Bytes> stdoutBuf, @Nullable PointerProxy<org.gtk.glib.Bytes> stderrBuf) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(result, "Parameter 'result' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_subprocess_communicate_finish.invokeExact(
@@ -311,9 +311,9 @@ public class Subprocess extends org.gtk.gobject.Object implements org.gtk.gio.In
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public boolean communicateUtf8(@Nullable java.lang.String stdinBuf, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable Out<java.lang.String> stdoutBuf, @Nullable Out<java.lang.String> stderrBuf) throws io.github.jwharm.javagi.GErrorException {
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        MemorySegment stdoutBufPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        MemorySegment stderrBufPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment stdoutBufPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
+        MemorySegment stderrBufPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_subprocess_communicate_utf8.invokeExact(
@@ -329,8 +329,8 @@ public class Subprocess extends org.gtk.gobject.Object implements org.gtk.gio.In
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        if (stdoutBuf != null) stdoutBuf.set(Interop.getStringFrom(stdoutBufPOINTER.get(ValueLayout.ADDRESS, 0)));
-        if (stderrBuf != null) stderrBuf.set(Interop.getStringFrom(stderrBufPOINTER.get(ValueLayout.ADDRESS, 0)));
+        if (stdoutBuf != null) stdoutBuf.set(Interop.getStringFrom(stdoutBufPOINTER.get(Interop.valueLayout.ADDRESS, 0)));
+        if (stderrBuf != null) stderrBuf.set(Interop.getStringFrom(stderrBufPOINTER.get(Interop.valueLayout.ADDRESS, 0)));
         return RESULT != 0;
     }
     
@@ -350,7 +350,7 @@ public class Subprocess extends org.gtk.gobject.Object implements org.gtk.gio.In
                     (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                         Interop.getScope())),
                     (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
         } catch (Throwable ERR) {
@@ -367,9 +367,9 @@ public class Subprocess extends org.gtk.gobject.Object implements org.gtk.gio.In
      */
     public boolean communicateUtf8Finish(@NotNull org.gtk.gio.AsyncResult result, @Nullable Out<java.lang.String> stdoutBuf, @Nullable Out<java.lang.String> stderrBuf) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(result, "Parameter 'result' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        MemorySegment stdoutBufPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        MemorySegment stderrBufPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment stdoutBufPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
+        MemorySegment stderrBufPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_subprocess_communicate_utf8_finish.invokeExact(
@@ -384,8 +384,8 @@ public class Subprocess extends org.gtk.gobject.Object implements org.gtk.gio.In
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        if (stdoutBuf != null) stdoutBuf.set(Interop.getStringFrom(stdoutBufPOINTER.get(ValueLayout.ADDRESS, 0)));
-        if (stderrBuf != null) stderrBuf.set(Interop.getStringFrom(stderrBufPOINTER.get(ValueLayout.ADDRESS, 0)));
+        if (stdoutBuf != null) stdoutBuf.set(Interop.getStringFrom(stdoutBufPOINTER.get(Interop.valueLayout.ADDRESS, 0)));
+        if (stderrBuf != null) stderrBuf.set(Interop.getStringFrom(stderrBufPOINTER.get(Interop.valueLayout.ADDRESS, 0)));
         return RESULT != 0;
     }
     
@@ -648,7 +648,7 @@ public class Subprocess extends org.gtk.gobject.Object implements org.gtk.gio.In
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public boolean wait(@Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_subprocess_wait.invokeExact(
@@ -679,7 +679,7 @@ public class Subprocess extends org.gtk.gobject.Object implements org.gtk.gio.In
                     (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                         Interop.getScope())),
                     (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
         } catch (Throwable ERR) {
@@ -695,7 +695,7 @@ public class Subprocess extends org.gtk.gobject.Object implements org.gtk.gio.In
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public boolean waitCheck(@Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_subprocess_wait_check.invokeExact(
@@ -726,7 +726,7 @@ public class Subprocess extends org.gtk.gobject.Object implements org.gtk.gio.In
                     (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                         Interop.getScope())),
                     (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
         } catch (Throwable ERR) {
@@ -743,7 +743,7 @@ public class Subprocess extends org.gtk.gobject.Object implements org.gtk.gio.In
      */
     public boolean waitCheckFinish(@NotNull org.gtk.gio.AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(result, "Parameter 'result' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_subprocess_wait_check_finish.invokeExact(
@@ -768,7 +768,7 @@ public class Subprocess extends org.gtk.gobject.Object implements org.gtk.gio.In
      */
     public boolean waitFinish(@NotNull org.gtk.gio.AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(result, "Parameter 'result' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_subprocess_wait_finish.invokeExact(
@@ -784,161 +784,222 @@ public class Subprocess extends org.gtk.gobject.Object implements org.gtk.gio.In
         return RESULT != 0;
     }
     
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.g_subprocess_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gobject.Object.Build {
+        
+         /**
+         * A {@link Subprocess.Build} object constructs a {@link Subprocess} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link Subprocess} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link Subprocess} using {@link Subprocess#castFrom}.
+         * @return A new instance of {@code Subprocess} with the properties 
+         *         that were set in the Build object.
+         */
+        public Subprocess construct() {
+            return Subprocess.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    Subprocess.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+        
+        public Build setFlags(org.gtk.gio.SubprocessFlags flags) {
+            names.add("flags");
+            values.add(org.gtk.gobject.Value.create(flags));
+            return this;
+        }
+    }
+    
     private static class DowncallHandles {
         
         private static final MethodHandle g_subprocess_new = Interop.downcallHandle(
             "g_subprocess_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             true
         );
         
         private static final MethodHandle g_subprocess_newv = Interop.downcallHandle(
             "g_subprocess_newv",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_subprocess_communicate = Interop.downcallHandle(
             "g_subprocess_communicate",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_subprocess_communicate_async = Interop.downcallHandle(
             "g_subprocess_communicate_async",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_subprocess_communicate_finish = Interop.downcallHandle(
             "g_subprocess_communicate_finish",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_subprocess_communicate_utf8 = Interop.downcallHandle(
             "g_subprocess_communicate_utf8",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_subprocess_communicate_utf8_async = Interop.downcallHandle(
             "g_subprocess_communicate_utf8_async",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_subprocess_communicate_utf8_finish = Interop.downcallHandle(
             "g_subprocess_communicate_utf8_finish",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_subprocess_force_exit = Interop.downcallHandle(
             "g_subprocess_force_exit",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_subprocess_get_exit_status = Interop.downcallHandle(
             "g_subprocess_get_exit_status",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_subprocess_get_identifier = Interop.downcallHandle(
             "g_subprocess_get_identifier",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_subprocess_get_if_exited = Interop.downcallHandle(
             "g_subprocess_get_if_exited",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_subprocess_get_if_signaled = Interop.downcallHandle(
             "g_subprocess_get_if_signaled",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_subprocess_get_status = Interop.downcallHandle(
             "g_subprocess_get_status",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_subprocess_get_stderr_pipe = Interop.downcallHandle(
             "g_subprocess_get_stderr_pipe",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_subprocess_get_stdin_pipe = Interop.downcallHandle(
             "g_subprocess_get_stdin_pipe",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_subprocess_get_stdout_pipe = Interop.downcallHandle(
             "g_subprocess_get_stdout_pipe",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_subprocess_get_successful = Interop.downcallHandle(
             "g_subprocess_get_successful",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_subprocess_get_term_sig = Interop.downcallHandle(
             "g_subprocess_get_term_sig",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_subprocess_send_signal = Interop.downcallHandle(
             "g_subprocess_send_signal",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_subprocess_wait = Interop.downcallHandle(
             "g_subprocess_wait",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_subprocess_wait_async = Interop.downcallHandle(
             "g_subprocess_wait_async",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_subprocess_wait_check = Interop.downcallHandle(
             "g_subprocess_wait_check",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_subprocess_wait_check_async = Interop.downcallHandle(
             "g_subprocess_wait_check_async",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_subprocess_wait_check_finish = Interop.downcallHandle(
             "g_subprocess_wait_check_finish",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_subprocess_wait_finish = Interop.downcallHandle(
             "g_subprocess_wait_finish",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+            false
+        );
+        
+        private static final MethodHandle g_subprocess_get_type = Interop.downcallHandle(
+            "g_subprocess_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }

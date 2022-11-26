@@ -51,7 +51,7 @@ public class NumericSorter extends org.gtk.gtk.Sorter {
      * @throws ClassCastException If the GType is not derived from "GtkNumericSorter", a ClassCastException will be thrown.
      */
     public static NumericSorter castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkNumericSorter"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), NumericSorter.getType())) {
             return new NumericSorter(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkNumericSorter");
@@ -146,35 +146,112 @@ public class NumericSorter extends org.gtk.gtk.Sorter {
         }
     }
     
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.gtk_numeric_sorter_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gtk.Sorter.Build {
+        
+         /**
+         * A {@link NumericSorter.Build} object constructs a {@link NumericSorter} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link NumericSorter} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link NumericSorter} using {@link NumericSorter#castFrom}.
+         * @return A new instance of {@code NumericSorter} with the properties 
+         *         that were set in the Build object.
+         */
+        public NumericSorter construct() {
+            return NumericSorter.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    NumericSorter.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+        
+        /**
+         * The expression to evaluate on items to get a number to compare with.
+         * @param expression The value for the {@code expression} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setExpression(org.gtk.gtk.Expression expression) {
+            names.add("expression");
+            values.add(org.gtk.gobject.Value.create(expression));
+            return this;
+        }
+        
+        /**
+         * Whether the sorter will sort smaller numbers first.
+         * @param sortOrder The value for the {@code sort-order} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setSortOrder(org.gtk.gtk.SortType sortOrder) {
+            names.add("sort-order");
+            values.add(org.gtk.gobject.Value.create(sortOrder));
+            return this;
+        }
+    }
+    
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_numeric_sorter_new = Interop.downcallHandle(
             "gtk_numeric_sorter_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_numeric_sorter_get_expression = Interop.downcallHandle(
             "gtk_numeric_sorter_get_expression",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_numeric_sorter_get_sort_order = Interop.downcallHandle(
             "gtk_numeric_sorter_get_sort_order",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_numeric_sorter_set_expression = Interop.downcallHandle(
             "gtk_numeric_sorter_set_expression",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_numeric_sorter_set_sort_order = Interop.downcallHandle(
             "gtk_numeric_sorter_set_sort_order",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+            false
+        );
+        
+        private static final MethodHandle gtk_numeric_sorter_get_type = Interop.downcallHandle(
+            "gtk_numeric_sorter_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }

@@ -8,7 +8,7 @@ import org.jetbrains.annotations.*;
 /**
  * An opaque data structure representing a set of bookmarks.
  */
-public class BookmarkFile extends io.github.jwharm.javagi.ProxyBase {
+public class BookmarkFile extends Struct {
     
     static {
         GLib.javagi$ensureInitialized();
@@ -27,6 +27,10 @@ public class BookmarkFile extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link BookmarkFile}
+     * @return A new, uninitialized @{link BookmarkFile}
+     */
     public static BookmarkFile allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         BookmarkFile newInstance = new BookmarkFile(segment.address(), Ownership.NONE);
@@ -132,7 +136,7 @@ public class BookmarkFile extends io.github.jwharm.javagi.ProxyBase {
     @Deprecated
     public long getAdded(@NotNull java.lang.String uri) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(uri, "Parameter 'uri' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.g_bookmark_file_get_added.invokeExact(
@@ -159,7 +163,7 @@ public class BookmarkFile extends io.github.jwharm.javagi.ProxyBase {
      */
     public @NotNull org.gtk.glib.DateTime getAddedDateTime(@NotNull java.lang.String uri) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(uri, "Parameter 'uri' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_bookmark_file_get_added_date_time.invokeExact(
@@ -204,12 +208,12 @@ public class BookmarkFile extends io.github.jwharm.javagi.ProxyBase {
         java.util.Objects.requireNonNull(uri, "Parameter 'uri' must not be null");
         java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
         java.util.Objects.requireNonNull(exec, "Parameter 'exec' must not be null");
+        MemorySegment execPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         java.util.Objects.requireNonNull(count, "Parameter 'count' must not be null");
+        MemorySegment countPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         java.util.Objects.requireNonNull(stamp, "Parameter 'stamp' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        MemorySegment execPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        MemorySegment countPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
-        MemorySegment stampPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_LONG);
+        MemorySegment stampPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_bookmark_file_get_app_info.invokeExact(
@@ -226,9 +230,9 @@ public class BookmarkFile extends io.github.jwharm.javagi.ProxyBase {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        exec.set(Interop.getStringFrom(execPOINTER.get(ValueLayout.ADDRESS, 0)));
-        count.set(countPOINTER.get(ValueLayout.JAVA_INT, 0));
-        stamp.set(stampPOINTER.get(ValueLayout.JAVA_LONG, 0));
+        exec.set(Interop.getStringFrom(execPOINTER.get(Interop.valueLayout.ADDRESS, 0)));
+        count.set(countPOINTER.get(Interop.valueLayout.C_INT, 0));
+        stamp.set(stampPOINTER.get(Interop.valueLayout.C_LONG, 0));
         return RESULT != 0;
     }
     
@@ -258,11 +262,11 @@ public class BookmarkFile extends io.github.jwharm.javagi.ProxyBase {
         java.util.Objects.requireNonNull(uri, "Parameter 'uri' must not be null");
         java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
         java.util.Objects.requireNonNull(exec, "Parameter 'exec' must not be null");
+        MemorySegment execPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         java.util.Objects.requireNonNull(count, "Parameter 'count' must not be null");
+        MemorySegment countPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         java.util.Objects.requireNonNull(stamp, "Parameter 'stamp' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        MemorySegment execPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        MemorySegment countPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_bookmark_file_get_application_info.invokeExact(
@@ -279,8 +283,8 @@ public class BookmarkFile extends io.github.jwharm.javagi.ProxyBase {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        exec.set(Interop.getStringFrom(execPOINTER.get(ValueLayout.ADDRESS, 0)));
-        count.set(countPOINTER.get(ValueLayout.JAVA_INT, 0));
+        exec.set(Interop.getStringFrom(execPOINTER.get(Interop.valueLayout.ADDRESS, 0)));
+        count.set(countPOINTER.get(Interop.valueLayout.C_INT, 0));
         return RESULT != 0;
     }
     
@@ -299,8 +303,8 @@ public class BookmarkFile extends io.github.jwharm.javagi.ProxyBase {
     public @NotNull java.lang.String[] getApplications(@NotNull java.lang.String uri, Out<Long> length) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(uri, "Parameter 'uri' must not be null");
         java.util.Objects.requireNonNull(length, "Parameter 'length' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        MemorySegment lengthPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_LONG);
+        MemorySegment lengthPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_bookmark_file_get_applications.invokeExact(
@@ -314,10 +318,10 @@ public class BookmarkFile extends io.github.jwharm.javagi.ProxyBase {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        length.set(lengthPOINTER.get(ValueLayout.JAVA_LONG, 0));
+        length.set(lengthPOINTER.get(Interop.valueLayout.C_LONG, 0));
         java.lang.String[] resultARRAY = new java.lang.String[length.get().intValue()];
         for (int I = 0; I < length.get().intValue(); I++) {
-            var OBJ = RESULT.get(ValueLayout.ADDRESS, I);
+            var OBJ = RESULT.get(Interop.valueLayout.ADDRESS, I);
             resultARRAY[I] = Interop.getStringFrom(OBJ);
         }
         return resultARRAY;
@@ -335,7 +339,7 @@ public class BookmarkFile extends io.github.jwharm.javagi.ProxyBase {
      */
     public @NotNull java.lang.String getDescription(@NotNull java.lang.String uri) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(uri, "Parameter 'uri' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_bookmark_file_get_description.invokeExact(
@@ -368,8 +372,8 @@ public class BookmarkFile extends io.github.jwharm.javagi.ProxyBase {
     public @NotNull java.lang.String[] getGroups(@NotNull java.lang.String uri, Out<Long> length) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(uri, "Parameter 'uri' must not be null");
         java.util.Objects.requireNonNull(length, "Parameter 'length' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        MemorySegment lengthPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_LONG);
+        MemorySegment lengthPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_bookmark_file_get_groups.invokeExact(
@@ -383,10 +387,10 @@ public class BookmarkFile extends io.github.jwharm.javagi.ProxyBase {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        length.set(lengthPOINTER.get(ValueLayout.JAVA_LONG, 0));
+        length.set(lengthPOINTER.get(Interop.valueLayout.C_LONG, 0));
         java.lang.String[] resultARRAY = new java.lang.String[length.get().intValue()];
         for (int I = 0; I < length.get().intValue(); I++) {
-            var OBJ = RESULT.get(ValueLayout.ADDRESS, I);
+            var OBJ = RESULT.get(Interop.valueLayout.ADDRESS, I);
             resultARRAY[I] = Interop.getStringFrom(OBJ);
         }
         return resultARRAY;
@@ -407,10 +411,10 @@ public class BookmarkFile extends io.github.jwharm.javagi.ProxyBase {
     public boolean getIcon(@NotNull java.lang.String uri, @NotNull Out<java.lang.String> href, @NotNull Out<java.lang.String> mimeType) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(uri, "Parameter 'uri' must not be null");
         java.util.Objects.requireNonNull(href, "Parameter 'href' must not be null");
+        MemorySegment hrefPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         java.util.Objects.requireNonNull(mimeType, "Parameter 'mimeType' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        MemorySegment hrefPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        MemorySegment mimeTypePOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment mimeTypePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_bookmark_file_get_icon.invokeExact(
@@ -425,8 +429,8 @@ public class BookmarkFile extends io.github.jwharm.javagi.ProxyBase {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        href.set(Interop.getStringFrom(hrefPOINTER.get(ValueLayout.ADDRESS, 0)));
-        mimeType.set(Interop.getStringFrom(mimeTypePOINTER.get(ValueLayout.ADDRESS, 0)));
+        href.set(Interop.getStringFrom(hrefPOINTER.get(Interop.valueLayout.ADDRESS, 0)));
+        mimeType.set(Interop.getStringFrom(mimeTypePOINTER.get(Interop.valueLayout.ADDRESS, 0)));
         return RESULT != 0;
     }
     
@@ -443,7 +447,7 @@ public class BookmarkFile extends io.github.jwharm.javagi.ProxyBase {
      */
     public boolean getIsPrivate(@NotNull java.lang.String uri) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(uri, "Parameter 'uri' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_bookmark_file_get_is_private.invokeExact(
@@ -473,7 +477,7 @@ public class BookmarkFile extends io.github.jwharm.javagi.ProxyBase {
      */
     public @NotNull java.lang.String getMimeType(@NotNull java.lang.String uri) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(uri, "Parameter 'uri' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_bookmark_file_get_mime_type.invokeExact(
@@ -503,7 +507,7 @@ public class BookmarkFile extends io.github.jwharm.javagi.ProxyBase {
     @Deprecated
     public long getModified(@NotNull java.lang.String uri) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(uri, "Parameter 'uri' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.g_bookmark_file_get_modified.invokeExact(
@@ -530,7 +534,7 @@ public class BookmarkFile extends io.github.jwharm.javagi.ProxyBase {
      */
     public @NotNull org.gtk.glib.DateTime getModifiedDateTime(@NotNull java.lang.String uri) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(uri, "Parameter 'uri' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_bookmark_file_get_modified_date_time.invokeExact(
@@ -574,7 +578,7 @@ public class BookmarkFile extends io.github.jwharm.javagi.ProxyBase {
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public @NotNull java.lang.String getTitle(@Nullable java.lang.String uri) throws io.github.jwharm.javagi.GErrorException {
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_bookmark_file_get_title.invokeExact(
@@ -600,7 +604,7 @@ public class BookmarkFile extends io.github.jwharm.javagi.ProxyBase {
      */
     public @NotNull java.lang.String[] getUris(Out<Long> length) {
         java.util.Objects.requireNonNull(length, "Parameter 'length' must not be null");
-        MemorySegment lengthPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_LONG);
+        MemorySegment lengthPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_bookmark_file_get_uris.invokeExact(
@@ -609,10 +613,10 @@ public class BookmarkFile extends io.github.jwharm.javagi.ProxyBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        length.set(lengthPOINTER.get(ValueLayout.JAVA_LONG, 0));
+        length.set(lengthPOINTER.get(Interop.valueLayout.C_LONG, 0));
         java.lang.String[] resultARRAY = new java.lang.String[length.get().intValue()];
         for (int I = 0; I < length.get().intValue(); I++) {
-            var OBJ = RESULT.get(ValueLayout.ADDRESS, I);
+            var OBJ = RESULT.get(Interop.valueLayout.ADDRESS, I);
             resultARRAY[I] = Interop.getStringFrom(OBJ);
         }
         return resultARRAY;
@@ -632,7 +636,7 @@ public class BookmarkFile extends io.github.jwharm.javagi.ProxyBase {
     @Deprecated
     public long getVisited(@NotNull java.lang.String uri) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(uri, "Parameter 'uri' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.g_bookmark_file_get_visited.invokeExact(
@@ -659,7 +663,7 @@ public class BookmarkFile extends io.github.jwharm.javagi.ProxyBase {
      */
     public @NotNull org.gtk.glib.DateTime getVisitedDateTime(@NotNull java.lang.String uri) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(uri, "Parameter 'uri' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_bookmark_file_get_visited_date_time.invokeExact(
@@ -689,7 +693,7 @@ public class BookmarkFile extends io.github.jwharm.javagi.ProxyBase {
     public boolean hasApplication(@NotNull java.lang.String uri, @NotNull java.lang.String name) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(uri, "Parameter 'uri' must not be null");
         java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_bookmark_file_has_application.invokeExact(
@@ -720,7 +724,7 @@ public class BookmarkFile extends io.github.jwharm.javagi.ProxyBase {
     public boolean hasGroup(@NotNull java.lang.String uri, @NotNull java.lang.String group) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(uri, "Parameter 'uri' must not be null");
         java.util.Objects.requireNonNull(group, "Parameter 'group' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_bookmark_file_has_group.invokeExact(
@@ -767,7 +771,7 @@ public class BookmarkFile extends io.github.jwharm.javagi.ProxyBase {
      */
     public boolean loadFromData(@NotNull byte[] data, long length) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(data, "Parameter 'data' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_bookmark_file_load_from_data.invokeExact(
@@ -799,8 +803,8 @@ public class BookmarkFile extends io.github.jwharm.javagi.ProxyBase {
     public boolean loadFromDataDirs(@NotNull java.lang.String file, @NotNull Out<java.lang.String> fullPath) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(file, "Parameter 'file' must not be null");
         java.util.Objects.requireNonNull(fullPath, "Parameter 'fullPath' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        MemorySegment fullPathPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment fullPathPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_bookmark_file_load_from_data_dirs.invokeExact(
@@ -814,7 +818,7 @@ public class BookmarkFile extends io.github.jwharm.javagi.ProxyBase {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        fullPath.set(Interop.getStringFrom(fullPathPOINTER.get(ValueLayout.ADDRESS, 0)));
+        fullPath.set(Interop.getStringFrom(fullPathPOINTER.get(Interop.valueLayout.ADDRESS, 0)));
         return RESULT != 0;
     }
     
@@ -829,7 +833,7 @@ public class BookmarkFile extends io.github.jwharm.javagi.ProxyBase {
      */
     public boolean loadFromFile(@NotNull java.lang.String filename) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(filename, "Parameter 'filename' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_bookmark_file_load_from_file.invokeExact(
@@ -859,7 +863,7 @@ public class BookmarkFile extends io.github.jwharm.javagi.ProxyBase {
      */
     public boolean moveItem(@NotNull java.lang.String oldUri, @Nullable java.lang.String newUri) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(oldUri, "Parameter 'oldUri' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_bookmark_file_move_item.invokeExact(
@@ -893,7 +897,7 @@ public class BookmarkFile extends io.github.jwharm.javagi.ProxyBase {
     public boolean removeApplication(@NotNull java.lang.String uri, @NotNull java.lang.String name) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(uri, "Parameter 'uri' must not be null");
         java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_bookmark_file_remove_application.invokeExact(
@@ -926,7 +930,7 @@ public class BookmarkFile extends io.github.jwharm.javagi.ProxyBase {
     public boolean removeGroup(@NotNull java.lang.String uri, @NotNull java.lang.String group) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(uri, "Parameter 'uri' must not be null");
         java.util.Objects.requireNonNull(group, "Parameter 'group' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_bookmark_file_remove_group.invokeExact(
@@ -951,7 +955,7 @@ public class BookmarkFile extends io.github.jwharm.javagi.ProxyBase {
      */
     public boolean removeItem(@NotNull java.lang.String uri) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(uri, "Parameter 'uri' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_bookmark_file_remove_item.invokeExact(
@@ -1054,7 +1058,7 @@ public class BookmarkFile extends io.github.jwharm.javagi.ProxyBase {
         java.util.Objects.requireNonNull(uri, "Parameter 'uri' must not be null");
         java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
         java.util.Objects.requireNonNull(exec, "Parameter 'exec' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_bookmark_file_set_app_info.invokeExact(
@@ -1116,7 +1120,7 @@ public class BookmarkFile extends io.github.jwharm.javagi.ProxyBase {
         java.util.Objects.requireNonNull(uri, "Parameter 'uri' must not be null");
         java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
         java.util.Objects.requireNonNull(exec, "Parameter 'exec' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_bookmark_file_set_application_info.invokeExact(
@@ -1379,8 +1383,8 @@ public class BookmarkFile extends io.github.jwharm.javagi.ProxyBase {
      */
     public @NotNull byte[] toData(Out<Long> length) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(length, "Parameter 'length' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        MemorySegment lengthPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_LONG);
+        MemorySegment lengthPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_bookmark_file_to_data.invokeExact(
@@ -1393,8 +1397,8 @@ public class BookmarkFile extends io.github.jwharm.javagi.ProxyBase {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        length.set(lengthPOINTER.get(ValueLayout.JAVA_LONG, 0));
-        return MemorySegment.ofAddress(RESULT.get(ValueLayout.ADDRESS, 0), length.get().intValue() * ValueLayout.JAVA_BYTE.byteSize(), Interop.getScope()).toArray(ValueLayout.JAVA_BYTE);
+        length.set(lengthPOINTER.get(Interop.valueLayout.C_LONG, 0));
+        return MemorySegment.ofAddress(RESULT.get(Interop.valueLayout.ADDRESS, 0), length.get().intValue() * Interop.valueLayout.C_BYTE.byteSize(), Interop.getScope()).toArray(Interop.valueLayout.C_BYTE);
     }
     
     /**
@@ -1406,7 +1410,7 @@ public class BookmarkFile extends io.github.jwharm.javagi.ProxyBase {
      */
     public boolean toFile(@NotNull java.lang.String filename) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(filename, "Parameter 'filename' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_bookmark_file_to_file.invokeExact(
@@ -1454,290 +1458,318 @@ public class BookmarkFile extends io.github.jwharm.javagi.ProxyBase {
         
         private static final MethodHandle g_bookmark_file_add_application = Interop.downcallHandle(
             "g_bookmark_file_add_application",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_bookmark_file_add_group = Interop.downcallHandle(
             "g_bookmark_file_add_group",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_bookmark_file_free = Interop.downcallHandle(
             "g_bookmark_file_free",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_bookmark_file_get_added = Interop.downcallHandle(
             "g_bookmark_file_get_added",
-            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_bookmark_file_get_added_date_time = Interop.downcallHandle(
             "g_bookmark_file_get_added_date_time",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_bookmark_file_get_app_info = Interop.downcallHandle(
             "g_bookmark_file_get_app_info",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_bookmark_file_get_application_info = Interop.downcallHandle(
             "g_bookmark_file_get_application_info",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_bookmark_file_get_applications = Interop.downcallHandle(
             "g_bookmark_file_get_applications",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_bookmark_file_get_description = Interop.downcallHandle(
             "g_bookmark_file_get_description",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_bookmark_file_get_groups = Interop.downcallHandle(
             "g_bookmark_file_get_groups",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_bookmark_file_get_icon = Interop.downcallHandle(
             "g_bookmark_file_get_icon",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_bookmark_file_get_is_private = Interop.downcallHandle(
             "g_bookmark_file_get_is_private",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_bookmark_file_get_mime_type = Interop.downcallHandle(
             "g_bookmark_file_get_mime_type",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_bookmark_file_get_modified = Interop.downcallHandle(
             "g_bookmark_file_get_modified",
-            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_bookmark_file_get_modified_date_time = Interop.downcallHandle(
             "g_bookmark_file_get_modified_date_time",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_bookmark_file_get_size = Interop.downcallHandle(
             "g_bookmark_file_get_size",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_bookmark_file_get_title = Interop.downcallHandle(
             "g_bookmark_file_get_title",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_bookmark_file_get_uris = Interop.downcallHandle(
             "g_bookmark_file_get_uris",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_bookmark_file_get_visited = Interop.downcallHandle(
             "g_bookmark_file_get_visited",
-            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_bookmark_file_get_visited_date_time = Interop.downcallHandle(
             "g_bookmark_file_get_visited_date_time",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_bookmark_file_has_application = Interop.downcallHandle(
             "g_bookmark_file_has_application",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_bookmark_file_has_group = Interop.downcallHandle(
             "g_bookmark_file_has_group",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_bookmark_file_has_item = Interop.downcallHandle(
             "g_bookmark_file_has_item",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_bookmark_file_load_from_data = Interop.downcallHandle(
             "g_bookmark_file_load_from_data",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_bookmark_file_load_from_data_dirs = Interop.downcallHandle(
             "g_bookmark_file_load_from_data_dirs",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_bookmark_file_load_from_file = Interop.downcallHandle(
             "g_bookmark_file_load_from_file",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_bookmark_file_move_item = Interop.downcallHandle(
             "g_bookmark_file_move_item",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_bookmark_file_remove_application = Interop.downcallHandle(
             "g_bookmark_file_remove_application",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_bookmark_file_remove_group = Interop.downcallHandle(
             "g_bookmark_file_remove_group",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_bookmark_file_remove_item = Interop.downcallHandle(
             "g_bookmark_file_remove_item",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_bookmark_file_set_added = Interop.downcallHandle(
             "g_bookmark_file_set_added",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
             false
         );
         
         private static final MethodHandle g_bookmark_file_set_added_date_time = Interop.downcallHandle(
             "g_bookmark_file_set_added_date_time",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_bookmark_file_set_app_info = Interop.downcallHandle(
             "g_bookmark_file_set_app_info",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_bookmark_file_set_application_info = Interop.downcallHandle(
             "g_bookmark_file_set_application_info",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_bookmark_file_set_description = Interop.downcallHandle(
             "g_bookmark_file_set_description",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_bookmark_file_set_groups = Interop.downcallHandle(
             "g_bookmark_file_set_groups",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
             false
         );
         
         private static final MethodHandle g_bookmark_file_set_icon = Interop.downcallHandle(
             "g_bookmark_file_set_icon",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_bookmark_file_set_is_private = Interop.downcallHandle(
             "g_bookmark_file_set_is_private",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_bookmark_file_set_mime_type = Interop.downcallHandle(
             "g_bookmark_file_set_mime_type",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_bookmark_file_set_modified = Interop.downcallHandle(
             "g_bookmark_file_set_modified",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
             false
         );
         
         private static final MethodHandle g_bookmark_file_set_modified_date_time = Interop.downcallHandle(
             "g_bookmark_file_set_modified_date_time",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_bookmark_file_set_title = Interop.downcallHandle(
             "g_bookmark_file_set_title",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_bookmark_file_set_visited = Interop.downcallHandle(
             "g_bookmark_file_set_visited",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
             false
         );
         
         private static final MethodHandle g_bookmark_file_set_visited_date_time = Interop.downcallHandle(
             "g_bookmark_file_set_visited_date_time",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_bookmark_file_to_data = Interop.downcallHandle(
             "g_bookmark_file_to_data",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_bookmark_file_to_file = Interop.downcallHandle(
             "g_bookmark_file_to_file",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_bookmark_file_error_quark = Interop.downcallHandle(
             "g_bookmark_file_error_quark",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_bookmark_file_new = Interop.downcallHandle(
             "g_bookmark_file_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
             false
         );
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private BookmarkFile struct;
+        
+         /**
+         * A {@link BookmarkFile.Build} object constructs a {@link BookmarkFile} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = BookmarkFile.allocate();
+        }
+        
+         /**
+         * Finish building the {@link BookmarkFile} struct.
+         * @return A new instance of {@code BookmarkFile} with the fields 
+         *         that were set in the Build object.
+         */
+        public BookmarkFile construct() {
+            return struct;
+        }
     }
 }

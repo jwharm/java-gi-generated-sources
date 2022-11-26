@@ -48,7 +48,7 @@ public class BlendNode extends org.gtk.gsk.RenderNode {
      * @throws ClassCastException If the GType is not derived from "GskBlendNode", a ClassCastException will be thrown.
      */
     public static BlendNode castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GskBlendNode"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), BlendNode.getType())) {
             return new BlendNode(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GskBlendNode");
@@ -127,29 +127,84 @@ public class BlendNode extends org.gtk.gsk.RenderNode {
         return new org.gtk.gsk.RenderNode(RESULT, Ownership.NONE);
     }
     
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.gsk_blend_node_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gsk.RenderNode.Build {
+        
+         /**
+         * A {@link BlendNode.Build} object constructs a {@link BlendNode} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link BlendNode} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link BlendNode} using {@link BlendNode#castFrom}.
+         * @return A new instance of {@code BlendNode} with the properties 
+         *         that were set in the Build object.
+         */
+        public BlendNode construct() {
+            return BlendNode.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    BlendNode.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+    }
+    
     private static class DowncallHandles {
         
         private static final MethodHandle gsk_blend_node_new = Interop.downcallHandle(
             "gsk_blend_node_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gsk_blend_node_get_blend_mode = Interop.downcallHandle(
             "gsk_blend_node_get_blend_mode",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gsk_blend_node_get_bottom_child = Interop.downcallHandle(
             "gsk_blend_node_get_bottom_child",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gsk_blend_node_get_top_child = Interop.downcallHandle(
             "gsk_blend_node_get_top_child",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+            false
+        );
+        
+        private static final MethodHandle gsk_blend_node_get_type = Interop.downcallHandle(
+            "gsk_blend_node_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }

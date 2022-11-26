@@ -24,7 +24,7 @@ import org.jetbrains.annotations.*;
  * The {@link Private} structure should be considered opaque.  It should only
  * be accessed via the g_private_ functions.
  */
-public class Private extends io.github.jwharm.javagi.ProxyBase {
+public class Private extends Struct {
     
     static {
         GLib.javagi$ensureInitialized();
@@ -32,10 +32,10 @@ public class Private extends io.github.jwharm.javagi.ProxyBase {
     
     private static final java.lang.String C_TYPE_NAME = "GPrivate";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
         Interop.valueLayout.ADDRESS.withName("p"),
         Interop.valueLayout.ADDRESS.withName("notify"),
-        MemoryLayout.sequenceLayout(2, ValueLayout.ADDRESS).withName("future")
+        MemoryLayout.sequenceLayout(2, Interop.valueLayout.ADDRESS).withName("future")
     ).withName(C_TYPE_NAME);
     
     /**
@@ -49,6 +49,10 @@ public class Private extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link Private}
+     * @return A new, uninitialized @{link Private}
+     */
     public static Private allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         Private newInstance = new Private(segment.address(), Ownership.NONE);
@@ -98,7 +102,7 @@ public class Private extends io.github.jwharm.javagi.ProxyBase {
         try {
             DowncallHandles.g_private_replace.invokeExact(
                     handle(),
-                    (Addressable) (value == null ? MemoryAddress.NULL : value));
+                    (Addressable) (value == null ? MemoryAddress.NULL : (Addressable) value));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -116,7 +120,7 @@ public class Private extends io.github.jwharm.javagi.ProxyBase {
         try {
             DowncallHandles.g_private_set.invokeExact(
                     handle(),
-                    (Addressable) (value == null ? MemoryAddress.NULL : value));
+                    (Addressable) (value == null ? MemoryAddress.NULL : (Addressable) value));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -126,20 +130,69 @@ public class Private extends io.github.jwharm.javagi.ProxyBase {
         
         private static final MethodHandle g_private_get = Interop.downcallHandle(
             "g_private_get",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_private_replace = Interop.downcallHandle(
             "g_private_replace",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_private_set = Interop.downcallHandle(
             "g_private_set",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private Private struct;
+        
+         /**
+         * A {@link Private.Build} object constructs a {@link Private} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = Private.allocate();
+        }
+        
+         /**
+         * Finish building the {@link Private} struct.
+         * @return A new instance of {@code Private} with the fields 
+         *         that were set in the Build object.
+         */
+        public Private construct() {
+            return struct;
+        }
+        
+        public Build setP(java.lang.foreign.MemoryAddress p) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("p"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (p == null ? MemoryAddress.NULL : (Addressable) p));
+            return this;
+        }
+        
+        public Build setNotify(java.lang.foreign.MemoryAddress notify) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("notify"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (notify == null ? MemoryAddress.NULL : notify));
+            return this;
+        }
+        
+        public Build setFuture(java.lang.foreign.MemoryAddress[] future) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("future"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (future == null ? MemoryAddress.NULL : Interop.allocateNativeArray(future, false)));
+            return this;
+        }
     }
 }

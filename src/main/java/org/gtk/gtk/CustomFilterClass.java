@@ -5,7 +5,7 @@ import java.lang.foreign.*;
 import java.lang.invoke.*;
 import org.jetbrains.annotations.*;
 
-public class CustomFilterClass extends io.github.jwharm.javagi.ProxyBase {
+public class CustomFilterClass extends Struct {
     
     static {
         Gtk.javagi$ensureInitialized();
@@ -13,7 +13,7 @@ public class CustomFilterClass extends io.github.jwharm.javagi.ProxyBase {
     
     private static final java.lang.String C_TYPE_NAME = "GtkCustomFilterClass";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gtk.FilterClass.getMemoryLayout().withName("parent_class")
     ).withName(C_TYPE_NAME);
     
@@ -28,6 +28,10 @@ public class CustomFilterClass extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link CustomFilterClass}
+     * @return A new, uninitialized @{link CustomFilterClass}
+     */
     public static CustomFilterClass allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         CustomFilterClass newInstance = new CustomFilterClass(segment.address(), Ownership.NONE);
@@ -52,5 +56,40 @@ public class CustomFilterClass extends io.github.jwharm.javagi.ProxyBase {
     @ApiStatus.Internal
     public CustomFilterClass(Addressable address, Ownership ownership) {
         super(address, ownership);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private CustomFilterClass struct;
+        
+         /**
+         * A {@link CustomFilterClass.Build} object constructs a {@link CustomFilterClass} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = CustomFilterClass.allocate();
+        }
+        
+         /**
+         * Finish building the {@link CustomFilterClass} struct.
+         * @return A new instance of {@code CustomFilterClass} with the fields 
+         *         that were set in the Build object.
+         */
+        public CustomFilterClass construct() {
+            return struct;
+        }
+        
+        public Build setParentClass(org.gtk.gtk.FilterClass parent_class) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parent_class == null ? MemoryAddress.NULL : parent_class.handle()));
+            return this;
+        }
     }
 }

@@ -5,7 +5,7 @@ import java.lang.foreign.*;
 import java.lang.invoke.*;
 import org.jetbrains.annotations.*;
 
-public class SocketListenerPrivate extends io.github.jwharm.javagi.ProxyBase {
+public class SocketListenerPrivate extends Struct {
     
     static {
         Gio.javagi$ensureInitialized();
@@ -24,6 +24,10 @@ public class SocketListenerPrivate extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link SocketListenerPrivate}
+     * @return A new, uninitialized @{link SocketListenerPrivate}
+     */
     public static SocketListenerPrivate allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         SocketListenerPrivate newInstance = new SocketListenerPrivate(segment.address(), Ownership.NONE);
@@ -39,5 +43,33 @@ public class SocketListenerPrivate extends io.github.jwharm.javagi.ProxyBase {
     @ApiStatus.Internal
     public SocketListenerPrivate(Addressable address, Ownership ownership) {
         super(address, ownership);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private SocketListenerPrivate struct;
+        
+         /**
+         * A {@link SocketListenerPrivate.Build} object constructs a {@link SocketListenerPrivate} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = SocketListenerPrivate.allocate();
+        }
+        
+         /**
+         * Finish building the {@link SocketListenerPrivate} struct.
+         * @return A new instance of {@code SocketListenerPrivate} with the fields 
+         *         that were set in the Build object.
+         */
+        public SocketListenerPrivate construct() {
+            return struct;
+        }
     }
 }

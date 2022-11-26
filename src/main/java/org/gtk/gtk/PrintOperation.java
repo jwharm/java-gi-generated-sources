@@ -76,7 +76,7 @@ public class PrintOperation extends org.gtk.gobject.Object implements org.gtk.gt
     
     private static final java.lang.String C_TYPE_NAME = "GtkPrintOperation";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gobject.Object.getMemoryLayout().withName("parent_instance"),
         Interop.valueLayout.ADDRESS.withName("priv")
     ).withName(C_TYPE_NAME);
@@ -122,7 +122,7 @@ public class PrintOperation extends org.gtk.gobject.Object implements org.gtk.gt
      * @throws ClassCastException If the GType is not derived from "GtkPrintOperation", a ClassCastException will be thrown.
      */
     public static PrintOperation castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkPrintOperation"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), PrintOperation.getType())) {
             return new PrintOperation(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkPrintOperation");
@@ -221,7 +221,7 @@ public class PrintOperation extends org.gtk.gobject.Object implements org.gtk.gt
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public void getError() throws io.github.jwharm.javagi.GErrorException {
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         try {
             DowncallHandles.gtk_print_operation_get_error.invokeExact(
                     handle(),
@@ -440,7 +440,7 @@ public class PrintOperation extends org.gtk.gobject.Object implements org.gtk.gt
      */
     public @NotNull org.gtk.gtk.PrintOperationResult run(@NotNull org.gtk.gtk.PrintOperationAction action, @Nullable org.gtk.gtk.Window parent) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(action, "Parameter 'action' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_print_operation_run.invokeExact(
@@ -751,6 +751,20 @@ public class PrintOperation extends org.gtk.gobject.Object implements org.gtk.gt
         }
     }
     
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.gtk_print_operation_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+    
     @FunctionalInterface
     public interface BeginPrint {
         void signalReceived(PrintOperation source, @NotNull org.gtk.gtk.PrintContext context);
@@ -775,7 +789,7 @@ public class PrintOperation extends org.gtk.gobject.Object implements org.gtk.gt
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(PrintOperation.Callbacks.class, "signalPrintOperationBeginPrint",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                     Interop.getScope()),
                 Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
@@ -813,7 +827,7 @@ public class PrintOperation extends org.gtk.gobject.Object implements org.gtk.gt
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(PrintOperation.Callbacks.class, "signalPrintOperationCreateCustomWidget",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                     Interop.getScope()),
                 Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
@@ -846,7 +860,7 @@ public class PrintOperation extends org.gtk.gobject.Object implements org.gtk.gt
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(PrintOperation.Callbacks.class, "signalPrintOperationCustomWidgetApply",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                     Interop.getScope()),
                 Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
@@ -883,7 +897,7 @@ public class PrintOperation extends org.gtk.gobject.Object implements org.gtk.gt
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(PrintOperation.Callbacks.class, "signalPrintOperationDone",
                         MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
                     Interop.getScope()),
                 Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
@@ -960,7 +974,7 @@ public class PrintOperation extends org.gtk.gobject.Object implements org.gtk.gt
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(PrintOperation.Callbacks.class, "signalPrintOperationDrawPage",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, int.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
                     Interop.getScope()),
                 Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
@@ -991,7 +1005,7 @@ public class PrintOperation extends org.gtk.gobject.Object implements org.gtk.gt
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(PrintOperation.Callbacks.class, "signalPrintOperationEndPrint",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                     Interop.getScope()),
                 Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
@@ -1032,7 +1046,7 @@ public class PrintOperation extends org.gtk.gobject.Object implements org.gtk.gt
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(PrintOperation.Callbacks.class, "signalPrintOperationPaginate",
                         MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                    FunctionDescriptor.of(Interop.valueLayout.C_BOOLEAN, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                     Interop.getScope()),
                 Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
@@ -1076,7 +1090,7 @@ public class PrintOperation extends org.gtk.gobject.Object implements org.gtk.gt
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(PrintOperation.Callbacks.class, "signalPrintOperationPreview",
                         MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                    FunctionDescriptor.of(Interop.valueLayout.C_BOOLEAN, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                     Interop.getScope()),
                 Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
@@ -1108,7 +1122,7 @@ public class PrintOperation extends org.gtk.gobject.Object implements org.gtk.gt
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(PrintOperation.Callbacks.class, "signalPrintOperationRequestPageSetup",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, int.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                     Interop.getScope()),
                 Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
@@ -1140,7 +1154,7 @@ public class PrintOperation extends org.gtk.gobject.Object implements org.gtk.gt
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(PrintOperation.Callbacks.class, "signalPrintOperationStatusChanged",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                     Interop.getScope()),
                 Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
@@ -1171,7 +1185,7 @@ public class PrintOperation extends org.gtk.gobject.Object implements org.gtk.gt
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(PrintOperation.Callbacks.class, "signalPrintOperationUpdateCustomWidget",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                     Interop.getScope()),
                 Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
@@ -1180,186 +1194,511 @@ public class PrintOperation extends org.gtk.gobject.Object implements org.gtk.gt
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gobject.Object.Build {
+        
+         /**
+         * A {@link PrintOperation.Build} object constructs a {@link PrintOperation} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link PrintOperation} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link PrintOperation} using {@link PrintOperation#castFrom}.
+         * @return A new instance of {@code PrintOperation} with the properties 
+         *         that were set in the Build object.
+         */
+        public PrintOperation construct() {
+            return PrintOperation.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    PrintOperation.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+        
+        /**
+         * Determines whether the print operation may run asynchronously or not.
+         * <p>
+         * Some systems don't support asynchronous printing, but those that do
+         * will return {@link PrintOperationResult#IN_PROGRESS} as the status, and
+         * emit the {@code Gtk.PrintOperation::done} signal when the operation
+         * is actually done.
+         * <p>
+         * The Windows port does not support asynchronous operation at all (this
+         * is unlikely to change). On other platforms, all actions except for
+         * {@link PrintOperationAction#EXPORT} support asynchronous operation.
+         * @param allowAsync The value for the {@code allow-async} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setAllowAsync(boolean allowAsync) {
+            names.add("allow-async");
+            values.add(org.gtk.gobject.Value.create(allowAsync));
+            return this;
+        }
+        
+        /**
+         * The current page in the document.
+         * <p>
+         * If this is set before {@link PrintOperation#run},
+         * the user will be able to select to print only the current page.
+         * <p>
+         * Note that this only makes sense for pre-paginated documents.
+         * @param currentPage The value for the {@code current-page} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setCurrentPage(int currentPage) {
+            names.add("current-page");
+            values.add(org.gtk.gobject.Value.create(currentPage));
+            return this;
+        }
+        
+        /**
+         * Used as the label of the tab containing custom widgets.
+         * <p>
+         * Note that this property may be ignored on some platforms.
+         * <p>
+         * If this is {@code null}, GTK uses a default label.
+         * @param customTabLabel The value for the {@code custom-tab-label} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setCustomTabLabel(java.lang.String customTabLabel) {
+            names.add("custom-tab-label");
+            values.add(org.gtk.gobject.Value.create(customTabLabel));
+            return this;
+        }
+        
+        /**
+         * The {@code GtkPageSetup} used by default.
+         * <p>
+         * This page setup will be used by {@link PrintOperation#run},
+         * but it can be overridden on a per-page basis by connecting
+         * to the {@code Gtk.PrintOperation::request-page-setup} signal.
+         * @param defaultPageSetup The value for the {@code default-page-setup} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setDefaultPageSetup(org.gtk.gtk.PageSetup defaultPageSetup) {
+            names.add("default-page-setup");
+            values.add(org.gtk.gobject.Value.create(defaultPageSetup));
+            return this;
+        }
+        
+        /**
+         * If {@code true}, page size combo box and orientation combo box
+         * are embedded into page setup page.
+         * @param embedPageSetup The value for the {@code embed-page-setup} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setEmbedPageSetup(boolean embedPageSetup) {
+            names.add("embed-page-setup");
+            values.add(org.gtk.gobject.Value.create(embedPageSetup));
+            return this;
+        }
+        
+        /**
+         * The name of a file to generate instead of showing the print dialog.
+         * <p>
+         * Currently, PDF is the only supported format.
+         * <p>
+         * The intended use of this property is for implementing
+         * “Export to PDF” actions.
+         * <p>
+         * “Print to PDF” support is independent of this and is done
+         * by letting the user pick the “Print to PDF” item from the
+         * list of printers in the print dialog.
+         * @param exportFilename The value for the {@code export-filename} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setExportFilename(java.lang.String exportFilename) {
+            names.add("export-filename");
+            values.add(org.gtk.gobject.Value.create(exportFilename));
+            return this;
+        }
+        
+        /**
+         * Determines whether there is a selection in your application.
+         * <p>
+         * This can allow your application to print the selection.
+         * This is typically used to make a "Selection" button sensitive.
+         * @param hasSelection The value for the {@code has-selection} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setHasSelection(boolean hasSelection) {
+            names.add("has-selection");
+            values.add(org.gtk.gobject.Value.create(hasSelection));
+            return this;
+        }
+        
+        /**
+         * A string used to identify the job (e.g. in monitoring
+         * applications like eggcups).
+         * <p>
+         * If you don't set a job name, GTK picks a default one
+         * by numbering successive print jobs.
+         * @param jobName The value for the {@code job-name} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setJobName(java.lang.String jobName) {
+            names.add("job-name");
+            values.add(org.gtk.gobject.Value.create(jobName));
+            return this;
+        }
+        
+        /**
+         * The number of pages in the document.
+         * <p>
+         * This must be set to a positive number before the rendering
+         * starts. It may be set in a {@code Gtk.PrintOperation::begin-print}
+         * signal handler.
+         * <p>
+         * Note that the page numbers passed to the
+         * {@code Gtk.PrintOperation::request-page-setup} and
+         * {@code Gtk.PrintOperation::draw-page} signals are 0-based, i.e.
+         * if the user chooses to print all pages, the last ::draw-page signal
+         * will be for page {@code n_pages} - 1.
+         * @param nPages The value for the {@code n-pages} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setNPages(int nPages) {
+            names.add("n-pages");
+            values.add(org.gtk.gobject.Value.create(nPages));
+            return this;
+        }
+        
+        /**
+         * The number of pages that will be printed.
+         * <p>
+         * Note that this value is set during print preparation phase
+         * ({@link PrintStatus#PREPARING}), so this value should never be
+         * get before the data generation phase ({@link PrintStatus#GENERATING_DATA}).
+         * You can connect to the {@code Gtk.PrintOperation::status-changed} signal
+         * and call {@link PrintOperation#getNPagesToPrint} when
+         * print status is {@link PrintStatus#GENERATING_DATA}.
+         * <p>
+         * This is typically used to track the progress of print operation.
+         * @param nPagesToPrint The value for the {@code n-pages-to-print} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setNPagesToPrint(int nPagesToPrint) {
+            names.add("n-pages-to-print");
+            values.add(org.gtk.gobject.Value.create(nPagesToPrint));
+            return this;
+        }
+        
+        /**
+         * The {@code GtkPrintSettings} used for initializing the dialog.
+         * <p>
+         * Setting this property is typically used to re-establish
+         * print settings from a previous print operation, see
+         * {@link PrintOperation#run}.
+         * @param printSettings The value for the {@code print-settings} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setPrintSettings(org.gtk.gtk.PrintSettings printSettings) {
+            names.add("print-settings");
+            values.add(org.gtk.gobject.Value.create(printSettings));
+            return this;
+        }
+        
+        /**
+         * Determines whether to show a progress dialog during the
+         * print operation.
+         * @param showProgress The value for the {@code show-progress} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setShowProgress(boolean showProgress) {
+            names.add("show-progress");
+            values.add(org.gtk.gobject.Value.create(showProgress));
+            return this;
+        }
+        
+        /**
+         * The status of the print operation.
+         * @param status The value for the {@code status} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setStatus(org.gtk.gtk.PrintStatus status) {
+            names.add("status");
+            values.add(org.gtk.gobject.Value.create(status));
+            return this;
+        }
+        
+        /**
+         * A string representation of the status of the print operation.
+         * <p>
+         * The string is translated and suitable for displaying the print
+         * status e.g. in a {@code GtkStatusbar}.
+         * <p>
+         * See the {@code Gtk.PrintOperation:status} property for a status
+         * value that is suitable for programmatic use.
+         * @param statusString The value for the {@code status-string} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setStatusString(java.lang.String statusString) {
+            names.add("status-string");
+            values.add(org.gtk.gobject.Value.create(statusString));
+            return this;
+        }
+        
+        /**
+         * If {@code true}, the print operation will support print of selection.
+         * <p>
+         * This allows the print dialog to show a "Selection" button.
+         * @param supportSelection The value for the {@code support-selection} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setSupportSelection(boolean supportSelection) {
+            names.add("support-selection");
+            values.add(org.gtk.gobject.Value.create(supportSelection));
+            return this;
+        }
+        
+        /**
+         * If {@code true}, the print operation will try to continue report on
+         * the status of the print job in the printer queues and printer.
+         * <p>
+         * This can allow your application to show things like “out of paper”
+         * issues, and when the print job actually reaches the printer.
+         * However, this is often implemented using polling, and should
+         * not be enabled unless needed.
+         * @param trackPrintStatus The value for the {@code track-print-status} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setTrackPrintStatus(boolean trackPrintStatus) {
+            names.add("track-print-status");
+            values.add(org.gtk.gobject.Value.create(trackPrintStatus));
+            return this;
+        }
+        
+        /**
+         * The transformation for the cairo context obtained from
+         * {@code GtkPrintContext} is set up in such a way that distances
+         * are measured in units of {@code unit}.
+         * @param unit The value for the {@code unit} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setUnit(org.gtk.gtk.Unit unit) {
+            names.add("unit");
+            values.add(org.gtk.gobject.Value.create(unit));
+            return this;
+        }
+        
+        /**
+         * If {@code true}, the transformation for the cairo context obtained
+         * from {@code GtkPrintContext} puts the origin at the top left corner
+         * of the page.
+         * <p>
+         * This may not be the top left corner of the sheet, depending on
+         * page orientation and the number of pages per sheet. Otherwise,
+         * the origin is at the top left corner of the imageable area (i.e.
+         * inside the margins).
+         * @param useFullPage The value for the {@code use-full-page} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setUseFullPage(boolean useFullPage) {
+            names.add("use-full-page");
+            values.add(org.gtk.gobject.Value.create(useFullPage));
+            return this;
+        }
+    }
     
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_print_operation_new = Interop.downcallHandle(
             "gtk_print_operation_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_print_operation_cancel = Interop.downcallHandle(
             "gtk_print_operation_cancel",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_print_operation_draw_page_finish = Interop.downcallHandle(
             "gtk_print_operation_draw_page_finish",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_print_operation_get_default_page_setup = Interop.downcallHandle(
             "gtk_print_operation_get_default_page_setup",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_print_operation_get_embed_page_setup = Interop.downcallHandle(
             "gtk_print_operation_get_embed_page_setup",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_print_operation_get_error = Interop.downcallHandle(
             "gtk_print_operation_get_error",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_print_operation_get_has_selection = Interop.downcallHandle(
             "gtk_print_operation_get_has_selection",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_print_operation_get_n_pages_to_print = Interop.downcallHandle(
             "gtk_print_operation_get_n_pages_to_print",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_print_operation_get_print_settings = Interop.downcallHandle(
             "gtk_print_operation_get_print_settings",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_print_operation_get_status = Interop.downcallHandle(
             "gtk_print_operation_get_status",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_print_operation_get_status_string = Interop.downcallHandle(
             "gtk_print_operation_get_status_string",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_print_operation_get_support_selection = Interop.downcallHandle(
             "gtk_print_operation_get_support_selection",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_print_operation_is_finished = Interop.downcallHandle(
             "gtk_print_operation_is_finished",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_print_operation_run = Interop.downcallHandle(
             "gtk_print_operation_run",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_print_operation_set_allow_async = Interop.downcallHandle(
             "gtk_print_operation_set_allow_async",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_print_operation_set_current_page = Interop.downcallHandle(
             "gtk_print_operation_set_current_page",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_print_operation_set_custom_tab_label = Interop.downcallHandle(
             "gtk_print_operation_set_custom_tab_label",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_print_operation_set_default_page_setup = Interop.downcallHandle(
             "gtk_print_operation_set_default_page_setup",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_print_operation_set_defer_drawing = Interop.downcallHandle(
             "gtk_print_operation_set_defer_drawing",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_print_operation_set_embed_page_setup = Interop.downcallHandle(
             "gtk_print_operation_set_embed_page_setup",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_print_operation_set_export_filename = Interop.downcallHandle(
             "gtk_print_operation_set_export_filename",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_print_operation_set_has_selection = Interop.downcallHandle(
             "gtk_print_operation_set_has_selection",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_print_operation_set_job_name = Interop.downcallHandle(
             "gtk_print_operation_set_job_name",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_print_operation_set_n_pages = Interop.downcallHandle(
             "gtk_print_operation_set_n_pages",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_print_operation_set_print_settings = Interop.downcallHandle(
             "gtk_print_operation_set_print_settings",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_print_operation_set_show_progress = Interop.downcallHandle(
             "gtk_print_operation_set_show_progress",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_print_operation_set_support_selection = Interop.downcallHandle(
             "gtk_print_operation_set_support_selection",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_print_operation_set_track_print_status = Interop.downcallHandle(
             "gtk_print_operation_set_track_print_status",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_print_operation_set_unit = Interop.downcallHandle(
             "gtk_print_operation_set_unit",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_print_operation_set_use_full_page = Interop.downcallHandle(
             "gtk_print_operation_set_use_full_page",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+            false
+        );
+        
+        private static final MethodHandle gtk_print_operation_get_type = Interop.downcallHandle(
+            "gtk_print_operation_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }
@@ -1367,69 +1706,69 @@ public class PrintOperation extends org.gtk.gobject.Object implements org.gtk.gt
     private static class Callbacks {
         
         public static void signalPrintOperationBeginPrint(MemoryAddress source, MemoryAddress context, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (PrintOperation.BeginPrint) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new PrintOperation(source, Ownership.UNKNOWN), new org.gtk.gtk.PrintContext(context, Ownership.NONE));
+            HANDLER.signalReceived(new PrintOperation(source, Ownership.NONE), new org.gtk.gtk.PrintContext(context, Ownership.NONE));
         }
         
         public static void signalPrintOperationCreateCustomWidget(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (PrintOperation.CreateCustomWidget) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new PrintOperation(source, Ownership.UNKNOWN));
+            HANDLER.signalReceived(new PrintOperation(source, Ownership.NONE));
         }
         
         public static void signalPrintOperationCustomWidgetApply(MemoryAddress source, MemoryAddress widget, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (PrintOperation.CustomWidgetApply) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new PrintOperation(source, Ownership.UNKNOWN), new org.gtk.gtk.Widget(widget, Ownership.NONE));
+            HANDLER.signalReceived(new PrintOperation(source, Ownership.NONE), new org.gtk.gtk.Widget(widget, Ownership.NONE));
         }
         
         public static void signalPrintOperationDone(MemoryAddress source, int result, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (PrintOperation.Done) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new PrintOperation(source, Ownership.UNKNOWN), new org.gtk.gtk.PrintOperationResult(result));
+            HANDLER.signalReceived(new PrintOperation(source, Ownership.NONE), new org.gtk.gtk.PrintOperationResult(result));
         }
         
         public static void signalPrintOperationDrawPage(MemoryAddress source, MemoryAddress context, int pageNr, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (PrintOperation.DrawPage) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new PrintOperation(source, Ownership.UNKNOWN), new org.gtk.gtk.PrintContext(context, Ownership.NONE), pageNr);
+            HANDLER.signalReceived(new PrintOperation(source, Ownership.NONE), new org.gtk.gtk.PrintContext(context, Ownership.NONE), pageNr);
         }
         
         public static void signalPrintOperationEndPrint(MemoryAddress source, MemoryAddress context, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (PrintOperation.EndPrint) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new PrintOperation(source, Ownership.UNKNOWN), new org.gtk.gtk.PrintContext(context, Ownership.NONE));
+            HANDLER.signalReceived(new PrintOperation(source, Ownership.NONE), new org.gtk.gtk.PrintContext(context, Ownership.NONE));
         }
         
         public static boolean signalPrintOperationPaginate(MemoryAddress source, MemoryAddress context, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (PrintOperation.Paginate) Interop.signalRegistry.get(HASH);
-            return HANDLER.signalReceived(new PrintOperation(source, Ownership.UNKNOWN), new org.gtk.gtk.PrintContext(context, Ownership.NONE));
+            return HANDLER.signalReceived(new PrintOperation(source, Ownership.NONE), new org.gtk.gtk.PrintContext(context, Ownership.NONE));
         }
         
         public static boolean signalPrintOperationPreview(MemoryAddress source, MemoryAddress preview, MemoryAddress context, MemoryAddress parent, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (PrintOperation.Preview) Interop.signalRegistry.get(HASH);
-            return HANDLER.signalReceived(new PrintOperation(source, Ownership.UNKNOWN), new org.gtk.gtk.PrintOperationPreview.PrintOperationPreviewImpl(preview, Ownership.NONE), new org.gtk.gtk.PrintContext(context, Ownership.NONE), new org.gtk.gtk.Window(parent, Ownership.NONE));
+            return HANDLER.signalReceived(new PrintOperation(source, Ownership.NONE), new org.gtk.gtk.PrintOperationPreview.PrintOperationPreviewImpl(preview, Ownership.NONE), new org.gtk.gtk.PrintContext(context, Ownership.NONE), new org.gtk.gtk.Window(parent, Ownership.NONE));
         }
         
         public static void signalPrintOperationRequestPageSetup(MemoryAddress source, MemoryAddress context, int pageNr, MemoryAddress setup, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (PrintOperation.RequestPageSetup) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new PrintOperation(source, Ownership.UNKNOWN), new org.gtk.gtk.PrintContext(context, Ownership.NONE), pageNr, new org.gtk.gtk.PageSetup(setup, Ownership.NONE));
+            HANDLER.signalReceived(new PrintOperation(source, Ownership.NONE), new org.gtk.gtk.PrintContext(context, Ownership.NONE), pageNr, new org.gtk.gtk.PageSetup(setup, Ownership.NONE));
         }
         
         public static void signalPrintOperationStatusChanged(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (PrintOperation.StatusChanged) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new PrintOperation(source, Ownership.UNKNOWN));
+            HANDLER.signalReceived(new PrintOperation(source, Ownership.NONE));
         }
         
         public static void signalPrintOperationUpdateCustomWidget(MemoryAddress source, MemoryAddress widget, MemoryAddress setup, MemoryAddress settings, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (PrintOperation.UpdateCustomWidget) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new PrintOperation(source, Ownership.UNKNOWN), new org.gtk.gtk.Widget(widget, Ownership.NONE), new org.gtk.gtk.PageSetup(setup, Ownership.NONE), new org.gtk.gtk.PrintSettings(settings, Ownership.NONE));
+            HANDLER.signalReceived(new PrintOperation(source, Ownership.NONE), new org.gtk.gtk.Widget(widget, Ownership.NONE), new org.gtk.gtk.PageSetup(setup, Ownership.NONE), new org.gtk.gtk.PrintSettings(settings, Ownership.NONE));
         }
     }
 }

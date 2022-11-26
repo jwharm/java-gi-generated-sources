@@ -35,7 +35,7 @@ public class UnixCredentialsMessage extends org.gtk.gio.SocketControlMessage {
     
     private static final java.lang.String C_TYPE_NAME = "GUnixCredentialsMessage";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gio.SocketControlMessage.getMemoryLayout().withName("parent_instance"),
         Interop.valueLayout.ADDRESS.withName("priv")
     ).withName(C_TYPE_NAME);
@@ -81,7 +81,7 @@ public class UnixCredentialsMessage extends org.gtk.gio.SocketControlMessage {
      * @throws ClassCastException If the GType is not derived from "GUnixCredentialsMessage", a ClassCastException will be thrown.
      */
     public static UnixCredentialsMessage castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GUnixCredentialsMessage"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), UnixCredentialsMessage.getType())) {
             return new UnixCredentialsMessage(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GUnixCredentialsMessage");
@@ -142,6 +142,20 @@ public class UnixCredentialsMessage extends org.gtk.gio.SocketControlMessage {
     }
     
     /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.g_unix_credentials_message_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+    
+    /**
      * Checks if passing {@link Credentials} on a {@link Socket} is supported on this platform.
      * @return {@code true} if supported, {@code false} otherwise
      */
@@ -154,30 +168,82 @@ public class UnixCredentialsMessage extends org.gtk.gio.SocketControlMessage {
         }
         return RESULT != 0;
     }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gio.SocketControlMessage.Build {
+        
+         /**
+         * A {@link UnixCredentialsMessage.Build} object constructs a {@link UnixCredentialsMessage} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link UnixCredentialsMessage} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link UnixCredentialsMessage} using {@link UnixCredentialsMessage#castFrom}.
+         * @return A new instance of {@code UnixCredentialsMessage} with the properties 
+         *         that were set in the Build object.
+         */
+        public UnixCredentialsMessage construct() {
+            return UnixCredentialsMessage.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    UnixCredentialsMessage.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+        
+        /**
+         * The credentials stored in the message.
+         * @param credentials The value for the {@code credentials} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setCredentials(org.gtk.gio.Credentials credentials) {
+            names.add("credentials");
+            values.add(org.gtk.gobject.Value.create(credentials));
+            return this;
+        }
+    }
     
     private static class DowncallHandles {
         
         private static final MethodHandle g_unix_credentials_message_new = Interop.downcallHandle(
             "g_unix_credentials_message_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_unix_credentials_message_new_with_credentials = Interop.downcallHandle(
             "g_unix_credentials_message_new_with_credentials",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_unix_credentials_message_get_credentials = Interop.downcallHandle(
             "g_unix_credentials_message_get_credentials",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+            false
+        );
+        
+        private static final MethodHandle g_unix_credentials_message_get_type = Interop.downcallHandle(
+            "g_unix_credentials_message_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
         
         private static final MethodHandle g_unix_credentials_message_is_supported = Interop.downcallHandle(
             "g_unix_credentials_message_is_supported",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT),
             false
         );
     }

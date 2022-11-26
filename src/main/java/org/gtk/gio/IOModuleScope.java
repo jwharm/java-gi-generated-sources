@@ -13,7 +13,7 @@ import org.jetbrains.annotations.*;
  * or g_io_modules_scan_all_in_directory_with_scope().
  * @version 2.30
  */
-public class IOModuleScope extends io.github.jwharm.javagi.ProxyBase {
+public class IOModuleScope extends Struct {
     
     static {
         Gio.javagi$ensureInitialized();
@@ -32,6 +32,10 @@ public class IOModuleScope extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link IOModuleScope}
+     * @return A new, uninitialized @{link IOModuleScope}
+     */
     public static IOModuleScope allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         IOModuleScope newInstance = new IOModuleScope(segment.address(), Ownership.NONE);
@@ -104,20 +108,48 @@ public class IOModuleScope extends io.github.jwharm.javagi.ProxyBase {
         
         private static final MethodHandle g_io_module_scope_block = Interop.downcallHandle(
             "g_io_module_scope_block",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_io_module_scope_free = Interop.downcallHandle(
             "g_io_module_scope_free",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_io_module_scope_new = Interop.downcallHandle(
             "g_io_module_scope_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private IOModuleScope struct;
+        
+         /**
+         * A {@link IOModuleScope.Build} object constructs a {@link IOModuleScope} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = IOModuleScope.allocate();
+        }
+        
+         /**
+         * Finish building the {@link IOModuleScope} struct.
+         * @return A new instance of {@code IOModuleScope} with the fields 
+         *         that were set in the Build object.
+         */
+        public IOModuleScope construct() {
+            return struct;
+        }
     }
 }

@@ -72,7 +72,7 @@ import org.jetbrains.annotations.*;
  * <p>
  * A {@link Cond} should only be accessed via the g_cond_ functions.
  */
-public class Cond extends io.github.jwharm.javagi.ProxyBase {
+public class Cond extends Struct {
     
     static {
         GLib.javagi$ensureInitialized();
@@ -80,9 +80,9 @@ public class Cond extends io.github.jwharm.javagi.ProxyBase {
     
     private static final java.lang.String C_TYPE_NAME = "GCond";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
         Interop.valueLayout.ADDRESS.withName("p"),
-        MemoryLayout.sequenceLayout(2, ValueLayout.JAVA_INT).withName("i")
+        MemoryLayout.sequenceLayout(2, Interop.valueLayout.C_INT).withName("i")
     ).withName(C_TYPE_NAME);
     
     /**
@@ -96,6 +96,10 @@ public class Cond extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link Cond}
+     * @return A new, uninitialized @{link Cond}
+     */
     public static Cond allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         Cond newInstance = new Cond(segment.address(), Ownership.NONE);
@@ -281,38 +285,80 @@ public class Cond extends io.github.jwharm.javagi.ProxyBase {
         
         private static final MethodHandle g_cond_broadcast = Interop.downcallHandle(
             "g_cond_broadcast",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_cond_clear = Interop.downcallHandle(
             "g_cond_clear",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_cond_init = Interop.downcallHandle(
             "g_cond_init",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_cond_signal = Interop.downcallHandle(
             "g_cond_signal",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_cond_wait = Interop.downcallHandle(
             "g_cond_wait",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_cond_wait_until = Interop.downcallHandle(
             "g_cond_wait_until",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
             false
         );
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private Cond struct;
+        
+         /**
+         * A {@link Cond.Build} object constructs a {@link Cond} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = Cond.allocate();
+        }
+        
+         /**
+         * Finish building the {@link Cond} struct.
+         * @return A new instance of {@code Cond} with the fields 
+         *         that were set in the Build object.
+         */
+        public Cond construct() {
+            return struct;
+        }
+        
+        public Build setP(java.lang.foreign.MemoryAddress p) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("p"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (p == null ? MemoryAddress.NULL : (Addressable) p));
+            return this;
+        }
+        
+        public Build setI(int[] i) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("i"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (i == null ? MemoryAddress.NULL : Interop.allocateNativeArray(i, false)));
+            return this;
+        }
     }
 }

@@ -11,7 +11,7 @@ import org.jetbrains.annotations.*;
  * The contents of {@code GtkExpressionWatch} should only be accessed through the
  * provided API.
  */
-public class ExpressionWatch extends io.github.jwharm.javagi.ProxyBase {
+public class ExpressionWatch extends Struct {
     
     static {
         Gtk.javagi$ensureInitialized();
@@ -30,6 +30,10 @@ public class ExpressionWatch extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link ExpressionWatch}
+     * @return A new, uninitialized @{link ExpressionWatch}
+     */
     public static ExpressionWatch allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         ExpressionWatch newInstance = new ExpressionWatch(segment.address(), Ownership.NONE);
@@ -119,26 +123,54 @@ public class ExpressionWatch extends io.github.jwharm.javagi.ProxyBase {
         
         private static final MethodHandle gtk_expression_watch_evaluate = Interop.downcallHandle(
             "gtk_expression_watch_evaluate",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_expression_watch_ref = Interop.downcallHandle(
             "gtk_expression_watch_ref",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_expression_watch_unref = Interop.downcallHandle(
             "gtk_expression_watch_unref",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_expression_watch_unwatch = Interop.downcallHandle(
             "gtk_expression_watch_unwatch",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private ExpressionWatch struct;
+        
+         /**
+         * A {@link ExpressionWatch.Build} object constructs a {@link ExpressionWatch} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = ExpressionWatch.allocate();
+        }
+        
+         /**
+         * Finish building the {@link ExpressionWatch} struct.
+         * @return A new instance of {@code ExpressionWatch} with the fields 
+         *         that were set in the Build object.
+         */
+        public ExpressionWatch construct() {
+            return struct;
+        }
     }
 }

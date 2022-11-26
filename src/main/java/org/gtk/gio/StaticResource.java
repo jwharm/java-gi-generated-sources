@@ -9,7 +9,7 @@ import org.jetbrains.annotations.*;
  * {@link StaticResource} is an opaque data structure and can only be accessed
  * using the following functions.
  */
-public class StaticResource extends io.github.jwharm.javagi.ProxyBase {
+public class StaticResource extends Struct {
     
     static {
         Gio.javagi$ensureInitialized();
@@ -17,9 +17,9 @@ public class StaticResource extends io.github.jwharm.javagi.ProxyBase {
     
     private static final java.lang.String C_TYPE_NAME = "GStaticResource";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
         Interop.valueLayout.ADDRESS.withName("data"),
-        ValueLayout.JAVA_LONG.withName("data_len"),
+        Interop.valueLayout.C_LONG.withName("data_len"),
         Interop.valueLayout.ADDRESS.withName("resource"),
         Interop.valueLayout.ADDRESS.withName("next"),
         Interop.valueLayout.ADDRESS.withName("padding")
@@ -36,6 +36,10 @@ public class StaticResource extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link StaticResource}
+     * @return A new, uninitialized @{link StaticResource}
+     */
     public static StaticResource allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         StaticResource newInstance = new StaticResource(segment.address(), Ownership.NONE);
@@ -109,20 +113,83 @@ public class StaticResource extends io.github.jwharm.javagi.ProxyBase {
         
         private static final MethodHandle g_static_resource_fini = Interop.downcallHandle(
             "g_static_resource_fini",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_static_resource_get_resource = Interop.downcallHandle(
             "g_static_resource_get_resource",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_static_resource_init = Interop.downcallHandle(
             "g_static_resource_init",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private StaticResource struct;
+        
+         /**
+         * A {@link StaticResource.Build} object constructs a {@link StaticResource} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = StaticResource.allocate();
+        }
+        
+         /**
+         * Finish building the {@link StaticResource} struct.
+         * @return A new instance of {@code StaticResource} with the fields 
+         *         that were set in the Build object.
+         */
+        public StaticResource construct() {
+            return struct;
+        }
+        
+        public Build setData(PointerByte data) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("data"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (data == null ? MemoryAddress.NULL : data.handle()));
+            return this;
+        }
+        
+        public Build setDataLen(long data_len) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("data_len"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), data_len);
+            return this;
+        }
+        
+        public Build setResource(org.gtk.gio.Resource resource) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("resource"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (resource == null ? MemoryAddress.NULL : resource.handle()));
+            return this;
+        }
+        
+        public Build setNext(org.gtk.gio.StaticResource next) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("next"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (next == null ? MemoryAddress.NULL : next.handle()));
+            return this;
+        }
+        
+        public Build setPadding(java.lang.foreign.MemoryAddress padding) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("padding"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (padding == null ? MemoryAddress.NULL : (Addressable) padding));
+            return this;
+        }
     }
 }

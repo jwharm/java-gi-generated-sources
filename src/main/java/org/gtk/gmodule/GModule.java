@@ -88,25 +88,25 @@ public final class GModule {
         
         private static final MethodHandle g_module_build_path = Interop.downcallHandle(
             "g_module_build_path",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_module_error = Interop.downcallHandle(
             "g_module_error",
-            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_module_error_quark = Interop.downcallHandle(
             "g_module_error_quark",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_module_supported = Interop.downcallHandle(
             "g_module_supported",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT),
             false
         );
     }

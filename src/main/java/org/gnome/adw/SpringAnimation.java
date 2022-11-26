@@ -79,7 +79,7 @@ public class SpringAnimation extends org.gnome.adw.Animation {
      * @throws ClassCastException If the GType is not derived from "AdwSpringAnimation", a ClassCastException will be thrown.
      */
     public static SpringAnimation castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("AdwSpringAnimation"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), SpringAnimation.getType())) {
             return new SpringAnimation(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of AdwSpringAnimation");
@@ -353,95 +353,265 @@ public class SpringAnimation extends org.gnome.adw.Animation {
         }
     }
     
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.adw_spring_animation_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gnome.adw.Animation.Build {
+        
+         /**
+         * A {@link SpringAnimation.Build} object constructs a {@link SpringAnimation} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link SpringAnimation} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link SpringAnimation} using {@link SpringAnimation#castFrom}.
+         * @return A new instance of {@code SpringAnimation} with the properties 
+         *         that were set in the Build object.
+         */
+        public SpringAnimation construct() {
+            return SpringAnimation.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    SpringAnimation.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+        
+        /**
+         * Whether the animation should be clamped.
+         * <p>
+         * If set to {@code TRUE}, the animation will abruptly end as soon as it reaches the
+         * final value, preventing overshooting.
+         * <p>
+         * It won't prevent overshooting {@code SpringAnimation:value-from} if a
+         * relative negative {@code SpringAnimation:initial-velocity} is set.
+         * @param clamp The value for the {@code clamp} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setClamp(boolean clamp) {
+            names.add("clamp");
+            values.add(org.gtk.gobject.Value.create(clamp));
+            return this;
+        }
+        
+        /**
+         * Precision of the spring.
+         * <p>
+         * The level of precision used to determine when the animation has come to a
+         * rest, that is, when the amplitude of the oscillations becomes smaller than
+         * this value.
+         * <p>
+         * If the epsilon value is too small, the animation will take a long time to
+         * stop after the animated value has stopped visibly changing.
+         * <p>
+         * If the epsilon value is too large, the animation will end prematurely.
+         * <p>
+         * The default value is 0.001.
+         * @param epsilon The value for the {@code epsilon} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setEpsilon(double epsilon) {
+            names.add("epsilon");
+            values.add(org.gtk.gobject.Value.create(epsilon));
+            return this;
+        }
+        
+        /**
+         * Estimated duration of the animation, in milliseconds.
+         * <p>
+         * Can be {@code DURATION_INFINITE} if the spring damping is set to 0.
+         * @param estimatedDuration The value for the {@code estimated-duration} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setEstimatedDuration(int estimatedDuration) {
+            names.add("estimated-duration");
+            values.add(org.gtk.gobject.Value.create(estimatedDuration));
+            return this;
+        }
+        
+        /**
+         * The initial velocity to start the animation with.
+         * <p>
+         * Initial velocity affects only the animation curve, but not its duration.
+         * @param initialVelocity The value for the {@code initial-velocity} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setInitialVelocity(double initialVelocity) {
+            names.add("initial-velocity");
+            values.add(org.gtk.gobject.Value.create(initialVelocity));
+            return this;
+        }
+        
+        /**
+         * Physical parameters describing the spring.
+         * @param springParams The value for the {@code spring-params} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setSpringParams(org.gnome.adw.SpringParams springParams) {
+            names.add("spring-params");
+            values.add(org.gtk.gobject.Value.create(springParams));
+            return this;
+        }
+        
+        /**
+         * The value to animate from.
+         * <p>
+         * The animation will start at this value and end at
+         * {@code SpringAnimation:value-to}.
+         * @param valueFrom The value for the {@code value-from} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setValueFrom(double valueFrom) {
+            names.add("value-from");
+            values.add(org.gtk.gobject.Value.create(valueFrom));
+            return this;
+        }
+        
+        /**
+         * The value to animate to.
+         * <p>
+         * The animation will start at {@code SpringAnimation:value-from} and end
+         * at this value.
+         * @param valueTo The value for the {@code value-to} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setValueTo(double valueTo) {
+            names.add("value-to");
+            values.add(org.gtk.gobject.Value.create(valueTo));
+            return this;
+        }
+        
+        /**
+         * Current velocity of the animation.
+         * @param velocity The value for the {@code velocity} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setVelocity(double velocity) {
+            names.add("velocity");
+            values.add(org.gtk.gobject.Value.create(velocity));
+            return this;
+        }
+    }
+    
     private static class DowncallHandles {
         
         private static final MethodHandle adw_spring_animation_new = Interop.downcallHandle(
             "adw_spring_animation_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_spring_animation_get_clamp = Interop.downcallHandle(
             "adw_spring_animation_get_clamp",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_spring_animation_get_epsilon = Interop.downcallHandle(
             "adw_spring_animation_get_epsilon",
-            FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_DOUBLE, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_spring_animation_get_estimated_duration = Interop.downcallHandle(
             "adw_spring_animation_get_estimated_duration",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_spring_animation_get_initial_velocity = Interop.downcallHandle(
             "adw_spring_animation_get_initial_velocity",
-            FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_DOUBLE, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_spring_animation_get_spring_params = Interop.downcallHandle(
             "adw_spring_animation_get_spring_params",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_spring_animation_get_value_from = Interop.downcallHandle(
             "adw_spring_animation_get_value_from",
-            FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_DOUBLE, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_spring_animation_get_value_to = Interop.downcallHandle(
             "adw_spring_animation_get_value_to",
-            FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_DOUBLE, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_spring_animation_get_velocity = Interop.downcallHandle(
             "adw_spring_animation_get_velocity",
-            FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_DOUBLE, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_spring_animation_set_clamp = Interop.downcallHandle(
             "adw_spring_animation_set_clamp",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle adw_spring_animation_set_epsilon = Interop.downcallHandle(
             "adw_spring_animation_set_epsilon",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE),
             false
         );
         
         private static final MethodHandle adw_spring_animation_set_initial_velocity = Interop.downcallHandle(
             "adw_spring_animation_set_initial_velocity",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE),
             false
         );
         
         private static final MethodHandle adw_spring_animation_set_spring_params = Interop.downcallHandle(
             "adw_spring_animation_set_spring_params",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_spring_animation_set_value_from = Interop.downcallHandle(
             "adw_spring_animation_set_value_from",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE),
             false
         );
         
         private static final MethodHandle adw_spring_animation_set_value_to = Interop.downcallHandle(
             "adw_spring_animation_set_value_to",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE),
+            false
+        );
+        
+        private static final MethodHandle adw_spring_animation_get_type = Interop.downcallHandle(
+            "adw_spring_animation_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }

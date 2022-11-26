@@ -53,6 +53,21 @@ import org.jetbrains.annotations.*;
  * implementation, but typically it will be from the thread that owns
  * the [thread-default main context][g-main-context-push-thread-default]
  * in effect at the time that the model was created.
+ * <p>
+ * Over time, it has established itself as good practice for listmodel
+ * implementations to provide properties {@code item-type} and {@code n-items} to
+ * ease working with them. While it is not required, it is recommended
+ * that implementations provide these two properties. They should return
+ * the values of g_list_model_get_item_type() and g_list_model_get_n_items()
+ * respectively and be defined as such:
+ * <pre>{@code <!-- language="C" -->
+ * properties[PROP_ITEM_TYPE] =
+ *   g_param_spec_gtype ("item-type", "", "", G_TYPE_OBJECT,
+ *                       G_PARAM_CONSTRUCT_ONLY | G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
+ * properties[PROP_N_ITEMS] =
+ *   g_param_spec_uint ("n-items", "", "", 0, G_MAXUINT, 0,
+ *                      G_PARAM_READABLE | G_PARAM_STATIC_STRINGS);
+ * }</pre>
  */
 public interface ListModel extends io.github.jwharm.javagi.Proxy {
     
@@ -69,7 +84,7 @@ public interface ListModel extends io.github.jwharm.javagi.Proxy {
      * @throws ClassCastException If the GType is not derived from "GListModel", a ClassCastException will be thrown.
      */
     public static ListModel castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GListModel"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), ListModel.getType())) {
             return new ListModelImpl(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GListModel");
@@ -207,6 +222,20 @@ public interface ListModel extends io.github.jwharm.javagi.Proxy {
         }
     }
     
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.g_list_model_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+    
     @FunctionalInterface
     public interface ItemsChanged {
         void signalReceived(ListModel source, int position, int removed, int added);
@@ -230,7 +259,7 @@ public interface ListModel extends io.github.jwharm.javagi.Proxy {
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(ListModel.Callbacks.class, "signalListModelItemsChanged",
                         MethodType.methodType(void.class, MemoryAddress.class, int.class, int.class, int.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
                     Interop.getScope()),
                 Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
@@ -246,35 +275,42 @@ public interface ListModel extends io.github.jwharm.javagi.Proxy {
         @ApiStatus.Internal
         static final MethodHandle g_list_model_get_item = Interop.downcallHandle(
             "g_list_model_get_item",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_list_model_get_item_type = Interop.downcallHandle(
             "g_list_model_get_item_type",
-            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
             false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_list_model_get_n_items = Interop.downcallHandle(
             "g_list_model_get_n_items",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_list_model_get_object = Interop.downcallHandle(
             "g_list_model_get_object",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_list_model_items_changed = Interop.downcallHandle(
             "g_list_model_items_changed",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
+            false
+        );
+        
+        @ApiStatus.Internal
+        static final MethodHandle g_list_model_get_type = Interop.downcallHandle(
+            "g_list_model_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }
@@ -283,9 +319,9 @@ public interface ListModel extends io.github.jwharm.javagi.Proxy {
     static class Callbacks {
         
         public static void signalListModelItemsChanged(MemoryAddress source, int position, int removed, int added, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (ListModel.ItemsChanged) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new ListModel.ListModelImpl(source, Ownership.UNKNOWN), position, removed, added);
+            HANDLER.signalReceived(new ListModel.ListModelImpl(source, Ownership.NONE), position, removed, added);
         }
     }
     

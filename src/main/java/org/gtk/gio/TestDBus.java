@@ -119,7 +119,7 @@ public class TestDBus extends org.gtk.gobject.Object {
      * @throws ClassCastException If the GType is not derived from "GTestDBus", a ClassCastException will be thrown.
      */
     public static TestDBus castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GTestDBus"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), TestDBus.getType())) {
             return new TestDBus(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GTestDBus");
@@ -247,6 +247,20 @@ public class TestDBus extends org.gtk.gobject.Object {
     }
     
     /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.g_test_dbus_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+    
+    /**
      * Unset DISPLAY and DBUS_SESSION_BUS_ADDRESS env variables to ensure the test
      * won't use user's session bus.
      * <p>
@@ -261,48 +275,100 @@ public class TestDBus extends org.gtk.gobject.Object {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gobject.Object.Build {
+        
+         /**
+         * A {@link TestDBus.Build} object constructs a {@link TestDBus} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link TestDBus} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link TestDBus} using {@link TestDBus#castFrom}.
+         * @return A new instance of {@code TestDBus} with the properties 
+         *         that were set in the Build object.
+         */
+        public TestDBus construct() {
+            return TestDBus.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    TestDBus.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+        
+        /**
+         * {@link TestDBusFlags} specifying the behaviour of the D-Bus session.
+         * @param flags The value for the {@code flags} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setFlags(org.gtk.gio.TestDBusFlags flags) {
+            names.add("flags");
+            values.add(org.gtk.gobject.Value.create(flags));
+            return this;
+        }
+    }
     
     private static class DowncallHandles {
         
         private static final MethodHandle g_test_dbus_new = Interop.downcallHandle(
             "g_test_dbus_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_test_dbus_add_service_dir = Interop.downcallHandle(
             "g_test_dbus_add_service_dir",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_test_dbus_down = Interop.downcallHandle(
             "g_test_dbus_down",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_test_dbus_get_bus_address = Interop.downcallHandle(
             "g_test_dbus_get_bus_address",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_test_dbus_get_flags = Interop.downcallHandle(
             "g_test_dbus_get_flags",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_test_dbus_stop = Interop.downcallHandle(
             "g_test_dbus_stop",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_test_dbus_up = Interop.downcallHandle(
             "g_test_dbus_up",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+            false
+        );
+        
+        private static final MethodHandle g_test_dbus_get_type = Interop.downcallHandle(
+            "g_test_dbus_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
         

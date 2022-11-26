@@ -48,7 +48,7 @@ public class InsetShadowNode extends org.gtk.gsk.RenderNode {
      * @throws ClassCastException If the GType is not derived from "GskInsetShadowNode", a ClassCastException will be thrown.
      */
     public static InsetShadowNode castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GskInsetShadowNode"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), InsetShadowNode.getType())) {
             return new InsetShadowNode(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GskInsetShadowNode");
@@ -177,47 +177,102 @@ public class InsetShadowNode extends org.gtk.gsk.RenderNode {
         return RESULT;
     }
     
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.gsk_inset_shadow_node_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gsk.RenderNode.Build {
+        
+         /**
+         * A {@link InsetShadowNode.Build} object constructs a {@link InsetShadowNode} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link InsetShadowNode} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link InsetShadowNode} using {@link InsetShadowNode#castFrom}.
+         * @return A new instance of {@code InsetShadowNode} with the properties 
+         *         that were set in the Build object.
+         */
+        public InsetShadowNode construct() {
+            return InsetShadowNode.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    InsetShadowNode.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+    }
+    
     private static class DowncallHandles {
         
         private static final MethodHandle gsk_inset_shadow_node_new = Interop.downcallHandle(
             "gsk_inset_shadow_node_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_FLOAT, Interop.valueLayout.C_FLOAT, Interop.valueLayout.C_FLOAT, Interop.valueLayout.C_FLOAT),
             false
         );
         
         private static final MethodHandle gsk_inset_shadow_node_get_blur_radius = Interop.downcallHandle(
             "gsk_inset_shadow_node_get_blur_radius",
-            FunctionDescriptor.of(ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_FLOAT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gsk_inset_shadow_node_get_color = Interop.downcallHandle(
             "gsk_inset_shadow_node_get_color",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gsk_inset_shadow_node_get_dx = Interop.downcallHandle(
             "gsk_inset_shadow_node_get_dx",
-            FunctionDescriptor.of(ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_FLOAT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gsk_inset_shadow_node_get_dy = Interop.downcallHandle(
             "gsk_inset_shadow_node_get_dy",
-            FunctionDescriptor.of(ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_FLOAT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gsk_inset_shadow_node_get_outline = Interop.downcallHandle(
             "gsk_inset_shadow_node_get_outline",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gsk_inset_shadow_node_get_spread = Interop.downcallHandle(
             "gsk_inset_shadow_node_get_spread",
-            FunctionDescriptor.of(ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_FLOAT, Interop.valueLayout.ADDRESS),
+            false
+        );
+        
+        private static final MethodHandle gsk_inset_shadow_node_get_type = Interop.downcallHandle(
+            "gsk_inset_shadow_node_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }

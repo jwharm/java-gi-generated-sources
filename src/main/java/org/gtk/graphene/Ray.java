@@ -12,7 +12,7 @@ import org.jetbrains.annotations.*;
  * be modified directly.
  * @version 1.4
  */
-public class Ray extends io.github.jwharm.javagi.ProxyBase {
+public class Ray extends Struct {
     
     static {
         Graphene.javagi$ensureInitialized();
@@ -20,7 +20,7 @@ public class Ray extends io.github.jwharm.javagi.ProxyBase {
     
     private static final java.lang.String C_TYPE_NAME = "graphene_ray_t";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.graphene.Vec3.getMemoryLayout().withName("origin"),
         org.gtk.graphene.Vec3.getMemoryLayout().withName("direction")
     ).withName(C_TYPE_NAME);
@@ -36,6 +36,10 @@ public class Ray extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link Ray}
+     * @return A new, uninitialized @{link Ray}
+     */
     public static Ray allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         Ray newInstance = new Ray(segment.address(), Ownership.NONE);
@@ -284,7 +288,7 @@ public class Ray extends io.github.jwharm.javagi.ProxyBase {
     public @NotNull org.gtk.graphene.RayIntersectionKind intersectBox(@NotNull org.gtk.graphene.Box b, Out<Float> tOut) {
         java.util.Objects.requireNonNull(b, "Parameter 'b' must not be null");
         java.util.Objects.requireNonNull(tOut, "Parameter 'tOut' must not be null");
-        MemorySegment tOutPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_FLOAT);
+        MemorySegment tOutPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_FLOAT);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.graphene_ray_intersect_box.invokeExact(
@@ -294,7 +298,7 @@ public class Ray extends io.github.jwharm.javagi.ProxyBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        tOut.set(tOutPOINTER.get(ValueLayout.JAVA_FLOAT, 0));
+        tOut.set(tOutPOINTER.get(Interop.valueLayout.C_FLOAT, 0));
         return new org.gtk.graphene.RayIntersectionKind(RESULT);
     }
     
@@ -308,7 +312,7 @@ public class Ray extends io.github.jwharm.javagi.ProxyBase {
     public @NotNull org.gtk.graphene.RayIntersectionKind intersectSphere(@NotNull org.gtk.graphene.Sphere s, Out<Float> tOut) {
         java.util.Objects.requireNonNull(s, "Parameter 's' must not be null");
         java.util.Objects.requireNonNull(tOut, "Parameter 'tOut' must not be null");
-        MemorySegment tOutPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_FLOAT);
+        MemorySegment tOutPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_FLOAT);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.graphene_ray_intersect_sphere.invokeExact(
@@ -318,7 +322,7 @@ public class Ray extends io.github.jwharm.javagi.ProxyBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        tOut.set(tOutPOINTER.get(ValueLayout.JAVA_FLOAT, 0));
+        tOut.set(tOutPOINTER.get(Interop.valueLayout.C_FLOAT, 0));
         return new org.gtk.graphene.RayIntersectionKind(RESULT);
     }
     
@@ -332,7 +336,7 @@ public class Ray extends io.github.jwharm.javagi.ProxyBase {
     public @NotNull org.gtk.graphene.RayIntersectionKind intersectTriangle(@NotNull org.gtk.graphene.Triangle t, Out<Float> tOut) {
         java.util.Objects.requireNonNull(t, "Parameter 't' must not be null");
         java.util.Objects.requireNonNull(tOut, "Parameter 'tOut' must not be null");
-        MemorySegment tOutPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_FLOAT);
+        MemorySegment tOutPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_FLOAT);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.graphene_ray_intersect_triangle.invokeExact(
@@ -342,7 +346,7 @@ public class Ray extends io.github.jwharm.javagi.ProxyBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        tOut.set(tOutPOINTER.get(ValueLayout.JAVA_FLOAT, 0));
+        tOut.set(tOutPOINTER.get(Interop.valueLayout.C_FLOAT, 0));
         return new org.gtk.graphene.RayIntersectionKind(RESULT);
     }
     
@@ -413,110 +417,152 @@ public class Ray extends io.github.jwharm.javagi.ProxyBase {
         
         private static final MethodHandle graphene_ray_alloc = Interop.downcallHandle(
             "graphene_ray_alloc",
-            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle graphene_ray_equal = Interop.downcallHandle(
             "graphene_ray_equal",
-            FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_BOOLEAN, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle graphene_ray_free = Interop.downcallHandle(
             "graphene_ray_free",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle graphene_ray_get_closest_point_to_point = Interop.downcallHandle(
             "graphene_ray_get_closest_point_to_point",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle graphene_ray_get_direction = Interop.downcallHandle(
             "graphene_ray_get_direction",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle graphene_ray_get_distance_to_plane = Interop.downcallHandle(
             "graphene_ray_get_distance_to_plane",
-            FunctionDescriptor.of(ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_FLOAT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle graphene_ray_get_distance_to_point = Interop.downcallHandle(
             "graphene_ray_get_distance_to_point",
-            FunctionDescriptor.of(ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_FLOAT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle graphene_ray_get_origin = Interop.downcallHandle(
             "graphene_ray_get_origin",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle graphene_ray_get_position_at = Interop.downcallHandle(
             "graphene_ray_get_position_at",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_FLOAT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle graphene_ray_init = Interop.downcallHandle(
             "graphene_ray_init",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle graphene_ray_init_from_ray = Interop.downcallHandle(
             "graphene_ray_init_from_ray",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle graphene_ray_init_from_vec3 = Interop.downcallHandle(
             "graphene_ray_init_from_vec3",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle graphene_ray_intersect_box = Interop.downcallHandle(
             "graphene_ray_intersect_box",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle graphene_ray_intersect_sphere = Interop.downcallHandle(
             "graphene_ray_intersect_sphere",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle graphene_ray_intersect_triangle = Interop.downcallHandle(
             "graphene_ray_intersect_triangle",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle graphene_ray_intersects_box = Interop.downcallHandle(
             "graphene_ray_intersects_box",
-            FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_BOOLEAN, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle graphene_ray_intersects_sphere = Interop.downcallHandle(
             "graphene_ray_intersects_sphere",
-            FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_BOOLEAN, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle graphene_ray_intersects_triangle = Interop.downcallHandle(
             "graphene_ray_intersects_triangle",
-            FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_BOOLEAN, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private Ray struct;
+        
+         /**
+         * A {@link Ray.Build} object constructs a {@link Ray} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = Ray.allocate();
+        }
+        
+         /**
+         * Finish building the {@link Ray} struct.
+         * @return A new instance of {@code Ray} with the fields 
+         *         that were set in the Build object.
+         */
+        public Ray construct() {
+            return struct;
+        }
+        
+        public Build setOrigin(org.gtk.graphene.Vec3 origin) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("origin"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (origin == null ? MemoryAddress.NULL : origin.handle()));
+            return this;
+        }
+        
+        public Build setDirection(org.gtk.graphene.Vec3 direction) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("direction"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (direction == null ? MemoryAddress.NULL : direction.handle()));
+            return this;
+        }
     }
 }

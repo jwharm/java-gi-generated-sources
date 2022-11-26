@@ -9,7 +9,7 @@ import org.jetbrains.annotations.*;
  * Class structure for {@link UnixCredentialsMessage}.
  * @version 2.26
  */
-public class UnixCredentialsMessageClass extends io.github.jwharm.javagi.ProxyBase {
+public class UnixCredentialsMessageClass extends Struct {
     
     static {
         Gio.javagi$ensureInitialized();
@@ -17,7 +17,7 @@ public class UnixCredentialsMessageClass extends io.github.jwharm.javagi.ProxyBa
     
     private static final java.lang.String C_TYPE_NAME = "GUnixCredentialsMessageClass";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gio.SocketControlMessageClass.getMemoryLayout().withName("parent_class"),
         Interop.valueLayout.ADDRESS.withName("_g_reserved1"),
         Interop.valueLayout.ADDRESS.withName("_g_reserved2")
@@ -34,6 +34,10 @@ public class UnixCredentialsMessageClass extends io.github.jwharm.javagi.ProxyBa
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link UnixCredentialsMessageClass}
+     * @return A new, uninitialized @{link UnixCredentialsMessageClass}
+     */
     public static UnixCredentialsMessageClass allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         UnixCredentialsMessageClass newInstance = new UnixCredentialsMessageClass(segment.address(), Ownership.NONE);
@@ -58,5 +62,54 @@ public class UnixCredentialsMessageClass extends io.github.jwharm.javagi.ProxyBa
     @ApiStatus.Internal
     public UnixCredentialsMessageClass(Addressable address, Ownership ownership) {
         super(address, ownership);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private UnixCredentialsMessageClass struct;
+        
+         /**
+         * A {@link UnixCredentialsMessageClass.Build} object constructs a {@link UnixCredentialsMessageClass} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = UnixCredentialsMessageClass.allocate();
+        }
+        
+         /**
+         * Finish building the {@link UnixCredentialsMessageClass} struct.
+         * @return A new instance of {@code UnixCredentialsMessageClass} with the fields 
+         *         that were set in the Build object.
+         */
+        public UnixCredentialsMessageClass construct() {
+            return struct;
+        }
+        
+        public Build setParentClass(org.gtk.gio.SocketControlMessageClass parent_class) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parent_class == null ? MemoryAddress.NULL : parent_class.handle()));
+            return this;
+        }
+        
+        public Build setGReserved1(java.lang.foreign.MemoryAddress _g_reserved1) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("_g_reserved1"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (_g_reserved1 == null ? MemoryAddress.NULL : _g_reserved1));
+            return this;
+        }
+        
+        public Build setGReserved2(java.lang.foreign.MemoryAddress _g_reserved2) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("_g_reserved2"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (_g_reserved2 == null ? MemoryAddress.NULL : _g_reserved2));
+            return this;
+        }
     }
 }

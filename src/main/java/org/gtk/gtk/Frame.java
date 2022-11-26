@@ -55,7 +55,7 @@ public class Frame extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     
     private static final java.lang.String C_TYPE_NAME = "GtkFrame";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gtk.Widget.getMemoryLayout().withName("parent_instance")
     ).withName(C_TYPE_NAME);
     
@@ -100,7 +100,7 @@ public class Frame extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      * @throws ClassCastException If the GType is not derived from "GtkFrame", a ClassCastException will be thrown.
      */
     public static Frame castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkFrame"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), Frame.getType())) {
             return new Frame(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkFrame");
@@ -257,59 +257,158 @@ public class Frame extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
         }
     }
     
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.gtk_frame_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gtk.Widget.Build {
+        
+         /**
+         * A {@link Frame.Build} object constructs a {@link Frame} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link Frame} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link Frame} using {@link Frame#castFrom}.
+         * @return A new instance of {@code Frame} with the properties 
+         *         that were set in the Build object.
+         */
+        public Frame construct() {
+            return Frame.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    Frame.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+        
+        /**
+         * The child widget.
+         * @param child The value for the {@code child} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setChild(org.gtk.gtk.Widget child) {
+            names.add("child");
+            values.add(org.gtk.gobject.Value.create(child));
+            return this;
+        }
+        
+        /**
+         * Text of the frame's label.
+         * @param label The value for the {@code label} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setLabel(java.lang.String label) {
+            names.add("label");
+            values.add(org.gtk.gobject.Value.create(label));
+            return this;
+        }
+        
+        /**
+         * Widget to display in place of the usual frame label.
+         * @param labelWidget The value for the {@code label-widget} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setLabelWidget(org.gtk.gtk.Widget labelWidget) {
+            names.add("label-widget");
+            values.add(org.gtk.gobject.Value.create(labelWidget));
+            return this;
+        }
+        
+        /**
+         * The horizontal alignment of the label.
+         * @param labelXalign The value for the {@code label-xalign} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setLabelXalign(float labelXalign) {
+            names.add("label-xalign");
+            values.add(org.gtk.gobject.Value.create(labelXalign));
+            return this;
+        }
+    }
+    
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_frame_new = Interop.downcallHandle(
             "gtk_frame_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_frame_get_child = Interop.downcallHandle(
             "gtk_frame_get_child",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_frame_get_label = Interop.downcallHandle(
             "gtk_frame_get_label",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_frame_get_label_align = Interop.downcallHandle(
             "gtk_frame_get_label_align",
-            FunctionDescriptor.of(ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_FLOAT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_frame_get_label_widget = Interop.downcallHandle(
             "gtk_frame_get_label_widget",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_frame_set_child = Interop.downcallHandle(
             "gtk_frame_set_child",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_frame_set_label = Interop.downcallHandle(
             "gtk_frame_set_label",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_frame_set_label_align = Interop.downcallHandle(
             "gtk_frame_set_label_align",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_FLOAT),
             false
         );
         
         private static final MethodHandle gtk_frame_set_label_widget = Interop.downcallHandle(
             "gtk_frame_set_label_widget",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+            false
+        );
+        
+        private static final MethodHandle gtk_frame_get_type = Interop.downcallHandle(
+            "gtk_frame_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }

@@ -88,7 +88,7 @@ public class SearchBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
      * @throws ClassCastException If the GType is not derived from "GtkSearchBar", a ClassCastException will be thrown.
      */
     public static SearchBar castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkSearchBar"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), SearchBar.getType())) {
             return new SearchBar(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkSearchBar");
@@ -266,65 +266,164 @@ public class SearchBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
         }
     }
     
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.gtk_search_bar_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gtk.Widget.Build {
+        
+         /**
+         * A {@link SearchBar.Build} object constructs a {@link SearchBar} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link SearchBar} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link SearchBar} using {@link SearchBar#castFrom}.
+         * @return A new instance of {@code SearchBar} with the properties 
+         *         that were set in the Build object.
+         */
+        public SearchBar construct() {
+            return SearchBar.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    SearchBar.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+        
+        /**
+         * The child widget.
+         * @param child The value for the {@code child} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setChild(org.gtk.gtk.Widget child) {
+            names.add("child");
+            values.add(org.gtk.gobject.Value.create(child));
+            return this;
+        }
+        
+        /**
+         * The key capture widget.
+         * @param keyCaptureWidget The value for the {@code key-capture-widget} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setKeyCaptureWidget(org.gtk.gtk.Widget keyCaptureWidget) {
+            names.add("key-capture-widget");
+            values.add(org.gtk.gobject.Value.create(keyCaptureWidget));
+            return this;
+        }
+        
+        /**
+         * Whether the search mode is on and the search bar shown.
+         * @param searchModeEnabled The value for the {@code search-mode-enabled} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setSearchModeEnabled(boolean searchModeEnabled) {
+            names.add("search-mode-enabled");
+            values.add(org.gtk.gobject.Value.create(searchModeEnabled));
+            return this;
+        }
+        
+        /**
+         * Whether to show the close button in the search bar.
+         * @param showCloseButton The value for the {@code show-close-button} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setShowCloseButton(boolean showCloseButton) {
+            names.add("show-close-button");
+            values.add(org.gtk.gobject.Value.create(showCloseButton));
+            return this;
+        }
+    }
+    
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_search_bar_new = Interop.downcallHandle(
             "gtk_search_bar_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_search_bar_connect_entry = Interop.downcallHandle(
             "gtk_search_bar_connect_entry",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_search_bar_get_child = Interop.downcallHandle(
             "gtk_search_bar_get_child",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_search_bar_get_key_capture_widget = Interop.downcallHandle(
             "gtk_search_bar_get_key_capture_widget",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_search_bar_get_search_mode = Interop.downcallHandle(
             "gtk_search_bar_get_search_mode",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_search_bar_get_show_close_button = Interop.downcallHandle(
             "gtk_search_bar_get_show_close_button",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_search_bar_set_child = Interop.downcallHandle(
             "gtk_search_bar_set_child",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_search_bar_set_key_capture_widget = Interop.downcallHandle(
             "gtk_search_bar_set_key_capture_widget",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_search_bar_set_search_mode = Interop.downcallHandle(
             "gtk_search_bar_set_search_mode",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_search_bar_set_show_close_button = Interop.downcallHandle(
             "gtk_search_bar_set_show_close_button",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+            false
+        );
+        
+        private static final MethodHandle gtk_search_bar_get_type = Interop.downcallHandle(
+            "gtk_search_bar_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }

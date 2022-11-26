@@ -5,7 +5,7 @@ import java.lang.foreign.*;
 import java.lang.invoke.*;
 import org.jetbrains.annotations.*;
 
-public class NativeSocketAddressPrivate extends io.github.jwharm.javagi.ProxyBase {
+public class NativeSocketAddressPrivate extends Struct {
     
     static {
         Gio.javagi$ensureInitialized();
@@ -24,6 +24,10 @@ public class NativeSocketAddressPrivate extends io.github.jwharm.javagi.ProxyBas
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link NativeSocketAddressPrivate}
+     * @return A new, uninitialized @{link NativeSocketAddressPrivate}
+     */
     public static NativeSocketAddressPrivate allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         NativeSocketAddressPrivate newInstance = new NativeSocketAddressPrivate(segment.address(), Ownership.NONE);
@@ -39,5 +43,33 @@ public class NativeSocketAddressPrivate extends io.github.jwharm.javagi.ProxyBas
     @ApiStatus.Internal
     public NativeSocketAddressPrivate(Addressable address, Ownership ownership) {
         super(address, ownership);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private NativeSocketAddressPrivate struct;
+        
+         /**
+         * A {@link NativeSocketAddressPrivate.Build} object constructs a {@link NativeSocketAddressPrivate} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = NativeSocketAddressPrivate.allocate();
+        }
+        
+         /**
+         * Finish building the {@link NativeSocketAddressPrivate} struct.
+         * @return A new instance of {@code NativeSocketAddressPrivate} with the fields 
+         *         that were set in the Build object.
+         */
+        public NativeSocketAddressPrivate construct() {
+            return struct;
+        }
     }
 }

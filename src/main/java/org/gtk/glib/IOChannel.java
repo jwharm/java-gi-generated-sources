@@ -10,7 +10,7 @@ import org.jetbrains.annotations.*;
  * considered private and should only be accessed with the following
  * functions.
  */
-public class IOChannel extends io.github.jwharm.javagi.ProxyBase {
+public class IOChannel extends Struct {
     
     static {
         GLib.javagi$ensureInitialized();
@@ -18,28 +18,28 @@ public class IOChannel extends io.github.jwharm.javagi.ProxyBase {
     
     private static final java.lang.String C_TYPE_NAME = "GIOChannel";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
-        ValueLayout.JAVA_INT.withName("ref_count"),
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
+        Interop.valueLayout.C_INT.withName("ref_count"),
         MemoryLayout.paddingLayout(32),
         Interop.valueLayout.ADDRESS.withName("funcs"),
         Interop.valueLayout.ADDRESS.withName("encoding"),
         org.gtk.glib.IConv.getMemoryLayout().withName("read_cd"),
         org.gtk.glib.IConv.getMemoryLayout().withName("write_cd"),
         Interop.valueLayout.ADDRESS.withName("line_term"),
-        ValueLayout.JAVA_INT.withName("line_term_len"),
+        Interop.valueLayout.C_INT.withName("line_term_len"),
         MemoryLayout.paddingLayout(32),
-        ValueLayout.JAVA_LONG.withName("buf_size"),
+        Interop.valueLayout.C_LONG.withName("buf_size"),
         Interop.valueLayout.ADDRESS.withName("read_buf"),
         Interop.valueLayout.ADDRESS.withName("encoded_read_buf"),
         Interop.valueLayout.ADDRESS.withName("write_buf"),
         MemoryLayout.paddingLayout(16),
-        MemoryLayout.sequenceLayout(6, ValueLayout.JAVA_BYTE).withName("partial_write_buf"),
-        ValueLayout.JAVA_INT.withName("use_buffer"),
-        ValueLayout.JAVA_INT.withName("do_encode"),
-        ValueLayout.JAVA_INT.withName("close_on_unref"),
-        ValueLayout.JAVA_INT.withName("is_readable"),
-        ValueLayout.JAVA_INT.withName("is_writeable"),
-        ValueLayout.JAVA_INT.withName("is_seekable"),
+        MemoryLayout.sequenceLayout(6, Interop.valueLayout.C_BYTE).withName("partial_write_buf"),
+        Interop.valueLayout.C_INT.withName("use_buffer"),
+        Interop.valueLayout.C_INT.withName("do_encode"),
+        Interop.valueLayout.C_INT.withName("close_on_unref"),
+        Interop.valueLayout.C_INT.withName("is_readable"),
+        Interop.valueLayout.C_INT.withName("is_writeable"),
+        Interop.valueLayout.C_INT.withName("is_seekable"),
         Interop.valueLayout.ADDRESS.withName("reserved1"),
         Interop.valueLayout.ADDRESS.withName("reserved2")
     ).withName(C_TYPE_NAME);
@@ -55,6 +55,10 @@ public class IOChannel extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link IOChannel}
+     * @return A new, uninitialized @{link IOChannel}
+     */
     public static IOChannel allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         IOChannel newInstance = new IOChannel(segment.address(), Ownership.NONE);
@@ -75,7 +79,7 @@ public class IOChannel extends io.github.jwharm.javagi.ProxyBase {
     private static Addressable constructNewFile(@NotNull java.lang.String filename, @NotNull java.lang.String mode) throws GErrorException {
         java.util.Objects.requireNonNull(filename, "Parameter 'filename' must not be null");
         java.util.Objects.requireNonNull(mode, "Parameter 'mode' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         Addressable RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_io_channel_new_file.invokeExact(
@@ -172,7 +176,7 @@ public class IOChannel extends io.github.jwharm.javagi.ProxyBase {
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public @NotNull org.gtk.glib.IOStatus flush() throws io.github.jwharm.javagi.GErrorException {
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_io_channel_flush.invokeExact(
@@ -371,10 +375,10 @@ public class IOChannel extends io.github.jwharm.javagi.ProxyBase {
      */
     public @NotNull org.gtk.glib.IOStatus readChars(@NotNull Out<byte[]> buf, long count, Out<Long> bytesRead) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(buf, "Parameter 'buf' must not be null");
+        MemorySegment bufPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         java.util.Objects.requireNonNull(bytesRead, "Parameter 'bytesRead' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        MemorySegment bufPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        MemorySegment bytesReadPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_LONG);
+        MemorySegment bytesReadPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_io_channel_read_chars.invokeExact(
@@ -389,8 +393,8 @@ public class IOChannel extends io.github.jwharm.javagi.ProxyBase {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        bytesRead.set(bytesReadPOINTER.get(ValueLayout.JAVA_LONG, 0));
-        buf.set(MemorySegment.ofAddress(bufPOINTER.get(ValueLayout.ADDRESS, 0), count * ValueLayout.JAVA_BYTE.byteSize(), Interop.getScope()).toArray(ValueLayout.JAVA_BYTE));
+        bytesRead.set(bytesReadPOINTER.get(Interop.valueLayout.C_LONG, 0));
+        buf.set(MemorySegment.ofAddress(bufPOINTER.get(Interop.valueLayout.ADDRESS, 0), count * Interop.valueLayout.C_BYTE.byteSize(), Interop.getScope()).toArray(Interop.valueLayout.C_BYTE));
         return new org.gtk.glib.IOStatus(RESULT);
     }
     
@@ -410,12 +414,12 @@ public class IOChannel extends io.github.jwharm.javagi.ProxyBase {
      */
     public @NotNull org.gtk.glib.IOStatus readLine(@NotNull Out<java.lang.String> strReturn, Out<Long> length, Out<Long> terminatorPos) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(strReturn, "Parameter 'strReturn' must not be null");
+        MemorySegment strReturnPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         java.util.Objects.requireNonNull(length, "Parameter 'length' must not be null");
+        MemorySegment lengthPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
         java.util.Objects.requireNonNull(terminatorPos, "Parameter 'terminatorPos' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        MemorySegment strReturnPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        MemorySegment lengthPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_LONG);
-        MemorySegment terminatorPosPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_LONG);
+        MemorySegment terminatorPosPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_io_channel_read_line.invokeExact(
@@ -430,9 +434,9 @@ public class IOChannel extends io.github.jwharm.javagi.ProxyBase {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        strReturn.set(Interop.getStringFrom(strReturnPOINTER.get(ValueLayout.ADDRESS, 0)));
-        length.set(lengthPOINTER.get(ValueLayout.JAVA_LONG, 0));
-        terminatorPos.set(terminatorPosPOINTER.get(ValueLayout.JAVA_LONG, 0));
+        strReturn.set(Interop.getStringFrom(strReturnPOINTER.get(Interop.valueLayout.ADDRESS, 0)));
+        length.set(lengthPOINTER.get(Interop.valueLayout.C_LONG, 0));
+        terminatorPos.set(terminatorPosPOINTER.get(Interop.valueLayout.C_LONG, 0));
         return new org.gtk.glib.IOStatus(RESULT);
     }
     
@@ -447,7 +451,7 @@ public class IOChannel extends io.github.jwharm.javagi.ProxyBase {
      */
     public @NotNull org.gtk.glib.IOStatus readLineString(@NotNull org.gtk.glib.String buffer, PointerLong terminatorPos) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_io_channel_read_line_string.invokeExact(
@@ -478,10 +482,10 @@ public class IOChannel extends io.github.jwharm.javagi.ProxyBase {
      */
     public @NotNull org.gtk.glib.IOStatus readToEnd(@NotNull Out<byte[]> strReturn, Out<Long> length) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(strReturn, "Parameter 'strReturn' must not be null");
+        MemorySegment strReturnPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         java.util.Objects.requireNonNull(length, "Parameter 'length' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        MemorySegment strReturnPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        MemorySegment lengthPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_LONG);
+        MemorySegment lengthPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_io_channel_read_to_end.invokeExact(
@@ -495,8 +499,8 @@ public class IOChannel extends io.github.jwharm.javagi.ProxyBase {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        length.set(lengthPOINTER.get(ValueLayout.JAVA_LONG, 0));
-        strReturn.set(MemorySegment.ofAddress(strReturnPOINTER.get(ValueLayout.ADDRESS, 0), length.get().intValue() * ValueLayout.JAVA_BYTE.byteSize(), Interop.getScope()).toArray(ValueLayout.JAVA_BYTE));
+        length.set(lengthPOINTER.get(Interop.valueLayout.C_LONG, 0));
+        strReturn.set(MemorySegment.ofAddress(strReturnPOINTER.get(Interop.valueLayout.ADDRESS, 0), length.get().intValue() * Interop.valueLayout.C_BYTE.byteSize(), Interop.getScope()).toArray(Interop.valueLayout.C_BYTE));
         return new org.gtk.glib.IOStatus(RESULT);
     }
     
@@ -509,8 +513,8 @@ public class IOChannel extends io.github.jwharm.javagi.ProxyBase {
      */
     public @NotNull org.gtk.glib.IOStatus readUnichar(Out<Integer> thechar) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(thechar, "Parameter 'thechar' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        MemorySegment thecharPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
+        MemorySegment thecharPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_io_channel_read_unichar.invokeExact(
@@ -523,7 +527,7 @@ public class IOChannel extends io.github.jwharm.javagi.ProxyBase {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        thechar.set(thecharPOINTER.get(ValueLayout.JAVA_INT, 0));
+        thechar.set(thecharPOINTER.get(Interop.valueLayout.C_INT, 0));
         return new org.gtk.glib.IOStatus(RESULT);
     }
     
@@ -580,7 +584,7 @@ public class IOChannel extends io.github.jwharm.javagi.ProxyBase {
      */
     public @NotNull org.gtk.glib.IOStatus seekPosition(long offset, @NotNull org.gtk.glib.SeekType type) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(type, "Parameter 'type' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_io_channel_seek_position.invokeExact(
@@ -709,7 +713,7 @@ public class IOChannel extends io.github.jwharm.javagi.ProxyBase {
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public @NotNull org.gtk.glib.IOStatus setEncoding(@Nullable java.lang.String encoding) throws io.github.jwharm.javagi.GErrorException {
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_io_channel_set_encoding.invokeExact(
@@ -733,7 +737,7 @@ public class IOChannel extends io.github.jwharm.javagi.ProxyBase {
      */
     public @NotNull org.gtk.glib.IOStatus setFlags(@NotNull org.gtk.glib.IOFlags flags) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_io_channel_set_flags.invokeExact(
@@ -780,7 +784,7 @@ public class IOChannel extends io.github.jwharm.javagi.ProxyBase {
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public @NotNull org.gtk.glib.IOStatus shutdown(boolean flush) throws io.github.jwharm.javagi.GErrorException {
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_io_channel_shutdown.invokeExact(
@@ -872,8 +876,8 @@ public class IOChannel extends io.github.jwharm.javagi.ProxyBase {
     public @NotNull org.gtk.glib.IOStatus writeChars(@NotNull byte[] buf, long count, Out<Long> bytesWritten) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(buf, "Parameter 'buf' must not be null");
         java.util.Objects.requireNonNull(bytesWritten, "Parameter 'bytesWritten' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        MemorySegment bytesWrittenPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_LONG);
+        MemorySegment bytesWrittenPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_io_channel_write_chars.invokeExact(
@@ -888,7 +892,7 @@ public class IOChannel extends io.github.jwharm.javagi.ProxyBase {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        bytesWritten.set(bytesWrittenPOINTER.get(ValueLayout.JAVA_LONG, 0));
+        bytesWritten.set(bytesWrittenPOINTER.get(Interop.valueLayout.C_LONG, 0));
         return new org.gtk.glib.IOStatus(RESULT);
     }
     
@@ -900,7 +904,7 @@ public class IOChannel extends io.github.jwharm.javagi.ProxyBase {
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public @NotNull org.gtk.glib.IOStatus writeUnichar(int thechar) throws io.github.jwharm.javagi.GErrorException {
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_io_channel_write_unichar.invokeExact(
@@ -947,212 +951,380 @@ public class IOChannel extends io.github.jwharm.javagi.ProxyBase {
         
         private static final MethodHandle g_io_channel_new_file = Interop.downcallHandle(
             "g_io_channel_new_file",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_io_channel_unix_new = Interop.downcallHandle(
             "g_io_channel_unix_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_io_channel_close = Interop.downcallHandle(
             "g_io_channel_close",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_io_channel_flush = Interop.downcallHandle(
             "g_io_channel_flush",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_io_channel_get_buffer_condition = Interop.downcallHandle(
             "g_io_channel_get_buffer_condition",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_io_channel_get_buffer_size = Interop.downcallHandle(
             "g_io_channel_get_buffer_size",
-            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_io_channel_get_buffered = Interop.downcallHandle(
             "g_io_channel_get_buffered",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_io_channel_get_close_on_unref = Interop.downcallHandle(
             "g_io_channel_get_close_on_unref",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_io_channel_get_encoding = Interop.downcallHandle(
             "g_io_channel_get_encoding",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_io_channel_get_flags = Interop.downcallHandle(
             "g_io_channel_get_flags",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_io_channel_get_line_term = Interop.downcallHandle(
             "g_io_channel_get_line_term",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_io_channel_init = Interop.downcallHandle(
             "g_io_channel_init",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_io_channel_read = Interop.downcallHandle(
             "g_io_channel_read",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_io_channel_read_chars = Interop.downcallHandle(
             "g_io_channel_read_chars",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_io_channel_read_line = Interop.downcallHandle(
             "g_io_channel_read_line",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_io_channel_read_line_string = Interop.downcallHandle(
             "g_io_channel_read_line_string",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_io_channel_read_to_end = Interop.downcallHandle(
             "g_io_channel_read_to_end",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_io_channel_read_unichar = Interop.downcallHandle(
             "g_io_channel_read_unichar",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_io_channel_ref = Interop.downcallHandle(
             "g_io_channel_ref",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_io_channel_seek = Interop.downcallHandle(
             "g_io_channel_seek",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_io_channel_seek_position = Interop.downcallHandle(
             "g_io_channel_seek_position",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_io_channel_set_buffer_size = Interop.downcallHandle(
             "g_io_channel_set_buffer_size",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
             false
         );
         
         private static final MethodHandle g_io_channel_set_buffered = Interop.downcallHandle(
             "g_io_channel_set_buffered",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_io_channel_set_close_on_unref = Interop.downcallHandle(
             "g_io_channel_set_close_on_unref",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_io_channel_set_encoding = Interop.downcallHandle(
             "g_io_channel_set_encoding",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_io_channel_set_flags = Interop.downcallHandle(
             "g_io_channel_set_flags",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_io_channel_set_line_term = Interop.downcallHandle(
             "g_io_channel_set_line_term",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_io_channel_shutdown = Interop.downcallHandle(
             "g_io_channel_shutdown",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_io_channel_unix_get_fd = Interop.downcallHandle(
             "g_io_channel_unix_get_fd",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_io_channel_unref = Interop.downcallHandle(
             "g_io_channel_unref",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_io_channel_write = Interop.downcallHandle(
             "g_io_channel_write",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_io_channel_write_chars = Interop.downcallHandle(
             "g_io_channel_write_chars",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_io_channel_write_unichar = Interop.downcallHandle(
             "g_io_channel_write_unichar",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_io_channel_error_from_errno = Interop.downcallHandle(
             "g_io_channel_error_from_errno",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_io_channel_error_quark = Interop.downcallHandle(
             "g_io_channel_error_quark",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT),
             false
         );
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private IOChannel struct;
+        
+         /**
+         * A {@link IOChannel.Build} object constructs a {@link IOChannel} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = IOChannel.allocate();
+        }
+        
+         /**
+         * Finish building the {@link IOChannel} struct.
+         * @return A new instance of {@code IOChannel} with the fields 
+         *         that were set in the Build object.
+         */
+        public IOChannel construct() {
+            return struct;
+        }
+        
+        public Build setRefCount(int ref_count) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("ref_count"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), ref_count);
+            return this;
+        }
+        
+        public Build setFuncs(org.gtk.glib.IOFuncs funcs) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("funcs"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (funcs == null ? MemoryAddress.NULL : funcs.handle()));
+            return this;
+        }
+        
+        public Build setEncoding(java.lang.String encoding) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("encoding"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (encoding == null ? MemoryAddress.NULL : Interop.allocateNativeString(encoding)));
+            return this;
+        }
+        
+        public Build setReadCd(org.gtk.glib.IConv read_cd) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("read_cd"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (read_cd == null ? MemoryAddress.NULL : read_cd.handle()));
+            return this;
+        }
+        
+        public Build setWriteCd(org.gtk.glib.IConv write_cd) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("write_cd"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (write_cd == null ? MemoryAddress.NULL : write_cd.handle()));
+            return this;
+        }
+        
+        public Build setLineTerm(java.lang.String line_term) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("line_term"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (line_term == null ? MemoryAddress.NULL : Interop.allocateNativeString(line_term)));
+            return this;
+        }
+        
+        public Build setLineTermLen(int line_term_len) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("line_term_len"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), line_term_len);
+            return this;
+        }
+        
+        public Build setBufSize(long buf_size) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("buf_size"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), buf_size);
+            return this;
+        }
+        
+        public Build setReadBuf(org.gtk.glib.String read_buf) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("read_buf"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (read_buf == null ? MemoryAddress.NULL : read_buf.handle()));
+            return this;
+        }
+        
+        public Build setEncodedReadBuf(org.gtk.glib.String encoded_read_buf) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("encoded_read_buf"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (encoded_read_buf == null ? MemoryAddress.NULL : encoded_read_buf.handle()));
+            return this;
+        }
+        
+        public Build setWriteBuf(org.gtk.glib.String write_buf) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("write_buf"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (write_buf == null ? MemoryAddress.NULL : write_buf.handle()));
+            return this;
+        }
+        
+        public Build setPartialWriteBuf(byte[] partial_write_buf) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("partial_write_buf"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (partial_write_buf == null ? MemoryAddress.NULL : Interop.allocateNativeArray(partial_write_buf, false)));
+            return this;
+        }
+        
+        public Build setUseBuffer(int use_buffer) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("use_buffer"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), use_buffer);
+            return this;
+        }
+        
+        public Build setDoEncode(int do_encode) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("do_encode"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), do_encode);
+            return this;
+        }
+        
+        public Build setCloseOnUnref(int close_on_unref) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("close_on_unref"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), close_on_unref);
+            return this;
+        }
+        
+        public Build setIsReadable(int is_readable) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("is_readable"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), is_readable);
+            return this;
+        }
+        
+        public Build setIsWriteable(int is_writeable) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("is_writeable"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), is_writeable);
+            return this;
+        }
+        
+        public Build setIsSeekable(int is_seekable) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("is_seekable"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), is_seekable);
+            return this;
+        }
+        
+        public Build setReserved1(java.lang.foreign.MemoryAddress reserved1) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("reserved1"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (reserved1 == null ? MemoryAddress.NULL : (Addressable) reserved1));
+            return this;
+        }
+        
+        public Build setReserved2(java.lang.foreign.MemoryAddress reserved2) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("reserved2"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (reserved2 == null ? MemoryAddress.NULL : (Addressable) reserved2));
+            return this;
+        }
     }
 }

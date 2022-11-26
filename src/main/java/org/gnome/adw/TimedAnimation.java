@@ -64,7 +64,7 @@ public class TimedAnimation extends org.gnome.adw.Animation {
      * @throws ClassCastException If the GType is not derived from "AdwTimedAnimation", a ClassCastException will be thrown.
      */
     public static TimedAnimation castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("AdwTimedAnimation"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), TimedAnimation.getType())) {
             return new TimedAnimation(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of AdwTimedAnimation");
@@ -324,95 +324,250 @@ public class TimedAnimation extends org.gnome.adw.Animation {
         }
     }
     
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.adw_timed_animation_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gnome.adw.Animation.Build {
+        
+         /**
+         * A {@link TimedAnimation.Build} object constructs a {@link TimedAnimation} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link TimedAnimation} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link TimedAnimation} using {@link TimedAnimation#castFrom}.
+         * @return A new instance of {@code TimedAnimation} with the properties 
+         *         that were set in the Build object.
+         */
+        public TimedAnimation construct() {
+            return TimedAnimation.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    TimedAnimation.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+        
+        /**
+         * Whether the animation changes direction on every iteration.
+         * @param alternate The value for the {@code alternate} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setAlternate(boolean alternate) {
+            names.add("alternate");
+            values.add(org.gtk.gobject.Value.create(alternate));
+            return this;
+        }
+        
+        /**
+         * Duration of the animation, in milliseconds.
+         * <p>
+         * Describes how much time the animation will take.
+         * <p>
+         * If the animation repeats more than once, describes the duration of one
+         * iteration.
+         * @param duration The value for the {@code duration} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setDuration(int duration) {
+            names.add("duration");
+            values.add(org.gtk.gobject.Value.create(duration));
+            return this;
+        }
+        
+        /**
+         * Easing function used in the animation.
+         * <p>
+         * Describes the curve the value is interpolated on.
+         * <p>
+         * See {@code Easing} for the description of specific easing functions.
+         * @param easing The value for the {@code easing} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setEasing(org.gnome.adw.Easing easing) {
+            names.add("easing");
+            values.add(org.gtk.gobject.Value.create(easing));
+            return this;
+        }
+        
+        /**
+         * Number of times the animation will play.
+         * <p>
+         * If set to 0, the animation will repeat endlessly.
+         * @param repeatCount The value for the {@code repeat-count} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setRepeatCount(int repeatCount) {
+            names.add("repeat-count");
+            values.add(org.gtk.gobject.Value.create(repeatCount));
+            return this;
+        }
+        
+        /**
+         * Whether the animation plays backwards.
+         * @param reverse The value for the {@code reverse} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setReverse(boolean reverse) {
+            names.add("reverse");
+            values.add(org.gtk.gobject.Value.create(reverse));
+            return this;
+        }
+        
+        /**
+         * The value to animate from.
+         * <p>
+         * The animation will start at this value and end at
+         * {@code TimedAnimation:value-to}.
+         * <p>
+         * If {@code TimedAnimation:reverse} is {@code TRUE}, the animation will end at
+         * this value instead.
+         * @param valueFrom The value for the {@code value-from} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setValueFrom(double valueFrom) {
+            names.add("value-from");
+            values.add(org.gtk.gobject.Value.create(valueFrom));
+            return this;
+        }
+        
+        /**
+         * The value to animate to.
+         * <p>
+         * The animation will start at {@code TimedAnimation:value-from} and end at
+         * this value.
+         * <p>
+         * If {@code TimedAnimation:reverse} is {@code TRUE}, the animation will start
+         * at this value instead.
+         * @param valueTo The value for the {@code value-to} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setValueTo(double valueTo) {
+            names.add("value-to");
+            values.add(org.gtk.gobject.Value.create(valueTo));
+            return this;
+        }
+    }
+    
     private static class DowncallHandles {
         
         private static final MethodHandle adw_timed_animation_new = Interop.downcallHandle(
             "adw_timed_animation_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_timed_animation_get_alternate = Interop.downcallHandle(
             "adw_timed_animation_get_alternate",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_timed_animation_get_duration = Interop.downcallHandle(
             "adw_timed_animation_get_duration",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_timed_animation_get_easing = Interop.downcallHandle(
             "adw_timed_animation_get_easing",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_timed_animation_get_repeat_count = Interop.downcallHandle(
             "adw_timed_animation_get_repeat_count",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_timed_animation_get_reverse = Interop.downcallHandle(
             "adw_timed_animation_get_reverse",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_timed_animation_get_value_from = Interop.downcallHandle(
             "adw_timed_animation_get_value_from",
-            FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_DOUBLE, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_timed_animation_get_value_to = Interop.downcallHandle(
             "adw_timed_animation_get_value_to",
-            FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_DOUBLE, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_timed_animation_set_alternate = Interop.downcallHandle(
             "adw_timed_animation_set_alternate",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle adw_timed_animation_set_duration = Interop.downcallHandle(
             "adw_timed_animation_set_duration",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle adw_timed_animation_set_easing = Interop.downcallHandle(
             "adw_timed_animation_set_easing",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle adw_timed_animation_set_repeat_count = Interop.downcallHandle(
             "adw_timed_animation_set_repeat_count",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle adw_timed_animation_set_reverse = Interop.downcallHandle(
             "adw_timed_animation_set_reverse",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle adw_timed_animation_set_value_from = Interop.downcallHandle(
             "adw_timed_animation_set_value_from",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE),
             false
         );
         
         private static final MethodHandle adw_timed_animation_set_value_to = Interop.downcallHandle(
             "adw_timed_animation_set_value_to",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE),
+            false
+        );
+        
+        private static final MethodHandle adw_timed_animation_get_type = Interop.downcallHandle(
+            "adw_timed_animation_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }

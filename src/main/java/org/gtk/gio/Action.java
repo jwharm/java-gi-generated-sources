@@ -51,7 +51,7 @@ public interface Action extends io.github.jwharm.javagi.Proxy {
      * @throws ClassCastException If the GType is not derived from "GAction", a ClassCastException will be thrown.
      */
     public static Action castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GAction"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), Action.getType())) {
             return new ActionImpl(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GAction");
@@ -238,6 +238,20 @@ public interface Action extends io.github.jwharm.javagi.Proxy {
     }
     
     /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.g_action_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+    
+    /**
      * Checks if {@code action_name} is valid.
      * <p>
      * {@code action_name} is valid if it consists only of alphanumeric characters,
@@ -294,9 +308,9 @@ public interface Action extends io.github.jwharm.javagi.Proxy {
     public static boolean parseDetailedName(@NotNull java.lang.String detailedName, @NotNull Out<java.lang.String> actionName, @NotNull PointerProxy<org.gtk.glib.Variant> targetValue) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(detailedName, "Parameter 'detailedName' must not be null");
         java.util.Objects.requireNonNull(actionName, "Parameter 'actionName' must not be null");
+        MemorySegment actionNamePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         java.util.Objects.requireNonNull(targetValue, "Parameter 'targetValue' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        MemorySegment actionNamePOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_action_parse_detailed_name.invokeExact(
@@ -310,7 +324,7 @@ public interface Action extends io.github.jwharm.javagi.Proxy {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        actionName.set(Interop.getStringFrom(actionNamePOINTER.get(ValueLayout.ADDRESS, 0)));
+        actionName.set(Interop.getStringFrom(actionNamePOINTER.get(Interop.valueLayout.ADDRESS, 0)));
         return RESULT != 0;
     }
     
@@ -348,77 +362,84 @@ public interface Action extends io.github.jwharm.javagi.Proxy {
         @ApiStatus.Internal
         static final MethodHandle g_action_activate = Interop.downcallHandle(
             "g_action_activate",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_action_change_state = Interop.downcallHandle(
             "g_action_change_state",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_action_get_enabled = Interop.downcallHandle(
             "g_action_get_enabled",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_action_get_name = Interop.downcallHandle(
             "g_action_get_name",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_action_get_parameter_type = Interop.downcallHandle(
             "g_action_get_parameter_type",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_action_get_state = Interop.downcallHandle(
             "g_action_get_state",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_action_get_state_hint = Interop.downcallHandle(
             "g_action_get_state_hint",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_action_get_state_type = Interop.downcallHandle(
             "g_action_get_state_type",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+            false
+        );
+        
+        @ApiStatus.Internal
+        static final MethodHandle g_action_get_type = Interop.downcallHandle(
+            "g_action_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_action_name_is_valid = Interop.downcallHandle(
             "g_action_name_is_valid",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_action_parse_detailed_name = Interop.downcallHandle(
             "g_action_parse_detailed_name",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_action_print_detailed_name = Interop.downcallHandle(
             "g_action_print_detailed_name",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
     }

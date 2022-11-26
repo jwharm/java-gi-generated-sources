@@ -70,7 +70,7 @@ public class ColorChooserWidget extends org.gtk.gtk.Widget implements org.gtk.gt
      * @throws ClassCastException If the GType is not derived from "GtkColorChooserWidget", a ClassCastException will be thrown.
      */
     public static ColorChooserWidget castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkColorChooserWidget"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), ColorChooserWidget.getType())) {
             return new ColorChooserWidget(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkColorChooserWidget");
@@ -94,11 +94,79 @@ public class ColorChooserWidget extends org.gtk.gtk.Widget implements org.gtk.gt
         super(constructNew(), Ownership.NONE);
     }
     
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.gtk_color_chooser_widget_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gtk.Widget.Build {
+        
+         /**
+         * A {@link ColorChooserWidget.Build} object constructs a {@link ColorChooserWidget} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link ColorChooserWidget} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link ColorChooserWidget} using {@link ColorChooserWidget#castFrom}.
+         * @return A new instance of {@code ColorChooserWidget} with the properties 
+         *         that were set in the Build object.
+         */
+        public ColorChooserWidget construct() {
+            return ColorChooserWidget.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    ColorChooserWidget.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+        
+        /**
+         * {@code true} when the color chooser is showing the single-color editor.
+         * <p>
+         * It can be set to switch the color chooser into single-color editing mode.
+         * @param showEditor The value for the {@code show-editor} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setShowEditor(boolean showEditor) {
+            names.add("show-editor");
+            values.add(org.gtk.gobject.Value.create(showEditor));
+            return this;
+        }
+    }
+    
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_color_chooser_widget_new = Interop.downcallHandle(
             "gtk_color_chooser_widget_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+            false
+        );
+        
+        private static final MethodHandle gtk_color_chooser_widget_get_type = Interop.downcallHandle(
+            "gtk_color_chooser_widget_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }

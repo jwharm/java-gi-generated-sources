@@ -21,7 +21,7 @@ import org.jetbrains.annotations.*;
  * {@code msg_handler} field. The type of the message handler function
  * is declared by {@link ScannerMsgFunc}.
  */
-public class Scanner extends io.github.jwharm.javagi.ProxyBase {
+public class Scanner extends Struct {
     
     static {
         GLib.javagi$ensureInitialized();
@@ -29,30 +29,30 @@ public class Scanner extends io.github.jwharm.javagi.ProxyBase {
     
     private static final java.lang.String C_TYPE_NAME = "GScanner";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
         Interop.valueLayout.ADDRESS.withName("user_data"),
-        ValueLayout.JAVA_INT.withName("max_parse_errors"),
-        ValueLayout.JAVA_INT.withName("parse_errors"),
+        Interop.valueLayout.C_INT.withName("max_parse_errors"),
+        Interop.valueLayout.C_INT.withName("parse_errors"),
         Interop.valueLayout.ADDRESS.withName("input_name"),
         Interop.valueLayout.ADDRESS.withName("qdata"),
         Interop.valueLayout.ADDRESS.withName("config"),
         Interop.valueLayout.C_INT.withName("token"),
         MemoryLayout.paddingLayout(32),
         org.gtk.glib.TokenValue.getMemoryLayout().withName("value"),
-        ValueLayout.JAVA_INT.withName("line"),
-        ValueLayout.JAVA_INT.withName("position"),
+        Interop.valueLayout.C_INT.withName("line"),
+        Interop.valueLayout.C_INT.withName("position"),
         Interop.valueLayout.C_INT.withName("next_token"),
         MemoryLayout.paddingLayout(32),
         org.gtk.glib.TokenValue.getMemoryLayout().withName("next_value"),
-        ValueLayout.JAVA_INT.withName("next_line"),
-        ValueLayout.JAVA_INT.withName("next_position"),
+        Interop.valueLayout.C_INT.withName("next_line"),
+        Interop.valueLayout.C_INT.withName("next_position"),
         Interop.valueLayout.ADDRESS.withName("symbol_table"),
-        ValueLayout.JAVA_INT.withName("input_fd"),
+        Interop.valueLayout.C_INT.withName("input_fd"),
         MemoryLayout.paddingLayout(32),
         Interop.valueLayout.ADDRESS.withName("text"),
         Interop.valueLayout.ADDRESS.withName("text_end"),
         Interop.valueLayout.ADDRESS.withName("buffer"),
-        ValueLayout.JAVA_INT.withName("scope_id"),
+        Interop.valueLayout.C_INT.withName("scope_id"),
         MemoryLayout.paddingLayout(32),
         Interop.valueLayout.ADDRESS.withName("msg_handler")
     ).withName(C_TYPE_NAME);
@@ -68,6 +68,10 @@ public class Scanner extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link Scanner}
+     * @return A new, uninitialized @{link Scanner}
+     */
     public static Scanner allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         Scanner newInstance = new Scanner(segment.address(), Ownership.NONE);
@@ -93,7 +97,7 @@ public class Scanner extends io.github.jwharm.javagi.ProxyBase {
     public void user_data$set(java.lang.foreign.MemoryAddress user_data) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("user_data"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), user_data);
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) user_data);
     }
     
     /**
@@ -425,7 +429,14 @@ public class Scanner extends io.github.jwharm.javagi.ProxyBase {
      * @return the current token value
      */
     public @NotNull org.gtk.glib.TokenValue curValue() {
-        throw new UnsupportedOperationException("Operation not supported yet");
+        MemoryAddress RESULT;
+        try {
+            RESULT = (MemoryAddress) DowncallHandles.g_scanner_cur_value.invokeExact(
+                    handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.TokenValue(RESULT, Ownership.UNKNOWN);
     }
     
     /**
@@ -582,7 +593,7 @@ public class Scanner extends io.github.jwharm.javagi.ProxyBase {
                     handle(),
                     scopeId,
                     Interop.allocateNativeString(symbol),
-                    (Addressable) (value == null ? MemoryAddress.NULL : value));
+                    (Addressable) (value == null ? MemoryAddress.NULL : (Addressable) value));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -605,7 +616,7 @@ public class Scanner extends io.github.jwharm.javagi.ProxyBase {
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbHFunc",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                         Interop.getScope()),
                     (Addressable) (Interop.registerCallback(func)));
         } catch (Throwable ERR) {
@@ -771,128 +782,378 @@ public class Scanner extends io.github.jwharm.javagi.ProxyBase {
         
         private static final MethodHandle g_scanner_cur_line = Interop.downcallHandle(
             "g_scanner_cur_line",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_scanner_cur_position = Interop.downcallHandle(
             "g_scanner_cur_position",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_scanner_cur_token = Interop.downcallHandle(
             "g_scanner_cur_token",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_scanner_cur_value = Interop.downcallHandle(
             "g_scanner_cur_value",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_scanner_destroy = Interop.downcallHandle(
             "g_scanner_destroy",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_scanner_eof = Interop.downcallHandle(
             "g_scanner_eof",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_scanner_error = Interop.downcallHandle(
             "g_scanner_error",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             true
         );
         
         private static final MethodHandle g_scanner_get_next_token = Interop.downcallHandle(
             "g_scanner_get_next_token",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_scanner_input_file = Interop.downcallHandle(
             "g_scanner_input_file",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_scanner_input_text = Interop.downcallHandle(
             "g_scanner_input_text",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_scanner_lookup_symbol = Interop.downcallHandle(
             "g_scanner_lookup_symbol",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_scanner_peek_next_token = Interop.downcallHandle(
             "g_scanner_peek_next_token",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_scanner_scope_add_symbol = Interop.downcallHandle(
             "g_scanner_scope_add_symbol",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_scanner_scope_foreach_symbol = Interop.downcallHandle(
             "g_scanner_scope_foreach_symbol",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_scanner_scope_lookup_symbol = Interop.downcallHandle(
             "g_scanner_scope_lookup_symbol",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_scanner_scope_remove_symbol = Interop.downcallHandle(
             "g_scanner_scope_remove_symbol",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_scanner_set_scope = Interop.downcallHandle(
             "g_scanner_set_scope",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_scanner_sync_file_offset = Interop.downcallHandle(
             "g_scanner_sync_file_offset",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_scanner_unexp_token = Interop.downcallHandle(
             "g_scanner_unexp_token",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_scanner_warn = Interop.downcallHandle(
             "g_scanner_warn",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             true
         );
         
         private static final MethodHandle g_scanner_new = Interop.downcallHandle(
             "g_scanner_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private Scanner struct;
+        
+         /**
+         * A {@link Scanner.Build} object constructs a {@link Scanner} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = Scanner.allocate();
+        }
+        
+         /**
+         * Finish building the {@link Scanner} struct.
+         * @return A new instance of {@code Scanner} with the fields 
+         *         that were set in the Build object.
+         */
+        public Scanner construct() {
+            return struct;
+        }
+        
+        /**
+         * unused
+         * @param user_data The value for the {@code user_data} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setUserData(java.lang.foreign.MemoryAddress user_data) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("user_data"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (user_data == null ? MemoryAddress.NULL : (Addressable) user_data));
+            return this;
+        }
+        
+        /**
+         * unused
+         * @param max_parse_errors The value for the {@code max_parse_errors} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setMaxParseErrors(int max_parse_errors) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("max_parse_errors"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), max_parse_errors);
+            return this;
+        }
+        
+        /**
+         * g_scanner_error() increments this field
+         * @param parse_errors The value for the {@code parse_errors} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setParseErrors(int parse_errors) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("parse_errors"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), parse_errors);
+            return this;
+        }
+        
+        /**
+         * name of input stream, featured by the default message handler
+         * @param input_name The value for the {@code input_name} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setInputName(java.lang.String input_name) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("input_name"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (input_name == null ? MemoryAddress.NULL : Interop.allocateNativeString(input_name)));
+            return this;
+        }
+        
+        /**
+         * quarked data
+         * @param qdata The value for the {@code qdata} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setQdata(org.gtk.glib.Data qdata) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("qdata"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (qdata == null ? MemoryAddress.NULL : qdata.handle()));
+            return this;
+        }
+        
+        /**
+         * link into the scanner configuration
+         * @param config The value for the {@code config} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setConfig(org.gtk.glib.ScannerConfig config) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("config"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (config == null ? MemoryAddress.NULL : config.handle()));
+            return this;
+        }
+        
+        /**
+         * token parsed by the last g_scanner_get_next_token()
+         * @param token The value for the {@code token} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setToken(org.gtk.glib.TokenType token) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("token"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (token == null ? MemoryAddress.NULL : token.getValue()));
+            return this;
+        }
+        
+        /**
+         * value of the last token from g_scanner_get_next_token()
+         * @param value The value for the {@code value} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setValue(org.gtk.glib.TokenValue value) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("value"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (value == null ? MemoryAddress.NULL : value.handle()));
+            return this;
+        }
+        
+        /**
+         * line number of the last token from g_scanner_get_next_token()
+         * @param line The value for the {@code line} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setLine(int line) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("line"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), line);
+            return this;
+        }
+        
+        /**
+         * char number of the last token from g_scanner_get_next_token()
+         * @param position The value for the {@code position} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setPosition(int position) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("position"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), position);
+            return this;
+        }
+        
+        /**
+         * token parsed by the last g_scanner_peek_next_token()
+         * @param next_token The value for the {@code next_token} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setNextToken(org.gtk.glib.TokenType next_token) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("next_token"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (next_token == null ? MemoryAddress.NULL : next_token.getValue()));
+            return this;
+        }
+        
+        /**
+         * value of the last token from g_scanner_peek_next_token()
+         * @param next_value The value for the {@code next_value} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setNextValue(org.gtk.glib.TokenValue next_value) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("next_value"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (next_value == null ? MemoryAddress.NULL : next_value.handle()));
+            return this;
+        }
+        
+        /**
+         * line number of the last token from g_scanner_peek_next_token()
+         * @param next_line The value for the {@code next_line} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setNextLine(int next_line) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("next_line"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), next_line);
+            return this;
+        }
+        
+        /**
+         * char number of the last token from g_scanner_peek_next_token()
+         * @param next_position The value for the {@code next_position} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setNextPosition(int next_position) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("next_position"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), next_position);
+            return this;
+        }
+        
+        public Build setSymbolTable(org.gtk.glib.HashTable symbol_table) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("symbol_table"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (symbol_table == null ? MemoryAddress.NULL : symbol_table.handle()));
+            return this;
+        }
+        
+        public Build setInputFd(int input_fd) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("input_fd"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), input_fd);
+            return this;
+        }
+        
+        public Build setText(java.lang.String text) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("text"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (text == null ? MemoryAddress.NULL : Interop.allocateNativeString(text)));
+            return this;
+        }
+        
+        public Build setTextEnd(java.lang.String text_end) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("text_end"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (text_end == null ? MemoryAddress.NULL : Interop.allocateNativeString(text_end)));
+            return this;
+        }
+        
+        public Build setBuffer(java.lang.String buffer) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("buffer"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (buffer == null ? MemoryAddress.NULL : Interop.allocateNativeString(buffer)));
+            return this;
+        }
+        
+        public Build setScopeId(int scope_id) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("scope_id"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), scope_id);
+            return this;
+        }
+        
+        /**
+         * handler function for _warn and _error
+         * @param msg_handler The value for the {@code msg_handler} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setMsgHandler(java.lang.foreign.MemoryAddress msg_handler) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("msg_handler"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (msg_handler == null ? MemoryAddress.NULL : msg_handler));
+            return this;
+        }
     }
 }

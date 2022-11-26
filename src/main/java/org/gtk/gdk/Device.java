@@ -52,7 +52,7 @@ public class Device extends org.gtk.gobject.Object {
      * @throws ClassCastException If the GType is not derived from "GdkDevice", a ClassCastException will be thrown.
      */
     public static Device castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GdkDevice"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), Device.getType())) {
             return new Device(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GdkDevice");
@@ -290,9 +290,9 @@ public class Device extends org.gtk.gobject.Object {
      */
     public @Nullable org.gtk.gdk.Surface getSurfaceAtPosition(Out<Double> winX, Out<Double> winY) {
         java.util.Objects.requireNonNull(winX, "Parameter 'winX' must not be null");
+        MemorySegment winXPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_DOUBLE);
         java.util.Objects.requireNonNull(winY, "Parameter 'winY' must not be null");
-        MemorySegment winXPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_DOUBLE);
-        MemorySegment winYPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_DOUBLE);
+        MemorySegment winYPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_DOUBLE);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gdk_device_get_surface_at_position.invokeExact(
@@ -302,8 +302,8 @@ public class Device extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        winX.set(winXPOINTER.get(ValueLayout.JAVA_DOUBLE, 0));
-        winY.set(winYPOINTER.get(ValueLayout.JAVA_DOUBLE, 0));
+        winX.set(winXPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
+        winY.set(winYPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
         return new org.gtk.gdk.Surface(RESULT, Ownership.NONE);
     }
     
@@ -385,6 +385,20 @@ public class Device extends org.gtk.gobject.Object {
         return RESULT != 0;
     }
     
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.gdk_device_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+    
     @FunctionalInterface
     public interface Changed {
         void signalReceived(Device source);
@@ -409,7 +423,7 @@ public class Device extends org.gtk.gobject.Object {
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(Device.Callbacks.class, "signalDeviceChanged",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                     Interop.getScope()),
                 Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
@@ -437,7 +451,7 @@ public class Device extends org.gtk.gobject.Object {
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(Device.Callbacks.class, "signalDeviceToolChanged",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                     Interop.getScope()),
                 Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
@@ -446,108 +460,344 @@ public class Device extends org.gtk.gobject.Object {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gobject.Object.Build {
+        
+         /**
+         * A {@link Device.Build} object constructs a {@link Device} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link Device} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link Device} using {@link Device#castFrom}.
+         * @return A new instance of {@code Device} with the properties 
+         *         that were set in the Build object.
+         */
+        public Device construct() {
+            return Device.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    Device.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+        
+        /**
+         * Whether Caps Lock is on.
+         * <p>
+         * This is only relevant for keyboard devices.
+         * @param capsLockState The value for the {@code caps-lock-state} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setCapsLockState(boolean capsLockState) {
+            names.add("caps-lock-state");
+            values.add(org.gtk.gobject.Value.create(capsLockState));
+            return this;
+        }
+        
+        /**
+         * The direction of the current layout.
+         * <p>
+         * This is only relevant for keyboard devices.
+         * @param direction The value for the {@code direction} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setDirection(org.pango.Direction direction) {
+            names.add("direction");
+            values.add(org.gtk.gobject.Value.create(direction));
+            return this;
+        }
+        
+        /**
+         * The {@code GdkDisplay} the {@code GdkDevice} pertains to.
+         * @param display The value for the {@code display} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setDisplay(org.gtk.gdk.Display display) {
+            names.add("display");
+            values.add(org.gtk.gobject.Value.create(display));
+            return this;
+        }
+        
+        /**
+         * Whether the device has both right-to-left and left-to-right layouts.
+         * <p>
+         * This is only relevant for keyboard devices.
+         * @param hasBidiLayouts The value for the {@code has-bidi-layouts} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setHasBidiLayouts(boolean hasBidiLayouts) {
+            names.add("has-bidi-layouts");
+            values.add(org.gtk.gobject.Value.create(hasBidiLayouts));
+            return this;
+        }
+        
+        /**
+         * Whether the device is represented by a cursor on the screen.
+         * @param hasCursor The value for the {@code has-cursor} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setHasCursor(boolean hasCursor) {
+            names.add("has-cursor");
+            values.add(org.gtk.gobject.Value.create(hasCursor));
+            return this;
+        }
+        
+        /**
+         * The current modifier state of the device.
+         * <p>
+         * This is only relevant for keyboard devices.
+         * @param modifierState The value for the {@code modifier-state} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setModifierState(org.gtk.gdk.ModifierType modifierState) {
+            names.add("modifier-state");
+            values.add(org.gtk.gobject.Value.create(modifierState));
+            return this;
+        }
+        
+        /**
+         * Number of axes in the device.
+         * @param nAxes The value for the {@code n-axes} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setNAxes(int nAxes) {
+            names.add("n-axes");
+            values.add(org.gtk.gobject.Value.create(nAxes));
+            return this;
+        }
+        
+        /**
+         * The device name.
+         * @param name The value for the {@code name} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setName(java.lang.String name) {
+            names.add("name");
+            values.add(org.gtk.gobject.Value.create(name));
+            return this;
+        }
+        
+        /**
+         * Whether Num Lock is on.
+         * <p>
+         * This is only relevant for keyboard devices.
+         * @param numLockState The value for the {@code num-lock-state} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setNumLockState(boolean numLockState) {
+            names.add("num-lock-state");
+            values.add(org.gtk.gobject.Value.create(numLockState));
+            return this;
+        }
+        
+        /**
+         * The maximal number of concurrent touches on a touch device.
+         * <p>
+         * Will be 0 if the device is not a touch device or if the number
+         * of touches is unknown.
+         * @param numTouches The value for the {@code num-touches} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setNumTouches(int numTouches) {
+            names.add("num-touches");
+            values.add(org.gtk.gobject.Value.create(numTouches));
+            return this;
+        }
+        
+        /**
+         * Product ID of this device.
+         * <p>
+         * See {@link Device#getProductId}.
+         * @param productId The value for the {@code product-id} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setProductId(java.lang.String productId) {
+            names.add("product-id");
+            values.add(org.gtk.gobject.Value.create(productId));
+            return this;
+        }
+        
+        /**
+         * Whether Scroll Lock is on.
+         * <p>
+         * This is only relevant for keyboard devices.
+         * @param scrollLockState The value for the {@code scroll-lock-state} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setScrollLockState(boolean scrollLockState) {
+            names.add("scroll-lock-state");
+            values.add(org.gtk.gobject.Value.create(scrollLockState));
+            return this;
+        }
+        
+        /**
+         * {@code GdkSeat} of this device.
+         * @param seat The value for the {@code seat} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setSeat(org.gtk.gdk.Seat seat) {
+            names.add("seat");
+            values.add(org.gtk.gobject.Value.create(seat));
+            return this;
+        }
+        
+        /**
+         * Source type for the device.
+         * @param source The value for the {@code source} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setSource(org.gtk.gdk.InputSource source) {
+            names.add("source");
+            values.add(org.gtk.gobject.Value.create(source));
+            return this;
+        }
+        
+        /**
+         * The {@code GdkDeviceTool} that is currently used with this device.
+         * @param tool The value for the {@code tool} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setTool(org.gtk.gdk.DeviceTool tool) {
+            names.add("tool");
+            values.add(org.gtk.gobject.Value.create(tool));
+            return this;
+        }
+        
+        /**
+         * Vendor ID of this device.
+         * <p>
+         * See {@link Device#getVendorId}.
+         * @param vendorId The value for the {@code vendor-id} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setVendorId(java.lang.String vendorId) {
+            names.add("vendor-id");
+            values.add(org.gtk.gobject.Value.create(vendorId));
+            return this;
+        }
+    }
     
     private static class DowncallHandles {
         
         private static final MethodHandle gdk_device_get_caps_lock_state = Interop.downcallHandle(
             "gdk_device_get_caps_lock_state",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_device_get_device_tool = Interop.downcallHandle(
             "gdk_device_get_device_tool",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_device_get_direction = Interop.downcallHandle(
             "gdk_device_get_direction",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_device_get_display = Interop.downcallHandle(
             "gdk_device_get_display",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_device_get_has_cursor = Interop.downcallHandle(
             "gdk_device_get_has_cursor",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_device_get_modifier_state = Interop.downcallHandle(
             "gdk_device_get_modifier_state",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_device_get_name = Interop.downcallHandle(
             "gdk_device_get_name",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_device_get_num_lock_state = Interop.downcallHandle(
             "gdk_device_get_num_lock_state",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_device_get_num_touches = Interop.downcallHandle(
             "gdk_device_get_num_touches",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_device_get_product_id = Interop.downcallHandle(
             "gdk_device_get_product_id",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_device_get_scroll_lock_state = Interop.downcallHandle(
             "gdk_device_get_scroll_lock_state",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_device_get_seat = Interop.downcallHandle(
             "gdk_device_get_seat",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_device_get_source = Interop.downcallHandle(
             "gdk_device_get_source",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_device_get_surface_at_position = Interop.downcallHandle(
             "gdk_device_get_surface_at_position",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_device_get_timestamp = Interop.downcallHandle(
             "gdk_device_get_timestamp",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_device_get_vendor_id = Interop.downcallHandle(
             "gdk_device_get_vendor_id",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_device_has_bidi_layouts = Interop.downcallHandle(
             "gdk_device_has_bidi_layouts",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+            false
+        );
+        
+        private static final MethodHandle gdk_device_get_type = Interop.downcallHandle(
+            "gdk_device_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }
@@ -555,15 +805,15 @@ public class Device extends org.gtk.gobject.Object {
     private static class Callbacks {
         
         public static void signalDeviceChanged(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (Device.Changed) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Device(source, Ownership.UNKNOWN));
+            HANDLER.signalReceived(new Device(source, Ownership.NONE));
         }
         
         public static void signalDeviceToolChanged(MemoryAddress source, MemoryAddress tool, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (Device.ToolChanged) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Device(source, Ownership.UNKNOWN), new org.gtk.gdk.DeviceTool(tool, Ownership.NONE));
+            HANDLER.signalReceived(new Device(source, Ownership.NONE), new org.gtk.gdk.DeviceTool(tool, Ownership.NONE));
         }
     }
 }

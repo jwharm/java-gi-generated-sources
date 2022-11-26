@@ -15,7 +15,7 @@ import org.jetbrains.annotations.*;
  * be initialized using {@link Attribute#init}. By default, an attribute
  * will have an all-inclusive range of [0,{@code G_MAXUINT}].
  */
-public class Attribute extends io.github.jwharm.javagi.ProxyBase {
+public class Attribute extends Struct {
     
     static {
         Pango.javagi$ensureInitialized();
@@ -23,10 +23,10 @@ public class Attribute extends io.github.jwharm.javagi.ProxyBase {
     
     private static final java.lang.String C_TYPE_NAME = "PangoAttribute";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
         Interop.valueLayout.ADDRESS.withName("klass"),
-        ValueLayout.JAVA_INT.withName("start_index"),
-        ValueLayout.JAVA_INT.withName("end_index")
+        Interop.valueLayout.C_INT.withName("start_index"),
+        Interop.valueLayout.C_INT.withName("end_index")
     ).withName(C_TYPE_NAME);
     
     /**
@@ -40,6 +40,10 @@ public class Attribute extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link Attribute}
+     * @return A new, uninitialized @{link Attribute}
+     */
     public static Attribute allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         Attribute newInstance = new Attribute(segment.address(), Ownership.NONE);
@@ -355,80 +359,145 @@ public class Attribute extends io.github.jwharm.javagi.ProxyBase {
         
         private static final MethodHandle pango_attribute_as_color = Interop.downcallHandle(
             "pango_attribute_as_color",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle pango_attribute_as_float = Interop.downcallHandle(
             "pango_attribute_as_float",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle pango_attribute_as_font_desc = Interop.downcallHandle(
             "pango_attribute_as_font_desc",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle pango_attribute_as_font_features = Interop.downcallHandle(
             "pango_attribute_as_font_features",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle pango_attribute_as_int = Interop.downcallHandle(
             "pango_attribute_as_int",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle pango_attribute_as_language = Interop.downcallHandle(
             "pango_attribute_as_language",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle pango_attribute_as_shape = Interop.downcallHandle(
             "pango_attribute_as_shape",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle pango_attribute_as_size = Interop.downcallHandle(
             "pango_attribute_as_size",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle pango_attribute_as_string = Interop.downcallHandle(
             "pango_attribute_as_string",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle pango_attribute_copy = Interop.downcallHandle(
             "pango_attribute_copy",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle pango_attribute_destroy = Interop.downcallHandle(
             "pango_attribute_destroy",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle pango_attribute_equal = Interop.downcallHandle(
             "pango_attribute_equal",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle pango_attribute_init = Interop.downcallHandle(
             "pango_attribute_init",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private Attribute struct;
+        
+         /**
+         * A {@link Attribute.Build} object constructs a {@link Attribute} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = Attribute.allocate();
+        }
+        
+         /**
+         * Finish building the {@link Attribute} struct.
+         * @return A new instance of {@code Attribute} with the fields 
+         *         that were set in the Build object.
+         */
+        public Attribute construct() {
+            return struct;
+        }
+        
+        /**
+         * the class structure holding information about the type of the attribute
+         * @param klass The value for the {@code klass} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setKlass(org.pango.AttrClass klass) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("klass"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (klass == null ? MemoryAddress.NULL : klass.handle()));
+            return this;
+        }
+        
+        /**
+         * the start index of the range (in bytes).
+         * @param start_index The value for the {@code start_index} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setStartIndex(int start_index) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("start_index"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), start_index);
+            return this;
+        }
+        
+        /**
+         * end index of the range (in bytes). The character at this index
+         *   is not included in the range.
+         * @param end_index The value for the {@code end_index} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setEndIndex(int end_index) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("end_index"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), end_index);
+            return this;
+        }
     }
 }

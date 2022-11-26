@@ -5,7 +5,7 @@ import java.lang.foreign.*;
 import java.lang.invoke.*;
 import org.jetbrains.annotations.*;
 
-public class ApplicationClass extends io.github.jwharm.javagi.ProxyBase {
+public class ApplicationClass extends Struct {
     
     static {
         Gtk.javagi$ensureInitialized();
@@ -13,12 +13,11 @@ public class ApplicationClass extends io.github.jwharm.javagi.ProxyBase {
     
     private static final java.lang.String C_TYPE_NAME = "GtkApplicationClass";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gio.ApplicationClass.getMemoryLayout().withName("parent_class"),
         Interop.valueLayout.ADDRESS.withName("window_added"),
         Interop.valueLayout.ADDRESS.withName("window_removed"),
-        MemoryLayout.paddingLayout(320),
-        MemoryLayout.sequenceLayout(8, ValueLayout.ADDRESS).withName("padding")
+        MemoryLayout.sequenceLayout(8, Interop.valueLayout.ADDRESS).withName("padding")
     ).withName(C_TYPE_NAME);
     
     /**
@@ -32,6 +31,10 @@ public class ApplicationClass extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link ApplicationClass}
+     * @return A new, uninitialized @{link ApplicationClass}
+     */
     public static ApplicationClass allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         ApplicationClass newInstance = new ApplicationClass(segment.address(), Ownership.NONE);
@@ -56,5 +59,66 @@ public class ApplicationClass extends io.github.jwharm.javagi.ProxyBase {
     @ApiStatus.Internal
     public ApplicationClass(Addressable address, Ownership ownership) {
         super(address, ownership);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private ApplicationClass struct;
+        
+         /**
+         * A {@link ApplicationClass.Build} object constructs a {@link ApplicationClass} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = ApplicationClass.allocate();
+        }
+        
+         /**
+         * Finish building the {@link ApplicationClass} struct.
+         * @return A new instance of {@code ApplicationClass} with the fields 
+         *         that were set in the Build object.
+         */
+        public ApplicationClass construct() {
+            return struct;
+        }
+        
+        /**
+         * The parent class.
+         * @param parent_class The value for the {@code parent_class} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setParentClass(org.gtk.gio.ApplicationClass parent_class) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parent_class == null ? MemoryAddress.NULL : parent_class.handle()));
+            return this;
+        }
+        
+        public Build setWindowAdded(java.lang.foreign.MemoryAddress window_added) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("window_added"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (window_added == null ? MemoryAddress.NULL : window_added));
+            return this;
+        }
+        
+        public Build setWindowRemoved(java.lang.foreign.MemoryAddress window_removed) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("window_removed"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (window_removed == null ? MemoryAddress.NULL : window_removed));
+            return this;
+        }
+        
+        public Build setPadding(java.lang.foreign.MemoryAddress[] padding) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("padding"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (padding == null ? MemoryAddress.NULL : Interop.allocateNativeArray(padding, false)));
+            return this;
+        }
     }
 }

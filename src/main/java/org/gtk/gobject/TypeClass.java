@@ -8,7 +8,7 @@ import org.jetbrains.annotations.*;
 /**
  * An opaque structure used as the base of all classes.
  */
-public class TypeClass extends io.github.jwharm.javagi.ProxyBase {
+public class TypeClass extends Struct {
     
     static {
         GObject.javagi$ensureInitialized();
@@ -16,8 +16,8 @@ public class TypeClass extends io.github.jwharm.javagi.ProxyBase {
     
     private static final java.lang.String C_TYPE_NAME = "GTypeClass";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
-        ValueLayout.JAVA_LONG.withName("g_type")
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
+        Interop.valueLayout.C_LONG.withName("g_type")
     ).withName(C_TYPE_NAME);
     
     /**
@@ -31,6 +31,10 @@ public class TypeClass extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link TypeClass}
+     * @return A new, uninitialized @{link TypeClass}
+     */
     public static TypeClass allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         TypeClass newInstance = new TypeClass(segment.address(), Ownership.NONE);
@@ -217,7 +221,7 @@ public class TypeClass extends io.github.jwharm.javagi.ProxyBase {
         java.util.Objects.requireNonNull(privateSizeOrOffset, "Parameter 'privateSizeOrOffset' must not be null");
         try {
             DowncallHandles.g_type_class_adjust_private_offset.invokeExact(
-                    (Addressable) (gClass == null ? MemoryAddress.NULL : gClass),
+                    (Addressable) (gClass == null ? MemoryAddress.NULL : (Addressable) gClass),
                     privateSizeOrOffset.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -291,62 +295,97 @@ public class TypeClass extends io.github.jwharm.javagi.ProxyBase {
         
         private static final MethodHandle g_type_class_add_private = Interop.downcallHandle(
             "g_type_class_add_private",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
             false
         );
         
         private static final MethodHandle g_type_class_get_instance_private_offset = Interop.downcallHandle(
             "g_type_class_get_instance_private_offset",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_type_class_get_private = Interop.downcallHandle(
             "g_type_class_get_private",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
             false
         );
         
         private static final MethodHandle g_type_class_peek_parent = Interop.downcallHandle(
             "g_type_class_peek_parent",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_type_class_unref = Interop.downcallHandle(
             "g_type_class_unref",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_type_class_unref_uncached = Interop.downcallHandle(
             "g_type_class_unref_uncached",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_type_class_adjust_private_offset = Interop.downcallHandle(
             "g_type_class_adjust_private_offset",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_type_class_peek = Interop.downcallHandle(
             "g_type_class_peek",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
             false
         );
         
         private static final MethodHandle g_type_class_peek_static = Interop.downcallHandle(
             "g_type_class_peek_static",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
             false
         );
         
         private static final MethodHandle g_type_class_ref = Interop.downcallHandle(
             "g_type_class_ref",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
             false
         );
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private TypeClass struct;
+        
+         /**
+         * A {@link TypeClass.Build} object constructs a {@link TypeClass} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = TypeClass.allocate();
+        }
+        
+         /**
+         * Finish building the {@link TypeClass} struct.
+         * @return A new instance of {@code TypeClass} with the fields 
+         *         that were set in the Build object.
+         */
+        public TypeClass construct() {
+            return struct;
+        }
+        
+        public Build setGType(org.gtk.glib.Type g_type) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("g_type"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (g_type == null ? MemoryAddress.NULL : g_type.getValue().longValue()));
+            return this;
+        }
     }
 }

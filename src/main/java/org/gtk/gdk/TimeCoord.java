@@ -7,8 +7,13 @@ import org.jetbrains.annotations.*;
 
 /**
  * A {@code GdkTimeCoord} stores a single event in a motion history.
+ * <p>
+ * To check whether an axis is present, check whether the corresponding
+ * flag from the {@code Gdk.AxisFlags} enumeration is set in the {@code flags}
+ * To access individual axis values, use the values of the values of
+ * the {@code Gdk.AxisUse} enumerations as indices.
  */
-public class TimeCoord extends io.github.jwharm.javagi.ProxyBase {
+public class TimeCoord extends Struct {
     
     static {
         Gdk.javagi$ensureInitialized();
@@ -16,11 +21,10 @@ public class TimeCoord extends io.github.jwharm.javagi.ProxyBase {
     
     private static final java.lang.String C_TYPE_NAME = "GdkTimeCoord";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
-        ValueLayout.JAVA_INT.withName("time"),
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
+        Interop.valueLayout.C_INT.withName("time"),
         Interop.valueLayout.C_INT.withName("flags"),
-        MemoryLayout.paddingLayout(704),
-        MemoryLayout.sequenceLayout(12, ValueLayout.JAVA_DOUBLE).withName("axes")
+        MemoryLayout.sequenceLayout(12, Interop.valueLayout.C_DOUBLE).withName("axes")
     ).withName(C_TYPE_NAME);
     
     /**
@@ -34,6 +38,10 @@ public class TimeCoord extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link TimeCoord}
+     * @return A new, uninitialized @{link TimeCoord}
+     */
     public static TimeCoord allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         TimeCoord newInstance = new TimeCoord(segment.address(), Ownership.NONE);
@@ -91,5 +99,69 @@ public class TimeCoord extends io.github.jwharm.javagi.ProxyBase {
     @ApiStatus.Internal
     public TimeCoord(Addressable address, Ownership ownership) {
         super(address, ownership);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private TimeCoord struct;
+        
+         /**
+         * A {@link TimeCoord.Build} object constructs a {@link TimeCoord} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = TimeCoord.allocate();
+        }
+        
+         /**
+         * Finish building the {@link TimeCoord} struct.
+         * @return A new instance of {@code TimeCoord} with the fields 
+         *         that were set in the Build object.
+         */
+        public TimeCoord construct() {
+            return struct;
+        }
+        
+        /**
+         * The timestamp for this event
+         * @param time The value for the {@code time} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setTime(int time) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("time"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), time);
+            return this;
+        }
+        
+        /**
+         * Flags indicating what axes are present, see {@code Gdk.AxisFlags}
+         * @param flags The value for the {@code flags} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setFlags(org.gtk.gdk.AxisFlags flags) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("flags"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (flags == null ? MemoryAddress.NULL : flags.getValue()));
+            return this;
+        }
+        
+        /**
+         * axis values, indexed by {@code Gdk.AxisUse}
+         * @param axes The value for the {@code axes} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setAxes(double[] axes) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("axes"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (axes == null ? MemoryAddress.NULL : Interop.allocateNativeArray(axes, false)));
+            return this;
+        }
     }
 }

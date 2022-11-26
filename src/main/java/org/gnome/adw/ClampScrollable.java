@@ -55,7 +55,7 @@ public class ClampScrollable extends org.gtk.gtk.Widget implements org.gtk.gtk.A
      * @throws ClassCastException If the GType is not derived from "AdwClampScrollable", a ClassCastException will be thrown.
      */
     public static ClampScrollable castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("AdwClampScrollable"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), ClampScrollable.getType())) {
             return new ClampScrollable(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of AdwClampScrollable");
@@ -181,47 +181,150 @@ public class ClampScrollable extends org.gtk.gtk.Widget implements org.gtk.gtk.A
         }
     }
     
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.adw_clamp_scrollable_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gtk.Widget.Build {
+        
+         /**
+         * A {@link ClampScrollable.Build} object constructs a {@link ClampScrollable} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link ClampScrollable} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link ClampScrollable} using {@link ClampScrollable#castFrom}.
+         * @return A new instance of {@code ClampScrollable} with the properties 
+         *         that were set in the Build object.
+         */
+        public ClampScrollable construct() {
+            return ClampScrollable.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    ClampScrollable.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+        
+        /**
+         * The child widget of the {@code AdwClampScrollable}.
+         * @param child The value for the {@code child} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setChild(org.gtk.gtk.Widget child) {
+            names.add("child");
+            values.add(org.gtk.gobject.Value.create(child));
+            return this;
+        }
+        
+        /**
+         * The maximum size allocated to the child.
+         * <p>
+         * It is the width if the clamp is horizontal, or the height if it is vertical.
+         * @param maximumSize The value for the {@code maximum-size} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setMaximumSize(int maximumSize) {
+            names.add("maximum-size");
+            values.add(org.gtk.gobject.Value.create(maximumSize));
+            return this;
+        }
+        
+        /**
+         * The size above which the child is clamped.
+         * <p>
+         * Starting from this size, the clamp will tighten its grip on the child,
+         * slowly allocating less and less of the available size up to the maximum
+         * allocated size. Below that threshold and below the maximum width, the child
+         * will be allocated all the available size.
+         * <p>
+         * If the threshold is greater than the maximum size to allocate to the child,
+         * the child will be allocated all the width up to the maximum.
+         * If the threshold is lower than the minimum size to allocate to the child,
+         * that size will be used as the tightening threshold.
+         * <p>
+         * Effectively, tightening the grip on the child before it reaches its maximum
+         * size makes transitions to and from the maximum size smoother when resizing.
+         * @param tighteningThreshold The value for the {@code tightening-threshold} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setTighteningThreshold(int tighteningThreshold) {
+            names.add("tightening-threshold");
+            values.add(org.gtk.gobject.Value.create(tighteningThreshold));
+            return this;
+        }
+    }
+    
     private static class DowncallHandles {
         
         private static final MethodHandle adw_clamp_scrollable_new = Interop.downcallHandle(
             "adw_clamp_scrollable_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_clamp_scrollable_get_child = Interop.downcallHandle(
             "adw_clamp_scrollable_get_child",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_clamp_scrollable_get_maximum_size = Interop.downcallHandle(
             "adw_clamp_scrollable_get_maximum_size",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_clamp_scrollable_get_tightening_threshold = Interop.downcallHandle(
             "adw_clamp_scrollable_get_tightening_threshold",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_clamp_scrollable_set_child = Interop.downcallHandle(
             "adw_clamp_scrollable_set_child",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_clamp_scrollable_set_maximum_size = Interop.downcallHandle(
             "adw_clamp_scrollable_set_maximum_size",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle adw_clamp_scrollable_set_tightening_threshold = Interop.downcallHandle(
             "adw_clamp_scrollable_set_tightening_threshold",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+            false
+        );
+        
+        private static final MethodHandle adw_clamp_scrollable_get_type = Interop.downcallHandle(
+            "adw_clamp_scrollable_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }

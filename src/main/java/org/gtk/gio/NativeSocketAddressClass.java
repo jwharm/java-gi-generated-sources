@@ -5,7 +5,7 @@ import java.lang.foreign.*;
 import java.lang.invoke.*;
 import org.jetbrains.annotations.*;
 
-public class NativeSocketAddressClass extends io.github.jwharm.javagi.ProxyBase {
+public class NativeSocketAddressClass extends Struct {
     
     static {
         Gio.javagi$ensureInitialized();
@@ -13,7 +13,7 @@ public class NativeSocketAddressClass extends io.github.jwharm.javagi.ProxyBase 
     
     private static final java.lang.String C_TYPE_NAME = "GNativeSocketAddressClass";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gio.SocketAddressClass.getMemoryLayout().withName("parent_class")
     ).withName(C_TYPE_NAME);
     
@@ -28,6 +28,10 @@ public class NativeSocketAddressClass extends io.github.jwharm.javagi.ProxyBase 
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link NativeSocketAddressClass}
+     * @return A new, uninitialized @{link NativeSocketAddressClass}
+     */
     public static NativeSocketAddressClass allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         NativeSocketAddressClass newInstance = new NativeSocketAddressClass(segment.address(), Ownership.NONE);
@@ -52,5 +56,40 @@ public class NativeSocketAddressClass extends io.github.jwharm.javagi.ProxyBase 
     @ApiStatus.Internal
     public NativeSocketAddressClass(Addressable address, Ownership ownership) {
         super(address, ownership);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private NativeSocketAddressClass struct;
+        
+         /**
+         * A {@link NativeSocketAddressClass.Build} object constructs a {@link NativeSocketAddressClass} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = NativeSocketAddressClass.allocate();
+        }
+        
+         /**
+         * Finish building the {@link NativeSocketAddressClass} struct.
+         * @return A new instance of {@code NativeSocketAddressClass} with the fields 
+         *         that were set in the Build object.
+         */
+        public NativeSocketAddressClass construct() {
+            return struct;
+        }
+        
+        public Build setParentClass(org.gtk.gio.SocketAddressClass parent_class) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parent_class == null ? MemoryAddress.NULL : parent_class.handle()));
+            return this;
+        }
     }
 }

@@ -61,7 +61,7 @@ public class ComboRow extends org.gnome.adw.ActionRow implements org.gtk.gtk.Acc
     
     private static final java.lang.String C_TYPE_NAME = "AdwComboRow";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gnome.adw.ActionRow.getMemoryLayout().withName("parent_instance")
     ).withName(C_TYPE_NAME);
     
@@ -106,7 +106,7 @@ public class ComboRow extends org.gnome.adw.ActionRow implements org.gtk.gtk.Acc
      * @throws ClassCastException If the GType is not derived from "AdwComboRow", a ClassCastException will be thrown.
      */
     public static ComboRow castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("AdwComboRow"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), ComboRow.getType())) {
             return new ComboRow(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of AdwComboRow");
@@ -340,89 +340,243 @@ public class ComboRow extends org.gnome.adw.ActionRow implements org.gtk.gtk.Acc
         }
     }
     
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.adw_combo_row_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gnome.adw.ActionRow.Build {
+        
+         /**
+         * A {@link ComboRow.Build} object constructs a {@link ComboRow} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link ComboRow} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link ComboRow} using {@link ComboRow#castFrom}.
+         * @return A new instance of {@code ComboRow} with the properties 
+         *         that were set in the Build object.
+         */
+        public ComboRow construct() {
+            return ComboRow.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    ComboRow.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+        
+        /**
+         * An expression used to obtain strings from items.
+         * <p>
+         * The expression must have a value type of {@code G_TYPE_STRING}.
+         * <p>
+         * It's used to bind strings to labels produced by the default factory if
+         * {@code ComboRow:factory} is not set, or when
+         * {@code ComboRow:use-subtitle} is set to {@code TRUE}.
+         * @param expression The value for the {@code expression} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setExpression(org.gtk.gtk.Expression expression) {
+            names.add("expression");
+            values.add(org.gtk.gobject.Value.create(expression));
+            return this;
+        }
+        
+        /**
+         * Factory for populating list items.
+         * <p>
+         * This factory is always used for the item in the row. It is also used for
+         * items in the popup unless {@code ComboRow:list-factory} is set.
+         * @param factory The value for the {@code factory} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setFactory(org.gtk.gtk.ListItemFactory factory) {
+            names.add("factory");
+            values.add(org.gtk.gobject.Value.create(factory));
+            return this;
+        }
+        
+        /**
+         * The factory for populating list items in the popup.
+         * <p>
+         * If this is not set, {@code ComboRow:factory} is used.
+         * @param listFactory The value for the {@code list-factory} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setListFactory(org.gtk.gtk.ListItemFactory listFactory) {
+            names.add("list-factory");
+            values.add(org.gtk.gobject.Value.create(listFactory));
+            return this;
+        }
+        
+        /**
+         * The model that provides the displayed items.
+         * @param model The value for the {@code model} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setModel(org.gtk.gio.ListModel model) {
+            names.add("model");
+            values.add(org.gtk.gobject.Value.create(model));
+            return this;
+        }
+        
+        /**
+         * The position of the selected item.
+         * <p>
+         * If no item is selected, the property has the value
+         * {@code Gtk.INVALID_LIST_POSITION}
+         * @param selected The value for the {@code selected} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setSelected(int selected) {
+            names.add("selected");
+            values.add(org.gtk.gobject.Value.create(selected));
+            return this;
+        }
+        
+        /**
+         * The selected item.
+         * @param selectedItem The value for the {@code selected-item} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setSelectedItem(org.gtk.gobject.Object selectedItem) {
+            names.add("selected-item");
+            values.add(org.gtk.gobject.Value.create(selectedItem));
+            return this;
+        }
+        
+        /**
+         * Whether to use the current value as the subtitle.
+         * <p>
+         * If you use a custom list item factory, you will need to give the row a
+         * name conversion expression with {@code ComboRow:expression}.
+         * <p>
+         * If set to {@code TRUE}, you should not access {@code ActionRow:subtitle}.
+         * <p>
+         * The subtitle is interpreted as Pango markup if
+         * {@code PreferencesRow:use-markup} is set to {@code TRUE}.
+         * @param useSubtitle The value for the {@code use-subtitle} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setUseSubtitle(boolean useSubtitle) {
+            names.add("use-subtitle");
+            values.add(org.gtk.gobject.Value.create(useSubtitle));
+            return this;
+        }
+    }
+    
     private static class DowncallHandles {
         
         private static final MethodHandle adw_combo_row_new = Interop.downcallHandle(
             "adw_combo_row_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_combo_row_get_expression = Interop.downcallHandle(
             "adw_combo_row_get_expression",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_combo_row_get_factory = Interop.downcallHandle(
             "adw_combo_row_get_factory",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_combo_row_get_list_factory = Interop.downcallHandle(
             "adw_combo_row_get_list_factory",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_combo_row_get_model = Interop.downcallHandle(
             "adw_combo_row_get_model",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_combo_row_get_selected = Interop.downcallHandle(
             "adw_combo_row_get_selected",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_combo_row_get_selected_item = Interop.downcallHandle(
             "adw_combo_row_get_selected_item",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_combo_row_get_use_subtitle = Interop.downcallHandle(
             "adw_combo_row_get_use_subtitle",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_combo_row_set_expression = Interop.downcallHandle(
             "adw_combo_row_set_expression",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_combo_row_set_factory = Interop.downcallHandle(
             "adw_combo_row_set_factory",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_combo_row_set_list_factory = Interop.downcallHandle(
             "adw_combo_row_set_list_factory",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_combo_row_set_model = Interop.downcallHandle(
             "adw_combo_row_set_model",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_combo_row_set_selected = Interop.downcallHandle(
             "adw_combo_row_set_selected",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle adw_combo_row_set_use_subtitle = Interop.downcallHandle(
             "adw_combo_row_set_use_subtitle",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+            false
+        );
+        
+        private static final MethodHandle adw_combo_row_get_type = Interop.downcallHandle(
+            "adw_combo_row_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }

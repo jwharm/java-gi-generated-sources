@@ -30,7 +30,8 @@ public class OptionFlags extends io.github.jwharm.javagi.Bitfield {
     
     /**
      * For options of the {@link OptionArg#NONE} kind, this
-     *     flag indicates that the sense of the option is reversed.
+     *     flag indicates that the sense of the option is reversed. i.e. {@code false} will
+     *     be stored into the argument rather than {@code true}.
      */
     public static final OptionFlags REVERSE = new OptionFlags(4);
     

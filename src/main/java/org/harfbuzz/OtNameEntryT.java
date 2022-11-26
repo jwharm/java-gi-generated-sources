@@ -9,7 +9,7 @@ import org.jetbrains.annotations.*;
  * Structure representing a name ID in a particular language.
  * @version 2.1.0
  */
-public class OtNameEntryT extends io.github.jwharm.javagi.ProxyBase {
+public class OtNameEntryT extends Struct {
     
     static {
         HarfBuzz.javagi$ensureInitialized();
@@ -17,8 +17,8 @@ public class OtNameEntryT extends io.github.jwharm.javagi.ProxyBase {
     
     private static final java.lang.String C_TYPE_NAME = "hb_ot_name_entry_t";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
-        ValueLayout.JAVA_INT.withName("name_id"),
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
+        Interop.valueLayout.C_INT.withName("name_id"),
         MemoryLayout.paddingLayout(32),
         org.harfbuzz.VarIntT.getMemoryLayout().withName("var"),
         org.harfbuzz.LanguageT.getMemoryLayout().withName("language")
@@ -35,6 +35,10 @@ public class OtNameEntryT extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link OtNameEntryT}
+     * @return A new, uninitialized @{link OtNameEntryT}
+     */
     public static OtNameEntryT allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         OtNameEntryT newInstance = new OtNameEntryT(segment.address(), Ownership.NONE);
@@ -71,5 +75,64 @@ public class OtNameEntryT extends io.github.jwharm.javagi.ProxyBase {
     @ApiStatus.Internal
     public OtNameEntryT(Addressable address, Ownership ownership) {
         super(address, ownership);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private OtNameEntryT struct;
+        
+         /**
+         * A {@link OtNameEntryT.Build} object constructs a {@link OtNameEntryT} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = OtNameEntryT.allocate();
+        }
+        
+         /**
+         * Finish building the {@link OtNameEntryT} struct.
+         * @return A new instance of {@code OtNameEntryT} with the fields 
+         *         that were set in the Build object.
+         */
+        public OtNameEntryT construct() {
+            return struct;
+        }
+        
+        /**
+         * name ID
+         * @param name_id The value for the {@code name_id} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setNameId(org.harfbuzz.OtNameIdT name_id) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("name_id"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (name_id == null ? MemoryAddress.NULL : name_id.getValue().intValue()));
+            return this;
+        }
+        
+        public Build setVar(org.harfbuzz.VarIntT var) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("var"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (var == null ? MemoryAddress.NULL : var.handle()));
+            return this;
+        }
+        
+        /**
+         * language
+         * @param language The value for the {@code language} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setLanguage(org.harfbuzz.LanguageT language) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("language"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (language == null ? MemoryAddress.NULL : language.handle()));
+            return this;
+        }
     }
 }

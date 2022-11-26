@@ -12,7 +12,7 @@ import org.jetbrains.annotations.*;
  * Each tab stop has an alignment, a position, and optionally
  * a character to use as decimal point.
  */
-public class TabArray extends io.github.jwharm.javagi.ProxyBase {
+public class TabArray extends Struct {
     
     static {
         Pango.javagi$ensureInitialized();
@@ -31,6 +31,10 @@ public class TabArray extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link TabArray}
+     * @return A new, uninitialized @{link TabArray}
+     */
     public static TabArray allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         TabArray newInstance = new TabArray(segment.address(), Ownership.NONE);
@@ -195,9 +199,9 @@ public class TabArray extends io.github.jwharm.javagi.ProxyBase {
      */
     public void getTab(int tabIndex, @NotNull Out<org.pango.TabAlign> alignment, Out<Integer> location) {
         java.util.Objects.requireNonNull(alignment, "Parameter 'alignment' must not be null");
+        MemorySegment alignmentPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         java.util.Objects.requireNonNull(location, "Parameter 'location' must not be null");
-        MemorySegment alignmentPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
-        MemorySegment locationPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
+        MemorySegment locationPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         try {
             DowncallHandles.pango_tab_array_get_tab.invokeExact(
                     handle(),
@@ -207,8 +211,8 @@ public class TabArray extends io.github.jwharm.javagi.ProxyBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        alignment.set(new org.pango.TabAlign(alignmentPOINTER.get(ValueLayout.JAVA_INT, 0)));
-        location.set(locationPOINTER.get(ValueLayout.JAVA_INT, 0));
+        alignment.set(new org.pango.TabAlign(alignmentPOINTER.get(Interop.valueLayout.C_INT, 0)));
+        location.set(locationPOINTER.get(Interop.valueLayout.C_INT, 0));
     }
     
     /**
@@ -358,98 +362,126 @@ public class TabArray extends io.github.jwharm.javagi.ProxyBase {
         
         private static final MethodHandle pango_tab_array_new = Interop.downcallHandle(
             "pango_tab_array_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle pango_tab_array_new_with_positions = Interop.downcallHandle(
             "pango_tab_array_new_with_positions",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
             true
         );
         
         private static final MethodHandle pango_tab_array_copy = Interop.downcallHandle(
             "pango_tab_array_copy",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle pango_tab_array_free = Interop.downcallHandle(
             "pango_tab_array_free",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle pango_tab_array_get_decimal_point = Interop.downcallHandle(
             "pango_tab_array_get_decimal_point",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle pango_tab_array_get_positions_in_pixels = Interop.downcallHandle(
             "pango_tab_array_get_positions_in_pixels",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle pango_tab_array_get_size = Interop.downcallHandle(
             "pango_tab_array_get_size",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle pango_tab_array_get_tab = Interop.downcallHandle(
             "pango_tab_array_get_tab",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle pango_tab_array_get_tabs = Interop.downcallHandle(
             "pango_tab_array_get_tabs",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle pango_tab_array_resize = Interop.downcallHandle(
             "pango_tab_array_resize",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle pango_tab_array_set_decimal_point = Interop.downcallHandle(
             "pango_tab_array_set_decimal_point",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle pango_tab_array_set_positions_in_pixels = Interop.downcallHandle(
             "pango_tab_array_set_positions_in_pixels",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle pango_tab_array_set_tab = Interop.downcallHandle(
             "pango_tab_array_set_tab",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle pango_tab_array_sort = Interop.downcallHandle(
             "pango_tab_array_sort",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle pango_tab_array_to_string = Interop.downcallHandle(
             "pango_tab_array_to_string",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle pango_tab_array_from_string = Interop.downcallHandle(
             "pango_tab_array_from_string",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private TabArray struct;
+        
+         /**
+         * A {@link TabArray.Build} object constructs a {@link TabArray} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = TabArray.allocate();
+        }
+        
+         /**
+         * Finish building the {@link TabArray} struct.
+         * @return A new instance of {@code TabArray} with the fields 
+         *         that were set in the Build object.
+         */
+        public TabArray construct() {
+            return struct;
+        }
     }
 }

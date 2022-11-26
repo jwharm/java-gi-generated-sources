@@ -9,7 +9,7 @@ import org.jetbrains.annotations.*;
  * A GPatternSpec struct is the 'compiled' form of a pattern. This
  * structure is opaque and its fields cannot be accessed directly.
  */
-public class PatternSpec extends io.github.jwharm.javagi.ProxyBase {
+public class PatternSpec extends Struct {
     
     static {
         GLib.javagi$ensureInitialized();
@@ -28,6 +28,10 @@ public class PatternSpec extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link PatternSpec}
+     * @return A new, uninitialized @{link PatternSpec}
+     */
     public static PatternSpec allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         PatternSpec newInstance = new PatternSpec(segment.address(), Ownership.NONE);
@@ -174,38 +178,66 @@ public class PatternSpec extends io.github.jwharm.javagi.ProxyBase {
         
         private static final MethodHandle g_pattern_spec_new = Interop.downcallHandle(
             "g_pattern_spec_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_pattern_spec_copy = Interop.downcallHandle(
             "g_pattern_spec_copy",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_pattern_spec_equal = Interop.downcallHandle(
             "g_pattern_spec_equal",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_pattern_spec_free = Interop.downcallHandle(
             "g_pattern_spec_free",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_pattern_spec_match = Interop.downcallHandle(
             "g_pattern_spec_match",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_pattern_spec_match_string = Interop.downcallHandle(
             "g_pattern_spec_match_string",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private PatternSpec struct;
+        
+         /**
+         * A {@link PatternSpec.Build} object constructs a {@link PatternSpec} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = PatternSpec.allocate();
+        }
+        
+         /**
+         * Finish building the {@link PatternSpec} struct.
+         * @return A new instance of {@code PatternSpec} with the fields 
+         *         that were set in the Build object.
+         */
+        public PatternSpec construct() {
+            return struct;
+        }
     }
 }

@@ -129,7 +129,7 @@ public class HeaderBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
      * @throws ClassCastException If the GType is not derived from "AdwHeaderBar", a ClassCastException will be thrown.
      */
     public static HeaderBar castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("AdwHeaderBar"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), HeaderBar.getType())) {
             return new HeaderBar(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of AdwHeaderBar");
@@ -384,89 +384,238 @@ public class HeaderBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
         }
     }
     
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.adw_header_bar_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gtk.Widget.Build {
+        
+         /**
+         * A {@link HeaderBar.Build} object constructs a {@link HeaderBar} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link HeaderBar} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link HeaderBar} using {@link HeaderBar#castFrom}.
+         * @return A new instance of {@code HeaderBar} with the properties 
+         *         that were set in the Build object.
+         */
+        public HeaderBar construct() {
+            return HeaderBar.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    HeaderBar.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+        
+        /**
+         * The policy for aligning the center widget.
+         * @param centeringPolicy The value for the {@code centering-policy} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setCenteringPolicy(org.gnome.adw.CenteringPolicy centeringPolicy) {
+            names.add("centering-policy");
+            values.add(org.gtk.gobject.Value.create(centeringPolicy));
+            return this;
+        }
+        
+        /**
+         * The decoration layout for buttons.
+         * <p>
+         * If this property is not set, the
+         * {@code Gtk.Settings:gtk-decoration-layout} setting is used.
+         * <p>
+         * The format of the string is button names, separated by commas. A colon
+         * separates the buttons that should appear at the start from those at the
+         * end. Recognized button names are minimize, maximize, close and icon (the
+         * window icon).
+         * <p>
+         * For example, “icon:minimize,maximize,close” specifies an icon at the start,
+         * and minimize, maximize and close buttons at the end.
+         * @param decorationLayout The value for the {@code decoration-layout} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setDecorationLayout(java.lang.String decorationLayout) {
+            names.add("decoration-layout");
+            values.add(org.gtk.gobject.Value.create(decorationLayout));
+            return this;
+        }
+        
+        /**
+         * Whether to show title buttons at the end of the header bar.
+         * <p>
+         * See {@code HeaderBar:show-start-title-buttons} for the other side.
+         * <p>
+         * Which buttons are actually shown and where is determined by the
+         * {@code HeaderBar:decoration-layout} property, and by the state of the
+         * window (e.g. a close button will not be shown if the window can't be
+         * closed).
+         * @param showEndTitleButtons The value for the {@code show-end-title-buttons} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setShowEndTitleButtons(boolean showEndTitleButtons) {
+            names.add("show-end-title-buttons");
+            values.add(org.gtk.gobject.Value.create(showEndTitleButtons));
+            return this;
+        }
+        
+        /**
+         * Whether to show title buttons at the start of the header bar.
+         * <p>
+         * See {@code HeaderBar:show-end-title-buttons} for the other side.
+         * <p>
+         * Which buttons are actually shown and where is determined by the
+         * {@code HeaderBar:decoration-layout} property, and by the state of the
+         * window (e.g. a close button will not be shown if the window can't be
+         * closed).
+         * @param showStartTitleButtons The value for the {@code show-start-title-buttons} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setShowStartTitleButtons(boolean showStartTitleButtons) {
+            names.add("show-start-title-buttons");
+            values.add(org.gtk.gobject.Value.create(showStartTitleButtons));
+            return this;
+        }
+        
+        /**
+         * The title widget to display.
+         * <p>
+         * When set to {@code NULL}, the header bar will display the title of the window it
+         * is contained in.
+         * <p>
+         * To use a different title, use {@link WindowTitle}:
+         * <pre>{@code xml
+         * <object class="AdwHeaderBar">
+         *   <property name="title-widget">
+         *     <object class="AdwWindowTitle">
+         *       <property name="title" translatable="yes">Title</property>
+         *     </object>
+         *   </property>
+         * </object>
+         * }</pre>
+         * @param titleWidget The value for the {@code title-widget} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setTitleWidget(org.gtk.gtk.Widget titleWidget) {
+            names.add("title-widget");
+            values.add(org.gtk.gobject.Value.create(titleWidget));
+            return this;
+        }
+    }
+    
     private static class DowncallHandles {
         
         private static final MethodHandle adw_header_bar_new = Interop.downcallHandle(
             "adw_header_bar_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_header_bar_get_centering_policy = Interop.downcallHandle(
             "adw_header_bar_get_centering_policy",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_header_bar_get_decoration_layout = Interop.downcallHandle(
             "adw_header_bar_get_decoration_layout",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_header_bar_get_show_end_title_buttons = Interop.downcallHandle(
             "adw_header_bar_get_show_end_title_buttons",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_header_bar_get_show_start_title_buttons = Interop.downcallHandle(
             "adw_header_bar_get_show_start_title_buttons",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_header_bar_get_title_widget = Interop.downcallHandle(
             "adw_header_bar_get_title_widget",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_header_bar_pack_end = Interop.downcallHandle(
             "adw_header_bar_pack_end",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_header_bar_pack_start = Interop.downcallHandle(
             "adw_header_bar_pack_start",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_header_bar_remove = Interop.downcallHandle(
             "adw_header_bar_remove",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_header_bar_set_centering_policy = Interop.downcallHandle(
             "adw_header_bar_set_centering_policy",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle adw_header_bar_set_decoration_layout = Interop.downcallHandle(
             "adw_header_bar_set_decoration_layout",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_header_bar_set_show_end_title_buttons = Interop.downcallHandle(
             "adw_header_bar_set_show_end_title_buttons",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle adw_header_bar_set_show_start_title_buttons = Interop.downcallHandle(
             "adw_header_bar_set_show_start_title_buttons",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle adw_header_bar_set_title_widget = Interop.downcallHandle(
             "adw_header_bar_set_title_widget",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+            false
+        );
+        
+        private static final MethodHandle adw_header_bar_get_type = Interop.downcallHandle(
+            "adw_header_bar_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }

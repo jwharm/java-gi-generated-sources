@@ -49,7 +49,7 @@ public class EnumListItem extends org.gtk.gobject.Object {
      * @throws ClassCastException If the GType is not derived from "AdwEnumListItem", a ClassCastException will be thrown.
      */
     public static EnumListItem castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("AdwEnumListItem"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), EnumListItem.getType())) {
             return new EnumListItem(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of AdwEnumListItem");
@@ -101,23 +101,111 @@ public class EnumListItem extends org.gtk.gobject.Object {
         return RESULT;
     }
     
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.adw_enum_list_item_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gobject.Object.Build {
+        
+         /**
+         * A {@link EnumListItem.Build} object constructs a {@link EnumListItem} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link EnumListItem} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link EnumListItem} using {@link EnumListItem#castFrom}.
+         * @return A new instance of {@code EnumListItem} with the properties 
+         *         that were set in the Build object.
+         */
+        public EnumListItem construct() {
+            return EnumListItem.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    EnumListItem.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+        
+        /**
+         * The enum value name.
+         * @param name The value for the {@code name} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setName(java.lang.String name) {
+            names.add("name");
+            values.add(org.gtk.gobject.Value.create(name));
+            return this;
+        }
+        
+        /**
+         * The enum value nick.
+         * @param nick The value for the {@code nick} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setNick(java.lang.String nick) {
+            names.add("nick");
+            values.add(org.gtk.gobject.Value.create(nick));
+            return this;
+        }
+        
+        /**
+         * The enum value.
+         * @param value The value for the {@code value} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setValue(int value) {
+            names.add("value");
+            values.add(org.gtk.gobject.Value.create(value));
+            return this;
+        }
+    }
+    
     private static class DowncallHandles {
         
         private static final MethodHandle adw_enum_list_item_get_name = Interop.downcallHandle(
             "adw_enum_list_item_get_name",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_enum_list_item_get_nick = Interop.downcallHandle(
             "adw_enum_list_item_get_nick",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_enum_list_item_get_value = Interop.downcallHandle(
             "adw_enum_list_item_get_value",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+            false
+        );
+        
+        private static final MethodHandle adw_enum_list_item_get_type = Interop.downcallHandle(
+            "adw_enum_list_item_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }

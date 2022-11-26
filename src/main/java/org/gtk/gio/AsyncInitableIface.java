@@ -10,7 +10,7 @@ import org.jetbrains.annotations.*;
  * initialization may fail.
  * @version 2.22
  */
-public class AsyncInitableIface extends io.github.jwharm.javagi.ProxyBase {
+public class AsyncInitableIface extends Struct {
     
     static {
         Gio.javagi$ensureInitialized();
@@ -18,7 +18,7 @@ public class AsyncInitableIface extends io.github.jwharm.javagi.ProxyBase {
     
     private static final java.lang.String C_TYPE_NAME = "GAsyncInitableIface";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gobject.TypeInterface.getMemoryLayout().withName("g_iface"),
         Interop.valueLayout.ADDRESS.withName("init_async"),
         Interop.valueLayout.ADDRESS.withName("init_finish")
@@ -35,6 +35,10 @@ public class AsyncInitableIface extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link AsyncInitableIface}
+     * @return A new, uninitialized @{link AsyncInitableIface}
+     */
     public static AsyncInitableIface allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         AsyncInitableIface newInstance = new AsyncInitableIface(segment.address(), Ownership.NONE);
@@ -59,5 +63,59 @@ public class AsyncInitableIface extends io.github.jwharm.javagi.ProxyBase {
     @ApiStatus.Internal
     public AsyncInitableIface(Addressable address, Ownership ownership) {
         super(address, ownership);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private AsyncInitableIface struct;
+        
+         /**
+         * A {@link AsyncInitableIface.Build} object constructs a {@link AsyncInitableIface} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = AsyncInitableIface.allocate();
+        }
+        
+         /**
+         * Finish building the {@link AsyncInitableIface} struct.
+         * @return A new instance of {@code AsyncInitableIface} with the fields 
+         *         that were set in the Build object.
+         */
+        public AsyncInitableIface construct() {
+            return struct;
+        }
+        
+        /**
+         * The parent interface.
+         * @param g_iface The value for the {@code g_iface} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setGIface(org.gtk.gobject.TypeInterface g_iface) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("g_iface"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (g_iface == null ? MemoryAddress.NULL : g_iface.handle()));
+            return this;
+        }
+        
+        public Build setInitAsync(java.lang.foreign.MemoryAddress init_async) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("init_async"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (init_async == null ? MemoryAddress.NULL : init_async));
+            return this;
+        }
+        
+        public Build setInitFinish(java.lang.foreign.MemoryAddress init_finish) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("init_finish"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (init_finish == null ? MemoryAddress.NULL : init_finish));
+            return this;
+        }
     }
 }

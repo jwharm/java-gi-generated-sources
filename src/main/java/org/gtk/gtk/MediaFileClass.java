@@ -5,7 +5,7 @@ import java.lang.foreign.*;
 import java.lang.invoke.*;
 import org.jetbrains.annotations.*;
 
-public class MediaFileClass extends io.github.jwharm.javagi.ProxyBase {
+public class MediaFileClass extends Struct {
     
     static {
         Gtk.javagi$ensureInitialized();
@@ -13,7 +13,7 @@ public class MediaFileClass extends io.github.jwharm.javagi.ProxyBase {
     
     private static final java.lang.String C_TYPE_NAME = "GtkMediaFileClass";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gtk.MediaStreamClass.getMemoryLayout().withName("parent_class"),
         Interop.valueLayout.ADDRESS.withName("open"),
         Interop.valueLayout.ADDRESS.withName("close"),
@@ -34,6 +34,10 @@ public class MediaFileClass extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link MediaFileClass}
+     * @return A new, uninitialized @{link MediaFileClass}
+     */
     public static MediaFileClass allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         MediaFileClass newInstance = new MediaFileClass(segment.address(), Ownership.NONE);
@@ -58,5 +62,82 @@ public class MediaFileClass extends io.github.jwharm.javagi.ProxyBase {
     @ApiStatus.Internal
     public MediaFileClass(Addressable address, Ownership ownership) {
         super(address, ownership);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private MediaFileClass struct;
+        
+         /**
+         * A {@link MediaFileClass.Build} object constructs a {@link MediaFileClass} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = MediaFileClass.allocate();
+        }
+        
+         /**
+         * Finish building the {@link MediaFileClass} struct.
+         * @return A new instance of {@code MediaFileClass} with the fields 
+         *         that were set in the Build object.
+         */
+        public MediaFileClass construct() {
+            return struct;
+        }
+        
+        public Build setParentClass(org.gtk.gtk.MediaStreamClass parent_class) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parent_class == null ? MemoryAddress.NULL : parent_class.handle()));
+            return this;
+        }
+        
+        public Build setOpen(java.lang.foreign.MemoryAddress open) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("open"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (open == null ? MemoryAddress.NULL : open));
+            return this;
+        }
+        
+        public Build setClose(java.lang.foreign.MemoryAddress close) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("close"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (close == null ? MemoryAddress.NULL : close));
+            return this;
+        }
+        
+        public Build setGtkReserved1(java.lang.foreign.MemoryAddress _gtk_reserved1) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("_gtk_reserved1"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (_gtk_reserved1 == null ? MemoryAddress.NULL : _gtk_reserved1));
+            return this;
+        }
+        
+        public Build setGtkReserved2(java.lang.foreign.MemoryAddress _gtk_reserved2) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("_gtk_reserved2"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (_gtk_reserved2 == null ? MemoryAddress.NULL : _gtk_reserved2));
+            return this;
+        }
+        
+        public Build setGtkReserved3(java.lang.foreign.MemoryAddress _gtk_reserved3) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("_gtk_reserved3"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (_gtk_reserved3 == null ? MemoryAddress.NULL : _gtk_reserved3));
+            return this;
+        }
+        
+        public Build setGtkReserved4(java.lang.foreign.MemoryAddress _gtk_reserved4) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("_gtk_reserved4"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (_gtk_reserved4 == null ? MemoryAddress.NULL : _gtk_reserved4));
+            return this;
+        }
     }
 }

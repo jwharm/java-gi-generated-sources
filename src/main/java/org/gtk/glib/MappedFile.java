@@ -10,7 +10,7 @@ import org.jetbrains.annotations.*;
  * g_mapped_file_new(). It has only private members and should
  * not be accessed directly.
  */
-public class MappedFile extends io.github.jwharm.javagi.ProxyBase {
+public class MappedFile extends Struct {
     
     static {
         GLib.javagi$ensureInitialized();
@@ -29,6 +29,10 @@ public class MappedFile extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link MappedFile}
+     * @return A new, uninitialized @{link MappedFile}
+     */
     public static MappedFile allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         MappedFile newInstance = new MappedFile(segment.address(), Ownership.NONE);
@@ -48,7 +52,7 @@ public class MappedFile extends io.github.jwharm.javagi.ProxyBase {
     
     private static Addressable constructNew(@NotNull java.lang.String filename, boolean writable) throws GErrorException {
         java.util.Objects.requireNonNull(filename, "Parameter 'filename' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         Addressable RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_mapped_file_new.invokeExact(
@@ -91,7 +95,7 @@ public class MappedFile extends io.github.jwharm.javagi.ProxyBase {
     }
     
     private static Addressable constructNewFromFd(int fd, boolean writable) throws GErrorException {
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         Addressable RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_mapped_file_new_from_fd.invokeExact(
@@ -234,50 +238,78 @@ public class MappedFile extends io.github.jwharm.javagi.ProxyBase {
         
         private static final MethodHandle g_mapped_file_new = Interop.downcallHandle(
             "g_mapped_file_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_mapped_file_new_from_fd = Interop.downcallHandle(
             "g_mapped_file_new_from_fd",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_mapped_file_free = Interop.downcallHandle(
             "g_mapped_file_free",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_mapped_file_get_bytes = Interop.downcallHandle(
             "g_mapped_file_get_bytes",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_mapped_file_get_contents = Interop.downcallHandle(
             "g_mapped_file_get_contents",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_mapped_file_get_length = Interop.downcallHandle(
             "g_mapped_file_get_length",
-            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_mapped_file_ref = Interop.downcallHandle(
             "g_mapped_file_ref",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_mapped_file_unref = Interop.downcallHandle(
             "g_mapped_file_unref",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private MappedFile struct;
+        
+         /**
+         * A {@link MappedFile.Build} object constructs a {@link MappedFile} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = MappedFile.allocate();
+        }
+        
+         /**
+         * Finish building the {@link MappedFile} struct.
+         * @return A new instance of {@code MappedFile} with the fields 
+         *         that were set in the Build object.
+         */
+        public MappedFile construct() {
+            return struct;
+        }
     }
 }

@@ -55,7 +55,7 @@ public class Fixed extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     
     private static final java.lang.String C_TYPE_NAME = "GtkFixed";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gtk.Widget.getMemoryLayout().withName("parent_instance")
     ).withName(C_TYPE_NAME);
     
@@ -100,7 +100,7 @@ public class Fixed extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      * @throws ClassCastException If the GType is not derived from "GtkFixed", a ClassCastException will be thrown.
      */
     public static Fixed castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkFixed"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), Fixed.getType())) {
             return new Fixed(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkFixed");
@@ -136,9 +136,9 @@ public class Fixed extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     public void getChildPosition(@NotNull org.gtk.gtk.Widget widget, Out<Double> x, Out<Double> y) {
         java.util.Objects.requireNonNull(widget, "Parameter 'widget' must not be null");
         java.util.Objects.requireNonNull(x, "Parameter 'x' must not be null");
+        MemorySegment xPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_DOUBLE);
         java.util.Objects.requireNonNull(y, "Parameter 'y' must not be null");
-        MemorySegment xPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_DOUBLE);
-        MemorySegment yPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_DOUBLE);
+        MemorySegment yPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_DOUBLE);
         try {
             DowncallHandles.gtk_fixed_get_child_position.invokeExact(
                     handle(),
@@ -148,8 +148,8 @@ public class Fixed extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        x.set(xPOINTER.get(ValueLayout.JAVA_DOUBLE, 0));
-        y.set(yPOINTER.get(ValueLayout.JAVA_DOUBLE, 0));
+        x.set(xPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
+        y.set(yPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
     }
     
     /**
@@ -247,47 +247,102 @@ public class Fixed extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
         }
     }
     
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.gtk_fixed_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gtk.Widget.Build {
+        
+         /**
+         * A {@link Fixed.Build} object constructs a {@link Fixed} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link Fixed} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link Fixed} using {@link Fixed#castFrom}.
+         * @return A new instance of {@code Fixed} with the properties 
+         *         that were set in the Build object.
+         */
+        public Fixed construct() {
+            return Fixed.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    Fixed.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+    }
+    
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_fixed_new = Interop.downcallHandle(
             "gtk_fixed_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_fixed_get_child_position = Interop.downcallHandle(
             "gtk_fixed_get_child_position",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_fixed_get_child_transform = Interop.downcallHandle(
             "gtk_fixed_get_child_transform",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_fixed_move = Interop.downcallHandle(
             "gtk_fixed_move",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_DOUBLE),
             false
         );
         
         private static final MethodHandle gtk_fixed_put = Interop.downcallHandle(
             "gtk_fixed_put",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_DOUBLE),
             false
         );
         
         private static final MethodHandle gtk_fixed_remove = Interop.downcallHandle(
             "gtk_fixed_remove",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_fixed_set_child_transform = Interop.downcallHandle(
             "gtk_fixed_set_child_transform",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+            false
+        );
+        
+        private static final MethodHandle gtk_fixed_get_type = Interop.downcallHandle(
+            "gtk_fixed_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }

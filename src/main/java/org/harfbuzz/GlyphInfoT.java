@@ -9,7 +9,7 @@ import org.jetbrains.annotations.*;
  * The {@link GlyphInfoT} is the structure that holds information about the
  * glyphs and their relation to input text.
  */
-public class GlyphInfoT extends io.github.jwharm.javagi.ProxyBase {
+public class GlyphInfoT extends Struct {
     
     static {
         HarfBuzz.javagi$ensureInitialized();
@@ -17,10 +17,10 @@ public class GlyphInfoT extends io.github.jwharm.javagi.ProxyBase {
     
     private static final java.lang.String C_TYPE_NAME = "hb_glyph_info_t";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
-        ValueLayout.JAVA_INT.withName("codepoint"),
-        ValueLayout.JAVA_INT.withName("mask"),
-        ValueLayout.JAVA_INT.withName("cluster"),
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
+        Interop.valueLayout.C_INT.withName("codepoint"),
+        Interop.valueLayout.C_INT.withName("mask"),
+        Interop.valueLayout.C_INT.withName("cluster"),
         MemoryLayout.paddingLayout(32),
         org.harfbuzz.VarIntT.getMemoryLayout().withName("var1"),
         org.harfbuzz.VarIntT.getMemoryLayout().withName("var2")
@@ -37,6 +37,10 @@ public class GlyphInfoT extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link GlyphInfoT}
+     * @return A new, uninitialized @{link GlyphInfoT}
+     */
     public static GlyphInfoT allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         GlyphInfoT newInstance = new GlyphInfoT(segment.address(), Ownership.NONE);
@@ -94,5 +98,89 @@ public class GlyphInfoT extends io.github.jwharm.javagi.ProxyBase {
     @ApiStatus.Internal
     public GlyphInfoT(Addressable address, Ownership ownership) {
         super(address, ownership);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private GlyphInfoT struct;
+        
+         /**
+         * A {@link GlyphInfoT.Build} object constructs a {@link GlyphInfoT} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = GlyphInfoT.allocate();
+        }
+        
+         /**
+         * Finish building the {@link GlyphInfoT} struct.
+         * @return A new instance of {@code GlyphInfoT} with the fields 
+         *         that were set in the Build object.
+         */
+        public GlyphInfoT construct() {
+            return struct;
+        }
+        
+        /**
+         * either a Unicode code point (before shaping) or a glyph index
+         *             (after shaping).
+         * @param codepoint The value for the {@code codepoint} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setCodepoint(org.harfbuzz.CodepointT codepoint) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("codepoint"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (codepoint == null ? MemoryAddress.NULL : codepoint.getValue().intValue()));
+            return this;
+        }
+        
+        public Build setMask(org.harfbuzz.MaskT mask) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("mask"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (mask == null ? MemoryAddress.NULL : mask.getValue().intValue()));
+            return this;
+        }
+        
+        /**
+         * the index of the character in the original text that corresponds
+         *           to this {@link GlyphInfoT}, or whatever the client passes to
+         *           hb_buffer_add(). More than one {@link GlyphInfoT} can have the same
+         *           {@code cluster} value, if they resulted from the same character (e.g. one
+         *           to many glyph substitution), and when more than one character gets
+         *           merged in the same glyph (e.g. many to one glyph substitution) the
+         *           {@link GlyphInfoT} will have the smallest cluster value of them.
+         *           By default some characters are merged into the same cluster
+         *           (e.g. combining marks have the same cluster as their bases)
+         *           even if they are separate glyphs, hb_buffer_set_cluster_level()
+         *           allow selecting more fine-grained cluster handling.
+         * @param cluster The value for the {@code cluster} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setCluster(int cluster) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("cluster"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), cluster);
+            return this;
+        }
+        
+        public Build setVar1(org.harfbuzz.VarIntT var1) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("var1"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (var1 == null ? MemoryAddress.NULL : var1.handle()));
+            return this;
+        }
+        
+        public Build setVar2(org.harfbuzz.VarIntT var2) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("var2"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (var2 == null ? MemoryAddress.NULL : var2.handle()));
+            return this;
+        }
     }
 }

@@ -61,7 +61,7 @@ public class GridLayout extends org.gtk.gtk.LayoutManager {
      * @throws ClassCastException If the GType is not derived from "GtkGridLayout", a ClassCastException will be thrown.
      */
     public static GridLayout castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkGridLayout"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), GridLayout.getType())) {
             return new GridLayout(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkGridLayout");
@@ -274,83 +274,194 @@ public class GridLayout extends org.gtk.gtk.LayoutManager {
         }
     }
     
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.gtk_grid_layout_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gtk.LayoutManager.Build {
+        
+         /**
+         * A {@link GridLayout.Build} object constructs a {@link GridLayout} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link GridLayout} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link GridLayout} using {@link GridLayout#castFrom}.
+         * @return A new instance of {@code GridLayout} with the properties 
+         *         that were set in the Build object.
+         */
+        public GridLayout construct() {
+            return GridLayout.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    GridLayout.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+        
+        /**
+         * The row to align to the baseline, when {@code GtkWidget:valign} is set
+         * to {@link Align#BASELINE}.
+         * @param baselineRow The value for the {@code baseline-row} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setBaselineRow(int baselineRow) {
+            names.add("baseline-row");
+            values.add(org.gtk.gobject.Value.create(baselineRow));
+            return this;
+        }
+        
+        /**
+         * Whether all the columns in the grid have the same width.
+         * @param columnHomogeneous The value for the {@code column-homogeneous} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setColumnHomogeneous(boolean columnHomogeneous) {
+            names.add("column-homogeneous");
+            values.add(org.gtk.gobject.Value.create(columnHomogeneous));
+            return this;
+        }
+        
+        /**
+         * The amount of space between to consecutive columns.
+         * @param columnSpacing The value for the {@code column-spacing} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setColumnSpacing(int columnSpacing) {
+            names.add("column-spacing");
+            values.add(org.gtk.gobject.Value.create(columnSpacing));
+            return this;
+        }
+        
+        /**
+         * Whether all the rows in the grid have the same height.
+         * @param rowHomogeneous The value for the {@code row-homogeneous} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setRowHomogeneous(boolean rowHomogeneous) {
+            names.add("row-homogeneous");
+            values.add(org.gtk.gobject.Value.create(rowHomogeneous));
+            return this;
+        }
+        
+        /**
+         * The amount of space between to consecutive rows.
+         * @param rowSpacing The value for the {@code row-spacing} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setRowSpacing(int rowSpacing) {
+            names.add("row-spacing");
+            values.add(org.gtk.gobject.Value.create(rowSpacing));
+            return this;
+        }
+    }
+    
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_grid_layout_new = Interop.downcallHandle(
             "gtk_grid_layout_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_grid_layout_get_baseline_row = Interop.downcallHandle(
             "gtk_grid_layout_get_baseline_row",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_grid_layout_get_column_homogeneous = Interop.downcallHandle(
             "gtk_grid_layout_get_column_homogeneous",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_grid_layout_get_column_spacing = Interop.downcallHandle(
             "gtk_grid_layout_get_column_spacing",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_grid_layout_get_row_baseline_position = Interop.downcallHandle(
             "gtk_grid_layout_get_row_baseline_position",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_grid_layout_get_row_homogeneous = Interop.downcallHandle(
             "gtk_grid_layout_get_row_homogeneous",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_grid_layout_get_row_spacing = Interop.downcallHandle(
             "gtk_grid_layout_get_row_spacing",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_grid_layout_set_baseline_row = Interop.downcallHandle(
             "gtk_grid_layout_set_baseline_row",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_grid_layout_set_column_homogeneous = Interop.downcallHandle(
             "gtk_grid_layout_set_column_homogeneous",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_grid_layout_set_column_spacing = Interop.downcallHandle(
             "gtk_grid_layout_set_column_spacing",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_grid_layout_set_row_baseline_position = Interop.downcallHandle(
             "gtk_grid_layout_set_row_baseline_position",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_grid_layout_set_row_homogeneous = Interop.downcallHandle(
             "gtk_grid_layout_set_row_homogeneous",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_grid_layout_set_row_spacing = Interop.downcallHandle(
             "gtk_grid_layout_set_row_spacing",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+            false
+        );
+        
+        private static final MethodHandle gtk_grid_layout_get_type = Interop.downcallHandle(
+            "gtk_grid_layout_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }

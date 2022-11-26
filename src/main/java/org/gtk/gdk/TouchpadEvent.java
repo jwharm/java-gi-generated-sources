@@ -53,7 +53,7 @@ public class TouchpadEvent extends org.gtk.gdk.Event {
      * @throws ClassCastException If the GType is not derived from "GdkTouchpadEvent", a ClassCastException will be thrown.
      */
     public static TouchpadEvent castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GdkTouchpadEvent"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), TouchpadEvent.getType())) {
             return new TouchpadEvent(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GdkTouchpadEvent");
@@ -67,9 +67,9 @@ public class TouchpadEvent extends org.gtk.gdk.Event {
      */
     public void getDeltas(Out<Double> dx, Out<Double> dy) {
         java.util.Objects.requireNonNull(dx, "Parameter 'dx' must not be null");
+        MemorySegment dxPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_DOUBLE);
         java.util.Objects.requireNonNull(dy, "Parameter 'dy' must not be null");
-        MemorySegment dxPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_DOUBLE);
-        MemorySegment dyPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_DOUBLE);
+        MemorySegment dyPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_DOUBLE);
         try {
             DowncallHandles.gdk_touchpad_event_get_deltas.invokeExact(
                     handle(),
@@ -78,8 +78,8 @@ public class TouchpadEvent extends org.gtk.gdk.Event {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        dx.set(dxPOINTER.get(ValueLayout.JAVA_DOUBLE, 0));
-        dy.set(dyPOINTER.get(ValueLayout.JAVA_DOUBLE, 0));
+        dx.set(dxPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
+        dy.set(dyPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
     }
     
     /**
@@ -142,35 +142,90 @@ public class TouchpadEvent extends org.gtk.gdk.Event {
         return RESULT;
     }
     
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.gdk_touchpad_event_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gdk.Event.Build {
+        
+         /**
+         * A {@link TouchpadEvent.Build} object constructs a {@link TouchpadEvent} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link TouchpadEvent} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link TouchpadEvent} using {@link TouchpadEvent#castFrom}.
+         * @return A new instance of {@code TouchpadEvent} with the properties 
+         *         that were set in the Build object.
+         */
+        public TouchpadEvent construct() {
+            return TouchpadEvent.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    TouchpadEvent.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+    }
+    
     private static class DowncallHandles {
         
         private static final MethodHandle gdk_touchpad_event_get_deltas = Interop.downcallHandle(
             "gdk_touchpad_event_get_deltas",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_touchpad_event_get_gesture_phase = Interop.downcallHandle(
             "gdk_touchpad_event_get_gesture_phase",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_touchpad_event_get_n_fingers = Interop.downcallHandle(
             "gdk_touchpad_event_get_n_fingers",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_touchpad_event_get_pinch_angle_delta = Interop.downcallHandle(
             "gdk_touchpad_event_get_pinch_angle_delta",
-            FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_DOUBLE, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_touchpad_event_get_pinch_scale = Interop.downcallHandle(
             "gdk_touchpad_event_get_pinch_scale",
-            FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_DOUBLE, Interop.valueLayout.ADDRESS),
+            false
+        );
+        
+        private static final MethodHandle gdk_touchpad_event_get_type = Interop.downcallHandle(
+            "gdk_touchpad_event_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }

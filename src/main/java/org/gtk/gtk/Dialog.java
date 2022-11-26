@@ -132,7 +132,7 @@ public class Dialog extends org.gtk.gtk.Window implements org.gtk.gtk.Accessible
     
     private static final java.lang.String C_TYPE_NAME = "GtkDialog";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gtk.Window.getMemoryLayout().withName("parent_instance")
     ).withName(C_TYPE_NAME);
     
@@ -177,7 +177,7 @@ public class Dialog extends org.gtk.gtk.Window implements org.gtk.gtk.Accessible
      * @throws ClassCastException If the GType is not derived from "GtkDialog", a ClassCastException will be thrown.
      */
     public static Dialog castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkDialog"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), Dialog.getType())) {
             return new Dialog(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkDialog");
@@ -461,6 +461,20 @@ public class Dialog extends org.gtk.gtk.Window implements org.gtk.gtk.Accessible
         }
     }
     
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.gtk_dialog_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+    
     @FunctionalInterface
     public interface Close {
         void signalReceived(Dialog source);
@@ -483,7 +497,7 @@ public class Dialog extends org.gtk.gtk.Window implements org.gtk.gtk.Accessible
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(Dialog.Callbacks.class, "signalDialogClose",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                     Interop.getScope()),
                 Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
@@ -516,7 +530,7 @@ public class Dialog extends org.gtk.gtk.Window implements org.gtk.gtk.Accessible
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(Dialog.Callbacks.class, "signalDialogResponse",
                         MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
                     Interop.getScope()),
                 Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
@@ -525,78 +539,145 @@ public class Dialog extends org.gtk.gtk.Window implements org.gtk.gtk.Accessible
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gtk.Window.Build {
+        
+         /**
+         * A {@link Dialog.Build} object constructs a {@link Dialog} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link Dialog} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link Dialog} using {@link Dialog#castFrom}.
+         * @return A new instance of {@code Dialog} with the properties 
+         *         that were set in the Build object.
+         */
+        public Dialog construct() {
+            return Dialog.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    Dialog.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+        
+        /**
+         * {@code true} if the dialog uses a headerbar for action buttons
+         * instead of the action-area.
+         * <p>
+         * For technical reasons, this property is declared as an integer
+         * property, but you should only set it to {@code true} or {@code false}.
+         * <p>
+         * <strong>Creating a dialog with headerbar</strong><br/>
+         * Builtin {@code GtkDialog} subclasses such as {@link ColorChooserDialog}
+         * set this property according to platform conventions (using the
+         * {@code Gtk.Settings:gtk-dialogs-use-header} setting).
+         * <p>
+         * Here is how you can achieve the same:
+         * <pre>{@code c
+         * g_object_get (settings, "gtk-dialogs-use-header", &header, NULL);
+         * dialog = g_object_new (GTK_TYPE_DIALOG, header, TRUE, NULL);
+         * }</pre>
+         * @param useHeaderBar The value for the {@code use-header-bar} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setUseHeaderBar(int useHeaderBar) {
+            names.add("use-header-bar");
+            values.add(org.gtk.gobject.Value.create(useHeaderBar));
+            return this;
+        }
+    }
     
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_dialog_new = Interop.downcallHandle(
             "gtk_dialog_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_dialog_new_with_buttons = Interop.downcallHandle(
             "gtk_dialog_new_with_buttons",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             true
         );
         
         private static final MethodHandle gtk_dialog_add_action_widget = Interop.downcallHandle(
             "gtk_dialog_add_action_widget",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_dialog_add_button = Interop.downcallHandle(
             "gtk_dialog_add_button",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_dialog_add_buttons = Interop.downcallHandle(
             "gtk_dialog_add_buttons",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             true
         );
         
         private static final MethodHandle gtk_dialog_get_content_area = Interop.downcallHandle(
             "gtk_dialog_get_content_area",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_dialog_get_header_bar = Interop.downcallHandle(
             "gtk_dialog_get_header_bar",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_dialog_get_response_for_widget = Interop.downcallHandle(
             "gtk_dialog_get_response_for_widget",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_dialog_get_widget_for_response = Interop.downcallHandle(
             "gtk_dialog_get_widget_for_response",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_dialog_response = Interop.downcallHandle(
             "gtk_dialog_response",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_dialog_set_default_response = Interop.downcallHandle(
             "gtk_dialog_set_default_response",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_dialog_set_response_sensitive = Interop.downcallHandle(
             "gtk_dialog_set_response_sensitive",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
+            false
+        );
+        
+        private static final MethodHandle gtk_dialog_get_type = Interop.downcallHandle(
+            "gtk_dialog_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }
@@ -604,15 +685,15 @@ public class Dialog extends org.gtk.gtk.Window implements org.gtk.gtk.Accessible
     private static class Callbacks {
         
         public static void signalDialogClose(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (Dialog.Close) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Dialog(source, Ownership.UNKNOWN));
+            HANDLER.signalReceived(new Dialog(source, Ownership.NONE));
         }
         
         public static void signalDialogResponse(MemoryAddress source, int responseId, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (Dialog.Response) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Dialog(source, Ownership.UNKNOWN), responseId);
+            HANDLER.signalReceived(new Dialog(source, Ownership.NONE), responseId);
         }
     }
 }

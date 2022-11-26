@@ -60,7 +60,7 @@ public class DBusProxy extends org.gtk.gobject.Object implements org.gtk.gio.Asy
     
     private static final java.lang.String C_TYPE_NAME = "GDBusProxy";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gobject.Object.getMemoryLayout().withName("parent_instance"),
         Interop.valueLayout.ADDRESS.withName("priv")
     ).withName(C_TYPE_NAME);
@@ -97,7 +97,7 @@ public class DBusProxy extends org.gtk.gobject.Object implements org.gtk.gio.Asy
      * @throws ClassCastException If the GType is not derived from "GDBusProxy", a ClassCastException will be thrown.
      */
     public static DBusProxy castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GDBusProxy"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), DBusProxy.getType())) {
             return new DBusProxy(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GDBusProxy");
@@ -106,7 +106,7 @@ public class DBusProxy extends org.gtk.gobject.Object implements org.gtk.gio.Asy
     
     private static Addressable constructNewFinish(@NotNull org.gtk.gio.AsyncResult res) throws GErrorException {
         java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         Addressable RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_dbus_proxy_new_finish.invokeExact(
@@ -134,7 +134,7 @@ public class DBusProxy extends org.gtk.gobject.Object implements org.gtk.gio.Asy
     
     private static Addressable constructNewForBusFinish(@NotNull org.gtk.gio.AsyncResult res) throws GErrorException {
         java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         Addressable RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_dbus_proxy_new_for_bus_finish.invokeExact(
@@ -166,7 +166,7 @@ public class DBusProxy extends org.gtk.gobject.Object implements org.gtk.gio.Asy
         java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
         java.util.Objects.requireNonNull(objectPath, "Parameter 'objectPath' must not be null");
         java.util.Objects.requireNonNull(interfaceName, "Parameter 'interfaceName' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         Addressable RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_dbus_proxy_new_for_bus_sync.invokeExact(
@@ -212,7 +212,7 @@ public class DBusProxy extends org.gtk.gobject.Object implements org.gtk.gio.Asy
         java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
         java.util.Objects.requireNonNull(objectPath, "Parameter 'objectPath' must not be null");
         java.util.Objects.requireNonNull(interfaceName, "Parameter 'interfaceName' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         Addressable RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_dbus_proxy_new_sync.invokeExact(
@@ -337,7 +337,7 @@ public class DBusProxy extends org.gtk.gobject.Object implements org.gtk.gio.Asy
                     (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                         Interop.getScope())),
                     (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
         } catch (Throwable ERR) {
@@ -354,7 +354,7 @@ public class DBusProxy extends org.gtk.gobject.Object implements org.gtk.gio.Asy
      */
     public @NotNull org.gtk.glib.Variant callFinish(@NotNull org.gtk.gio.AsyncResult res) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_dbus_proxy_call_finish.invokeExact(
@@ -419,7 +419,7 @@ public class DBusProxy extends org.gtk.gobject.Object implements org.gtk.gio.Asy
     public @NotNull org.gtk.glib.Variant callSync(@NotNull java.lang.String methodName, @Nullable org.gtk.glib.Variant parameters, @NotNull org.gtk.gio.DBusCallFlags flags, int timeoutMsec, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(methodName, "Parameter 'methodName' must not be null");
         java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_dbus_proxy_call_sync.invokeExact(
@@ -468,7 +468,7 @@ public class DBusProxy extends org.gtk.gobject.Object implements org.gtk.gio.Asy
                     (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                         Interop.getScope())),
                     (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
         } catch (Throwable ERR) {
@@ -487,7 +487,7 @@ public class DBusProxy extends org.gtk.gobject.Object implements org.gtk.gio.Asy
     public @NotNull org.gtk.glib.Variant callWithUnixFdListFinish(@NotNull PointerProxy<org.gtk.gio.UnixFDList> outFdList, @NotNull org.gtk.gio.AsyncResult res) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(outFdList, "Parameter 'outFdList' must not be null");
         java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_dbus_proxy_call_with_unix_fd_list_finish.invokeExact(
@@ -525,7 +525,7 @@ public class DBusProxy extends org.gtk.gobject.Object implements org.gtk.gio.Asy
         java.util.Objects.requireNonNull(methodName, "Parameter 'methodName' must not be null");
         java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
         java.util.Objects.requireNonNull(outFdList, "Parameter 'outFdList' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_dbus_proxy_call_with_unix_fd_list_sync.invokeExact(
@@ -810,6 +810,20 @@ public class DBusProxy extends org.gtk.gobject.Object implements org.gtk.gio.Asy
     }
     
     /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.g_dbus_proxy_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+    
+    /**
      * Creates a proxy for accessing {@code interface_name} on the remote object
      * at {@code object_path} owned by {@code name} at {@code connection} and asynchronously
      * loads D-Bus properties unless the
@@ -863,7 +877,7 @@ public class DBusProxy extends org.gtk.gobject.Object implements org.gtk.gio.Asy
                     (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                         Interop.getScope())),
                     (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
         } catch (Throwable ERR) {
@@ -902,7 +916,7 @@ public class DBusProxy extends org.gtk.gobject.Object implements org.gtk.gio.Asy
                     (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                         Interop.getScope())),
                     (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
         } catch (Throwable ERR) {
@@ -958,7 +972,7 @@ public class DBusProxy extends org.gtk.gobject.Object implements org.gtk.gio.Asy
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(DBusProxy.Callbacks.class, "signalDBusProxyGSignal",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                     Interop.getScope()),
                 Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
@@ -967,156 +981,335 @@ public class DBusProxy extends org.gtk.gobject.Object implements org.gtk.gio.Asy
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gobject.Object.Build {
+        
+         /**
+         * A {@link DBusProxy.Build} object constructs a {@link DBusProxy} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link DBusProxy} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link DBusProxy} using {@link DBusProxy#castFrom}.
+         * @return A new instance of {@code DBusProxy} with the properties 
+         *         that were set in the Build object.
+         */
+        public DBusProxy construct() {
+            return DBusProxy.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    DBusProxy.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+        
+        /**
+         * If this property is not {@link BusType#NONE}, then
+         * {@link DBusProxy}:g-connection must be {@code null} and will be set to the
+         * {@link DBusConnection} obtained by calling g_bus_get() with the value
+         * of this property.
+         * @param gBusType The value for the {@code g-bus-type} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setGBusType(org.gtk.gio.BusType gBusType) {
+            names.add("g-bus-type");
+            values.add(org.gtk.gobject.Value.create(gBusType));
+            return this;
+        }
+        
+        /**
+         * The {@link DBusConnection} the proxy is for.
+         * @param gConnection The value for the {@code g-connection} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setGConnection(org.gtk.gio.DBusConnection gConnection) {
+            names.add("g-connection");
+            values.add(org.gtk.gobject.Value.create(gConnection));
+            return this;
+        }
+        
+        /**
+         * The timeout to use if -1 (specifying default timeout) is passed
+         * as {@code timeout_msec} in the g_dbus_proxy_call() and
+         * g_dbus_proxy_call_sync() functions.
+         * <p>
+         * This allows applications to set a proxy-wide timeout for all
+         * remote method invocations on the proxy. If this property is -1,
+         * the default timeout (typically 25 seconds) is used. If set to
+         * {@code G_MAXINT}, then no timeout is used.
+         * @param gDefaultTimeout The value for the {@code g-default-timeout} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setGDefaultTimeout(int gDefaultTimeout) {
+            names.add("g-default-timeout");
+            values.add(org.gtk.gobject.Value.create(gDefaultTimeout));
+            return this;
+        }
+        
+        /**
+         * Flags from the {@link DBusProxyFlags} enumeration.
+         * @param gFlags The value for the {@code g-flags} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setGFlags(org.gtk.gio.DBusProxyFlags gFlags) {
+            names.add("g-flags");
+            values.add(org.gtk.gobject.Value.create(gFlags));
+            return this;
+        }
+        
+        /**
+         * Ensure that interactions with this proxy conform to the given
+         * interface. This is mainly to ensure that malformed data received
+         * from the other peer is ignored. The given {@link DBusInterfaceInfo} is
+         * said to be the "expected interface".
+         * <p>
+         * The checks performed are:
+         * <ul>
+         * <li>When completing a method call, if the type signature of
+         *   the reply message isn't what's expected, the reply is
+         *   discarded and the {@link org.gtk.glib.Error} is set to {@link IOErrorEnum#INVALID_ARGUMENT}.
+         * </ul>
+         * <ul>
+         * <li>Received signals that have a type signature mismatch are dropped and
+         *   a warning is logged via g_warning().
+         * </ul>
+         * <ul>
+         * <li>Properties received via the initial {@code GetAll()} call or via the
+         *   {@code ::PropertiesChanged} signal (on the
+         *   <a href="http://dbus.freedesktop.org/doc/dbus-specification.html#standard-interfaces-properties">org.freedesktop.DBus.Properties</a>
+         *   interface) or set using g_dbus_proxy_set_cached_property()
+         *   with a type signature mismatch are ignored and a warning is
+         *   logged via g_warning().
+         * </ul>
+         * <p>
+         * Note that these checks are never done on methods, signals and
+         * properties that are not referenced in the given
+         * {@link DBusInterfaceInfo}, since extending a D-Bus interface on the
+         * service-side is not considered an ABI break.
+         * @param gInterfaceInfo The value for the {@code g-interface-info} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setGInterfaceInfo(org.gtk.gio.DBusInterfaceInfo gInterfaceInfo) {
+            names.add("g-interface-info");
+            values.add(org.gtk.gobject.Value.create(gInterfaceInfo));
+            return this;
+        }
+        
+        /**
+         * The D-Bus interface name the proxy is for.
+         * @param gInterfaceName The value for the {@code g-interface-name} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setGInterfaceName(java.lang.String gInterfaceName) {
+            names.add("g-interface-name");
+            values.add(org.gtk.gobject.Value.create(gInterfaceName));
+            return this;
+        }
+        
+        /**
+         * The well-known or unique name that the proxy is for.
+         * @param gName The value for the {@code g-name} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setGName(java.lang.String gName) {
+            names.add("g-name");
+            values.add(org.gtk.gobject.Value.create(gName));
+            return this;
+        }
+        
+        /**
+         * The unique name that owns {@link DBusProxy}:g-name or {@code null} if no-one
+         * currently owns that name. You may connect to {@link org.gtk.gobject.Object}::notify signal to
+         * track changes to this property.
+         * @param gNameOwner The value for the {@code g-name-owner} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setGNameOwner(java.lang.String gNameOwner) {
+            names.add("g-name-owner");
+            values.add(org.gtk.gobject.Value.create(gNameOwner));
+            return this;
+        }
+        
+        /**
+         * The object path the proxy is for.
+         * @param gObjectPath The value for the {@code g-object-path} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setGObjectPath(java.lang.String gObjectPath) {
+            names.add("g-object-path");
+            values.add(org.gtk.gobject.Value.create(gObjectPath));
+            return this;
+        }
+    }
     
     private static class DowncallHandles {
         
         private static final MethodHandle g_dbus_proxy_new_finish = Interop.downcallHandle(
             "g_dbus_proxy_new_finish",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_dbus_proxy_new_for_bus_finish = Interop.downcallHandle(
             "g_dbus_proxy_new_for_bus_finish",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_dbus_proxy_new_for_bus_sync = Interop.downcallHandle(
             "g_dbus_proxy_new_for_bus_sync",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_dbus_proxy_new_sync = Interop.downcallHandle(
             "g_dbus_proxy_new_sync",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_dbus_proxy_call = Interop.downcallHandle(
             "g_dbus_proxy_call",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_dbus_proxy_call_finish = Interop.downcallHandle(
             "g_dbus_proxy_call_finish",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_dbus_proxy_call_sync = Interop.downcallHandle(
             "g_dbus_proxy_call_sync",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_dbus_proxy_call_with_unix_fd_list = Interop.downcallHandle(
             "g_dbus_proxy_call_with_unix_fd_list",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_dbus_proxy_call_with_unix_fd_list_finish = Interop.downcallHandle(
             "g_dbus_proxy_call_with_unix_fd_list_finish",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_dbus_proxy_call_with_unix_fd_list_sync = Interop.downcallHandle(
             "g_dbus_proxy_call_with_unix_fd_list_sync",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_dbus_proxy_get_cached_property = Interop.downcallHandle(
             "g_dbus_proxy_get_cached_property",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_dbus_proxy_get_cached_property_names = Interop.downcallHandle(
             "g_dbus_proxy_get_cached_property_names",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_dbus_proxy_get_connection = Interop.downcallHandle(
             "g_dbus_proxy_get_connection",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_dbus_proxy_get_default_timeout = Interop.downcallHandle(
             "g_dbus_proxy_get_default_timeout",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_dbus_proxy_get_flags = Interop.downcallHandle(
             "g_dbus_proxy_get_flags",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_dbus_proxy_get_interface_info = Interop.downcallHandle(
             "g_dbus_proxy_get_interface_info",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_dbus_proxy_get_interface_name = Interop.downcallHandle(
             "g_dbus_proxy_get_interface_name",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_dbus_proxy_get_name = Interop.downcallHandle(
             "g_dbus_proxy_get_name",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_dbus_proxy_get_name_owner = Interop.downcallHandle(
             "g_dbus_proxy_get_name_owner",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_dbus_proxy_get_object_path = Interop.downcallHandle(
             "g_dbus_proxy_get_object_path",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_dbus_proxy_set_cached_property = Interop.downcallHandle(
             "g_dbus_proxy_set_cached_property",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_dbus_proxy_set_default_timeout = Interop.downcallHandle(
             "g_dbus_proxy_set_default_timeout",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_dbus_proxy_set_interface_info = Interop.downcallHandle(
             "g_dbus_proxy_set_interface_info",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+            false
+        );
+        
+        private static final MethodHandle g_dbus_proxy_get_type = Interop.downcallHandle(
+            "g_dbus_proxy_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
         
         private static final MethodHandle g_dbus_proxy_new = Interop.downcallHandle(
             "g_dbus_proxy_new",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_dbus_proxy_new_for_bus = Interop.downcallHandle(
             "g_dbus_proxy_new_for_bus",
-            FunctionDescriptor.ofVoid(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
     }
@@ -1128,9 +1321,9 @@ public class DBusProxy extends org.gtk.gobject.Object implements org.gtk.gio.Asy
     }
         
         public static void signalDBusProxyGSignal(MemoryAddress source, MemoryAddress senderName, MemoryAddress signalName, MemoryAddress parameters, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (DBusProxy.GSignal) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new DBusProxy(source, Ownership.UNKNOWN), Interop.getStringFrom(senderName), Interop.getStringFrom(signalName), new org.gtk.glib.Variant(parameters, Ownership.NONE));
+            HANDLER.signalReceived(new DBusProxy(source, Ownership.NONE), Interop.getStringFrom(senderName), Interop.getStringFrom(signalName), new org.gtk.glib.Variant(parameters, Ownership.NONE));
         }
     }
 }

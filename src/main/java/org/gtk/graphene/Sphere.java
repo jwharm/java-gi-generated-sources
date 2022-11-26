@@ -9,7 +9,7 @@ import org.jetbrains.annotations.*;
  * A sphere, represented by its center and radius.
  * @version 1.2
  */
-public class Sphere extends io.github.jwharm.javagi.ProxyBase {
+public class Sphere extends Struct {
     
     static {
         Graphene.javagi$ensureInitialized();
@@ -17,9 +17,9 @@ public class Sphere extends io.github.jwharm.javagi.ProxyBase {
     
     private static final java.lang.String C_TYPE_NAME = "graphene_sphere_t";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.graphene.Vec3.getMemoryLayout().withName("center"),
-        ValueLayout.JAVA_FLOAT.withName("radius")
+        Interop.valueLayout.C_FLOAT.withName("radius")
     ).withName(C_TYPE_NAME);
     
     /**
@@ -33,6 +33,10 @@ public class Sphere extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link Sphere}
+     * @return A new, uninitialized @{link Sphere}
+     */
     public static Sphere allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         Sphere newInstance = new Sphere(segment.address(), Ownership.NONE);
@@ -223,7 +227,7 @@ public class Sphere extends io.github.jwharm.javagi.ProxyBase {
             RESULT = (MemoryAddress) DowncallHandles.graphene_sphere_init_from_points.invokeExact(
                     handle(),
                     nPoints,
-                    Interop.allocateNativeArray(points, false),
+                    Interop.allocateNativeArray(points, org.gtk.graphene.Point3D.getMemoryLayout(), false),
                     (Addressable) (center == null ? MemoryAddress.NULL : center.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -249,7 +253,7 @@ public class Sphere extends io.github.jwharm.javagi.ProxyBase {
             RESULT = (MemoryAddress) DowncallHandles.graphene_sphere_init_from_vectors.invokeExact(
                     handle(),
                     nVectors,
-                    Interop.allocateNativeArray(vectors, false),
+                    Interop.allocateNativeArray(vectors, org.gtk.graphene.Vec3.getMemoryLayout(), false),
                     (Addressable) (center == null ? MemoryAddress.NULL : center.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -295,80 +299,122 @@ public class Sphere extends io.github.jwharm.javagi.ProxyBase {
         
         private static final MethodHandle graphene_sphere_alloc = Interop.downcallHandle(
             "graphene_sphere_alloc",
-            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle graphene_sphere_contains_point = Interop.downcallHandle(
             "graphene_sphere_contains_point",
-            FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_BOOLEAN, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle graphene_sphere_distance = Interop.downcallHandle(
             "graphene_sphere_distance",
-            FunctionDescriptor.of(ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_FLOAT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle graphene_sphere_equal = Interop.downcallHandle(
             "graphene_sphere_equal",
-            FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_BOOLEAN, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle graphene_sphere_free = Interop.downcallHandle(
             "graphene_sphere_free",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle graphene_sphere_get_bounding_box = Interop.downcallHandle(
             "graphene_sphere_get_bounding_box",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle graphene_sphere_get_center = Interop.downcallHandle(
             "graphene_sphere_get_center",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle graphene_sphere_get_radius = Interop.downcallHandle(
             "graphene_sphere_get_radius",
-            FunctionDescriptor.of(ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_FLOAT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle graphene_sphere_init = Interop.downcallHandle(
             "graphene_sphere_init",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_FLOAT),
             false
         );
         
         private static final MethodHandle graphene_sphere_init_from_points = Interop.downcallHandle(
             "graphene_sphere_init_from_points",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle graphene_sphere_init_from_vectors = Interop.downcallHandle(
             "graphene_sphere_init_from_vectors",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle graphene_sphere_is_empty = Interop.downcallHandle(
             "graphene_sphere_is_empty",
-            FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_BOOLEAN, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle graphene_sphere_translate = Interop.downcallHandle(
             "graphene_sphere_translate",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private Sphere struct;
+        
+         /**
+         * A {@link Sphere.Build} object constructs a {@link Sphere} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = Sphere.allocate();
+        }
+        
+         /**
+         * Finish building the {@link Sphere} struct.
+         * @return A new instance of {@code Sphere} with the fields 
+         *         that were set in the Build object.
+         */
+        public Sphere construct() {
+            return struct;
+        }
+        
+        public Build setCenter(org.gtk.graphene.Vec3 center) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("center"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (center == null ? MemoryAddress.NULL : center.handle()));
+            return this;
+        }
+        
+        public Build setRadius(float radius) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("radius"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), radius);
+            return this;
+        }
     }
 }

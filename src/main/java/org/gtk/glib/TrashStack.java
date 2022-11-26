@@ -9,7 +9,7 @@ import org.jetbrains.annotations.*;
  * Each piece of memory that is pushed onto the stack
  * is cast to a GTrashStack*.
  */
-public class TrashStack extends io.github.jwharm.javagi.ProxyBase {
+public class TrashStack extends Struct {
     
     static {
         GLib.javagi$ensureInitialized();
@@ -17,7 +17,7 @@ public class TrashStack extends io.github.jwharm.javagi.ProxyBase {
     
     private static final java.lang.String C_TYPE_NAME = "GTrashStack";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
         Interop.valueLayout.ADDRESS.withName("next")
     ).withName(C_TYPE_NAME);
     
@@ -32,6 +32,10 @@ public class TrashStack extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link TrashStack}
+     * @return A new, uninitialized @{link TrashStack}
+     */
     public static TrashStack allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         TrashStack newInstance = new TrashStack(segment.address(), Ownership.NONE);
@@ -144,7 +148,7 @@ public class TrashStack extends io.github.jwharm.javagi.ProxyBase {
         try {
             DowncallHandles.g_trash_stack_push.invokeExact(
                     stackP.handle(),
-                    dataP);
+                    (Addressable) dataP);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -154,26 +158,68 @@ public class TrashStack extends io.github.jwharm.javagi.ProxyBase {
         
         private static final MethodHandle g_trash_stack_height = Interop.downcallHandle(
             "g_trash_stack_height",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_trash_stack_peek = Interop.downcallHandle(
             "g_trash_stack_peek",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_trash_stack_pop = Interop.downcallHandle(
             "g_trash_stack_pop",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_trash_stack_push = Interop.downcallHandle(
             "g_trash_stack_push",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private TrashStack struct;
+        
+         /**
+         * A {@link TrashStack.Build} object constructs a {@link TrashStack} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = TrashStack.allocate();
+        }
+        
+         /**
+         * Finish building the {@link TrashStack} struct.
+         * @return A new instance of {@code TrashStack} with the fields 
+         *         that were set in the Build object.
+         */
+        public TrashStack construct() {
+            return struct;
+        }
+        
+        /**
+         * pointer to the previous element of the stack,
+         *     gets stored in the first {@code sizeof (gpointer)}
+         *     bytes of the element
+         * @param next The value for the {@code next} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setNext(org.gtk.glib.TrashStack next) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("next"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (next == null ? MemoryAddress.NULL : next.handle()));
+            return this;
+        }
     }
 }

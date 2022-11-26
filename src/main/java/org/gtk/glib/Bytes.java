@@ -32,7 +32,7 @@ import org.jetbrains.annotations.*;
  * a mutable {@link ByteArray}, use the g_byte_array_free_to_bytes() function.
  * @version 2.32
  */
-public class Bytes extends io.github.jwharm.javagi.ProxyBase {
+public class Bytes extends Struct {
     
     static {
         GLib.javagi$ensureInitialized();
@@ -51,6 +51,10 @@ public class Bytes extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link Bytes}
+     * @return A new, uninitialized @{link Bytes}
+     */
     public static Bytes allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         Bytes newInstance = new Bytes(segment.address(), Ownership.NONE);
@@ -156,7 +160,7 @@ public class Bytes extends io.github.jwharm.javagi.ProxyBase {
                     (Addressable) (data == null ? MemoryAddress.NULL : Interop.allocateNativeArray(data, false)),
                     size,
                     Interop.cbDestroyNotifySymbol(),
-                    userData);
+                    (Addressable) userData);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -246,7 +250,7 @@ public class Bytes extends io.github.jwharm.javagi.ProxyBase {
      */
     public @Nullable byte[] getData(Out<Long> size) {
         java.util.Objects.requireNonNull(size, "Parameter 'size' must not be null");
-        MemorySegment sizePOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_LONG);
+        MemorySegment sizePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_bytes_get_data.invokeExact(
@@ -255,9 +259,9 @@ public class Bytes extends io.github.jwharm.javagi.ProxyBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        size.set(sizePOINTER.get(ValueLayout.JAVA_LONG, 0));
+        size.set(sizePOINTER.get(Interop.valueLayout.C_LONG, 0));
         if (RESULT.equals(MemoryAddress.NULL)) return null;
-        return MemorySegment.ofAddress(RESULT.get(ValueLayout.ADDRESS, 0), size.get().intValue() * ValueLayout.JAVA_BYTE.byteSize(), Interop.getScope()).toArray(ValueLayout.JAVA_BYTE);
+        return MemorySegment.ofAddress(RESULT.get(Interop.valueLayout.ADDRESS, 0), size.get().intValue() * Interop.valueLayout.C_BYTE.byteSize(), Interop.getScope()).toArray(Interop.valueLayout.C_BYTE);
     }
     
     /**
@@ -432,7 +436,7 @@ public class Bytes extends io.github.jwharm.javagi.ProxyBase {
      */
     public @NotNull byte[] unrefToData(Out<Long> size) {
         java.util.Objects.requireNonNull(size, "Parameter 'size' must not be null");
-        MemorySegment sizePOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_LONG);
+        MemorySegment sizePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_bytes_unref_to_data.invokeExact(
@@ -441,101 +445,129 @@ public class Bytes extends io.github.jwharm.javagi.ProxyBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        size.set(sizePOINTER.get(ValueLayout.JAVA_LONG, 0));
         this.yieldOwnership();
-        return MemorySegment.ofAddress(RESULT.get(ValueLayout.ADDRESS, 0), size.get().intValue() * ValueLayout.JAVA_BYTE.byteSize(), Interop.getScope()).toArray(ValueLayout.JAVA_BYTE);
+        size.set(sizePOINTER.get(Interop.valueLayout.C_LONG, 0));
+        return MemorySegment.ofAddress(RESULT.get(Interop.valueLayout.ADDRESS, 0), size.get().intValue() * Interop.valueLayout.C_BYTE.byteSize(), Interop.getScope()).toArray(Interop.valueLayout.C_BYTE);
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle g_bytes_new = Interop.downcallHandle(
             "g_bytes_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
             false
         );
         
         private static final MethodHandle g_bytes_new_static = Interop.downcallHandle(
             "g_bytes_new_static",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
             false
         );
         
         private static final MethodHandle g_bytes_new_take = Interop.downcallHandle(
             "g_bytes_new_take",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
             false
         );
         
         private static final MethodHandle g_bytes_new_with_free_func = Interop.downcallHandle(
             "g_bytes_new_with_free_func",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_bytes_compare = Interop.downcallHandle(
             "g_bytes_compare",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_bytes_equal = Interop.downcallHandle(
             "g_bytes_equal",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_bytes_get_data = Interop.downcallHandle(
             "g_bytes_get_data",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_bytes_get_region = Interop.downcallHandle(
             "g_bytes_get_region",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_LONG, ValueLayout.JAVA_LONG),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.C_LONG, Interop.valueLayout.C_LONG),
             false
         );
         
         private static final MethodHandle g_bytes_get_size = Interop.downcallHandle(
             "g_bytes_get_size",
-            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_bytes_hash = Interop.downcallHandle(
             "g_bytes_hash",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_bytes_new_from_bytes = Interop.downcallHandle(
             "g_bytes_new_from_bytes",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_LONG),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.C_LONG),
             false
         );
         
         private static final MethodHandle g_bytes_ref = Interop.downcallHandle(
             "g_bytes_ref",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_bytes_unref = Interop.downcallHandle(
             "g_bytes_unref",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_bytes_unref_to_array = Interop.downcallHandle(
             "g_bytes_unref_to_array",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_bytes_unref_to_data = Interop.downcallHandle(
             "g_bytes_unref_to_data",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private Bytes struct;
+        
+         /**
+         * A {@link Bytes.Build} object constructs a {@link Bytes} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = Bytes.allocate();
+        }
+        
+         /**
+         * Finish building the {@link Bytes} struct.
+         * @return A new instance of {@code Bytes} with the fields 
+         *         that were set in the Build object.
+         */
+        public Bytes construct() {
+            return struct;
+        }
     }
 }

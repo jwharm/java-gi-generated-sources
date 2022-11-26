@@ -11,7 +11,7 @@ import org.jetbrains.annotations.*;
  * a GHmac, use g_hmac_unref().
  * @version 2.30
  */
-public class Hmac extends io.github.jwharm.javagi.ProxyBase {
+public class Hmac extends Struct {
     
     static {
         GLib.javagi$ensureInitialized();
@@ -30,6 +30,10 @@ public class Hmac extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link Hmac}
+     * @return A new, uninitialized @{link Hmac}
+     */
     public static Hmac allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         Hmac newInstance = new Hmac(segment.address(), Ownership.NONE);
@@ -78,7 +82,7 @@ public class Hmac extends io.github.jwharm.javagi.ProxyBase {
     public void getDigest(@NotNull byte[] buffer, Out<Long> digestLen) {
         java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
         java.util.Objects.requireNonNull(digestLen, "Parameter 'digestLen' must not be null");
-        MemorySegment digestLenPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_LONG);
+        MemorySegment digestLenPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
         try {
             DowncallHandles.g_hmac_get_digest.invokeExact(
                     handle(),
@@ -87,7 +91,7 @@ public class Hmac extends io.github.jwharm.javagi.ProxyBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        digestLen.set(digestLenPOINTER.get(ValueLayout.JAVA_LONG, 0));
+        digestLen.set(digestLenPOINTER.get(Interop.valueLayout.C_LONG, 0));
     }
     
     /**
@@ -208,44 +212,72 @@ public class Hmac extends io.github.jwharm.javagi.ProxyBase {
         
         private static final MethodHandle g_hmac_copy = Interop.downcallHandle(
             "g_hmac_copy",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_hmac_get_digest = Interop.downcallHandle(
             "g_hmac_get_digest",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_hmac_get_string = Interop.downcallHandle(
             "g_hmac_get_string",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_hmac_ref = Interop.downcallHandle(
             "g_hmac_ref",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_hmac_unref = Interop.downcallHandle(
             "g_hmac_unref",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_hmac_update = Interop.downcallHandle(
             "g_hmac_update",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
             false
         );
         
         private static final MethodHandle g_hmac_new = Interop.downcallHandle(
             "g_hmac_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
             false
         );
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private Hmac struct;
+        
+         /**
+         * A {@link Hmac.Build} object constructs a {@link Hmac} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = Hmac.allocate();
+        }
+        
+         /**
+         * Finish building the {@link Hmac} struct.
+         * @return A new instance of {@code Hmac} with the fields 
+         *         that were set in the Build object.
+         */
+        public Hmac construct() {
+            return struct;
+        }
     }
 }

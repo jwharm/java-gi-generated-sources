@@ -48,7 +48,7 @@ public class CrossingEvent extends org.gtk.gdk.Event {
      * @throws ClassCastException If the GType is not derived from "GdkCrossingEvent", a ClassCastException will be thrown.
      */
     public static CrossingEvent castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GdkCrossingEvent"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), CrossingEvent.getType())) {
             return new CrossingEvent(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GdkCrossingEvent");
@@ -100,23 +100,78 @@ public class CrossingEvent extends org.gtk.gdk.Event {
         return new org.gtk.gdk.CrossingMode(RESULT);
     }
     
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.gdk_crossing_event_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gdk.Event.Build {
+        
+         /**
+         * A {@link CrossingEvent.Build} object constructs a {@link CrossingEvent} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link CrossingEvent} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link CrossingEvent} using {@link CrossingEvent#castFrom}.
+         * @return A new instance of {@code CrossingEvent} with the properties 
+         *         that were set in the Build object.
+         */
+        public CrossingEvent construct() {
+            return CrossingEvent.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    CrossingEvent.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+    }
+    
     private static class DowncallHandles {
         
         private static final MethodHandle gdk_crossing_event_get_detail = Interop.downcallHandle(
             "gdk_crossing_event_get_detail",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_crossing_event_get_focus = Interop.downcallHandle(
             "gdk_crossing_event_get_focus",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_crossing_event_get_mode = Interop.downcallHandle(
             "gdk_crossing_event_get_mode",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+            false
+        );
+        
+        private static final MethodHandle gdk_crossing_event_get_type = Interop.downcallHandle(
+            "gdk_crossing_event_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }

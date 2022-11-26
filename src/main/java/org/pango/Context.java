@@ -55,7 +55,7 @@ public class Context extends org.gtk.gobject.Object {
      * @throws ClassCastException If the GType is not derived from "PangoContext", a ClassCastException will be thrown.
      */
     public static Context castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("PangoContext"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), Context.getType())) {
             return new Context(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of PangoContext");
@@ -146,7 +146,7 @@ public class Context extends org.gtk.gobject.Object {
      * @return a pointer to the context's default font
      *   description. This value must not be modified or freed.
      */
-    public @NotNull org.pango.FontDescription getFontDescription() {
+    public @Nullable org.pango.FontDescription getFontDescription() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.pango_context_get_font_description.invokeExact(
@@ -159,10 +159,11 @@ public class Context extends org.gtk.gobject.Object {
     
     /**
      * Gets the {@code PangoFontMap} used to look up fonts for this context.
-     * @return the font map for the {@code PangoContext}.
-     *   This value is owned by Pango and should not be unreferenced.
+     * @return the font map for the.
+     *   {@code PangoContext} This value is owned by Pango and should not be
+     *   unreferenced.
      */
-    public @NotNull org.pango.FontMap getFontMap() {
+    public @Nullable org.pango.FontMap getFontMap() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.pango_context_get_font_map.invokeExact(
@@ -222,7 +223,7 @@ public class Context extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.Language(RESULT, Ownership.FULL);
+        return new org.pango.Language(RESULT, Ownership.NONE);
     }
     
     /**
@@ -230,9 +231,10 @@ public class Context extends org.gtk.gobject.Object {
      * rendering with this context.
      * <p>
      * See {@link Context#setMatrix}.
-     * @return the matrix, or {@code null} if no matrix has
-     *   been set (which is the same as the identity matrix). The returned
-     *   matrix is owned by Pango and must not be modified or freed.
+     * @return the matrix, or {@code null} if no
+     *   matrix has been set (which is the same as the identity matrix).
+     *   The returned matrix is owned by Pango and must not be modified
+     *   or freed.
      */
     public @Nullable org.pango.Matrix getMatrix() {
         MemoryAddress RESULT;
@@ -330,9 +332,9 @@ public class Context extends org.gtk.gobject.Object {
      */
     public void listFamilies(@NotNull Out<org.pango.FontFamily[]> families, Out<Integer> nFamilies) {
         java.util.Objects.requireNonNull(families, "Parameter 'families' must not be null");
+        MemorySegment familiesPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         java.util.Objects.requireNonNull(nFamilies, "Parameter 'nFamilies' must not be null");
-        MemorySegment familiesPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        MemorySegment nFamiliesPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
+        MemorySegment nFamiliesPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         try {
             DowncallHandles.pango_context_list_families.invokeExact(
                     handle(),
@@ -341,10 +343,10 @@ public class Context extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        nFamilies.set(nFamiliesPOINTER.get(ValueLayout.JAVA_INT, 0));
+        nFamilies.set(nFamiliesPOINTER.get(Interop.valueLayout.C_INT, 0));
         org.pango.FontFamily[] familiesARRAY = new org.pango.FontFamily[nFamilies.get().intValue()];
         for (int I = 0; I < nFamilies.get().intValue(); I++) {
-            var OBJ = familiesPOINTER.get(ValueLayout.ADDRESS, I);
+            var OBJ = familiesPOINTER.get(Interop.valueLayout.ADDRESS, I);
             familiesARRAY[I] = new org.pango.FontFamily(OBJ, Ownership.CONTAINER);
         }
         families.set(familiesARRAY);
@@ -436,12 +438,11 @@ public class Context extends org.gtk.gobject.Object {
      * Set the default font description for the context
      * @param desc the new pango font description
      */
-    public void setFontDescription(@NotNull org.pango.FontDescription desc) {
-        java.util.Objects.requireNonNull(desc, "Parameter 'desc' must not be null");
+    public void setFontDescription(@Nullable org.pango.FontDescription desc) {
         try {
             DowncallHandles.pango_context_set_font_description.invokeExact(
                     handle(),
-                    desc.handle());
+                    (Addressable) (desc == null ? MemoryAddress.NULL : desc.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -456,12 +457,11 @@ public class Context extends org.gtk.gobject.Object {
      * suitable font map.
      * @param fontMap the {@code PangoFontMap} to set.
      */
-    public void setFontMap(@NotNull org.pango.FontMap fontMap) {
-        java.util.Objects.requireNonNull(fontMap, "Parameter 'fontMap' must not be null");
+    public void setFontMap(@Nullable org.pango.FontMap fontMap) {
         try {
             DowncallHandles.pango_context_set_font_map.invokeExact(
                     handle(),
-                    fontMap.handle());
+                    (Addressable) (fontMap == null ? MemoryAddress.NULL : fontMap.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -494,12 +494,11 @@ public class Context extends org.gtk.gobject.Object {
      * can be found using {@link Language#getDefault}.
      * @param language the new language tag.
      */
-    public void setLanguage(@NotNull org.pango.Language language) {
-        java.util.Objects.requireNonNull(language, "Parameter 'language' must not be null");
+    public void setLanguage(@Nullable org.pango.Language language) {
         try {
             DowncallHandles.pango_context_set_language.invokeExact(
                     handle(),
-                    language.handle());
+                    (Addressable) (language == null ? MemoryAddress.NULL : language.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -549,149 +548,204 @@ public class Context extends org.gtk.gobject.Object {
         }
     }
     
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.pango_context_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gobject.Object.Build {
+        
+         /**
+         * A {@link Context.Build} object constructs a {@link Context} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link Context} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link Context} using {@link Context#castFrom}.
+         * @return A new instance of {@code Context} with the properties 
+         *         that were set in the Build object.
+         */
+        public Context construct() {
+            return Context.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    Context.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+    }
+    
     private static class DowncallHandles {
         
         private static final MethodHandle pango_context_new = Interop.downcallHandle(
             "pango_context_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle pango_context_changed = Interop.downcallHandle(
             "pango_context_changed",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle pango_context_get_base_dir = Interop.downcallHandle(
             "pango_context_get_base_dir",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle pango_context_get_base_gravity = Interop.downcallHandle(
             "pango_context_get_base_gravity",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle pango_context_get_font_description = Interop.downcallHandle(
             "pango_context_get_font_description",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle pango_context_get_font_map = Interop.downcallHandle(
             "pango_context_get_font_map",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle pango_context_get_gravity = Interop.downcallHandle(
             "pango_context_get_gravity",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle pango_context_get_gravity_hint = Interop.downcallHandle(
             "pango_context_get_gravity_hint",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle pango_context_get_language = Interop.downcallHandle(
             "pango_context_get_language",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle pango_context_get_matrix = Interop.downcallHandle(
             "pango_context_get_matrix",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle pango_context_get_metrics = Interop.downcallHandle(
             "pango_context_get_metrics",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle pango_context_get_round_glyph_positions = Interop.downcallHandle(
             "pango_context_get_round_glyph_positions",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle pango_context_get_serial = Interop.downcallHandle(
             "pango_context_get_serial",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle pango_context_list_families = Interop.downcallHandle(
             "pango_context_list_families",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle pango_context_load_font = Interop.downcallHandle(
             "pango_context_load_font",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle pango_context_load_fontset = Interop.downcallHandle(
             "pango_context_load_fontset",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle pango_context_set_base_dir = Interop.downcallHandle(
             "pango_context_set_base_dir",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle pango_context_set_base_gravity = Interop.downcallHandle(
             "pango_context_set_base_gravity",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle pango_context_set_font_description = Interop.downcallHandle(
             "pango_context_set_font_description",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle pango_context_set_font_map = Interop.downcallHandle(
             "pango_context_set_font_map",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle pango_context_set_gravity_hint = Interop.downcallHandle(
             "pango_context_set_gravity_hint",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle pango_context_set_language = Interop.downcallHandle(
             "pango_context_set_language",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle pango_context_set_matrix = Interop.downcallHandle(
             "pango_context_set_matrix",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle pango_context_set_round_glyph_positions = Interop.downcallHandle(
             "pango_context_set_round_glyph_positions",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+            false
+        );
+        
+        private static final MethodHandle pango_context_get_type = Interop.downcallHandle(
+            "pango_context_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }

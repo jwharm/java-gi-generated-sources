@@ -71,7 +71,7 @@ public class LinkButton extends org.gtk.gtk.Button implements org.gtk.gtk.Access
      * @throws ClassCastException If the GType is not derived from "GtkLinkButton", a ClassCastException will be thrown.
      */
     public static LinkButton castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkLinkButton"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), LinkButton.getType())) {
             return new LinkButton(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkLinkButton");
@@ -190,6 +190,20 @@ public class LinkButton extends org.gtk.gtk.Button implements org.gtk.gtk.Access
         }
     }
     
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.gtk_link_button_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+    
     @FunctionalInterface
     public interface ActivateLink {
         boolean signalReceived(LinkButton source);
@@ -215,7 +229,7 @@ public class LinkButton extends org.gtk.gtk.Button implements org.gtk.gtk.Access
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(LinkButton.Callbacks.class, "signalLinkButtonActivateLink",
                         MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                    FunctionDescriptor.of(Interop.valueLayout.C_BOOLEAN, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                     Interop.getScope()),
                 Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
@@ -224,42 +238,107 @@ public class LinkButton extends org.gtk.gtk.Button implements org.gtk.gtk.Access
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gtk.Button.Build {
+        
+         /**
+         * A {@link LinkButton.Build} object constructs a {@link LinkButton} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link LinkButton} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link LinkButton} using {@link LinkButton#castFrom}.
+         * @return A new instance of {@code LinkButton} with the properties 
+         *         that were set in the Build object.
+         */
+        public LinkButton construct() {
+            return LinkButton.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    LinkButton.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+        
+        /**
+         * The URI bound to this button.
+         * @param uri The value for the {@code uri} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setUri(java.lang.String uri) {
+            names.add("uri");
+            values.add(org.gtk.gobject.Value.create(uri));
+            return this;
+        }
+        
+        /**
+         * The 'visited' state of this button.
+         * <p>
+         * A visited link is drawn in a different color.
+         * @param visited The value for the {@code visited} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setVisited(boolean visited) {
+            names.add("visited");
+            values.add(org.gtk.gobject.Value.create(visited));
+            return this;
+        }
+    }
     
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_link_button_new = Interop.downcallHandle(
             "gtk_link_button_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_link_button_new_with_label = Interop.downcallHandle(
             "gtk_link_button_new_with_label",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_link_button_get_uri = Interop.downcallHandle(
             "gtk_link_button_get_uri",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_link_button_get_visited = Interop.downcallHandle(
             "gtk_link_button_get_visited",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_link_button_set_uri = Interop.downcallHandle(
             "gtk_link_button_set_uri",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_link_button_set_visited = Interop.downcallHandle(
             "gtk_link_button_set_visited",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+            false
+        );
+        
+        private static final MethodHandle gtk_link_button_get_type = Interop.downcallHandle(
+            "gtk_link_button_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }
@@ -267,9 +346,9 @@ public class LinkButton extends org.gtk.gtk.Button implements org.gtk.gtk.Access
     private static class Callbacks {
         
         public static boolean signalLinkButtonActivateLink(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (LinkButton.ActivateLink) Interop.signalRegistry.get(HASH);
-            return HANDLER.signalReceived(new LinkButton(source, Ownership.UNKNOWN));
+            return HANDLER.signalReceived(new LinkButton(source, Ownership.NONE));
         }
     }
 }

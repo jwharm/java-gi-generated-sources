@@ -95,7 +95,7 @@ import org.jetbrains.annotations.*;
  * }</pre>
  * @version 2.40
  */
-public class VariantDict extends io.github.jwharm.javagi.ProxyBase {
+public class VariantDict extends Struct {
     
     static {
         GLib.javagi$ensureInitialized();
@@ -114,6 +114,10 @@ public class VariantDict extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link VariantDict}
+     * @return A new, uninitialized @{link VariantDict}
+     */
     public static VariantDict allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         VariantDict newInstance = new VariantDict(segment.address(), Ownership.NONE);
@@ -344,7 +348,7 @@ public class VariantDict extends io.github.jwharm.javagi.ProxyBase {
      * @param expectedType a {@link VariantType}, or {@code null}
      * @return the value of the dictionary key, or {@code null}
      */
-    public @NotNull org.gtk.glib.Variant lookupValue(@NotNull java.lang.String key, @Nullable org.gtk.glib.VariantType expectedType) {
+    public @Nullable org.gtk.glib.Variant lookupValue(@NotNull java.lang.String key, @Nullable org.gtk.glib.VariantType expectedType) {
         java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
         MemoryAddress RESULT;
         try {
@@ -417,74 +421,102 @@ public class VariantDict extends io.github.jwharm.javagi.ProxyBase {
         
         private static final MethodHandle g_variant_dict_new = Interop.downcallHandle(
             "g_variant_dict_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_variant_dict_clear = Interop.downcallHandle(
             "g_variant_dict_clear",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_variant_dict_contains = Interop.downcallHandle(
             "g_variant_dict_contains",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_variant_dict_end = Interop.downcallHandle(
             "g_variant_dict_end",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_variant_dict_init = Interop.downcallHandle(
             "g_variant_dict_init",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_variant_dict_insert = Interop.downcallHandle(
             "g_variant_dict_insert",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             true
         );
         
         private static final MethodHandle g_variant_dict_insert_value = Interop.downcallHandle(
             "g_variant_dict_insert_value",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_variant_dict_lookup = Interop.downcallHandle(
             "g_variant_dict_lookup",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             true
         );
         
         private static final MethodHandle g_variant_dict_lookup_value = Interop.downcallHandle(
             "g_variant_dict_lookup_value",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_variant_dict_ref = Interop.downcallHandle(
             "g_variant_dict_ref",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_variant_dict_remove = Interop.downcallHandle(
             "g_variant_dict_remove",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_variant_dict_unref = Interop.downcallHandle(
             "g_variant_dict_unref",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private VariantDict struct;
+        
+         /**
+         * A {@link VariantDict.Build} object constructs a {@link VariantDict} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = VariantDict.allocate();
+        }
+        
+         /**
+         * Finish building the {@link VariantDict} struct.
+         * @return A new instance of {@code VariantDict} with the fields 
+         *         that were set in the Build object.
+         */
+        public VariantDict construct() {
+            return struct;
+        }
     }
 }

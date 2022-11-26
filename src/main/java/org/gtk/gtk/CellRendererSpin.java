@@ -62,7 +62,7 @@ public class CellRendererSpin extends org.gtk.gtk.CellRendererText {
      * @throws ClassCastException If the GType is not derived from "GtkCellRendererSpin", a ClassCastException will be thrown.
      */
     public static CellRendererSpin castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkCellRendererSpin"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), CellRendererSpin.getType())) {
             return new CellRendererSpin(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkCellRendererSpin");
@@ -86,11 +86,100 @@ public class CellRendererSpin extends org.gtk.gtk.CellRendererText {
         super(constructNew(), Ownership.NONE);
     }
     
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.gtk_cell_renderer_spin_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gtk.CellRendererText.Build {
+        
+         /**
+         * A {@link CellRendererSpin.Build} object constructs a {@link CellRendererSpin} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link CellRendererSpin} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link CellRendererSpin} using {@link CellRendererSpin#castFrom}.
+         * @return A new instance of {@code CellRendererSpin} with the properties 
+         *         that were set in the Build object.
+         */
+        public CellRendererSpin construct() {
+            return CellRendererSpin.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    CellRendererSpin.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+        
+        /**
+         * The adjustment that holds the value of the spinbutton.
+         * This must be non-{@code null} for the cell renderer to be editable.
+         * @param adjustment The value for the {@code adjustment} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setAdjustment(org.gtk.gtk.Adjustment adjustment) {
+            names.add("adjustment");
+            values.add(org.gtk.gobject.Value.create(adjustment));
+            return this;
+        }
+        
+        /**
+         * The acceleration rate when you hold down a button.
+         * @param climbRate The value for the {@code climb-rate} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setClimbRate(double climbRate) {
+            names.add("climb-rate");
+            values.add(org.gtk.gobject.Value.create(climbRate));
+            return this;
+        }
+        
+        /**
+         * The number of decimal places to display.
+         * @param digits The value for the {@code digits} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setDigits(int digits) {
+            names.add("digits");
+            values.add(org.gtk.gobject.Value.create(digits));
+            return this;
+        }
+    }
+    
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_cell_renderer_spin_new = Interop.downcallHandle(
             "gtk_cell_renderer_spin_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+            false
+        );
+        
+        private static final MethodHandle gtk_cell_renderer_spin_get_type = Interop.downcallHandle(
+            "gtk_cell_renderer_spin_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }

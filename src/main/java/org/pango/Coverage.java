@@ -55,7 +55,7 @@ public class Coverage extends org.gtk.gobject.Object {
      * @throws ClassCastException If the GType is not derived from "PangoCoverage", a ClassCastException will be thrown.
      */
     public static Coverage castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("PangoCoverage"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), Coverage.getType())) {
             return new Coverage(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of PangoCoverage");
@@ -175,9 +175,9 @@ public class Coverage extends org.gtk.gobject.Object {
     @Deprecated
     public void toBytes(@NotNull Out<byte[]> bytes, Out<Integer> nBytes) {
         java.util.Objects.requireNonNull(bytes, "Parameter 'bytes' must not be null");
+        MemorySegment bytesPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         java.util.Objects.requireNonNull(nBytes, "Parameter 'nBytes' must not be null");
-        MemorySegment bytesPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        MemorySegment nBytesPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
+        MemorySegment nBytesPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         try {
             DowncallHandles.pango_coverage_to_bytes.invokeExact(
                     handle(),
@@ -186,8 +186,8 @@ public class Coverage extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        nBytes.set(nBytesPOINTER.get(ValueLayout.JAVA_INT, 0));
-        bytes.set(MemorySegment.ofAddress(bytesPOINTER.get(ValueLayout.ADDRESS, 0), nBytes.get().intValue() * ValueLayout.JAVA_BYTE.byteSize(), Interop.getScope()).toArray(ValueLayout.JAVA_BYTE));
+        nBytes.set(nBytesPOINTER.get(Interop.valueLayout.C_INT, 0));
+        bytes.set(MemorySegment.ofAddress(bytesPOINTER.get(Interop.valueLayout.ADDRESS, 0), nBytes.get().intValue() * Interop.valueLayout.C_BYTE.byteSize(), Interop.getScope()).toArray(Interop.valueLayout.C_BYTE));
     }
     
     /**
@@ -205,6 +205,20 @@ public class Coverage extends org.gtk.gobject.Object {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         this.yieldOwnership();
+    }
+    
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.pango_coverage_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
     }
     
     /**
@@ -229,60 +243,101 @@ public class Coverage extends org.gtk.gobject.Object {
         }
         return new org.pango.Coverage(RESULT, Ownership.FULL);
     }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gobject.Object.Build {
+        
+         /**
+         * A {@link Coverage.Build} object constructs a {@link Coverage} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link Coverage} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link Coverage} using {@link Coverage#castFrom}.
+         * @return A new instance of {@code Coverage} with the properties 
+         *         that were set in the Build object.
+         */
+        public Coverage construct() {
+            return Coverage.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    Coverage.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+    }
     
     private static class DowncallHandles {
         
         private static final MethodHandle pango_coverage_new = Interop.downcallHandle(
             "pango_coverage_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle pango_coverage_copy = Interop.downcallHandle(
             "pango_coverage_copy",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle pango_coverage_get = Interop.downcallHandle(
             "pango_coverage_get",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle pango_coverage_max = Interop.downcallHandle(
             "pango_coverage_max",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle pango_coverage_ref = Interop.downcallHandle(
             "pango_coverage_ref",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle pango_coverage_set = Interop.downcallHandle(
             "pango_coverage_set",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle pango_coverage_to_bytes = Interop.downcallHandle(
             "pango_coverage_to_bytes",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle pango_coverage_unref = Interop.downcallHandle(
             "pango_coverage_unref",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+            false
+        );
+        
+        private static final MethodHandle pango_coverage_get_type = Interop.downcallHandle(
+            "pango_coverage_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
         
         private static final MethodHandle pango_coverage_from_bytes = Interop.downcallHandle(
             "pango_coverage_from_bytes",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
     }

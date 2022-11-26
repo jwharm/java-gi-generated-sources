@@ -48,7 +48,7 @@ public class UnixMountMonitor extends org.gtk.gobject.Object {
      * @throws ClassCastException If the GType is not derived from "GUnixMountMonitor", a ClassCastException will be thrown.
      */
     public static UnixMountMonitor castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GUnixMountMonitor"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), UnixMountMonitor.getType())) {
             return new UnixMountMonitor(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GUnixMountMonitor");
@@ -76,6 +76,20 @@ public class UnixMountMonitor extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+    }
+    
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.g_unix_mount_monitor_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
     }
     
     /**
@@ -118,7 +132,7 @@ public class UnixMountMonitor extends org.gtk.gobject.Object {
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(UnixMountMonitor.Callbacks.class, "signalUnixMountMonitorMountpointsChanged",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                     Interop.getScope()),
                 Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
@@ -146,7 +160,7 @@ public class UnixMountMonitor extends org.gtk.gobject.Object {
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(UnixMountMonitor.Callbacks.class, "signalUnixMountMonitorMountsChanged",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                     Interop.getScope()),
                 Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
@@ -155,24 +169,65 @@ public class UnixMountMonitor extends org.gtk.gobject.Object {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gobject.Object.Build {
+        
+         /**
+         * A {@link UnixMountMonitor.Build} object constructs a {@link UnixMountMonitor} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link UnixMountMonitor} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link UnixMountMonitor} using {@link UnixMountMonitor#castFrom}.
+         * @return A new instance of {@code UnixMountMonitor} with the properties 
+         *         that were set in the Build object.
+         */
+        public UnixMountMonitor construct() {
+            return UnixMountMonitor.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    UnixMountMonitor.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+    }
     
     private static class DowncallHandles {
         
         private static final MethodHandle g_unix_mount_monitor_new = Interop.downcallHandle(
             "g_unix_mount_monitor_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_unix_mount_monitor_set_rate_limit = Interop.downcallHandle(
             "g_unix_mount_monitor_set_rate_limit",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+            false
+        );
+        
+        private static final MethodHandle g_unix_mount_monitor_get_type = Interop.downcallHandle(
+            "g_unix_mount_monitor_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
         
         private static final MethodHandle g_unix_mount_monitor_get = Interop.downcallHandle(
             "g_unix_mount_monitor_get",
-            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
             false
         );
     }
@@ -180,15 +235,15 @@ public class UnixMountMonitor extends org.gtk.gobject.Object {
     private static class Callbacks {
         
         public static void signalUnixMountMonitorMountpointsChanged(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (UnixMountMonitor.MountpointsChanged) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new UnixMountMonitor(source, Ownership.UNKNOWN));
+            HANDLER.signalReceived(new UnixMountMonitor(source, Ownership.NONE));
         }
         
         public static void signalUnixMountMonitorMountsChanged(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (UnixMountMonitor.MountsChanged) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new UnixMountMonitor(source, Ownership.UNKNOWN));
+            HANDLER.signalReceived(new UnixMountMonitor(source, Ownership.NONE));
         }
     }
 }

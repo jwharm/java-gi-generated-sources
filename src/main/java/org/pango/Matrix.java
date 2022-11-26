@@ -16,7 +16,7 @@ import org.jetbrains.annotations.*;
  * }</pre>
  * @version 1.6
  */
-public class Matrix extends io.github.jwharm.javagi.ProxyBase {
+public class Matrix extends Struct {
     
     static {
         Pango.javagi$ensureInitialized();
@@ -24,13 +24,13 @@ public class Matrix extends io.github.jwharm.javagi.ProxyBase {
     
     private static final java.lang.String C_TYPE_NAME = "PangoMatrix";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
-        ValueLayout.JAVA_DOUBLE.withName("xx"),
-        ValueLayout.JAVA_DOUBLE.withName("xy"),
-        ValueLayout.JAVA_DOUBLE.withName("yx"),
-        ValueLayout.JAVA_DOUBLE.withName("yy"),
-        ValueLayout.JAVA_DOUBLE.withName("x0"),
-        ValueLayout.JAVA_DOUBLE.withName("y0")
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
+        Interop.valueLayout.C_DOUBLE.withName("xx"),
+        Interop.valueLayout.C_DOUBLE.withName("xy"),
+        Interop.valueLayout.C_DOUBLE.withName("yx"),
+        Interop.valueLayout.C_DOUBLE.withName("yy"),
+        Interop.valueLayout.C_DOUBLE.withName("x0"),
+        Interop.valueLayout.C_DOUBLE.withName("y0")
     ).withName(C_TYPE_NAME);
     
     /**
@@ -44,6 +44,10 @@ public class Matrix extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link Matrix}
+     * @return A new, uninitialized @{link Matrix}
+     */
     public static Matrix allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         Matrix newInstance = new Matrix(segment.address(), Ownership.NONE);
@@ -264,9 +268,9 @@ public class Matrix extends io.github.jwharm.javagi.ProxyBase {
      */
     public void getFontScaleFactors(Out<Double> xscale, Out<Double> yscale) {
         java.util.Objects.requireNonNull(xscale, "Parameter 'xscale' must not be null");
+        MemorySegment xscalePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_DOUBLE);
         java.util.Objects.requireNonNull(yscale, "Parameter 'yscale' must not be null");
-        MemorySegment xscalePOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_DOUBLE);
-        MemorySegment yscalePOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_DOUBLE);
+        MemorySegment yscalePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_DOUBLE);
         try {
             DowncallHandles.pango_matrix_get_font_scale_factors.invokeExact(
                     handle(),
@@ -275,8 +279,8 @@ public class Matrix extends io.github.jwharm.javagi.ProxyBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        xscale.set(xscalePOINTER.get(ValueLayout.JAVA_DOUBLE, 0));
-        yscale.set(yscalePOINTER.get(ValueLayout.JAVA_DOUBLE, 0));
+        xscale.set(xscalePOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
+        yscale.set(yscalePOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
     }
     
     /**
@@ -356,9 +360,9 @@ public class Matrix extends io.github.jwharm.javagi.ProxyBase {
      */
     public void transformDistance(Out<Double> dx, Out<Double> dy) {
         java.util.Objects.requireNonNull(dx, "Parameter 'dx' must not be null");
+        MemorySegment dxPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_DOUBLE);
         java.util.Objects.requireNonNull(dy, "Parameter 'dy' must not be null");
-        MemorySegment dxPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_DOUBLE);
-        MemorySegment dyPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_DOUBLE);
+        MemorySegment dyPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_DOUBLE);
         try {
             DowncallHandles.pango_matrix_transform_distance.invokeExact(
                     handle(),
@@ -367,8 +371,8 @@ public class Matrix extends io.github.jwharm.javagi.ProxyBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        dx.set(dxPOINTER.get(ValueLayout.JAVA_DOUBLE, 0));
-        dy.set(dyPOINTER.get(ValueLayout.JAVA_DOUBLE, 0));
+        dx.set(dxPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
+        dy.set(dyPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
     }
     
     /**
@@ -403,9 +407,9 @@ public class Matrix extends io.github.jwharm.javagi.ProxyBase {
      */
     public void transformPoint(Out<Double> x, Out<Double> y) {
         java.util.Objects.requireNonNull(x, "Parameter 'x' must not be null");
+        MemorySegment xPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_DOUBLE);
         java.util.Objects.requireNonNull(y, "Parameter 'y' must not be null");
-        MemorySegment xPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_DOUBLE);
-        MemorySegment yPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_DOUBLE);
+        MemorySegment yPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_DOUBLE);
         try {
             DowncallHandles.pango_matrix_transform_point.invokeExact(
                     handle(),
@@ -414,8 +418,8 @@ public class Matrix extends io.github.jwharm.javagi.ProxyBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        x.set(xPOINTER.get(ValueLayout.JAVA_DOUBLE, 0));
-        y.set(yPOINTER.get(ValueLayout.JAVA_DOUBLE, 0));
+        x.set(xPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
+        y.set(yPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
     }
     
     /**
@@ -473,80 +477,180 @@ public class Matrix extends io.github.jwharm.javagi.ProxyBase {
         
         private static final MethodHandle pango_matrix_concat = Interop.downcallHandle(
             "pango_matrix_concat",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle pango_matrix_copy = Interop.downcallHandle(
             "pango_matrix_copy",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle pango_matrix_free = Interop.downcallHandle(
             "pango_matrix_free",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle pango_matrix_get_font_scale_factor = Interop.downcallHandle(
             "pango_matrix_get_font_scale_factor",
-            FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_DOUBLE, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle pango_matrix_get_font_scale_factors = Interop.downcallHandle(
             "pango_matrix_get_font_scale_factors",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle pango_matrix_get_slant_ratio = Interop.downcallHandle(
             "pango_matrix_get_slant_ratio",
-            FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_DOUBLE, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle pango_matrix_rotate = Interop.downcallHandle(
             "pango_matrix_rotate",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE),
             false
         );
         
         private static final MethodHandle pango_matrix_scale = Interop.downcallHandle(
             "pango_matrix_scale",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_DOUBLE),
             false
         );
         
         private static final MethodHandle pango_matrix_transform_distance = Interop.downcallHandle(
             "pango_matrix_transform_distance",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle pango_matrix_transform_pixel_rectangle = Interop.downcallHandle(
             "pango_matrix_transform_pixel_rectangle",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle pango_matrix_transform_point = Interop.downcallHandle(
             "pango_matrix_transform_point",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle pango_matrix_transform_rectangle = Interop.downcallHandle(
             "pango_matrix_transform_rectangle",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle pango_matrix_translate = Interop.downcallHandle(
             "pango_matrix_translate",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_DOUBLE),
             false
         );
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private Matrix struct;
+        
+         /**
+         * A {@link Matrix.Build} object constructs a {@link Matrix} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = Matrix.allocate();
+        }
+        
+         /**
+         * Finish building the {@link Matrix} struct.
+         * @return A new instance of {@code Matrix} with the fields 
+         *         that were set in the Build object.
+         */
+        public Matrix construct() {
+            return struct;
+        }
+        
+        /**
+         * 1st component of the transformation matrix
+         * @param xx The value for the {@code xx} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setXx(double xx) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("xx"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), xx);
+            return this;
+        }
+        
+        /**
+         * 2nd component of the transformation matrix
+         * @param xy The value for the {@code xy} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setXy(double xy) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("xy"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), xy);
+            return this;
+        }
+        
+        /**
+         * 3rd component of the transformation matrix
+         * @param yx The value for the {@code yx} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setYx(double yx) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("yx"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), yx);
+            return this;
+        }
+        
+        /**
+         * 4th component of the transformation matrix
+         * @param yy The value for the {@code yy} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setYy(double yy) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("yy"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), yy);
+            return this;
+        }
+        
+        /**
+         * x translation
+         * @param x0 The value for the {@code x0} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setX0(double x0) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("x0"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), x0);
+            return this;
+        }
+        
+        /**
+         * y translation
+         * @param y0 The value for the {@code y0} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setY0(double y0) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("y0"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), y0);
+            return this;
+        }
     }
 }

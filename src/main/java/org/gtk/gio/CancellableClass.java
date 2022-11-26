@@ -5,7 +5,7 @@ import java.lang.foreign.*;
 import java.lang.invoke.*;
 import org.jetbrains.annotations.*;
 
-public class CancellableClass extends io.github.jwharm.javagi.ProxyBase {
+public class CancellableClass extends Struct {
     
     static {
         Gio.javagi$ensureInitialized();
@@ -13,7 +13,7 @@ public class CancellableClass extends io.github.jwharm.javagi.ProxyBase {
     
     private static final java.lang.String C_TYPE_NAME = "GCancellableClass";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gobject.ObjectClass.getMemoryLayout().withName("parent_class"),
         Interop.valueLayout.ADDRESS.withName("cancelled"),
         Interop.valueLayout.ADDRESS.withName("_g_reserved1"),
@@ -34,6 +34,10 @@ public class CancellableClass extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link CancellableClass}
+     * @return A new, uninitialized @{link CancellableClass}
+     */
     public static CancellableClass allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         CancellableClass newInstance = new CancellableClass(segment.address(), Ownership.NONE);
@@ -58,5 +62,82 @@ public class CancellableClass extends io.github.jwharm.javagi.ProxyBase {
     @ApiStatus.Internal
     public CancellableClass(Addressable address, Ownership ownership) {
         super(address, ownership);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private CancellableClass struct;
+        
+         /**
+         * A {@link CancellableClass.Build} object constructs a {@link CancellableClass} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = CancellableClass.allocate();
+        }
+        
+         /**
+         * Finish building the {@link CancellableClass} struct.
+         * @return A new instance of {@code CancellableClass} with the fields 
+         *         that were set in the Build object.
+         */
+        public CancellableClass construct() {
+            return struct;
+        }
+        
+        public Build setParentClass(org.gtk.gobject.ObjectClass parent_class) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parent_class == null ? MemoryAddress.NULL : parent_class.handle()));
+            return this;
+        }
+        
+        public Build setCancelled(java.lang.foreign.MemoryAddress cancelled) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("cancelled"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (cancelled == null ? MemoryAddress.NULL : cancelled));
+            return this;
+        }
+        
+        public Build setGReserved1(java.lang.foreign.MemoryAddress _g_reserved1) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("_g_reserved1"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (_g_reserved1 == null ? MemoryAddress.NULL : _g_reserved1));
+            return this;
+        }
+        
+        public Build setGReserved2(java.lang.foreign.MemoryAddress _g_reserved2) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("_g_reserved2"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (_g_reserved2 == null ? MemoryAddress.NULL : _g_reserved2));
+            return this;
+        }
+        
+        public Build setGReserved3(java.lang.foreign.MemoryAddress _g_reserved3) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("_g_reserved3"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (_g_reserved3 == null ? MemoryAddress.NULL : _g_reserved3));
+            return this;
+        }
+        
+        public Build setGReserved4(java.lang.foreign.MemoryAddress _g_reserved4) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("_g_reserved4"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (_g_reserved4 == null ? MemoryAddress.NULL : _g_reserved4));
+            return this;
+        }
+        
+        public Build setGReserved5(java.lang.foreign.MemoryAddress _g_reserved5) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("_g_reserved5"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (_g_reserved5 == null ? MemoryAddress.NULL : _g_reserved5));
+            return this;
+        }
     }
 }

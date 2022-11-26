@@ -51,7 +51,7 @@ public class GestureStylus extends org.gtk.gtk.GestureSingle {
      * @throws ClassCastException If the GType is not derived from "GtkGestureStylus", a ClassCastException will be thrown.
      */
     public static GestureStylus castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkGestureStylus"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), GestureStylus.getType())) {
             return new GestureStylus(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkGestureStylus");
@@ -104,7 +104,7 @@ public class GestureStylus extends org.gtk.gtk.GestureSingle {
     public boolean getAxis(@NotNull org.gtk.gdk.AxisUse axis, Out<Double> value) {
         java.util.Objects.requireNonNull(axis, "Parameter 'axis' must not be null");
         java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
-        MemorySegment valuePOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_DOUBLE);
+        MemorySegment valuePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_DOUBLE);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_gesture_stylus_get_axis.invokeExact(
@@ -114,7 +114,7 @@ public class GestureStylus extends org.gtk.gtk.GestureSingle {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        value.set(valuePOINTER.get(ValueLayout.JAVA_DOUBLE, 0));
+        value.set(valuePOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
         return RESULT != 0;
     }
     
@@ -138,9 +138,9 @@ public class GestureStylus extends org.gtk.gtk.GestureSingle {
      */
     public boolean getBacklog(@NotNull Out<org.gtk.gdk.TimeCoord[]> backlog, Out<Integer> nElems) {
         java.util.Objects.requireNonNull(backlog, "Parameter 'backlog' must not be null");
+        MemorySegment backlogPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         java.util.Objects.requireNonNull(nElems, "Parameter 'nElems' must not be null");
-        MemorySegment backlogPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        MemorySegment nElemsPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
+        MemorySegment nElemsPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_gesture_stylus_get_backlog.invokeExact(
@@ -150,10 +150,10 @@ public class GestureStylus extends org.gtk.gtk.GestureSingle {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        nElems.set(nElemsPOINTER.get(ValueLayout.JAVA_INT, 0));
+        nElems.set(nElemsPOINTER.get(Interop.valueLayout.C_INT, 0));
         org.gtk.gdk.TimeCoord[] backlogARRAY = new org.gtk.gdk.TimeCoord[nElems.get().intValue()];
         for (int I = 0; I < nElems.get().intValue(); I++) {
-            var OBJ = backlogPOINTER.get(ValueLayout.ADDRESS, I);
+            var OBJ = backlogPOINTER.get(Interop.valueLayout.ADDRESS, I);
             backlogARRAY[I] = new org.gtk.gdk.TimeCoord(OBJ, Ownership.FULL);
         }
         backlog.set(backlogARRAY);
@@ -180,6 +180,20 @@ public class GestureStylus extends org.gtk.gtk.GestureSingle {
         return new org.gtk.gdk.DeviceTool(RESULT, Ownership.NONE);
     }
     
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.gtk_gesture_stylus_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+    
     @FunctionalInterface
     public interface Down {
         void signalReceived(GestureStylus source, double x, double y);
@@ -198,7 +212,7 @@ public class GestureStylus extends org.gtk.gtk.GestureSingle {
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(GestureStylus.Callbacks.class, "signalGestureStylusDown",
                         MethodType.methodType(void.class, MemoryAddress.class, double.class, double.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS),
+                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.ADDRESS),
                     Interop.getScope()),
                 Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
@@ -226,7 +240,7 @@ public class GestureStylus extends org.gtk.gtk.GestureSingle {
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(GestureStylus.Callbacks.class, "signalGestureStylusMotion",
                         MethodType.methodType(void.class, MemoryAddress.class, double.class, double.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS),
+                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.ADDRESS),
                     Interop.getScope()),
                 Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
@@ -254,7 +268,7 @@ public class GestureStylus extends org.gtk.gtk.GestureSingle {
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(GestureStylus.Callbacks.class, "signalGestureStylusProximity",
                         MethodType.methodType(void.class, MemoryAddress.class, double.class, double.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS),
+                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.ADDRESS),
                     Interop.getScope()),
                 Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
@@ -282,7 +296,7 @@ public class GestureStylus extends org.gtk.gtk.GestureSingle {
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(GestureStylus.Callbacks.class, "signalGestureStylusUp",
                         MethodType.methodType(void.class, MemoryAddress.class, double.class, double.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS),
+                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.ADDRESS),
                     Interop.getScope()),
                 Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
@@ -291,36 +305,77 @@ public class GestureStylus extends org.gtk.gtk.GestureSingle {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gtk.GestureSingle.Build {
+        
+         /**
+         * A {@link GestureStylus.Build} object constructs a {@link GestureStylus} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link GestureStylus} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link GestureStylus} using {@link GestureStylus#castFrom}.
+         * @return A new instance of {@code GestureStylus} with the properties 
+         *         that were set in the Build object.
+         */
+        public GestureStylus construct() {
+            return GestureStylus.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    GestureStylus.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+    }
     
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_gesture_stylus_new = Interop.downcallHandle(
             "gtk_gesture_stylus_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_gesture_stylus_get_axes = Interop.downcallHandle(
             "gtk_gesture_stylus_get_axes",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_gesture_stylus_get_axis = Interop.downcallHandle(
             "gtk_gesture_stylus_get_axis",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_gesture_stylus_get_backlog = Interop.downcallHandle(
             "gtk_gesture_stylus_get_backlog",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_gesture_stylus_get_device_tool = Interop.downcallHandle(
             "gtk_gesture_stylus_get_device_tool",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+            false
+        );
+        
+        private static final MethodHandle gtk_gesture_stylus_get_type = Interop.downcallHandle(
+            "gtk_gesture_stylus_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }
@@ -328,27 +383,27 @@ public class GestureStylus extends org.gtk.gtk.GestureSingle {
     private static class Callbacks {
         
         public static void signalGestureStylusDown(MemoryAddress source, double x, double y, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (GestureStylus.Down) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new GestureStylus(source, Ownership.UNKNOWN), x, y);
+            HANDLER.signalReceived(new GestureStylus(source, Ownership.NONE), x, y);
         }
         
         public static void signalGestureStylusMotion(MemoryAddress source, double x, double y, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (GestureStylus.Motion) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new GestureStylus(source, Ownership.UNKNOWN), x, y);
+            HANDLER.signalReceived(new GestureStylus(source, Ownership.NONE), x, y);
         }
         
         public static void signalGestureStylusProximity(MemoryAddress source, double x, double y, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (GestureStylus.Proximity) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new GestureStylus(source, Ownership.UNKNOWN), x, y);
+            HANDLER.signalReceived(new GestureStylus(source, Ownership.NONE), x, y);
         }
         
         public static void signalGestureStylusUp(MemoryAddress source, double x, double y, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (GestureStylus.Up) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new GestureStylus(source, Ownership.UNKNOWN), x, y);
+            HANDLER.signalReceived(new GestureStylus(source, Ownership.NONE), x, y);
         }
     }
 }

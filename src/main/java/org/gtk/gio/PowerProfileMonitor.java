@@ -13,10 +13,10 @@ import org.jetbrains.annotations.*;
  * <p>
  * When in “Low Power” mode, it is recommended that applications:
  * <ul>
- * <li>disabling automatic downloads
+ * <li>disable automatic downloads;
  * <li>reduce the rate of refresh from online sources such as calendar or
- *   email synchronisation
- * <li>if the application has expensive visual effects, reduce them
+ *   email synchronisation;
+ * <li>reduce the use of expensive visual effects.
  * </ul>
  * <p>
  * It is also likely that OS components providing services to applications will
@@ -47,7 +47,7 @@ public interface PowerProfileMonitor extends io.github.jwharm.javagi.Proxy {
      * @throws ClassCastException If the GType is not derived from "GPowerProfileMonitor", a ClassCastException will be thrown.
      */
     public static PowerProfileMonitor castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GPowerProfileMonitor"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), PowerProfileMonitor.getType())) {
             return new PowerProfileMonitorImpl(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GPowerProfileMonitor");
@@ -74,6 +74,20 @@ public interface PowerProfileMonitor extends io.github.jwharm.javagi.Proxy {
     }
     
     /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.g_power_profile_monitor_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+    
+    /**
      * Gets a reference to the default {@link PowerProfileMonitor} for the system.
      * @return a new reference to the default {@link PowerProfileMonitor}
      */
@@ -93,14 +107,21 @@ public interface PowerProfileMonitor extends io.github.jwharm.javagi.Proxy {
         @ApiStatus.Internal
         static final MethodHandle g_power_profile_monitor_get_power_saver_enabled = Interop.downcallHandle(
             "g_power_profile_monitor_get_power_saver_enabled",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+            false
+        );
+        
+        @ApiStatus.Internal
+        static final MethodHandle g_power_profile_monitor_get_type = Interop.downcallHandle(
+            "g_power_profile_monitor_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_power_profile_monitor_dup_default = Interop.downcallHandle(
             "g_power_profile_monitor_dup_default",
-            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
             false
         );
     }

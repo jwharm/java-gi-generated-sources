@@ -81,7 +81,7 @@ public class Assistant extends org.gtk.gtk.Window implements org.gtk.gtk.Accessi
      * @throws ClassCastException If the GType is not derived from "GtkAssistant", a ClassCastException will be thrown.
      */
     public static Assistant castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkAssistant"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), Assistant.getType())) {
             return new Assistant(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkAssistant");
@@ -441,7 +441,7 @@ public class Assistant extends org.gtk.gtk.Window implements org.gtk.gtk.Accessi
                     (Addressable) (pageFunc == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gtk.Callbacks.class, "cbAssistantPageFunc",
                             MethodType.methodType(int.class, int.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+                        FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
                         Interop.getScope())),
                     (Addressable) (pageFunc == null ? MemoryAddress.NULL : Interop.registerCallback(pageFunc)),
                     Interop.cbDestroyNotifySymbol());
@@ -531,6 +531,20 @@ public class Assistant extends org.gtk.gtk.Window implements org.gtk.gtk.Accessi
         }
     }
     
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.gtk_assistant_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+    
     @FunctionalInterface
     public interface Apply {
         void signalReceived(Assistant source);
@@ -559,7 +573,7 @@ public class Assistant extends org.gtk.gtk.Window implements org.gtk.gtk.Accessi
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(Assistant.Callbacks.class, "signalAssistantApply",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                     Interop.getScope()),
                 Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
@@ -587,7 +601,7 @@ public class Assistant extends org.gtk.gtk.Window implements org.gtk.gtk.Accessi
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(Assistant.Callbacks.class, "signalAssistantCancel",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                     Interop.getScope()),
                 Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
@@ -617,7 +631,7 @@ public class Assistant extends org.gtk.gtk.Window implements org.gtk.gtk.Accessi
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(Assistant.Callbacks.class, "signalAssistantClose",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                     Interop.getScope()),
                 Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
@@ -645,7 +659,7 @@ public class Assistant extends org.gtk.gtk.Window implements org.gtk.gtk.Accessi
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(Assistant.Callbacks.class, "signalAssistantEscape",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                     Interop.getScope()),
                 Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
@@ -677,7 +691,7 @@ public class Assistant extends org.gtk.gtk.Window implements org.gtk.gtk.Accessi
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(Assistant.Callbacks.class, "signalAssistantPrepare",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                     Interop.getScope()),
                 Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
@@ -686,150 +700,217 @@ public class Assistant extends org.gtk.gtk.Window implements org.gtk.gtk.Accessi
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gtk.Window.Build {
+        
+         /**
+         * A {@link Assistant.Build} object constructs a {@link Assistant} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link Assistant} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link Assistant} using {@link Assistant#castFrom}.
+         * @return A new instance of {@code Assistant} with the properties 
+         *         that were set in the Build object.
+         */
+        public Assistant construct() {
+            return Assistant.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    Assistant.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+        
+        /**
+         * {@code GListModel} containing the pages.
+         * @param pages The value for the {@code pages} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setPages(org.gtk.gio.ListModel pages) {
+            names.add("pages");
+            values.add(org.gtk.gobject.Value.create(pages));
+            return this;
+        }
+        
+        /**
+         * {@code true} if the assistant uses a {@code GtkHeaderBar} for action buttons
+         * instead of the action-area.
+         * <p>
+         * For technical reasons, this property is declared as an integer
+         * property, but you should only set it to {@code true} or {@code false}.
+         * @param useHeaderBar The value for the {@code use-header-bar} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setUseHeaderBar(int useHeaderBar) {
+            names.add("use-header-bar");
+            values.add(org.gtk.gobject.Value.create(useHeaderBar));
+            return this;
+        }
+    }
     
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_assistant_new = Interop.downcallHandle(
             "gtk_assistant_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_assistant_add_action_widget = Interop.downcallHandle(
             "gtk_assistant_add_action_widget",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_assistant_append_page = Interop.downcallHandle(
             "gtk_assistant_append_page",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_assistant_commit = Interop.downcallHandle(
             "gtk_assistant_commit",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_assistant_get_current_page = Interop.downcallHandle(
             "gtk_assistant_get_current_page",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_assistant_get_n_pages = Interop.downcallHandle(
             "gtk_assistant_get_n_pages",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_assistant_get_nth_page = Interop.downcallHandle(
             "gtk_assistant_get_nth_page",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_assistant_get_page = Interop.downcallHandle(
             "gtk_assistant_get_page",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_assistant_get_page_complete = Interop.downcallHandle(
             "gtk_assistant_get_page_complete",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_assistant_get_page_title = Interop.downcallHandle(
             "gtk_assistant_get_page_title",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_assistant_get_page_type = Interop.downcallHandle(
             "gtk_assistant_get_page_type",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_assistant_get_pages = Interop.downcallHandle(
             "gtk_assistant_get_pages",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_assistant_insert_page = Interop.downcallHandle(
             "gtk_assistant_insert_page",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_assistant_next_page = Interop.downcallHandle(
             "gtk_assistant_next_page",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_assistant_prepend_page = Interop.downcallHandle(
             "gtk_assistant_prepend_page",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_assistant_previous_page = Interop.downcallHandle(
             "gtk_assistant_previous_page",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_assistant_remove_action_widget = Interop.downcallHandle(
             "gtk_assistant_remove_action_widget",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_assistant_remove_page = Interop.downcallHandle(
             "gtk_assistant_remove_page",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_assistant_set_current_page = Interop.downcallHandle(
             "gtk_assistant_set_current_page",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_assistant_set_forward_page_func = Interop.downcallHandle(
             "gtk_assistant_set_forward_page_func",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_assistant_set_page_complete = Interop.downcallHandle(
             "gtk_assistant_set_page_complete",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_assistant_set_page_title = Interop.downcallHandle(
             "gtk_assistant_set_page_title",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_assistant_set_page_type = Interop.downcallHandle(
             "gtk_assistant_set_page_type",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_assistant_update_buttons_state = Interop.downcallHandle(
             "gtk_assistant_update_buttons_state",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+            false
+        );
+        
+        private static final MethodHandle gtk_assistant_get_type = Interop.downcallHandle(
+            "gtk_assistant_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }
@@ -837,33 +918,33 @@ public class Assistant extends org.gtk.gtk.Window implements org.gtk.gtk.Accessi
     private static class Callbacks {
         
         public static void signalAssistantApply(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (Assistant.Apply) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Assistant(source, Ownership.UNKNOWN));
+            HANDLER.signalReceived(new Assistant(source, Ownership.NONE));
         }
         
         public static void signalAssistantCancel(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (Assistant.Cancel) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Assistant(source, Ownership.UNKNOWN));
+            HANDLER.signalReceived(new Assistant(source, Ownership.NONE));
         }
         
         public static void signalAssistantClose(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (Assistant.Close) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Assistant(source, Ownership.UNKNOWN));
+            HANDLER.signalReceived(new Assistant(source, Ownership.NONE));
         }
         
         public static void signalAssistantEscape(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (Assistant.Escape) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Assistant(source, Ownership.UNKNOWN));
+            HANDLER.signalReceived(new Assistant(source, Ownership.NONE));
         }
         
         public static void signalAssistantPrepare(MemoryAddress source, MemoryAddress page, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (Assistant.Prepare) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Assistant(source, Ownership.UNKNOWN), new org.gtk.gtk.Widget(page, Ownership.NONE));
+            HANDLER.signalReceived(new Assistant(source, Ownership.NONE), new org.gtk.gtk.Widget(page, Ownership.NONE));
         }
     }
 }

@@ -10,7 +10,7 @@ import org.jetbrains.annotations.*;
  * same row (a {@code GtkTreePath} refers to a position, not a fixed row). Create a
  * new GtkTreeRowReference with gtk_tree_row_reference_new().
  */
-public class TreeRowReference extends io.github.jwharm.javagi.ProxyBase {
+public class TreeRowReference extends Struct {
     
     static {
         Gtk.javagi$ensureInitialized();
@@ -29,6 +29,10 @@ public class TreeRowReference extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link TreeRowReference}
+     * @return A new, uninitialized @{link TreeRowReference}
+     */
     public static TreeRowReference allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         TreeRowReference newInstance = new TreeRowReference(segment.address(), Ownership.NONE);
@@ -265,62 +269,90 @@ public class TreeRowReference extends io.github.jwharm.javagi.ProxyBase {
         
         private static final MethodHandle gtk_tree_row_reference_new = Interop.downcallHandle(
             "gtk_tree_row_reference_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_tree_row_reference_new_proxy = Interop.downcallHandle(
             "gtk_tree_row_reference_new_proxy",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_tree_row_reference_copy = Interop.downcallHandle(
             "gtk_tree_row_reference_copy",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_tree_row_reference_free = Interop.downcallHandle(
             "gtk_tree_row_reference_free",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_tree_row_reference_get_model = Interop.downcallHandle(
             "gtk_tree_row_reference_get_model",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_tree_row_reference_get_path = Interop.downcallHandle(
             "gtk_tree_row_reference_get_path",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_tree_row_reference_valid = Interop.downcallHandle(
             "gtk_tree_row_reference_valid",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_tree_row_reference_deleted = Interop.downcallHandle(
             "gtk_tree_row_reference_deleted",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_tree_row_reference_inserted = Interop.downcallHandle(
             "gtk_tree_row_reference_inserted",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_tree_row_reference_reordered = Interop.downcallHandle(
             "gtk_tree_row_reference_reordered",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private TreeRowReference struct;
+        
+         /**
+         * A {@link TreeRowReference.Build} object constructs a {@link TreeRowReference} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = TreeRowReference.allocate();
+        }
+        
+         /**
+         * Finish building the {@link TreeRowReference} struct.
+         * @return A new instance of {@code TreeRowReference} with the fields 
+         *         that were set in the Build object.
+         */
+        public TreeRowReference construct() {
+            return struct;
+        }
     }
 }

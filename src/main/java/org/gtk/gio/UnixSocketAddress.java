@@ -33,7 +33,7 @@ public class UnixSocketAddress extends org.gtk.gio.SocketAddress implements org.
     
     private static final java.lang.String C_TYPE_NAME = "GUnixSocketAddress";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gio.SocketAddress.getMemoryLayout().withName("parent_instance"),
         Interop.valueLayout.ADDRESS.withName("priv")
     ).withName(C_TYPE_NAME);
@@ -79,7 +79,7 @@ public class UnixSocketAddress extends org.gtk.gio.SocketAddress implements org.
      * @throws ClassCastException If the GType is not derived from "GUnixSocketAddress", a ClassCastException will be thrown.
      */
     public static UnixSocketAddress castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GUnixSocketAddress"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), UnixSocketAddress.getType())) {
             return new UnixSocketAddress(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GUnixSocketAddress");
@@ -261,6 +261,20 @@ public class UnixSocketAddress extends org.gtk.gio.SocketAddress implements org.
     }
     
     /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.g_unix_socket_address_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+    
+    /**
      * Checks if abstract UNIX domain socket names are supported.
      * @return {@code true} if supported, {@code false} otherwise
      */
@@ -273,54 +287,118 @@ public class UnixSocketAddress extends org.gtk.gio.SocketAddress implements org.
         }
         return RESULT != 0;
     }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gio.SocketAddress.Build {
+        
+         /**
+         * A {@link UnixSocketAddress.Build} object constructs a {@link UnixSocketAddress} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link UnixSocketAddress} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link UnixSocketAddress} using {@link UnixSocketAddress#castFrom}.
+         * @return A new instance of {@code UnixSocketAddress} with the properties 
+         *         that were set in the Build object.
+         */
+        public UnixSocketAddress construct() {
+            return UnixSocketAddress.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    UnixSocketAddress.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+        
+        /**
+         * Whether or not this is an abstract address
+         * @param abstract_ The value for the {@code abstract} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setAbstract(boolean abstract_) {
+            names.add("abstract");
+            values.add(org.gtk.gobject.Value.create(abstract_));
+            return this;
+        }
+        
+        public Build setAddressType(org.gtk.gio.UnixSocketAddressType addressType) {
+            names.add("address-type");
+            values.add(org.gtk.gobject.Value.create(addressType));
+            return this;
+        }
+        
+        public Build setPath(java.lang.String path) {
+            names.add("path");
+            values.add(org.gtk.gobject.Value.create(path));
+            return this;
+        }
+    }
     
     private static class DowncallHandles {
         
         private static final MethodHandle g_unix_socket_address_new = Interop.downcallHandle(
             "g_unix_socket_address_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_unix_socket_address_new_abstract = Interop.downcallHandle(
             "g_unix_socket_address_new_abstract",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_unix_socket_address_new_with_type = Interop.downcallHandle(
             "g_unix_socket_address_new_with_type",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_unix_socket_address_get_address_type = Interop.downcallHandle(
             "g_unix_socket_address_get_address_type",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_unix_socket_address_get_is_abstract = Interop.downcallHandle(
             "g_unix_socket_address_get_is_abstract",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_unix_socket_address_get_path = Interop.downcallHandle(
             "g_unix_socket_address_get_path",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_unix_socket_address_get_path_len = Interop.downcallHandle(
             "g_unix_socket_address_get_path_len",
-            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
+            false
+        );
+        
+        private static final MethodHandle g_unix_socket_address_get_type = Interop.downcallHandle(
+            "g_unix_socket_address_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
         
         private static final MethodHandle g_unix_socket_address_abstract_names_supported = Interop.downcallHandle(
             "g_unix_socket_address_abstract_names_supported",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT),
             false
         );
     }

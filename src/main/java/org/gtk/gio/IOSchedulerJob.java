@@ -8,7 +8,7 @@ import org.jetbrains.annotations.*;
 /**
  * Opaque class for defining and scheduling IO jobs.
  */
-public class IOSchedulerJob extends io.github.jwharm.javagi.ProxyBase {
+public class IOSchedulerJob extends Struct {
     
     static {
         Gio.javagi$ensureInitialized();
@@ -27,6 +27,10 @@ public class IOSchedulerJob extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link IOSchedulerJob}
+     * @return A new, uninitialized @{link IOSchedulerJob}
+     */
     public static IOSchedulerJob allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         IOSchedulerJob newInstance = new IOSchedulerJob(segment.address(), Ownership.NONE);
@@ -62,7 +66,7 @@ public class IOSchedulerJob extends io.github.jwharm.javagi.ProxyBase {
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbSourceFunc",
                             MethodType.methodType(int.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+                        FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
                         Interop.getScope()),
                     (Addressable) (Interop.registerCallback(func)),
                     Interop.cbDestroyNotifySymbol());
@@ -94,7 +98,7 @@ public class IOSchedulerJob extends io.github.jwharm.javagi.ProxyBase {
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbSourceFunc",
                             MethodType.methodType(int.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+                        FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
                         Interop.getScope()),
                     (Addressable) (Interop.registerCallback(func)),
                     Interop.cbDestroyNotifySymbol());
@@ -107,14 +111,42 @@ public class IOSchedulerJob extends io.github.jwharm.javagi.ProxyBase {
         
         private static final MethodHandle g_io_scheduler_job_send_to_mainloop = Interop.downcallHandle(
             "g_io_scheduler_job_send_to_mainloop",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_io_scheduler_job_send_to_mainloop_async = Interop.downcallHandle(
             "g_io_scheduler_job_send_to_mainloop_async",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private IOSchedulerJob struct;
+        
+         /**
+         * A {@link IOSchedulerJob.Build} object constructs a {@link IOSchedulerJob} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = IOSchedulerJob.allocate();
+        }
+        
+         /**
+         * Finish building the {@link IOSchedulerJob} struct.
+         * @return A new instance of {@code IOSchedulerJob} with the fields 
+         *         that were set in the Build object.
+         */
+        public IOSchedulerJob construct() {
+            return struct;
+        }
     }
 }

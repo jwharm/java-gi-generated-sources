@@ -12,7 +12,7 @@ import org.jetbrains.annotations.*;
  * and should never be accessed directly.
  * @version 1.0
  */
-public class Quaternion extends io.github.jwharm.javagi.ProxyBase {
+public class Quaternion extends Struct {
     
     static {
         Graphene.javagi$ensureInitialized();
@@ -20,11 +20,11 @@ public class Quaternion extends io.github.jwharm.javagi.ProxyBase {
     
     private static final java.lang.String C_TYPE_NAME = "graphene_quaternion_t";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
-        ValueLayout.JAVA_FLOAT.withName("x"),
-        ValueLayout.JAVA_FLOAT.withName("y"),
-        ValueLayout.JAVA_FLOAT.withName("z"),
-        ValueLayout.JAVA_FLOAT.withName("w")
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
+        Interop.valueLayout.C_FLOAT.withName("x"),
+        Interop.valueLayout.C_FLOAT.withName("y"),
+        Interop.valueLayout.C_FLOAT.withName("z"),
+        Interop.valueLayout.C_FLOAT.withName("w")
     ).withName(C_TYPE_NAME);
     
     /**
@@ -38,6 +38,10 @@ public class Quaternion extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link Quaternion}
+     * @return A new, uninitialized @{link Quaternion}
+     */
     public static Quaternion allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         Quaternion newInstance = new Quaternion(segment.address(), Ownership.NONE);
@@ -423,8 +427,8 @@ public class Quaternion extends io.github.jwharm.javagi.ProxyBase {
      */
     public void toAngleVec3(Out<Float> angle, @NotNull org.gtk.graphene.Vec3 axis) {
         java.util.Objects.requireNonNull(angle, "Parameter 'angle' must not be null");
+        MemorySegment anglePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_FLOAT);
         java.util.Objects.requireNonNull(axis, "Parameter 'axis' must not be null");
-        MemorySegment anglePOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_FLOAT);
         try {
             DowncallHandles.graphene_quaternion_to_angle_vec3.invokeExact(
                     handle(),
@@ -433,7 +437,7 @@ public class Quaternion extends io.github.jwharm.javagi.ProxyBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        angle.set(anglePOINTER.get(ValueLayout.JAVA_FLOAT, 0));
+        angle.set(anglePOINTER.get(Interop.valueLayout.C_FLOAT, 0));
     }
     
     /**
@@ -449,11 +453,11 @@ public class Quaternion extends io.github.jwharm.javagi.ProxyBase {
      */
     public void toAngles(Out<Float> degX, Out<Float> degY, Out<Float> degZ) {
         java.util.Objects.requireNonNull(degX, "Parameter 'degX' must not be null");
+        MemorySegment degXPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_FLOAT);
         java.util.Objects.requireNonNull(degY, "Parameter 'degY' must not be null");
+        MemorySegment degYPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_FLOAT);
         java.util.Objects.requireNonNull(degZ, "Parameter 'degZ' must not be null");
-        MemorySegment degXPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_FLOAT);
-        MemorySegment degYPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_FLOAT);
-        MemorySegment degZPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_FLOAT);
+        MemorySegment degZPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_FLOAT);
         try {
             DowncallHandles.graphene_quaternion_to_angles.invokeExact(
                     handle(),
@@ -463,9 +467,9 @@ public class Quaternion extends io.github.jwharm.javagi.ProxyBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        degX.set(degXPOINTER.get(ValueLayout.JAVA_FLOAT, 0));
-        degY.set(degYPOINTER.get(ValueLayout.JAVA_FLOAT, 0));
-        degZ.set(degZPOINTER.get(ValueLayout.JAVA_FLOAT, 0));
+        degX.set(degXPOINTER.get(Interop.valueLayout.C_FLOAT, 0));
+        degY.set(degYPOINTER.get(Interop.valueLayout.C_FLOAT, 0));
+        degZ.set(degZPOINTER.get(Interop.valueLayout.C_FLOAT, 0));
     }
     
     /**
@@ -497,11 +501,11 @@ public class Quaternion extends io.github.jwharm.javagi.ProxyBase {
      */
     public void toRadians(Out<Float> radX, Out<Float> radY, Out<Float> radZ) {
         java.util.Objects.requireNonNull(radX, "Parameter 'radX' must not be null");
+        MemorySegment radXPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_FLOAT);
         java.util.Objects.requireNonNull(radY, "Parameter 'radY' must not be null");
+        MemorySegment radYPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_FLOAT);
         java.util.Objects.requireNonNull(radZ, "Parameter 'radZ' must not be null");
-        MemorySegment radXPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_FLOAT);
-        MemorySegment radYPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_FLOAT);
-        MemorySegment radZPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_FLOAT);
+        MemorySegment radZPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_FLOAT);
         try {
             DowncallHandles.graphene_quaternion_to_radians.invokeExact(
                     handle(),
@@ -511,9 +515,9 @@ public class Quaternion extends io.github.jwharm.javagi.ProxyBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        radX.set(radXPOINTER.get(ValueLayout.JAVA_FLOAT, 0));
-        radY.set(radYPOINTER.get(ValueLayout.JAVA_FLOAT, 0));
-        radZ.set(radZPOINTER.get(ValueLayout.JAVA_FLOAT, 0));
+        radX.set(radXPOINTER.get(Interop.valueLayout.C_FLOAT, 0));
+        radY.set(radYPOINTER.get(Interop.valueLayout.C_FLOAT, 0));
+        radZ.set(radZPOINTER.get(Interop.valueLayout.C_FLOAT, 0));
     }
     
     /**
@@ -537,146 +541,202 @@ public class Quaternion extends io.github.jwharm.javagi.ProxyBase {
         
         private static final MethodHandle graphene_quaternion_alloc = Interop.downcallHandle(
             "graphene_quaternion_alloc",
-            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle graphene_quaternion_add = Interop.downcallHandle(
             "graphene_quaternion_add",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle graphene_quaternion_dot = Interop.downcallHandle(
             "graphene_quaternion_dot",
-            FunctionDescriptor.of(ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_FLOAT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle graphene_quaternion_equal = Interop.downcallHandle(
             "graphene_quaternion_equal",
-            FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_BOOLEAN, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle graphene_quaternion_free = Interop.downcallHandle(
             "graphene_quaternion_free",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle graphene_quaternion_init = Interop.downcallHandle(
             "graphene_quaternion_init",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_FLOAT, Interop.valueLayout.C_FLOAT, Interop.valueLayout.C_FLOAT, Interop.valueLayout.C_FLOAT),
             false
         );
         
         private static final MethodHandle graphene_quaternion_init_from_angle_vec3 = Interop.downcallHandle(
             "graphene_quaternion_init_from_angle_vec3",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_FLOAT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle graphene_quaternion_init_from_angles = Interop.downcallHandle(
             "graphene_quaternion_init_from_angles",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_FLOAT, Interop.valueLayout.C_FLOAT, Interop.valueLayout.C_FLOAT),
             false
         );
         
         private static final MethodHandle graphene_quaternion_init_from_euler = Interop.downcallHandle(
             "graphene_quaternion_init_from_euler",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle graphene_quaternion_init_from_matrix = Interop.downcallHandle(
             "graphene_quaternion_init_from_matrix",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle graphene_quaternion_init_from_quaternion = Interop.downcallHandle(
             "graphene_quaternion_init_from_quaternion",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle graphene_quaternion_init_from_radians = Interop.downcallHandle(
             "graphene_quaternion_init_from_radians",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_FLOAT, Interop.valueLayout.C_FLOAT, Interop.valueLayout.C_FLOAT),
             false
         );
         
         private static final MethodHandle graphene_quaternion_init_from_vec4 = Interop.downcallHandle(
             "graphene_quaternion_init_from_vec4",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle graphene_quaternion_init_identity = Interop.downcallHandle(
             "graphene_quaternion_init_identity",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle graphene_quaternion_invert = Interop.downcallHandle(
             "graphene_quaternion_invert",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle graphene_quaternion_multiply = Interop.downcallHandle(
             "graphene_quaternion_multiply",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle graphene_quaternion_normalize = Interop.downcallHandle(
             "graphene_quaternion_normalize",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle graphene_quaternion_scale = Interop.downcallHandle(
             "graphene_quaternion_scale",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_FLOAT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle graphene_quaternion_slerp = Interop.downcallHandle(
             "graphene_quaternion_slerp",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_FLOAT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle graphene_quaternion_to_angle_vec3 = Interop.downcallHandle(
             "graphene_quaternion_to_angle_vec3",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle graphene_quaternion_to_angles = Interop.downcallHandle(
             "graphene_quaternion_to_angles",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle graphene_quaternion_to_matrix = Interop.downcallHandle(
             "graphene_quaternion_to_matrix",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle graphene_quaternion_to_radians = Interop.downcallHandle(
             "graphene_quaternion_to_radians",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle graphene_quaternion_to_vec4 = Interop.downcallHandle(
             "graphene_quaternion_to_vec4",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private Quaternion struct;
+        
+         /**
+         * A {@link Quaternion.Build} object constructs a {@link Quaternion} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = Quaternion.allocate();
+        }
+        
+         /**
+         * Finish building the {@link Quaternion} struct.
+         * @return A new instance of {@code Quaternion} with the fields 
+         *         that were set in the Build object.
+         */
+        public Quaternion construct() {
+            return struct;
+        }
+        
+        public Build setX(float x) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("x"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), x);
+            return this;
+        }
+        
+        public Build setY(float y) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("y"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), y);
+            return this;
+        }
+        
+        public Build setZ(float z) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("z"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), z);
+            return this;
+        }
+        
+        public Build setW(float w) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("w"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), w);
+            return this;
+        }
     }
 }

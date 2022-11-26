@@ -9,7 +9,7 @@ import org.jetbrains.annotations.*;
  * vtable for a {@link TlsServerConnection} implementation.
  * @version 2.26
  */
-public class TlsServerConnectionInterface extends io.github.jwharm.javagi.ProxyBase {
+public class TlsServerConnectionInterface extends Struct {
     
     static {
         Gio.javagi$ensureInitialized();
@@ -17,7 +17,7 @@ public class TlsServerConnectionInterface extends io.github.jwharm.javagi.ProxyB
     
     private static final java.lang.String C_TYPE_NAME = "GTlsServerConnectionInterface";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gobject.TypeInterface.getMemoryLayout().withName("g_iface")
     ).withName(C_TYPE_NAME);
     
@@ -32,6 +32,10 @@ public class TlsServerConnectionInterface extends io.github.jwharm.javagi.ProxyB
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link TlsServerConnectionInterface}
+     * @return A new, uninitialized @{link TlsServerConnectionInterface}
+     */
     public static TlsServerConnectionInterface allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         TlsServerConnectionInterface newInstance = new TlsServerConnectionInterface(segment.address(), Ownership.NONE);
@@ -56,5 +60,45 @@ public class TlsServerConnectionInterface extends io.github.jwharm.javagi.ProxyB
     @ApiStatus.Internal
     public TlsServerConnectionInterface(Addressable address, Ownership ownership) {
         super(address, ownership);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private TlsServerConnectionInterface struct;
+        
+         /**
+         * A {@link TlsServerConnectionInterface.Build} object constructs a {@link TlsServerConnectionInterface} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = TlsServerConnectionInterface.allocate();
+        }
+        
+         /**
+         * Finish building the {@link TlsServerConnectionInterface} struct.
+         * @return A new instance of {@code TlsServerConnectionInterface} with the fields 
+         *         that were set in the Build object.
+         */
+        public TlsServerConnectionInterface construct() {
+            return struct;
+        }
+        
+        /**
+         * The parent interface.
+         * @param g_iface The value for the {@code g_iface} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setGIface(org.gtk.gobject.TypeInterface g_iface) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("g_iface"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (g_iface == null ? MemoryAddress.NULL : g_iface.handle()));
+            return this;
+        }
     }
 }

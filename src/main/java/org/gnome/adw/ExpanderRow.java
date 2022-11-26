@@ -42,7 +42,7 @@ public class ExpanderRow extends org.gnome.adw.PreferencesRow implements org.gtk
     
     private static final java.lang.String C_TYPE_NAME = "AdwExpanderRow";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gnome.adw.PreferencesRow.getMemoryLayout().withName("parent_instance")
     ).withName(C_TYPE_NAME);
     
@@ -87,7 +87,7 @@ public class ExpanderRow extends org.gnome.adw.PreferencesRow implements org.gtk
      * @throws ClassCastException If the GType is not derived from "AdwExpanderRow", a ClassCastException will be thrown.
      */
     public static ExpanderRow castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("AdwExpanderRow"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), ExpanderRow.getType())) {
             return new ExpanderRow(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of AdwExpanderRow");
@@ -318,95 +318,208 @@ public class ExpanderRow extends org.gnome.adw.PreferencesRow implements org.gtk
         }
     }
     
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.adw_expander_row_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gnome.adw.PreferencesRow.Build {
+        
+         /**
+         * A {@link ExpanderRow.Build} object constructs a {@link ExpanderRow} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link ExpanderRow} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link ExpanderRow} using {@link ExpanderRow#castFrom}.
+         * @return A new instance of {@code ExpanderRow} with the properties 
+         *         that were set in the Build object.
+         */
+        public ExpanderRow construct() {
+            return ExpanderRow.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    ExpanderRow.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+        
+        /**
+         * Whether expansion is enabled.
+         * @param enableExpansion The value for the {@code enable-expansion} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setEnableExpansion(boolean enableExpansion) {
+            names.add("enable-expansion");
+            values.add(org.gtk.gobject.Value.create(enableExpansion));
+            return this;
+        }
+        
+        /**
+         * Whether the row is expanded.
+         * @param expanded The value for the {@code expanded} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setExpanded(boolean expanded) {
+            names.add("expanded");
+            values.add(org.gtk.gobject.Value.create(expanded));
+            return this;
+        }
+        
+        /**
+         * The icon name for this row.
+         * @param iconName The value for the {@code icon-name} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setIconName(java.lang.String iconName) {
+            names.add("icon-name");
+            values.add(org.gtk.gobject.Value.create(iconName));
+            return this;
+        }
+        
+        /**
+         * Whether the switch enabling the expansion is visible.
+         * @param showEnableSwitch The value for the {@code show-enable-switch} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setShowEnableSwitch(boolean showEnableSwitch) {
+            names.add("show-enable-switch");
+            values.add(org.gtk.gobject.Value.create(showEnableSwitch));
+            return this;
+        }
+        
+        /**
+         * The subtitle for this row.
+         * <p>
+         * The subtitle is interpreted as Pango markup unless
+         * {@code PreferencesRow:use-markup} is set to {@code FALSE}.
+         * @param subtitle The value for the {@code subtitle} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setSubtitle(java.lang.String subtitle) {
+            names.add("subtitle");
+            values.add(org.gtk.gobject.Value.create(subtitle));
+            return this;
+        }
+    }
+    
     private static class DowncallHandles {
         
         private static final MethodHandle adw_expander_row_new = Interop.downcallHandle(
             "adw_expander_row_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_expander_row_add_action = Interop.downcallHandle(
             "adw_expander_row_add_action",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_expander_row_add_prefix = Interop.downcallHandle(
             "adw_expander_row_add_prefix",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_expander_row_add_row = Interop.downcallHandle(
             "adw_expander_row_add_row",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_expander_row_get_enable_expansion = Interop.downcallHandle(
             "adw_expander_row_get_enable_expansion",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_expander_row_get_expanded = Interop.downcallHandle(
             "adw_expander_row_get_expanded",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_expander_row_get_icon_name = Interop.downcallHandle(
             "adw_expander_row_get_icon_name",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_expander_row_get_show_enable_switch = Interop.downcallHandle(
             "adw_expander_row_get_show_enable_switch",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_expander_row_get_subtitle = Interop.downcallHandle(
             "adw_expander_row_get_subtitle",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_expander_row_remove = Interop.downcallHandle(
             "adw_expander_row_remove",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_expander_row_set_enable_expansion = Interop.downcallHandle(
             "adw_expander_row_set_enable_expansion",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle adw_expander_row_set_expanded = Interop.downcallHandle(
             "adw_expander_row_set_expanded",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle adw_expander_row_set_icon_name = Interop.downcallHandle(
             "adw_expander_row_set_icon_name",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_expander_row_set_show_enable_switch = Interop.downcallHandle(
             "adw_expander_row_set_show_enable_switch",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle adw_expander_row_set_subtitle = Interop.downcallHandle(
             "adw_expander_row_set_subtitle",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+            false
+        );
+        
+        private static final MethodHandle adw_expander_row_get_type = Interop.downcallHandle(
+            "adw_expander_row_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }

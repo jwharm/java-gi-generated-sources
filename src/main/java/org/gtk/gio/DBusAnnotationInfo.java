@@ -9,7 +9,7 @@ import org.jetbrains.annotations.*;
  * Information about an annotation.
  * @version 2.26
  */
-public class DBusAnnotationInfo extends io.github.jwharm.javagi.ProxyBase {
+public class DBusAnnotationInfo extends Struct {
     
     static {
         Gio.javagi$ensureInitialized();
@@ -17,8 +17,8 @@ public class DBusAnnotationInfo extends io.github.jwharm.javagi.ProxyBase {
     
     private static final java.lang.String C_TYPE_NAME = "GDBusAnnotationInfo";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
-        ValueLayout.JAVA_INT.withName("ref_count"),
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
+        Interop.valueLayout.C_INT.withName("ref_count"),
         MemoryLayout.paddingLayout(32),
         Interop.valueLayout.ADDRESS.withName("key"),
         Interop.valueLayout.ADDRESS.withName("value"),
@@ -36,6 +36,10 @@ public class DBusAnnotationInfo extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link DBusAnnotationInfo}
+     * @return A new, uninitialized @{link DBusAnnotationInfo}
+     */
     public static DBusAnnotationInfo allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         DBusAnnotationInfo newInstance = new DBusAnnotationInfo(segment.address(), Ownership.NONE);
@@ -171,20 +175,96 @@ public class DBusAnnotationInfo extends io.github.jwharm.javagi.ProxyBase {
         
         private static final MethodHandle g_dbus_annotation_info_ref = Interop.downcallHandle(
             "g_dbus_annotation_info_ref",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_dbus_annotation_info_unref = Interop.downcallHandle(
             "g_dbus_annotation_info_unref",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_dbus_annotation_info_lookup = Interop.downcallHandle(
             "g_dbus_annotation_info_lookup",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private DBusAnnotationInfo struct;
+        
+         /**
+         * A {@link DBusAnnotationInfo.Build} object constructs a {@link DBusAnnotationInfo} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = DBusAnnotationInfo.allocate();
+        }
+        
+         /**
+         * Finish building the {@link DBusAnnotationInfo} struct.
+         * @return A new instance of {@code DBusAnnotationInfo} with the fields 
+         *         that were set in the Build object.
+         */
+        public DBusAnnotationInfo construct() {
+            return struct;
+        }
+        
+        /**
+         * The reference count or -1 if statically allocated.
+         * @param ref_count The value for the {@code ref_count} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setRefCount(int ref_count) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("ref_count"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), ref_count);
+            return this;
+        }
+        
+        /**
+         * The name of the annotation, e.g. "org.freedesktop.DBus.Deprecated".
+         * @param key The value for the {@code key} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setKey(java.lang.String key) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("key"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (key == null ? MemoryAddress.NULL : Interop.allocateNativeString(key)));
+            return this;
+        }
+        
+        /**
+         * The value of the annotation.
+         * @param value The value for the {@code value} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setValue(java.lang.String value) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("value"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (value == null ? MemoryAddress.NULL : Interop.allocateNativeString(value)));
+            return this;
+        }
+        
+        /**
+         * A pointer to a {@code null}-terminated array of pointers to {@link DBusAnnotationInfo} structures or {@code null} if there are no annotations.
+         * @param annotations The value for the {@code annotations} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setAnnotations(org.gtk.gio.DBusAnnotationInfo[] annotations) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("annotations"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (annotations == null ? MemoryAddress.NULL : Interop.allocateNativeArray(annotations, false)));
+            return this;
+        }
     }
 }

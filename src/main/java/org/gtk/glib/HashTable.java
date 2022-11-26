@@ -10,7 +10,7 @@ import org.jetbrains.annotations.*;
  * [Hash Table][glib-Hash-Tables]. It should only be accessed via the
  * following functions.
  */
-public class HashTable extends io.github.jwharm.javagi.ProxyBase {
+public class HashTable extends Struct {
     
     static {
         GLib.javagi$ensureInitialized();
@@ -29,6 +29,10 @@ public class HashTable extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link HashTable}
+     * @return A new, uninitialized @{link HashTable}
+     */
     public static HashTable allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         HashTable newInstance = new HashTable(segment.address(), Ownership.NONE);
@@ -72,7 +76,7 @@ public class HashTable extends io.github.jwharm.javagi.ProxyBase {
         try {
             RESULT = (int) DowncallHandles.g_hash_table_add.invokeExact(
                     hashTable.handle(),
-                    (Addressable) (key == null ? MemoryAddress.NULL : key));
+                    (Addressable) (key == null ? MemoryAddress.NULL : (Addressable) key));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -91,7 +95,7 @@ public class HashTable extends io.github.jwharm.javagi.ProxyBase {
         try {
             RESULT = (int) DowncallHandles.g_hash_table_contains.invokeExact(
                     hashTable.handle(),
-                    (Addressable) (key == null ? MemoryAddress.NULL : key));
+                    (Addressable) (key == null ? MemoryAddress.NULL : (Addressable) key));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -147,7 +151,7 @@ public class HashTable extends io.github.jwharm.javagi.ProxyBase {
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbHRFunc",
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                         Interop.getScope()),
                     (Addressable) (Interop.registerCallback(predicate)));
         } catch (Throwable ERR) {
@@ -181,7 +185,7 @@ public class HashTable extends io.github.jwharm.javagi.ProxyBase {
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbHFunc",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                         Interop.getScope()),
                     (Addressable) (Interop.registerCallback(func)));
         } catch (Throwable ERR) {
@@ -212,7 +216,7 @@ public class HashTable extends io.github.jwharm.javagi.ProxyBase {
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbHRFunc",
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                         Interop.getScope()),
                     (Addressable) (Interop.registerCallback(func)));
         } catch (Throwable ERR) {
@@ -243,7 +247,7 @@ public class HashTable extends io.github.jwharm.javagi.ProxyBase {
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbHRFunc",
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                         Interop.getScope()),
                     (Addressable) (Interop.registerCallback(func)));
         } catch (Throwable ERR) {
@@ -303,7 +307,7 @@ public class HashTable extends io.github.jwharm.javagi.ProxyBase {
     public static @NotNull java.lang.foreign.MemoryAddress[] getKeysAsArray(@NotNull org.gtk.glib.HashTable hashTable, Out<Integer> length) {
         java.util.Objects.requireNonNull(hashTable, "Parameter 'hashTable' must not be null");
         java.util.Objects.requireNonNull(length, "Parameter 'length' must not be null");
-        MemorySegment lengthPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
+        MemorySegment lengthPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_hash_table_get_keys_as_array.invokeExact(
@@ -312,10 +316,10 @@ public class HashTable extends io.github.jwharm.javagi.ProxyBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        length.set(lengthPOINTER.get(ValueLayout.JAVA_INT, 0));
+        length.set(lengthPOINTER.get(Interop.valueLayout.C_INT, 0));
         java.lang.foreign.MemoryAddress[] resultARRAY = new java.lang.foreign.MemoryAddress[length.get().intValue()];
         for (int I = 0; I < length.get().intValue(); I++) {
-            var OBJ = RESULT.get(ValueLayout.ADDRESS, I);
+            var OBJ = RESULT.get(Interop.valueLayout.ADDRESS, I);
             resultARRAY[I] = OBJ;
         }
         return resultARRAY;
@@ -370,8 +374,8 @@ public class HashTable extends io.github.jwharm.javagi.ProxyBase {
         try {
             RESULT = (int) DowncallHandles.g_hash_table_insert.invokeExact(
                     hashTable.handle(),
-                    (Addressable) (key == null ? MemoryAddress.NULL : key),
-                    (Addressable) (value == null ? MemoryAddress.NULL : value));
+                    (Addressable) (key == null ? MemoryAddress.NULL : (Addressable) key),
+                    (Addressable) (value == null ? MemoryAddress.NULL : (Addressable) value));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -393,7 +397,7 @@ public class HashTable extends io.github.jwharm.javagi.ProxyBase {
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_hash_table_lookup.invokeExact(
                     hashTable.handle(),
-                    (Addressable) (key == null ? MemoryAddress.NULL : key));
+                    (Addressable) (key == null ? MemoryAddress.NULL : (Addressable) key));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -418,20 +422,20 @@ public class HashTable extends io.github.jwharm.javagi.ProxyBase {
      */
     public static boolean lookupExtended(@NotNull org.gtk.glib.HashTable hashTable, @Nullable java.lang.foreign.MemoryAddress lookupKey, @Nullable Out<java.lang.foreign.MemoryAddress> origKey, @Nullable Out<java.lang.foreign.MemoryAddress> value) {
         java.util.Objects.requireNonNull(hashTable, "Parameter 'hashTable' must not be null");
-        MemorySegment origKeyPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        MemorySegment valuePOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment origKeyPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
+        MemorySegment valuePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_hash_table_lookup_extended.invokeExact(
                     hashTable.handle(),
-                    (Addressable) (lookupKey == null ? MemoryAddress.NULL : lookupKey),
+                    (Addressable) (lookupKey == null ? MemoryAddress.NULL : (Addressable) lookupKey),
                     (Addressable) (origKey == null ? MemoryAddress.NULL : (Addressable) origKeyPOINTER.address()),
                     (Addressable) (value == null ? MemoryAddress.NULL : (Addressable) valuePOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        if (origKey != null) origKey.set(origKeyPOINTER.get(ValueLayout.ADDRESS, 0));
-        if (value != null) value.set(valuePOINTER.get(ValueLayout.ADDRESS, 0));
+        if (origKey != null) origKey.set(origKeyPOINTER.get(Interop.valueLayout.ADDRESS, 0));
+        if (value != null) value.set(valuePOINTER.get(Interop.valueLayout.ADDRESS, 0));
         return RESULT != 0;
     }
     
@@ -539,7 +543,7 @@ public class HashTable extends io.github.jwharm.javagi.ProxyBase {
         try {
             RESULT = (int) DowncallHandles.g_hash_table_remove.invokeExact(
                     hashTable.handle(),
-                    (Addressable) (key == null ? MemoryAddress.NULL : key));
+                    (Addressable) (key == null ? MemoryAddress.NULL : (Addressable) key));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -588,8 +592,8 @@ public class HashTable extends io.github.jwharm.javagi.ProxyBase {
         try {
             RESULT = (int) DowncallHandles.g_hash_table_replace.invokeExact(
                     hashTable.handle(),
-                    (Addressable) (key == null ? MemoryAddress.NULL : key),
-                    (Addressable) (value == null ? MemoryAddress.NULL : value));
+                    (Addressable) (key == null ? MemoryAddress.NULL : (Addressable) key),
+                    (Addressable) (value == null ? MemoryAddress.NULL : (Addressable) value));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -626,7 +630,7 @@ public class HashTable extends io.github.jwharm.javagi.ProxyBase {
         try {
             RESULT = (int) DowncallHandles.g_hash_table_steal.invokeExact(
                     hashTable.handle(),
-                    (Addressable) (key == null ? MemoryAddress.NULL : key));
+                    (Addressable) (key == null ? MemoryAddress.NULL : (Addressable) key));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -669,20 +673,20 @@ public class HashTable extends io.github.jwharm.javagi.ProxyBase {
      */
     public static boolean stealExtended(@NotNull org.gtk.glib.HashTable hashTable, @Nullable java.lang.foreign.MemoryAddress lookupKey, @Nullable Out<java.lang.foreign.MemoryAddress> stolenKey, @Nullable Out<java.lang.foreign.MemoryAddress> stolenValue) {
         java.util.Objects.requireNonNull(hashTable, "Parameter 'hashTable' must not be null");
-        MemorySegment stolenKeyPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        MemorySegment stolenValuePOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment stolenKeyPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
+        MemorySegment stolenValuePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_hash_table_steal_extended.invokeExact(
                     hashTable.handle(),
-                    (Addressable) (lookupKey == null ? MemoryAddress.NULL : lookupKey),
+                    (Addressable) (lookupKey == null ? MemoryAddress.NULL : (Addressable) lookupKey),
                     (Addressable) (stolenKey == null ? MemoryAddress.NULL : (Addressable) stolenKeyPOINTER.address()),
                     (Addressable) (stolenValue == null ? MemoryAddress.NULL : (Addressable) stolenValuePOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        if (stolenKey != null) stolenKey.set(stolenKeyPOINTER.get(ValueLayout.ADDRESS, 0));
-        if (stolenValue != null) stolenValue.set(stolenValuePOINTER.get(ValueLayout.ADDRESS, 0));
+        if (stolenKey != null) stolenKey.set(stolenKeyPOINTER.get(Interop.valueLayout.ADDRESS, 0));
+        if (stolenValue != null) stolenValue.set(stolenValuePOINTER.get(Interop.valueLayout.ADDRESS, 0));
         return RESULT != 0;
     }
     
@@ -707,152 +711,180 @@ public class HashTable extends io.github.jwharm.javagi.ProxyBase {
         
         private static final MethodHandle g_hash_table_add = Interop.downcallHandle(
             "g_hash_table_add",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_hash_table_contains = Interop.downcallHandle(
             "g_hash_table_contains",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_hash_table_destroy = Interop.downcallHandle(
             "g_hash_table_destroy",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_hash_table_find = Interop.downcallHandle(
             "g_hash_table_find",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_hash_table_foreach = Interop.downcallHandle(
             "g_hash_table_foreach",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_hash_table_foreach_remove = Interop.downcallHandle(
             "g_hash_table_foreach_remove",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_hash_table_foreach_steal = Interop.downcallHandle(
             "g_hash_table_foreach_steal",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_hash_table_get_keys = Interop.downcallHandle(
             "g_hash_table_get_keys",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_hash_table_get_keys_as_array = Interop.downcallHandle(
             "g_hash_table_get_keys_as_array",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_hash_table_get_values = Interop.downcallHandle(
             "g_hash_table_get_values",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_hash_table_insert = Interop.downcallHandle(
             "g_hash_table_insert",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_hash_table_lookup = Interop.downcallHandle(
             "g_hash_table_lookup",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_hash_table_lookup_extended = Interop.downcallHandle(
             "g_hash_table_lookup_extended",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_hash_table_new = Interop.downcallHandle(
             "g_hash_table_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_hash_table_new_full = Interop.downcallHandle(
             "g_hash_table_new_full",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_hash_table_new_similar = Interop.downcallHandle(
             "g_hash_table_new_similar",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_hash_table_ref = Interop.downcallHandle(
             "g_hash_table_ref",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_hash_table_remove = Interop.downcallHandle(
             "g_hash_table_remove",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_hash_table_remove_all = Interop.downcallHandle(
             "g_hash_table_remove_all",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_hash_table_replace = Interop.downcallHandle(
             "g_hash_table_replace",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_hash_table_size = Interop.downcallHandle(
             "g_hash_table_size",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_hash_table_steal = Interop.downcallHandle(
             "g_hash_table_steal",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_hash_table_steal_all = Interop.downcallHandle(
             "g_hash_table_steal_all",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_hash_table_steal_extended = Interop.downcallHandle(
             "g_hash_table_steal_extended",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_hash_table_unref = Interop.downcallHandle(
             "g_hash_table_unref",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private HashTable struct;
+        
+         /**
+         * A {@link HashTable.Build} object constructs a {@link HashTable} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = HashTable.allocate();
+        }
+        
+         /**
+         * Finish building the {@link HashTable} struct.
+         * @return A new instance of {@code HashTable} with the fields 
+         *         that were set in the Build object.
+         */
+        public HashTable construct() {
+            return struct;
+        }
     }
 }

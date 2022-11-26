@@ -58,7 +58,7 @@ public class TreeListRow extends org.gtk.gobject.Object {
      * @throws ClassCastException If the GType is not derived from "GtkTreeListRow", a ClassCastException will be thrown.
      */
     public static TreeListRow castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkTreeListRow"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), TreeListRow.getType())) {
             return new TreeListRow(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkTreeListRow");
@@ -239,59 +239,169 @@ public class TreeListRow extends org.gtk.gobject.Object {
         }
     }
     
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.gtk_tree_list_row_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gobject.Object.Build {
+        
+         /**
+         * A {@link TreeListRow.Build} object constructs a {@link TreeListRow} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link TreeListRow} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link TreeListRow} using {@link TreeListRow#castFrom}.
+         * @return A new instance of {@code TreeListRow} with the properties 
+         *         that were set in the Build object.
+         */
+        public TreeListRow construct() {
+            return TreeListRow.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    TreeListRow.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+        
+        /**
+         * The model holding the row's children.
+         * @param children The value for the {@code children} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setChildren(org.gtk.gio.ListModel children) {
+            names.add("children");
+            values.add(org.gtk.gobject.Value.create(children));
+            return this;
+        }
+        
+        /**
+         * The depth in the tree of this row.
+         * @param depth The value for the {@code depth} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setDepth(int depth) {
+            names.add("depth");
+            values.add(org.gtk.gobject.Value.create(depth));
+            return this;
+        }
+        
+        /**
+         * If this row can ever be expanded.
+         * @param expandable The value for the {@code expandable} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setExpandable(boolean expandable) {
+            names.add("expandable");
+            values.add(org.gtk.gobject.Value.create(expandable));
+            return this;
+        }
+        
+        /**
+         * If this row is currently expanded.
+         * @param expanded The value for the {@code expanded} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setExpanded(boolean expanded) {
+            names.add("expanded");
+            values.add(org.gtk.gobject.Value.create(expanded));
+            return this;
+        }
+        
+        /**
+         * The item held in this row.
+         * @param item The value for the {@code item} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setItem(org.gtk.gobject.Object item) {
+            names.add("item");
+            values.add(org.gtk.gobject.Value.create(item));
+            return this;
+        }
+    }
+    
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_tree_list_row_get_child_row = Interop.downcallHandle(
             "gtk_tree_list_row_get_child_row",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_tree_list_row_get_children = Interop.downcallHandle(
             "gtk_tree_list_row_get_children",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_tree_list_row_get_depth = Interop.downcallHandle(
             "gtk_tree_list_row_get_depth",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_tree_list_row_get_expanded = Interop.downcallHandle(
             "gtk_tree_list_row_get_expanded",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_tree_list_row_get_item = Interop.downcallHandle(
             "gtk_tree_list_row_get_item",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_tree_list_row_get_parent = Interop.downcallHandle(
             "gtk_tree_list_row_get_parent",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_tree_list_row_get_position = Interop.downcallHandle(
             "gtk_tree_list_row_get_position",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_tree_list_row_is_expandable = Interop.downcallHandle(
             "gtk_tree_list_row_is_expandable",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_tree_list_row_set_expanded = Interop.downcallHandle(
             "gtk_tree_list_row_set_expanded",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+            false
+        );
+        
+        private static final MethodHandle gtk_tree_list_row_get_type = Interop.downcallHandle(
+            "gtk_tree_list_row_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }

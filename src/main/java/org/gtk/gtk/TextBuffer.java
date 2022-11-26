@@ -24,7 +24,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
     
     private static final java.lang.String C_TYPE_NAME = "GtkTextBuffer";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gobject.Object.getMemoryLayout().withName("parent_instance"),
         Interop.valueLayout.ADDRESS.withName("priv")
     ).withName(C_TYPE_NAME);
@@ -70,7 +70,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
      * @throws ClassCastException If the GType is not derived from "GtkTextBuffer", a ClassCastException will be thrown.
      */
     public static TextBuffer castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkTextBuffer"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), TextBuffer.getType())) {
             return new TextBuffer(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkTextBuffer");
@@ -1685,7 +1685,10 @@ public class TextBuffer extends org.gtk.gobject.Object {
     }
     
     /**
-     * Deletes current contents of {@code buffer}, and inserts {@code text} instead.
+     * Deletes current contents of {@code buffer}, and inserts {@code text} instead. This is
+     * automatically marked as an irreversible action in the undo stack. If you
+     * wish to mark this action as part of a larger undo operation, call
+     * {@code TextBuffer.delete#] and [method@TextBuffer.insert} directly instead.
      * <p>
      * If {@code len} is -1, {@code text} must be nul-terminated.
      * {@code text} must be valid UTF-8.
@@ -1714,6 +1717,20 @@ public class TextBuffer extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+    }
+    
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.gtk_text_buffer_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
     }
     
     @FunctionalInterface
@@ -1745,7 +1762,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(TextBuffer.Callbacks.class, "signalTextBufferApplyTag",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                     Interop.getScope()),
                 Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
@@ -1782,7 +1799,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(TextBuffer.Callbacks.class, "signalTextBufferBeginUserAction",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                     Interop.getScope()),
                 Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
@@ -1810,7 +1827,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(TextBuffer.Callbacks.class, "signalTextBufferChanged",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                     Interop.getScope()),
                 Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
@@ -1848,7 +1865,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(TextBuffer.Callbacks.class, "signalTextBufferDeleteRange",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                     Interop.getScope()),
                 Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
@@ -1886,7 +1903,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(TextBuffer.Callbacks.class, "signalTextBufferEndUserAction",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                     Interop.getScope()),
                 Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
@@ -1923,7 +1940,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(TextBuffer.Callbacks.class, "signalTextBufferInsertChildAnchor",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                     Interop.getScope()),
                 Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
@@ -1960,7 +1977,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(TextBuffer.Callbacks.class, "signalTextBufferInsertPaintable",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                     Interop.getScope()),
                 Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
@@ -1998,7 +2015,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(TextBuffer.Callbacks.class, "signalTextBufferInsertText",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, int.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
                     Interop.getScope()),
                 Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
@@ -2028,7 +2045,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(TextBuffer.Callbacks.class, "signalTextBufferMarkDeleted",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                     Interop.getScope()),
                 Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
@@ -2060,7 +2077,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(TextBuffer.Callbacks.class, "signalTextBufferMarkSet",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                     Interop.getScope()),
                 Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
@@ -2090,7 +2107,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(TextBuffer.Callbacks.class, "signalTextBufferModifiedChanged",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                     Interop.getScope()),
                 Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
@@ -2122,7 +2139,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(TextBuffer.Callbacks.class, "signalTextBufferPasteDone",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                     Interop.getScope()),
                 Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
@@ -2151,7 +2168,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(TextBuffer.Callbacks.class, "signalTextBufferRedo",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                     Interop.getScope()),
                 Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
@@ -2188,7 +2205,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(TextBuffer.Callbacks.class, "signalTextBufferRemoveTag",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                     Interop.getScope()),
                 Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
@@ -2218,7 +2235,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(TextBuffer.Callbacks.class, "signalTextBufferUndo",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                     Interop.getScope()),
                 Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
@@ -2227,432 +2244,556 @@ public class TextBuffer extends org.gtk.gobject.Object {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gobject.Object.Build {
+        
+         /**
+         * A {@link TextBuffer.Build} object constructs a {@link TextBuffer} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link TextBuffer} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link TextBuffer} using {@link TextBuffer#castFrom}.
+         * @return A new instance of {@code TextBuffer} with the properties 
+         *         that were set in the Build object.
+         */
+        public TextBuffer construct() {
+            return TextBuffer.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    TextBuffer.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+        
+        /**
+         * Denotes that the buffer can reapply the last undone action.
+         * @param canRedo The value for the {@code can-redo} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setCanRedo(boolean canRedo) {
+            names.add("can-redo");
+            values.add(org.gtk.gobject.Value.create(canRedo));
+            return this;
+        }
+        
+        /**
+         * Denotes that the buffer can undo the last applied action.
+         * @param canUndo The value for the {@code can-undo} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setCanUndo(boolean canUndo) {
+            names.add("can-undo");
+            values.add(org.gtk.gobject.Value.create(canUndo));
+            return this;
+        }
+        
+        /**
+         * The position of the insert mark.
+         * <p>
+         * This is an offset from the beginning of the buffer.
+         * It is useful for getting notified when the cursor moves.
+         * @param cursorPosition The value for the {@code cursor-position} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setCursorPosition(int cursorPosition) {
+            names.add("cursor-position");
+            values.add(org.gtk.gobject.Value.create(cursorPosition));
+            return this;
+        }
+        
+        /**
+         * Denotes if support for undoing and redoing changes to the buffer is allowed.
+         * @param enableUndo The value for the {@code enable-undo} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setEnableUndo(boolean enableUndo) {
+            names.add("enable-undo");
+            values.add(org.gtk.gobject.Value.create(enableUndo));
+            return this;
+        }
+        
+        /**
+         * Whether the buffer has some text currently selected.
+         * @param hasSelection The value for the {@code has-selection} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setHasSelection(boolean hasSelection) {
+            names.add("has-selection");
+            values.add(org.gtk.gobject.Value.create(hasSelection));
+            return this;
+        }
+        
+        /**
+         * The GtkTextTagTable for the buffer.
+         * @param tagTable The value for the {@code tag-table} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setTagTable(org.gtk.gtk.TextTagTable tagTable) {
+            names.add("tag-table");
+            values.add(org.gtk.gobject.Value.create(tagTable));
+            return this;
+        }
+        
+        /**
+         * The text content of the buffer.
+         * <p>
+         * Without child widgets and images,
+         * see {@link TextBuffer#getText} for more information.
+         * @param text The value for the {@code text} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setText(java.lang.String text) {
+            names.add("text");
+            values.add(org.gtk.gobject.Value.create(text));
+            return this;
+        }
+    }
     
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_text_buffer_new = Interop.downcallHandle(
             "gtk_text_buffer_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_text_buffer_add_mark = Interop.downcallHandle(
             "gtk_text_buffer_add_mark",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_text_buffer_add_selection_clipboard = Interop.downcallHandle(
             "gtk_text_buffer_add_selection_clipboard",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_text_buffer_apply_tag = Interop.downcallHandle(
             "gtk_text_buffer_apply_tag",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_text_buffer_apply_tag_by_name = Interop.downcallHandle(
             "gtk_text_buffer_apply_tag_by_name",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_text_buffer_backspace = Interop.downcallHandle(
             "gtk_text_buffer_backspace",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_text_buffer_begin_irreversible_action = Interop.downcallHandle(
             "gtk_text_buffer_begin_irreversible_action",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_text_buffer_begin_user_action = Interop.downcallHandle(
             "gtk_text_buffer_begin_user_action",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_text_buffer_copy_clipboard = Interop.downcallHandle(
             "gtk_text_buffer_copy_clipboard",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_text_buffer_create_child_anchor = Interop.downcallHandle(
             "gtk_text_buffer_create_child_anchor",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_text_buffer_create_mark = Interop.downcallHandle(
             "gtk_text_buffer_create_mark",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_text_buffer_create_tag = Interop.downcallHandle(
             "gtk_text_buffer_create_tag",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             true
         );
         
         private static final MethodHandle gtk_text_buffer_cut_clipboard = Interop.downcallHandle(
             "gtk_text_buffer_cut_clipboard",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_text_buffer_delete = Interop.downcallHandle(
             "gtk_text_buffer_delete",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_text_buffer_delete_interactive = Interop.downcallHandle(
             "gtk_text_buffer_delete_interactive",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_text_buffer_delete_mark = Interop.downcallHandle(
             "gtk_text_buffer_delete_mark",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_text_buffer_delete_mark_by_name = Interop.downcallHandle(
             "gtk_text_buffer_delete_mark_by_name",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_text_buffer_delete_selection = Interop.downcallHandle(
             "gtk_text_buffer_delete_selection",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_text_buffer_end_irreversible_action = Interop.downcallHandle(
             "gtk_text_buffer_end_irreversible_action",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_text_buffer_end_user_action = Interop.downcallHandle(
             "gtk_text_buffer_end_user_action",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_text_buffer_get_bounds = Interop.downcallHandle(
             "gtk_text_buffer_get_bounds",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_text_buffer_get_can_redo = Interop.downcallHandle(
             "gtk_text_buffer_get_can_redo",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_text_buffer_get_can_undo = Interop.downcallHandle(
             "gtk_text_buffer_get_can_undo",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_text_buffer_get_char_count = Interop.downcallHandle(
             "gtk_text_buffer_get_char_count",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_text_buffer_get_enable_undo = Interop.downcallHandle(
             "gtk_text_buffer_get_enable_undo",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_text_buffer_get_end_iter = Interop.downcallHandle(
             "gtk_text_buffer_get_end_iter",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_text_buffer_get_has_selection = Interop.downcallHandle(
             "gtk_text_buffer_get_has_selection",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_text_buffer_get_insert = Interop.downcallHandle(
             "gtk_text_buffer_get_insert",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_text_buffer_get_iter_at_child_anchor = Interop.downcallHandle(
             "gtk_text_buffer_get_iter_at_child_anchor",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_text_buffer_get_iter_at_line = Interop.downcallHandle(
             "gtk_text_buffer_get_iter_at_line",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_text_buffer_get_iter_at_line_index = Interop.downcallHandle(
             "gtk_text_buffer_get_iter_at_line_index",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_text_buffer_get_iter_at_line_offset = Interop.downcallHandle(
             "gtk_text_buffer_get_iter_at_line_offset",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_text_buffer_get_iter_at_mark = Interop.downcallHandle(
             "gtk_text_buffer_get_iter_at_mark",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_text_buffer_get_iter_at_offset = Interop.downcallHandle(
             "gtk_text_buffer_get_iter_at_offset",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_text_buffer_get_line_count = Interop.downcallHandle(
             "gtk_text_buffer_get_line_count",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_text_buffer_get_mark = Interop.downcallHandle(
             "gtk_text_buffer_get_mark",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_text_buffer_get_max_undo_levels = Interop.downcallHandle(
             "gtk_text_buffer_get_max_undo_levels",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_text_buffer_get_modified = Interop.downcallHandle(
             "gtk_text_buffer_get_modified",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_text_buffer_get_selection_bound = Interop.downcallHandle(
             "gtk_text_buffer_get_selection_bound",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_text_buffer_get_selection_bounds = Interop.downcallHandle(
             "gtk_text_buffer_get_selection_bounds",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_text_buffer_get_selection_content = Interop.downcallHandle(
             "gtk_text_buffer_get_selection_content",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_text_buffer_get_slice = Interop.downcallHandle(
             "gtk_text_buffer_get_slice",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_text_buffer_get_start_iter = Interop.downcallHandle(
             "gtk_text_buffer_get_start_iter",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_text_buffer_get_tag_table = Interop.downcallHandle(
             "gtk_text_buffer_get_tag_table",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_text_buffer_get_text = Interop.downcallHandle(
             "gtk_text_buffer_get_text",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_text_buffer_insert = Interop.downcallHandle(
             "gtk_text_buffer_insert",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_text_buffer_insert_at_cursor = Interop.downcallHandle(
             "gtk_text_buffer_insert_at_cursor",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_text_buffer_insert_child_anchor = Interop.downcallHandle(
             "gtk_text_buffer_insert_child_anchor",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_text_buffer_insert_interactive = Interop.downcallHandle(
             "gtk_text_buffer_insert_interactive",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_text_buffer_insert_interactive_at_cursor = Interop.downcallHandle(
             "gtk_text_buffer_insert_interactive_at_cursor",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_text_buffer_insert_markup = Interop.downcallHandle(
             "gtk_text_buffer_insert_markup",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_text_buffer_insert_paintable = Interop.downcallHandle(
             "gtk_text_buffer_insert_paintable",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_text_buffer_insert_range = Interop.downcallHandle(
             "gtk_text_buffer_insert_range",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_text_buffer_insert_range_interactive = Interop.downcallHandle(
             "gtk_text_buffer_insert_range_interactive",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_text_buffer_insert_with_tags = Interop.downcallHandle(
             "gtk_text_buffer_insert_with_tags",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             true
         );
         
         private static final MethodHandle gtk_text_buffer_insert_with_tags_by_name = Interop.downcallHandle(
             "gtk_text_buffer_insert_with_tags_by_name",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             true
         );
         
         private static final MethodHandle gtk_text_buffer_move_mark = Interop.downcallHandle(
             "gtk_text_buffer_move_mark",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_text_buffer_move_mark_by_name = Interop.downcallHandle(
             "gtk_text_buffer_move_mark_by_name",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_text_buffer_paste_clipboard = Interop.downcallHandle(
             "gtk_text_buffer_paste_clipboard",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_text_buffer_place_cursor = Interop.downcallHandle(
             "gtk_text_buffer_place_cursor",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_text_buffer_redo = Interop.downcallHandle(
             "gtk_text_buffer_redo",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_text_buffer_remove_all_tags = Interop.downcallHandle(
             "gtk_text_buffer_remove_all_tags",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_text_buffer_remove_selection_clipboard = Interop.downcallHandle(
             "gtk_text_buffer_remove_selection_clipboard",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_text_buffer_remove_tag = Interop.downcallHandle(
             "gtk_text_buffer_remove_tag",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_text_buffer_remove_tag_by_name = Interop.downcallHandle(
             "gtk_text_buffer_remove_tag_by_name",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_text_buffer_select_range = Interop.downcallHandle(
             "gtk_text_buffer_select_range",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_text_buffer_set_enable_undo = Interop.downcallHandle(
             "gtk_text_buffer_set_enable_undo",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_text_buffer_set_max_undo_levels = Interop.downcallHandle(
             "gtk_text_buffer_set_max_undo_levels",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_text_buffer_set_modified = Interop.downcallHandle(
             "gtk_text_buffer_set_modified",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_text_buffer_set_text = Interop.downcallHandle(
             "gtk_text_buffer_set_text",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_text_buffer_undo = Interop.downcallHandle(
             "gtk_text_buffer_undo",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+            false
+        );
+        
+        private static final MethodHandle gtk_text_buffer_get_type = Interop.downcallHandle(
+            "gtk_text_buffer_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }
@@ -2660,93 +2801,93 @@ public class TextBuffer extends org.gtk.gobject.Object {
     private static class Callbacks {
         
         public static void signalTextBufferApplyTag(MemoryAddress source, MemoryAddress tag, MemoryAddress start, MemoryAddress end, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (TextBuffer.ApplyTag) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new TextBuffer(source, Ownership.UNKNOWN), new org.gtk.gtk.TextTag(tag, Ownership.NONE), new org.gtk.gtk.TextIter(start, Ownership.NONE), new org.gtk.gtk.TextIter(end, Ownership.NONE));
+            HANDLER.signalReceived(new TextBuffer(source, Ownership.NONE), new org.gtk.gtk.TextTag(tag, Ownership.NONE), new org.gtk.gtk.TextIter(start, Ownership.NONE), new org.gtk.gtk.TextIter(end, Ownership.NONE));
         }
         
         public static void signalTextBufferBeginUserAction(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (TextBuffer.BeginUserAction) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new TextBuffer(source, Ownership.UNKNOWN));
+            HANDLER.signalReceived(new TextBuffer(source, Ownership.NONE));
         }
         
         public static void signalTextBufferChanged(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (TextBuffer.Changed) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new TextBuffer(source, Ownership.UNKNOWN));
+            HANDLER.signalReceived(new TextBuffer(source, Ownership.NONE));
         }
         
         public static void signalTextBufferDeleteRange(MemoryAddress source, MemoryAddress start, MemoryAddress end, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (TextBuffer.DeleteRange) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new TextBuffer(source, Ownership.UNKNOWN), new org.gtk.gtk.TextIter(start, Ownership.NONE), new org.gtk.gtk.TextIter(end, Ownership.NONE));
+            HANDLER.signalReceived(new TextBuffer(source, Ownership.NONE), new org.gtk.gtk.TextIter(start, Ownership.NONE), new org.gtk.gtk.TextIter(end, Ownership.NONE));
         }
         
         public static void signalTextBufferEndUserAction(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (TextBuffer.EndUserAction) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new TextBuffer(source, Ownership.UNKNOWN));
+            HANDLER.signalReceived(new TextBuffer(source, Ownership.NONE));
         }
         
         public static void signalTextBufferInsertChildAnchor(MemoryAddress source, MemoryAddress location, MemoryAddress anchor, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (TextBuffer.InsertChildAnchor) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new TextBuffer(source, Ownership.UNKNOWN), new org.gtk.gtk.TextIter(location, Ownership.NONE), new org.gtk.gtk.TextChildAnchor(anchor, Ownership.NONE));
+            HANDLER.signalReceived(new TextBuffer(source, Ownership.NONE), new org.gtk.gtk.TextIter(location, Ownership.NONE), new org.gtk.gtk.TextChildAnchor(anchor, Ownership.NONE));
         }
         
         public static void signalTextBufferInsertPaintable(MemoryAddress source, MemoryAddress location, MemoryAddress paintable, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (TextBuffer.InsertPaintable) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new TextBuffer(source, Ownership.UNKNOWN), new org.gtk.gtk.TextIter(location, Ownership.NONE), new org.gtk.gdk.Paintable.PaintableImpl(paintable, Ownership.NONE));
+            HANDLER.signalReceived(new TextBuffer(source, Ownership.NONE), new org.gtk.gtk.TextIter(location, Ownership.NONE), new org.gtk.gdk.Paintable.PaintableImpl(paintable, Ownership.NONE));
         }
         
         public static void signalTextBufferInsertText(MemoryAddress source, MemoryAddress location, MemoryAddress text, int len, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (TextBuffer.InsertText) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new TextBuffer(source, Ownership.UNKNOWN), new org.gtk.gtk.TextIter(location, Ownership.NONE), Interop.getStringFrom(text), len);
+            HANDLER.signalReceived(new TextBuffer(source, Ownership.NONE), new org.gtk.gtk.TextIter(location, Ownership.NONE), Interop.getStringFrom(text), len);
         }
         
         public static void signalTextBufferMarkDeleted(MemoryAddress source, MemoryAddress mark, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (TextBuffer.MarkDeleted) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new TextBuffer(source, Ownership.UNKNOWN), new org.gtk.gtk.TextMark(mark, Ownership.NONE));
+            HANDLER.signalReceived(new TextBuffer(source, Ownership.NONE), new org.gtk.gtk.TextMark(mark, Ownership.NONE));
         }
         
         public static void signalTextBufferMarkSet(MemoryAddress source, MemoryAddress location, MemoryAddress mark, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (TextBuffer.MarkSet) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new TextBuffer(source, Ownership.UNKNOWN), new org.gtk.gtk.TextIter(location, Ownership.NONE), new org.gtk.gtk.TextMark(mark, Ownership.NONE));
+            HANDLER.signalReceived(new TextBuffer(source, Ownership.NONE), new org.gtk.gtk.TextIter(location, Ownership.NONE), new org.gtk.gtk.TextMark(mark, Ownership.NONE));
         }
         
         public static void signalTextBufferModifiedChanged(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (TextBuffer.ModifiedChanged) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new TextBuffer(source, Ownership.UNKNOWN));
+            HANDLER.signalReceived(new TextBuffer(source, Ownership.NONE));
         }
         
         public static void signalTextBufferPasteDone(MemoryAddress source, MemoryAddress clipboard, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (TextBuffer.PasteDone) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new TextBuffer(source, Ownership.UNKNOWN), new org.gtk.gdk.Clipboard(clipboard, Ownership.NONE));
+            HANDLER.signalReceived(new TextBuffer(source, Ownership.NONE), new org.gtk.gdk.Clipboard(clipboard, Ownership.NONE));
         }
         
         public static void signalTextBufferRedo(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (TextBuffer.Redo) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new TextBuffer(source, Ownership.UNKNOWN));
+            HANDLER.signalReceived(new TextBuffer(source, Ownership.NONE));
         }
         
         public static void signalTextBufferRemoveTag(MemoryAddress source, MemoryAddress tag, MemoryAddress start, MemoryAddress end, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (TextBuffer.RemoveTag) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new TextBuffer(source, Ownership.UNKNOWN), new org.gtk.gtk.TextTag(tag, Ownership.NONE), new org.gtk.gtk.TextIter(start, Ownership.NONE), new org.gtk.gtk.TextIter(end, Ownership.NONE));
+            HANDLER.signalReceived(new TextBuffer(source, Ownership.NONE), new org.gtk.gtk.TextTag(tag, Ownership.NONE), new org.gtk.gtk.TextIter(start, Ownership.NONE), new org.gtk.gtk.TextIter(end, Ownership.NONE));
         }
         
         public static void signalTextBufferUndo(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (TextBuffer.Undo) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new TextBuffer(source, Ownership.UNKNOWN));
+            HANDLER.signalReceived(new TextBuffer(source, Ownership.NONE));
         }
     }
 }

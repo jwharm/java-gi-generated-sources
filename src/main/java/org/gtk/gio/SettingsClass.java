@@ -5,7 +5,7 @@ import java.lang.foreign.*;
 import java.lang.invoke.*;
 import org.jetbrains.annotations.*;
 
-public class SettingsClass extends io.github.jwharm.javagi.ProxyBase {
+public class SettingsClass extends Struct {
     
     static {
         Gio.javagi$ensureInitialized();
@@ -13,14 +13,13 @@ public class SettingsClass extends io.github.jwharm.javagi.ProxyBase {
     
     private static final java.lang.String C_TYPE_NAME = "GSettingsClass";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gobject.ObjectClass.getMemoryLayout().withName("parent_class"),
         Interop.valueLayout.ADDRESS.withName("writable_changed"),
         Interop.valueLayout.ADDRESS.withName("changed"),
         Interop.valueLayout.ADDRESS.withName("writable_change_event"),
         Interop.valueLayout.ADDRESS.withName("change_event"),
-        MemoryLayout.paddingLayout(960),
-        MemoryLayout.sequenceLayout(20, ValueLayout.ADDRESS).withName("padding")
+        MemoryLayout.sequenceLayout(20, Interop.valueLayout.ADDRESS).withName("padding")
     ).withName(C_TYPE_NAME);
     
     /**
@@ -34,6 +33,10 @@ public class SettingsClass extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link SettingsClass}
+     * @return A new, uninitialized @{link SettingsClass}
+     */
     public static SettingsClass allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         SettingsClass newInstance = new SettingsClass(segment.address(), Ownership.NONE);
@@ -58,5 +61,75 @@ public class SettingsClass extends io.github.jwharm.javagi.ProxyBase {
     @ApiStatus.Internal
     public SettingsClass(Addressable address, Ownership ownership) {
         super(address, ownership);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private SettingsClass struct;
+        
+         /**
+         * A {@link SettingsClass.Build} object constructs a {@link SettingsClass} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = SettingsClass.allocate();
+        }
+        
+         /**
+         * Finish building the {@link SettingsClass} struct.
+         * @return A new instance of {@code SettingsClass} with the fields 
+         *         that were set in the Build object.
+         */
+        public SettingsClass construct() {
+            return struct;
+        }
+        
+        public Build setParentClass(org.gtk.gobject.ObjectClass parent_class) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parent_class == null ? MemoryAddress.NULL : parent_class.handle()));
+            return this;
+        }
+        
+        public Build setWritableChanged(java.lang.foreign.MemoryAddress writable_changed) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("writable_changed"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (writable_changed == null ? MemoryAddress.NULL : writable_changed));
+            return this;
+        }
+        
+        public Build setChanged(java.lang.foreign.MemoryAddress changed) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("changed"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (changed == null ? MemoryAddress.NULL : changed));
+            return this;
+        }
+        
+        public Build setWritableChangeEvent(java.lang.foreign.MemoryAddress writable_change_event) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("writable_change_event"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (writable_change_event == null ? MemoryAddress.NULL : writable_change_event));
+            return this;
+        }
+        
+        public Build setChangeEvent(java.lang.foreign.MemoryAddress change_event) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("change_event"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (change_event == null ? MemoryAddress.NULL : change_event));
+            return this;
+        }
+        
+        public Build setPadding(java.lang.foreign.MemoryAddress[] padding) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("padding"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (padding == null ? MemoryAddress.NULL : Interop.allocateNativeArray(padding, false)));
+            return this;
+        }
     }
 }

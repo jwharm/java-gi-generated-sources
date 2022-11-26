@@ -31,7 +31,7 @@ public class PreferencesPage extends org.gtk.gtk.Widget implements org.gtk.gtk.A
     
     private static final java.lang.String C_TYPE_NAME = "AdwPreferencesPage";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gtk.Widget.getMemoryLayout().withName("parent_instance")
     ).withName(C_TYPE_NAME);
     
@@ -76,7 +76,7 @@ public class PreferencesPage extends org.gtk.gtk.Widget implements org.gtk.gtk.A
      * @throws ClassCastException If the GType is not derived from "AdwPreferencesPage", a ClassCastException will be thrown.
      */
     public static PreferencesPage castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("AdwPreferencesPage"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), PreferencesPage.getType())) {
             return new PreferencesPage(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of AdwPreferencesPage");
@@ -247,71 +247,170 @@ public class PreferencesPage extends org.gtk.gtk.Widget implements org.gtk.gtk.A
         }
     }
     
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.adw_preferences_page_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gtk.Widget.Build {
+        
+         /**
+         * A {@link PreferencesPage.Build} object constructs a {@link PreferencesPage} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link PreferencesPage} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link PreferencesPage} using {@link PreferencesPage#castFrom}.
+         * @return A new instance of {@code PreferencesPage} with the properties 
+         *         that were set in the Build object.
+         */
+        public PreferencesPage construct() {
+            return PreferencesPage.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    PreferencesPage.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+        
+        /**
+         * The icon name for this page.
+         * @param iconName The value for the {@code icon-name} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setIconName(java.lang.String iconName) {
+            names.add("icon-name");
+            values.add(org.gtk.gobject.Value.create(iconName));
+            return this;
+        }
+        
+        /**
+         * The name of this page.
+         * @param name The value for the {@code name} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setName(java.lang.String name) {
+            names.add("name");
+            values.add(org.gtk.gobject.Value.create(name));
+            return this;
+        }
+        
+        /**
+         * The title for this page.
+         * @param title The value for the {@code title} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setTitle(java.lang.String title) {
+            names.add("title");
+            values.add(org.gtk.gobject.Value.create(title));
+            return this;
+        }
+        
+        /**
+         * Whether an embedded underline in the title indicates a mnemonic.
+         * @param useUnderline The value for the {@code use-underline} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setUseUnderline(boolean useUnderline) {
+            names.add("use-underline");
+            values.add(org.gtk.gobject.Value.create(useUnderline));
+            return this;
+        }
+    }
+    
     private static class DowncallHandles {
         
         private static final MethodHandle adw_preferences_page_new = Interop.downcallHandle(
             "adw_preferences_page_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_preferences_page_add = Interop.downcallHandle(
             "adw_preferences_page_add",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_preferences_page_get_icon_name = Interop.downcallHandle(
             "adw_preferences_page_get_icon_name",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_preferences_page_get_name = Interop.downcallHandle(
             "adw_preferences_page_get_name",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_preferences_page_get_title = Interop.downcallHandle(
             "adw_preferences_page_get_title",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_preferences_page_get_use_underline = Interop.downcallHandle(
             "adw_preferences_page_get_use_underline",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_preferences_page_remove = Interop.downcallHandle(
             "adw_preferences_page_remove",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_preferences_page_set_icon_name = Interop.downcallHandle(
             "adw_preferences_page_set_icon_name",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_preferences_page_set_name = Interop.downcallHandle(
             "adw_preferences_page_set_name",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_preferences_page_set_title = Interop.downcallHandle(
             "adw_preferences_page_set_title",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_preferences_page_set_use_underline = Interop.downcallHandle(
             "adw_preferences_page_set_use_underline",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+            false
+        );
+        
+        private static final MethodHandle adw_preferences_page_get_type = Interop.downcallHandle(
+            "adw_preferences_page_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }

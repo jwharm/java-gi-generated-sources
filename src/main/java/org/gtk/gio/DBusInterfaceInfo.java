@@ -9,7 +9,7 @@ import org.jetbrains.annotations.*;
  * Information about a D-Bus interface.
  * @version 2.26
  */
-public class DBusInterfaceInfo extends io.github.jwharm.javagi.ProxyBase {
+public class DBusInterfaceInfo extends Struct {
     
     static {
         Gio.javagi$ensureInitialized();
@@ -17,8 +17,8 @@ public class DBusInterfaceInfo extends io.github.jwharm.javagi.ProxyBase {
     
     private static final java.lang.String C_TYPE_NAME = "GDBusInterfaceInfo";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
-        ValueLayout.JAVA_INT.withName("ref_count"),
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
+        Interop.valueLayout.C_INT.withName("ref_count"),
         MemoryLayout.paddingLayout(32),
         Interop.valueLayout.ADDRESS.withName("name"),
         Interop.valueLayout.ADDRESS.withName("methods"),
@@ -38,6 +38,10 @@ public class DBusInterfaceInfo extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link DBusInterfaceInfo}
+     * @return A new, uninitialized @{link DBusInterfaceInfo}
+     */
     public static DBusInterfaceInfo allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         DBusInterfaceInfo newInstance = new DBusInterfaceInfo(segment.address(), Ownership.NONE);
@@ -251,50 +255,150 @@ public class DBusInterfaceInfo extends io.github.jwharm.javagi.ProxyBase {
         
         private static final MethodHandle g_dbus_interface_info_cache_build = Interop.downcallHandle(
             "g_dbus_interface_info_cache_build",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_dbus_interface_info_cache_release = Interop.downcallHandle(
             "g_dbus_interface_info_cache_release",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_dbus_interface_info_generate_xml = Interop.downcallHandle(
             "g_dbus_interface_info_generate_xml",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_dbus_interface_info_lookup_method = Interop.downcallHandle(
             "g_dbus_interface_info_lookup_method",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_dbus_interface_info_lookup_property = Interop.downcallHandle(
             "g_dbus_interface_info_lookup_property",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_dbus_interface_info_lookup_signal = Interop.downcallHandle(
             "g_dbus_interface_info_lookup_signal",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_dbus_interface_info_ref = Interop.downcallHandle(
             "g_dbus_interface_info_ref",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_dbus_interface_info_unref = Interop.downcallHandle(
             "g_dbus_interface_info_unref",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private DBusInterfaceInfo struct;
+        
+         /**
+         * A {@link DBusInterfaceInfo.Build} object constructs a {@link DBusInterfaceInfo} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = DBusInterfaceInfo.allocate();
+        }
+        
+         /**
+         * Finish building the {@link DBusInterfaceInfo} struct.
+         * @return A new instance of {@code DBusInterfaceInfo} with the fields 
+         *         that were set in the Build object.
+         */
+        public DBusInterfaceInfo construct() {
+            return struct;
+        }
+        
+        /**
+         * The reference count or -1 if statically allocated.
+         * @param ref_count The value for the {@code ref_count} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setRefCount(int ref_count) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("ref_count"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), ref_count);
+            return this;
+        }
+        
+        /**
+         * The name of the D-Bus interface, e.g. "org.freedesktop.DBus.Properties".
+         * @param name The value for the {@code name} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setName(java.lang.String name) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("name"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (name == null ? MemoryAddress.NULL : Interop.allocateNativeString(name)));
+            return this;
+        }
+        
+        /**
+         * A pointer to a {@code null}-terminated array of pointers to {@link DBusMethodInfo} structures or {@code null} if there are no methods.
+         * @param methods The value for the {@code methods} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setMethods(org.gtk.gio.DBusMethodInfo[] methods) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("methods"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (methods == null ? MemoryAddress.NULL : Interop.allocateNativeArray(methods, false)));
+            return this;
+        }
+        
+        /**
+         * A pointer to a {@code null}-terminated array of pointers to {@link DBusSignalInfo} structures or {@code null} if there are no signals.
+         * @param signals The value for the {@code signals} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setSignals(org.gtk.gio.DBusSignalInfo[] signals) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("signals"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (signals == null ? MemoryAddress.NULL : Interop.allocateNativeArray(signals, false)));
+            return this;
+        }
+        
+        /**
+         * A pointer to a {@code null}-terminated array of pointers to {@link DBusPropertyInfo} structures or {@code null} if there are no properties.
+         * @param properties The value for the {@code properties} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setProperties(org.gtk.gio.DBusPropertyInfo[] properties) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("properties"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (properties == null ? MemoryAddress.NULL : Interop.allocateNativeArray(properties, false)));
+            return this;
+        }
+        
+        /**
+         * A pointer to a {@code null}-terminated array of pointers to {@link DBusAnnotationInfo} structures or {@code null} if there are no annotations.
+         * @param annotations The value for the {@code annotations} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setAnnotations(org.gtk.gio.DBusAnnotationInfo[] annotations) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("annotations"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (annotations == null ? MemoryAddress.NULL : Interop.allocateNativeArray(annotations, false)));
+            return this;
+        }
     }
 }

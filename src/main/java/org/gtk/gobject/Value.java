@@ -17,7 +17,7 @@ import org.jetbrains.annotations.*;
  * within the 2 element {@code data} union, and the {@code g_type} member should
  * only be accessed through the G_VALUE_TYPE() macro.
  */
-public class Value extends io.github.jwharm.javagi.ProxyBase {
+public class Value extends Struct {
     
     static {
         GObject.javagi$ensureInitialized();
@@ -25,10 +25,9 @@ public class Value extends io.github.jwharm.javagi.ProxyBase {
     
     private static final java.lang.String C_TYPE_NAME = "GValue";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
-        ValueLayout.JAVA_LONG.withName("g_type"),
-        MemoryLayout.paddingLayout(64),
-        MemoryLayout.sequenceLayout(2, ValueLayout.ADDRESS).withName("data")
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
+        Interop.valueLayout.C_LONG.withName("g_type"),
+        MemoryLayout.sequenceLayout(2, org.gtk.gobject.ValueDataUnion.getMemoryLayout()).withName("data")
     ).withName(C_TYPE_NAME);
     
     /**
@@ -42,6 +41,10 @@ public class Value extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link Value}
+     * @return A new, uninitialized @{link Value}
+     */
     public static Value allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         Value newInstance = new Value(segment.address(), Ownership.NONE);
@@ -589,7 +592,7 @@ public class Value extends io.github.jwharm.javagi.ProxyBase {
         try {
             DowncallHandles.g_value_set_boxed.invokeExact(
                     handle(),
-                    (Addressable) (vBoxed == null ? MemoryAddress.NULL : vBoxed));
+                    (Addressable) (vBoxed == null ? MemoryAddress.NULL : (Addressable) vBoxed));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -605,7 +608,7 @@ public class Value extends io.github.jwharm.javagi.ProxyBase {
         try {
             DowncallHandles.g_value_set_boxed_take_ownership.invokeExact(
                     handle(),
-                    (Addressable) (vBoxed == null ? MemoryAddress.NULL : vBoxed));
+                    (Addressable) (vBoxed == null ? MemoryAddress.NULL : (Addressable) vBoxed));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -707,7 +710,7 @@ public class Value extends io.github.jwharm.javagi.ProxyBase {
         try {
             DowncallHandles.g_value_set_instance.invokeExact(
                     handle(),
-                    (Addressable) (instance == null ? MemoryAddress.NULL : instance));
+                    (Addressable) (instance == null ? MemoryAddress.NULL : (Addressable) instance));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -805,7 +808,7 @@ public class Value extends io.github.jwharm.javagi.ProxyBase {
         try {
             DowncallHandles.g_value_set_object_take_ownership.invokeExact(
                     handle(),
-                    (Addressable) (vObject == null ? MemoryAddress.NULL : vObject));
+                    (Addressable) (vObject == null ? MemoryAddress.NULL : (Addressable) vObject));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -849,7 +852,7 @@ public class Value extends io.github.jwharm.javagi.ProxyBase {
         try {
             DowncallHandles.g_value_set_pointer.invokeExact(
                     handle(),
-                    (Addressable) (vPointer == null ? MemoryAddress.NULL : vPointer));
+                    (Addressable) (vPointer == null ? MemoryAddress.NULL : (Addressable) vPointer));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -880,7 +883,7 @@ public class Value extends io.github.jwharm.javagi.ProxyBase {
         try {
             DowncallHandles.g_value_set_static_boxed.invokeExact(
                     handle(),
-                    (Addressable) (vBoxed == null ? MemoryAddress.NULL : vBoxed));
+                    (Addressable) (vBoxed == null ? MemoryAddress.NULL : (Addressable) vBoxed));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1016,7 +1019,7 @@ public class Value extends io.github.jwharm.javagi.ProxyBase {
         try {
             DowncallHandles.g_value_take_boxed.invokeExact(
                     handle(),
-                    (Addressable) (vBoxed == null ? MemoryAddress.NULL : vBoxed));
+                    (Addressable) (vBoxed == null ? MemoryAddress.NULL : (Addressable) vBoxed));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1036,7 +1039,7 @@ public class Value extends io.github.jwharm.javagi.ProxyBase {
         try {
             DowncallHandles.g_value_take_object.invokeExact(
                     handle(),
-                    (Addressable) (vObject == null ? MemoryAddress.NULL : vObject));
+                    (Addressable) (vObject == null ? MemoryAddress.NULL : (Addressable) vObject));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1199,428 +1202,650 @@ public class Value extends io.github.jwharm.javagi.ProxyBase {
         
         private static final MethodHandle g_value_copy = Interop.downcallHandle(
             "g_value_copy",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_value_dup_boxed = Interop.downcallHandle(
             "g_value_dup_boxed",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_value_dup_object = Interop.downcallHandle(
             "g_value_dup_object",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_value_dup_param = Interop.downcallHandle(
             "g_value_dup_param",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_value_dup_string = Interop.downcallHandle(
             "g_value_dup_string",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_value_dup_variant = Interop.downcallHandle(
             "g_value_dup_variant",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_value_fits_pointer = Interop.downcallHandle(
             "g_value_fits_pointer",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_value_get_boolean = Interop.downcallHandle(
             "g_value_get_boolean",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_value_get_boxed = Interop.downcallHandle(
             "g_value_get_boxed",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_value_get_char = Interop.downcallHandle(
             "g_value_get_char",
-            FunctionDescriptor.of(ValueLayout.JAVA_BYTE, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_BYTE, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_value_get_double = Interop.downcallHandle(
             "g_value_get_double",
-            FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_DOUBLE, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_value_get_enum = Interop.downcallHandle(
             "g_value_get_enum",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_value_get_flags = Interop.downcallHandle(
             "g_value_get_flags",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_value_get_float = Interop.downcallHandle(
             "g_value_get_float",
-            FunctionDescriptor.of(ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_FLOAT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_value_get_gtype = Interop.downcallHandle(
             "g_value_get_gtype",
-            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_value_get_int = Interop.downcallHandle(
             "g_value_get_int",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_value_get_int64 = Interop.downcallHandle(
             "g_value_get_int64",
-            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_value_get_long = Interop.downcallHandle(
             "g_value_get_long",
-            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_value_get_object = Interop.downcallHandle(
             "g_value_get_object",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_value_get_param = Interop.downcallHandle(
             "g_value_get_param",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_value_get_pointer = Interop.downcallHandle(
             "g_value_get_pointer",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_value_get_schar = Interop.downcallHandle(
             "g_value_get_schar",
-            FunctionDescriptor.of(ValueLayout.JAVA_BYTE, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_BYTE, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_value_get_string = Interop.downcallHandle(
             "g_value_get_string",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_value_get_uchar = Interop.downcallHandle(
             "g_value_get_uchar",
-            FunctionDescriptor.of(ValueLayout.JAVA_BYTE, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_BYTE, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_value_get_uint = Interop.downcallHandle(
             "g_value_get_uint",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_value_get_uint64 = Interop.downcallHandle(
             "g_value_get_uint64",
-            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_value_get_ulong = Interop.downcallHandle(
             "g_value_get_ulong",
-            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_value_get_variant = Interop.downcallHandle(
             "g_value_get_variant",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_value_init = Interop.downcallHandle(
             "g_value_init",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
             false
         );
         
         private static final MethodHandle g_value_init_from_instance = Interop.downcallHandle(
             "g_value_init_from_instance",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_value_peek_pointer = Interop.downcallHandle(
             "g_value_peek_pointer",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_value_reset = Interop.downcallHandle(
             "g_value_reset",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_value_set_boolean = Interop.downcallHandle(
             "g_value_set_boolean",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_value_set_boxed = Interop.downcallHandle(
             "g_value_set_boxed",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_value_set_boxed_take_ownership = Interop.downcallHandle(
             "g_value_set_boxed_take_ownership",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_value_set_char = Interop.downcallHandle(
             "g_value_set_char",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_BYTE),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_BYTE),
             false
         );
         
         private static final MethodHandle g_value_set_double = Interop.downcallHandle(
             "g_value_set_double",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE),
             false
         );
         
         private static final MethodHandle g_value_set_enum = Interop.downcallHandle(
             "g_value_set_enum",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_value_set_flags = Interop.downcallHandle(
             "g_value_set_flags",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_value_set_float = Interop.downcallHandle(
             "g_value_set_float",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_FLOAT),
             false
         );
         
         private static final MethodHandle g_value_set_gtype = Interop.downcallHandle(
             "g_value_set_gtype",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
             false
         );
         
         private static final MethodHandle g_value_set_instance = Interop.downcallHandle(
             "g_value_set_instance",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_value_set_int = Interop.downcallHandle(
             "g_value_set_int",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_value_set_int64 = Interop.downcallHandle(
             "g_value_set_int64",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
             false
         );
         
         private static final MethodHandle g_value_set_interned_string = Interop.downcallHandle(
             "g_value_set_interned_string",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_value_set_long = Interop.downcallHandle(
             "g_value_set_long",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
             false
         );
         
         private static final MethodHandle g_value_set_object = Interop.downcallHandle(
             "g_value_set_object",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_value_set_object_take_ownership = Interop.downcallHandle(
             "g_value_set_object_take_ownership",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_value_set_param = Interop.downcallHandle(
             "g_value_set_param",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_value_set_param_take_ownership = Interop.downcallHandle(
             "g_value_set_param_take_ownership",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_value_set_pointer = Interop.downcallHandle(
             "g_value_set_pointer",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_value_set_schar = Interop.downcallHandle(
             "g_value_set_schar",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_BYTE),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_BYTE),
             false
         );
         
         private static final MethodHandle g_value_set_static_boxed = Interop.downcallHandle(
             "g_value_set_static_boxed",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_value_set_static_string = Interop.downcallHandle(
             "g_value_set_static_string",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_value_set_string = Interop.downcallHandle(
             "g_value_set_string",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_value_set_string_take_ownership = Interop.downcallHandle(
             "g_value_set_string_take_ownership",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_value_set_uchar = Interop.downcallHandle(
             "g_value_set_uchar",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_BYTE),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_BYTE),
             false
         );
         
         private static final MethodHandle g_value_set_uint = Interop.downcallHandle(
             "g_value_set_uint",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_value_set_uint64 = Interop.downcallHandle(
             "g_value_set_uint64",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
             false
         );
         
         private static final MethodHandle g_value_set_ulong = Interop.downcallHandle(
             "g_value_set_ulong",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
             false
         );
         
         private static final MethodHandle g_value_set_variant = Interop.downcallHandle(
             "g_value_set_variant",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_value_take_boxed = Interop.downcallHandle(
             "g_value_take_boxed",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_value_take_object = Interop.downcallHandle(
             "g_value_take_object",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_value_take_param = Interop.downcallHandle(
             "g_value_take_param",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_value_take_string = Interop.downcallHandle(
             "g_value_take_string",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_value_take_variant = Interop.downcallHandle(
             "g_value_take_variant",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_value_transform = Interop.downcallHandle(
             "g_value_transform",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_value_unset = Interop.downcallHandle(
             "g_value_unset",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_value_register_transform_func = Interop.downcallHandle(
             "g_value_register_transform_func",
-            FunctionDescriptor.ofVoid(ValueLayout.JAVA_LONG, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.C_LONG, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_value_type_compatible = Interop.downcallHandle(
             "g_value_type_compatible",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_LONG, ValueLayout.JAVA_LONG),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.C_LONG, Interop.valueLayout.C_LONG),
             false
         );
         
         private static final MethodHandle g_value_type_transformable = Interop.downcallHandle(
             "g_value_type_transformable",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_LONG, ValueLayout.JAVA_LONG),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.C_LONG, Interop.valueLayout.C_LONG),
             false
         );
+    }
+    
+    /**
+     * Create a {@link Value} of with the provided {@code boolean} value.
+     * @param  arg The initial value to set
+     * @return The new {@link Value}
+     */
+    public static Value create(boolean arg) {
+        Value v = allocate();
+        v.init(org.gtk.glib.Type.G_TYPE_BOOLEAN);
+        v.setBoolean(arg);
+        return v;
+    }
+    
+    /**
+     * Create a {@link Value} of with the provided {@code byte} value.
+     * @param  arg The initial value to set
+     * @return The new {@link Value}
+     */
+    public static Value create(byte arg) {
+        Value v = allocate();
+        v.init(org.gtk.glib.Type.G_TYPE_CHAR);
+        v.setSchar(arg);
+        return v;
+    }
+    
+    /**
+     * Create a {@link Value} of with the provided {@code double} value.
+     * @param  arg The initial value to set
+     * @return The new {@link Value}
+     */
+    public static Value create(double arg) {
+        Value v = allocate();
+        v.init(org.gtk.glib.Type.G_TYPE_DOUBLE);
+        v.setDouble(arg);
+        return v;
+    }
+    
+    /**
+     * Create a {@link Value} of with the provided {@code float} value.
+     * @param  arg The initial value to set
+     * @return The new {@link Value}
+     */
+    public static Value create(float arg) {
+        Value v = allocate();
+        v.init(org.gtk.glib.Type.G_TYPE_FLOAT);
+        v.setFloat(arg);
+        return v;
+    }
+    
+    /**
+     * Create a {@link Value} of with the provided {@code int} value.
+     * @param  arg The initial value to set
+     * @return The new {@link Value}
+     */
+    public static Value create(int arg) {
+        Value v = allocate();
+        v.init(org.gtk.glib.Type.G_TYPE_INT);
+        v.setInt(arg);
+        return v;
+    }
+    
+    /**
+     * Create a {@link Value} of with the provided {@code long} value.
+     * @param  arg The initial value to set
+     * @return The new {@link Value}
+     */
+    public static Value create(long arg) {
+        Value v = allocate();
+        v.init(org.gtk.glib.Type.G_TYPE_LONG);
+        v.setLong(arg);
+        return v;
+    }
+    
+    /**
+     * Create a {@link Value} of with the provided {@code String} value.
+     * @param  arg The initial value to set
+     * @return The new {@link Value}
+     */
+    public static Value create(String arg) {
+        Value v = allocate();
+        v.init(org.gtk.glib.Type.G_TYPE_STRING);
+        v.setString(arg);
+        return v;
+    }
+    
+    /**
+     * Create a {@link Value} of with the provided {@code Enumeration} value.
+     * @param  arg The initial value to set
+     * @return The new {@link Value}
+     */
+    public static Value create(Enumeration arg) {
+        Value v = allocate();
+        v.init(org.gtk.glib.Type.G_TYPE_ENUM);
+        v.setEnum(arg.getValue());
+        return v;
+    }
+    
+    /**
+     * Create a {@link Value} of with the provided {@code Bitfield} value.
+     * @param  arg The initial value to set
+     * @return The new {@link Value}
+     */
+    public static Value create(Bitfield arg) {
+        Value v = allocate();
+        v.init(org.gtk.glib.Type.G_TYPE_FLAGS);
+        v.setFlags(arg.getValue());
+        return v;
+    }
+    
+    /**
+     * Create a {@link Value} of with the provided {@code org.gtk.gobject.Object} value.
+     * @param  arg The initial value to set
+     * @return The new {@link Value}
+     */
+    public static Value create(org.gtk.gobject.Object arg) {
+        Value v = allocate();
+        v.init(org.gtk.glib.Type.G_TYPE_OBJECT);
+        v.setObject(arg);
+        return v;
+    }
+    
+    /**
+     * Create a {@link Value} of with the provided {@code org.gtk.glib.Type} value.
+     * @param  arg The initial value to set
+     * @return The new {@link Value}
+     */
+    public static Value create(org.gtk.glib.Type arg) {
+        Value v = allocate();
+        v.init(org.gtk.gobject.GObject.gtypeGetType());
+        v.setGtype(arg);
+        return v;
+    }
+    
+    /**
+     * Create a {@link Value} of with the provided {@code Struct} value.
+     * @param  arg The initial value to set
+     * @return The new {@link Value}
+     */
+    public static Value create(Struct arg) {
+        Value v = allocate();
+        v.init(org.gtk.glib.Type.G_TYPE_BOXED);
+        v.setBoxed((MemoryAddress) arg.handle());
+        return v;
+    }
+    
+    /**
+     * Create a {@link Value} of with the provided {@code MemoryAddress} value.
+     * @param  arg The initial value to set
+     * @return The new {@link Value}
+     */
+    public static Value create(MemoryAddress arg) {
+        Value v = allocate();
+        v.init(org.gtk.glib.Type.G_TYPE_POINTER);
+        v.setPointer(arg);
+        return v;
+    }
+    
+    /**
+     * Create a {@link Value} of with the provided {@code ParamSpec} value.
+     * @param  arg The initial value to set
+     * @return The new {@link Value}
+     */
+    public static Value create(ParamSpec arg) {
+        Value v = allocate();
+        v.init(org.gtk.glib.Type.G_TYPE_PARAM);
+        v.setParam(arg);
+        return v;
+    }
+    
+    /**
+     * Create a {@link Value} of with the provided {@code Proxy} value.
+     * @param  arg The initial value to set
+     * @return The new {@link Value}
+     */
+    public static Value create(Proxy arg) {
+        Value v = allocate();
+        v.init(org.gtk.glib.Type.G_TYPE_OBJECT);
+        v.setObject((org.gtk.gobject.Object) arg);
+        return v;
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private Value struct;
+        
+         /**
+         * A {@link Value.Build} object constructs a {@link Value} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = Value.allocate();
+        }
+        
+         /**
+         * Finish building the {@link Value} struct.
+         * @return A new instance of {@code Value} with the fields 
+         *         that were set in the Build object.
+         */
+        public Value construct() {
+            return struct;
+        }
+        
+        public Build setGType(org.gtk.glib.Type g_type) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("g_type"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (g_type == null ? MemoryAddress.NULL : g_type.getValue().longValue()));
+            return this;
+        }
+        
+        public Build setData(org.gtk.gobject.ValueDataUnion[] data) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("data"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (data == null ? MemoryAddress.NULL : Interop.allocateNativeArray(data, false)));
+            return this;
+        }
     }
 }

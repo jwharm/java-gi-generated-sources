@@ -71,7 +71,7 @@ import org.jetbrains.annotations.*;
  * A GRWLock should only be accessed with the g_rw_lock_ functions.
  * @version 2.32
  */
-public class RWLock extends io.github.jwharm.javagi.ProxyBase {
+public class RWLock extends Struct {
     
     static {
         GLib.javagi$ensureInitialized();
@@ -79,9 +79,9 @@ public class RWLock extends io.github.jwharm.javagi.ProxyBase {
     
     private static final java.lang.String C_TYPE_NAME = "GRWLock";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
         Interop.valueLayout.ADDRESS.withName("p"),
-        MemoryLayout.sequenceLayout(2, ValueLayout.JAVA_INT).withName("i")
+        MemoryLayout.sequenceLayout(2, Interop.valueLayout.C_INT).withName("i")
     ).withName(C_TYPE_NAME);
     
     /**
@@ -95,6 +95,10 @@ public class RWLock extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link RWLock}
+     * @return A new, uninitialized @{link RWLock}
+     */
     public static RWLock allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         RWLock newInstance = new RWLock(segment.address(), Ownership.NONE);
@@ -120,8 +124,6 @@ public class RWLock extends io.github.jwharm.javagi.ProxyBase {
      * <p>
      * Calling g_rw_lock_clear() when any thread holds the lock
      * leads to undefined behaviour.
-     * <p>
-     * Sine: 2.32
      */
     public void clear() {
         try {
@@ -278,50 +280,92 @@ public class RWLock extends io.github.jwharm.javagi.ProxyBase {
         
         private static final MethodHandle g_rw_lock_clear = Interop.downcallHandle(
             "g_rw_lock_clear",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_rw_lock_init = Interop.downcallHandle(
             "g_rw_lock_init",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_rw_lock_reader_lock = Interop.downcallHandle(
             "g_rw_lock_reader_lock",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_rw_lock_reader_trylock = Interop.downcallHandle(
             "g_rw_lock_reader_trylock",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_rw_lock_reader_unlock = Interop.downcallHandle(
             "g_rw_lock_reader_unlock",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_rw_lock_writer_lock = Interop.downcallHandle(
             "g_rw_lock_writer_lock",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_rw_lock_writer_trylock = Interop.downcallHandle(
             "g_rw_lock_writer_trylock",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_rw_lock_writer_unlock = Interop.downcallHandle(
             "g_rw_lock_writer_unlock",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private RWLock struct;
+        
+         /**
+         * A {@link RWLock.Build} object constructs a {@link RWLock} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = RWLock.allocate();
+        }
+        
+         /**
+         * Finish building the {@link RWLock} struct.
+         * @return A new instance of {@code RWLock} with the fields 
+         *         that were set in the Build object.
+         */
+        public RWLock construct() {
+            return struct;
+        }
+        
+        public Build setP(java.lang.foreign.MemoryAddress p) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("p"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (p == null ? MemoryAddress.NULL : (Addressable) p));
+            return this;
+        }
+        
+        public Build setI(int[] i) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("i"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (i == null ? MemoryAddress.NULL : Interop.allocateNativeArray(i, false)));
+            return this;
+        }
     }
 }

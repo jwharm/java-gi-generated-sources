@@ -17,7 +17,7 @@ public class ProxyAddress extends org.gtk.gio.InetSocketAddress implements org.g
     
     private static final java.lang.String C_TYPE_NAME = "GProxyAddress";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gio.InetSocketAddress.getMemoryLayout().withName("parent_instance"),
         Interop.valueLayout.ADDRESS.withName("priv")
     ).withName(C_TYPE_NAME);
@@ -63,7 +63,7 @@ public class ProxyAddress extends org.gtk.gio.InetSocketAddress implements org.g
      * @throws ClassCastException If the GType is not derived from "GProxyAddress", a ClassCastException will be thrown.
      */
     public static ProxyAddress castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GProxyAddress"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), ProxyAddress.getType())) {
             return new ProxyAddress(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GProxyAddress");
@@ -221,53 +221,162 @@ public class ProxyAddress extends org.gtk.gio.InetSocketAddress implements org.g
         return Interop.getStringFrom(RESULT);
     }
     
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.g_proxy_address_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gio.InetSocketAddress.Build {
+        
+         /**
+         * A {@link ProxyAddress.Build} object constructs a {@link ProxyAddress} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link ProxyAddress} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link ProxyAddress} using {@link ProxyAddress#castFrom}.
+         * @return A new instance of {@code ProxyAddress} with the properties 
+         *         that were set in the Build object.
+         */
+        public ProxyAddress construct() {
+            return ProxyAddress.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    ProxyAddress.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+        
+        public Build setDestinationHostname(java.lang.String destinationHostname) {
+            names.add("destination-hostname");
+            values.add(org.gtk.gobject.Value.create(destinationHostname));
+            return this;
+        }
+        
+        public Build setDestinationPort(int destinationPort) {
+            names.add("destination-port");
+            values.add(org.gtk.gobject.Value.create(destinationPort));
+            return this;
+        }
+        
+        /**
+         * The protocol being spoke to the destination host, or {@code null} if
+         * the {@link ProxyAddress} doesn't know.
+         * @param destinationProtocol The value for the {@code destination-protocol} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setDestinationProtocol(java.lang.String destinationProtocol) {
+            names.add("destination-protocol");
+            values.add(org.gtk.gobject.Value.create(destinationProtocol));
+            return this;
+        }
+        
+        public Build setPassword(java.lang.String password) {
+            names.add("password");
+            values.add(org.gtk.gobject.Value.create(password));
+            return this;
+        }
+        
+        public Build setProtocol(java.lang.String protocol) {
+            names.add("protocol");
+            values.add(org.gtk.gobject.Value.create(protocol));
+            return this;
+        }
+        
+        /**
+         * The URI string that the proxy was constructed from (or {@code null}
+         * if the creator didn't specify this).
+         * @param uri The value for the {@code uri} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setUri(java.lang.String uri) {
+            names.add("uri");
+            values.add(org.gtk.gobject.Value.create(uri));
+            return this;
+        }
+        
+        public Build setUsername(java.lang.String username) {
+            names.add("username");
+            values.add(org.gtk.gobject.Value.create(username));
+            return this;
+        }
+    }
+    
     private static class DowncallHandles {
         
         private static final MethodHandle g_proxy_address_new = Interop.downcallHandle(
             "g_proxy_address_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_SHORT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_SHORT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_SHORT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_SHORT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_proxy_address_get_destination_hostname = Interop.downcallHandle(
             "g_proxy_address_get_destination_hostname",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_proxy_address_get_destination_port = Interop.downcallHandle(
             "g_proxy_address_get_destination_port",
-            FunctionDescriptor.of(ValueLayout.JAVA_SHORT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_SHORT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_proxy_address_get_destination_protocol = Interop.downcallHandle(
             "g_proxy_address_get_destination_protocol",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_proxy_address_get_password = Interop.downcallHandle(
             "g_proxy_address_get_password",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_proxy_address_get_protocol = Interop.downcallHandle(
             "g_proxy_address_get_protocol",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_proxy_address_get_uri = Interop.downcallHandle(
             "g_proxy_address_get_uri",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_proxy_address_get_username = Interop.downcallHandle(
             "g_proxy_address_get_username",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+            false
+        );
+        
+        private static final MethodHandle g_proxy_address_get_type = Interop.downcallHandle(
+            "g_proxy_address_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }

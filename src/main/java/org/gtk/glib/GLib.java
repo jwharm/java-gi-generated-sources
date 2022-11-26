@@ -576,7 +576,7 @@ public final class GLib {
      * application compile time, rather than from the library
      * linked against at application run time.
      */
-    public static final int MINOR_VERSION = 72;
+    public static final int MINOR_VERSION = 74;
     
     public static final java.lang.String MODULE_SUFFIX = "so";
     
@@ -861,6 +861,9 @@ public final class GLib {
      * alignment value. Additionally, it will detect possible overflow during
      * multiplication.
      * <p>
+     * If the allocation fails (because the system is out of memory),
+     * the program is terminated.
+     * <p>
      * Aligned memory allocations returned by this function can only be
      * freed using g_aligned_free().
      * @param nBlocks the number of blocks to allocate
@@ -911,7 +914,7 @@ public final class GLib {
     public static void alignedFree(@Nullable java.lang.foreign.MemoryAddress mem) {
         try {
             DowncallHandles.g_aligned_free.invokeExact(
-                    (Addressable) (mem == null ? MemoryAddress.NULL : mem));
+                    (Addressable) (mem == null ? MemoryAddress.NULL : (Addressable) mem));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1091,8 +1094,8 @@ public final class GLib {
     public static boolean asciiStringToSigned(@NotNull java.lang.String str, int base, long min, long max, Out<Long> outNum) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(str, "Parameter 'str' must not be null");
         java.util.Objects.requireNonNull(outNum, "Parameter 'outNum' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        MemorySegment outNumPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_LONG);
+        MemorySegment outNumPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_ascii_string_to_signed.invokeExact(
@@ -1108,7 +1111,7 @@ public final class GLib {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        outNum.set(outNumPOINTER.get(ValueLayout.JAVA_LONG, 0));
+        outNum.set(outNumPOINTER.get(Interop.valueLayout.C_LONG, 0));
         return RESULT != 0;
     }
     
@@ -1146,8 +1149,8 @@ public final class GLib {
     public static boolean asciiStringToUnsigned(@NotNull java.lang.String str, int base, long min, long max, Out<Long> outNum) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(str, "Parameter 'str' must not be null");
         java.util.Objects.requireNonNull(outNum, "Parameter 'outNum' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        MemorySegment outNumPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_LONG);
+        MemorySegment outNumPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_ascii_string_to_unsigned.invokeExact(
@@ -1163,7 +1166,7 @@ public final class GLib {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        outNum.set(outNumPOINTER.get(ValueLayout.JAVA_LONG, 0));
+        outNum.set(outNumPOINTER.get(Interop.valueLayout.C_LONG, 0));
         return RESULT != 0;
     }
     
@@ -1233,7 +1236,7 @@ public final class GLib {
     public static double asciiStrtod(@NotNull java.lang.String nptr, @NotNull Out<java.lang.String> endptr) {
         java.util.Objects.requireNonNull(nptr, "Parameter 'nptr' must not be null");
         java.util.Objects.requireNonNull(endptr, "Parameter 'endptr' must not be null");
-        MemorySegment endptrPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment endptrPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         double RESULT;
         try {
             RESULT = (double) DowncallHandles.g_ascii_strtod.invokeExact(
@@ -1242,7 +1245,7 @@ public final class GLib {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        endptr.set(Interop.getStringFrom(endptrPOINTER.get(ValueLayout.ADDRESS, 0)));
+        endptr.set(Interop.getStringFrom(endptrPOINTER.get(Interop.valueLayout.ADDRESS, 0)));
         return RESULT;
     }
     
@@ -1273,7 +1276,7 @@ public final class GLib {
     public static long asciiStrtoll(@NotNull java.lang.String nptr, @NotNull Out<java.lang.String> endptr, int base) {
         java.util.Objects.requireNonNull(nptr, "Parameter 'nptr' must not be null");
         java.util.Objects.requireNonNull(endptr, "Parameter 'endptr' must not be null");
-        MemorySegment endptrPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment endptrPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.g_ascii_strtoll.invokeExact(
@@ -1283,7 +1286,7 @@ public final class GLib {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        endptr.set(Interop.getStringFrom(endptrPOINTER.get(ValueLayout.ADDRESS, 0)));
+        endptr.set(Interop.getStringFrom(endptrPOINTER.get(Interop.valueLayout.ADDRESS, 0)));
         return RESULT;
     }
     
@@ -1319,7 +1322,7 @@ public final class GLib {
     public static long asciiStrtoull(@NotNull java.lang.String nptr, @NotNull Out<java.lang.String> endptr, int base) {
         java.util.Objects.requireNonNull(nptr, "Parameter 'nptr' must not be null");
         java.util.Objects.requireNonNull(endptr, "Parameter 'endptr' must not be null");
-        MemorySegment endptrPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment endptrPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.g_ascii_strtoull.invokeExact(
@@ -1329,7 +1332,7 @@ public final class GLib {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        endptr.set(Interop.getStringFrom(endptrPOINTER.get(ValueLayout.ADDRESS, 0)));
+        endptr.set(Interop.getStringFrom(endptrPOINTER.get(Interop.valueLayout.ADDRESS, 0)));
         return RESULT;
     }
     
@@ -1680,6 +1683,43 @@ public final class GLib {
     }
     
     /**
+     * Compares {@code atomic} to {@code oldval} and, if equal, sets it to {@code newval}.
+     * If {@code atomic} was not equal to {@code oldval} then no change occurs.
+     * In any case the value of {@code atomic} before this operation is stored in {@code preval}.
+     * <p>
+     * This compare and exchange is done atomically.
+     * <p>
+     * Think of this operation as an atomic version of
+     * {@code { *preval = *atomic; if (*atomic == oldval) { *atomic = newval; return TRUE; } else return FALSE; }}.
+     * <p>
+     * This call acts as a full compiler and hardware memory barrier.
+     * <p>
+     * See also g_atomic_int_compare_and_exchange()
+     * @param atomic a pointer to a {@code gint} or {@code guint}
+     * @param oldval the value to compare with
+     * @param newval the value to conditionally replace with
+     * @param preval the contents of {@code atomic} before this operation
+     * @return {@code true} if the exchange took place
+     */
+    public static boolean atomicIntCompareAndExchangeFull(PointerInteger atomic, int oldval, int newval, Out<Integer> preval) {
+        java.util.Objects.requireNonNull(atomic, "Parameter 'atomic' must not be null");
+        java.util.Objects.requireNonNull(preval, "Parameter 'preval' must not be null");
+        MemorySegment prevalPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
+        int RESULT;
+        try {
+            RESULT = (int) DowncallHandles.g_atomic_int_compare_and_exchange_full.invokeExact(
+                    atomic.handle(),
+                    oldval,
+                    newval,
+                    (Addressable) prevalPOINTER.address());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        preval.set(prevalPOINTER.get(Interop.valueLayout.C_INT, 0));
+        return RESULT != 0;
+    }
+    
+    /**
      * Decrements the value of {@code atomic} by 1.
      * <p>
      * Think of this operation as an atomic version of
@@ -1702,6 +1742,32 @@ public final class GLib {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT != 0;
+    }
+    
+    /**
+     * Sets the {@code atomic} to {@code newval} and returns the old value from {@code atomic}.
+     * <p>
+     * This exchange is done atomically.
+     * <p>
+     * Think of this operation as an atomic version of
+     * {@code { tmp = *atomic; *atomic = val; return tmp; }}.
+     * <p>
+     * This call acts as a full compiler and hardware memory barrier.
+     * @param atomic a pointer to a {@code gint} or {@code guint}
+     * @param newval the value to replace with
+     * @return the value of {@code atomic} before the exchange, signed
+     */
+    public static int atomicIntExchange(PointerInteger atomic, int newval) {
+        java.util.Objects.requireNonNull(atomic, "Parameter 'atomic' must not be null");
+        int RESULT;
+        try {
+            RESULT = (int) DowncallHandles.g_atomic_int_exchange.invokeExact(
+                    atomic.handle(),
+                    newval);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return RESULT;
     }
     
     /**
@@ -1868,7 +1934,7 @@ public final class GLib {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.g_atomic_pointer_add.invokeExact(
-                    atomic,
+                    (Addressable) atomic,
                     val);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -1896,7 +1962,7 @@ public final class GLib {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.g_atomic_pointer_and.invokeExact(
-                    atomic,
+                    (Addressable) atomic,
                     val);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -1927,13 +1993,75 @@ public final class GLib {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_atomic_pointer_compare_and_exchange.invokeExact(
-                    atomic,
-                    (Addressable) (oldval == null ? MemoryAddress.NULL : oldval),
-                    (Addressable) (newval == null ? MemoryAddress.NULL : newval));
+                    (Addressable) atomic,
+                    (Addressable) (oldval == null ? MemoryAddress.NULL : (Addressable) oldval),
+                    (Addressable) (newval == null ? MemoryAddress.NULL : (Addressable) newval));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT != 0;
+    }
+    
+    /**
+     * Compares {@code atomic} to {@code oldval} and, if equal, sets it to {@code newval}.
+     * If {@code atomic} was not equal to {@code oldval} then no change occurs.
+     * In any case the value of {@code atomic} before this operation is stored in {@code preval}.
+     * <p>
+     * This compare and exchange is done atomically.
+     * <p>
+     * Think of this operation as an atomic version of
+     * {@code { *preval = *atomic; if (*atomic == oldval) { *atomic = newval; return TRUE; } else return FALSE; }}.
+     * <p>
+     * This call acts as a full compiler and hardware memory barrier.
+     * <p>
+     * See also g_atomic_pointer_compare_and_exchange()
+     * @param atomic a pointer to a {@code gpointer}-sized value
+     * @param oldval the value to compare with
+     * @param newval the value to conditionally replace with
+     * @param preval the contents of {@code atomic} before this operation
+     * @return {@code true} if the exchange took place
+     */
+    public static boolean atomicPointerCompareAndExchangeFull(@NotNull java.lang.foreign.MemoryAddress atomic, @Nullable java.lang.foreign.MemoryAddress oldval, @Nullable java.lang.foreign.MemoryAddress newval, @NotNull Out<java.lang.foreign.MemoryAddress> preval) {
+        java.util.Objects.requireNonNull(atomic, "Parameter 'atomic' must not be null");
+        java.util.Objects.requireNonNull(preval, "Parameter 'preval' must not be null");
+        MemorySegment prevalPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
+        int RESULT;
+        try {
+            RESULT = (int) DowncallHandles.g_atomic_pointer_compare_and_exchange_full.invokeExact(
+                    (Addressable) atomic,
+                    (Addressable) (oldval == null ? MemoryAddress.NULL : (Addressable) oldval),
+                    (Addressable) (newval == null ? MemoryAddress.NULL : (Addressable) newval),
+                    (Addressable) prevalPOINTER.address());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        preval.set(prevalPOINTER.get(Interop.valueLayout.ADDRESS, 0));
+        return RESULT != 0;
+    }
+    
+    /**
+     * Sets the {@code atomic} to {@code newval} and returns the old value from {@code atomic}.
+     * <p>
+     * This exchange is done atomically.
+     * <p>
+     * Think of this operation as an atomic version of
+     * {@code { tmp = *atomic; *atomic = val; return tmp; }}.
+     * <p>
+     * This call acts as a full compiler and hardware memory barrier.
+     * @param atomic a pointer to a {@code gpointer}-sized value
+     * @param newval the value to replace with
+     * @return the value of {@code atomic} before the exchange
+     */
+    public static @Nullable java.lang.foreign.MemoryAddress atomicPointerExchange(@Nullable java.lang.foreign.MemoryAddress atomic, @Nullable java.lang.foreign.MemoryAddress newval) {
+        MemoryAddress RESULT;
+        try {
+            RESULT = (MemoryAddress) DowncallHandles.g_atomic_pointer_exchange.invokeExact(
+                    (Addressable) (atomic == null ? MemoryAddress.NULL : (Addressable) atomic),
+                    (Addressable) (newval == null ? MemoryAddress.NULL : (Addressable) newval));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return RESULT;
     }
     
     /**
@@ -1952,7 +2080,7 @@ public final class GLib {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_atomic_pointer_get.invokeExact(
-                    atomic);
+                    (Addressable) atomic);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1979,7 +2107,7 @@ public final class GLib {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.g_atomic_pointer_or.invokeExact(
-                    atomic,
+                    (Addressable) atomic,
                     val);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -2002,8 +2130,8 @@ public final class GLib {
         java.util.Objects.requireNonNull(atomic, "Parameter 'atomic' must not be null");
         try {
             DowncallHandles.g_atomic_pointer_set.invokeExact(
-                    atomic,
-                    (Addressable) (newval == null ? MemoryAddress.NULL : newval));
+                    (Addressable) atomic,
+                    (Addressable) (newval == null ? MemoryAddress.NULL : (Addressable) newval));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -2029,7 +2157,7 @@ public final class GLib {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.g_atomic_pointer_xor.invokeExact(
-                    atomic,
+                    (Addressable) atomic,
                     val);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -2048,7 +2176,7 @@ public final class GLib {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_atomic_rc_box_acquire.invokeExact(
-                    memBlock);
+                    (Addressable) memBlock);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -2118,7 +2246,7 @@ public final class GLib {
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_atomic_rc_box_dup.invokeExact(
                     blockSize,
-                    memBlock);
+                    (Addressable) memBlock);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -2135,7 +2263,7 @@ public final class GLib {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.g_atomic_rc_box_get_size.invokeExact(
-                    memBlock);
+                    (Addressable) memBlock);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -2153,7 +2281,7 @@ public final class GLib {
         java.util.Objects.requireNonNull(memBlock, "Parameter 'memBlock' must not be null");
         try {
             DowncallHandles.g_atomic_rc_box_release.invokeExact(
-                    memBlock);
+                    (Addressable) memBlock);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -2254,7 +2382,7 @@ public final class GLib {
     public static @NotNull byte[] base64Decode(@NotNull java.lang.String text, Out<Long> outLen) {
         java.util.Objects.requireNonNull(text, "Parameter 'text' must not be null");
         java.util.Objects.requireNonNull(outLen, "Parameter 'outLen' must not be null");
-        MemorySegment outLenPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_LONG);
+        MemorySegment outLenPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_base64_decode.invokeExact(
@@ -2263,8 +2391,8 @@ public final class GLib {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        outLen.set(outLenPOINTER.get(ValueLayout.JAVA_LONG, 0));
-        return MemorySegment.ofAddress(RESULT.get(ValueLayout.ADDRESS, 0), outLen.get().intValue() * ValueLayout.JAVA_BYTE.byteSize(), Interop.getScope()).toArray(ValueLayout.JAVA_BYTE);
+        outLen.set(outLenPOINTER.get(Interop.valueLayout.C_LONG, 0));
+        return MemorySegment.ofAddress(RESULT.get(Interop.valueLayout.ADDRESS, 0), outLen.get().intValue() * Interop.valueLayout.C_BYTE.byteSize(), Interop.getScope()).toArray(Interop.valueLayout.C_BYTE);
     }
     
     /**
@@ -2278,9 +2406,9 @@ public final class GLib {
      */
     public static PointerByte base64DecodeInplace(@NotNull Out<byte[]> text, Out<Long> outLen) {
         java.util.Objects.requireNonNull(text, "Parameter 'text' must not be null");
+        MemorySegment textPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         java.util.Objects.requireNonNull(outLen, "Parameter 'outLen' must not be null");
-        MemorySegment textPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        MemorySegment outLenPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_LONG);
+        MemorySegment outLenPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_base64_decode_inplace.invokeExact(
@@ -2289,8 +2417,8 @@ public final class GLib {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        outLen.set(outLenPOINTER.get(ValueLayout.JAVA_LONG, 0));
-        text.set(MemorySegment.ofAddress(textPOINTER.get(ValueLayout.ADDRESS, 0), outLen.get().intValue() * ValueLayout.JAVA_BYTE.byteSize(), Interop.getScope()).toArray(ValueLayout.JAVA_BYTE));
+        outLen.set(outLenPOINTER.get(Interop.valueLayout.C_LONG, 0));
+        text.set(MemorySegment.ofAddress(textPOINTER.get(Interop.valueLayout.ADDRESS, 0), outLen.get().intValue() * Interop.valueLayout.C_BYTE.byteSize(), Interop.getScope()).toArray(Interop.valueLayout.C_BYTE));
         return new PointerByte(RESULT);
     }
     
@@ -2813,7 +2941,7 @@ public final class GLib {
     public static PointerByte byteArraySteal(@NotNull byte[] array, Out<Long> len) {
         java.util.Objects.requireNonNull(array, "Parameter 'array' must not be null");
         java.util.Objects.requireNonNull(len, "Parameter 'len' must not be null");
-        MemorySegment lenPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_LONG);
+        MemorySegment lenPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_byte_array_steal.invokeExact(
@@ -2822,7 +2950,7 @@ public final class GLib {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        len.set(lenPOINTER.get(ValueLayout.JAVA_LONG, 0));
+        len.set(lenPOINTER.get(Interop.valueLayout.C_LONG, 0));
         return new PointerByte(RESULT);
     }
     
@@ -2990,7 +3118,7 @@ public final class GLib {
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbChildWatchFunc",
                             MethodType.methodType(void.class, int.class, int.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+                        FunctionDescriptor.ofVoid(Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
                         Interop.getScope()),
                     (Addressable) (Interop.registerCallback(function)));
         } catch (Throwable ERR) {
@@ -3042,7 +3170,7 @@ public final class GLib {
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbChildWatchFunc",
                             MethodType.methodType(void.class, int.class, int.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+                        FunctionDescriptor.ofVoid(Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
                         Interop.getScope()),
                     (Addressable) (Interop.registerCallback(function)),
                     Interop.cbDestroyNotifySymbol());
@@ -3177,7 +3305,7 @@ public final class GLib {
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public static boolean close(int fd) throws io.github.jwharm.javagi.GErrorException {
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_close.invokeExact(
@@ -3407,10 +3535,10 @@ public final class GLib {
         java.util.Objects.requireNonNull(toCodeset, "Parameter 'toCodeset' must not be null");
         java.util.Objects.requireNonNull(fromCodeset, "Parameter 'fromCodeset' must not be null");
         java.util.Objects.requireNonNull(bytesRead, "Parameter 'bytesRead' must not be null");
+        MemorySegment bytesReadPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
         java.util.Objects.requireNonNull(bytesWritten, "Parameter 'bytesWritten' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        MemorySegment bytesReadPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_LONG);
-        MemorySegment bytesWrittenPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_LONG);
+        MemorySegment bytesWrittenPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_convert.invokeExact(
@@ -3427,9 +3555,9 @@ public final class GLib {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        bytesRead.set(bytesReadPOINTER.get(ValueLayout.JAVA_LONG, 0));
-        bytesWritten.set(bytesWrittenPOINTER.get(ValueLayout.JAVA_LONG, 0));
-        return MemorySegment.ofAddress(RESULT.get(ValueLayout.ADDRESS, 0), bytesWritten.get().intValue() * ValueLayout.JAVA_BYTE.byteSize(), Interop.getScope()).toArray(ValueLayout.JAVA_BYTE);
+        bytesRead.set(bytesReadPOINTER.get(Interop.valueLayout.C_LONG, 0));
+        bytesWritten.set(bytesWrittenPOINTER.get(Interop.valueLayout.C_LONG, 0));
+        return MemorySegment.ofAddress(RESULT.get(Interop.valueLayout.ADDRESS, 0), bytesWritten.get().intValue() * Interop.valueLayout.C_BYTE.byteSize(), Interop.getScope()).toArray(Interop.valueLayout.C_BYTE);
     }
     
     public static @NotNull org.gtk.glib.Quark convertErrorQuark() {
@@ -3490,10 +3618,10 @@ public final class GLib {
         java.util.Objects.requireNonNull(fromCodeset, "Parameter 'fromCodeset' must not be null");
         java.util.Objects.requireNonNull(fallback, "Parameter 'fallback' must not be null");
         java.util.Objects.requireNonNull(bytesRead, "Parameter 'bytesRead' must not be null");
+        MemorySegment bytesReadPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
         java.util.Objects.requireNonNull(bytesWritten, "Parameter 'bytesWritten' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        MemorySegment bytesReadPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_LONG);
-        MemorySegment bytesWrittenPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_LONG);
+        MemorySegment bytesWrittenPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_convert_with_fallback.invokeExact(
@@ -3511,9 +3639,9 @@ public final class GLib {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        bytesRead.set(bytesReadPOINTER.get(ValueLayout.JAVA_LONG, 0));
-        bytesWritten.set(bytesWrittenPOINTER.get(ValueLayout.JAVA_LONG, 0));
-        return MemorySegment.ofAddress(RESULT.get(ValueLayout.ADDRESS, 0), bytesWritten.get().intValue() * ValueLayout.JAVA_BYTE.byteSize(), Interop.getScope()).toArray(ValueLayout.JAVA_BYTE);
+        bytesRead.set(bytesReadPOINTER.get(Interop.valueLayout.C_LONG, 0));
+        bytesWritten.set(bytesWrittenPOINTER.get(Interop.valueLayout.C_LONG, 0));
+        return MemorySegment.ofAddress(RESULT.get(Interop.valueLayout.ADDRESS, 0), bytesWritten.get().intValue() * Interop.valueLayout.C_BYTE.byteSize(), Interop.getScope()).toArray(Interop.valueLayout.C_BYTE);
     }
     
     /**
@@ -3561,10 +3689,10 @@ public final class GLib {
         java.util.Objects.requireNonNull(str, "Parameter 'str' must not be null");
         java.util.Objects.requireNonNull(converter, "Parameter 'converter' must not be null");
         java.util.Objects.requireNonNull(bytesRead, "Parameter 'bytesRead' must not be null");
+        MemorySegment bytesReadPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
         java.util.Objects.requireNonNull(bytesWritten, "Parameter 'bytesWritten' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        MemorySegment bytesReadPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_LONG);
-        MemorySegment bytesWrittenPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_LONG);
+        MemorySegment bytesWrittenPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_convert_with_iconv.invokeExact(
@@ -3580,9 +3708,9 @@ public final class GLib {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        bytesRead.set(bytesReadPOINTER.get(ValueLayout.JAVA_LONG, 0));
-        bytesWritten.set(bytesWrittenPOINTER.get(ValueLayout.JAVA_LONG, 0));
-        return MemorySegment.ofAddress(RESULT.get(ValueLayout.ADDRESS, 0), bytesWritten.get().intValue() * ValueLayout.JAVA_BYTE.byteSize(), Interop.getScope()).toArray(ValueLayout.JAVA_BYTE);
+        bytesRead.set(bytesReadPOINTER.get(Interop.valueLayout.C_LONG, 0));
+        bytesWritten.set(bytesWrittenPOINTER.get(Interop.valueLayout.C_LONG, 0));
+        return MemorySegment.ofAddress(RESULT.get(Interop.valueLayout.ADDRESS, 0), bytesWritten.get().intValue() * Interop.valueLayout.C_BYTE.byteSize(), Interop.getScope()).toArray(Interop.valueLayout.C_BYTE);
     }
     
     /**
@@ -3624,7 +3752,7 @@ public final class GLib {
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbDataForeachFunc",
                             MethodType.methodType(void.class, int.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        FunctionDescriptor.ofVoid(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                         Interop.getScope()),
                     (Addressable) (Interop.registerCallback(func)));
         } catch (Throwable ERR) {
@@ -3704,7 +3832,7 @@ public final class GLib {
                     (Addressable) (dupFunc == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbDuplicateFunc",
                             MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                         Interop.getScope())),
                     (Addressable) (dupFunc == null ? MemoryAddress.NULL : Interop.registerCallback(dupFunc)));
         } catch (Throwable ERR) {
@@ -3732,6 +3860,28 @@ public final class GLib {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
+    }
+    
+    /**
+     * Removes multiple keys from a datalist.
+     * <p>
+     * This is more efficient than calling g_datalist_id_remove_data()
+     * multiple times in a row.
+     * @param datalist a datalist
+     * @param keys keys to remove
+     * @param nKeys length of {@code keys}, must be &lt;= 16
+     */
+    public static void datalistIdRemoveMultiple(@NotNull PointerProxy<org.gtk.glib.Data> datalist, @NotNull org.gtk.glib.Quark[] keys, long nKeys) {
+        java.util.Objects.requireNonNull(datalist, "Parameter 'datalist' must not be null");
+        java.util.Objects.requireNonNull(keys, "Parameter 'keys' must not be null");
+        try {
+            DowncallHandles.g_datalist_id_remove_multiple.invokeExact(
+                    datalist.handle(),
+                    Interop.allocateNativeArray(org.gtk.glib.Quark.getIntegerValues(keys), false),
+                    nKeys);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -3805,7 +3955,7 @@ public final class GLib {
             DowncallHandles.g_datalist_id_set_data_full.invokeExact(
                     datalist.handle(),
                     keyId.getValue().intValue(),
-                    data,
+                    (Addressable) data,
                     Interop.cbDestroyNotifySymbol());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -3881,7 +4031,7 @@ public final class GLib {
         java.util.Objects.requireNonNull(datasetLocation, "Parameter 'datasetLocation' must not be null");
         try {
             DowncallHandles.g_dataset_destroy.invokeExact(
-                    datasetLocation);
+                    (Addressable) datasetLocation);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -3904,11 +4054,11 @@ public final class GLib {
         java.util.Objects.requireNonNull(func, "Parameter 'func' must not be null");
         try {
             DowncallHandles.g_dataset_foreach.invokeExact(
-                    datasetLocation,
+                    (Addressable) datasetLocation,
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbDataForeachFunc",
                             MethodType.methodType(void.class, int.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        FunctionDescriptor.ofVoid(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                         Interop.getScope()),
                     (Addressable) (Interop.registerCallback(func)));
         } catch (Throwable ERR) {
@@ -3929,7 +4079,7 @@ public final class GLib {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_dataset_id_get_data.invokeExact(
-                    datasetLocation,
+                    (Addressable) datasetLocation,
                     keyId.getValue().intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -3951,7 +4101,7 @@ public final class GLib {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_dataset_id_remove_no_notify.invokeExact(
-                    datasetLocation,
+                    (Addressable) datasetLocation,
                     keyId.getValue().intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -3977,9 +4127,9 @@ public final class GLib {
         java.util.Objects.requireNonNull(keyId, "Parameter 'keyId' must not be null");
         try {
             DowncallHandles.g_dataset_id_set_data_full.invokeExact(
-                    datasetLocation,
+                    (Addressable) datasetLocation,
                     keyId.getValue().intValue(),
-                    data,
+                    (Addressable) data,
                     Interop.cbDestroyNotifySymbol());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -4327,7 +4477,7 @@ public final class GLib {
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public static @NotNull java.lang.String dirMakeTmp(@Nullable java.lang.String tmpl) throws io.github.jwharm.javagi.GErrorException {
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_dir_make_tmp.invokeExact(
@@ -4358,8 +4508,8 @@ public final class GLib {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_direct_equal.invokeExact(
-                    (Addressable) (v1 == null ? MemoryAddress.NULL : v1),
-                    (Addressable) (v2 == null ? MemoryAddress.NULL : v2));
+                    (Addressable) (v1 == null ? MemoryAddress.NULL : (Addressable) v1),
+                    (Addressable) (v2 == null ? MemoryAddress.NULL : (Addressable) v2));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -4381,7 +4531,7 @@ public final class GLib {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_direct_hash.invokeExact(
-                    (Addressable) (v == null ? MemoryAddress.NULL : v));
+                    (Addressable) (v == null ? MemoryAddress.NULL : (Addressable) v));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -4434,8 +4584,8 @@ public final class GLib {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_double_equal.invokeExact(
-                    v1,
-                    v2);
+                    (Addressable) v1,
+                    (Addressable) v2);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -4455,7 +4605,7 @@ public final class GLib {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_double_hash.invokeExact(
-                    v);
+                    (Addressable) v);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -4658,9 +4808,9 @@ public final class GLib {
     public static boolean fileGetContents(@NotNull java.lang.String filename, @NotNull Out<byte[]> contents, Out<Long> length) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(filename, "Parameter 'filename' must not be null");
         java.util.Objects.requireNonNull(contents, "Parameter 'contents' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        MemorySegment contentsPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        MemorySegment lengthPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_LONG);
+        MemorySegment contentsPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
+        MemorySegment lengthPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_file_get_contents.invokeExact(
@@ -4674,8 +4824,8 @@ public final class GLib {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        if (length != null) length.set(lengthPOINTER.get(ValueLayout.JAVA_LONG, 0));
-        contents.set(MemorySegment.ofAddress(contentsPOINTER.get(ValueLayout.ADDRESS, 0), length.get().intValue() * ValueLayout.JAVA_BYTE.byteSize(), Interop.getScope()).toArray(ValueLayout.JAVA_BYTE));
+        if (length != null) length.set(lengthPOINTER.get(Interop.valueLayout.C_LONG, 0));
+        contents.set(MemorySegment.ofAddress(contentsPOINTER.get(Interop.valueLayout.ADDRESS, 0), length.get().intValue() * Interop.valueLayout.C_BYTE.byteSize(), Interop.getScope()).toArray(Interop.valueLayout.C_BYTE));
         return RESULT != 0;
     }
     
@@ -4708,8 +4858,8 @@ public final class GLib {
      */
     public static int fileOpenTmp(@Nullable java.lang.String tmpl, @NotNull Out<java.lang.String> nameUsed) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(nameUsed, "Parameter 'nameUsed' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        MemorySegment nameUsedPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment nameUsedPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_file_open_tmp.invokeExact(
@@ -4722,7 +4872,7 @@ public final class GLib {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        nameUsed.set(Interop.getStringFrom(nameUsedPOINTER.get(ValueLayout.ADDRESS, 0)));
+        nameUsed.set(Interop.getStringFrom(nameUsedPOINTER.get(Interop.valueLayout.ADDRESS, 0)));
         return RESULT;
     }
     
@@ -4737,7 +4887,7 @@ public final class GLib {
      */
     public static @NotNull java.lang.String fileReadLink(@NotNull java.lang.String filename) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(filename, "Parameter 'filename' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_file_read_link.invokeExact(
@@ -4767,7 +4917,7 @@ public final class GLib {
     public static boolean fileSetContents(@NotNull java.lang.String filename, @NotNull byte[] contents, long length) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(filename, "Parameter 'filename' must not be null");
         java.util.Objects.requireNonNull(contents, "Parameter 'contents' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_file_set_contents.invokeExact(
@@ -4857,7 +5007,7 @@ public final class GLib {
         java.util.Objects.requireNonNull(filename, "Parameter 'filename' must not be null");
         java.util.Objects.requireNonNull(contents, "Parameter 'contents' must not be null");
         java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_file_set_contents_full.invokeExact(
@@ -5017,8 +5167,8 @@ public final class GLib {
      */
     public static @NotNull java.lang.String filenameFromUri(@NotNull java.lang.String uri, @Nullable Out<java.lang.String> hostname) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(uri, "Parameter 'uri' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        MemorySegment hostnamePOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment hostnamePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_filename_from_uri.invokeExact(
@@ -5031,7 +5181,7 @@ public final class GLib {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        if (hostname != null) hostname.set(Interop.getStringFrom(hostnamePOINTER.get(ValueLayout.ADDRESS, 0)));
+        if (hostname != null) hostname.set(Interop.getStringFrom(hostnamePOINTER.get(Interop.valueLayout.ADDRESS, 0)));
         return Interop.getStringFrom(RESULT);
     }
     
@@ -5065,10 +5215,10 @@ public final class GLib {
     public static @NotNull java.lang.String filenameFromUtf8(@NotNull java.lang.String utf8string, long len, Out<Long> bytesRead, Out<Long> bytesWritten) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(utf8string, "Parameter 'utf8string' must not be null");
         java.util.Objects.requireNonNull(bytesRead, "Parameter 'bytesRead' must not be null");
+        MemorySegment bytesReadPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
         java.util.Objects.requireNonNull(bytesWritten, "Parameter 'bytesWritten' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        MemorySegment bytesReadPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_LONG);
-        MemorySegment bytesWrittenPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_LONG);
+        MemorySegment bytesWrittenPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_filename_from_utf8.invokeExact(
@@ -5083,8 +5233,8 @@ public final class GLib {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        bytesRead.set(bytesReadPOINTER.get(ValueLayout.JAVA_LONG, 0));
-        bytesWritten.set(bytesWrittenPOINTER.get(ValueLayout.JAVA_LONG, 0));
+        bytesRead.set(bytesReadPOINTER.get(Interop.valueLayout.C_LONG, 0));
+        bytesWritten.set(bytesWrittenPOINTER.get(Interop.valueLayout.C_LONG, 0));
         return Interop.getStringFrom(RESULT);
     }
     
@@ -5101,7 +5251,7 @@ public final class GLib {
      */
     public static @NotNull java.lang.String filenameToUri(@NotNull java.lang.String filename, @Nullable java.lang.String hostname) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(filename, "Parameter 'filename' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_filename_to_uri.invokeExact(
@@ -5151,10 +5301,10 @@ public final class GLib {
     public static @NotNull java.lang.String filenameToUtf8(@NotNull java.lang.String opsysstring, long len, Out<Long> bytesRead, Out<Long> bytesWritten) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(opsysstring, "Parameter 'opsysstring' must not be null");
         java.util.Objects.requireNonNull(bytesRead, "Parameter 'bytesRead' must not be null");
+        MemorySegment bytesReadPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
         java.util.Objects.requireNonNull(bytesWritten, "Parameter 'bytesWritten' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        MemorySegment bytesReadPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_LONG);
-        MemorySegment bytesWrittenPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_LONG);
+        MemorySegment bytesWrittenPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_filename_to_utf8.invokeExact(
@@ -5169,8 +5319,8 @@ public final class GLib {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        bytesRead.set(bytesReadPOINTER.get(ValueLayout.JAVA_LONG, 0));
-        bytesWritten.set(bytesWrittenPOINTER.get(ValueLayout.JAVA_LONG, 0));
+        bytesRead.set(bytesReadPOINTER.get(Interop.valueLayout.C_LONG, 0));
+        bytesWritten.set(bytesWrittenPOINTER.get(Interop.valueLayout.C_LONG, 0));
         return Interop.getStringFrom(RESULT);
     }
     
@@ -5305,7 +5455,7 @@ public final class GLib {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_fprintf.invokeExact(
-                    file,
+                    (Addressable) file,
                     Interop.allocateNativeString(format),
                     varargs);
         } catch (Throwable ERR) {
@@ -5324,7 +5474,7 @@ public final class GLib {
     public static void free(@Nullable java.lang.foreign.MemoryAddress mem) {
         try {
             DowncallHandles.g_free.invokeExact(
-                    (Addressable) (mem == null ? MemoryAddress.NULL : mem));
+                    (Addressable) (mem == null ? MemoryAddress.NULL : (Addressable) mem));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -5378,7 +5528,7 @@ public final class GLib {
      */
     public static boolean getCharset(@NotNull Out<java.lang.String> charset) {
         java.util.Objects.requireNonNull(charset, "Parameter 'charset' must not be null");
-        MemorySegment charsetPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment charsetPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_get_charset.invokeExact(
@@ -5386,7 +5536,7 @@ public final class GLib {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        charset.set(Interop.getStringFrom(charsetPOINTER.get(ValueLayout.ADDRESS, 0)));
+        charset.set(Interop.getStringFrom(charsetPOINTER.get(Interop.valueLayout.ADDRESS, 0)));
         return RESULT != 0;
     }
     
@@ -5429,7 +5579,7 @@ public final class GLib {
      */
     public static boolean getConsoleCharset(@NotNull Out<java.lang.String> charset) {
         java.util.Objects.requireNonNull(charset, "Parameter 'charset' must not be null");
-        MemorySegment charsetPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment charsetPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_get_console_charset.invokeExact(
@@ -5437,7 +5587,7 @@ public final class GLib {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        charset.set(Interop.getStringFrom(charsetPOINTER.get(ValueLayout.ADDRESS, 0)));
+        charset.set(Interop.getStringFrom(charsetPOINTER.get(Interop.valueLayout.ADDRESS, 0)));
         return RESULT != 0;
     }
     
@@ -6168,7 +6318,7 @@ public final class GLib {
         try {
             RESULT = (int) DowncallHandles.g_hash_table_add.invokeExact(
                     hashTable.handle(),
-                    (Addressable) (key == null ? MemoryAddress.NULL : key));
+                    (Addressable) (key == null ? MemoryAddress.NULL : (Addressable) key));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -6187,7 +6337,7 @@ public final class GLib {
         try {
             RESULT = (int) DowncallHandles.g_hash_table_contains.invokeExact(
                     hashTable.handle(),
-                    (Addressable) (key == null ? MemoryAddress.NULL : key));
+                    (Addressable) (key == null ? MemoryAddress.NULL : (Addressable) key));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -6237,8 +6387,8 @@ public final class GLib {
         try {
             RESULT = (int) DowncallHandles.g_hash_table_insert.invokeExact(
                     hashTable.handle(),
-                    (Addressable) (key == null ? MemoryAddress.NULL : key),
-                    (Addressable) (value == null ? MemoryAddress.NULL : value));
+                    (Addressable) (key == null ? MemoryAddress.NULL : (Addressable) key),
+                    (Addressable) (value == null ? MemoryAddress.NULL : (Addressable) value));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -6260,7 +6410,7 @@ public final class GLib {
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_hash_table_lookup.invokeExact(
                     hashTable.handle(),
-                    (Addressable) (key == null ? MemoryAddress.NULL : key));
+                    (Addressable) (key == null ? MemoryAddress.NULL : (Addressable) key));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -6285,20 +6435,20 @@ public final class GLib {
      */
     public static boolean hashTableLookupExtended(@NotNull org.gtk.glib.HashTable hashTable, @Nullable java.lang.foreign.MemoryAddress lookupKey, @Nullable Out<java.lang.foreign.MemoryAddress> origKey, @Nullable Out<java.lang.foreign.MemoryAddress> value) {
         java.util.Objects.requireNonNull(hashTable, "Parameter 'hashTable' must not be null");
-        MemorySegment origKeyPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        MemorySegment valuePOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment origKeyPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
+        MemorySegment valuePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_hash_table_lookup_extended.invokeExact(
                     hashTable.handle(),
-                    (Addressable) (lookupKey == null ? MemoryAddress.NULL : lookupKey),
+                    (Addressable) (lookupKey == null ? MemoryAddress.NULL : (Addressable) lookupKey),
                     (Addressable) (origKey == null ? MemoryAddress.NULL : (Addressable) origKeyPOINTER.address()),
                     (Addressable) (value == null ? MemoryAddress.NULL : (Addressable) valuePOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        if (origKey != null) origKey.set(origKeyPOINTER.get(ValueLayout.ADDRESS, 0));
-        if (value != null) value.set(valuePOINTER.get(ValueLayout.ADDRESS, 0));
+        if (origKey != null) origKey.set(origKeyPOINTER.get(Interop.valueLayout.ADDRESS, 0));
+        if (value != null) value.set(valuePOINTER.get(Interop.valueLayout.ADDRESS, 0));
         return RESULT != 0;
     }
     
@@ -6343,7 +6493,7 @@ public final class GLib {
         try {
             RESULT = (int) DowncallHandles.g_hash_table_remove.invokeExact(
                     hashTable.handle(),
-                    (Addressable) (key == null ? MemoryAddress.NULL : key));
+                    (Addressable) (key == null ? MemoryAddress.NULL : (Addressable) key));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -6392,8 +6542,8 @@ public final class GLib {
         try {
             RESULT = (int) DowncallHandles.g_hash_table_replace.invokeExact(
                     hashTable.handle(),
-                    (Addressable) (key == null ? MemoryAddress.NULL : key),
-                    (Addressable) (value == null ? MemoryAddress.NULL : value));
+                    (Addressable) (key == null ? MemoryAddress.NULL : (Addressable) key),
+                    (Addressable) (value == null ? MemoryAddress.NULL : (Addressable) value));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -6430,7 +6580,7 @@ public final class GLib {
         try {
             RESULT = (int) DowncallHandles.g_hash_table_steal.invokeExact(
                     hashTable.handle(),
-                    (Addressable) (key == null ? MemoryAddress.NULL : key));
+                    (Addressable) (key == null ? MemoryAddress.NULL : (Addressable) key));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -6473,20 +6623,20 @@ public final class GLib {
      */
     public static boolean hashTableStealExtended(@NotNull org.gtk.glib.HashTable hashTable, @Nullable java.lang.foreign.MemoryAddress lookupKey, @Nullable Out<java.lang.foreign.MemoryAddress> stolenKey, @Nullable Out<java.lang.foreign.MemoryAddress> stolenValue) {
         java.util.Objects.requireNonNull(hashTable, "Parameter 'hashTable' must not be null");
-        MemorySegment stolenKeyPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        MemorySegment stolenValuePOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment stolenKeyPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
+        MemorySegment stolenValuePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_hash_table_steal_extended.invokeExact(
                     hashTable.handle(),
-                    (Addressable) (lookupKey == null ? MemoryAddress.NULL : lookupKey),
+                    (Addressable) (lookupKey == null ? MemoryAddress.NULL : (Addressable) lookupKey),
                     (Addressable) (stolenKey == null ? MemoryAddress.NULL : (Addressable) stolenKeyPOINTER.address()),
                     (Addressable) (stolenValue == null ? MemoryAddress.NULL : (Addressable) stolenValuePOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        if (stolenKey != null) stolenKey.set(stolenKeyPOINTER.get(ValueLayout.ADDRESS, 0));
-        if (stolenValue != null) stolenValue.set(stolenValuePOINTER.get(ValueLayout.ADDRESS, 0));
+        if (stolenKey != null) stolenKey.set(stolenKeyPOINTER.get(Interop.valueLayout.ADDRESS, 0));
+        if (stolenValue != null) stolenValue.set(stolenValuePOINTER.get(Interop.valueLayout.ADDRESS, 0));
         return RESULT != 0;
     }
     
@@ -6750,23 +6900,27 @@ public final class GLib {
      * @param outbytesLeft inout parameter, bytes available to fill in {@code outbuf}
      * @return count of non-reversible conversions, or -1 on error
      */
-    public static long iconv(@NotNull org.gtk.glib.IConv converter, @NotNull PointerString inbuf, PointerLong inbytesLeft, @NotNull PointerString outbuf, PointerLong outbytesLeft) {
+    public static long iconv(@NotNull org.gtk.glib.IConv converter, @NotNull PointerString inbuf, Out<Long> inbytesLeft, @NotNull PointerString outbuf, Out<Long> outbytesLeft) {
         java.util.Objects.requireNonNull(converter, "Parameter 'converter' must not be null");
         java.util.Objects.requireNonNull(inbuf, "Parameter 'inbuf' must not be null");
         java.util.Objects.requireNonNull(inbytesLeft, "Parameter 'inbytesLeft' must not be null");
+        MemorySegment inbytesLeftPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
         java.util.Objects.requireNonNull(outbuf, "Parameter 'outbuf' must not be null");
         java.util.Objects.requireNonNull(outbytesLeft, "Parameter 'outbytesLeft' must not be null");
+        MemorySegment outbytesLeftPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.g_iconv.invokeExact(
                     converter.handle(),
                     inbuf.handle(),
-                    inbytesLeft.handle(),
+                    (Addressable) inbytesLeftPOINTER.address(),
                     outbuf.handle(),
-                    outbytesLeft.handle());
+                    (Addressable) outbytesLeftPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        inbytesLeft.set(inbytesLeftPOINTER.get(Interop.valueLayout.C_LONG, 0));
+        outbytesLeft.set(outbytesLeftPOINTER.get(Interop.valueLayout.C_LONG, 0));
         return RESULT;
     }
     
@@ -6822,7 +6976,7 @@ public final class GLib {
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbSourceFunc",
                             MethodType.methodType(int.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+                        FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
                         Interop.getScope()),
                     (Addressable) (Interop.registerCallback(function)));
         } catch (Throwable ERR) {
@@ -6860,10 +7014,39 @@ public final class GLib {
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbSourceFunc",
                             MethodType.methodType(int.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+                        FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
                         Interop.getScope()),
                     (Addressable) (Interop.registerCallback(function)),
                     Interop.cbDestroyNotifySymbol());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return RESULT;
+    }
+    
+    /**
+     * Adds a function to be called whenever there are no higher priority
+     * events pending to the default main loop. The function is given the
+     * default idle priority, {@code G_PRIORITY_DEFAULT_IDLE}.
+     * <p>
+     * The function will only be called once and then the source will be
+     * automatically removed from the main context.
+     * <p>
+     * This function otherwise behaves like g_idle_add().
+     * @param function function to call
+     * @return the ID (greater than 0) of the event source
+     */
+    public static int idleAddOnce(@NotNull org.gtk.glib.SourceOnceFunc function) {
+        java.util.Objects.requireNonNull(function, "Parameter 'function' must not be null");
+        int RESULT;
+        try {
+            RESULT = (int) DowncallHandles.g_idle_add_once.invokeExact(
+                    (Addressable) Linker.nativeLinker().upcallStub(
+                        MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbSourceOnceFunc",
+                            MethodType.methodType(void.class, MemoryAddress.class)),
+                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                        Interop.getScope()),
+                    (Addressable) (Interop.registerCallback(function)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -6879,7 +7062,7 @@ public final class GLib {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_idle_remove_by_data.invokeExact(
-                    data);
+                    (Addressable) data);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -6922,8 +7105,8 @@ public final class GLib {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_int64_equal.invokeExact(
-                    v1,
-                    v2);
+                    (Addressable) v1,
+                    (Addressable) v2);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -6944,7 +7127,7 @@ public final class GLib {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_int64_hash.invokeExact(
-                    v);
+                    (Addressable) v);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -6971,8 +7154,8 @@ public final class GLib {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_int_equal.invokeExact(
-                    v1,
-                    v2);
+                    (Addressable) v1,
+                    (Addressable) v2);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -6995,7 +7178,7 @@ public final class GLib {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_int_hash.invokeExact(
-                    v);
+                    (Addressable) v);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -7067,7 +7250,7 @@ public final class GLib {
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbIOFunc",
                             MethodType.methodType(int.class, MemoryAddress.class, int.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+                        FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
                         Interop.getScope()),
                     (Addressable) (Interop.registerCallback(func)));
         } catch (Throwable ERR) {
@@ -7102,7 +7285,7 @@ public final class GLib {
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbIOFunc",
                             MethodType.methodType(int.class, MemoryAddress.class, int.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+                        FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
                         Interop.getScope()),
                     (Addressable) (Interop.registerCallback(func)),
                     Interop.cbDestroyNotifySymbol());
@@ -7234,10 +7417,10 @@ public final class GLib {
     public static @NotNull byte[] localeFromUtf8(@NotNull java.lang.String utf8string, long len, Out<Long> bytesRead, Out<Long> bytesWritten) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(utf8string, "Parameter 'utf8string' must not be null");
         java.util.Objects.requireNonNull(bytesRead, "Parameter 'bytesRead' must not be null");
+        MemorySegment bytesReadPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
         java.util.Objects.requireNonNull(bytesWritten, "Parameter 'bytesWritten' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        MemorySegment bytesReadPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_LONG);
-        MemorySegment bytesWrittenPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_LONG);
+        MemorySegment bytesWrittenPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_locale_from_utf8.invokeExact(
@@ -7252,9 +7435,9 @@ public final class GLib {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        bytesRead.set(bytesReadPOINTER.get(ValueLayout.JAVA_LONG, 0));
-        bytesWritten.set(bytesWrittenPOINTER.get(ValueLayout.JAVA_LONG, 0));
-        return MemorySegment.ofAddress(RESULT.get(ValueLayout.ADDRESS, 0), bytesWritten.get().intValue() * ValueLayout.JAVA_BYTE.byteSize(), Interop.getScope()).toArray(ValueLayout.JAVA_BYTE);
+        bytesRead.set(bytesReadPOINTER.get(Interop.valueLayout.C_LONG, 0));
+        bytesWritten.set(bytesWrittenPOINTER.get(Interop.valueLayout.C_LONG, 0));
+        return MemorySegment.ofAddress(RESULT.get(Interop.valueLayout.ADDRESS, 0), bytesWritten.get().intValue() * Interop.valueLayout.C_BYTE.byteSize(), Interop.getScope()).toArray(Interop.valueLayout.C_BYTE);
     }
     
     /**
@@ -7292,10 +7475,10 @@ public final class GLib {
     public static @NotNull java.lang.String localeToUtf8(@NotNull byte[] opsysstring, long len, Out<Long> bytesRead, Out<Long> bytesWritten) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(opsysstring, "Parameter 'opsysstring' must not be null");
         java.util.Objects.requireNonNull(bytesRead, "Parameter 'bytesRead' must not be null");
+        MemorySegment bytesReadPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
         java.util.Objects.requireNonNull(bytesWritten, "Parameter 'bytesWritten' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        MemorySegment bytesReadPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_LONG);
-        MemorySegment bytesWrittenPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_LONG);
+        MemorySegment bytesWrittenPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_locale_to_utf8.invokeExact(
@@ -7310,8 +7493,8 @@ public final class GLib {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        bytesRead.set(bytesReadPOINTER.get(ValueLayout.JAVA_LONG, 0));
-        bytesWritten.set(bytesWrittenPOINTER.get(ValueLayout.JAVA_LONG, 0));
+        bytesRead.set(bytesReadPOINTER.get(Interop.valueLayout.C_LONG, 0));
+        bytesWritten.set(bytesWrittenPOINTER.get(Interop.valueLayout.C_LONG, 0));
         return Interop.getStringFrom(RESULT);
     }
     
@@ -7391,7 +7574,7 @@ public final class GLib {
                     (Addressable) (logDomain == null ? MemoryAddress.NULL : Interop.allocateNativeString(logDomain)),
                     logLevel.getValue(),
                     (Addressable) (message == null ? MemoryAddress.NULL : Interop.allocateNativeString(message)),
-                    unusedData);
+                    (Addressable) unusedData);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -7588,7 +7771,7 @@ public final class GLib {
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbLogFunc",
                             MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                         Interop.getScope()),
                     (Addressable) (Interop.registerCallback(logFunc)));
         } catch (Throwable ERR) {
@@ -7622,7 +7805,7 @@ public final class GLib {
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbLogFunc",
                             MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                         Interop.getScope()),
                     (Addressable) (Interop.registerCallback(logFunc)),
                     Interop.cbDestroyNotifySymbol());
@@ -7650,7 +7833,7 @@ public final class GLib {
                     (Addressable) (func == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbLogWriterFunc",
                             MethodType.methodType(int.class, int.class, MemoryAddress.class, long.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS),
+                        FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
                         Interop.getScope())),
                     (Addressable) (func == null ? MemoryAddress.NULL : Interop.registerCallback(func)),
                     Interop.cbDestroyNotifySymbol());
@@ -7782,7 +7965,7 @@ public final class GLib {
         try {
             DowncallHandles.g_log_structured_array.invokeExact(
                     logLevel.getValue(),
-                    Interop.allocateNativeArray(fields, false),
+                    Interop.allocateNativeArray(fields, org.gtk.glib.LogField.getMemoryLayout(), false),
                     nFields);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -7879,9 +8062,9 @@ public final class GLib {
         try {
             RESULT = (int) DowncallHandles.g_log_writer_default.invokeExact(
                     logLevel.getValue(),
-                    Interop.allocateNativeArray(fields, false),
+                    Interop.allocateNativeArray(fields, org.gtk.glib.LogField.getMemoryLayout(), false),
                     nFields,
-                    userData);
+                    (Addressable) userData);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -7986,7 +8169,7 @@ public final class GLib {
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_log_writer_format_fields.invokeExact(
                     logLevel.getValue(),
-                    Interop.allocateNativeArray(fields, false),
+                    Interop.allocateNativeArray(fields, org.gtk.glib.LogField.getMemoryLayout(), false),
                     nFields,
                     useColor ? 1 : 0);
         } catch (Throwable ERR) {
@@ -8044,9 +8227,9 @@ public final class GLib {
         try {
             RESULT = (int) DowncallHandles.g_log_writer_journald.invokeExact(
                     logLevel.getValue(),
-                    Interop.allocateNativeArray(fields, false),
+                    Interop.allocateNativeArray(fields, org.gtk.glib.LogField.getMemoryLayout(), false),
                     nFields,
-                    userData);
+                    (Addressable) userData);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -8083,9 +8266,9 @@ public final class GLib {
         try {
             RESULT = (int) DowncallHandles.g_log_writer_standard_streams.invokeExact(
                     logLevel.getValue(),
-                    Interop.allocateNativeArray(fields, false),
+                    Interop.allocateNativeArray(fields, org.gtk.glib.LogField.getMemoryLayout(), false),
                     nFields,
-                    userData);
+                    (Addressable) userData);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -8335,6 +8518,9 @@ public final class GLib {
     /**
      * Allocates {@code n_bytes} bytes of memory.
      * If {@code n_bytes} is 0 it returns {@code null}.
+     * <p>
+     * If the allocation fails (because the system is out of memory),
+     * the program is terminated.
      * @param nBytes the number of bytes to allocate
      * @return a pointer to the allocated memory
      */
@@ -8352,6 +8538,9 @@ public final class GLib {
     /**
      * Allocates {@code n_bytes} bytes of memory, initialized to 0's.
      * If {@code n_bytes} is 0 it returns {@code null}.
+     * <p>
+     * If the allocation fails (because the system is out of memory),
+     * the program is terminated.
      * @param nBytes the number of bytes to allocate
      * @return a pointer to the allocated memory
      */
@@ -8369,6 +8558,9 @@ public final class GLib {
     /**
      * This function is similar to g_malloc0(), allocating ({@code n_blocks} * {@code n_block_bytes}) bytes,
      * but care is taken to detect possible overflow during multiplication.
+     * <p>
+     * If the allocation fails (because the system is out of memory),
+     * the program is terminated.
      * @param nBlocks the number of blocks to allocate
      * @param nBlockBytes the size of each block in bytes
      * @return a pointer to the allocated memory
@@ -8388,6 +8580,9 @@ public final class GLib {
     /**
      * This function is similar to g_malloc(), allocating ({@code n_blocks} * {@code n_block_bytes}) bytes,
      * but care is taken to detect possible overflow during multiplication.
+     * <p>
+     * If the allocation fails (because the system is out of memory),
+     * the program is terminated.
      * @param nBlocks the number of blocks to allocate
      * @param nBlockBytes the size of each block in bytes
      * @return a pointer to the allocated memory
@@ -8643,7 +8838,7 @@ public final class GLib {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_memdup.invokeExact(
-                    (Addressable) (mem == null ? MemoryAddress.NULL : mem),
+                    (Addressable) (mem == null ? MemoryAddress.NULL : (Addressable) mem),
                     byteSize);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -8666,7 +8861,7 @@ public final class GLib {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_memdup2.invokeExact(
-                    (Addressable) (mem == null ? MemoryAddress.NULL : mem),
+                    (Addressable) (mem == null ? MemoryAddress.NULL : (Addressable) mem),
                     byteSize);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -8836,7 +9031,7 @@ public final class GLib {
         java.util.Objects.requireNonNull(nullifyLocation, "Parameter 'nullifyLocation' must not be null");
         try {
             DowncallHandles.g_nullify_pointer.invokeExact(
-                    nullifyLocation);
+                    (Addressable) nullifyLocation);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -8975,7 +9170,7 @@ public final class GLib {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_once_init_enter.invokeExact(
-                    location);
+                    (Addressable) location);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -8999,7 +9194,7 @@ public final class GLib {
         java.util.Objects.requireNonNull(location, "Parameter 'location' must not be null");
         try {
             DowncallHandles.g_once_init_leave.invokeExact(
-                    location,
+                    (Addressable) location,
                     result);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -9042,7 +9237,7 @@ public final class GLib {
         try {
             RESULT = (int) DowncallHandles.g_parse_debug_string.invokeExact(
                     (Addressable) (string == null ? MemoryAddress.NULL : Interop.allocateNativeString(string)),
-                    Interop.allocateNativeArray(keys, false),
+                    Interop.allocateNativeArray(keys, org.gtk.glib.DebugKey.getMemoryLayout(), false),
                     nkeys);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -9261,7 +9456,7 @@ public final class GLib {
         java.util.Objects.requireNonNull(address, "Parameter 'address' must not be null");
         try {
             DowncallHandles.g_pointer_bit_lock.invokeExact(
-                    address,
+                    (Addressable) address,
                     lockBit);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -9286,7 +9481,7 @@ public final class GLib {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_pointer_bit_trylock.invokeExact(
-                    address,
+                    (Addressable) address,
                     lockBit);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -9310,7 +9505,7 @@ public final class GLib {
         java.util.Objects.requireNonNull(address, "Parameter 'address' must not be null");
         try {
             DowncallHandles.g_pointer_bit_unlock.invokeExact(
-                    address,
+                    (Addressable) address,
                     lockBit);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -9556,17 +9751,17 @@ public final class GLib {
     public static boolean ptrArrayFind(@NotNull java.lang.foreign.MemoryAddress[] haystack, @Nullable java.lang.foreign.MemoryAddress needle, Out<Integer> index) {
         java.util.Objects.requireNonNull(haystack, "Parameter 'haystack' must not be null");
         java.util.Objects.requireNonNull(index, "Parameter 'index' must not be null");
-        MemorySegment indexPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
+        MemorySegment indexPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_ptr_array_find.invokeExact(
                     Interop.allocateNativeArray(haystack, false),
-                    (Addressable) (needle == null ? MemoryAddress.NULL : needle),
+                    (Addressable) (needle == null ? MemoryAddress.NULL : (Addressable) needle),
                     (Addressable) indexPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        index.set(indexPOINTER.get(ValueLayout.JAVA_INT, 0));
+        index.set(indexPOINTER.get(Interop.valueLayout.C_INT, 0));
         return RESULT != 0;
     }
     
@@ -9608,13 +9803,13 @@ public final class GLib {
         java.util.Objects.requireNonNull(compareFunc, "Parameter 'compareFunc' must not be null");
         try {
             DowncallHandles.g_qsort_with_data.invokeExact(
-                    pbase,
+                    (Addressable) pbase,
                     totalElems,
                     size,
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbCompareDataFunc",
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                         Interop.getScope()),
                     (Addressable) (Interop.registerCallback(compareFunc)));
         } catch (Throwable ERR) {
@@ -9808,7 +10003,7 @@ public final class GLib {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_rc_box_acquire.invokeExact(
-                    memBlock);
+                    (Addressable) memBlock);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -9878,7 +10073,7 @@ public final class GLib {
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_rc_box_dup.invokeExact(
                     blockSize,
-                    memBlock);
+                    (Addressable) memBlock);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -9895,7 +10090,7 @@ public final class GLib {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.g_rc_box_get_size.invokeExact(
-                    memBlock);
+                    (Addressable) memBlock);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -9913,7 +10108,7 @@ public final class GLib {
         java.util.Objects.requireNonNull(memBlock, "Parameter 'memBlock' must not be null");
         try {
             DowncallHandles.g_rc_box_release.invokeExact(
-                    memBlock);
+                    (Addressable) memBlock);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -9938,6 +10133,9 @@ public final class GLib {
      * have been moved. {@code mem} may be {@code null}, in which case it's considered to
      * have zero-length. {@code n_bytes} may be 0, in which case {@code null} will be returned
      * and {@code mem} will be freed unless it is {@code null}.
+     * <p>
+     * If the allocation fails (because the system is out of memory),
+     * the program is terminated.
      * @param mem the memory to reallocate
      * @param nBytes new size of the memory in bytes
      * @return the new address of the allocated memory
@@ -9946,7 +10144,7 @@ public final class GLib {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_realloc.invokeExact(
-                    (Addressable) (mem == null ? MemoryAddress.NULL : mem),
+                    (Addressable) (mem == null ? MemoryAddress.NULL : (Addressable) mem),
                     nBytes);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -9957,6 +10155,9 @@ public final class GLib {
     /**
      * This function is similar to g_realloc(), allocating ({@code n_blocks} * {@code n_block_bytes}) bytes,
      * but care is taken to detect possible overflow during multiplication.
+     * <p>
+     * If the allocation fails (because the system is out of memory),
+     * the program is terminated.
      * @param mem the memory to reallocate
      * @param nBlocks the number of blocks to allocate
      * @param nBlockBytes the size of each block in bytes
@@ -9966,7 +10167,7 @@ public final class GLib {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_realloc_n.invokeExact(
-                    (Addressable) (mem == null ? MemoryAddress.NULL : mem),
+                    (Addressable) (mem == null ? MemoryAddress.NULL : (Addressable) mem),
                     nBlocks,
                     nBlockBytes);
         } catch (Throwable ERR) {
@@ -10176,8 +10377,8 @@ public final class GLib {
     public static boolean regexCheckReplacement(@NotNull java.lang.String replacement, Out<Boolean> hasReferences) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(replacement, "Parameter 'replacement' must not be null");
         java.util.Objects.requireNonNull(hasReferences, "Parameter 'hasReferences' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        MemorySegment hasReferencesPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
+        MemorySegment hasReferencesPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_regex_check_replacement.invokeExact(
@@ -10190,7 +10391,7 @@ public final class GLib {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        hasReferences.set(hasReferencesPOINTER.get(ValueLayout.JAVA_INT, 0) != 0);
+        hasReferences.set(hasReferencesPOINTER.get(Interop.valueLayout.C_INT, 0) != 0);
         return RESULT != 0;
     }
     
@@ -10429,7 +10630,7 @@ public final class GLib {
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_sequence_insert_before.invokeExact(
                     iter.handle(),
-                    data);
+                    (Addressable) data);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -10560,7 +10761,7 @@ public final class GLib {
         try {
             DowncallHandles.g_sequence_set.invokeExact(
                     iter.handle(),
-                    data);
+                    (Addressable) data);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -10791,10 +10992,10 @@ public final class GLib {
     public static boolean shellParseArgv(@NotNull java.lang.String commandLine, Out<Integer> argcp, @NotNull Out<java.lang.String[]> argvp) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(commandLine, "Parameter 'commandLine' must not be null");
         java.util.Objects.requireNonNull(argcp, "Parameter 'argcp' must not be null");
+        MemorySegment argcpPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         java.util.Objects.requireNonNull(argvp, "Parameter 'argvp' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        MemorySegment argcpPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
-        MemorySegment argvpPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment argvpPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_shell_parse_argv.invokeExact(
@@ -10808,10 +11009,10 @@ public final class GLib {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        argcp.set(argcpPOINTER.get(ValueLayout.JAVA_INT, 0));
+        argcp.set(argcpPOINTER.get(Interop.valueLayout.C_INT, 0));
         java.lang.String[] argvpARRAY = new java.lang.String[argcp.get().intValue()];
         for (int I = 0; I < argcp.get().intValue(); I++) {
-            var OBJ = argvpPOINTER.get(ValueLayout.ADDRESS, I);
+            var OBJ = argvpPOINTER.get(Interop.valueLayout.ADDRESS, I);
             argvpARRAY[I] = Interop.getStringFrom(OBJ);
         }
         argvp.set(argvpARRAY);
@@ -10878,7 +11079,7 @@ public final class GLib {
      */
     public static @NotNull java.lang.String shellUnquote(@NotNull java.lang.String quotedString) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(quotedString, "Parameter 'quotedString' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_shell_unquote.invokeExact(
@@ -10955,7 +11156,7 @@ public final class GLib {
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_slice_copy.invokeExact(
                     blockSize,
-                    (Addressable) (memBlock == null ? MemoryAddress.NULL : memBlock));
+                    (Addressable) (memBlock == null ? MemoryAddress.NULL : (Addressable) memBlock));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -10979,7 +11180,7 @@ public final class GLib {
         try {
             DowncallHandles.g_slice_free1.invokeExact(
                     blockSize,
-                    (Addressable) (memBlock == null ? MemoryAddress.NULL : memBlock));
+                    (Addressable) (memBlock == null ? MemoryAddress.NULL : (Addressable) memBlock));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -11005,7 +11206,7 @@ public final class GLib {
         try {
             DowncallHandles.g_slice_free_chain_with_offset.invokeExact(
                     blockSize,
-                    (Addressable) (memChain == null ? MemoryAddress.NULL : memChain),
+                    (Addressable) (memChain == null ? MemoryAddress.NULL : (Addressable) memChain),
                     nextOffset);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -11141,7 +11342,7 @@ public final class GLib {
         try {
             RESULT = (int) DowncallHandles.g_source_remove_by_funcs_user_data.invokeExact(
                     funcs.handle(),
-                    userData);
+                    (Addressable) userData);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -11159,7 +11360,7 @@ public final class GLib {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_source_remove_by_user_data.invokeExact(
-                    userData);
+                    (Addressable) userData);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -11250,8 +11451,8 @@ public final class GLib {
         java.util.Objects.requireNonNull(argv, "Parameter 'argv' must not be null");
         java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
         java.util.Objects.requireNonNull(childPid, "Parameter 'childPid' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        MemorySegment childPidPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
+        MemorySegment childPidPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_spawn_async.invokeExact(
@@ -11262,7 +11463,7 @@ public final class GLib {
                     (Addressable) (childSetup == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbSpawnChildSetupFunc",
                             MethodType.methodType(void.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
                         Interop.getScope())),
                     (Addressable) (childSetup == null ? MemoryAddress.NULL : Interop.registerCallback(childSetup)),
                     (Addressable) childPidPOINTER.address(),
@@ -11273,7 +11474,7 @@ public final class GLib {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        childPid.set(new org.gtk.glib.Pid(childPidPOINTER.get(ValueLayout.JAVA_INT, 0)));
+        childPid.set(new org.gtk.glib.Pid(childPidPOINTER.get(Interop.valueLayout.C_INT, 0)));
         return RESULT != 0;
     }
     
@@ -11299,8 +11500,8 @@ public final class GLib {
         java.util.Objects.requireNonNull(argv, "Parameter 'argv' must not be null");
         java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
         java.util.Objects.requireNonNull(childPid, "Parameter 'childPid' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        MemorySegment childPidPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
+        MemorySegment childPidPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_spawn_async_with_fds.invokeExact(
@@ -11311,7 +11512,7 @@ public final class GLib {
                     (Addressable) (childSetup == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbSpawnChildSetupFunc",
                             MethodType.methodType(void.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
                         Interop.getScope())),
                     (Addressable) (childSetup == null ? MemoryAddress.NULL : Interop.registerCallback(childSetup)),
                     (Addressable) childPidPOINTER.address(),
@@ -11325,7 +11526,7 @@ public final class GLib {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        childPid.set(new org.gtk.glib.Pid(childPidPOINTER.get(ValueLayout.JAVA_INT, 0)));
+        childPid.set(new org.gtk.glib.Pid(childPidPOINTER.get(Interop.valueLayout.C_INT, 0)));
         return RESULT != 0;
     }
     
@@ -11351,14 +11552,14 @@ public final class GLib {
         java.util.Objects.requireNonNull(argv, "Parameter 'argv' must not be null");
         java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
         java.util.Objects.requireNonNull(childPid, "Parameter 'childPid' must not be null");
+        MemorySegment childPidPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         java.util.Objects.requireNonNull(standardInput, "Parameter 'standardInput' must not be null");
+        MemorySegment standardInputPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         java.util.Objects.requireNonNull(standardOutput, "Parameter 'standardOutput' must not be null");
+        MemorySegment standardOutputPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         java.util.Objects.requireNonNull(standardError, "Parameter 'standardError' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        MemorySegment childPidPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
-        MemorySegment standardInputPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
-        MemorySegment standardOutputPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
-        MemorySegment standardErrorPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
+        MemorySegment standardErrorPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_spawn_async_with_pipes.invokeExact(
@@ -11369,7 +11570,7 @@ public final class GLib {
                     (Addressable) (childSetup == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbSpawnChildSetupFunc",
                             MethodType.methodType(void.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
                         Interop.getScope())),
                     (Addressable) (childSetup == null ? MemoryAddress.NULL : Interop.registerCallback(childSetup)),
                     (Addressable) childPidPOINTER.address(),
@@ -11383,10 +11584,10 @@ public final class GLib {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        childPid.set(new org.gtk.glib.Pid(childPidPOINTER.get(ValueLayout.JAVA_INT, 0)));
-        standardInput.set(standardInputPOINTER.get(ValueLayout.JAVA_INT, 0));
-        standardOutput.set(standardOutputPOINTER.get(ValueLayout.JAVA_INT, 0));
-        standardError.set(standardErrorPOINTER.get(ValueLayout.JAVA_INT, 0));
+        childPid.set(new org.gtk.glib.Pid(childPidPOINTER.get(Interop.valueLayout.C_INT, 0)));
+        standardInput.set(standardInputPOINTER.get(Interop.valueLayout.C_INT, 0));
+        standardOutput.set(standardOutputPOINTER.get(Interop.valueLayout.C_INT, 0));
+        standardError.set(standardErrorPOINTER.get(Interop.valueLayout.C_INT, 0));
         return RESULT != 0;
     }
     
@@ -11471,17 +11672,23 @@ public final class GLib {
      * {@code envp}. If both {@link SpawnFlags#SEARCH_PATH} and {@link SpawnFlags#SEARCH_PATH_FROM_ENVP}
      * are used, the value from {@code envp} takes precedence over the environment.
      * <p>
-     * {@link SpawnFlags#STDOUT_TO_DEV_NULL} means that the child's standard output
-     * will be discarded, instead of going to the same location as the parent's
-     * standard output. If you use this flag, {@code stdout_pipe_out} must be {@code null}.
-     * <p>
-     * {@link SpawnFlags#STDERR_TO_DEV_NULL} means that the child's standard error
-     * will be discarded, instead of going to the same location as the parent's
-     * standard error. If you use this flag, {@code stderr_pipe_out} must be {@code null}.
-     * <p>
      * {@link SpawnFlags#CHILD_INHERITS_STDIN} means that the child will inherit the parent's
      * standard input (by default, the child's standard input is attached to
-     * {@code /dev/null}). If you use this flag, {@code stdin_pipe_out} must be {@code null}.
+     * {@code /dev/null}). {@link SpawnFlags#STDIN_FROM_DEV_NULL} explicitly imposes the default
+     * behavior. Both flags cannot be enabled at the same time and, in both cases,
+     * the {@code stdin_pipe_out} argument is ignored.
+     * <p>
+     * {@link SpawnFlags#STDOUT_TO_DEV_NULL} means that the child's standard output
+     * will be discarded (by default, it goes to the same location as the parent's
+     * standard output). {@link SpawnFlags#CHILD_INHERITS_STDOUT} explicitly imposes the
+     * default behavior. Both flags cannot be enabled at the same time and, in
+     * both cases, the {@code stdout_pipe_out} argument is ignored.
+     * <p>
+     * {@link SpawnFlags#STDERR_TO_DEV_NULL} means that the child's standard error
+     * will be discarded (by default, it goes to the same location as the parent's
+     * standard error). {@link SpawnFlags#CHILD_INHERITS_STDERR} explicitly imposes the
+     * default behavior. Both flags cannot be enabled at the same time and, in
+     * both cases, the {@code stderr_pipe_out} argument is ignored.
      * <p>
      * It is valid to pass the same FD in multiple parameters (e.g. you can pass
      * a single FD for both {@code stdout_fd} and {@code stderr_fd}, and include it in
@@ -11606,14 +11813,14 @@ public final class GLib {
         java.util.Objects.requireNonNull(argv, "Parameter 'argv' must not be null");
         java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
         java.util.Objects.requireNonNull(childPidOut, "Parameter 'childPidOut' must not be null");
+        MemorySegment childPidOutPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         java.util.Objects.requireNonNull(stdinPipeOut, "Parameter 'stdinPipeOut' must not be null");
+        MemorySegment stdinPipeOutPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         java.util.Objects.requireNonNull(stdoutPipeOut, "Parameter 'stdoutPipeOut' must not be null");
+        MemorySegment stdoutPipeOutPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         java.util.Objects.requireNonNull(stderrPipeOut, "Parameter 'stderrPipeOut' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        MemorySegment childPidOutPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
-        MemorySegment stdinPipeOutPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
-        MemorySegment stdoutPipeOutPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
-        MemorySegment stderrPipeOutPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
+        MemorySegment stderrPipeOutPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_spawn_async_with_pipes_and_fds.invokeExact(
@@ -11624,7 +11831,7 @@ public final class GLib {
                     (Addressable) (childSetup == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbSpawnChildSetupFunc",
                             MethodType.methodType(void.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
                         Interop.getScope())),
                     (Addressable) (childSetup == null ? MemoryAddress.NULL : Interop.registerCallback(childSetup)),
                     stdinFd,
@@ -11644,10 +11851,10 @@ public final class GLib {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        childPidOut.set(new org.gtk.glib.Pid(childPidOutPOINTER.get(ValueLayout.JAVA_INT, 0)));
-        stdinPipeOut.set(stdinPipeOutPOINTER.get(ValueLayout.JAVA_INT, 0));
-        stdoutPipeOut.set(stdoutPipeOutPOINTER.get(ValueLayout.JAVA_INT, 0));
-        stderrPipeOut.set(stderrPipeOutPOINTER.get(ValueLayout.JAVA_INT, 0));
+        childPidOut.set(new org.gtk.glib.Pid(childPidOutPOINTER.get(Interop.valueLayout.C_INT, 0)));
+        stdinPipeOut.set(stdinPipeOutPOINTER.get(Interop.valueLayout.C_INT, 0));
+        stdoutPipeOut.set(stdoutPipeOutPOINTER.get(Interop.valueLayout.C_INT, 0));
+        stderrPipeOut.set(stderrPipeOutPOINTER.get(Interop.valueLayout.C_INT, 0));
         return RESULT != 0;
     }
     
@@ -11668,7 +11875,7 @@ public final class GLib {
      */
     @Deprecated
     public static boolean spawnCheckExitStatus(int waitStatus) throws io.github.jwharm.javagi.GErrorException {
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_spawn_check_exit_status.invokeExact(
@@ -11729,7 +11936,7 @@ public final class GLib {
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public static boolean spawnCheckWaitStatus(int waitStatus) throws io.github.jwharm.javagi.GErrorException {
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_spawn_check_wait_status.invokeExact(
@@ -11778,7 +11985,7 @@ public final class GLib {
      */
     public static boolean spawnCommandLineAsync(@NotNull java.lang.String commandLine) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(commandLine, "Parameter 'commandLine' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_spawn_command_line_async.invokeExact(
@@ -11969,8 +12176,8 @@ public final class GLib {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_str_equal.invokeExact(
-                    v1,
-                    v2);
+                    (Addressable) v1,
+                    (Addressable) v2);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -12040,7 +12247,7 @@ public final class GLib {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_str_hash.invokeExact(
-                    v);
+                    (Addressable) v);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -12526,7 +12733,7 @@ public final class GLib {
      * @param errnum the system error number. See the standard C {@code errno}
      *     documentation
      * @return a UTF-8 string describing the error code. If the error code
-     *     is unknown, it returns a string like "unknown error (&lt;code&gt;)".
+     *     is unknown, it returns a string like "Unknown error: &lt;code&gt;".
      */
     public static @NotNull java.lang.String strerror(int errnum) {
         MemoryAddress RESULT;
@@ -13033,7 +13240,7 @@ public final class GLib {
     public static double strtod(@NotNull java.lang.String nptr, @NotNull Out<java.lang.String> endptr) {
         java.util.Objects.requireNonNull(nptr, "Parameter 'nptr' must not be null");
         java.util.Objects.requireNonNull(endptr, "Parameter 'endptr' must not be null");
-        MemorySegment endptrPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment endptrPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         double RESULT;
         try {
             RESULT = (double) DowncallHandles.g_strtod.invokeExact(
@@ -13042,7 +13249,7 @@ public final class GLib {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        endptr.set(Interop.getStringFrom(endptrPOINTER.get(ValueLayout.ADDRESS, 0)));
+        endptr.set(Interop.getStringFrom(endptrPOINTER.get(Interop.valueLayout.ADDRESS, 0)));
         return RESULT;
     }
     
@@ -13167,7 +13374,7 @@ public final class GLib {
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbTestDataFunc",
                             MethodType.methodType(void.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
                         Interop.getScope()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -13190,7 +13397,7 @@ public final class GLib {
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbTestDataFunc",
                             MethodType.methodType(void.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
                         Interop.getScope()),
                     Interop.cbDestroyNotifySymbol());
         } catch (Throwable ERR) {
@@ -13231,17 +13438,17 @@ public final class GLib {
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbTestFixtureFunc",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                         Interop.getScope()),
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbTestFixtureFunc",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                         Interop.getScope()),
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbTestFixtureFunc",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                         Interop.getScope()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -13395,17 +13602,17 @@ public final class GLib {
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbTestFixtureFunc",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                         Interop.getScope()),
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbTestFixtureFunc",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                         Interop.getScope()),
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbTestFixtureFunc",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                         Interop.getScope()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -13775,7 +13982,7 @@ public final class GLib {
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbTestLogFatalFunc",
                             MethodType.methodType(int.class, MemoryAddress.class, int.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                         Interop.getScope()),
                     (Addressable) (Interop.registerCallback(logFunc)));
         } catch (Throwable ERR) {
@@ -13869,7 +14076,7 @@ public final class GLib {
         try {
             DowncallHandles.g_test_queue_destroy.invokeExact(
                     Interop.cbDestroyNotifySymbol(),
-                    destroyData);
+                    (Addressable) destroyData);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -13884,7 +14091,7 @@ public final class GLib {
     public static void testQueueFree(@Nullable java.lang.foreign.MemoryAddress gfreePointer) {
         try {
             DowncallHandles.g_test_queue_free.invokeExact(
-                    (Addressable) (gfreePointer == null ? MemoryAddress.NULL : gfreePointer));
+                    (Addressable) (gfreePointer == null ? MemoryAddress.NULL : (Addressable) gfreePointer));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -14324,7 +14531,7 @@ public final class GLib {
      *       }
      * 
      *     // Reruns this same test in a subprocess
-     *     g_test_trap_subprocess (NULL, 0, 0);
+     *     g_test_trap_subprocess (NULL, 0, G_TEST_SUBPROCESS_DEFAULT);
      *     g_test_trap_assert_failed ();
      *     g_test_trap_assert_stderr ("*ERROR*too large*");
      *   }
@@ -14384,7 +14591,7 @@ public final class GLib {
     public static void threadExit(@Nullable java.lang.foreign.MemoryAddress retval) {
         try {
             DowncallHandles.g_thread_exit.invokeExact(
-                    (Addressable) (retval == null ? MemoryAddress.NULL : retval));
+                    (Addressable) (retval == null ? MemoryAddress.NULL : (Addressable) retval));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -14613,7 +14820,7 @@ public final class GLib {
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbSourceFunc",
                             MethodType.methodType(int.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+                        FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
                         Interop.getScope()),
                     (Addressable) (Interop.registerCallback(function)));
         } catch (Throwable ERR) {
@@ -14664,10 +14871,41 @@ public final class GLib {
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbSourceFunc",
                             MethodType.methodType(int.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+                        FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
                         Interop.getScope()),
                     (Addressable) (Interop.registerCallback(function)),
                     Interop.cbDestroyNotifySymbol());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return RESULT;
+    }
+    
+    /**
+     * Sets a function to be called after {@code interval} milliseconds have elapsed,
+     * with the default priority, {@code G_PRIORITY_DEFAULT}.
+     * <p>
+     * The given {@code function} is called once and then the source will be automatically
+     * removed from the main context.
+     * <p>
+     * This function otherwise behaves like g_timeout_add().
+     * @param interval the time after which the function will be called, in
+     *   milliseconds (1/1000ths of a second)
+     * @param function function to call
+     * @return the ID (greater than 0) of the event source
+     */
+    public static int timeoutAddOnce(int interval, @NotNull org.gtk.glib.SourceOnceFunc function) {
+        java.util.Objects.requireNonNull(function, "Parameter 'function' must not be null");
+        int RESULT;
+        try {
+            RESULT = (int) DowncallHandles.g_timeout_add_once.invokeExact(
+                    interval,
+                    (Addressable) Linker.nativeLinker().upcallStub(
+                        MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbSourceOnceFunc",
+                            MethodType.methodType(void.class, MemoryAddress.class)),
+                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                        Interop.getScope()),
+                    (Addressable) (Interop.registerCallback(function)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -14711,7 +14949,7 @@ public final class GLib {
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbSourceFunc",
                             MethodType.methodType(int.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+                        FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
                         Interop.getScope()),
                     (Addressable) (Interop.registerCallback(function)));
         } catch (Throwable ERR) {
@@ -14776,7 +15014,7 @@ public final class GLib {
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbSourceFunc",
                             MethodType.methodType(int.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+                        FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
                         Interop.getScope()),
                     (Addressable) (Interop.registerCallback(function)),
                     Interop.cbDestroyNotifySymbol());
@@ -14909,7 +15147,7 @@ public final class GLib {
         try {
             DowncallHandles.g_trash_stack_push.invokeExact(
                     stackP.handle(),
-                    dataP);
+                    (Addressable) dataP);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -15001,7 +15239,7 @@ public final class GLib {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_try_realloc.invokeExact(
-                    (Addressable) (mem == null ? MemoryAddress.NULL : mem),
+                    (Addressable) (mem == null ? MemoryAddress.NULL : (Addressable) mem),
                     nBytes);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -15021,7 +15259,7 @@ public final class GLib {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_try_realloc_n.invokeExact(
-                    (Addressable) (mem == null ? MemoryAddress.NULL : mem),
+                    (Addressable) (mem == null ? MemoryAddress.NULL : (Addressable) mem),
                     nBlocks,
                     nBlockBytes);
         } catch (Throwable ERR) {
@@ -15050,10 +15288,10 @@ public final class GLib {
     public static PointerShort ucs4ToUtf16(PointerInteger str, long len, Out<Long> itemsRead, Out<Long> itemsWritten) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(str, "Parameter 'str' must not be null");
         java.util.Objects.requireNonNull(itemsRead, "Parameter 'itemsRead' must not be null");
+        MemorySegment itemsReadPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
         java.util.Objects.requireNonNull(itemsWritten, "Parameter 'itemsWritten' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        MemorySegment itemsReadPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_LONG);
-        MemorySegment itemsWrittenPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_LONG);
+        MemorySegment itemsWrittenPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_ucs4_to_utf16.invokeExact(
@@ -15068,8 +15306,8 @@ public final class GLib {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        itemsRead.set(itemsReadPOINTER.get(ValueLayout.JAVA_LONG, 0));
-        itemsWritten.set(itemsWrittenPOINTER.get(ValueLayout.JAVA_LONG, 0));
+        itemsRead.set(itemsReadPOINTER.get(Interop.valueLayout.C_LONG, 0));
+        itemsWritten.set(itemsWrittenPOINTER.get(Interop.valueLayout.C_LONG, 0));
         return new PointerShort(RESULT);
     }
     
@@ -15093,10 +15331,10 @@ public final class GLib {
     public static @NotNull java.lang.String ucs4ToUtf8(PointerInteger str, long len, Out<Long> itemsRead, Out<Long> itemsWritten) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(str, "Parameter 'str' must not be null");
         java.util.Objects.requireNonNull(itemsRead, "Parameter 'itemsRead' must not be null");
+        MemorySegment itemsReadPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
         java.util.Objects.requireNonNull(itemsWritten, "Parameter 'itemsWritten' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        MemorySegment itemsReadPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_LONG);
-        MemorySegment itemsWrittenPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_LONG);
+        MemorySegment itemsWrittenPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_ucs4_to_utf8.invokeExact(
@@ -15111,8 +15349,8 @@ public final class GLib {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        itemsRead.set(itemsReadPOINTER.get(ValueLayout.JAVA_LONG, 0));
-        itemsWritten.set(itemsWrittenPOINTER.get(ValueLayout.JAVA_LONG, 0));
+        itemsRead.set(itemsReadPOINTER.get(Interop.valueLayout.C_LONG, 0));
+        itemsWritten.set(itemsWrittenPOINTER.get(Interop.valueLayout.C_LONG, 0));
         return Interop.getStringFrom(RESULT);
     }
     
@@ -15177,7 +15415,7 @@ public final class GLib {
      */
     public static boolean unicharCompose(int a, int b, Out<Integer> ch) {
         java.util.Objects.requireNonNull(ch, "Parameter 'ch' must not be null");
-        MemorySegment chPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
+        MemorySegment chPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_unichar_compose.invokeExact(
@@ -15187,7 +15425,7 @@ public final class GLib {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        ch.set(chPOINTER.get(ValueLayout.JAVA_INT, 0));
+        ch.set(chPOINTER.get(Interop.valueLayout.C_INT, 0));
         return RESULT != 0;
     }
     
@@ -15222,9 +15460,9 @@ public final class GLib {
      */
     public static boolean unicharDecompose(int ch, Out<Integer> a, Out<Integer> b) {
         java.util.Objects.requireNonNull(a, "Parameter 'a' must not be null");
+        MemorySegment aPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         java.util.Objects.requireNonNull(b, "Parameter 'b' must not be null");
-        MemorySegment aPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
-        MemorySegment bPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
+        MemorySegment bPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_unichar_decompose.invokeExact(
@@ -15234,8 +15472,8 @@ public final class GLib {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        a.set(aPOINTER.get(ValueLayout.JAVA_INT, 0));
-        b.set(bPOINTER.get(ValueLayout.JAVA_INT, 0));
+        a.set(aPOINTER.get(Interop.valueLayout.C_INT, 0));
+        b.set(bPOINTER.get(Interop.valueLayout.C_INT, 0));
         return RESULT != 0;
     }
     
@@ -15285,7 +15523,7 @@ public final class GLib {
      */
     public static long unicharFullyDecompose(int ch, boolean compat, Out<Integer> result, long resultLen) {
         java.util.Objects.requireNonNull(result, "Parameter 'result' must not be null");
-        MemorySegment resultPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
+        MemorySegment resultPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.g_unichar_fully_decompose.invokeExact(
@@ -15296,7 +15534,7 @@ public final class GLib {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        result.set(resultPOINTER.get(ValueLayout.JAVA_INT, 0));
+        result.set(resultPOINTER.get(Interop.valueLayout.C_INT, 0));
         return RESULT;
     }
     
@@ -15688,7 +15926,7 @@ public final class GLib {
      */
     public static int unicharToUtf8(int c, @NotNull Out<java.lang.String> outbuf) {
         java.util.Objects.requireNonNull(outbuf, "Parameter 'outbuf' must not be null");
-        MemorySegment outbufPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment outbufPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_unichar_to_utf8.invokeExact(
@@ -15697,7 +15935,7 @@ public final class GLib {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        outbuf.set(Interop.getStringFrom(outbufPOINTER.get(ValueLayout.ADDRESS, 0)));
+        outbuf.set(Interop.getStringFrom(outbufPOINTER.get(Interop.valueLayout.ADDRESS, 0)));
         return RESULT;
     }
     
@@ -15942,7 +16180,7 @@ public final class GLib {
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbUnixFDSourceFunc",
                             MethodType.methodType(int.class, int.class, int.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+                        FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
                         Interop.getScope()),
                     (Addressable) (Interop.registerCallback(function)));
         } catch (Throwable ERR) {
@@ -15976,7 +16214,7 @@ public final class GLib {
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbUnixFDSourceFunc",
                             MethodType.methodType(int.class, int.class, int.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+                        FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
                         Interop.getScope()),
                     (Addressable) (Interop.registerCallback(function)),
                     Interop.cbDestroyNotifySymbol());
@@ -16027,7 +16265,7 @@ public final class GLib {
      */
     public static @Nullable java.lang.foreign.MemoryAddress unixGetPasswdEntry(@NotNull java.lang.String userName) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(userName, "Parameter 'userName' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_unix_get_passwd_entry.invokeExact(
@@ -16056,13 +16294,13 @@ public final class GLib {
      * @return {@code true} on success, {@code false} if not (and errno will be set).
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public static boolean unixOpenPipe(PointerInteger fds, int flags) throws io.github.jwharm.javagi.GErrorException {
+    public static boolean unixOpenPipe(@NotNull int[] fds, int flags) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(fds, "Parameter 'fds' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_unix_open_pipe.invokeExact(
-                    fds.handle(),
+                    Interop.allocateNativeArray(fds, false),
                     flags,
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
@@ -16084,7 +16322,7 @@ public final class GLib {
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public static boolean unixSetFdNonblocking(int fd, boolean nonblock) throws io.github.jwharm.javagi.GErrorException {
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_unix_set_fd_nonblocking.invokeExact(
@@ -16117,7 +16355,7 @@ public final class GLib {
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbSourceFunc",
                             MethodType.methodType(int.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+                        FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
                         Interop.getScope()),
                     (Addressable) (Interop.registerCallback(handler)));
         } catch (Throwable ERR) {
@@ -16146,7 +16384,7 @@ public final class GLib {
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbSourceFunc",
                             MethodType.methodType(int.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+                        FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
                         Interop.getScope()),
                     (Addressable) (Interop.registerCallback(handler)),
                     Interop.cbDestroyNotifySymbol());
@@ -16168,11 +16406,11 @@ public final class GLib {
      * <p>
      * For example, an effective use of this function is to handle {@code SIGTERM}
      * cleanly; flushing any outstanding files, and then calling
-     * g_main_loop_quit ().  It is not safe to do any of this a regular
-     * UNIX signal handler; your handler may be invoked while malloc() or
-     * another library function is running, causing reentrancy if you
-     * attempt to use it from the handler.  None of the GLib/GObject API
-     * is safe against this kind of reentrancy.
+     * g_main_loop_quit().  It is not safe to do any of this from a regular
+     * UNIX signal handler; such a handler may be invoked while malloc() or
+     * another library function is running, causing reentrancy issues if the
+     * handler attempts to use those functions.  None of the GLib/GObject
+     * API is safe against this kind of reentrancy.
      * <p>
      * The interaction of this source when combined with native UNIX
      * functions like sigprocmask() is not defined.
@@ -16421,7 +16659,7 @@ public final class GLib {
     public static boolean uriIsValid(@NotNull java.lang.String uriString, @NotNull org.gtk.glib.UriFlags flags) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(uriString, "Parameter 'uriString' must not be null");
         java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_uri_is_valid.invokeExact(
@@ -16561,7 +16799,7 @@ public final class GLib {
     public static @NotNull org.gtk.glib.Uri uriParse(@NotNull java.lang.String uriString, @NotNull org.gtk.glib.UriFlags flags) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(uriString, "Parameter 'uriString' must not be null");
         java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_uri_parse.invokeExact(
@@ -16619,7 +16857,7 @@ public final class GLib {
         java.util.Objects.requireNonNull(params, "Parameter 'params' must not be null");
         java.util.Objects.requireNonNull(separators, "Parameter 'separators' must not be null");
         java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_uri_parse_params.invokeExact(
@@ -16707,7 +16945,7 @@ public final class GLib {
     public static @NotNull java.lang.String uriResolveRelative(@Nullable java.lang.String baseUriString, @NotNull java.lang.String uriRef, @NotNull org.gtk.glib.UriFlags flags) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(uriRef, "Parameter 'uriRef' must not be null");
         java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_uri_resolve_relative.invokeExact(
@@ -16764,16 +17002,16 @@ public final class GLib {
     public static boolean uriSplit(@NotNull java.lang.String uriRef, @NotNull org.gtk.glib.UriFlags flags, @Nullable Out<java.lang.String> scheme, @Nullable Out<java.lang.String> userinfo, @Nullable Out<java.lang.String> host, Out<Integer> port, @NotNull Out<java.lang.String> path, @Nullable Out<java.lang.String> query, @Nullable Out<java.lang.String> fragment) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(uriRef, "Parameter 'uriRef' must not be null");
         java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
+        MemorySegment schemePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
+        MemorySegment userinfoPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
+        MemorySegment hostPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         java.util.Objects.requireNonNull(port, "Parameter 'port' must not be null");
+        MemorySegment portPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         java.util.Objects.requireNonNull(path, "Parameter 'path' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        MemorySegment schemePOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        MemorySegment userinfoPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        MemorySegment hostPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        MemorySegment portPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
-        MemorySegment pathPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        MemorySegment queryPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        MemorySegment fragmentPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment pathPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
+        MemorySegment queryPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
+        MemorySegment fragmentPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_uri_split.invokeExact(
@@ -16793,13 +17031,13 @@ public final class GLib {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        if (scheme != null) scheme.set(Interop.getStringFrom(schemePOINTER.get(ValueLayout.ADDRESS, 0)));
-        if (userinfo != null) userinfo.set(Interop.getStringFrom(userinfoPOINTER.get(ValueLayout.ADDRESS, 0)));
-        if (host != null) host.set(Interop.getStringFrom(hostPOINTER.get(ValueLayout.ADDRESS, 0)));
-        port.set(portPOINTER.get(ValueLayout.JAVA_INT, 0));
-        path.set(Interop.getStringFrom(pathPOINTER.get(ValueLayout.ADDRESS, 0)));
-        if (query != null) query.set(Interop.getStringFrom(queryPOINTER.get(ValueLayout.ADDRESS, 0)));
-        if (fragment != null) fragment.set(Interop.getStringFrom(fragmentPOINTER.get(ValueLayout.ADDRESS, 0)));
+        if (scheme != null) scheme.set(Interop.getStringFrom(schemePOINTER.get(Interop.valueLayout.ADDRESS, 0)));
+        if (userinfo != null) userinfo.set(Interop.getStringFrom(userinfoPOINTER.get(Interop.valueLayout.ADDRESS, 0)));
+        if (host != null) host.set(Interop.getStringFrom(hostPOINTER.get(Interop.valueLayout.ADDRESS, 0)));
+        port.set(portPOINTER.get(Interop.valueLayout.C_INT, 0));
+        path.set(Interop.getStringFrom(pathPOINTER.get(Interop.valueLayout.ADDRESS, 0)));
+        if (query != null) query.set(Interop.getStringFrom(queryPOINTER.get(Interop.valueLayout.ADDRESS, 0)));
+        if (fragment != null) fragment.set(Interop.getStringFrom(fragmentPOINTER.get(Interop.valueLayout.ADDRESS, 0)));
         return RESULT != 0;
     }
     
@@ -16825,11 +17063,11 @@ public final class GLib {
     public static boolean uriSplitNetwork(@NotNull java.lang.String uriString, @NotNull org.gtk.glib.UriFlags flags, @Nullable Out<java.lang.String> scheme, @Nullable Out<java.lang.String> host, Out<Integer> port) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(uriString, "Parameter 'uriString' must not be null");
         java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
+        MemorySegment schemePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
+        MemorySegment hostPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         java.util.Objects.requireNonNull(port, "Parameter 'port' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        MemorySegment schemePOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        MemorySegment hostPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        MemorySegment portPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
+        MemorySegment portPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_uri_split_network.invokeExact(
@@ -16845,9 +17083,9 @@ public final class GLib {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        if (scheme != null) scheme.set(Interop.getStringFrom(schemePOINTER.get(ValueLayout.ADDRESS, 0)));
-        if (host != null) host.set(Interop.getStringFrom(hostPOINTER.get(ValueLayout.ADDRESS, 0)));
-        port.set(portPOINTER.get(ValueLayout.JAVA_INT, 0));
+        if (scheme != null) scheme.set(Interop.getStringFrom(schemePOINTER.get(Interop.valueLayout.ADDRESS, 0)));
+        if (host != null) host.set(Interop.getStringFrom(hostPOINTER.get(Interop.valueLayout.ADDRESS, 0)));
+        port.set(portPOINTER.get(Interop.valueLayout.C_INT, 0));
         return RESULT != 0;
     }
     
@@ -16890,18 +17128,18 @@ public final class GLib {
     public static boolean uriSplitWithUser(@NotNull java.lang.String uriRef, @NotNull org.gtk.glib.UriFlags flags, @Nullable Out<java.lang.String> scheme, @Nullable Out<java.lang.String> user, @Nullable Out<java.lang.String> password, @Nullable Out<java.lang.String> authParams, @Nullable Out<java.lang.String> host, Out<Integer> port, @NotNull Out<java.lang.String> path, @Nullable Out<java.lang.String> query, @Nullable Out<java.lang.String> fragment) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(uriRef, "Parameter 'uriRef' must not be null");
         java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
+        MemorySegment schemePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
+        MemorySegment userPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
+        MemorySegment passwordPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
+        MemorySegment authParamsPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
+        MemorySegment hostPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         java.util.Objects.requireNonNull(port, "Parameter 'port' must not be null");
+        MemorySegment portPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         java.util.Objects.requireNonNull(path, "Parameter 'path' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        MemorySegment schemePOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        MemorySegment userPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        MemorySegment passwordPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        MemorySegment authParamsPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        MemorySegment hostPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        MemorySegment portPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
-        MemorySegment pathPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        MemorySegment queryPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        MemorySegment fragmentPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment pathPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
+        MemorySegment queryPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
+        MemorySegment fragmentPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_uri_split_with_user.invokeExact(
@@ -16923,15 +17161,15 @@ public final class GLib {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        if (scheme != null) scheme.set(Interop.getStringFrom(schemePOINTER.get(ValueLayout.ADDRESS, 0)));
-        if (user != null) user.set(Interop.getStringFrom(userPOINTER.get(ValueLayout.ADDRESS, 0)));
-        if (password != null) password.set(Interop.getStringFrom(passwordPOINTER.get(ValueLayout.ADDRESS, 0)));
-        if (authParams != null) authParams.set(Interop.getStringFrom(authParamsPOINTER.get(ValueLayout.ADDRESS, 0)));
-        if (host != null) host.set(Interop.getStringFrom(hostPOINTER.get(ValueLayout.ADDRESS, 0)));
-        port.set(portPOINTER.get(ValueLayout.JAVA_INT, 0));
-        path.set(Interop.getStringFrom(pathPOINTER.get(ValueLayout.ADDRESS, 0)));
-        if (query != null) query.set(Interop.getStringFrom(queryPOINTER.get(ValueLayout.ADDRESS, 0)));
-        if (fragment != null) fragment.set(Interop.getStringFrom(fragmentPOINTER.get(ValueLayout.ADDRESS, 0)));
+        if (scheme != null) scheme.set(Interop.getStringFrom(schemePOINTER.get(Interop.valueLayout.ADDRESS, 0)));
+        if (user != null) user.set(Interop.getStringFrom(userPOINTER.get(Interop.valueLayout.ADDRESS, 0)));
+        if (password != null) password.set(Interop.getStringFrom(passwordPOINTER.get(Interop.valueLayout.ADDRESS, 0)));
+        if (authParams != null) authParams.set(Interop.getStringFrom(authParamsPOINTER.get(Interop.valueLayout.ADDRESS, 0)));
+        if (host != null) host.set(Interop.getStringFrom(hostPOINTER.get(Interop.valueLayout.ADDRESS, 0)));
+        port.set(portPOINTER.get(Interop.valueLayout.C_INT, 0));
+        path.set(Interop.getStringFrom(pathPOINTER.get(Interop.valueLayout.ADDRESS, 0)));
+        if (query != null) query.set(Interop.getStringFrom(queryPOINTER.get(Interop.valueLayout.ADDRESS, 0)));
+        if (fragment != null) fragment.set(Interop.getStringFrom(fragmentPOINTER.get(Interop.valueLayout.ADDRESS, 0)));
         return RESULT != 0;
     }
     
@@ -16958,7 +17196,7 @@ public final class GLib {
      */
     public static @NotNull org.gtk.glib.Bytes uriUnescapeBytes(@NotNull java.lang.String escapedString, long length, @Nullable java.lang.String illegalCharacters) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(escapedString, "Parameter 'escapedString' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_uri_unescape_bytes.invokeExact(
@@ -17075,10 +17313,10 @@ public final class GLib {
     public static PointerInteger utf16ToUcs4(PointerShort str, long len, Out<Long> itemsRead, Out<Long> itemsWritten) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(str, "Parameter 'str' must not be null");
         java.util.Objects.requireNonNull(itemsRead, "Parameter 'itemsRead' must not be null");
+        MemorySegment itemsReadPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
         java.util.Objects.requireNonNull(itemsWritten, "Parameter 'itemsWritten' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        MemorySegment itemsReadPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_LONG);
-        MemorySegment itemsWrittenPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_LONG);
+        MemorySegment itemsWrittenPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_utf16_to_ucs4.invokeExact(
@@ -17093,8 +17331,8 @@ public final class GLib {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        itemsRead.set(itemsReadPOINTER.get(ValueLayout.JAVA_LONG, 0));
-        itemsWritten.set(itemsWrittenPOINTER.get(ValueLayout.JAVA_LONG, 0));
+        itemsRead.set(itemsReadPOINTER.get(Interop.valueLayout.C_LONG, 0));
+        itemsWritten.set(itemsWrittenPOINTER.get(Interop.valueLayout.C_LONG, 0));
         return new PointerInteger(RESULT);
     }
     
@@ -17131,10 +17369,10 @@ public final class GLib {
     public static @NotNull java.lang.String utf16ToUtf8(PointerShort str, long len, Out<Long> itemsRead, Out<Long> itemsWritten) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(str, "Parameter 'str' must not be null");
         java.util.Objects.requireNonNull(itemsRead, "Parameter 'itemsRead' must not be null");
+        MemorySegment itemsReadPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
         java.util.Objects.requireNonNull(itemsWritten, "Parameter 'itemsWritten' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        MemorySegment itemsReadPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_LONG);
-        MemorySegment itemsWrittenPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_LONG);
+        MemorySegment itemsWrittenPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_utf16_to_utf8.invokeExact(
@@ -17149,8 +17387,8 @@ public final class GLib {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        itemsRead.set(itemsReadPOINTER.get(ValueLayout.JAVA_LONG, 0));
-        itemsWritten.set(itemsWrittenPOINTER.get(ValueLayout.JAVA_LONG, 0));
+        itemsRead.set(itemsReadPOINTER.get(Interop.valueLayout.C_LONG, 0));
+        itemsWritten.set(itemsWrittenPOINTER.get(Interop.valueLayout.C_LONG, 0));
         return Interop.getStringFrom(RESULT);
     }
     
@@ -17612,7 +17850,7 @@ public final class GLib {
      * must be valid UTF-8 encoded text. (Use g_utf8_validate() on all
      * text before trying to use UTF-8 utility functions with it.)
      * <p>
-     * Note you must ensure {@code dest} is at least 4 * {@code n} to fit the
+     * Note you must ensure {@code dest} is at least 4 * {@code n} + 1 to fit the
      * largest possible UTF-8 characters
      * @param dest buffer to fill with characters from {@code src}
      * @param src UTF-8 encoded string
@@ -17766,10 +18004,10 @@ public final class GLib {
     public static PointerInteger utf8ToUcs4(@NotNull java.lang.String str, long len, Out<Long> itemsRead, Out<Long> itemsWritten) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(str, "Parameter 'str' must not be null");
         java.util.Objects.requireNonNull(itemsRead, "Parameter 'itemsRead' must not be null");
+        MemorySegment itemsReadPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
         java.util.Objects.requireNonNull(itemsWritten, "Parameter 'itemsWritten' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        MemorySegment itemsReadPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_LONG);
-        MemorySegment itemsWrittenPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_LONG);
+        MemorySegment itemsWrittenPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_utf8_to_ucs4.invokeExact(
@@ -17784,8 +18022,8 @@ public final class GLib {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        itemsRead.set(itemsReadPOINTER.get(ValueLayout.JAVA_LONG, 0));
-        itemsWritten.set(itemsWrittenPOINTER.get(ValueLayout.JAVA_LONG, 0));
+        itemsRead.set(itemsReadPOINTER.get(Interop.valueLayout.C_LONG, 0));
+        itemsWritten.set(itemsWrittenPOINTER.get(Interop.valueLayout.C_LONG, 0));
         return new PointerInteger(RESULT);
     }
     
@@ -17806,7 +18044,7 @@ public final class GLib {
     public static PointerInteger utf8ToUcs4Fast(@NotNull java.lang.String str, long len, Out<Long> itemsWritten) {
         java.util.Objects.requireNonNull(str, "Parameter 'str' must not be null");
         java.util.Objects.requireNonNull(itemsWritten, "Parameter 'itemsWritten' must not be null");
-        MemorySegment itemsWrittenPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_LONG);
+        MemorySegment itemsWrittenPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_utf8_to_ucs4_fast.invokeExact(
@@ -17816,7 +18054,7 @@ public final class GLib {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        itemsWritten.set(itemsWrittenPOINTER.get(ValueLayout.JAVA_LONG, 0));
+        itemsWritten.set(itemsWrittenPOINTER.get(Interop.valueLayout.C_LONG, 0));
         return new PointerInteger(RESULT);
     }
     
@@ -17841,10 +18079,10 @@ public final class GLib {
     public static PointerShort utf8ToUtf16(@NotNull java.lang.String str, long len, Out<Long> itemsRead, Out<Long> itemsWritten) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(str, "Parameter 'str' must not be null");
         java.util.Objects.requireNonNull(itemsRead, "Parameter 'itemsRead' must not be null");
+        MemorySegment itemsReadPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
         java.util.Objects.requireNonNull(itemsWritten, "Parameter 'itemsWritten' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        MemorySegment itemsReadPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_LONG);
-        MemorySegment itemsWrittenPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_LONG);
+        MemorySegment itemsWrittenPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_utf8_to_utf16.invokeExact(
@@ -17859,8 +18097,8 @@ public final class GLib {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        itemsRead.set(itemsReadPOINTER.get(ValueLayout.JAVA_LONG, 0));
-        itemsWritten.set(itemsWrittenPOINTER.get(ValueLayout.JAVA_LONG, 0));
+        itemsRead.set(itemsReadPOINTER.get(Interop.valueLayout.C_LONG, 0));
+        itemsWritten.set(itemsWrittenPOINTER.get(Interop.valueLayout.C_LONG, 0));
         return new PointerShort(RESULT);
     }
     
@@ -17888,7 +18126,7 @@ public final class GLib {
     public static boolean utf8Validate(@NotNull byte[] str, long maxLen, @NotNull Out<java.lang.String> end) {
         java.util.Objects.requireNonNull(str, "Parameter 'str' must not be null");
         java.util.Objects.requireNonNull(end, "Parameter 'end' must not be null");
-        MemorySegment endPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment endPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_utf8_validate.invokeExact(
@@ -17898,7 +18136,7 @@ public final class GLib {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        end.set(Interop.getStringFrom(endPOINTER.get(ValueLayout.ADDRESS, 0)));
+        end.set(Interop.getStringFrom(endPOINTER.get(Interop.valueLayout.ADDRESS, 0)));
         return RESULT != 0;
     }
     
@@ -17915,7 +18153,7 @@ public final class GLib {
     public static boolean utf8ValidateLen(@NotNull byte[] str, long maxLen, @NotNull Out<java.lang.String> end) {
         java.util.Objects.requireNonNull(str, "Parameter 'str' must not be null");
         java.util.Objects.requireNonNull(end, "Parameter 'end' must not be null");
-        MemorySegment endPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment endPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_utf8_validate_len.invokeExact(
@@ -17925,7 +18163,7 @@ public final class GLib {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        end.set(Interop.getStringFrom(endPOINTER.get(ValueLayout.ADDRESS, 0)));
+        end.set(Interop.getStringFrom(endPOINTER.get(Interop.valueLayout.ADDRESS, 0)));
         return RESULT != 0;
     }
     
@@ -18071,7 +18309,7 @@ public final class GLib {
      */
     public static @NotNull org.gtk.glib.Variant variantParse(@Nullable org.gtk.glib.VariantType type, @NotNull java.lang.String text, @Nullable java.lang.String limit, @Nullable PointerString endptr) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(text, "Parameter 'text' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_variant_parse.invokeExact(
@@ -18227,7 +18465,7 @@ public final class GLib {
     public static boolean variantTypeStringScan(@NotNull java.lang.String string, @Nullable java.lang.String limit, @NotNull Out<java.lang.String> endptr) {
         java.util.Objects.requireNonNull(string, "Parameter 'string' must not be null");
         java.util.Objects.requireNonNull(endptr, "Parameter 'endptr' must not be null");
-        MemorySegment endptrPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment endptrPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_variant_type_string_scan.invokeExact(
@@ -18237,7 +18475,7 @@ public final class GLib {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        endptr.set(Interop.getStringFrom(endptrPOINTER.get(ValueLayout.ADDRESS, 0)));
+        endptr.set(Interop.getStringFrom(endptrPOINTER.get(Interop.valueLayout.ADDRESS, 0)));
         return RESULT != 0;
     }
     
@@ -18294,7 +18532,7 @@ public final class GLib {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_vfprintf.invokeExact(
-                    file,
+                    (Addressable) file,
                     Interop.allocateNativeString(format),
                     args);
         } catch (Throwable ERR) {
@@ -18426,451 +18664,475 @@ public final class GLib {
         
         private static final MethodHandle g_access = Interop.downcallHandle(
             "g_access",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_aligned_alloc = Interop.downcallHandle(
             "g_aligned_alloc",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_LONG, ValueLayout.JAVA_LONG),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.C_LONG, Interop.valueLayout.C_LONG),
             false
         );
         
         private static final MethodHandle g_aligned_alloc0 = Interop.downcallHandle(
             "g_aligned_alloc0",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_LONG, ValueLayout.JAVA_LONG),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.C_LONG, Interop.valueLayout.C_LONG),
             false
         );
         
         private static final MethodHandle g_aligned_free = Interop.downcallHandle(
             "g_aligned_free",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_ascii_digit_value = Interop.downcallHandle(
             "g_ascii_digit_value",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_BYTE),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.C_BYTE),
             false
         );
         
         private static final MethodHandle g_ascii_dtostr = Interop.downcallHandle(
             "g_ascii_dtostr",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_DOUBLE),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_DOUBLE),
             false
         );
         
         private static final MethodHandle g_ascii_formatd = Interop.downcallHandle(
             "g_ascii_formatd",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE),
             false
         );
         
         private static final MethodHandle g_ascii_strcasecmp = Interop.downcallHandle(
             "g_ascii_strcasecmp",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_ascii_strdown = Interop.downcallHandle(
             "g_ascii_strdown",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
             false
         );
         
         private static final MethodHandle g_ascii_string_to_signed = Interop.downcallHandle(
             "g_ascii_string_to_signed",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_LONG, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_LONG, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_ascii_string_to_unsigned = Interop.downcallHandle(
             "g_ascii_string_to_unsigned",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_LONG, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_LONG, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_ascii_strncasecmp = Interop.downcallHandle(
             "g_ascii_strncasecmp",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
             false
         );
         
         private static final MethodHandle g_ascii_strtod = Interop.downcallHandle(
             "g_ascii_strtod",
-            FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_DOUBLE, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_ascii_strtoll = Interop.downcallHandle(
             "g_ascii_strtoll",
-            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_ascii_strtoull = Interop.downcallHandle(
             "g_ascii_strtoull",
-            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_ascii_strup = Interop.downcallHandle(
             "g_ascii_strup",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
             false
         );
         
         private static final MethodHandle g_ascii_tolower = Interop.downcallHandle(
             "g_ascii_tolower",
-            FunctionDescriptor.of(ValueLayout.JAVA_BYTE, ValueLayout.JAVA_BYTE),
+            FunctionDescriptor.of(Interop.valueLayout.C_BYTE, Interop.valueLayout.C_BYTE),
             false
         );
         
         private static final MethodHandle g_ascii_toupper = Interop.downcallHandle(
             "g_ascii_toupper",
-            FunctionDescriptor.of(ValueLayout.JAVA_BYTE, ValueLayout.JAVA_BYTE),
+            FunctionDescriptor.of(Interop.valueLayout.C_BYTE, Interop.valueLayout.C_BYTE),
             false
         );
         
         private static final MethodHandle g_ascii_xdigit_value = Interop.downcallHandle(
             "g_ascii_xdigit_value",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_BYTE),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.C_BYTE),
             false
         );
         
         private static final MethodHandle g_assert_warning = Interop.downcallHandle(
             "g_assert_warning",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_assertion_message = Interop.downcallHandle(
             "g_assertion_message",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_assertion_message_cmpstr = Interop.downcallHandle(
             "g_assertion_message_cmpstr",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_assertion_message_cmpstrv = Interop.downcallHandle(
             "g_assertion_message_cmpstrv",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
             false
         );
         
         private static final MethodHandle g_assertion_message_error = Interop.downcallHandle(
             "g_assertion_message_error",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_assertion_message_expr = Interop.downcallHandle(
             "g_assertion_message_expr",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_atexit = Interop.downcallHandle(
             "g_atexit",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_atomic_int_add = Interop.downcallHandle(
             "g_atomic_int_add",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_atomic_int_and = Interop.downcallHandle(
             "g_atomic_int_and",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_atomic_int_compare_and_exchange = Interop.downcallHandle(
             "g_atomic_int_compare_and_exchange",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
+            false
+        );
+        
+        private static final MethodHandle g_atomic_int_compare_and_exchange_full = Interop.downcallHandle(
+            "g_atomic_int_compare_and_exchange_full",
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_atomic_int_dec_and_test = Interop.downcallHandle(
             "g_atomic_int_dec_and_test",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+            false
+        );
+        
+        private static final MethodHandle g_atomic_int_exchange = Interop.downcallHandle(
+            "g_atomic_int_exchange",
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_atomic_int_exchange_and_add = Interop.downcallHandle(
             "g_atomic_int_exchange_and_add",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_atomic_int_get = Interop.downcallHandle(
             "g_atomic_int_get",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_atomic_int_inc = Interop.downcallHandle(
             "g_atomic_int_inc",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_atomic_int_or = Interop.downcallHandle(
             "g_atomic_int_or",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_atomic_int_set = Interop.downcallHandle(
             "g_atomic_int_set",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_atomic_int_xor = Interop.downcallHandle(
             "g_atomic_int_xor",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_atomic_pointer_add = Interop.downcallHandle(
             "g_atomic_pointer_add",
-            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG),
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
             false
         );
         
         private static final MethodHandle g_atomic_pointer_and = Interop.downcallHandle(
             "g_atomic_pointer_and",
-            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG),
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
             false
         );
         
         private static final MethodHandle g_atomic_pointer_compare_and_exchange = Interop.downcallHandle(
             "g_atomic_pointer_compare_and_exchange",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+            false
+        );
+        
+        private static final MethodHandle g_atomic_pointer_compare_and_exchange_full = Interop.downcallHandle(
+            "g_atomic_pointer_compare_and_exchange_full",
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+            false
+        );
+        
+        private static final MethodHandle g_atomic_pointer_exchange = Interop.downcallHandle(
+            "g_atomic_pointer_exchange",
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_atomic_pointer_get = Interop.downcallHandle(
             "g_atomic_pointer_get",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_atomic_pointer_or = Interop.downcallHandle(
             "g_atomic_pointer_or",
-            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG),
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
             false
         );
         
         private static final MethodHandle g_atomic_pointer_set = Interop.downcallHandle(
             "g_atomic_pointer_set",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_atomic_pointer_xor = Interop.downcallHandle(
             "g_atomic_pointer_xor",
-            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG),
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
             false
         );
         
         private static final MethodHandle g_atomic_rc_box_acquire = Interop.downcallHandle(
             "g_atomic_rc_box_acquire",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_atomic_rc_box_alloc = Interop.downcallHandle(
             "g_atomic_rc_box_alloc",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
             false
         );
         
         private static final MethodHandle g_atomic_rc_box_alloc0 = Interop.downcallHandle(
             "g_atomic_rc_box_alloc0",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
             false
         );
         
         private static final MethodHandle g_atomic_rc_box_dup = Interop.downcallHandle(
             "g_atomic_rc_box_dup",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_atomic_rc_box_get_size = Interop.downcallHandle(
             "g_atomic_rc_box_get_size",
-            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_atomic_rc_box_release = Interop.downcallHandle(
             "g_atomic_rc_box_release",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_atomic_rc_box_release_full = Interop.downcallHandle(
             "g_atomic_rc_box_release_full",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_atomic_ref_count_compare = Interop.downcallHandle(
             "g_atomic_ref_count_compare",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_atomic_ref_count_dec = Interop.downcallHandle(
             "g_atomic_ref_count_dec",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_atomic_ref_count_inc = Interop.downcallHandle(
             "g_atomic_ref_count_inc",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_atomic_ref_count_init = Interop.downcallHandle(
             "g_atomic_ref_count_init",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_base64_decode = Interop.downcallHandle(
             "g_base64_decode",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_base64_decode_inplace = Interop.downcallHandle(
             "g_base64_decode_inplace",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_base64_decode_step = Interop.downcallHandle(
             "g_base64_decode_step",
-            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_base64_encode = Interop.downcallHandle(
             "g_base64_encode",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
             false
         );
         
         private static final MethodHandle g_base64_encode_close = Interop.downcallHandle(
             "g_base64_encode_close",
-            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_base64_encode_step = Interop.downcallHandle(
             "g_base64_encode_step",
-            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_basename = Interop.downcallHandle(
             "g_basename",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_bit_lock = Interop.downcallHandle(
             "g_bit_lock",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_bit_nth_lsf = Interop.downcallHandle(
             "g_bit_nth_lsf",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_LONG, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.C_LONG, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_bit_nth_msf = Interop.downcallHandle(
             "g_bit_nth_msf",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_LONG, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.C_LONG, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_bit_storage = Interop.downcallHandle(
             "g_bit_storage",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_LONG),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.C_LONG),
             false
         );
         
         private static final MethodHandle g_bit_trylock = Interop.downcallHandle(
             "g_bit_trylock",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_bit_unlock = Interop.downcallHandle(
             "g_bit_unlock",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_bookmark_file_error_quark = Interop.downcallHandle(
             "g_bookmark_file_error_quark",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_build_filename = Interop.downcallHandle(
             "g_build_filename",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             true
         );
         
         private static final MethodHandle g_build_filename_valist = Interop.downcallHandle(
             "g_build_filename_valist",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_build_filenamev = Interop.downcallHandle(
             "g_build_filenamev",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_build_path = Interop.downcallHandle(
             "g_build_path",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             true
         );
         
         private static final MethodHandle g_build_pathv = Interop.downcallHandle(
             "g_build_pathv",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_byte_array_free = Interop.downcallHandle(
             "g_byte_array_free",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_byte_array_free_to_bytes = Interop.downcallHandle(
             "g_byte_array_free_to_bytes",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
@@ -18882,553 +19144,559 @@ public final class GLib {
         
         private static final MethodHandle g_byte_array_new_take = Interop.downcallHandle(
             "g_byte_array_new_take",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
             false
         );
         
         private static final MethodHandle g_byte_array_steal = Interop.downcallHandle(
             "g_byte_array_steal",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_byte_array_unref = Interop.downcallHandle(
             "g_byte_array_unref",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_canonicalize_filename = Interop.downcallHandle(
             "g_canonicalize_filename",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_chdir = Interop.downcallHandle(
             "g_chdir",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle glib_check_version = Interop.downcallHandle(
             "glib_check_version",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_checksum_type_get_length = Interop.downcallHandle(
             "g_checksum_type_get_length",
-            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_child_watch_add = Interop.downcallHandle(
             "g_child_watch_add",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_child_watch_add_full = Interop.downcallHandle(
             "g_child_watch_add_full",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_child_watch_source_new = Interop.downcallHandle(
             "g_child_watch_source_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_clear_handle_id = Interop.downcallHandle(
             "g_clear_handle_id",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_clear_list = Interop.downcallHandle(
             "g_clear_list",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_clear_pointer = Interop.downcallHandle(
             "g_clear_pointer",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_clear_slist = Interop.downcallHandle(
             "g_clear_slist",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_close = Interop.downcallHandle(
             "g_close",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_compute_checksum_for_bytes = Interop.downcallHandle(
             "g_compute_checksum_for_bytes",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_compute_checksum_for_data = Interop.downcallHandle(
             "g_compute_checksum_for_data",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
             false
         );
         
         private static final MethodHandle g_compute_checksum_for_string = Interop.downcallHandle(
             "g_compute_checksum_for_string",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
             false
         );
         
         private static final MethodHandle g_compute_hmac_for_bytes = Interop.downcallHandle(
             "g_compute_hmac_for_bytes",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_compute_hmac_for_data = Interop.downcallHandle(
             "g_compute_hmac_for_data",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
             false
         );
         
         private static final MethodHandle g_compute_hmac_for_string = Interop.downcallHandle(
             "g_compute_hmac_for_string",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
             false
         );
         
         private static final MethodHandle g_convert = Interop.downcallHandle(
             "g_convert",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_convert_error_quark = Interop.downcallHandle(
             "g_convert_error_quark",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_convert_with_fallback = Interop.downcallHandle(
             "g_convert_with_fallback",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_convert_with_iconv = Interop.downcallHandle(
             "g_convert_with_iconv",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_datalist_clear = Interop.downcallHandle(
             "g_datalist_clear",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_datalist_foreach = Interop.downcallHandle(
             "g_datalist_foreach",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_datalist_get_data = Interop.downcallHandle(
             "g_datalist_get_data",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_datalist_get_flags = Interop.downcallHandle(
             "g_datalist_get_flags",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_datalist_id_dup_data = Interop.downcallHandle(
             "g_datalist_id_dup_data",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_datalist_id_get_data = Interop.downcallHandle(
             "g_datalist_id_get_data",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+            false
+        );
+        
+        private static final MethodHandle g_datalist_id_remove_multiple = Interop.downcallHandle(
+            "g_datalist_id_remove_multiple",
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
             false
         );
         
         private static final MethodHandle g_datalist_id_remove_no_notify = Interop.downcallHandle(
             "g_datalist_id_remove_no_notify",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_datalist_id_replace_data = Interop.downcallHandle(
             "g_datalist_id_replace_data",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_datalist_id_set_data_full = Interop.downcallHandle(
             "g_datalist_id_set_data_full",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_datalist_init = Interop.downcallHandle(
             "g_datalist_init",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_datalist_set_flags = Interop.downcallHandle(
             "g_datalist_set_flags",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_datalist_unset_flags = Interop.downcallHandle(
             "g_datalist_unset_flags",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_dataset_destroy = Interop.downcallHandle(
             "g_dataset_destroy",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_dataset_foreach = Interop.downcallHandle(
             "g_dataset_foreach",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_dataset_id_get_data = Interop.downcallHandle(
             "g_dataset_id_get_data",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_dataset_id_remove_no_notify = Interop.downcallHandle(
             "g_dataset_id_remove_no_notify",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_dataset_id_set_data_full = Interop.downcallHandle(
             "g_dataset_id_set_data_full",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_date_get_days_in_month = Interop.downcallHandle(
             "g_date_get_days_in_month",
-            FunctionDescriptor.of(ValueLayout.JAVA_BYTE, ValueLayout.JAVA_INT, ValueLayout.JAVA_SHORT),
+            FunctionDescriptor.of(Interop.valueLayout.C_BYTE, Interop.valueLayout.C_INT, Interop.valueLayout.C_SHORT),
             false
         );
         
         private static final MethodHandle g_date_get_monday_weeks_in_year = Interop.downcallHandle(
             "g_date_get_monday_weeks_in_year",
-            FunctionDescriptor.of(ValueLayout.JAVA_BYTE, ValueLayout.JAVA_SHORT),
+            FunctionDescriptor.of(Interop.valueLayout.C_BYTE, Interop.valueLayout.C_SHORT),
             false
         );
         
         private static final MethodHandle g_date_get_sunday_weeks_in_year = Interop.downcallHandle(
             "g_date_get_sunday_weeks_in_year",
-            FunctionDescriptor.of(ValueLayout.JAVA_BYTE, ValueLayout.JAVA_SHORT),
+            FunctionDescriptor.of(Interop.valueLayout.C_BYTE, Interop.valueLayout.C_SHORT),
             false
         );
         
         private static final MethodHandle g_date_is_leap_year = Interop.downcallHandle(
             "g_date_is_leap_year",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_SHORT),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.C_SHORT),
             false
         );
         
         private static final MethodHandle g_date_strftime = Interop.downcallHandle(
             "g_date_strftime",
-            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_date_valid_day = Interop.downcallHandle(
             "g_date_valid_day",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_BYTE),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.C_BYTE),
             false
         );
         
         private static final MethodHandle g_date_valid_dmy = Interop.downcallHandle(
             "g_date_valid_dmy",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_BYTE, ValueLayout.JAVA_INT, ValueLayout.JAVA_SHORT),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.C_BYTE, Interop.valueLayout.C_INT, Interop.valueLayout.C_SHORT),
             false
         );
         
         private static final MethodHandle g_date_valid_julian = Interop.downcallHandle(
             "g_date_valid_julian",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_date_valid_month = Interop.downcallHandle(
             "g_date_valid_month",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_date_valid_weekday = Interop.downcallHandle(
             "g_date_valid_weekday",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_date_valid_year = Interop.downcallHandle(
             "g_date_valid_year",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_SHORT),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.C_SHORT),
             false
         );
         
         private static final MethodHandle g_dcgettext = Interop.downcallHandle(
             "g_dcgettext",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_dgettext = Interop.downcallHandle(
             "g_dgettext",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_dir_make_tmp = Interop.downcallHandle(
             "g_dir_make_tmp",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_direct_equal = Interop.downcallHandle(
             "g_direct_equal",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_direct_hash = Interop.downcallHandle(
             "g_direct_hash",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_dngettext = Interop.downcallHandle(
             "g_dngettext",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
             false
         );
         
         private static final MethodHandle g_double_equal = Interop.downcallHandle(
             "g_double_equal",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_double_hash = Interop.downcallHandle(
             "g_double_hash",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_dpgettext = Interop.downcallHandle(
             "g_dpgettext",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
             false
         );
         
         private static final MethodHandle g_dpgettext2 = Interop.downcallHandle(
             "g_dpgettext2",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_environ_getenv = Interop.downcallHandle(
             "g_environ_getenv",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_environ_setenv = Interop.downcallHandle(
             "g_environ_setenv",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_environ_unsetenv = Interop.downcallHandle(
             "g_environ_unsetenv",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_file_error_from_errno = Interop.downcallHandle(
             "g_file_error_from_errno",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_file_error_quark = Interop.downcallHandle(
             "g_file_error_quark",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_file_get_contents = Interop.downcallHandle(
             "g_file_get_contents",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_file_open_tmp = Interop.downcallHandle(
             "g_file_open_tmp",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_file_read_link = Interop.downcallHandle(
             "g_file_read_link",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_file_set_contents = Interop.downcallHandle(
             "g_file_set_contents",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_file_set_contents_full = Interop.downcallHandle(
             "g_file_set_contents_full",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_file_test = Interop.downcallHandle(
             "g_file_test",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_filename_display_basename = Interop.downcallHandle(
             "g_filename_display_basename",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_filename_display_name = Interop.downcallHandle(
             "g_filename_display_name",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_filename_from_uri = Interop.downcallHandle(
             "g_filename_from_uri",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_filename_from_utf8 = Interop.downcallHandle(
             "g_filename_from_utf8",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_filename_to_uri = Interop.downcallHandle(
             "g_filename_to_uri",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_filename_to_utf8 = Interop.downcallHandle(
             "g_filename_to_utf8",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_find_program_in_path = Interop.downcallHandle(
             "g_find_program_in_path",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_format_size = Interop.downcallHandle(
             "g_format_size",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
             false
         );
         
         private static final MethodHandle g_format_size_for_display = Interop.downcallHandle(
             "g_format_size_for_display",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
             false
         );
         
         private static final MethodHandle g_format_size_full = Interop.downcallHandle(
             "g_format_size_full",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_fprintf = Interop.downcallHandle(
             "g_fprintf",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             true
         );
         
         private static final MethodHandle g_free = Interop.downcallHandle(
             "g_free",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_get_application_name = Interop.downcallHandle(
             "g_get_application_name",
-            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_get_charset = Interop.downcallHandle(
             "g_get_charset",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_get_codeset = Interop.downcallHandle(
             "g_get_codeset",
-            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_get_console_charset = Interop.downcallHandle(
             "g_get_console_charset",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_get_current_dir = Interop.downcallHandle(
             "g_get_current_dir",
-            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_get_current_time = Interop.downcallHandle(
             "g_get_current_time",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
@@ -19440,19 +19708,19 @@ public final class GLib {
         
         private static final MethodHandle g_get_filename_charsets = Interop.downcallHandle(
             "g_get_filename_charsets",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_get_home_dir = Interop.downcallHandle(
             "g_get_home_dir",
-            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_get_host_name = Interop.downcallHandle(
             "g_get_host_name",
-            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
             false
         );
         
@@ -19464,49 +19732,49 @@ public final class GLib {
         
         private static final MethodHandle g_get_language_names_with_category = Interop.downcallHandle(
             "g_get_language_names_with_category",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_get_locale_variants = Interop.downcallHandle(
             "g_get_locale_variants",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_get_monotonic_time = Interop.downcallHandle(
             "g_get_monotonic_time",
-            FunctionDescriptor.of(ValueLayout.JAVA_LONG),
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
         
         private static final MethodHandle g_get_num_processors = Interop.downcallHandle(
             "g_get_num_processors",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_get_os_info = Interop.downcallHandle(
             "g_get_os_info",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_get_prgname = Interop.downcallHandle(
             "g_get_prgname",
-            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_get_real_name = Interop.downcallHandle(
             "g_get_real_name",
-            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_get_real_time = Interop.downcallHandle(
             "g_get_real_time",
-            FunctionDescriptor.of(ValueLayout.JAVA_LONG),
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
         
@@ -19524,319 +19792,325 @@ public final class GLib {
         
         private static final MethodHandle g_get_tmp_dir = Interop.downcallHandle(
             "g_get_tmp_dir",
-            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_get_user_cache_dir = Interop.downcallHandle(
             "g_get_user_cache_dir",
-            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_get_user_config_dir = Interop.downcallHandle(
             "g_get_user_config_dir",
-            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_get_user_data_dir = Interop.downcallHandle(
             "g_get_user_data_dir",
-            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_get_user_name = Interop.downcallHandle(
             "g_get_user_name",
-            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_get_user_runtime_dir = Interop.downcallHandle(
             "g_get_user_runtime_dir",
-            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_get_user_special_dir = Interop.downcallHandle(
             "g_get_user_special_dir",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_get_user_state_dir = Interop.downcallHandle(
             "g_get_user_state_dir",
-            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_getenv = Interop.downcallHandle(
             "g_getenv",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_hash_table_add = Interop.downcallHandle(
             "g_hash_table_add",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_hash_table_contains = Interop.downcallHandle(
             "g_hash_table_contains",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_hash_table_destroy = Interop.downcallHandle(
             "g_hash_table_destroy",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_hash_table_insert = Interop.downcallHandle(
             "g_hash_table_insert",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_hash_table_lookup = Interop.downcallHandle(
             "g_hash_table_lookup",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_hash_table_lookup_extended = Interop.downcallHandle(
             "g_hash_table_lookup_extended",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_hash_table_new_similar = Interop.downcallHandle(
             "g_hash_table_new_similar",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_hash_table_remove = Interop.downcallHandle(
             "g_hash_table_remove",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_hash_table_remove_all = Interop.downcallHandle(
             "g_hash_table_remove_all",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_hash_table_replace = Interop.downcallHandle(
             "g_hash_table_replace",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_hash_table_size = Interop.downcallHandle(
             "g_hash_table_size",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_hash_table_steal = Interop.downcallHandle(
             "g_hash_table_steal",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_hash_table_steal_all = Interop.downcallHandle(
             "g_hash_table_steal_all",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_hash_table_steal_extended = Interop.downcallHandle(
             "g_hash_table_steal_extended",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_hash_table_unref = Interop.downcallHandle(
             "g_hash_table_unref",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_hook_destroy = Interop.downcallHandle(
             "g_hook_destroy",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
             false
         );
         
         private static final MethodHandle g_hook_destroy_link = Interop.downcallHandle(
             "g_hook_destroy_link",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_hook_free = Interop.downcallHandle(
             "g_hook_free",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_hook_insert_before = Interop.downcallHandle(
             "g_hook_insert_before",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_hook_prepend = Interop.downcallHandle(
             "g_hook_prepend",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_hook_unref = Interop.downcallHandle(
             "g_hook_unref",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_hostname_is_ascii_encoded = Interop.downcallHandle(
             "g_hostname_is_ascii_encoded",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_hostname_is_ip_address = Interop.downcallHandle(
             "g_hostname_is_ip_address",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_hostname_is_non_ascii = Interop.downcallHandle(
             "g_hostname_is_non_ascii",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_hostname_to_ascii = Interop.downcallHandle(
             "g_hostname_to_ascii",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_hostname_to_unicode = Interop.downcallHandle(
             "g_hostname_to_unicode",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_iconv = Interop.downcallHandle(
             "g_iconv",
-            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_iconv_open = Interop.downcallHandle(
             "g_iconv_open",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_idle_add = Interop.downcallHandle(
             "g_idle_add",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_idle_add_full = Interop.downcallHandle(
             "g_idle_add_full",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+            false
+        );
+        
+        private static final MethodHandle g_idle_add_once = Interop.downcallHandle(
+            "g_idle_add_once",
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_idle_remove_by_data = Interop.downcallHandle(
             "g_idle_remove_by_data",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_idle_source_new = Interop.downcallHandle(
             "g_idle_source_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_int64_equal = Interop.downcallHandle(
             "g_int64_equal",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_int64_hash = Interop.downcallHandle(
             "g_int64_hash",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_int_equal = Interop.downcallHandle(
             "g_int_equal",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_int_hash = Interop.downcallHandle(
             "g_int_hash",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_intern_static_string = Interop.downcallHandle(
             "g_intern_static_string",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_intern_string = Interop.downcallHandle(
             "g_intern_string",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_io_add_watch = Interop.downcallHandle(
             "g_io_add_watch",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_io_add_watch_full = Interop.downcallHandle(
             "g_io_add_watch_full",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_io_channel_error_from_errno = Interop.downcallHandle(
             "g_io_channel_error_from_errno",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_io_channel_error_quark = Interop.downcallHandle(
             "g_io_channel_error_quark",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_io_create_watch = Interop.downcallHandle(
             "g_io_create_watch",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_key_file_error_quark = Interop.downcallHandle(
             "g_key_file_error_quark",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT),
             false
         );
         
@@ -19848,247 +20122,247 @@ public final class GLib {
         
         private static final MethodHandle g_locale_from_utf8 = Interop.downcallHandle(
             "g_locale_from_utf8",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_locale_to_utf8 = Interop.downcallHandle(
             "g_locale_to_utf8",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_log = Interop.downcallHandle(
             "g_log",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             true
         );
         
         private static final MethodHandle g_log_default_handler = Interop.downcallHandle(
             "g_log_default_handler",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_log_get_debug_enabled = Interop.downcallHandle(
             "g_log_get_debug_enabled",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_log_remove_handler = Interop.downcallHandle(
             "g_log_remove_handler",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_log_set_always_fatal = Interop.downcallHandle(
             "g_log_set_always_fatal",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_log_set_debug_enabled = Interop.downcallHandle(
             "g_log_set_debug_enabled",
-            FunctionDescriptor.ofVoid(ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_log_set_default_handler = Interop.downcallHandle(
             "g_log_set_default_handler",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_log_set_fatal_mask = Interop.downcallHandle(
             "g_log_set_fatal_mask",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_log_set_handler = Interop.downcallHandle(
             "g_log_set_handler",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_log_set_handler_full = Interop.downcallHandle(
             "g_log_set_handler_full",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_log_set_writer_func = Interop.downcallHandle(
             "g_log_set_writer_func",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_log_structured = Interop.downcallHandle(
             "g_log_structured",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             true
         );
         
         private static final MethodHandle g_log_structured_array = Interop.downcallHandle(
             "g_log_structured_array",
-            FunctionDescriptor.ofVoid(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
             false
         );
         
         private static final MethodHandle g_log_structured_standard = Interop.downcallHandle(
             "g_log_structured_standard",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             true
         );
         
         private static final MethodHandle g_log_variant = Interop.downcallHandle(
             "g_log_variant",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_log_writer_default = Interop.downcallHandle(
             "g_log_writer_default",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_log_writer_default_set_use_stderr = Interop.downcallHandle(
             "g_log_writer_default_set_use_stderr",
-            FunctionDescriptor.ofVoid(ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_log_writer_default_would_drop = Interop.downcallHandle(
             "g_log_writer_default_would_drop",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_log_writer_format_fields = Interop.downcallHandle(
             "g_log_writer_format_fields",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_log_writer_is_journald = Interop.downcallHandle(
             "g_log_writer_is_journald",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_log_writer_journald = Interop.downcallHandle(
             "g_log_writer_journald",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_log_writer_standard_streams = Interop.downcallHandle(
             "g_log_writer_standard_streams",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_log_writer_supports_color = Interop.downcallHandle(
             "g_log_writer_supports_color",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_logv = Interop.downcallHandle(
             "g_logv",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_main_context_default = Interop.downcallHandle(
             "g_main_context_default",
-            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_main_context_get_thread_default = Interop.downcallHandle(
             "g_main_context_get_thread_default",
-            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_main_context_ref_thread_default = Interop.downcallHandle(
             "g_main_context_ref_thread_default",
-            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_main_current_source = Interop.downcallHandle(
             "g_main_current_source",
-            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_main_depth = Interop.downcallHandle(
             "g_main_depth",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_malloc = Interop.downcallHandle(
             "g_malloc",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
             false
         );
         
         private static final MethodHandle g_malloc0 = Interop.downcallHandle(
             "g_malloc0",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
             false
         );
         
         private static final MethodHandle g_malloc0_n = Interop.downcallHandle(
             "g_malloc0_n",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_LONG),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.C_LONG),
             false
         );
         
         private static final MethodHandle g_malloc_n = Interop.downcallHandle(
             "g_malloc_n",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_LONG),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.C_LONG),
             false
         );
         
         private static final MethodHandle g_markup_collect_attributes = Interop.downcallHandle(
             "g_markup_collect_attributes",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             true
         );
         
         private static final MethodHandle g_markup_error_quark = Interop.downcallHandle(
             "g_markup_error_quark",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_markup_escape_text = Interop.downcallHandle(
             "g_markup_escape_text",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
             false
         );
         
         private static final MethodHandle g_markup_printf_escaped = Interop.downcallHandle(
             "g_markup_printf_escaped",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             true
         );
         
         private static final MethodHandle g_markup_vprintf_escaped = Interop.downcallHandle(
             "g_markup_vprintf_escaped",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_mem_is_system_malloc = Interop.downcallHandle(
             "g_mem_is_system_malloc",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT),
             false
         );
         
@@ -20100,433 +20374,433 @@ public final class GLib {
         
         private static final MethodHandle g_mem_set_vtable = Interop.downcallHandle(
             "g_mem_set_vtable",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_memdup = Interop.downcallHandle(
             "g_memdup",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_memdup2 = Interop.downcallHandle(
             "g_memdup2",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
             false
         );
         
         private static final MethodHandle g_mkdir_with_parents = Interop.downcallHandle(
             "g_mkdir_with_parents",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_mkdtemp = Interop.downcallHandle(
             "g_mkdtemp",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_mkdtemp_full = Interop.downcallHandle(
             "g_mkdtemp_full",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_mkstemp = Interop.downcallHandle(
             "g_mkstemp",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_mkstemp_full = Interop.downcallHandle(
             "g_mkstemp_full",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_nullify_pointer = Interop.downcallHandle(
             "g_nullify_pointer",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_number_parser_error_quark = Interop.downcallHandle(
             "g_number_parser_error_quark",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_on_error_query = Interop.downcallHandle(
             "g_on_error_query",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_on_error_stack_trace = Interop.downcallHandle(
             "g_on_error_stack_trace",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_once_init_enter = Interop.downcallHandle(
             "g_once_init_enter",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_once_init_leave = Interop.downcallHandle(
             "g_once_init_leave",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
             false
         );
         
         private static final MethodHandle g_option_error_quark = Interop.downcallHandle(
             "g_option_error_quark",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_parse_debug_string = Interop.downcallHandle(
             "g_parse_debug_string",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_path_get_basename = Interop.downcallHandle(
             "g_path_get_basename",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_path_get_dirname = Interop.downcallHandle(
             "g_path_get_dirname",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_path_is_absolute = Interop.downcallHandle(
             "g_path_is_absolute",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_path_skip_root = Interop.downcallHandle(
             "g_path_skip_root",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_pattern_match = Interop.downcallHandle(
             "g_pattern_match",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_pattern_match_simple = Interop.downcallHandle(
             "g_pattern_match_simple",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_pattern_match_string = Interop.downcallHandle(
             "g_pattern_match_string",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_pointer_bit_lock = Interop.downcallHandle(
             "g_pointer_bit_lock",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_pointer_bit_trylock = Interop.downcallHandle(
             "g_pointer_bit_trylock",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_pointer_bit_unlock = Interop.downcallHandle(
             "g_pointer_bit_unlock",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_poll = Interop.downcallHandle(
             "g_poll",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_prefix_error = Interop.downcallHandle(
             "g_prefix_error",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             true
         );
         
         private static final MethodHandle g_prefix_error_literal = Interop.downcallHandle(
             "g_prefix_error_literal",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_print = Interop.downcallHandle(
             "g_print",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             true
         );
         
         private static final MethodHandle g_printerr = Interop.downcallHandle(
             "g_printerr",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             true
         );
         
         private static final MethodHandle g_printf = Interop.downcallHandle(
             "g_printf",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             true
         );
         
         private static final MethodHandle g_printf_string_upper_bound = Interop.downcallHandle(
             "g_printf_string_upper_bound",
-            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_propagate_error = Interop.downcallHandle(
             "g_propagate_error",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_propagate_prefixed_error = Interop.downcallHandle(
             "g_propagate_prefixed_error",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             true
         );
         
         private static final MethodHandle g_ptr_array_find = Interop.downcallHandle(
             "g_ptr_array_find",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_ptr_array_find_with_equal_func = Interop.downcallHandle(
             "g_ptr_array_find_with_equal_func",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_qsort_with_data = Interop.downcallHandle(
             "g_qsort_with_data",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_quark_from_static_string = Interop.downcallHandle(
             "g_quark_from_static_string",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_quark_from_string = Interop.downcallHandle(
             "g_quark_from_string",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_quark_to_string = Interop.downcallHandle(
             "g_quark_to_string",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_quark_try_string = Interop.downcallHandle(
             "g_quark_try_string",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_random_double = Interop.downcallHandle(
             "g_random_double",
-            FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE),
+            FunctionDescriptor.of(Interop.valueLayout.C_DOUBLE),
             false
         );
         
         private static final MethodHandle g_random_double_range = Interop.downcallHandle(
             "g_random_double_range",
-            FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE),
+            FunctionDescriptor.of(Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_DOUBLE),
             false
         );
         
         private static final MethodHandle g_random_int = Interop.downcallHandle(
             "g_random_int",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_random_int_range = Interop.downcallHandle(
             "g_random_int_range",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_random_set_seed = Interop.downcallHandle(
             "g_random_set_seed",
-            FunctionDescriptor.ofVoid(ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_rc_box_acquire = Interop.downcallHandle(
             "g_rc_box_acquire",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_rc_box_alloc = Interop.downcallHandle(
             "g_rc_box_alloc",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
             false
         );
         
         private static final MethodHandle g_rc_box_alloc0 = Interop.downcallHandle(
             "g_rc_box_alloc0",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
             false
         );
         
         private static final MethodHandle g_rc_box_dup = Interop.downcallHandle(
             "g_rc_box_dup",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_rc_box_get_size = Interop.downcallHandle(
             "g_rc_box_get_size",
-            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_rc_box_release = Interop.downcallHandle(
             "g_rc_box_release",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_rc_box_release_full = Interop.downcallHandle(
             "g_rc_box_release_full",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_realloc = Interop.downcallHandle(
             "g_realloc",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
             false
         );
         
         private static final MethodHandle g_realloc_n = Interop.downcallHandle(
             "g_realloc_n",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_LONG),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.C_LONG),
             false
         );
         
         private static final MethodHandle g_ref_count_compare = Interop.downcallHandle(
             "g_ref_count_compare",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_ref_count_dec = Interop.downcallHandle(
             "g_ref_count_dec",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_ref_count_inc = Interop.downcallHandle(
             "g_ref_count_inc",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_ref_count_init = Interop.downcallHandle(
             "g_ref_count_init",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_ref_string_acquire = Interop.downcallHandle(
             "g_ref_string_acquire",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_ref_string_length = Interop.downcallHandle(
             "g_ref_string_length",
-            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_ref_string_new = Interop.downcallHandle(
             "g_ref_string_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_ref_string_new_intern = Interop.downcallHandle(
             "g_ref_string_new_intern",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_ref_string_new_len = Interop.downcallHandle(
             "g_ref_string_new_len",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
             false
         );
         
         private static final MethodHandle g_ref_string_release = Interop.downcallHandle(
             "g_ref_string_release",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_regex_check_replacement = Interop.downcallHandle(
             "g_regex_check_replacement",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_regex_error_quark = Interop.downcallHandle(
             "g_regex_error_quark",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_regex_escape_nul = Interop.downcallHandle(
             "g_regex_escape_nul",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_regex_escape_string = Interop.downcallHandle(
             "g_regex_escape_string",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_regex_match_simple = Interop.downcallHandle(
             "g_regex_match_simple",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_regex_split_simple = Interop.downcallHandle(
             "g_regex_split_simple",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
             false
         );
         
@@ -20538,637 +20812,637 @@ public final class GLib {
         
         private static final MethodHandle g_return_if_fail_warning = Interop.downcallHandle(
             "g_return_if_fail_warning",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_rmdir = Interop.downcallHandle(
             "g_rmdir",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_sequence_get = Interop.downcallHandle(
             "g_sequence_get",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_sequence_insert_before = Interop.downcallHandle(
             "g_sequence_insert_before",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_sequence_move = Interop.downcallHandle(
             "g_sequence_move",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_sequence_move_range = Interop.downcallHandle(
             "g_sequence_move_range",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_sequence_range_get_midpoint = Interop.downcallHandle(
             "g_sequence_range_get_midpoint",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_sequence_remove = Interop.downcallHandle(
             "g_sequence_remove",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_sequence_remove_range = Interop.downcallHandle(
             "g_sequence_remove_range",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_sequence_set = Interop.downcallHandle(
             "g_sequence_set",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_sequence_swap = Interop.downcallHandle(
             "g_sequence_swap",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_set_application_name = Interop.downcallHandle(
             "g_set_application_name",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_set_error = Interop.downcallHandle(
             "g_set_error",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             true
         );
         
         private static final MethodHandle g_set_error_literal = Interop.downcallHandle(
             "g_set_error_literal",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_set_prgname = Interop.downcallHandle(
             "g_set_prgname",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_set_print_handler = Interop.downcallHandle(
             "g_set_print_handler",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_set_printerr_handler = Interop.downcallHandle(
             "g_set_printerr_handler",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_setenv = Interop.downcallHandle(
             "g_setenv",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_shell_error_quark = Interop.downcallHandle(
             "g_shell_error_quark",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_shell_parse_argv = Interop.downcallHandle(
             "g_shell_parse_argv",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_shell_quote = Interop.downcallHandle(
             "g_shell_quote",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_shell_unquote = Interop.downcallHandle(
             "g_shell_unquote",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_slice_alloc = Interop.downcallHandle(
             "g_slice_alloc",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
             false
         );
         
         private static final MethodHandle g_slice_alloc0 = Interop.downcallHandle(
             "g_slice_alloc0",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
             false
         );
         
         private static final MethodHandle g_slice_copy = Interop.downcallHandle(
             "g_slice_copy",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_slice_free1 = Interop.downcallHandle(
             "g_slice_free1",
-            FunctionDescriptor.ofVoid(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_slice_free_chain_with_offset = Interop.downcallHandle(
             "g_slice_free_chain_with_offset",
-            FunctionDescriptor.ofVoid(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
             false
         );
         
         private static final MethodHandle g_slice_get_config = Interop.downcallHandle(
             "g_slice_get_config",
-            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_slice_get_config_state = Interop.downcallHandle(
             "g_slice_get_config_state",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_slice_set_config = Interop.downcallHandle(
             "g_slice_set_config",
-            FunctionDescriptor.ofVoid(ValueLayout.JAVA_INT, ValueLayout.JAVA_LONG),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.C_INT, Interop.valueLayout.C_LONG),
             false
         );
         
         private static final MethodHandle g_snprintf = Interop.downcallHandle(
             "g_snprintf",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
             true
         );
         
         private static final MethodHandle g_source_remove = Interop.downcallHandle(
             "g_source_remove",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_source_remove_by_funcs_user_data = Interop.downcallHandle(
             "g_source_remove_by_funcs_user_data",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_source_remove_by_user_data = Interop.downcallHandle(
             "g_source_remove_by_user_data",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_source_set_name_by_id = Interop.downcallHandle(
             "g_source_set_name_by_id",
-            FunctionDescriptor.ofVoid(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_spaced_primes_closest = Interop.downcallHandle(
             "g_spaced_primes_closest",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_spawn_async = Interop.downcallHandle(
             "g_spawn_async",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_spawn_async_with_fds = Interop.downcallHandle(
             "g_spawn_async_with_fds",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_spawn_async_with_pipes = Interop.downcallHandle(
             "g_spawn_async_with_pipes",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_spawn_async_with_pipes_and_fds = Interop.downcallHandle(
             "g_spawn_async_with_pipes_and_fds",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_spawn_check_exit_status = Interop.downcallHandle(
             "g_spawn_check_exit_status",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_spawn_check_wait_status = Interop.downcallHandle(
             "g_spawn_check_wait_status",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_spawn_close_pid = Interop.downcallHandle(
             "g_spawn_close_pid",
-            FunctionDescriptor.ofVoid(ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_spawn_command_line_async = Interop.downcallHandle(
             "g_spawn_command_line_async",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_spawn_command_line_sync = Interop.downcallHandle(
             "g_spawn_command_line_sync",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_spawn_error_quark = Interop.downcallHandle(
             "g_spawn_error_quark",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_spawn_exit_error_quark = Interop.downcallHandle(
             "g_spawn_exit_error_quark",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_spawn_sync = Interop.downcallHandle(
             "g_spawn_sync",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_sprintf = Interop.downcallHandle(
             "g_sprintf",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             true
         );
         
         private static final MethodHandle g_stpcpy = Interop.downcallHandle(
             "g_stpcpy",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_str_equal = Interop.downcallHandle(
             "g_str_equal",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_str_has_prefix = Interop.downcallHandle(
             "g_str_has_prefix",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_str_has_suffix = Interop.downcallHandle(
             "g_str_has_suffix",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_str_hash = Interop.downcallHandle(
             "g_str_hash",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_str_is_ascii = Interop.downcallHandle(
             "g_str_is_ascii",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_str_match_string = Interop.downcallHandle(
             "g_str_match_string",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_str_to_ascii = Interop.downcallHandle(
             "g_str_to_ascii",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_str_tokenize_and_fold = Interop.downcallHandle(
             "g_str_tokenize_and_fold",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_strcanon = Interop.downcallHandle(
             "g_strcanon",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_BYTE),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_BYTE),
             false
         );
         
         private static final MethodHandle g_strcasecmp = Interop.downcallHandle(
             "g_strcasecmp",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_strchomp = Interop.downcallHandle(
             "g_strchomp",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_strchug = Interop.downcallHandle(
             "g_strchug",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_strcmp0 = Interop.downcallHandle(
             "g_strcmp0",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_strcompress = Interop.downcallHandle(
             "g_strcompress",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_strconcat = Interop.downcallHandle(
             "g_strconcat",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             true
         );
         
         private static final MethodHandle g_strdelimit = Interop.downcallHandle(
             "g_strdelimit",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_BYTE),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_BYTE),
             false
         );
         
         private static final MethodHandle g_strdown = Interop.downcallHandle(
             "g_strdown",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_strdup = Interop.downcallHandle(
             "g_strdup",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_strdup_printf = Interop.downcallHandle(
             "g_strdup_printf",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             true
         );
         
         private static final MethodHandle g_strdup_vprintf = Interop.downcallHandle(
             "g_strdup_vprintf",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_strdupv = Interop.downcallHandle(
             "g_strdupv",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_strerror = Interop.downcallHandle(
             "g_strerror",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_strescape = Interop.downcallHandle(
             "g_strescape",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_strfreev = Interop.downcallHandle(
             "g_strfreev",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_strip_context = Interop.downcallHandle(
             "g_strip_context",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_strjoin = Interop.downcallHandle(
             "g_strjoin",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             true
         );
         
         private static final MethodHandle g_strjoinv = Interop.downcallHandle(
             "g_strjoinv",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_strlcat = Interop.downcallHandle(
             "g_strlcat",
-            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG),
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
             false
         );
         
         private static final MethodHandle g_strlcpy = Interop.downcallHandle(
             "g_strlcpy",
-            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG),
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
             false
         );
         
         private static final MethodHandle g_strncasecmp = Interop.downcallHandle(
             "g_strncasecmp",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_strndup = Interop.downcallHandle(
             "g_strndup",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
             false
         );
         
         private static final MethodHandle g_strnfill = Interop.downcallHandle(
             "g_strnfill",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_BYTE),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.C_BYTE),
             false
         );
         
         private static final MethodHandle g_strreverse = Interop.downcallHandle(
             "g_strreverse",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_strrstr = Interop.downcallHandle(
             "g_strrstr",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_strrstr_len = Interop.downcallHandle(
             "g_strrstr_len",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_strsignal = Interop.downcallHandle(
             "g_strsignal",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_strsplit = Interop.downcallHandle(
             "g_strsplit",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_strsplit_set = Interop.downcallHandle(
             "g_strsplit_set",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_strstr_len = Interop.downcallHandle(
             "g_strstr_len",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_strtod = Interop.downcallHandle(
             "g_strtod",
-            FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_DOUBLE, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_strup = Interop.downcallHandle(
             "g_strup",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_strv_contains = Interop.downcallHandle(
             "g_strv_contains",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_strv_equal = Interop.downcallHandle(
             "g_strv_equal",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_strv_get_type = Interop.downcallHandle(
             "g_strv_get_type",
-            FunctionDescriptor.of(ValueLayout.JAVA_LONG),
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
         
         private static final MethodHandle g_strv_length = Interop.downcallHandle(
             "g_strv_length",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_test_add_data_func = Interop.downcallHandle(
             "g_test_add_data_func",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_test_add_data_func_full = Interop.downcallHandle(
             "g_test_add_data_func_full",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_test_add_func = Interop.downcallHandle(
             "g_test_add_func",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_test_add_vtable = Interop.downcallHandle(
             "g_test_add_vtable",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_test_assert_expected_messages_internal = Interop.downcallHandle(
             "g_test_assert_expected_messages_internal",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_test_bug = Interop.downcallHandle(
             "g_test_bug",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_test_bug_base = Interop.downcallHandle(
             "g_test_bug_base",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_test_build_filename = Interop.downcallHandle(
             "g_test_build_filename",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             true
         );
         
         private static final MethodHandle g_test_create_case = Interop.downcallHandle(
             "g_test_create_case",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_test_create_suite = Interop.downcallHandle(
             "g_test_create_suite",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_test_expect_message = Interop.downcallHandle(
             "g_test_expect_message",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
@@ -21180,133 +21454,133 @@ public final class GLib {
         
         private static final MethodHandle g_test_fail_printf = Interop.downcallHandle(
             "g_test_fail_printf",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             true
         );
         
         private static final MethodHandle g_test_failed = Interop.downcallHandle(
             "g_test_failed",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_test_get_dir = Interop.downcallHandle(
             "g_test_get_dir",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_test_get_filename = Interop.downcallHandle(
             "g_test_get_filename",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             true
         );
         
         private static final MethodHandle g_test_get_path = Interop.downcallHandle(
             "g_test_get_path",
-            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_test_get_root = Interop.downcallHandle(
             "g_test_get_root",
-            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_test_incomplete = Interop.downcallHandle(
             "g_test_incomplete",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_test_incomplete_printf = Interop.downcallHandle(
             "g_test_incomplete_printf",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             true
         );
         
         private static final MethodHandle g_test_init = Interop.downcallHandle(
             "g_test_init",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             true
         );
         
         private static final MethodHandle g_test_log_set_fatal_handler = Interop.downcallHandle(
             "g_test_log_set_fatal_handler",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_test_log_type_name = Interop.downcallHandle(
             "g_test_log_type_name",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_test_maximized_result = Interop.downcallHandle(
             "g_test_maximized_result",
-            FunctionDescriptor.ofVoid(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.C_DOUBLE, Interop.valueLayout.ADDRESS),
             true
         );
         
         private static final MethodHandle g_test_message = Interop.downcallHandle(
             "g_test_message",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             true
         );
         
         private static final MethodHandle g_test_minimized_result = Interop.downcallHandle(
             "g_test_minimized_result",
-            FunctionDescriptor.ofVoid(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.C_DOUBLE, Interop.valueLayout.ADDRESS),
             true
         );
         
         private static final MethodHandle g_test_queue_destroy = Interop.downcallHandle(
             "g_test_queue_destroy",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_test_queue_free = Interop.downcallHandle(
             "g_test_queue_free",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_test_rand_double = Interop.downcallHandle(
             "g_test_rand_double",
-            FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE),
+            FunctionDescriptor.of(Interop.valueLayout.C_DOUBLE),
             false
         );
         
         private static final MethodHandle g_test_rand_double_range = Interop.downcallHandle(
             "g_test_rand_double_range",
-            FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE),
+            FunctionDescriptor.of(Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_DOUBLE),
             false
         );
         
         private static final MethodHandle g_test_rand_int = Interop.downcallHandle(
             "g_test_rand_int",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_test_rand_int_range = Interop.downcallHandle(
             "g_test_rand_int_range",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_test_run = Interop.downcallHandle(
             "g_test_run",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_test_run_suite = Interop.downcallHandle(
             "g_test_run_suite",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
@@ -21318,37 +21592,37 @@ public final class GLib {
         
         private static final MethodHandle g_test_skip = Interop.downcallHandle(
             "g_test_skip",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_test_skip_printf = Interop.downcallHandle(
             "g_test_skip_printf",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             true
         );
         
         private static final MethodHandle g_test_subprocess = Interop.downcallHandle(
             "g_test_subprocess",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_test_summary = Interop.downcallHandle(
             "g_test_summary",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_test_timer_elapsed = Interop.downcallHandle(
             "g_test_timer_elapsed",
-            FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE),
+            FunctionDescriptor.of(Interop.valueLayout.C_DOUBLE),
             false
         );
         
         private static final MethodHandle g_test_timer_last = Interop.downcallHandle(
             "g_test_timer_last",
-            FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE),
+            FunctionDescriptor.of(Interop.valueLayout.C_DOUBLE),
             false
         );
         
@@ -21360,73 +21634,73 @@ public final class GLib {
         
         private static final MethodHandle g_test_trap_assertions = Interop.downcallHandle(
             "g_test_trap_assertions",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_test_trap_fork = Interop.downcallHandle(
             "g_test_trap_fork",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_LONG, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.C_LONG, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_test_trap_has_passed = Interop.downcallHandle(
             "g_test_trap_has_passed",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_test_trap_reached_timeout = Interop.downcallHandle(
             "g_test_trap_reached_timeout",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_test_trap_subprocess = Interop.downcallHandle(
             "g_test_trap_subprocess",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_thread_error_quark = Interop.downcallHandle(
             "g_thread_error_quark",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_thread_exit = Interop.downcallHandle(
             "g_thread_exit",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_thread_pool_get_max_idle_time = Interop.downcallHandle(
             "g_thread_pool_get_max_idle_time",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_thread_pool_get_max_unused_threads = Interop.downcallHandle(
             "g_thread_pool_get_max_unused_threads",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_thread_pool_get_num_unused_threads = Interop.downcallHandle(
             "g_thread_pool_get_num_unused_threads",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_thread_pool_set_max_idle_time = Interop.downcallHandle(
             "g_thread_pool_set_max_idle_time",
-            FunctionDescriptor.ofVoid(ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_thread_pool_set_max_unused_threads = Interop.downcallHandle(
             "g_thread_pool_set_max_unused_threads",
-            FunctionDescriptor.ofVoid(ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.C_INT),
             false
         );
         
@@ -21438,7 +21712,7 @@ public final class GLib {
         
         private static final MethodHandle g_thread_self = Interop.downcallHandle(
             "g_thread_self",
-            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
             false
         );
         
@@ -21450,811 +21724,817 @@ public final class GLib {
         
         private static final MethodHandle g_time_val_from_iso8601 = Interop.downcallHandle(
             "g_time_val_from_iso8601",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_timeout_add = Interop.downcallHandle(
             "g_timeout_add",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_timeout_add_full = Interop.downcallHandle(
             "g_timeout_add_full",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+            false
+        );
+        
+        private static final MethodHandle g_timeout_add_once = Interop.downcallHandle(
+            "g_timeout_add_once",
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_timeout_add_seconds = Interop.downcallHandle(
             "g_timeout_add_seconds",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_timeout_add_seconds_full = Interop.downcallHandle(
             "g_timeout_add_seconds_full",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_timeout_source_new = Interop.downcallHandle(
             "g_timeout_source_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_timeout_source_new_seconds = Interop.downcallHandle(
             "g_timeout_source_new_seconds",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_trash_stack_height = Interop.downcallHandle(
             "g_trash_stack_height",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_trash_stack_peek = Interop.downcallHandle(
             "g_trash_stack_peek",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_trash_stack_pop = Interop.downcallHandle(
             "g_trash_stack_pop",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_trash_stack_push = Interop.downcallHandle(
             "g_trash_stack_push",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_try_malloc = Interop.downcallHandle(
             "g_try_malloc",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
             false
         );
         
         private static final MethodHandle g_try_malloc0 = Interop.downcallHandle(
             "g_try_malloc0",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
             false
         );
         
         private static final MethodHandle g_try_malloc0_n = Interop.downcallHandle(
             "g_try_malloc0_n",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_LONG),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.C_LONG),
             false
         );
         
         private static final MethodHandle g_try_malloc_n = Interop.downcallHandle(
             "g_try_malloc_n",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_LONG),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.C_LONG),
             false
         );
         
         private static final MethodHandle g_try_realloc = Interop.downcallHandle(
             "g_try_realloc",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
             false
         );
         
         private static final MethodHandle g_try_realloc_n = Interop.downcallHandle(
             "g_try_realloc_n",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_LONG),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.C_LONG),
             false
         );
         
         private static final MethodHandle g_ucs4_to_utf16 = Interop.downcallHandle(
             "g_ucs4_to_utf16",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_ucs4_to_utf8 = Interop.downcallHandle(
             "g_ucs4_to_utf8",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_unichar_break_type = Interop.downcallHandle(
             "g_unichar_break_type",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_unichar_combining_class = Interop.downcallHandle(
             "g_unichar_combining_class",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_unichar_compose = Interop.downcallHandle(
             "g_unichar_compose",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_unichar_decompose = Interop.downcallHandle(
             "g_unichar_decompose",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_unichar_digit_value = Interop.downcallHandle(
             "g_unichar_digit_value",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_unichar_fully_decompose = Interop.downcallHandle(
             "g_unichar_fully_decompose",
-            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG),
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
             false
         );
         
         private static final MethodHandle g_unichar_get_mirror_char = Interop.downcallHandle(
             "g_unichar_get_mirror_char",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_unichar_get_script = Interop.downcallHandle(
             "g_unichar_get_script",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_unichar_isalnum = Interop.downcallHandle(
             "g_unichar_isalnum",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_unichar_isalpha = Interop.downcallHandle(
             "g_unichar_isalpha",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_unichar_iscntrl = Interop.downcallHandle(
             "g_unichar_iscntrl",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_unichar_isdefined = Interop.downcallHandle(
             "g_unichar_isdefined",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_unichar_isdigit = Interop.downcallHandle(
             "g_unichar_isdigit",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_unichar_isgraph = Interop.downcallHandle(
             "g_unichar_isgraph",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_unichar_islower = Interop.downcallHandle(
             "g_unichar_islower",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_unichar_ismark = Interop.downcallHandle(
             "g_unichar_ismark",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_unichar_isprint = Interop.downcallHandle(
             "g_unichar_isprint",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_unichar_ispunct = Interop.downcallHandle(
             "g_unichar_ispunct",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_unichar_isspace = Interop.downcallHandle(
             "g_unichar_isspace",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_unichar_istitle = Interop.downcallHandle(
             "g_unichar_istitle",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_unichar_isupper = Interop.downcallHandle(
             "g_unichar_isupper",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_unichar_iswide = Interop.downcallHandle(
             "g_unichar_iswide",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_unichar_iswide_cjk = Interop.downcallHandle(
             "g_unichar_iswide_cjk",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_unichar_isxdigit = Interop.downcallHandle(
             "g_unichar_isxdigit",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_unichar_iszerowidth = Interop.downcallHandle(
             "g_unichar_iszerowidth",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_unichar_to_utf8 = Interop.downcallHandle(
             "g_unichar_to_utf8",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_unichar_tolower = Interop.downcallHandle(
             "g_unichar_tolower",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_unichar_totitle = Interop.downcallHandle(
             "g_unichar_totitle",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_unichar_toupper = Interop.downcallHandle(
             "g_unichar_toupper",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_unichar_type = Interop.downcallHandle(
             "g_unichar_type",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_unichar_validate = Interop.downcallHandle(
             "g_unichar_validate",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_unichar_xdigit_value = Interop.downcallHandle(
             "g_unichar_xdigit_value",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_unicode_canonical_decomposition = Interop.downcallHandle(
             "g_unicode_canonical_decomposition",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_unicode_canonical_ordering = Interop.downcallHandle(
             "g_unicode_canonical_ordering",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
             false
         );
         
         private static final MethodHandle g_unicode_script_from_iso15924 = Interop.downcallHandle(
             "g_unicode_script_from_iso15924",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_unicode_script_to_iso15924 = Interop.downcallHandle(
             "g_unicode_script_to_iso15924",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_unix_error_quark = Interop.downcallHandle(
             "g_unix_error_quark",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_unix_fd_add = Interop.downcallHandle(
             "g_unix_fd_add",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_unix_fd_add_full = Interop.downcallHandle(
             "g_unix_fd_add_full",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_unix_fd_source_new = Interop.downcallHandle(
             "g_unix_fd_source_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_unix_get_passwd_entry = Interop.downcallHandle(
             "g_unix_get_passwd_entry",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_unix_open_pipe = Interop.downcallHandle(
             "g_unix_open_pipe",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_unix_set_fd_nonblocking = Interop.downcallHandle(
             "g_unix_set_fd_nonblocking",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_unix_signal_add = Interop.downcallHandle(
             "g_unix_signal_add",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_unix_signal_add_full = Interop.downcallHandle(
             "g_unix_signal_add_full",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_unix_signal_source_new = Interop.downcallHandle(
             "g_unix_signal_source_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_unlink = Interop.downcallHandle(
             "g_unlink",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_unsetenv = Interop.downcallHandle(
             "g_unsetenv",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_uri_build = Interop.downcallHandle(
             "g_uri_build",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_uri_build_with_user = Interop.downcallHandle(
             "g_uri_build_with_user",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_uri_error_quark = Interop.downcallHandle(
             "g_uri_error_quark",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_uri_escape_bytes = Interop.downcallHandle(
             "g_uri_escape_bytes",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_uri_escape_string = Interop.downcallHandle(
             "g_uri_escape_string",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_uri_is_valid = Interop.downcallHandle(
             "g_uri_is_valid",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_uri_join = Interop.downcallHandle(
             "g_uri_join",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_uri_join_with_user = Interop.downcallHandle(
             "g_uri_join_with_user",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_uri_list_extract_uris = Interop.downcallHandle(
             "g_uri_list_extract_uris",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_uri_parse = Interop.downcallHandle(
             "g_uri_parse",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_uri_parse_params = Interop.downcallHandle(
             "g_uri_parse_params",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_uri_parse_scheme = Interop.downcallHandle(
             "g_uri_parse_scheme",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_uri_peek_scheme = Interop.downcallHandle(
             "g_uri_peek_scheme",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_uri_resolve_relative = Interop.downcallHandle(
             "g_uri_resolve_relative",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_uri_split = Interop.downcallHandle(
             "g_uri_split",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_uri_split_network = Interop.downcallHandle(
             "g_uri_split_network",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_uri_split_with_user = Interop.downcallHandle(
             "g_uri_split_with_user",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_uri_unescape_bytes = Interop.downcallHandle(
             "g_uri_unescape_bytes",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_uri_unescape_segment = Interop.downcallHandle(
             "g_uri_unescape_segment",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_uri_unescape_string = Interop.downcallHandle(
             "g_uri_unescape_string",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_usleep = Interop.downcallHandle(
             "g_usleep",
-            FunctionDescriptor.ofVoid(ValueLayout.JAVA_LONG),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.C_LONG),
             false
         );
         
         private static final MethodHandle g_utf16_to_ucs4 = Interop.downcallHandle(
             "g_utf16_to_ucs4",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_utf16_to_utf8 = Interop.downcallHandle(
             "g_utf16_to_utf8",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_utf8_casefold = Interop.downcallHandle(
             "g_utf8_casefold",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
             false
         );
         
         private static final MethodHandle g_utf8_collate = Interop.downcallHandle(
             "g_utf8_collate",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_utf8_collate_key = Interop.downcallHandle(
             "g_utf8_collate_key",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
             false
         );
         
         private static final MethodHandle g_utf8_collate_key_for_filename = Interop.downcallHandle(
             "g_utf8_collate_key_for_filename",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
             false
         );
         
         private static final MethodHandle g_utf8_find_next_char = Interop.downcallHandle(
             "g_utf8_find_next_char",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_utf8_find_prev_char = Interop.downcallHandle(
             "g_utf8_find_prev_char",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_utf8_get_char = Interop.downcallHandle(
             "g_utf8_get_char",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_utf8_get_char_validated = Interop.downcallHandle(
             "g_utf8_get_char_validated",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
             false
         );
         
         private static final MethodHandle g_utf8_make_valid = Interop.downcallHandle(
             "g_utf8_make_valid",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
             false
         );
         
         private static final MethodHandle g_utf8_normalize = Interop.downcallHandle(
             "g_utf8_normalize",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_utf8_offset_to_pointer = Interop.downcallHandle(
             "g_utf8_offset_to_pointer",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
             false
         );
         
         private static final MethodHandle g_utf8_pointer_to_offset = Interop.downcallHandle(
             "g_utf8_pointer_to_offset",
-            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_utf8_prev_char = Interop.downcallHandle(
             "g_utf8_prev_char",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_utf8_strchr = Interop.downcallHandle(
             "g_utf8_strchr",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_utf8_strdown = Interop.downcallHandle(
             "g_utf8_strdown",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
             false
         );
         
         private static final MethodHandle g_utf8_strlen = Interop.downcallHandle(
             "g_utf8_strlen",
-            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG),
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
             false
         );
         
         private static final MethodHandle g_utf8_strncpy = Interop.downcallHandle(
             "g_utf8_strncpy",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
             false
         );
         
         private static final MethodHandle g_utf8_strrchr = Interop.downcallHandle(
             "g_utf8_strrchr",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_utf8_strreverse = Interop.downcallHandle(
             "g_utf8_strreverse",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
             false
         );
         
         private static final MethodHandle g_utf8_strup = Interop.downcallHandle(
             "g_utf8_strup",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
             false
         );
         
         private static final MethodHandle g_utf8_substring = Interop.downcallHandle(
             "g_utf8_substring",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_LONG),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.C_LONG),
             false
         );
         
         private static final MethodHandle g_utf8_to_ucs4 = Interop.downcallHandle(
             "g_utf8_to_ucs4",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_utf8_to_ucs4_fast = Interop.downcallHandle(
             "g_utf8_to_ucs4_fast",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_utf8_to_utf16 = Interop.downcallHandle(
             "g_utf8_to_utf16",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_utf8_validate = Interop.downcallHandle(
             "g_utf8_validate",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_utf8_validate_len = Interop.downcallHandle(
             "g_utf8_validate_len",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_uuid_string_is_valid = Interop.downcallHandle(
             "g_uuid_string_is_valid",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_uuid_string_random = Interop.downcallHandle(
             "g_uuid_string_random",
-            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_variant_get_gtype = Interop.downcallHandle(
             "g_variant_get_gtype",
-            FunctionDescriptor.of(ValueLayout.JAVA_LONG),
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
         
         private static final MethodHandle g_variant_is_object_path = Interop.downcallHandle(
             "g_variant_is_object_path",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_variant_is_signature = Interop.downcallHandle(
             "g_variant_is_signature",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_variant_parse = Interop.downcallHandle(
             "g_variant_parse",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_variant_parse_error_print_context = Interop.downcallHandle(
             "g_variant_parse_error_print_context",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_variant_parse_error_quark = Interop.downcallHandle(
             "g_variant_parse_error_quark",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_variant_parser_get_error_quark = Interop.downcallHandle(
             "g_variant_parser_get_error_quark",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_variant_type_checked_ = Interop.downcallHandle(
             "g_variant_type_checked_",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_variant_type_string_get_depth_ = Interop.downcallHandle(
             "g_variant_type_string_get_depth_",
-            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_variant_type_string_is_valid = Interop.downcallHandle(
             "g_variant_type_string_is_valid",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_variant_type_string_scan = Interop.downcallHandle(
             "g_variant_type_string_scan",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_vasprintf = Interop.downcallHandle(
             "g_vasprintf",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_vfprintf = Interop.downcallHandle(
             "g_vfprintf",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_vprintf = Interop.downcallHandle(
             "g_vprintf",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_vsnprintf = Interop.downcallHandle(
             "g_vsnprintf",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_vsprintf = Interop.downcallHandle(
             "g_vsprintf",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_warn_message = Interop.downcallHandle(
             "g_warn_message",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
     }
@@ -22263,231 +22543,244 @@ public final class GLib {
     public static class Callbacks {
         
         public static boolean cbHookCheckFunc(MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (HookCheckFunc) Interop.signalRegistry.get(HASH);
             var RESULT = HANDLER.onHookCheckFunc();
             return RESULT;
         }
         
-        public static boolean cbIOFunc(MemoryAddress source, int condition, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+        public static boolean cbIOFunc(MemoryAddress source, int condition, MemoryAddress userData) {
+            int HASH = userData.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (IOFunc) Interop.signalRegistry.get(HASH);
             var RESULT = HANDLER.onIOFunc(new org.gtk.glib.IOChannel(source, Ownership.NONE), new org.gtk.glib.IOCondition(condition));
             return RESULT;
         }
         
-        public static java.lang.foreign.MemoryAddress cbThreadFunc(MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+        public static java.lang.foreign.MemoryAddress cbThreadFunc(MemoryAddress userData) {
+            int HASH = userData.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (ThreadFunc) Interop.signalRegistry.get(HASH);
             var RESULT = HANDLER.onThreadFunc();
             return RESULT;
         }
         
-        public static boolean cbHookCheckMarshaller(MemoryAddress hook, MemoryAddress marshalData) {
-            int HASH = marshalData.get(ValueLayout.JAVA_INT, 0);
+        public static boolean cbHookCheckMarshaller(MemoryAddress hook, MemoryAddress userData) {
+            int HASH = userData.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (HookCheckMarshaller) Interop.signalRegistry.get(HASH);
             var RESULT = HANDLER.onHookCheckMarshaller(new org.gtk.glib.Hook(hook, Ownership.NONE));
             return RESULT;
         }
         
-        public static boolean cbNodeTraverseFunc(MemoryAddress node, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+        public static boolean cbNodeTraverseFunc(MemoryAddress node, MemoryAddress userData) {
+            int HASH = userData.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (NodeTraverseFunc) Interop.signalRegistry.get(HASH);
             var RESULT = HANDLER.onNodeTraverseFunc(new org.gtk.glib.Node(node, Ownership.NONE));
             return RESULT;
         }
         
         public static void cbHookFunc(MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (HookFunc) Interop.signalRegistry.get(HASH);
             HANDLER.onHookFunc();
         }
         
         public static void cbTestFixtureFunc(MemoryAddress fixture, MemoryAddress userData) {
-            int HASH = userData.get(ValueLayout.JAVA_INT, 0);
+            int HASH = userData.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (TestFixtureFunc) Interop.signalRegistry.get(HASH);
             HANDLER.onTestFixtureFunc(fixture);
         }
         
-        public static java.lang.foreign.MemoryAddress cbCopyFunc(MemoryAddress src, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+        public static java.lang.foreign.MemoryAddress cbCopyFunc(MemoryAddress src, MemoryAddress userData) {
+            int HASH = userData.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (CopyFunc) Interop.signalRegistry.get(HASH);
             var RESULT = HANDLER.onCopyFunc(src);
             return RESULT;
         }
         
-        public static boolean cbHookFindFunc(MemoryAddress hook, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+        public static boolean cbHookFindFunc(MemoryAddress hook, MemoryAddress userData) {
+            int HASH = userData.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (HookFindFunc) Interop.signalRegistry.get(HASH);
             var RESULT = HANDLER.onHookFindFunc(new org.gtk.glib.Hook(hook, Ownership.NONE));
             return RESULT;
         }
         
         public static boolean cbRegexEvalCallback(MemoryAddress matchInfo, MemoryAddress result, MemoryAddress userData) {
-            int HASH = userData.get(ValueLayout.JAVA_INT, 0);
+            int HASH = userData.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (RegexEvalCallback) Interop.signalRegistry.get(HASH);
             var RESULT = HANDLER.onRegexEvalCallback(new org.gtk.glib.MatchInfo(matchInfo, Ownership.NONE), new org.gtk.glib.String(result, Ownership.NONE));
             return RESULT;
         }
         
         public static boolean cbUnixFDSourceFunc(int fd, int condition, MemoryAddress userData) {
-            int HASH = userData.get(ValueLayout.JAVA_INT, 0);
+            int HASH = userData.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (UnixFDSourceFunc) Interop.signalRegistry.get(HASH);
             var RESULT = HANDLER.onUnixFDSourceFunc(fd, new org.gtk.glib.IOCondition(condition));
             return RESULT;
         }
         
         public static void cbSpawnChildSetupFunc(MemoryAddress userData) {
-            int HASH = userData.get(ValueLayout.JAVA_INT, 0);
+            int HASH = userData.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (SpawnChildSetupFunc) Interop.signalRegistry.get(HASH);
             HANDLER.onSpawnChildSetupFunc();
         }
         
         public static void cbDestroyNotify(MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (DestroyNotify) Interop.signalRegistry.get(HASH);
             HANDLER.onDestroyNotify();
         }
         
         public static void cbChildWatchFunc(int pid, int waitStatus, MemoryAddress userData) {
-            int HASH = userData.get(ValueLayout.JAVA_INT, 0);
+            int HASH = userData.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (ChildWatchFunc) Interop.signalRegistry.get(HASH);
             HANDLER.onChildWatchFunc(new org.gtk.glib.Pid(pid), waitStatus);
         }
         
         public static void cbTestDataFunc(MemoryAddress userData) {
-            int HASH = userData.get(ValueLayout.JAVA_INT, 0);
+            int HASH = userData.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (TestDataFunc) Interop.signalRegistry.get(HASH);
             HANDLER.onTestDataFunc();
         }
         
         public static int cbCompareDataFunc(MemoryAddress a, MemoryAddress b, MemoryAddress userData) {
-            int HASH = userData.get(ValueLayout.JAVA_INT, 0);
+            int HASH = userData.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (CompareDataFunc) Interop.signalRegistry.get(HASH);
             var RESULT = HANDLER.onCompareDataFunc(a, b);
             return RESULT;
         }
         
-        public static boolean cbTraverseFunc(MemoryAddress key, MemoryAddress value, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+        public static boolean cbEqualFuncFull(MemoryAddress a, MemoryAddress b, MemoryAddress userData) {
+            int HASH = userData.get(Interop.valueLayout.C_INT, 0);
+            var HANDLER = (EqualFuncFull) Interop.signalRegistry.get(HASH);
+            var RESULT = HANDLER.onEqualFuncFull(a, b);
+            return RESULT;
+        }
+        
+        public static boolean cbTraverseFunc(MemoryAddress key, MemoryAddress value, MemoryAddress userData) {
+            int HASH = userData.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (TraverseFunc) Interop.signalRegistry.get(HASH);
             var RESULT = HANDLER.onTraverseFunc(key, value);
             return RESULT;
         }
         
         public static void cbFunc(MemoryAddress data, MemoryAddress userData) {
-            int HASH = userData.get(ValueLayout.JAVA_INT, 0);
+            int HASH = userData.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (Func) Interop.signalRegistry.get(HASH);
             HANDLER.onFunc();
         }
         
         public static org.gtk.glib.LogWriterOutput cbLogWriterFunc(int logLevel, MemoryAddress fields, long nFields, MemoryAddress userData) {
-            int HASH = userData.get(ValueLayout.JAVA_INT, 0);
+            int HASH = userData.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (LogWriterFunc) Interop.signalRegistry.get(HASH);
             var RESULT = HANDLER.onLogWriterFunc(new org.gtk.glib.LogLevelFlags(logLevel), new PointerProxy<org.gtk.glib.LogField>(fields, org.gtk.glib.LogField.class), nFields);
             return RESULT;
         }
         
-        public static int cbSequenceIterCompareFunc(MemoryAddress a, MemoryAddress b, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+        public static int cbSequenceIterCompareFunc(MemoryAddress a, MemoryAddress b, MemoryAddress userData) {
+            int HASH = userData.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (SequenceIterCompareFunc) Interop.signalRegistry.get(HASH);
             var RESULT = HANDLER.onSequenceIterCompareFunc(new org.gtk.glib.SequenceIter(a, Ownership.NONE), new org.gtk.glib.SequenceIter(b, Ownership.NONE));
             return RESULT;
         }
         
-        public static void cbHookMarshaller(MemoryAddress hook, MemoryAddress marshalData) {
-            int HASH = marshalData.get(ValueLayout.JAVA_INT, 0);
+        public static void cbHookMarshaller(MemoryAddress hook, MemoryAddress userData) {
+            int HASH = userData.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (HookMarshaller) Interop.signalRegistry.get(HASH);
             HANDLER.onHookMarshaller(new org.gtk.glib.Hook(hook, Ownership.NONE));
         }
         
-        public static boolean cbOptionParseFunc(MemoryAddress context, MemoryAddress group, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+        public static boolean cbOptionParseFunc(MemoryAddress context, MemoryAddress group, MemoryAddress userData) {
+            int HASH = userData.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (OptionParseFunc) Interop.signalRegistry.get(HASH);
             var RESULT = HANDLER.onOptionParseFunc(new org.gtk.glib.OptionContext(context, Ownership.NONE), new org.gtk.glib.OptionGroup(group, Ownership.NONE));
             return RESULT;
         }
         
-        public static boolean cbOptionArgFunc(MemoryAddress optionName, MemoryAddress value, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+        public static boolean cbOptionArgFunc(MemoryAddress optionName, MemoryAddress value, MemoryAddress userData) {
+            int HASH = userData.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (OptionArgFunc) Interop.signalRegistry.get(HASH);
             var RESULT = HANDLER.onOptionArgFunc(Interop.getStringFrom(optionName), Interop.getStringFrom(value));
             return RESULT;
         }
         
         public static boolean cbTestLogFatalFunc(MemoryAddress logDomain, int logLevel, MemoryAddress message, MemoryAddress userData) {
-            int HASH = userData.get(ValueLayout.JAVA_INT, 0);
+            int HASH = userData.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (TestLogFatalFunc) Interop.signalRegistry.get(HASH);
             var RESULT = HANDLER.onTestLogFatalFunc(Interop.getStringFrom(logDomain), new org.gtk.glib.LogLevelFlags(logLevel), Interop.getStringFrom(message));
             return RESULT;
         }
         
         public static boolean cbSourceFunc(MemoryAddress userData) {
-            int HASH = userData.get(ValueLayout.JAVA_INT, 0);
+            int HASH = userData.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (SourceFunc) Interop.signalRegistry.get(HASH);
             var RESULT = HANDLER.onSourceFunc();
             return RESULT;
         }
         
-        public static void cbOptionErrorFunc(MemoryAddress context, MemoryAddress group, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+        public static void cbOptionErrorFunc(MemoryAddress context, MemoryAddress group, MemoryAddress userData) {
+            int HASH = userData.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (OptionErrorFunc) Interop.signalRegistry.get(HASH);
             HANDLER.onOptionErrorFunc(new org.gtk.glib.OptionContext(context, Ownership.NONE), new org.gtk.glib.OptionGroup(group, Ownership.NONE));
         }
         
-        public static boolean cbTraverseNodeFunc(MemoryAddress node, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+        public static boolean cbTraverseNodeFunc(MemoryAddress node, MemoryAddress userData) {
+            int HASH = userData.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (TraverseNodeFunc) Interop.signalRegistry.get(HASH);
             var RESULT = HANDLER.onTraverseNodeFunc(new org.gtk.glib.TreeNode(node, Ownership.NONE));
             return RESULT;
         }
         
         public static void cbHFunc(MemoryAddress key, MemoryAddress value, MemoryAddress userData) {
-            int HASH = userData.get(ValueLayout.JAVA_INT, 0);
+            int HASH = userData.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (HFunc) Interop.signalRegistry.get(HASH);
             HANDLER.onHFunc(key, value);
         }
         
         public static java.lang.foreign.MemoryAddress cbDuplicateFunc(MemoryAddress data, MemoryAddress userData) {
-            int HASH = userData.get(ValueLayout.JAVA_INT, 0);
+            int HASH = userData.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (DuplicateFunc) Interop.signalRegistry.get(HASH);
             var RESULT = HANDLER.onDuplicateFunc();
             return RESULT;
         }
         
         public static void cbFreeFunc(MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (FreeFunc) Interop.signalRegistry.get(HASH);
             HANDLER.onFreeFunc();
         }
         
         public static boolean cbHRFunc(MemoryAddress key, MemoryAddress value, MemoryAddress userData) {
-            int HASH = userData.get(ValueLayout.JAVA_INT, 0);
+            int HASH = userData.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (HRFunc) Interop.signalRegistry.get(HASH);
             var RESULT = HANDLER.onHRFunc(key, value);
             return RESULT;
         }
         
+        public static void cbSourceOnceFunc(MemoryAddress userData) {
+            int HASH = userData.get(Interop.valueLayout.C_INT, 0);
+            var HANDLER = (SourceOnceFunc) Interop.signalRegistry.get(HASH);
+            HANDLER.onSourceOnceFunc();
+        }
+        
         public static void cbLogFunc(MemoryAddress logDomain, int logLevel, MemoryAddress message, MemoryAddress userData) {
-            int HASH = userData.get(ValueLayout.JAVA_INT, 0);
+            int HASH = userData.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (LogFunc) Interop.signalRegistry.get(HASH);
             HANDLER.onLogFunc(Interop.getStringFrom(logDomain), new org.gtk.glib.LogLevelFlags(logLevel), Interop.getStringFrom(message));
         }
         
-        public static void cbNodeForeachFunc(MemoryAddress node, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+        public static void cbNodeForeachFunc(MemoryAddress node, MemoryAddress userData) {
+            int HASH = userData.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (NodeForeachFunc) Interop.signalRegistry.get(HASH);
             HANDLER.onNodeForeachFunc(new org.gtk.glib.Node(node, Ownership.NONE));
         }
         
         public static void cbDataForeachFunc(int keyId, MemoryAddress data, MemoryAddress userData) {
-            int HASH = userData.get(ValueLayout.JAVA_INT, 0);
+            int HASH = userData.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (DataForeachFunc) Interop.signalRegistry.get(HASH);
             HANDLER.onDataForeachFunc(new org.gtk.glib.Quark(keyId));
         }
         
-        public static java.lang.String cbTranslateFunc(MemoryAddress str, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+        public static java.lang.String cbTranslateFunc(MemoryAddress str, MemoryAddress userData) {
+            int HASH = userData.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (TranslateFunc) Interop.signalRegistry.get(HASH);
             var RESULT = HANDLER.onTranslateFunc(Interop.getStringFrom(str));
             return RESULT;

@@ -16,11 +16,11 @@ public class ParamSpecULong extends org.gtk.gobject.ParamSpec {
     
     private static final java.lang.String C_TYPE_NAME = "GParamSpecULong";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gobject.ParamSpec.getMemoryLayout().withName("parent_instance"),
-        ValueLayout.JAVA_LONG.withName("minimum"),
-        ValueLayout.JAVA_LONG.withName("maximum"),
-        ValueLayout.JAVA_LONG.withName("default_value")
+        Interop.valueLayout.C_LONG.withName("minimum"),
+        Interop.valueLayout.C_LONG.withName("maximum"),
+        Interop.valueLayout.C_LONG.withName("default_value")
     ).withName(C_TYPE_NAME);
     
     /**
@@ -127,10 +127,68 @@ public class ParamSpecULong extends org.gtk.gobject.ParamSpec {
      * @throws ClassCastException If the GType is not derived from "GParamSpecULong", a ClassCastException will be thrown.
      */
     public static ParamSpecULong castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GParamSpecULong"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), ParamSpecULong.getType())) {
             return new ParamSpecULong(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GParamSpecULong");
         }
+    }
+    
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.intern.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gobject.ParamSpec.Build {
+        
+         /**
+         * A {@link ParamSpecULong.Build} object constructs a {@link ParamSpecULong} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link ParamSpecULong} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link ParamSpecULong} using {@link ParamSpecULong#castFrom}.
+         * @return A new instance of {@code ParamSpecULong} with the properties 
+         *         that were set in the Build object.
+         */
+        public ParamSpecULong construct() {
+            return ParamSpecULong.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    ParamSpecULong.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+    }
+    
+    private static class DowncallHandles {
+        
+        private static final MethodHandle intern = Interop.downcallHandle(
+            "intern",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+            false
+        );
     }
 }

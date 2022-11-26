@@ -86,7 +86,7 @@ public class ShortcutController extends org.gtk.gtk.EventController implements o
      * @throws ClassCastException If the GType is not derived from "GtkShortcutController", a ClassCastException will be thrown.
      */
     public static ShortcutController castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkShortcutController"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), ShortcutController.getType())) {
             return new ShortcutController(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkShortcutController");
@@ -255,53 +255,163 @@ public class ShortcutController extends org.gtk.gtk.EventController implements o
         }
     }
     
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.gtk_shortcut_controller_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gtk.EventController.Build {
+        
+         /**
+         * A {@link ShortcutController.Build} object constructs a {@link ShortcutController} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link ShortcutController} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link ShortcutController} using {@link ShortcutController#castFrom}.
+         * @return A new instance of {@code ShortcutController} with the properties 
+         *         that were set in the Build object.
+         */
+        public ShortcutController construct() {
+            return ShortcutController.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    ShortcutController.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+        
+        /**
+         * The type of items. See {@link org.gtk.gio.ListModel#getItemType}.
+         * @param itemType The value for the {@code item-type} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setItemType(org.gtk.glib.Type itemType) {
+            names.add("item-type");
+            values.add(org.gtk.gobject.Value.create(itemType));
+            return this;
+        }
+        
+        /**
+         * The modifiers that need to be pressed to allow mnemonics activation.
+         * @param mnemonicModifiers The value for the {@code mnemonic-modifiers} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setMnemonicModifiers(org.gtk.gdk.ModifierType mnemonicModifiers) {
+            names.add("mnemonic-modifiers");
+            values.add(org.gtk.gobject.Value.create(mnemonicModifiers));
+            return this;
+        }
+        
+        /**
+         * A list model to take shortcuts from.
+         * @param model The value for the {@code model} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setModel(org.gtk.gio.ListModel model) {
+            names.add("model");
+            values.add(org.gtk.gobject.Value.create(model));
+            return this;
+        }
+        
+        /**
+         * The number of items. See {@link org.gtk.gio.ListModel#getNItems}.
+         * @param nItems The value for the {@code n-items} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setNItems(int nItems) {
+            names.add("n-items");
+            values.add(org.gtk.gobject.Value.create(nItems));
+            return this;
+        }
+        
+        /**
+         * What scope the shortcuts will be handled in.
+         * @param scope The value for the {@code scope} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setScope(org.gtk.gtk.ShortcutScope scope) {
+            names.add("scope");
+            values.add(org.gtk.gobject.Value.create(scope));
+            return this;
+        }
+    }
+    
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_shortcut_controller_new = Interop.downcallHandle(
             "gtk_shortcut_controller_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_shortcut_controller_new_for_model = Interop.downcallHandle(
             "gtk_shortcut_controller_new_for_model",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_shortcut_controller_add_shortcut = Interop.downcallHandle(
             "gtk_shortcut_controller_add_shortcut",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_shortcut_controller_get_mnemonics_modifiers = Interop.downcallHandle(
             "gtk_shortcut_controller_get_mnemonics_modifiers",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_shortcut_controller_get_scope = Interop.downcallHandle(
             "gtk_shortcut_controller_get_scope",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_shortcut_controller_remove_shortcut = Interop.downcallHandle(
             "gtk_shortcut_controller_remove_shortcut",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_shortcut_controller_set_mnemonics_modifiers = Interop.downcallHandle(
             "gtk_shortcut_controller_set_mnemonics_modifiers",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_shortcut_controller_set_scope = Interop.downcallHandle(
             "gtk_shortcut_controller_set_scope",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+            false
+        );
+        
+        private static final MethodHandle gtk_shortcut_controller_get_type = Interop.downcallHandle(
+            "gtk_shortcut_controller_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }

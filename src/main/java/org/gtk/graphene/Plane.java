@@ -12,7 +12,7 @@ import org.jetbrains.annotations.*;
  * modified directly.
  * @version 1.2
  */
-public class Plane extends io.github.jwharm.javagi.ProxyBase {
+public class Plane extends Struct {
     
     static {
         Graphene.javagi$ensureInitialized();
@@ -20,9 +20,9 @@ public class Plane extends io.github.jwharm.javagi.ProxyBase {
     
     private static final java.lang.String C_TYPE_NAME = "graphene_plane_t";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.graphene.Vec3.getMemoryLayout().withName("normal"),
-        ValueLayout.JAVA_FLOAT.withName("constant")
+        Interop.valueLayout.C_FLOAT.withName("constant")
     ).withName(C_TYPE_NAME);
     
     /**
@@ -36,6 +36,10 @@ public class Plane extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link Plane}
+     * @return A new, uninitialized @{link Plane}
+     */
     public static Plane allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         Plane newInstance = new Plane(segment.address(), Ownership.NONE);
@@ -330,86 +334,128 @@ public class Plane extends io.github.jwharm.javagi.ProxyBase {
         
         private static final MethodHandle graphene_plane_alloc = Interop.downcallHandle(
             "graphene_plane_alloc",
-            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle graphene_plane_distance = Interop.downcallHandle(
             "graphene_plane_distance",
-            FunctionDescriptor.of(ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_FLOAT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle graphene_plane_equal = Interop.downcallHandle(
             "graphene_plane_equal",
-            FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_BOOLEAN, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle graphene_plane_free = Interop.downcallHandle(
             "graphene_plane_free",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle graphene_plane_get_constant = Interop.downcallHandle(
             "graphene_plane_get_constant",
-            FunctionDescriptor.of(ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_FLOAT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle graphene_plane_get_normal = Interop.downcallHandle(
             "graphene_plane_get_normal",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle graphene_plane_init = Interop.downcallHandle(
             "graphene_plane_init",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_FLOAT),
             false
         );
         
         private static final MethodHandle graphene_plane_init_from_plane = Interop.downcallHandle(
             "graphene_plane_init_from_plane",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle graphene_plane_init_from_point = Interop.downcallHandle(
             "graphene_plane_init_from_point",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle graphene_plane_init_from_points = Interop.downcallHandle(
             "graphene_plane_init_from_points",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle graphene_plane_init_from_vec4 = Interop.downcallHandle(
             "graphene_plane_init_from_vec4",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle graphene_plane_negate = Interop.downcallHandle(
             "graphene_plane_negate",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle graphene_plane_normalize = Interop.downcallHandle(
             "graphene_plane_normalize",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle graphene_plane_transform = Interop.downcallHandle(
             "graphene_plane_transform",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private Plane struct;
+        
+         /**
+         * A {@link Plane.Build} object constructs a {@link Plane} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = Plane.allocate();
+        }
+        
+         /**
+         * Finish building the {@link Plane} struct.
+         * @return A new instance of {@code Plane} with the fields 
+         *         that were set in the Build object.
+         */
+        public Plane construct() {
+            return struct;
+        }
+        
+        public Build setNormal(org.gtk.graphene.Vec3 normal) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("normal"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (normal == null ? MemoryAddress.NULL : normal.handle()));
+            return this;
+        }
+        
+        public Build setConstant(float constant) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("constant"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), constant);
+            return this;
+        }
     }
 }

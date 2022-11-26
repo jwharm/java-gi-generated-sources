@@ -29,7 +29,7 @@ public interface DBusObjectManager extends io.github.jwharm.javagi.Proxy {
      * @throws ClassCastException If the GType is not derived from "GDBusObjectManager", a ClassCastException will be thrown.
      */
     public static DBusObjectManager castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GDBusObjectManager"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), DBusObjectManager.getType())) {
             return new DBusObjectManagerImpl(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GDBusObjectManager");
@@ -111,6 +111,20 @@ public interface DBusObjectManager extends io.github.jwharm.javagi.Proxy {
         return new org.gtk.glib.List(RESULT, Ownership.FULL);
     }
     
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.g_dbus_object_manager_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+    
     @FunctionalInterface
     public interface InterfaceAdded {
         void signalReceived(DBusObjectManager source, @NotNull org.gtk.gio.DBusObject object, @NotNull org.gtk.gio.DBusInterface interface_);
@@ -132,7 +146,7 @@ public interface DBusObjectManager extends io.github.jwharm.javagi.Proxy {
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(DBusObjectManager.Callbacks.class, "signalDBusObjectManagerInterfaceAdded",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                     Interop.getScope()),
                 Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
@@ -163,7 +177,7 @@ public interface DBusObjectManager extends io.github.jwharm.javagi.Proxy {
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(DBusObjectManager.Callbacks.class, "signalDBusObjectManagerInterfaceRemoved",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                     Interop.getScope()),
                 Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
@@ -191,7 +205,7 @@ public interface DBusObjectManager extends io.github.jwharm.javagi.Proxy {
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(DBusObjectManager.Callbacks.class, "signalDBusObjectManagerObjectAdded",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                     Interop.getScope()),
                 Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
@@ -219,7 +233,7 @@ public interface DBusObjectManager extends io.github.jwharm.javagi.Proxy {
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(DBusObjectManager.Callbacks.class, "signalDBusObjectManagerObjectRemoved",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                     Interop.getScope()),
                 Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
@@ -235,28 +249,35 @@ public interface DBusObjectManager extends io.github.jwharm.javagi.Proxy {
         @ApiStatus.Internal
         static final MethodHandle g_dbus_object_manager_get_interface = Interop.downcallHandle(
             "g_dbus_object_manager_get_interface",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_dbus_object_manager_get_object = Interop.downcallHandle(
             "g_dbus_object_manager_get_object",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_dbus_object_manager_get_object_path = Interop.downcallHandle(
             "g_dbus_object_manager_get_object_path",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_dbus_object_manager_get_objects = Interop.downcallHandle(
             "g_dbus_object_manager_get_objects",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+            false
+        );
+        
+        @ApiStatus.Internal
+        static final MethodHandle g_dbus_object_manager_get_type = Interop.downcallHandle(
+            "g_dbus_object_manager_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }
@@ -265,27 +286,27 @@ public interface DBusObjectManager extends io.github.jwharm.javagi.Proxy {
     static class Callbacks {
         
         public static void signalDBusObjectManagerInterfaceAdded(MemoryAddress source, MemoryAddress object, MemoryAddress interface_, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (DBusObjectManager.InterfaceAdded) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new DBusObjectManager.DBusObjectManagerImpl(source, Ownership.UNKNOWN), new org.gtk.gio.DBusObject.DBusObjectImpl(object, Ownership.NONE), new org.gtk.gio.DBusInterface.DBusInterfaceImpl(interface_, Ownership.NONE));
+            HANDLER.signalReceived(new DBusObjectManager.DBusObjectManagerImpl(source, Ownership.NONE), new org.gtk.gio.DBusObject.DBusObjectImpl(object, Ownership.NONE), new org.gtk.gio.DBusInterface.DBusInterfaceImpl(interface_, Ownership.NONE));
         }
         
         public static void signalDBusObjectManagerInterfaceRemoved(MemoryAddress source, MemoryAddress object, MemoryAddress interface_, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (DBusObjectManager.InterfaceRemoved) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new DBusObjectManager.DBusObjectManagerImpl(source, Ownership.UNKNOWN), new org.gtk.gio.DBusObject.DBusObjectImpl(object, Ownership.NONE), new org.gtk.gio.DBusInterface.DBusInterfaceImpl(interface_, Ownership.NONE));
+            HANDLER.signalReceived(new DBusObjectManager.DBusObjectManagerImpl(source, Ownership.NONE), new org.gtk.gio.DBusObject.DBusObjectImpl(object, Ownership.NONE), new org.gtk.gio.DBusInterface.DBusInterfaceImpl(interface_, Ownership.NONE));
         }
         
         public static void signalDBusObjectManagerObjectAdded(MemoryAddress source, MemoryAddress object, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (DBusObjectManager.ObjectAdded) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new DBusObjectManager.DBusObjectManagerImpl(source, Ownership.UNKNOWN), new org.gtk.gio.DBusObject.DBusObjectImpl(object, Ownership.NONE));
+            HANDLER.signalReceived(new DBusObjectManager.DBusObjectManagerImpl(source, Ownership.NONE), new org.gtk.gio.DBusObject.DBusObjectImpl(object, Ownership.NONE));
         }
         
         public static void signalDBusObjectManagerObjectRemoved(MemoryAddress source, MemoryAddress object, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (DBusObjectManager.ObjectRemoved) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new DBusObjectManager.DBusObjectManagerImpl(source, Ownership.UNKNOWN), new org.gtk.gio.DBusObject.DBusObjectImpl(object, Ownership.NONE));
+            HANDLER.signalReceived(new DBusObjectManager.DBusObjectManagerImpl(source, Ownership.NONE), new org.gtk.gio.DBusObject.DBusObjectImpl(object, Ownership.NONE));
         }
     }
     

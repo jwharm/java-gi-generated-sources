@@ -5,7 +5,7 @@ import java.lang.foreign.*;
 import java.lang.invoke.*;
 import org.jetbrains.annotations.*;
 
-public class SnapshotClass extends io.github.jwharm.javagi.ProxyBase {
+public class SnapshotClass extends Struct {
     
     static {
         Gdk.javagi$ensureInitialized();
@@ -24,6 +24,10 @@ public class SnapshotClass extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link SnapshotClass}
+     * @return A new, uninitialized @{link SnapshotClass}
+     */
     public static SnapshotClass allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         SnapshotClass newInstance = new SnapshotClass(segment.address(), Ownership.NONE);
@@ -39,5 +43,33 @@ public class SnapshotClass extends io.github.jwharm.javagi.ProxyBase {
     @ApiStatus.Internal
     public SnapshotClass(Addressable address, Ownership ownership) {
         super(address, ownership);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private SnapshotClass struct;
+        
+         /**
+         * A {@link SnapshotClass.Build} object constructs a {@link SnapshotClass} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = SnapshotClass.allocate();
+        }
+        
+         /**
+         * Finish building the {@link SnapshotClass} struct.
+         * @return A new instance of {@code SnapshotClass} with the fields 
+         *         that were set in the Build object.
+         */
+        public SnapshotClass construct() {
+            return struct;
+        }
     }
 }

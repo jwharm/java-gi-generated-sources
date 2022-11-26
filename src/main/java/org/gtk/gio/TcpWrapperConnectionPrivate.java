@@ -5,7 +5,7 @@ import java.lang.foreign.*;
 import java.lang.invoke.*;
 import org.jetbrains.annotations.*;
 
-public class TcpWrapperConnectionPrivate extends io.github.jwharm.javagi.ProxyBase {
+public class TcpWrapperConnectionPrivate extends Struct {
     
     static {
         Gio.javagi$ensureInitialized();
@@ -24,6 +24,10 @@ public class TcpWrapperConnectionPrivate extends io.github.jwharm.javagi.ProxyBa
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link TcpWrapperConnectionPrivate}
+     * @return A new, uninitialized @{link TcpWrapperConnectionPrivate}
+     */
     public static TcpWrapperConnectionPrivate allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         TcpWrapperConnectionPrivate newInstance = new TcpWrapperConnectionPrivate(segment.address(), Ownership.NONE);
@@ -39,5 +43,33 @@ public class TcpWrapperConnectionPrivate extends io.github.jwharm.javagi.ProxyBa
     @ApiStatus.Internal
     public TcpWrapperConnectionPrivate(Addressable address, Ownership ownership) {
         super(address, ownership);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private TcpWrapperConnectionPrivate struct;
+        
+         /**
+         * A {@link TcpWrapperConnectionPrivate.Build} object constructs a {@link TcpWrapperConnectionPrivate} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = TcpWrapperConnectionPrivate.allocate();
+        }
+        
+         /**
+         * Finish building the {@link TcpWrapperConnectionPrivate} struct.
+         * @return A new instance of {@code TcpWrapperConnectionPrivate} with the fields 
+         *         that were set in the Build object.
+         */
+        public TcpWrapperConnectionPrivate construct() {
+            return struct;
+        }
     }
 }

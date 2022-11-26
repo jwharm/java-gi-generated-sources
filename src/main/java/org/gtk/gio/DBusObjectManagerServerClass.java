@@ -9,7 +9,7 @@ import org.jetbrains.annotations.*;
  * Class structure for {@link DBusObjectManagerServer}.
  * @version 2.30
  */
-public class DBusObjectManagerServerClass extends io.github.jwharm.javagi.ProxyBase {
+public class DBusObjectManagerServerClass extends Struct {
     
     static {
         Gio.javagi$ensureInitialized();
@@ -17,10 +17,9 @@ public class DBusObjectManagerServerClass extends io.github.jwharm.javagi.ProxyB
     
     private static final java.lang.String C_TYPE_NAME = "GDBusObjectManagerServerClass";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gobject.ObjectClass.getMemoryLayout().withName("parent_class"),
-        MemoryLayout.paddingLayout(448),
-        MemoryLayout.sequenceLayout(8, ValueLayout.ADDRESS).withName("padding")
+        MemoryLayout.sequenceLayout(8, Interop.valueLayout.ADDRESS).withName("padding")
     ).withName(C_TYPE_NAME);
     
     /**
@@ -34,6 +33,10 @@ public class DBusObjectManagerServerClass extends io.github.jwharm.javagi.ProxyB
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link DBusObjectManagerServerClass}
+     * @return A new, uninitialized @{link DBusObjectManagerServerClass}
+     */
     public static DBusObjectManagerServerClass allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         DBusObjectManagerServerClass newInstance = new DBusObjectManagerServerClass(segment.address(), Ownership.NONE);
@@ -58,5 +61,52 @@ public class DBusObjectManagerServerClass extends io.github.jwharm.javagi.ProxyB
     @ApiStatus.Internal
     public DBusObjectManagerServerClass(Addressable address, Ownership ownership) {
         super(address, ownership);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private DBusObjectManagerServerClass struct;
+        
+         /**
+         * A {@link DBusObjectManagerServerClass.Build} object constructs a {@link DBusObjectManagerServerClass} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = DBusObjectManagerServerClass.allocate();
+        }
+        
+         /**
+         * Finish building the {@link DBusObjectManagerServerClass} struct.
+         * @return A new instance of {@code DBusObjectManagerServerClass} with the fields 
+         *         that were set in the Build object.
+         */
+        public DBusObjectManagerServerClass construct() {
+            return struct;
+        }
+        
+        /**
+         * The parent class.
+         * @param parent_class The value for the {@code parent_class} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setParentClass(org.gtk.gobject.ObjectClass parent_class) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parent_class == null ? MemoryAddress.NULL : parent_class.handle()));
+            return this;
+        }
+        
+        public Build setPadding(java.lang.foreign.MemoryAddress[] padding) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("padding"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (padding == null ? MemoryAddress.NULL : Interop.allocateNativeArray(padding, false)));
+            return this;
+        }
     }
 }

@@ -8,7 +8,7 @@ import org.jetbrains.annotations.*;
 /**
  * An opaque structure representing a test suite.
  */
-public class TestSuite extends io.github.jwharm.javagi.ProxyBase {
+public class TestSuite extends Struct {
     
     static {
         GLib.javagi$ensureInitialized();
@@ -27,6 +27,10 @@ public class TestSuite extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link TestSuite}
+     * @return A new, uninitialized @{link TestSuite}
+     */
     public static TestSuite allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         TestSuite newInstance = new TestSuite(segment.address(), Ownership.NONE);
@@ -90,20 +94,48 @@ public class TestSuite extends io.github.jwharm.javagi.ProxyBase {
         
         private static final MethodHandle g_test_suite_add = Interop.downcallHandle(
             "g_test_suite_add",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_test_suite_add_suite = Interop.downcallHandle(
             "g_test_suite_add_suite",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_test_suite_free = Interop.downcallHandle(
             "g_test_suite_free",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private TestSuite struct;
+        
+         /**
+         * A {@link TestSuite.Build} object constructs a {@link TestSuite} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = TestSuite.allocate();
+        }
+        
+         /**
+         * Finish building the {@link TestSuite} struct.
+         * @return A new instance of {@code TestSuite} with the fields 
+         *         that were set in the Build object.
+         */
+        public TestSuite construct() {
+            return struct;
+        }
     }
 }

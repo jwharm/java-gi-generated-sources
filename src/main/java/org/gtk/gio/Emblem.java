@@ -53,7 +53,7 @@ public class Emblem extends org.gtk.gobject.Object implements org.gtk.gio.Icon {
      * @throws ClassCastException If the GType is not derived from "GEmblem", a ClassCastException will be thrown.
      */
     public static Emblem castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GEmblem"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), Emblem.getType())) {
             return new Emblem(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GEmblem");
@@ -135,29 +135,96 @@ public class Emblem extends org.gtk.gobject.Object implements org.gtk.gio.Icon {
         return new org.gtk.gio.EmblemOrigin(RESULT);
     }
     
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.g_emblem_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gobject.Object.Build {
+        
+         /**
+         * A {@link Emblem.Build} object constructs a {@link Emblem} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link Emblem} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link Emblem} using {@link Emblem#castFrom}.
+         * @return A new instance of {@code Emblem} with the properties 
+         *         that were set in the Build object.
+         */
+        public Emblem construct() {
+            return Emblem.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    Emblem.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+        
+        public Build setIcon(org.gtk.gobject.Object icon) {
+            names.add("icon");
+            values.add(org.gtk.gobject.Value.create(icon));
+            return this;
+        }
+        
+        public Build setOrigin(org.gtk.gio.EmblemOrigin origin) {
+            names.add("origin");
+            values.add(org.gtk.gobject.Value.create(origin));
+            return this;
+        }
+    }
+    
     private static class DowncallHandles {
         
         private static final MethodHandle g_emblem_new = Interop.downcallHandle(
             "g_emblem_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_emblem_new_with_origin = Interop.downcallHandle(
             "g_emblem_new_with_origin",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_emblem_get_icon = Interop.downcallHandle(
             "g_emblem_get_icon",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_emblem_get_origin = Interop.downcallHandle(
             "g_emblem_get_origin",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+            false
+        );
+        
+        private static final MethodHandle g_emblem_get_type = Interop.downcallHandle(
+            "g_emblem_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }

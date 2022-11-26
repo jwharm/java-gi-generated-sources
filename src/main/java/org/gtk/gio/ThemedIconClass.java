@@ -5,7 +5,7 @@ import java.lang.foreign.*;
 import java.lang.invoke.*;
 import org.jetbrains.annotations.*;
 
-public class ThemedIconClass extends io.github.jwharm.javagi.ProxyBase {
+public class ThemedIconClass extends Struct {
     
     static {
         Gio.javagi$ensureInitialized();
@@ -24,6 +24,10 @@ public class ThemedIconClass extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link ThemedIconClass}
+     * @return A new, uninitialized @{link ThemedIconClass}
+     */
     public static ThemedIconClass allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         ThemedIconClass newInstance = new ThemedIconClass(segment.address(), Ownership.NONE);
@@ -39,5 +43,33 @@ public class ThemedIconClass extends io.github.jwharm.javagi.ProxyBase {
     @ApiStatus.Internal
     public ThemedIconClass(Addressable address, Ownership ownership) {
         super(address, ownership);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private ThemedIconClass struct;
+        
+         /**
+         * A {@link ThemedIconClass.Build} object constructs a {@link ThemedIconClass} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = ThemedIconClass.allocate();
+        }
+        
+         /**
+         * Finish building the {@link ThemedIconClass} struct.
+         * @return A new instance of {@code ThemedIconClass} with the fields 
+         *         that were set in the Build object.
+         */
+        public ThemedIconClass construct() {
+            return struct;
+        }
     }
 }

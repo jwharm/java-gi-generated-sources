@@ -69,7 +69,7 @@ public class Squeezer extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * @throws ClassCastException If the GType is not derived from "AdwSqueezer", a ClassCastException will be thrown.
      */
     public static Squeezer castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("AdwSqueezer"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), Squeezer.getType())) {
             return new Squeezer(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of AdwSqueezer");
@@ -463,143 +463,360 @@ public class Squeezer extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
         }
     }
     
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.adw_squeezer_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gtk.Widget.Build {
+        
+         /**
+         * A {@link Squeezer.Build} object constructs a {@link Squeezer} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link Squeezer} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link Squeezer} using {@link Squeezer#castFrom}.
+         * @return A new instance of {@code Squeezer} with the properties 
+         *         that were set in the Build object.
+         */
+        public Squeezer construct() {
+            return Squeezer.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    Squeezer.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+        
+        /**
+         * Whether to allow squeezing beyond the last child's minimum size.
+         * <p>
+         * If set to {@code TRUE}, the squeezer can shrink to the point where no child can
+         * be shown. This is functionally equivalent to appending a widget with 0×0
+         * minimum size.
+         * @param allowNone The value for the {@code allow-none} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setAllowNone(boolean allowNone) {
+            names.add("allow-none");
+            values.add(org.gtk.gobject.Value.create(allowNone));
+            return this;
+        }
+        
+        /**
+         * Whether all children have the same size for the opposite orientation.
+         * <p>
+         * For example, if a squeezer is horizontal and is homogeneous, it will
+         * request the same height for all its children. If it isn't, the squeezer may
+         * change size when a different child becomes visible.
+         * @param homogeneous The value for the {@code homogeneous} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setHomogeneous(boolean homogeneous) {
+            names.add("homogeneous");
+            values.add(org.gtk.gobject.Value.create(homogeneous));
+            return this;
+        }
+        
+        /**
+         * Whether the squeezer interpolates its size when changing the visible child.
+         * <p>
+         * If {@code TRUE}, the squeezer will interpolate its size between the one of the
+         * previous visible child and the one of the new visible child, according to
+         * the set transition duration and the orientation, e.g. if the squeezer is
+         * horizontal, it will interpolate the its height.
+         * @param interpolateSize The value for the {@code interpolate-size} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setInterpolateSize(boolean interpolateSize) {
+            names.add("interpolate-size");
+            values.add(org.gtk.gobject.Value.create(interpolateSize));
+            return this;
+        }
+        
+        /**
+         * A selection model with the squeezer's pages.
+         * <p>
+         * This can be used to keep an up-to-date view. The model also implements
+         * {@code Gtk.SelectionModel} and can be used to track the visible page.
+         * @param pages The value for the {@code pages} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setPages(org.gtk.gtk.SelectionModel pages) {
+            names.add("pages");
+            values.add(org.gtk.gobject.Value.create(pages));
+            return this;
+        }
+        
+        /**
+         * The switch threshold policy.
+         * <p>
+         * Determines when the squeezer will switch children.
+         * <p>
+         * If set to {@code ADW_FOLD_THRESHOLD_POLICY_MINIMUM}, it will only switch when the
+         * visible child cannot fit anymore. With {@code ADW_FOLD_THRESHOLD_POLICY_NATURAL},
+         * it will switch as soon as the visible child doesn't get their natural size.
+         * <p>
+         * This can be useful if you have a long ellipsizing label and want to let it
+         * ellipsize instead of immediately switching.
+         * @param switchThresholdPolicy The value for the {@code switch-threshold-policy} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setSwitchThresholdPolicy(org.gnome.adw.FoldThresholdPolicy switchThresholdPolicy) {
+            names.add("switch-threshold-policy");
+            values.add(org.gtk.gobject.Value.create(switchThresholdPolicy));
+            return this;
+        }
+        
+        /**
+         * The transition animation duration, in milliseconds.
+         * @param transitionDuration The value for the {@code transition-duration} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setTransitionDuration(int transitionDuration) {
+            names.add("transition-duration");
+            values.add(org.gtk.gobject.Value.create(transitionDuration));
+            return this;
+        }
+        
+        /**
+         * Whether a transition is currently running.
+         * <p>
+         * If a transition is impossible, the property value will be set to {@code TRUE} and
+         * then immediately to {@code FALSE}, so it's possible to rely on its notifications
+         * to know that a transition has happened.
+         * @param transitionRunning The value for the {@code transition-running} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setTransitionRunning(boolean transitionRunning) {
+            names.add("transition-running");
+            values.add(org.gtk.gobject.Value.create(transitionRunning));
+            return this;
+        }
+        
+        /**
+         * The type of animation used for transitions between children.
+         * @param transitionType The value for the {@code transition-type} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setTransitionType(org.gnome.adw.SqueezerTransitionType transitionType) {
+            names.add("transition-type");
+            values.add(org.gtk.gobject.Value.create(transitionType));
+            return this;
+        }
+        
+        /**
+         * The currently visible child.
+         * @param visibleChild The value for the {@code visible-child} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setVisibleChild(org.gtk.gtk.Widget visibleChild) {
+            names.add("visible-child");
+            values.add(org.gtk.gobject.Value.create(visibleChild));
+            return this;
+        }
+        
+        /**
+         * The horizontal alignment, from 0 (start) to 1 (end).
+         * <p>
+         * This affects the children allocation during transitions, when they exceed
+         * the size of the squeezer.
+         * <p>
+         * For example, 0.5 means the child will be centered, 0 means it will keep the
+         * start side aligned and overflow the end side, and 1 means the opposite.
+         * @param xalign The value for the {@code xalign} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setXalign(float xalign) {
+            names.add("xalign");
+            values.add(org.gtk.gobject.Value.create(xalign));
+            return this;
+        }
+        
+        /**
+         * The vertical alignment, from 0 (top) to 1 (bottom).
+         * <p>
+         * This affects the children allocation during transitions, when they exceed
+         * the size of the squeezer.
+         * <p>
+         * For example, 0.5 means the child will be centered, 0 means it will keep the
+         * top side aligned and overflow the bottom side, and 1 means the opposite.
+         * @param yalign The value for the {@code yalign} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setYalign(float yalign) {
+            names.add("yalign");
+            values.add(org.gtk.gobject.Value.create(yalign));
+            return this;
+        }
+    }
+    
     private static class DowncallHandles {
         
         private static final MethodHandle adw_squeezer_new = Interop.downcallHandle(
             "adw_squeezer_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_squeezer_add = Interop.downcallHandle(
             "adw_squeezer_add",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_squeezer_get_allow_none = Interop.downcallHandle(
             "adw_squeezer_get_allow_none",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_squeezer_get_homogeneous = Interop.downcallHandle(
             "adw_squeezer_get_homogeneous",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_squeezer_get_interpolate_size = Interop.downcallHandle(
             "adw_squeezer_get_interpolate_size",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_squeezer_get_page = Interop.downcallHandle(
             "adw_squeezer_get_page",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_squeezer_get_pages = Interop.downcallHandle(
             "adw_squeezer_get_pages",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_squeezer_get_switch_threshold_policy = Interop.downcallHandle(
             "adw_squeezer_get_switch_threshold_policy",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_squeezer_get_transition_duration = Interop.downcallHandle(
             "adw_squeezer_get_transition_duration",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_squeezer_get_transition_running = Interop.downcallHandle(
             "adw_squeezer_get_transition_running",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_squeezer_get_transition_type = Interop.downcallHandle(
             "adw_squeezer_get_transition_type",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_squeezer_get_visible_child = Interop.downcallHandle(
             "adw_squeezer_get_visible_child",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_squeezer_get_xalign = Interop.downcallHandle(
             "adw_squeezer_get_xalign",
-            FunctionDescriptor.of(ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_FLOAT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_squeezer_get_yalign = Interop.downcallHandle(
             "adw_squeezer_get_yalign",
-            FunctionDescriptor.of(ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_FLOAT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_squeezer_remove = Interop.downcallHandle(
             "adw_squeezer_remove",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_squeezer_set_allow_none = Interop.downcallHandle(
             "adw_squeezer_set_allow_none",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle adw_squeezer_set_homogeneous = Interop.downcallHandle(
             "adw_squeezer_set_homogeneous",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle adw_squeezer_set_interpolate_size = Interop.downcallHandle(
             "adw_squeezer_set_interpolate_size",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle adw_squeezer_set_switch_threshold_policy = Interop.downcallHandle(
             "adw_squeezer_set_switch_threshold_policy",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle adw_squeezer_set_transition_duration = Interop.downcallHandle(
             "adw_squeezer_set_transition_duration",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle adw_squeezer_set_transition_type = Interop.downcallHandle(
             "adw_squeezer_set_transition_type",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle adw_squeezer_set_xalign = Interop.downcallHandle(
             "adw_squeezer_set_xalign",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_FLOAT),
             false
         );
         
         private static final MethodHandle adw_squeezer_set_yalign = Interop.downcallHandle(
             "adw_squeezer_set_yalign",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_FLOAT),
+            false
+        );
+        
+        private static final MethodHandle adw_squeezer_get_type = Interop.downcallHandle(
+            "adw_squeezer_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }

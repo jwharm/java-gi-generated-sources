@@ -12,7 +12,7 @@ import org.jetbrains.annotations.*;
  * The implementation of the {@link Object} property system uses such a pool to
  * store the {@code GParamSpecs} of the properties all object types.
  */
-public class ParamSpecPool extends io.github.jwharm.javagi.ProxyBase {
+public class ParamSpecPool extends Struct {
     
     static {
         GObject.javagi$ensureInitialized();
@@ -31,6 +31,10 @@ public class ParamSpecPool extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link ParamSpecPool}
+     * @return A new, uninitialized @{link ParamSpecPool}
+     */
     public static ParamSpecPool allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         ParamSpecPool newInstance = new ParamSpecPool(segment.address(), Ownership.NONE);
@@ -78,7 +82,7 @@ public class ParamSpecPool extends io.github.jwharm.javagi.ProxyBase {
     public @NotNull org.gtk.gobject.ParamSpec[] list(@NotNull org.gtk.glib.Type ownerType, Out<Integer> nPspecsP) {
         java.util.Objects.requireNonNull(ownerType, "Parameter 'ownerType' must not be null");
         java.util.Objects.requireNonNull(nPspecsP, "Parameter 'nPspecsP' must not be null");
-        MemorySegment nPspecsPPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
+        MemorySegment nPspecsPPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_param_spec_pool_list.invokeExact(
@@ -88,10 +92,10 @@ public class ParamSpecPool extends io.github.jwharm.javagi.ProxyBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        nPspecsP.set(nPspecsPPOINTER.get(ValueLayout.JAVA_INT, 0));
+        nPspecsP.set(nPspecsPPOINTER.get(Interop.valueLayout.C_INT, 0));
         org.gtk.gobject.ParamSpec[] resultARRAY = new org.gtk.gobject.ParamSpec[nPspecsP.get().intValue()];
         for (int I = 0; I < nPspecsP.get().intValue(); I++) {
-            var OBJ = RESULT.get(ValueLayout.ADDRESS, I);
+            var OBJ = RESULT.get(Interop.valueLayout.ADDRESS, I);
             resultARRAY[I] = new org.gtk.gobject.ParamSpec(OBJ, Ownership.CONTAINER);
         }
         return resultARRAY;
@@ -183,38 +187,66 @@ public class ParamSpecPool extends io.github.jwharm.javagi.ProxyBase {
         
         private static final MethodHandle g_param_spec_pool_insert = Interop.downcallHandle(
             "g_param_spec_pool_insert",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
             false
         );
         
         private static final MethodHandle g_param_spec_pool_list = Interop.downcallHandle(
             "g_param_spec_pool_list",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_param_spec_pool_list_owned = Interop.downcallHandle(
             "g_param_spec_pool_list_owned",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
             false
         );
         
         private static final MethodHandle g_param_spec_pool_lookup = Interop.downcallHandle(
             "g_param_spec_pool_lookup",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_param_spec_pool_remove = Interop.downcallHandle(
             "g_param_spec_pool_remove",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_param_spec_pool_new = Interop.downcallHandle(
             "g_param_spec_pool_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private ParamSpecPool struct;
+        
+         /**
+         * A {@link ParamSpecPool.Build} object constructs a {@link ParamSpecPool} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = ParamSpecPool.allocate();
+        }
+        
+         /**
+         * Finish building the {@link ParamSpecPool} struct.
+         * @return A new instance of {@code ParamSpecPool} with the fields 
+         *         that were set in the Build object.
+         */
+        public ParamSpecPool construct() {
+            return struct;
+        }
     }
 }

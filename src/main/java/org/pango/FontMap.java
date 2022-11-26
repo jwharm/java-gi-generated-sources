@@ -20,7 +20,7 @@ public class FontMap extends org.gtk.gobject.Object implements org.gtk.gio.ListM
     
     private static final java.lang.String C_TYPE_NAME = "PangoFontMap";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gobject.Object.getMemoryLayout().withName("parent_instance")
     ).withName(C_TYPE_NAME);
     
@@ -65,7 +65,7 @@ public class FontMap extends org.gtk.gobject.Object implements org.gtk.gio.ListM
      * @throws ClassCastException If the GType is not derived from "PangoFontMap", a ClassCastException will be thrown.
      */
     public static FontMap castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("PangoFontMap"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), FontMap.getType())) {
             return new FontMap(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of PangoFontMap");
@@ -172,9 +172,9 @@ public class FontMap extends org.gtk.gobject.Object implements org.gtk.gio.ListM
      */
     public void listFamilies(@NotNull Out<org.pango.FontFamily[]> families, Out<Integer> nFamilies) {
         java.util.Objects.requireNonNull(families, "Parameter 'families' must not be null");
+        MemorySegment familiesPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         java.util.Objects.requireNonNull(nFamilies, "Parameter 'nFamilies' must not be null");
-        MemorySegment familiesPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        MemorySegment nFamiliesPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
+        MemorySegment nFamiliesPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         try {
             DowncallHandles.pango_font_map_list_families.invokeExact(
                     handle(),
@@ -183,10 +183,10 @@ public class FontMap extends org.gtk.gobject.Object implements org.gtk.gio.ListM
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        nFamilies.set(nFamiliesPOINTER.get(ValueLayout.JAVA_INT, 0));
+        nFamilies.set(nFamiliesPOINTER.get(Interop.valueLayout.C_INT, 0));
         org.pango.FontFamily[] familiesARRAY = new org.pango.FontFamily[nFamilies.get().intValue()];
         for (int I = 0; I < nFamilies.get().intValue(); I++) {
-            var OBJ = familiesPOINTER.get(ValueLayout.ADDRESS, I);
+            var OBJ = familiesPOINTER.get(Interop.valueLayout.ADDRESS, I);
             familiesARRAY[I] = new org.pango.FontFamily(OBJ, Ownership.CONTAINER);
         }
         families.set(familiesARRAY);
@@ -240,47 +240,124 @@ public class FontMap extends org.gtk.gobject.Object implements org.gtk.gio.ListM
         return new org.pango.Fontset(RESULT, Ownership.FULL);
     }
     
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.pango_font_map_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gobject.Object.Build {
+        
+         /**
+         * A {@link FontMap.Build} object constructs a {@link FontMap} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link FontMap} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link FontMap} using {@link FontMap#castFrom}.
+         * @return A new instance of {@code FontMap} with the properties 
+         *         that were set in the Build object.
+         */
+        public FontMap construct() {
+            return FontMap.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    FontMap.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+        
+        /**
+         * The type of items contained in this list.
+         * @param itemType The value for the {@code item-type} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setItemType(org.gtk.glib.Type itemType) {
+            names.add("item-type");
+            values.add(org.gtk.gobject.Value.create(itemType));
+            return this;
+        }
+        
+        /**
+         * The number of items contained in this list.
+         * @param nItems The value for the {@code n-items} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setNItems(int nItems) {
+            names.add("n-items");
+            values.add(org.gtk.gobject.Value.create(nItems));
+            return this;
+        }
+    }
+    
     private static class DowncallHandles {
         
         private static final MethodHandle pango_font_map_changed = Interop.downcallHandle(
             "pango_font_map_changed",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle pango_font_map_create_context = Interop.downcallHandle(
             "pango_font_map_create_context",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle pango_font_map_get_family = Interop.downcallHandle(
             "pango_font_map_get_family",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle pango_font_map_get_serial = Interop.downcallHandle(
             "pango_font_map_get_serial",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle pango_font_map_list_families = Interop.downcallHandle(
             "pango_font_map_list_families",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle pango_font_map_load_font = Interop.downcallHandle(
             "pango_font_map_load_font",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle pango_font_map_load_fontset = Interop.downcallHandle(
             "pango_font_map_load_fontset",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+            false
+        );
+        
+        private static final MethodHandle pango_font_map_get_type = Interop.downcallHandle(
+            "pango_font_map_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }

@@ -14,6 +14,11 @@ public class RegexCompileFlags extends io.github.jwharm.javagi.Bitfield {
     private static final java.lang.String C_TYPE_NAME = "GRegexCompileFlags";
     
     /**
+     * No special options set. Since: 2.74
+     */
+    public static final RegexCompileFlags DEFAULT = new RegexCompileFlags(0);
+    
+    /**
      * Letters in the pattern match both upper- and
      *     lowercase letters. This option can be changed within a pattern
      *     by a "(?i)" option setting.
@@ -93,9 +98,13 @@ public class RegexCompileFlags extends io.github.jwharm.javagi.Bitfield {
     public static final RegexCompileFlags NO_AUTO_CAPTURE = new RegexCompileFlags(4096);
     
     /**
-     * Optimize the regular expression. If the pattern will
-     *     be used many times, then it may be worth the effort to optimize it
-     *     to improve the speed of matches.
+     * Since 2.74 and the port to pcre2, requests JIT
+     *     compilation, which, if the just-in-time compiler is available, further
+     *     processes a compiled pattern into machine code that executes much
+     *     faster. However, it comes at the cost of extra processing before the
+     *     match is performed, so it is most beneficial to use this when the same
+     *     compiled pattern is used for matching many times. Before 2.74 this
+     *     option used the built-in non-JIT optimizations in pcre1.
      */
     public static final RegexCompileFlags OPTIMIZE = new RegexCompileFlags(8192);
     
@@ -150,7 +159,8 @@ public class RegexCompileFlags extends io.github.jwharm.javagi.Bitfield {
     
     /**
      * Changes behaviour so that it is compatible with
-     *     JavaScript rather than PCRE. Since: 2.34
+     *     JavaScript rather than PCRE. Since GLib 2.74 this is no longer supported,
+     *     as libpcre2 does not support it. Since: 2.34 Deprecated: 2.74
      */
     public static final RegexCompileFlags JAVASCRIPT_COMPAT = new RegexCompileFlags(33554432);
     

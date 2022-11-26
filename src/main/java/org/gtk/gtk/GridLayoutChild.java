@@ -48,7 +48,7 @@ public class GridLayoutChild extends org.gtk.gtk.LayoutChild {
      * @throws ClassCastException If the GType is not derived from "GtkGridLayoutChild", a ClassCastException will be thrown.
      */
     public static GridLayoutChild castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkGridLayoutChild"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), GridLayoutChild.getType())) {
             return new GridLayoutChild(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkGridLayoutChild");
@@ -171,53 +171,152 @@ public class GridLayoutChild extends org.gtk.gtk.LayoutChild {
         }
     }
     
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.gtk_grid_layout_child_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gtk.LayoutChild.Build {
+        
+         /**
+         * A {@link GridLayoutChild.Build} object constructs a {@link GridLayoutChild} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link GridLayoutChild} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link GridLayoutChild} using {@link GridLayoutChild#castFrom}.
+         * @return A new instance of {@code GridLayoutChild} with the properties 
+         *         that were set in the Build object.
+         */
+        public GridLayoutChild construct() {
+            return GridLayoutChild.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    GridLayoutChild.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+        
+        /**
+         * The column to place the child in.
+         * @param column The value for the {@code column} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setColumn(int column) {
+            names.add("column");
+            values.add(org.gtk.gobject.Value.create(column));
+            return this;
+        }
+        
+        /**
+         * The number of columns the child spans to.
+         * @param columnSpan The value for the {@code column-span} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setColumnSpan(int columnSpan) {
+            names.add("column-span");
+            values.add(org.gtk.gobject.Value.create(columnSpan));
+            return this;
+        }
+        
+        /**
+         * The row to place the child in.
+         * @param row The value for the {@code row} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setRow(int row) {
+            names.add("row");
+            values.add(org.gtk.gobject.Value.create(row));
+            return this;
+        }
+        
+        /**
+         * The number of rows the child spans to.
+         * @param rowSpan The value for the {@code row-span} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setRowSpan(int rowSpan) {
+            names.add("row-span");
+            values.add(org.gtk.gobject.Value.create(rowSpan));
+            return this;
+        }
+    }
+    
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_grid_layout_child_get_column = Interop.downcallHandle(
             "gtk_grid_layout_child_get_column",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_grid_layout_child_get_column_span = Interop.downcallHandle(
             "gtk_grid_layout_child_get_column_span",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_grid_layout_child_get_row = Interop.downcallHandle(
             "gtk_grid_layout_child_get_row",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_grid_layout_child_get_row_span = Interop.downcallHandle(
             "gtk_grid_layout_child_get_row_span",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_grid_layout_child_set_column = Interop.downcallHandle(
             "gtk_grid_layout_child_set_column",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_grid_layout_child_set_column_span = Interop.downcallHandle(
             "gtk_grid_layout_child_set_column_span",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_grid_layout_child_set_row = Interop.downcallHandle(
             "gtk_grid_layout_child_set_row",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_grid_layout_child_set_row_span = Interop.downcallHandle(
             "gtk_grid_layout_child_set_row_span",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+            false
+        );
+        
+        private static final MethodHandle gtk_grid_layout_child_get_type = Interop.downcallHandle(
+            "gtk_grid_layout_child_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }

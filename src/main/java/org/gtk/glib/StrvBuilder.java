@@ -18,7 +18,7 @@ import org.jetbrains.annotations.*;
  * }</pre>
  * @version 2.68
  */
-public class StrvBuilder extends io.github.jwharm.javagi.ProxyBase {
+public class StrvBuilder extends Struct {
     
     static {
         GLib.javagi$ensureInitialized();
@@ -37,6 +37,10 @@ public class StrvBuilder extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link StrvBuilder}
+     * @return A new, uninitialized @{link StrvBuilder}
+     */
     public static StrvBuilder allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         StrvBuilder newInstance = new StrvBuilder(segment.address(), Ownership.NONE);
@@ -174,44 +178,72 @@ public class StrvBuilder extends io.github.jwharm.javagi.ProxyBase {
         
         private static final MethodHandle g_strv_builder_add = Interop.downcallHandle(
             "g_strv_builder_add",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_strv_builder_add_many = Interop.downcallHandle(
             "g_strv_builder_add_many",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             true
         );
         
         private static final MethodHandle g_strv_builder_addv = Interop.downcallHandle(
             "g_strv_builder_addv",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_strv_builder_end = Interop.downcallHandle(
             "g_strv_builder_end",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_strv_builder_ref = Interop.downcallHandle(
             "g_strv_builder_ref",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_strv_builder_unref = Interop.downcallHandle(
             "g_strv_builder_unref",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_strv_builder_new = Interop.downcallHandle(
             "g_strv_builder_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
             false
         );
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private StrvBuilder struct;
+        
+         /**
+         * A {@link StrvBuilder.Build} object constructs a {@link StrvBuilder} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = StrvBuilder.allocate();
+        }
+        
+         /**
+         * Finish building the {@link StrvBuilder} struct.
+         * @return A new instance of {@code StrvBuilder} with the fields 
+         *         that were set in the Build object.
+         */
+        public StrvBuilder construct() {
+            return struct;
+        }
     }
 }

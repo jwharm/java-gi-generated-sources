@@ -59,7 +59,7 @@ public class CellRendererCombo extends org.gtk.gtk.CellRendererText {
      * @throws ClassCastException If the GType is not derived from "GtkCellRendererCombo", a ClassCastException will be thrown.
      */
     public static CellRendererCombo castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkCellRendererCombo"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), CellRendererCombo.getType())) {
             return new CellRendererCombo(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkCellRendererCombo");
@@ -87,6 +87,20 @@ public class CellRendererCombo extends org.gtk.gtk.CellRendererText {
      */
     public CellRendererCombo() {
         super(constructNew(), Ownership.NONE);
+    }
+    
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.gtk_cell_renderer_combo_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
     }
     
     @FunctionalInterface
@@ -117,7 +131,7 @@ public class CellRendererCombo extends org.gtk.gtk.CellRendererText {
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(CellRendererCombo.Callbacks.class, "signalCellRendererComboChanged",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                     Interop.getScope()),
                 Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
@@ -126,12 +140,96 @@ public class CellRendererCombo extends org.gtk.gtk.CellRendererText {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gtk.CellRendererText.Build {
+        
+         /**
+         * A {@link CellRendererCombo.Build} object constructs a {@link CellRendererCombo} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link CellRendererCombo} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link CellRendererCombo} using {@link CellRendererCombo#castFrom}.
+         * @return A new instance of {@code CellRendererCombo} with the properties 
+         *         that were set in the Build object.
+         */
+        public CellRendererCombo construct() {
+            return CellRendererCombo.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    CellRendererCombo.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+        
+        /**
+         * If {@code true}, the cell renderer will include an entry and allow to enter
+         * values other than the ones in the popup list.
+         * @param hasEntry The value for the {@code has-entry} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setHasEntry(boolean hasEntry) {
+            names.add("has-entry");
+            values.add(org.gtk.gobject.Value.create(hasEntry));
+            return this;
+        }
+        
+        /**
+         * Holds a tree model containing the possible values for the combo box.
+         * Use the text_column property to specify the column holding the values.
+         * @param model The value for the {@code model} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setModel(org.gtk.gtk.TreeModel model) {
+            names.add("model");
+            values.add(org.gtk.gobject.Value.create(model));
+            return this;
+        }
+        
+        /**
+         * Specifies the model column which holds the possible values for the
+         * combo box.
+         * <p>
+         * Note that this refers to the model specified in the model property,
+         * not the model backing the tree view to which
+         * this cell renderer is attached.
+         * <p>
+         * {@code GtkCellRendererCombo} automatically adds a text cell renderer for
+         * this column to its combo box.
+         * @param textColumn The value for the {@code text-column} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setTextColumn(int textColumn) {
+            names.add("text-column");
+            values.add(org.gtk.gobject.Value.create(textColumn));
+            return this;
+        }
+    }
     
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_cell_renderer_combo_new = Interop.downcallHandle(
             "gtk_cell_renderer_combo_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+            false
+        );
+        
+        private static final MethodHandle gtk_cell_renderer_combo_get_type = Interop.downcallHandle(
+            "gtk_cell_renderer_combo_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }
@@ -139,9 +237,9 @@ public class CellRendererCombo extends org.gtk.gtk.CellRendererText {
     private static class Callbacks {
         
         public static void signalCellRendererComboChanged(MemoryAddress source, MemoryAddress pathString, MemoryAddress newIter, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (CellRendererCombo.Changed) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new CellRendererCombo(source, Ownership.UNKNOWN), Interop.getStringFrom(pathString), new org.gtk.gtk.TreeIter(newIter, Ownership.NONE));
+            HANDLER.signalReceived(new CellRendererCombo(source, Ownership.NONE), Interop.getStringFrom(pathString), new org.gtk.gtk.TreeIter(newIter, Ownership.NONE));
         }
     }
 }

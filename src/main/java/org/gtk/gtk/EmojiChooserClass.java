@@ -5,7 +5,7 @@ import java.lang.foreign.*;
 import java.lang.invoke.*;
 import org.jetbrains.annotations.*;
 
-public class EmojiChooserClass extends io.github.jwharm.javagi.ProxyBase {
+public class EmojiChooserClass extends Struct {
     
     static {
         Gtk.javagi$ensureInitialized();
@@ -24,6 +24,10 @@ public class EmojiChooserClass extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link EmojiChooserClass}
+     * @return A new, uninitialized @{link EmojiChooserClass}
+     */
     public static EmojiChooserClass allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         EmojiChooserClass newInstance = new EmojiChooserClass(segment.address(), Ownership.NONE);
@@ -39,5 +43,33 @@ public class EmojiChooserClass extends io.github.jwharm.javagi.ProxyBase {
     @ApiStatus.Internal
     public EmojiChooserClass(Addressable address, Ownership ownership) {
         super(address, ownership);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private EmojiChooserClass struct;
+        
+         /**
+         * A {@link EmojiChooserClass.Build} object constructs a {@link EmojiChooserClass} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = EmojiChooserClass.allocate();
+        }
+        
+         /**
+         * Finish building the {@link EmojiChooserClass} struct.
+         * @return A new instance of {@code EmojiChooserClass} with the fields 
+         *         that were set in the Build object.
+         */
+        public EmojiChooserClass construct() {
+            return struct;
+        }
     }
 }

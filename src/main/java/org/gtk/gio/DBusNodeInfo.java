@@ -9,7 +9,7 @@ import org.jetbrains.annotations.*;
  * Information about nodes in a remote object hierarchy.
  * @version 2.26
  */
-public class DBusNodeInfo extends io.github.jwharm.javagi.ProxyBase {
+public class DBusNodeInfo extends Struct {
     
     static {
         Gio.javagi$ensureInitialized();
@@ -17,8 +17,8 @@ public class DBusNodeInfo extends io.github.jwharm.javagi.ProxyBase {
     
     private static final java.lang.String C_TYPE_NAME = "GDBusNodeInfo";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
-        ValueLayout.JAVA_INT.withName("ref_count"),
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
+        Interop.valueLayout.C_INT.withName("ref_count"),
         MemoryLayout.paddingLayout(32),
         Interop.valueLayout.ADDRESS.withName("path"),
         Interop.valueLayout.ADDRESS.withName("interfaces"),
@@ -37,6 +37,10 @@ public class DBusNodeInfo extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link DBusNodeInfo}
+     * @return A new, uninitialized @{link DBusNodeInfo}
+     */
     public static DBusNodeInfo allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         DBusNodeInfo newInstance = new DBusNodeInfo(segment.address(), Ownership.NONE);
@@ -98,7 +102,7 @@ public class DBusNodeInfo extends io.github.jwharm.javagi.ProxyBase {
     
     private static Addressable constructNewForXml(@NotNull java.lang.String xmlData) throws GErrorException {
         java.util.Objects.requireNonNull(xmlData, "Parameter 'xmlData' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         Addressable RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_dbus_node_info_new_for_xml.invokeExact(
@@ -205,32 +209,120 @@ public class DBusNodeInfo extends io.github.jwharm.javagi.ProxyBase {
         
         private static final MethodHandle g_dbus_node_info_new_for_xml = Interop.downcallHandle(
             "g_dbus_node_info_new_for_xml",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_dbus_node_info_generate_xml = Interop.downcallHandle(
             "g_dbus_node_info_generate_xml",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_dbus_node_info_lookup_interface = Interop.downcallHandle(
             "g_dbus_node_info_lookup_interface",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_dbus_node_info_ref = Interop.downcallHandle(
             "g_dbus_node_info_ref",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_dbus_node_info_unref = Interop.downcallHandle(
             "g_dbus_node_info_unref",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private DBusNodeInfo struct;
+        
+         /**
+         * A {@link DBusNodeInfo.Build} object constructs a {@link DBusNodeInfo} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = DBusNodeInfo.allocate();
+        }
+        
+         /**
+         * Finish building the {@link DBusNodeInfo} struct.
+         * @return A new instance of {@code DBusNodeInfo} with the fields 
+         *         that were set in the Build object.
+         */
+        public DBusNodeInfo construct() {
+            return struct;
+        }
+        
+        /**
+         * The reference count or -1 if statically allocated.
+         * @param ref_count The value for the {@code ref_count} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setRefCount(int ref_count) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("ref_count"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), ref_count);
+            return this;
+        }
+        
+        /**
+         * The path of the node or {@code null} if omitted. Note that this may be a relative path. See the D-Bus specification for more details.
+         * @param path The value for the {@code path} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setPath(java.lang.String path) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("path"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (path == null ? MemoryAddress.NULL : Interop.allocateNativeString(path)));
+            return this;
+        }
+        
+        /**
+         * A pointer to a {@code null}-terminated array of pointers to {@link DBusInterfaceInfo} structures or {@code null} if there are no interfaces.
+         * @param interfaces The value for the {@code interfaces} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setInterfaces(org.gtk.gio.DBusInterfaceInfo[] interfaces) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("interfaces"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (interfaces == null ? MemoryAddress.NULL : Interop.allocateNativeArray(interfaces, false)));
+            return this;
+        }
+        
+        /**
+         * A pointer to a {@code null}-terminated array of pointers to {@link DBusNodeInfo} structures or {@code null} if there are no nodes.
+         * @param nodes The value for the {@code nodes} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setNodes(org.gtk.gio.DBusNodeInfo[] nodes) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("nodes"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (nodes == null ? MemoryAddress.NULL : Interop.allocateNativeArray(nodes, false)));
+            return this;
+        }
+        
+        /**
+         * A pointer to a {@code null}-terminated array of pointers to {@link DBusAnnotationInfo} structures or {@code null} if there are no annotations.
+         * @param annotations The value for the {@code annotations} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setAnnotations(org.gtk.gio.DBusAnnotationInfo[] annotations) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("annotations"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (annotations == null ? MemoryAddress.NULL : Interop.allocateNativeArray(annotations, false)));
+            return this;
+        }
     }
 }

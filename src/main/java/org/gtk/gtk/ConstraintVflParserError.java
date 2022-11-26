@@ -60,7 +60,7 @@ public class ConstraintVflParserError extends io.github.jwharm.javagi.Enumeratio
         
         private static final MethodHandle gtk_constraint_vfl_parser_error_quark = Interop.downcallHandle(
             "gtk_constraint_vfl_parser_error_quark",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT),
             false
         );
     }

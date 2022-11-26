@@ -5,7 +5,7 @@ import java.lang.foreign.*;
 import java.lang.invoke.*;
 import org.jetbrains.annotations.*;
 
-public class WidgetClassPrivate extends io.github.jwharm.javagi.ProxyBase {
+public class WidgetClassPrivate extends Struct {
     
     static {
         Gtk.javagi$ensureInitialized();
@@ -24,6 +24,10 @@ public class WidgetClassPrivate extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link WidgetClassPrivate}
+     * @return A new, uninitialized @{link WidgetClassPrivate}
+     */
     public static WidgetClassPrivate allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         WidgetClassPrivate newInstance = new WidgetClassPrivate(segment.address(), Ownership.NONE);
@@ -39,5 +43,33 @@ public class WidgetClassPrivate extends io.github.jwharm.javagi.ProxyBase {
     @ApiStatus.Internal
     public WidgetClassPrivate(Addressable address, Ownership ownership) {
         super(address, ownership);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private WidgetClassPrivate struct;
+        
+         /**
+         * A {@link WidgetClassPrivate.Build} object constructs a {@link WidgetClassPrivate} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = WidgetClassPrivate.allocate();
+        }
+        
+         /**
+         * Finish building the {@link WidgetClassPrivate} struct.
+         * @return A new instance of {@code WidgetClassPrivate} with the fields 
+         *         that were set in the Build object.
+         */
+        public WidgetClassPrivate construct() {
+            return struct;
+        }
     }
 }

@@ -63,7 +63,7 @@ public class FontChooserWidget extends org.gtk.gtk.Widget implements org.gtk.gtk
      * @throws ClassCastException If the GType is not derived from "GtkFontChooserWidget", a ClassCastException will be thrown.
      */
     public static FontChooserWidget castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkFontChooserWidget"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), FontChooserWidget.getType())) {
             return new FontChooserWidget(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkFontChooserWidget");
@@ -87,11 +87,82 @@ public class FontChooserWidget extends org.gtk.gtk.Widget implements org.gtk.gtk
         super(constructNew(), Ownership.NONE);
     }
     
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.gtk_font_chooser_widget_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gtk.Widget.Build {
+        
+         /**
+         * A {@link FontChooserWidget.Build} object constructs a {@link FontChooserWidget} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link FontChooserWidget} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link FontChooserWidget} using {@link FontChooserWidget#castFrom}.
+         * @return A new instance of {@code FontChooserWidget} with the properties 
+         *         that were set in the Build object.
+         */
+        public FontChooserWidget construct() {
+            return FontChooserWidget.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    FontChooserWidget.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+        
+        /**
+         * A toggle action that can be used to switch to the tweak page
+         * of the font chooser widget, which lets the user tweak the
+         * OpenType features and variation axes of the selected font.
+         * <p>
+         * The action will be enabled or disabled depending on whether
+         * the selected font has any features or axes.
+         * @param tweakAction The value for the {@code tweak-action} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setTweakAction(org.gtk.gio.Action tweakAction) {
+            names.add("tweak-action");
+            values.add(org.gtk.gobject.Value.create(tweakAction));
+            return this;
+        }
+    }
+    
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_font_chooser_widget_new = Interop.downcallHandle(
             "gtk_font_chooser_widget_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+            false
+        );
+        
+        private static final MethodHandle gtk_font_chooser_widget_get_type = Interop.downcallHandle(
+            "gtk_font_chooser_widget_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }

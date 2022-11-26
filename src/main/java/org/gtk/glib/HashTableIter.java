@@ -14,7 +14,7 @@ import org.jetbrains.annotations.*;
  * The iteration order of a {@link HashTableIter} over the keys/values in a hash
  * table is not defined.
  */
-public class HashTableIter extends io.github.jwharm.javagi.ProxyBase {
+public class HashTableIter extends Struct {
     
     static {
         GLib.javagi$ensureInitialized();
@@ -22,12 +22,12 @@ public class HashTableIter extends io.github.jwharm.javagi.ProxyBase {
     
     private static final java.lang.String C_TYPE_NAME = "GHashTableIter";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
         Interop.valueLayout.ADDRESS.withName("dummy1"),
         Interop.valueLayout.ADDRESS.withName("dummy2"),
         Interop.valueLayout.ADDRESS.withName("dummy3"),
-        ValueLayout.JAVA_INT.withName("dummy4"),
-        ValueLayout.JAVA_INT.withName("dummy5"),
+        Interop.valueLayout.C_INT.withName("dummy4"),
+        Interop.valueLayout.C_INT.withName("dummy5"),
         Interop.valueLayout.ADDRESS.withName("dummy6")
     ).withName(C_TYPE_NAME);
     
@@ -42,6 +42,10 @@ public class HashTableIter extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link HashTableIter}
+     * @return A new, uninitialized @{link HashTableIter}
+     */
     public static HashTableIter allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         HashTableIter newInstance = new HashTableIter(segment.address(), Ownership.NONE);
@@ -113,8 +117,8 @@ public class HashTableIter extends io.github.jwharm.javagi.ProxyBase {
      * @return {@code false} if the end of the {@link HashTable} has been reached.
      */
     public boolean next(@Nullable Out<java.lang.foreign.MemoryAddress> key, @Nullable Out<java.lang.foreign.MemoryAddress> value) {
-        MemorySegment keyPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        MemorySegment valuePOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment keyPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
+        MemorySegment valuePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_hash_table_iter_next.invokeExact(
@@ -124,8 +128,8 @@ public class HashTableIter extends io.github.jwharm.javagi.ProxyBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        if (key != null) key.set(keyPOINTER.get(ValueLayout.ADDRESS, 0));
-        if (value != null) value.set(valuePOINTER.get(ValueLayout.ADDRESS, 0));
+        if (key != null) key.set(keyPOINTER.get(Interop.valueLayout.ADDRESS, 0));
+        if (value != null) value.set(valuePOINTER.get(Interop.valueLayout.ADDRESS, 0));
         return RESULT != 0;
     }
     
@@ -171,7 +175,7 @@ public class HashTableIter extends io.github.jwharm.javagi.ProxyBase {
         try {
             DowncallHandles.g_hash_table_iter_replace.invokeExact(
                     handle(),
-                    (Addressable) (value == null ? MemoryAddress.NULL : value));
+                    (Addressable) (value == null ? MemoryAddress.NULL : (Addressable) value));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -197,38 +201,108 @@ public class HashTableIter extends io.github.jwharm.javagi.ProxyBase {
         
         private static final MethodHandle g_hash_table_iter_get_hash_table = Interop.downcallHandle(
             "g_hash_table_iter_get_hash_table",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_hash_table_iter_init = Interop.downcallHandle(
             "g_hash_table_iter_init",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_hash_table_iter_next = Interop.downcallHandle(
             "g_hash_table_iter_next",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_hash_table_iter_remove = Interop.downcallHandle(
             "g_hash_table_iter_remove",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_hash_table_iter_replace = Interop.downcallHandle(
             "g_hash_table_iter_replace",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_hash_table_iter_steal = Interop.downcallHandle(
             "g_hash_table_iter_steal",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private HashTableIter struct;
+        
+         /**
+         * A {@link HashTableIter.Build} object constructs a {@link HashTableIter} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = HashTableIter.allocate();
+        }
+        
+         /**
+         * Finish building the {@link HashTableIter} struct.
+         * @return A new instance of {@code HashTableIter} with the fields 
+         *         that were set in the Build object.
+         */
+        public HashTableIter construct() {
+            return struct;
+        }
+        
+        public Build setDummy1(java.lang.foreign.MemoryAddress dummy1) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("dummy1"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (dummy1 == null ? MemoryAddress.NULL : (Addressable) dummy1));
+            return this;
+        }
+        
+        public Build setDummy2(java.lang.foreign.MemoryAddress dummy2) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("dummy2"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (dummy2 == null ? MemoryAddress.NULL : (Addressable) dummy2));
+            return this;
+        }
+        
+        public Build setDummy3(java.lang.foreign.MemoryAddress dummy3) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("dummy3"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (dummy3 == null ? MemoryAddress.NULL : (Addressable) dummy3));
+            return this;
+        }
+        
+        public Build setDummy4(int dummy4) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("dummy4"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), dummy4);
+            return this;
+        }
+        
+        public Build setDummy5(boolean dummy5) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("dummy5"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), dummy5 ? 1 : 0);
+            return this;
+        }
+        
+        public Build setDummy6(java.lang.foreign.MemoryAddress dummy6) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("dummy6"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (dummy6 == null ? MemoryAddress.NULL : (Addressable) dummy6));
+            return this;
+        }
     }
 }

@@ -9,7 +9,7 @@ import org.jetbrains.annotations.*;
  * The {@code PangoAttrFloat} structure is used to represent attributes with
  * a float or double value.
  */
-public class AttrFloat extends io.github.jwharm.javagi.ProxyBase {
+public class AttrFloat extends Struct {
     
     static {
         Pango.javagi$ensureInitialized();
@@ -17,9 +17,9 @@ public class AttrFloat extends io.github.jwharm.javagi.ProxyBase {
     
     private static final java.lang.String C_TYPE_NAME = "PangoAttrFloat";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.pango.Attribute.getMemoryLayout().withName("attr"),
-        ValueLayout.JAVA_DOUBLE.withName("value")
+        Interop.valueLayout.C_DOUBLE.withName("value")
     ).withName(C_TYPE_NAME);
     
     /**
@@ -33,6 +33,10 @@ public class AttrFloat extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link AttrFloat}
+     * @return A new, uninitialized @{link AttrFloat}
+     */
     public static AttrFloat allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         AttrFloat newInstance = new AttrFloat(segment.address(), Ownership.NONE);
@@ -78,5 +82,57 @@ public class AttrFloat extends io.github.jwharm.javagi.ProxyBase {
     @ApiStatus.Internal
     public AttrFloat(Addressable address, Ownership ownership) {
         super(address, ownership);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private AttrFloat struct;
+        
+         /**
+         * A {@link AttrFloat.Build} object constructs a {@link AttrFloat} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = AttrFloat.allocate();
+        }
+        
+         /**
+         * Finish building the {@link AttrFloat} struct.
+         * @return A new instance of {@code AttrFloat} with the fields 
+         *         that were set in the Build object.
+         */
+        public AttrFloat construct() {
+            return struct;
+        }
+        
+        /**
+         * the common portion of the attribute
+         * @param attr The value for the {@code attr} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setAttr(org.pango.Attribute attr) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("attr"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (attr == null ? MemoryAddress.NULL : attr.handle()));
+            return this;
+        }
+        
+        /**
+         * the value of the attribute
+         * @param value The value for the {@code value} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setValue(double value) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("value"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), value);
+            return this;
+        }
     }
 }

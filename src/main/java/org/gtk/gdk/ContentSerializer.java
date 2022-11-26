@@ -59,7 +59,7 @@ public class ContentSerializer extends org.gtk.gobject.Object implements org.gtk
      * @throws ClassCastException If the GType is not derived from "GdkContentSerializer", a ClassCastException will be thrown.
      */
     public static ContentSerializer castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GdkContentSerializer"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), ContentSerializer.getType())) {
             return new ContentSerializer(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GdkContentSerializer");
@@ -233,10 +233,59 @@ public class ContentSerializer extends org.gtk.gobject.Object implements org.gtk
         try {
             DowncallHandles.gdk_content_serializer_set_task_data.invokeExact(
                     handle(),
-                    data,
+                    (Addressable) data,
                     Interop.cbDestroyNotifySymbol());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+    }
+    
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.gdk_content_serializer_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gobject.Object.Build {
+        
+         /**
+         * A {@link ContentSerializer.Build} object constructs a {@link ContentSerializer} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link ContentSerializer} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link ContentSerializer} using {@link ContentSerializer#castFrom}.
+         * @return A new instance of {@code ContentSerializer} with the properties 
+         *         that were set in the Build object.
+         */
+        public ContentSerializer construct() {
+            return ContentSerializer.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    ContentSerializer.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
         }
     }
     
@@ -244,67 +293,73 @@ public class ContentSerializer extends org.gtk.gobject.Object implements org.gtk
         
         private static final MethodHandle gdk_content_serializer_get_cancellable = Interop.downcallHandle(
             "gdk_content_serializer_get_cancellable",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_content_serializer_get_gtype = Interop.downcallHandle(
             "gdk_content_serializer_get_gtype",
-            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_content_serializer_get_mime_type = Interop.downcallHandle(
             "gdk_content_serializer_get_mime_type",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_content_serializer_get_output_stream = Interop.downcallHandle(
             "gdk_content_serializer_get_output_stream",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_content_serializer_get_priority = Interop.downcallHandle(
             "gdk_content_serializer_get_priority",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_content_serializer_get_task_data = Interop.downcallHandle(
             "gdk_content_serializer_get_task_data",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_content_serializer_get_user_data = Interop.downcallHandle(
             "gdk_content_serializer_get_user_data",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_content_serializer_get_value = Interop.downcallHandle(
             "gdk_content_serializer_get_value",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_content_serializer_return_error = Interop.downcallHandle(
             "gdk_content_serializer_return_error",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_content_serializer_return_success = Interop.downcallHandle(
             "gdk_content_serializer_return_success",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_content_serializer_set_task_data = Interop.downcallHandle(
             "gdk_content_serializer_set_task_data",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+            false
+        );
+        
+        private static final MethodHandle gdk_content_serializer_get_type = Interop.downcallHandle(
+            "gdk_content_serializer_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }

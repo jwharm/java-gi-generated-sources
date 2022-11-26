@@ -65,7 +65,7 @@ public class CarouselIndicatorDots extends org.gtk.gtk.Widget implements org.gtk
      * @throws ClassCastException If the GType is not derived from "AdwCarouselIndicatorDots", a ClassCastException will be thrown.
      */
     public static CarouselIndicatorDots castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("AdwCarouselIndicatorDots"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), CarouselIndicatorDots.getType())) {
             return new CarouselIndicatorDots(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of AdwCarouselIndicatorDots");
@@ -118,23 +118,89 @@ public class CarouselIndicatorDots extends org.gtk.gtk.Widget implements org.gtk
         }
     }
     
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.adw_carousel_indicator_dots_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gtk.Widget.Build {
+        
+         /**
+         * A {@link CarouselIndicatorDots.Build} object constructs a {@link CarouselIndicatorDots} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link CarouselIndicatorDots} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link CarouselIndicatorDots} using {@link CarouselIndicatorDots#castFrom}.
+         * @return A new instance of {@code CarouselIndicatorDots} with the properties 
+         *         that were set in the Build object.
+         */
+        public CarouselIndicatorDots construct() {
+            return CarouselIndicatorDots.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    CarouselIndicatorDots.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+        
+        /**
+         * The displayed carousel.
+         * @param carousel The value for the {@code carousel} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setCarousel(org.gnome.adw.Carousel carousel) {
+            names.add("carousel");
+            values.add(org.gtk.gobject.Value.create(carousel));
+            return this;
+        }
+    }
+    
     private static class DowncallHandles {
         
         private static final MethodHandle adw_carousel_indicator_dots_new = Interop.downcallHandle(
             "adw_carousel_indicator_dots_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_carousel_indicator_dots_get_carousel = Interop.downcallHandle(
             "adw_carousel_indicator_dots_get_carousel",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_carousel_indicator_dots_set_carousel = Interop.downcallHandle(
             "adw_carousel_indicator_dots_set_carousel",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+            false
+        );
+        
+        private static final MethodHandle adw_carousel_indicator_dots_get_type = Interop.downcallHandle(
+            "adw_carousel_indicator_dots_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }

@@ -95,7 +95,7 @@ public class Calendar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * @throws ClassCastException If the GType is not derived from "GtkCalendar", a ClassCastException will be thrown.
      */
     public static Calendar castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkCalendar"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), Calendar.getType())) {
             return new Calendar(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkCalendar");
@@ -310,6 +310,20 @@ public class Calendar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
         }
     }
     
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.gtk_calendar_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+    
     @FunctionalInterface
     public interface DaySelected {
         void signalReceived(Calendar source);
@@ -328,7 +342,7 @@ public class Calendar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(Calendar.Callbacks.class, "signalCalendarDaySelected",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                     Interop.getScope()),
                 Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
@@ -356,7 +370,7 @@ public class Calendar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(Calendar.Callbacks.class, "signalCalendarNextMonth",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                     Interop.getScope()),
                 Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
@@ -384,7 +398,7 @@ public class Calendar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(Calendar.Callbacks.class, "signalCalendarNextYear",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                     Interop.getScope()),
                 Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
@@ -412,7 +426,7 @@ public class Calendar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(Calendar.Callbacks.class, "signalCalendarPrevMonth",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                     Interop.getScope()),
                 Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
@@ -440,7 +454,7 @@ public class Calendar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(Calendar.Callbacks.class, "signalCalendarPrevYear",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                     Interop.getScope()),
                 Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
@@ -449,84 +463,195 @@ public class Calendar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gtk.Widget.Build {
+        
+         /**
+         * A {@link Calendar.Build} object constructs a {@link Calendar} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link Calendar} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link Calendar} using {@link Calendar#castFrom}.
+         * @return A new instance of {@code Calendar} with the properties 
+         *         that were set in the Build object.
+         */
+        public Calendar construct() {
+            return Calendar.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    Calendar.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+        
+        /**
+         * The selected day (as a number between 1 and 31).
+         * @param day The value for the {@code day} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setDay(int day) {
+            names.add("day");
+            values.add(org.gtk.gobject.Value.create(day));
+            return this;
+        }
+        
+        /**
+         * The selected month (as a number between 0 and 11).
+         * <p>
+         * This property gets initially set to the current month.
+         * @param month The value for the {@code month} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setMonth(int month) {
+            names.add("month");
+            values.add(org.gtk.gobject.Value.create(month));
+            return this;
+        }
+        
+        /**
+         * Determines whether day names are displayed.
+         * @param showDayNames The value for the {@code show-day-names} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setShowDayNames(boolean showDayNames) {
+            names.add("show-day-names");
+            values.add(org.gtk.gobject.Value.create(showDayNames));
+            return this;
+        }
+        
+        /**
+         * Determines whether a heading is displayed.
+         * @param showHeading The value for the {@code show-heading} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setShowHeading(boolean showHeading) {
+            names.add("show-heading");
+            values.add(org.gtk.gobject.Value.create(showHeading));
+            return this;
+        }
+        
+        /**
+         * Determines whether week numbers are displayed.
+         * @param showWeekNumbers The value for the {@code show-week-numbers} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setShowWeekNumbers(boolean showWeekNumbers) {
+            names.add("show-week-numbers");
+            values.add(org.gtk.gobject.Value.create(showWeekNumbers));
+            return this;
+        }
+        
+        /**
+         * The selected year.
+         * <p>
+         * This property gets initially set to the current year.
+         * @param year The value for the {@code year} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setYear(int year) {
+            names.add("year");
+            values.add(org.gtk.gobject.Value.create(year));
+            return this;
+        }
+    }
     
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_calendar_new = Interop.downcallHandle(
             "gtk_calendar_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_calendar_clear_marks = Interop.downcallHandle(
             "gtk_calendar_clear_marks",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_calendar_get_date = Interop.downcallHandle(
             "gtk_calendar_get_date",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_calendar_get_day_is_marked = Interop.downcallHandle(
             "gtk_calendar_get_day_is_marked",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_calendar_get_show_day_names = Interop.downcallHandle(
             "gtk_calendar_get_show_day_names",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_calendar_get_show_heading = Interop.downcallHandle(
             "gtk_calendar_get_show_heading",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_calendar_get_show_week_numbers = Interop.downcallHandle(
             "gtk_calendar_get_show_week_numbers",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_calendar_mark_day = Interop.downcallHandle(
             "gtk_calendar_mark_day",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_calendar_select_day = Interop.downcallHandle(
             "gtk_calendar_select_day",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_calendar_set_show_day_names = Interop.downcallHandle(
             "gtk_calendar_set_show_day_names",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_calendar_set_show_heading = Interop.downcallHandle(
             "gtk_calendar_set_show_heading",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_calendar_set_show_week_numbers = Interop.downcallHandle(
             "gtk_calendar_set_show_week_numbers",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_calendar_unmark_day = Interop.downcallHandle(
             "gtk_calendar_unmark_day",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+            false
+        );
+        
+        private static final MethodHandle gtk_calendar_get_type = Interop.downcallHandle(
+            "gtk_calendar_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }
@@ -534,33 +659,33 @@ public class Calendar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     private static class Callbacks {
         
         public static void signalCalendarDaySelected(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (Calendar.DaySelected) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Calendar(source, Ownership.UNKNOWN));
+            HANDLER.signalReceived(new Calendar(source, Ownership.NONE));
         }
         
         public static void signalCalendarNextMonth(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (Calendar.NextMonth) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Calendar(source, Ownership.UNKNOWN));
+            HANDLER.signalReceived(new Calendar(source, Ownership.NONE));
         }
         
         public static void signalCalendarNextYear(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (Calendar.NextYear) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Calendar(source, Ownership.UNKNOWN));
+            HANDLER.signalReceived(new Calendar(source, Ownership.NONE));
         }
         
         public static void signalCalendarPrevMonth(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (Calendar.PrevMonth) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Calendar(source, Ownership.UNKNOWN));
+            HANDLER.signalReceived(new Calendar(source, Ownership.NONE));
         }
         
         public static void signalCalendarPrevYear(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (Calendar.PrevYear) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Calendar(source, Ownership.UNKNOWN));
+            HANDLER.signalReceived(new Calendar(source, Ownership.NONE));
         }
     }
 }

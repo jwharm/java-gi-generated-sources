@@ -68,7 +68,7 @@ public class Window extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
     
     private static final java.lang.String C_TYPE_NAME = "GtkWindow";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gtk.Widget.getMemoryLayout().withName("parent_instance")
     ).withName(C_TYPE_NAME);
     
@@ -113,7 +113,7 @@ public class Window extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
      * @throws ClassCastException If the GType is not derived from "GtkWindow", a ClassCastException will be thrown.
      */
     public static Window castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkWindow"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), Window.getType())) {
             return new Window(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkWindow");
@@ -278,9 +278,9 @@ public class Window extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
      */
     public void getDefaultSize(Out<Integer> width, Out<Integer> height) {
         java.util.Objects.requireNonNull(width, "Parameter 'width' must not be null");
+        MemorySegment widthPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         java.util.Objects.requireNonNull(height, "Parameter 'height' must not be null");
-        MemorySegment widthPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
-        MemorySegment heightPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
+        MemorySegment heightPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         try {
             DowncallHandles.gtk_window_get_default_size.invokeExact(
                     handle(),
@@ -289,8 +289,8 @@ public class Window extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        width.set(widthPOINTER.get(ValueLayout.JAVA_INT, 0));
-        height.set(heightPOINTER.get(ValueLayout.JAVA_INT, 0));
+        width.set(widthPOINTER.get(Interop.valueLayout.C_INT, 0));
+        height.set(heightPOINTER.get(Interop.valueLayout.C_INT, 0));
     }
     
     /**
@@ -1202,6 +1202,20 @@ public class Window extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
     }
     
     /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.gtk_window_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+    
+    /**
      * Returns the fallback icon name for windows.
      * <p>
      * The returned string is owned by GTK and should not
@@ -1338,7 +1352,7 @@ public class Window extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(Window.Callbacks.class, "signalWindowActivateDefault",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                     Interop.getScope()),
                 Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
@@ -1369,7 +1383,7 @@ public class Window extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(Window.Callbacks.class, "signalWindowActivateFocus",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                     Interop.getScope()),
                 Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
@@ -1397,7 +1411,7 @@ public class Window extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(Window.Callbacks.class, "signalWindowCloseRequest",
                         MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                    FunctionDescriptor.of(Interop.valueLayout.C_BOOLEAN, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                     Interop.getScope()),
                 Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
@@ -1434,7 +1448,7 @@ public class Window extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(Window.Callbacks.class, "signalWindowEnableDebugging",
                         MethodType.methodType(boolean.class, MemoryAddress.class, int.class, MemoryAddress.class)),
-                    FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+                    FunctionDescriptor.of(Interop.valueLayout.C_BOOLEAN, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
                     Interop.getScope()),
                 Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
@@ -1463,7 +1477,7 @@ public class Window extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(Window.Callbacks.class, "signalWindowKeysChanged",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                     Interop.getScope()),
                 Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
@@ -1472,372 +1486,706 @@ public class Window extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gtk.Widget.Build {
+        
+         /**
+         * A {@link Window.Build} object constructs a {@link Window} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link Window} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link Window} using {@link Window#castFrom}.
+         * @return A new instance of {@code Window} with the properties 
+         *         that were set in the Build object.
+         */
+        public Window construct() {
+            return Window.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    Window.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+        
+        /**
+         * The {@code GtkApplication} associated with the window.
+         * <p>
+         * The application will be kept alive for at least as long as it
+         * has any windows associated with it (see g_application_hold()
+         * for a way to keep it alive without windows).
+         * <p>
+         * Normally, the connection between the application and the window
+         * will remain until the window is destroyed, but you can explicitly
+         * remove it by setting the :application property to {@code null}.
+         * @param application The value for the {@code application} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setApplication(org.gtk.gtk.Application application) {
+            names.add("application");
+            values.add(org.gtk.gobject.Value.create(application));
+            return this;
+        }
+        
+        /**
+         * The child widget.
+         * @param child The value for the {@code child} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setChild(org.gtk.gtk.Widget child) {
+            names.add("child");
+            values.add(org.gtk.gobject.Value.create(child));
+            return this;
+        }
+        
+        /**
+         * Whether the window should have a frame (also known as <em>decorations</em>).
+         * @param decorated The value for the {@code decorated} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setDecorated(boolean decorated) {
+            names.add("decorated");
+            values.add(org.gtk.gobject.Value.create(decorated));
+            return this;
+        }
+        
+        /**
+         * The default height of the window.
+         * @param defaultHeight The value for the {@code default-height} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setDefaultHeight(int defaultHeight) {
+            names.add("default-height");
+            values.add(org.gtk.gobject.Value.create(defaultHeight));
+            return this;
+        }
+        
+        /**
+         * The default widget.
+         * @param defaultWidget The value for the {@code default-widget} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setDefaultWidget(org.gtk.gtk.Widget defaultWidget) {
+            names.add("default-widget");
+            values.add(org.gtk.gobject.Value.create(defaultWidget));
+            return this;
+        }
+        
+        /**
+         * The default width of the window.
+         * @param defaultWidth The value for the {@code default-width} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setDefaultWidth(int defaultWidth) {
+            names.add("default-width");
+            values.add(org.gtk.gobject.Value.create(defaultWidth));
+            return this;
+        }
+        
+        /**
+         * Whether the window frame should have a close button.
+         * @param deletable The value for the {@code deletable} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setDeletable(boolean deletable) {
+            names.add("deletable");
+            values.add(org.gtk.gobject.Value.create(deletable));
+            return this;
+        }
+        
+        /**
+         * If this window should be destroyed when the parent is destroyed.
+         * @param destroyWithParent The value for the {@code destroy-with-parent} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setDestroyWithParent(boolean destroyWithParent) {
+            names.add("destroy-with-parent");
+            values.add(org.gtk.gobject.Value.create(destroyWithParent));
+            return this;
+        }
+        
+        /**
+         * The display that will display this window.
+         * @param display The value for the {@code display} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setDisplay(org.gtk.gdk.Display display) {
+            names.add("display");
+            values.add(org.gtk.gobject.Value.create(display));
+            return this;
+        }
+        
+        /**
+         * Whether 'focus rectangles' are currently visible in this window.
+         * <p>
+         * This property is maintained by GTK based on user input
+         * and should not be set by applications.
+         * @param focusVisible The value for the {@code focus-visible} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setFocusVisible(boolean focusVisible) {
+            names.add("focus-visible");
+            values.add(org.gtk.gobject.Value.create(focusVisible));
+            return this;
+        }
+        
+        /**
+         * The focus widget.
+         * @param focusWidget The value for the {@code focus-widget} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setFocusWidget(org.gtk.gtk.Widget focusWidget) {
+            names.add("focus-widget");
+            values.add(org.gtk.gobject.Value.create(focusWidget));
+            return this;
+        }
+        
+        /**
+         * Whether the window is fullscreen.
+         * <p>
+         * Setting this property is the equivalent of calling
+         * {@link Window#fullscreen} or {@link Window#unfullscreen};
+         * either operation is asynchronous, which means you will need to
+         * connect to the ::notify signal in order to know whether the
+         * operation was successful.
+         * @param fullscreened The value for the {@code fullscreened} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setFullscreened(boolean fullscreened) {
+            names.add("fullscreened");
+            values.add(org.gtk.gobject.Value.create(fullscreened));
+            return this;
+        }
+        
+        /**
+         * Whether the window frame should handle F10 for activating
+         * menubars.
+         * @param handleMenubarAccel The value for the {@code handle-menubar-accel} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setHandleMenubarAccel(boolean handleMenubarAccel) {
+            names.add("handle-menubar-accel");
+            values.add(org.gtk.gobject.Value.create(handleMenubarAccel));
+            return this;
+        }
+        
+        /**
+         * If this window should be hidden when the users clicks the close button.
+         * @param hideOnClose The value for the {@code hide-on-close} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setHideOnClose(boolean hideOnClose) {
+            names.add("hide-on-close");
+            values.add(org.gtk.gobject.Value.create(hideOnClose));
+            return this;
+        }
+        
+        /**
+         * Specifies the name of the themed icon to use as the window icon.
+         * <p>
+         * See {@link IconTheme} for more details.
+         * @param iconName The value for the {@code icon-name} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setIconName(java.lang.String iconName) {
+            names.add("icon-name");
+            values.add(org.gtk.gobject.Value.create(iconName));
+            return this;
+        }
+        
+        /**
+         * Whether the toplevel is the currently active window.
+         * @param isActive The value for the {@code is-active} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setIsActive(boolean isActive) {
+            names.add("is-active");
+            values.add(org.gtk.gobject.Value.create(isActive));
+            return this;
+        }
+        
+        /**
+         * Whether the window is maximized.
+         * <p>
+         * Setting this property is the equivalent of calling
+         * {@link Window#maximize} or {@link Window#unmaximize};
+         * either operation is asynchronous, which means you will need to
+         * connect to the ::notify signal in order to know whether the
+         * operation was successful.
+         * @param maximized The value for the {@code maximized} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setMaximized(boolean maximized) {
+            names.add("maximized");
+            values.add(org.gtk.gobject.Value.create(maximized));
+            return this;
+        }
+        
+        /**
+         * Whether mnemonics are currently visible in this window.
+         * <p>
+         * This property is maintained by GTK based on user input,
+         * and should not be set by applications.
+         * @param mnemonicsVisible The value for the {@code mnemonics-visible} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setMnemonicsVisible(boolean mnemonicsVisible) {
+            names.add("mnemonics-visible");
+            values.add(org.gtk.gobject.Value.create(mnemonicsVisible));
+            return this;
+        }
+        
+        /**
+         * If {@code true}, the window is modal.
+         * @param modal The value for the {@code modal} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setModal(boolean modal) {
+            names.add("modal");
+            values.add(org.gtk.gobject.Value.create(modal));
+            return this;
+        }
+        
+        /**
+         * If {@code true}, users can resize the window.
+         * @param resizable The value for the {@code resizable} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setResizable(boolean resizable) {
+            names.add("resizable");
+            values.add(org.gtk.gobject.Value.create(resizable));
+            return this;
+        }
+        
+        /**
+         * A write-only property for setting window's startup notification identifier.
+         * @param startupId The value for the {@code startup-id} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setStartupId(java.lang.String startupId) {
+            names.add("startup-id");
+            values.add(org.gtk.gobject.Value.create(startupId));
+            return this;
+        }
+        
+        /**
+         * The title of the window.
+         * @param title The value for the {@code title} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setTitle(java.lang.String title) {
+            names.add("title");
+            values.add(org.gtk.gobject.Value.create(title));
+            return this;
+        }
+        
+        /**
+         * The titlebar widget.
+         * @param titlebar The value for the {@code titlebar} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setTitlebar(org.gtk.gtk.Widget titlebar) {
+            names.add("titlebar");
+            values.add(org.gtk.gobject.Value.create(titlebar));
+            return this;
+        }
+        
+        /**
+         * The transient parent of the window.
+         * @param transientFor The value for the {@code transient-for} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setTransientFor(org.gtk.gtk.Window transientFor) {
+            names.add("transient-for");
+            values.add(org.gtk.gobject.Value.create(transientFor));
+            return this;
+        }
+    }
     
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_window_new = Interop.downcallHandle(
             "gtk_window_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_window_close = Interop.downcallHandle(
             "gtk_window_close",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_window_destroy = Interop.downcallHandle(
             "gtk_window_destroy",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_window_fullscreen = Interop.downcallHandle(
             "gtk_window_fullscreen",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_window_fullscreen_on_monitor = Interop.downcallHandle(
             "gtk_window_fullscreen_on_monitor",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_window_get_application = Interop.downcallHandle(
             "gtk_window_get_application",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_window_get_child = Interop.downcallHandle(
             "gtk_window_get_child",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_window_get_decorated = Interop.downcallHandle(
             "gtk_window_get_decorated",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_window_get_default_size = Interop.downcallHandle(
             "gtk_window_get_default_size",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_window_get_default_widget = Interop.downcallHandle(
             "gtk_window_get_default_widget",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_window_get_deletable = Interop.downcallHandle(
             "gtk_window_get_deletable",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_window_get_destroy_with_parent = Interop.downcallHandle(
             "gtk_window_get_destroy_with_parent",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_window_get_focus = Interop.downcallHandle(
             "gtk_window_get_focus",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_window_get_focus_visible = Interop.downcallHandle(
             "gtk_window_get_focus_visible",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_window_get_group = Interop.downcallHandle(
             "gtk_window_get_group",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_window_get_handle_menubar_accel = Interop.downcallHandle(
             "gtk_window_get_handle_menubar_accel",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_window_get_hide_on_close = Interop.downcallHandle(
             "gtk_window_get_hide_on_close",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_window_get_icon_name = Interop.downcallHandle(
             "gtk_window_get_icon_name",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_window_get_mnemonics_visible = Interop.downcallHandle(
             "gtk_window_get_mnemonics_visible",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_window_get_modal = Interop.downcallHandle(
             "gtk_window_get_modal",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_window_get_resizable = Interop.downcallHandle(
             "gtk_window_get_resizable",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_window_get_title = Interop.downcallHandle(
             "gtk_window_get_title",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_window_get_titlebar = Interop.downcallHandle(
             "gtk_window_get_titlebar",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_window_get_transient_for = Interop.downcallHandle(
             "gtk_window_get_transient_for",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_window_has_group = Interop.downcallHandle(
             "gtk_window_has_group",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_window_is_active = Interop.downcallHandle(
             "gtk_window_is_active",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_window_is_fullscreen = Interop.downcallHandle(
             "gtk_window_is_fullscreen",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_window_is_maximized = Interop.downcallHandle(
             "gtk_window_is_maximized",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_window_maximize = Interop.downcallHandle(
             "gtk_window_maximize",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_window_minimize = Interop.downcallHandle(
             "gtk_window_minimize",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_window_present = Interop.downcallHandle(
             "gtk_window_present",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_window_present_with_time = Interop.downcallHandle(
             "gtk_window_present_with_time",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_window_set_application = Interop.downcallHandle(
             "gtk_window_set_application",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_window_set_child = Interop.downcallHandle(
             "gtk_window_set_child",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_window_set_decorated = Interop.downcallHandle(
             "gtk_window_set_decorated",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_window_set_default_size = Interop.downcallHandle(
             "gtk_window_set_default_size",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_window_set_default_widget = Interop.downcallHandle(
             "gtk_window_set_default_widget",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_window_set_deletable = Interop.downcallHandle(
             "gtk_window_set_deletable",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_window_set_destroy_with_parent = Interop.downcallHandle(
             "gtk_window_set_destroy_with_parent",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_window_set_display = Interop.downcallHandle(
             "gtk_window_set_display",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_window_set_focus = Interop.downcallHandle(
             "gtk_window_set_focus",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_window_set_focus_visible = Interop.downcallHandle(
             "gtk_window_set_focus_visible",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_window_set_handle_menubar_accel = Interop.downcallHandle(
             "gtk_window_set_handle_menubar_accel",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_window_set_hide_on_close = Interop.downcallHandle(
             "gtk_window_set_hide_on_close",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_window_set_icon_name = Interop.downcallHandle(
             "gtk_window_set_icon_name",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_window_set_mnemonics_visible = Interop.downcallHandle(
             "gtk_window_set_mnemonics_visible",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_window_set_modal = Interop.downcallHandle(
             "gtk_window_set_modal",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_window_set_resizable = Interop.downcallHandle(
             "gtk_window_set_resizable",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_window_set_startup_id = Interop.downcallHandle(
             "gtk_window_set_startup_id",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_window_set_title = Interop.downcallHandle(
             "gtk_window_set_title",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_window_set_titlebar = Interop.downcallHandle(
             "gtk_window_set_titlebar",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_window_set_transient_for = Interop.downcallHandle(
             "gtk_window_set_transient_for",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_window_unfullscreen = Interop.downcallHandle(
             "gtk_window_unfullscreen",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_window_unmaximize = Interop.downcallHandle(
             "gtk_window_unmaximize",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_window_unminimize = Interop.downcallHandle(
             "gtk_window_unminimize",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+            false
+        );
+        
+        private static final MethodHandle gtk_window_get_type = Interop.downcallHandle(
+            "gtk_window_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
         
         private static final MethodHandle gtk_window_get_default_icon_name = Interop.downcallHandle(
             "gtk_window_get_default_icon_name",
-            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_window_get_toplevels = Interop.downcallHandle(
             "gtk_window_get_toplevels",
-            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_window_list_toplevels = Interop.downcallHandle(
             "gtk_window_list_toplevels",
-            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_window_set_auto_startup_notification = Interop.downcallHandle(
             "gtk_window_set_auto_startup_notification",
-            FunctionDescriptor.ofVoid(ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_window_set_default_icon_name = Interop.downcallHandle(
             "gtk_window_set_default_icon_name",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_window_set_interactive_debugging = Interop.downcallHandle(
             "gtk_window_set_interactive_debugging",
-            FunctionDescriptor.ofVoid(ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.C_INT),
             false
         );
     }
@@ -1845,33 +2193,33 @@ public class Window extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
     private static class Callbacks {
         
         public static void signalWindowActivateDefault(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (Window.ActivateDefault) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Window(source, Ownership.UNKNOWN));
+            HANDLER.signalReceived(new Window(source, Ownership.NONE));
         }
         
         public static void signalWindowActivateFocus(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (Window.ActivateFocus) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Window(source, Ownership.UNKNOWN));
+            HANDLER.signalReceived(new Window(source, Ownership.NONE));
         }
         
         public static boolean signalWindowCloseRequest(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (Window.CloseRequest) Interop.signalRegistry.get(HASH);
-            return HANDLER.signalReceived(new Window(source, Ownership.UNKNOWN));
+            return HANDLER.signalReceived(new Window(source, Ownership.NONE));
         }
         
         public static boolean signalWindowEnableDebugging(MemoryAddress source, int toggle, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (Window.EnableDebugging) Interop.signalRegistry.get(HASH);
-            return HANDLER.signalReceived(new Window(source, Ownership.UNKNOWN), toggle != 0);
+            return HANDLER.signalReceived(new Window(source, Ownership.NONE), toggle != 0);
         }
         
         public static void signalWindowKeysChanged(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (Window.KeysChanged) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Window(source, Ownership.UNKNOWN));
+            HANDLER.signalReceived(new Window(source, Ownership.NONE));
         }
     }
 }

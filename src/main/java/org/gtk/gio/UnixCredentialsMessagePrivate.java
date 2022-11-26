@@ -5,7 +5,7 @@ import java.lang.foreign.*;
 import java.lang.invoke.*;
 import org.jetbrains.annotations.*;
 
-public class UnixCredentialsMessagePrivate extends io.github.jwharm.javagi.ProxyBase {
+public class UnixCredentialsMessagePrivate extends Struct {
     
     static {
         Gio.javagi$ensureInitialized();
@@ -24,6 +24,10 @@ public class UnixCredentialsMessagePrivate extends io.github.jwharm.javagi.Proxy
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link UnixCredentialsMessagePrivate}
+     * @return A new, uninitialized @{link UnixCredentialsMessagePrivate}
+     */
     public static UnixCredentialsMessagePrivate allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         UnixCredentialsMessagePrivate newInstance = new UnixCredentialsMessagePrivate(segment.address(), Ownership.NONE);
@@ -39,5 +43,33 @@ public class UnixCredentialsMessagePrivate extends io.github.jwharm.javagi.Proxy
     @ApiStatus.Internal
     public UnixCredentialsMessagePrivate(Addressable address, Ownership ownership) {
         super(address, ownership);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private UnixCredentialsMessagePrivate struct;
+        
+         /**
+         * A {@link UnixCredentialsMessagePrivate.Build} object constructs a {@link UnixCredentialsMessagePrivate} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = UnixCredentialsMessagePrivate.allocate();
+        }
+        
+         /**
+         * Finish building the {@link UnixCredentialsMessagePrivate} struct.
+         * @return A new instance of {@code UnixCredentialsMessagePrivate} with the fields 
+         *         that were set in the Build object.
+         */
+        public UnixCredentialsMessagePrivate construct() {
+            return struct;
+        }
     }
 }

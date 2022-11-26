@@ -10,7 +10,7 @@ import org.jetbrains.annotations.*;
  * data and facilitates its lifecycle management between
  * a client program and HarfBuzz.
  */
-public class BlobT extends io.github.jwharm.javagi.ProxyBase {
+public class BlobT extends Struct {
     
     static {
         HarfBuzz.javagi$ensureInitialized();
@@ -29,6 +29,10 @@ public class BlobT extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link BlobT}
+     * @return A new, uninitialized @{link BlobT}
+     */
     public static BlobT allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         BlobT newInstance = new BlobT(segment.address(), Ownership.NONE);
@@ -44,5 +48,33 @@ public class BlobT extends io.github.jwharm.javagi.ProxyBase {
     @ApiStatus.Internal
     public BlobT(Addressable address, Ownership ownership) {
         super(address, ownership);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private BlobT struct;
+        
+         /**
+         * A {@link BlobT.Build} object constructs a {@link BlobT} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = BlobT.allocate();
+        }
+        
+         /**
+         * Finish building the {@link BlobT} struct.
+         * @return A new instance of {@code BlobT} with the fields 
+         *         that were set in the Build object.
+         */
+        public BlobT construct() {
+            return struct;
+        }
     }
 }

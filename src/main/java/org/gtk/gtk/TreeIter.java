@@ -12,7 +12,7 @@ import org.jetbrains.annotations.*;
  * model-specific data in the three {@code user_data}
  * members.
  */
-public class TreeIter extends io.github.jwharm.javagi.ProxyBase {
+public class TreeIter extends Struct {
     
     static {
         Gtk.javagi$ensureInitialized();
@@ -20,8 +20,8 @@ public class TreeIter extends io.github.jwharm.javagi.ProxyBase {
     
     private static final java.lang.String C_TYPE_NAME = "GtkTreeIter";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
-        ValueLayout.JAVA_INT.withName("stamp"),
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
+        Interop.valueLayout.C_INT.withName("stamp"),
         MemoryLayout.paddingLayout(32),
         Interop.valueLayout.ADDRESS.withName("user_data"),
         Interop.valueLayout.ADDRESS.withName("user_data2"),
@@ -39,6 +39,10 @@ public class TreeIter extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link TreeIter}
+     * @return A new, uninitialized @{link TreeIter}
+     */
     public static TreeIter allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         TreeIter newInstance = new TreeIter(segment.address(), Ownership.NONE);
@@ -85,7 +89,7 @@ public class TreeIter extends io.github.jwharm.javagi.ProxyBase {
     public void user_data$set(java.lang.foreign.MemoryAddress user_data) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("user_data"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), user_data);
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) user_data);
     }
     
     /**
@@ -106,7 +110,7 @@ public class TreeIter extends io.github.jwharm.javagi.ProxyBase {
     public void user_data2$set(java.lang.foreign.MemoryAddress user_data2) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("user_data2"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), user_data2);
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) user_data2);
     }
     
     /**
@@ -127,7 +131,7 @@ public class TreeIter extends io.github.jwharm.javagi.ProxyBase {
     public void user_data3$set(java.lang.foreign.MemoryAddress user_data3) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("user_data3"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), user_data3);
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) user_data3);
     }
     
     /**
@@ -178,14 +182,90 @@ public class TreeIter extends io.github.jwharm.javagi.ProxyBase {
         
         private static final MethodHandle gtk_tree_iter_copy = Interop.downcallHandle(
             "gtk_tree_iter_copy",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_tree_iter_free = Interop.downcallHandle(
             "gtk_tree_iter_free",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private TreeIter struct;
+        
+         /**
+         * A {@link TreeIter.Build} object constructs a {@link TreeIter} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = TreeIter.allocate();
+        }
+        
+         /**
+         * Finish building the {@link TreeIter} struct.
+         * @return A new instance of {@code TreeIter} with the fields 
+         *         that were set in the Build object.
+         */
+        public TreeIter construct() {
+            return struct;
+        }
+        
+        /**
+         * a unique stamp to catch invalid iterators
+         * @param stamp The value for the {@code stamp} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setStamp(int stamp) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("stamp"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), stamp);
+            return this;
+        }
+        
+        /**
+         * model-specific data
+         * @param user_data The value for the {@code user_data} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setUserData(java.lang.foreign.MemoryAddress user_data) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("user_data"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (user_data == null ? MemoryAddress.NULL : (Addressable) user_data));
+            return this;
+        }
+        
+        /**
+         * model-specific data
+         * @param user_data2 The value for the {@code user_data2} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setUserData2(java.lang.foreign.MemoryAddress user_data2) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("user_data2"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (user_data2 == null ? MemoryAddress.NULL : (Addressable) user_data2));
+            return this;
+        }
+        
+        /**
+         * model-specific data
+         * @param user_data3 The value for the {@code user_data3} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setUserData3(java.lang.foreign.MemoryAddress user_data3) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("user_data3"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (user_data3 == null ? MemoryAddress.NULL : (Addressable) user_data3));
+            return this;
+        }
     }
 }

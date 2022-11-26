@@ -51,7 +51,7 @@ public class EnumListModel extends org.gtk.gobject.Object implements org.gtk.gio
      * @throws ClassCastException If the GType is not derived from "AdwEnumListModel", a ClassCastException will be thrown.
      */
     public static EnumListModel castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("AdwEnumListModel"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), EnumListModel.getType())) {
             return new EnumListModel(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of AdwEnumListModel");
@@ -109,23 +109,89 @@ public class EnumListModel extends org.gtk.gobject.Object implements org.gtk.gio
         return new org.gtk.glib.Type(RESULT);
     }
     
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.adw_enum_list_model_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gobject.Object.Build {
+        
+         /**
+         * A {@link EnumListModel.Build} object constructs a {@link EnumListModel} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link EnumListModel} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link EnumListModel} using {@link EnumListModel#castFrom}.
+         * @return A new instance of {@code EnumListModel} with the properties 
+         *         that were set in the Build object.
+         */
+        public EnumListModel construct() {
+            return EnumListModel.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    EnumListModel.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+        
+        /**
+         * The type of the enum represented by the model.
+         * @param enumType The value for the {@code enum-type} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setEnumType(org.gtk.glib.Type enumType) {
+            names.add("enum-type");
+            values.add(org.gtk.gobject.Value.create(enumType));
+            return this;
+        }
+    }
+    
     private static class DowncallHandles {
         
         private static final MethodHandle adw_enum_list_model_new = Interop.downcallHandle(
             "adw_enum_list_model_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
             false
         );
         
         private static final MethodHandle adw_enum_list_model_find_position = Interop.downcallHandle(
             "adw_enum_list_model_find_position",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle adw_enum_list_model_get_enum_type = Interop.downcallHandle(
             "adw_enum_list_model_get_enum_type",
-            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
+            false
+        );
+        
+        private static final MethodHandle adw_enum_list_model_get_type = Interop.downcallHandle(
+            "adw_enum_list_model_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }

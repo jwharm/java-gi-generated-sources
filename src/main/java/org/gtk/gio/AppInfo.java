@@ -69,7 +69,7 @@ public interface AppInfo extends io.github.jwharm.javagi.Proxy {
      * @throws ClassCastException If the GType is not derived from "GAppInfo", a ClassCastException will be thrown.
      */
     public static AppInfo castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GAppInfo"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), AppInfo.getType())) {
             return new AppInfoImpl(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GAppInfo");
@@ -85,7 +85,7 @@ public interface AppInfo extends io.github.jwharm.javagi.Proxy {
      */
     default boolean addSupportsType(@NotNull java.lang.String contentType) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(contentType, "Parameter 'contentType' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_app_info_add_supports_type.invokeExact(
@@ -361,7 +361,7 @@ public interface AppInfo extends io.github.jwharm.javagi.Proxy {
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     default boolean launch(@Nullable org.gtk.glib.List files, @Nullable org.gtk.gio.AppLaunchContext context) throws io.github.jwharm.javagi.GErrorException {
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_app_info_launch.invokeExact(
@@ -382,7 +382,9 @@ public interface AppInfo extends io.github.jwharm.javagi.Proxy {
      * Launches the application. This passes the {@code uris} to the launched application
      * as arguments, using the optional {@code context} to get information
      * about the details of the launcher (like what screen it is on).
-     * On error, {@code error} will be set accordingly.
+     * On error, {@code error} will be set accordingly. If the application only supports
+     * one URI per invocation as part of their command-line, multiple instances
+     * of the application will be spawned.
      * <p>
      * To launch the application without arguments pass a {@code null} {@code uris} list.
      * <p>
@@ -395,7 +397,7 @@ public interface AppInfo extends io.github.jwharm.javagi.Proxy {
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     default boolean launchUris(@Nullable org.gtk.glib.List uris, @Nullable org.gtk.gio.AppLaunchContext context) throws io.github.jwharm.javagi.GErrorException {
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_app_info_launch_uris.invokeExact(
@@ -434,7 +436,7 @@ public interface AppInfo extends io.github.jwharm.javagi.Proxy {
                     (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                         Interop.getScope())),
                     (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
         } catch (Throwable ERR) {
@@ -450,7 +452,7 @@ public interface AppInfo extends io.github.jwharm.javagi.Proxy {
      */
     default boolean launchUrisFinish(@NotNull org.gtk.gio.AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(result, "Parameter 'result' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_app_info_launch_uris_finish.invokeExact(
@@ -474,7 +476,7 @@ public interface AppInfo extends io.github.jwharm.javagi.Proxy {
      */
     default boolean removeSupportsType(@NotNull java.lang.String contentType) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(contentType, "Parameter 'contentType' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_app_info_remove_supports_type.invokeExact(
@@ -499,7 +501,7 @@ public interface AppInfo extends io.github.jwharm.javagi.Proxy {
      */
     default boolean setAsDefaultForExtension(@NotNull java.lang.String extension) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(extension, "Parameter 'extension' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_app_info_set_as_default_for_extension.invokeExact(
@@ -523,7 +525,7 @@ public interface AppInfo extends io.github.jwharm.javagi.Proxy {
      */
     default boolean setAsDefaultForType(@NotNull java.lang.String contentType) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(contentType, "Parameter 'contentType' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_app_info_set_as_default_for_type.invokeExact(
@@ -550,7 +552,7 @@ public interface AppInfo extends io.github.jwharm.javagi.Proxy {
      */
     default boolean setAsLastUsedForType(@NotNull java.lang.String contentType) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(contentType, "Parameter 'contentType' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_app_info_set_as_last_used_for_type.invokeExact(
@@ -613,6 +615,20 @@ public interface AppInfo extends io.github.jwharm.javagi.Proxy {
     }
     
     /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.g_app_info_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+    
+    /**
      * Creates a new {@link AppInfo} from the given information.
      * <p>
      * Note that for {@code commandline}, the quoting rules of the Exec key of the
@@ -629,7 +645,7 @@ public interface AppInfo extends io.github.jwharm.javagi.Proxy {
     public static @NotNull org.gtk.gio.AppInfo createFromCommandline(@NotNull java.lang.String commandline, @Nullable java.lang.String applicationName, @NotNull org.gtk.gio.AppInfoCreateFlags flags) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(commandline, "Parameter 'commandline' must not be null");
         java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_app_info_create_from_commandline.invokeExact(
@@ -710,6 +726,59 @@ public interface AppInfo extends io.github.jwharm.javagi.Proxy {
     }
     
     /**
+     * Asynchronously gets the default {@link AppInfo} for a given content type.
+     * @param contentType the content type to find a {@link AppInfo} for
+     * @param mustSupportUris if {@code true}, the {@link AppInfo} is expected to
+     *     support URIs
+     * @param cancellable optional {@link Cancellable} object, {@code null} to ignore
+     * @param callback a {@link AsyncReadyCallback} to call when the request is done
+     */
+    public static void getDefaultForTypeAsync(@NotNull java.lang.String contentType, boolean mustSupportUris, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback) {
+        java.util.Objects.requireNonNull(contentType, "Parameter 'contentType' must not be null");
+        try {
+            DowncallHandles.g_app_info_get_default_for_type_async.invokeExact(
+                    Interop.allocateNativeString(contentType),
+                    mustSupportUris ? 1 : 0,
+                    (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
+                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
+                        MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbAsyncReadyCallback",
+                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
+                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                        Interop.getScope())),
+                    (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+    }
+    
+    /**
+     * Finishes a default {@link AppInfo} lookup started by
+     * g_app_info_get_default_for_type_async().
+     * <p>
+     * If no {@link AppInfo} is found, then {@code error} will be set to {@link IOErrorEnum#NOT_FOUND}.
+     * @param result a {@link AsyncResult}
+     * @return {@link AppInfo} for given {@code content_type} or
+     *     {@code null} on error.
+     * @throws GErrorException See {@link org.gtk.glib.Error}
+     */
+    public static @NotNull org.gtk.gio.AppInfo getDefaultForTypeFinish(@NotNull org.gtk.gio.AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
+        java.util.Objects.requireNonNull(result, "Parameter 'result' must not be null");
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
+        MemoryAddress RESULT;
+        try {
+            RESULT = (MemoryAddress) DowncallHandles.g_app_info_get_default_for_type_finish.invokeExact(
+                    result.handle(),
+                    (Addressable) GERROR);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return new org.gtk.gio.AppInfo.AppInfoImpl(RESULT, Ownership.FULL);
+    }
+    
+    /**
      * Gets the default application for handling URIs with
      * the given URI scheme. A URI scheme is the initial part
      * of the URI, up to but not including the ':', e.g. "http",
@@ -726,6 +795,59 @@ public interface AppInfo extends io.github.jwharm.javagi.Proxy {
                     Interop.allocateNativeString(uriScheme));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.gio.AppInfo.AppInfoImpl(RESULT, Ownership.FULL);
+    }
+    
+    /**
+     * Asynchronously gets the default application for handling URIs with
+     * the given URI scheme. A URI scheme is the initial part
+     * of the URI, up to but not including the ':', e.g. "http",
+     * "ftp" or "sip".
+     * @param uriScheme a string containing a URI scheme.
+     * @param cancellable optional {@link Cancellable} object, {@code null} to ignore
+     * @param callback a {@link AsyncReadyCallback} to call when the request is done
+     */
+    public static void getDefaultForUriSchemeAsync(@NotNull java.lang.String uriScheme, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback) {
+        java.util.Objects.requireNonNull(uriScheme, "Parameter 'uriScheme' must not be null");
+        try {
+            DowncallHandles.g_app_info_get_default_for_uri_scheme_async.invokeExact(
+                    Interop.allocateNativeString(uriScheme),
+                    (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
+                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
+                        MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbAsyncReadyCallback",
+                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
+                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                        Interop.getScope())),
+                    (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+    }
+    
+    /**
+     * Finishes a default {@link AppInfo} lookup started by
+     * g_app_info_get_default_for_uri_scheme_async().
+     * <p>
+     * If no {@link AppInfo} is found, then {@code error} will be set to {@link IOErrorEnum#NOT_FOUND}.
+     * @param result a {@link AsyncResult}
+     * @return {@link AppInfo} for given {@code uri_scheme} or
+     *     {@code null} on error.
+     * @throws GErrorException See {@link org.gtk.glib.Error}
+     */
+    public static @NotNull org.gtk.gio.AppInfo getDefaultForUriSchemeFinish(@NotNull org.gtk.gio.AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
+        java.util.Objects.requireNonNull(result, "Parameter 'result' must not be null");
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
+        MemoryAddress RESULT;
+        try {
+            RESULT = (MemoryAddress) DowncallHandles.g_app_info_get_default_for_uri_scheme_finish.invokeExact(
+                    result.handle(),
+                    (Addressable) GERROR);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
         }
         return new org.gtk.gio.AppInfo.AppInfoImpl(RESULT, Ownership.FULL);
     }
@@ -789,7 +911,7 @@ public interface AppInfo extends io.github.jwharm.javagi.Proxy {
      */
     public static boolean launchDefaultForUri(@NotNull java.lang.String uri, @Nullable org.gtk.gio.AppLaunchContext context) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(uri, "Parameter 'uri' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_app_info_launch_default_for_uri.invokeExact(
@@ -831,7 +953,7 @@ public interface AppInfo extends io.github.jwharm.javagi.Proxy {
                     (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                         Interop.getScope())),
                     (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
         } catch (Throwable ERR) {
@@ -847,7 +969,7 @@ public interface AppInfo extends io.github.jwharm.javagi.Proxy {
      */
     public static boolean launchDefaultForUriFinish(@NotNull org.gtk.gio.AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(result, "Parameter 'result' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_app_info_launch_default_for_uri_finish.invokeExact(
@@ -886,252 +1008,287 @@ public interface AppInfo extends io.github.jwharm.javagi.Proxy {
         @ApiStatus.Internal
         static final MethodHandle g_app_info_add_supports_type = Interop.downcallHandle(
             "g_app_info_add_supports_type",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_app_info_can_delete = Interop.downcallHandle(
             "g_app_info_can_delete",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_app_info_can_remove_supports_type = Interop.downcallHandle(
             "g_app_info_can_remove_supports_type",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_app_info_delete = Interop.downcallHandle(
             "g_app_info_delete",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_app_info_dup = Interop.downcallHandle(
             "g_app_info_dup",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_app_info_equal = Interop.downcallHandle(
             "g_app_info_equal",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_app_info_get_commandline = Interop.downcallHandle(
             "g_app_info_get_commandline",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_app_info_get_description = Interop.downcallHandle(
             "g_app_info_get_description",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_app_info_get_display_name = Interop.downcallHandle(
             "g_app_info_get_display_name",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_app_info_get_executable = Interop.downcallHandle(
             "g_app_info_get_executable",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_app_info_get_icon = Interop.downcallHandle(
             "g_app_info_get_icon",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_app_info_get_id = Interop.downcallHandle(
             "g_app_info_get_id",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_app_info_get_name = Interop.downcallHandle(
             "g_app_info_get_name",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_app_info_get_supported_types = Interop.downcallHandle(
             "g_app_info_get_supported_types",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_app_info_launch = Interop.downcallHandle(
             "g_app_info_launch",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_app_info_launch_uris = Interop.downcallHandle(
             "g_app_info_launch_uris",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_app_info_launch_uris_async = Interop.downcallHandle(
             "g_app_info_launch_uris_async",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_app_info_launch_uris_finish = Interop.downcallHandle(
             "g_app_info_launch_uris_finish",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_app_info_remove_supports_type = Interop.downcallHandle(
             "g_app_info_remove_supports_type",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_app_info_set_as_default_for_extension = Interop.downcallHandle(
             "g_app_info_set_as_default_for_extension",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_app_info_set_as_default_for_type = Interop.downcallHandle(
             "g_app_info_set_as_default_for_type",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_app_info_set_as_last_used_for_type = Interop.downcallHandle(
             "g_app_info_set_as_last_used_for_type",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_app_info_should_show = Interop.downcallHandle(
             "g_app_info_should_show",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_app_info_supports_files = Interop.downcallHandle(
             "g_app_info_supports_files",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_app_info_supports_uris = Interop.downcallHandle(
             "g_app_info_supports_uris",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+            false
+        );
+        
+        @ApiStatus.Internal
+        static final MethodHandle g_app_info_get_type = Interop.downcallHandle(
+            "g_app_info_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_app_info_create_from_commandline = Interop.downcallHandle(
             "g_app_info_create_from_commandline",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_app_info_get_all = Interop.downcallHandle(
             "g_app_info_get_all",
-            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
             false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_app_info_get_all_for_type = Interop.downcallHandle(
             "g_app_info_get_all_for_type",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_app_info_get_default_for_type = Interop.downcallHandle(
             "g_app_info_get_default_for_type",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+            false
+        );
+        
+        @ApiStatus.Internal
+        static final MethodHandle g_app_info_get_default_for_type_async = Interop.downcallHandle(
+            "g_app_info_get_default_for_type_async",
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+            false
+        );
+        
+        @ApiStatus.Internal
+        static final MethodHandle g_app_info_get_default_for_type_finish = Interop.downcallHandle(
+            "g_app_info_get_default_for_type_finish",
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_app_info_get_default_for_uri_scheme = Interop.downcallHandle(
             "g_app_info_get_default_for_uri_scheme",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+            false
+        );
+        
+        @ApiStatus.Internal
+        static final MethodHandle g_app_info_get_default_for_uri_scheme_async = Interop.downcallHandle(
+            "g_app_info_get_default_for_uri_scheme_async",
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+            false
+        );
+        
+        @ApiStatus.Internal
+        static final MethodHandle g_app_info_get_default_for_uri_scheme_finish = Interop.downcallHandle(
+            "g_app_info_get_default_for_uri_scheme_finish",
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_app_info_get_fallback_for_type = Interop.downcallHandle(
             "g_app_info_get_fallback_for_type",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_app_info_get_recommended_for_type = Interop.downcallHandle(
             "g_app_info_get_recommended_for_type",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_app_info_launch_default_for_uri = Interop.downcallHandle(
             "g_app_info_launch_default_for_uri",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_app_info_launch_default_for_uri_async = Interop.downcallHandle(
             "g_app_info_launch_default_for_uri_async",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_app_info_launch_default_for_uri_finish = Interop.downcallHandle(
             "g_app_info_launch_default_for_uri_finish",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_app_info_reset_type_associations = Interop.downcallHandle(
             "g_app_info_reset_type_associations",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
     }

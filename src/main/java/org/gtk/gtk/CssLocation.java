@@ -19,7 +19,7 @@ import org.jetbrains.annotations.*;
  * If your document uses different rules for line breaking, you might want
  * run into problems here.
  */
-public class CssLocation extends io.github.jwharm.javagi.ProxyBase {
+public class CssLocation extends Struct {
     
     static {
         Gtk.javagi$ensureInitialized();
@@ -27,12 +27,12 @@ public class CssLocation extends io.github.jwharm.javagi.ProxyBase {
     
     private static final java.lang.String C_TYPE_NAME = "GtkCssLocation";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
-        ValueLayout.JAVA_LONG.withName("bytes"),
-        ValueLayout.JAVA_LONG.withName("chars"),
-        ValueLayout.JAVA_LONG.withName("lines"),
-        ValueLayout.JAVA_LONG.withName("line_bytes"),
-        ValueLayout.JAVA_LONG.withName("line_chars")
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
+        Interop.valueLayout.C_LONG.withName("bytes"),
+        Interop.valueLayout.C_LONG.withName("chars"),
+        Interop.valueLayout.C_LONG.withName("lines"),
+        Interop.valueLayout.C_LONG.withName("line_bytes"),
+        Interop.valueLayout.C_LONG.withName("line_chars")
     ).withName(C_TYPE_NAME);
     
     /**
@@ -46,6 +46,10 @@ public class CssLocation extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link CssLocation}
+     * @return A new, uninitialized @{link CssLocation}
+     */
     public static CssLocation allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         CssLocation newInstance = new CssLocation(segment.address(), Ownership.NONE);
@@ -166,5 +170,94 @@ public class CssLocation extends io.github.jwharm.javagi.ProxyBase {
     @ApiStatus.Internal
     public CssLocation(Addressable address, Ownership ownership) {
         super(address, ownership);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private CssLocation struct;
+        
+         /**
+         * A {@link CssLocation.Build} object constructs a {@link CssLocation} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = CssLocation.allocate();
+        }
+        
+         /**
+         * Finish building the {@link CssLocation} struct.
+         * @return A new instance of {@code CssLocation} with the fields 
+         *         that were set in the Build object.
+         */
+        public CssLocation construct() {
+            return struct;
+        }
+        
+        /**
+         * number of bytes parsed since the beginning
+         * @param bytes The value for the {@code bytes} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setBytes(long bytes) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("bytes"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), bytes);
+            return this;
+        }
+        
+        /**
+         * number of characters parsed since the beginning
+         * @param chars The value for the {@code chars} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setChars(long chars) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("chars"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), chars);
+            return this;
+        }
+        
+        /**
+         * number of full lines that have been parsed. If you want to
+         *   display this as a line number, you need to add 1 to this.
+         * @param lines The value for the {@code lines} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setLines(long lines) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("lines"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), lines);
+            return this;
+        }
+        
+        /**
+         * Number of bytes parsed since the last line break
+         * @param line_bytes The value for the {@code line_bytes} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setLineBytes(long line_bytes) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("line_bytes"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), line_bytes);
+            return this;
+        }
+        
+        /**
+         * Number of characters parsed since the last line break
+         * @param line_chars The value for the {@code line_chars} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setLineChars(long line_chars) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("line_chars"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), line_chars);
+            return this;
+        }
     }
 }

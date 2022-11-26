@@ -9,7 +9,7 @@ import org.jetbrains.annotations.*;
  * Associates a string with a bit flag.
  * Used in g_parse_debug_string().
  */
-public class DebugKey extends io.github.jwharm.javagi.ProxyBase {
+public class DebugKey extends Struct {
     
     static {
         GLib.javagi$ensureInitialized();
@@ -17,9 +17,9 @@ public class DebugKey extends io.github.jwharm.javagi.ProxyBase {
     
     private static final java.lang.String C_TYPE_NAME = "GDebugKey";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
         Interop.valueLayout.ADDRESS.withName("key"),
-        ValueLayout.JAVA_INT.withName("value")
+        Interop.valueLayout.C_INT.withName("value")
     ).withName(C_TYPE_NAME);
     
     /**
@@ -33,6 +33,10 @@ public class DebugKey extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link DebugKey}
+     * @return A new, uninitialized @{link DebugKey}
+     */
     public static DebugKey allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         DebugKey newInstance = new DebugKey(segment.address(), Ownership.NONE);
@@ -90,5 +94,57 @@ public class DebugKey extends io.github.jwharm.javagi.ProxyBase {
     @ApiStatus.Internal
     public DebugKey(Addressable address, Ownership ownership) {
         super(address, ownership);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private DebugKey struct;
+        
+         /**
+         * A {@link DebugKey.Build} object constructs a {@link DebugKey} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = DebugKey.allocate();
+        }
+        
+         /**
+         * Finish building the {@link DebugKey} struct.
+         * @return A new instance of {@code DebugKey} with the fields 
+         *         that were set in the Build object.
+         */
+        public DebugKey construct() {
+            return struct;
+        }
+        
+        /**
+         * the string
+         * @param key The value for the {@code key} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setKey(java.lang.String key) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("key"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (key == null ? MemoryAddress.NULL : Interop.allocateNativeString(key)));
+            return this;
+        }
+        
+        /**
+         * the flag
+         * @param value The value for the {@code value} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setValue(int value) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("value"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), value);
+            return this;
+        }
     }
 }

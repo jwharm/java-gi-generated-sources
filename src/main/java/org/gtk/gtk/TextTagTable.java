@@ -67,7 +67,7 @@ public class TextTagTable extends org.gtk.gobject.Object implements org.gtk.gtk.
      * @throws ClassCastException If the GType is not derived from "GtkTextTagTable", a ClassCastException will be thrown.
      */
     public static TextTagTable castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkTextTagTable"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), TextTagTable.getType())) {
             return new TextTagTable(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkTextTagTable");
@@ -131,7 +131,7 @@ public class TextTagTable extends org.gtk.gobject.Object implements org.gtk.gtk.
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gtk.Callbacks.class, "cbTextTagTableForeach",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                         Interop.getScope()),
                     (Addressable) (Interop.registerCallback(func)));
         } catch (Throwable ERR) {
@@ -192,6 +192,20 @@ public class TextTagTable extends org.gtk.gobject.Object implements org.gtk.gtk.
         }
     }
     
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.gtk_text_tag_table_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+    
     @FunctionalInterface
     public interface TagAdded {
         void signalReceived(TextTagTable source, @NotNull org.gtk.gtk.TextTag tag);
@@ -210,7 +224,7 @@ public class TextTagTable extends org.gtk.gobject.Object implements org.gtk.gtk.
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(TextTagTable.Callbacks.class, "signalTextTagTableTagAdded",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                     Interop.getScope()),
                 Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
@@ -238,7 +252,7 @@ public class TextTagTable extends org.gtk.gobject.Object implements org.gtk.gtk.
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(TextTagTable.Callbacks.class, "signalTextTagTableTagChanged",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, int.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
                     Interop.getScope()),
                 Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
@@ -269,7 +283,7 @@ public class TextTagTable extends org.gtk.gobject.Object implements org.gtk.gtk.
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(TextTagTable.Callbacks.class, "signalTextTagTableTagRemoved",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                     Interop.getScope()),
                 Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
@@ -278,42 +292,83 @@ public class TextTagTable extends org.gtk.gobject.Object implements org.gtk.gtk.
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gobject.Object.Build {
+        
+         /**
+         * A {@link TextTagTable.Build} object constructs a {@link TextTagTable} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link TextTagTable} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link TextTagTable} using {@link TextTagTable#castFrom}.
+         * @return A new instance of {@code TextTagTable} with the properties 
+         *         that were set in the Build object.
+         */
+        public TextTagTable construct() {
+            return TextTagTable.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    TextTagTable.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+    }
     
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_text_tag_table_new = Interop.downcallHandle(
             "gtk_text_tag_table_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_text_tag_table_add = Interop.downcallHandle(
             "gtk_text_tag_table_add",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_text_tag_table_foreach = Interop.downcallHandle(
             "gtk_text_tag_table_foreach",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_text_tag_table_get_size = Interop.downcallHandle(
             "gtk_text_tag_table_get_size",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_text_tag_table_lookup = Interop.downcallHandle(
             "gtk_text_tag_table_lookup",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_text_tag_table_remove = Interop.downcallHandle(
             "gtk_text_tag_table_remove",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+            false
+        );
+        
+        private static final MethodHandle gtk_text_tag_table_get_type = Interop.downcallHandle(
+            "gtk_text_tag_table_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }
@@ -321,21 +376,21 @@ public class TextTagTable extends org.gtk.gobject.Object implements org.gtk.gtk.
     private static class Callbacks {
         
         public static void signalTextTagTableTagAdded(MemoryAddress source, MemoryAddress tag, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (TextTagTable.TagAdded) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new TextTagTable(source, Ownership.UNKNOWN), new org.gtk.gtk.TextTag(tag, Ownership.NONE));
+            HANDLER.signalReceived(new TextTagTable(source, Ownership.NONE), new org.gtk.gtk.TextTag(tag, Ownership.NONE));
         }
         
         public static void signalTextTagTableTagChanged(MemoryAddress source, MemoryAddress tag, int sizeChanged, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (TextTagTable.TagChanged) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new TextTagTable(source, Ownership.UNKNOWN), new org.gtk.gtk.TextTag(tag, Ownership.NONE), sizeChanged != 0);
+            HANDLER.signalReceived(new TextTagTable(source, Ownership.NONE), new org.gtk.gtk.TextTag(tag, Ownership.NONE), sizeChanged != 0);
         }
         
         public static void signalTextTagTableTagRemoved(MemoryAddress source, MemoryAddress tag, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (TextTagTable.TagRemoved) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new TextTagTable(source, Ownership.UNKNOWN), new org.gtk.gtk.TextTag(tag, Ownership.NONE));
+            HANDLER.signalReceived(new TextTagTable(source, Ownership.NONE), new org.gtk.gtk.TextTag(tag, Ownership.NONE));
         }
     }
 }

@@ -14,7 +14,7 @@ import org.jetbrains.annotations.*;
  * getting a {@code GOptionGroup} holding their options, which
  * the application can then add to its {@link OptionContext}.
  */
-public class OptionGroup extends io.github.jwharm.javagi.ProxyBase {
+public class OptionGroup extends Struct {
     
     static {
         GLib.javagi$ensureInitialized();
@@ -33,6 +33,10 @@ public class OptionGroup extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link OptionGroup}
+     * @return A new, uninitialized @{link OptionGroup}
+     */
     public static OptionGroup allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         OptionGroup newInstance = new OptionGroup(segment.address(), Ownership.NONE);
@@ -60,7 +64,7 @@ public class OptionGroup extends io.github.jwharm.javagi.ProxyBase {
                     Interop.allocateNativeString(name),
                     Interop.allocateNativeString(description),
                     Interop.allocateNativeString(helpDescription),
-                    userData,
+                    (Addressable) userData,
                     Interop.cbDestroyNotifySymbol());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -95,7 +99,7 @@ public class OptionGroup extends io.github.jwharm.javagi.ProxyBase {
         try {
             DowncallHandles.g_option_group_add_entries.invokeExact(
                     handle(),
-                    Interop.allocateNativeArray(entries, false));
+                    Interop.allocateNativeArray(entries, org.gtk.glib.OptionEntry.getMemoryLayout(), false));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -174,7 +178,7 @@ public class OptionGroup extends io.github.jwharm.javagi.ProxyBase {
                     (Addressable) (func == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbTranslateFunc",
                             MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                         Interop.getScope())),
                     (Addressable) (func == null ? MemoryAddress.NULL : Interop.registerCallback(func)),
                     Interop.cbDestroyNotifySymbol());
@@ -217,56 +221,84 @@ public class OptionGroup extends io.github.jwharm.javagi.ProxyBase {
         
         private static final MethodHandle g_option_group_new = Interop.downcallHandle(
             "g_option_group_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_option_group_add_entries = Interop.downcallHandle(
             "g_option_group_add_entries",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_option_group_free = Interop.downcallHandle(
             "g_option_group_free",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_option_group_ref = Interop.downcallHandle(
             "g_option_group_ref",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_option_group_set_error_hook = Interop.downcallHandle(
             "g_option_group_set_error_hook",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_option_group_set_parse_hooks = Interop.downcallHandle(
             "g_option_group_set_parse_hooks",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_option_group_set_translate_func = Interop.downcallHandle(
             "g_option_group_set_translate_func",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_option_group_set_translation_domain = Interop.downcallHandle(
             "g_option_group_set_translation_domain",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_option_group_unref = Interop.downcallHandle(
             "g_option_group_unref",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private OptionGroup struct;
+        
+         /**
+         * A {@link OptionGroup.Build} object constructs a {@link OptionGroup} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = OptionGroup.allocate();
+        }
+        
+         /**
+         * Finish building the {@link OptionGroup} struct.
+         * @return A new instance of {@code OptionGroup} with the fields 
+         *         that were set in the Build object.
+         */
+        public OptionGroup construct() {
+            return struct;
+        }
     }
 }

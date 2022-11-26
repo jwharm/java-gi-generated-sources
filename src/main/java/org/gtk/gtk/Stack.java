@@ -90,7 +90,7 @@ public class Stack extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      * @throws ClassCastException If the GType is not derived from "GtkStack", a ClassCastException will be thrown.
      */
     public static Stack castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkStack"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), Stack.getType())) {
             return new Stack(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkStack");
@@ -234,13 +234,11 @@ public class Stack extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     }
     
     /**
-     * Retrieves the stack page for the given {@code child}.
-     * <p>
-     * If the given {@code child} is not a child widget of the stack, this function will return {@code NULL}.
+     * Returns the {@code GtkStackPage} object for {@code child}.
      * @param child a child of {@code stack}
-     * @return the stack page object
+     * @return the {@code GtkStackPage} for {@code child}
      */
-    public @Nullable org.gtk.gtk.StackPage getPage(@NotNull org.gtk.gtk.Widget child) {
+    public @NotNull org.gtk.gtk.StackPage getPage(@NotNull org.gtk.gtk.Widget child) {
         java.util.Objects.requireNonNull(child, "Parameter 'child' must not be null");
         MemoryAddress RESULT;
         try {
@@ -546,149 +544,303 @@ public class Stack extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
         }
     }
     
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.gtk_stack_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gtk.Widget.Build {
+        
+         /**
+         * A {@link Stack.Build} object constructs a {@link Stack} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link Stack} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link Stack} using {@link Stack#castFrom}.
+         * @return A new instance of {@code Stack} with the properties 
+         *         that were set in the Build object.
+         */
+        public Stack construct() {
+            return Stack.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    Stack.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+        
+        /**
+         * {@code true} if the stack allocates the same width for all children.
+         * @param hhomogeneous The value for the {@code hhomogeneous} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setHhomogeneous(boolean hhomogeneous) {
+            names.add("hhomogeneous");
+            values.add(org.gtk.gobject.Value.create(hhomogeneous));
+            return this;
+        }
+        
+        /**
+         * Whether or not the size should smoothly change during the transition.
+         * @param interpolateSize The value for the {@code interpolate-size} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setInterpolateSize(boolean interpolateSize) {
+            names.add("interpolate-size");
+            values.add(org.gtk.gobject.Value.create(interpolateSize));
+            return this;
+        }
+        
+        /**
+         * A selection model with the stack pages.
+         * @param pages The value for the {@code pages} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setPages(org.gtk.gtk.SelectionModel pages) {
+            names.add("pages");
+            values.add(org.gtk.gobject.Value.create(pages));
+            return this;
+        }
+        
+        /**
+         * The animation duration, in milliseconds.
+         * @param transitionDuration The value for the {@code transition-duration} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setTransitionDuration(int transitionDuration) {
+            names.add("transition-duration");
+            values.add(org.gtk.gobject.Value.create(transitionDuration));
+            return this;
+        }
+        
+        /**
+         * Whether or not the transition is currently running.
+         * @param transitionRunning The value for the {@code transition-running} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setTransitionRunning(boolean transitionRunning) {
+            names.add("transition-running");
+            values.add(org.gtk.gobject.Value.create(transitionRunning));
+            return this;
+        }
+        
+        /**
+         * The type of animation used to transition.
+         * @param transitionType The value for the {@code transition-type} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setTransitionType(org.gtk.gtk.StackTransitionType transitionType) {
+            names.add("transition-type");
+            values.add(org.gtk.gobject.Value.create(transitionType));
+            return this;
+        }
+        
+        /**
+         * {@code true} if the stack allocates the same height for all children.
+         * @param vhomogeneous The value for the {@code vhomogeneous} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setVhomogeneous(boolean vhomogeneous) {
+            names.add("vhomogeneous");
+            values.add(org.gtk.gobject.Value.create(vhomogeneous));
+            return this;
+        }
+        
+        /**
+         * The widget currently visible in the stack.
+         * @param visibleChild The value for the {@code visible-child} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setVisibleChild(org.gtk.gtk.Widget visibleChild) {
+            names.add("visible-child");
+            values.add(org.gtk.gobject.Value.create(visibleChild));
+            return this;
+        }
+        
+        /**
+         * The name of the widget currently visible in the stack.
+         * @param visibleChildName The value for the {@code visible-child-name} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setVisibleChildName(java.lang.String visibleChildName) {
+            names.add("visible-child-name");
+            values.add(org.gtk.gobject.Value.create(visibleChildName));
+            return this;
+        }
+    }
+    
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_stack_new = Interop.downcallHandle(
             "gtk_stack_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_stack_add_child = Interop.downcallHandle(
             "gtk_stack_add_child",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_stack_add_named = Interop.downcallHandle(
             "gtk_stack_add_named",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_stack_add_titled = Interop.downcallHandle(
             "gtk_stack_add_titled",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_stack_get_child_by_name = Interop.downcallHandle(
             "gtk_stack_get_child_by_name",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_stack_get_hhomogeneous = Interop.downcallHandle(
             "gtk_stack_get_hhomogeneous",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_stack_get_interpolate_size = Interop.downcallHandle(
             "gtk_stack_get_interpolate_size",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_stack_get_page = Interop.downcallHandle(
             "gtk_stack_get_page",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_stack_get_pages = Interop.downcallHandle(
             "gtk_stack_get_pages",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_stack_get_transition_duration = Interop.downcallHandle(
             "gtk_stack_get_transition_duration",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_stack_get_transition_running = Interop.downcallHandle(
             "gtk_stack_get_transition_running",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_stack_get_transition_type = Interop.downcallHandle(
             "gtk_stack_get_transition_type",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_stack_get_vhomogeneous = Interop.downcallHandle(
             "gtk_stack_get_vhomogeneous",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_stack_get_visible_child = Interop.downcallHandle(
             "gtk_stack_get_visible_child",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_stack_get_visible_child_name = Interop.downcallHandle(
             "gtk_stack_get_visible_child_name",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_stack_remove = Interop.downcallHandle(
             "gtk_stack_remove",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_stack_set_hhomogeneous = Interop.downcallHandle(
             "gtk_stack_set_hhomogeneous",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_stack_set_interpolate_size = Interop.downcallHandle(
             "gtk_stack_set_interpolate_size",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_stack_set_transition_duration = Interop.downcallHandle(
             "gtk_stack_set_transition_duration",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_stack_set_transition_type = Interop.downcallHandle(
             "gtk_stack_set_transition_type",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_stack_set_vhomogeneous = Interop.downcallHandle(
             "gtk_stack_set_vhomogeneous",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_stack_set_visible_child = Interop.downcallHandle(
             "gtk_stack_set_visible_child",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_stack_set_visible_child_full = Interop.downcallHandle(
             "gtk_stack_set_visible_child_full",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_stack_set_visible_child_name = Interop.downcallHandle(
             "gtk_stack_set_visible_child_name",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+            false
+        );
+        
+        private static final MethodHandle gtk_stack_get_type = Interop.downcallHandle(
+            "gtk_stack_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }

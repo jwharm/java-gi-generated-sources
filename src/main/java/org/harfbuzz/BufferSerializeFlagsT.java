@@ -49,6 +49,11 @@ public class BufferSerializeFlagsT extends io.github.jwharm.javagi.Bitfield {
      */
     public static final BufferSerializeFlagsT NO_ADVANCES = new BufferSerializeFlagsT(32);
     
+    /**
+     * All currently defined flags. Since: 4.4.0
+     */
+    public static final BufferSerializeFlagsT DEFINED = new BufferSerializeFlagsT(63);
+    
     public BufferSerializeFlagsT(int value) {
         super(value);
     }

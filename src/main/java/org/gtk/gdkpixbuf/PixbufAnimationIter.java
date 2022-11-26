@@ -17,7 +17,7 @@ public class PixbufAnimationIter extends org.gtk.gobject.Object {
     
     private static final java.lang.String C_TYPE_NAME = "GdkPixbufAnimationIter";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gobject.Object.getMemoryLayout().withName("parent_instance")
     ).withName(C_TYPE_NAME);
     
@@ -62,7 +62,7 @@ public class PixbufAnimationIter extends org.gtk.gobject.Object {
      * @throws ClassCastException If the GType is not derived from "GdkPixbufAnimationIter", a ClassCastException will be thrown.
      */
     public static PixbufAnimationIter castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GdkPixbufAnimationIter"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), PixbufAnimationIter.getType())) {
             return new PixbufAnimationIter(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GdkPixbufAnimationIter");
@@ -178,29 +178,84 @@ public class PixbufAnimationIter extends org.gtk.gobject.Object {
         return RESULT != 0;
     }
     
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.gdk_pixbuf_animation_iter_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gobject.Object.Build {
+        
+         /**
+         * A {@link PixbufAnimationIter.Build} object constructs a {@link PixbufAnimationIter} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link PixbufAnimationIter} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link PixbufAnimationIter} using {@link PixbufAnimationIter#castFrom}.
+         * @return A new instance of {@code PixbufAnimationIter} with the properties 
+         *         that were set in the Build object.
+         */
+        public PixbufAnimationIter construct() {
+            return PixbufAnimationIter.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    PixbufAnimationIter.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+    }
+    
     private static class DowncallHandles {
         
         private static final MethodHandle gdk_pixbuf_animation_iter_advance = Interop.downcallHandle(
             "gdk_pixbuf_animation_iter_advance",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_pixbuf_animation_iter_get_delay_time = Interop.downcallHandle(
             "gdk_pixbuf_animation_iter_get_delay_time",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_pixbuf_animation_iter_get_pixbuf = Interop.downcallHandle(
             "gdk_pixbuf_animation_iter_get_pixbuf",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_pixbuf_animation_iter_on_currently_loading_frame = Interop.downcallHandle(
             "gdk_pixbuf_animation_iter_on_currently_loading_frame",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+            false
+        );
+        
+        private static final MethodHandle gdk_pixbuf_animation_iter_get_type = Interop.downcallHandle(
+            "gdk_pixbuf_animation_iter_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }

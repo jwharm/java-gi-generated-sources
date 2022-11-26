@@ -60,7 +60,7 @@ public class PixbufLoader extends org.gtk.gobject.Object {
     
     private static final java.lang.String C_TYPE_NAME = "GdkPixbufLoader";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gobject.Object.getMemoryLayout().withName("parent_instance"),
         Interop.valueLayout.ADDRESS.withName("priv")
     ).withName(C_TYPE_NAME);
@@ -97,7 +97,7 @@ public class PixbufLoader extends org.gtk.gobject.Object {
      * @throws ClassCastException If the GType is not derived from "GdkPixbufLoader", a ClassCastException will be thrown.
      */
     public static PixbufLoader castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GdkPixbufLoader"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), PixbufLoader.getType())) {
             return new PixbufLoader(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GdkPixbufLoader");
@@ -123,7 +123,7 @@ public class PixbufLoader extends org.gtk.gobject.Object {
     
     private static Addressable constructNewWithMimeType(@NotNull java.lang.String mimeType) throws GErrorException {
         java.util.Objects.requireNonNull(mimeType, "Parameter 'mimeType' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         Addressable RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gdk_pixbuf_loader_new_with_mime_type.invokeExact(
@@ -164,7 +164,7 @@ public class PixbufLoader extends org.gtk.gobject.Object {
     
     private static Addressable constructNewWithType(@NotNull java.lang.String imageType) throws GErrorException {
         java.util.Objects.requireNonNull(imageType, "Parameter 'imageType' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         Addressable RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gdk_pixbuf_loader_new_with_type.invokeExact(
@@ -223,7 +223,7 @@ public class PixbufLoader extends org.gtk.gobject.Object {
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public boolean close() throws io.github.jwharm.javagi.GErrorException {
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gdk_pixbuf_loader_close.invokeExact(
@@ -340,7 +340,7 @@ public class PixbufLoader extends org.gtk.gobject.Object {
      */
     public boolean write(@NotNull byte[] buf, long count) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(buf, "Parameter 'buf' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gdk_pixbuf_loader_write.invokeExact(
@@ -366,7 +366,7 @@ public class PixbufLoader extends org.gtk.gobject.Object {
      */
     public boolean writeBytes(@NotNull org.gtk.glib.Bytes buffer) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gdk_pixbuf_loader_write_bytes.invokeExact(
@@ -380,6 +380,20 @@ public class PixbufLoader extends org.gtk.gobject.Object {
             throw new GErrorException(GERROR);
         }
         return RESULT != 0;
+    }
+    
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.gdk_pixbuf_loader_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
     }
     
     @FunctionalInterface
@@ -405,7 +419,7 @@ public class PixbufLoader extends org.gtk.gobject.Object {
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(PixbufLoader.Callbacks.class, "signalPixbufLoaderAreaPrepared",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                     Interop.getScope()),
                 Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
@@ -440,7 +454,7 @@ public class PixbufLoader extends org.gtk.gobject.Object {
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(PixbufLoader.Callbacks.class, "signalPixbufLoaderAreaUpdated",
                         MethodType.methodType(void.class, MemoryAddress.class, int.class, int.class, int.class, int.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
                     Interop.getScope()),
                 Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
@@ -472,7 +486,7 @@ public class PixbufLoader extends org.gtk.gobject.Object {
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(PixbufLoader.Callbacks.class, "signalPixbufLoaderClosed",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                     Interop.getScope()),
                 Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
@@ -506,7 +520,7 @@ public class PixbufLoader extends org.gtk.gobject.Object {
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(PixbufLoader.Callbacks.class, "signalPixbufLoaderSizePrepared",
                         MethodType.methodType(void.class, MemoryAddress.class, int.class, int.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
                     Interop.getScope()),
                 Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
@@ -515,66 +529,107 @@ public class PixbufLoader extends org.gtk.gobject.Object {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gobject.Object.Build {
+        
+         /**
+         * A {@link PixbufLoader.Build} object constructs a {@link PixbufLoader} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link PixbufLoader} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link PixbufLoader} using {@link PixbufLoader#castFrom}.
+         * @return A new instance of {@code PixbufLoader} with the properties 
+         *         that were set in the Build object.
+         */
+        public PixbufLoader construct() {
+            return PixbufLoader.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    PixbufLoader.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+    }
     
     private static class DowncallHandles {
         
         private static final MethodHandle gdk_pixbuf_loader_new = Interop.downcallHandle(
             "gdk_pixbuf_loader_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_pixbuf_loader_new_with_mime_type = Interop.downcallHandle(
             "gdk_pixbuf_loader_new_with_mime_type",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_pixbuf_loader_new_with_type = Interop.downcallHandle(
             "gdk_pixbuf_loader_new_with_type",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_pixbuf_loader_close = Interop.downcallHandle(
             "gdk_pixbuf_loader_close",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_pixbuf_loader_get_animation = Interop.downcallHandle(
             "gdk_pixbuf_loader_get_animation",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_pixbuf_loader_get_format = Interop.downcallHandle(
             "gdk_pixbuf_loader_get_format",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_pixbuf_loader_get_pixbuf = Interop.downcallHandle(
             "gdk_pixbuf_loader_get_pixbuf",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_pixbuf_loader_set_size = Interop.downcallHandle(
             "gdk_pixbuf_loader_set_size",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gdk_pixbuf_loader_write = Interop.downcallHandle(
             "gdk_pixbuf_loader_write",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_pixbuf_loader_write_bytes = Interop.downcallHandle(
             "gdk_pixbuf_loader_write_bytes",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+            false
+        );
+        
+        private static final MethodHandle gdk_pixbuf_loader_get_type = Interop.downcallHandle(
+            "gdk_pixbuf_loader_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }
@@ -582,27 +637,27 @@ public class PixbufLoader extends org.gtk.gobject.Object {
     private static class Callbacks {
         
         public static void signalPixbufLoaderAreaPrepared(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (PixbufLoader.AreaPrepared) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new PixbufLoader(source, Ownership.UNKNOWN));
+            HANDLER.signalReceived(new PixbufLoader(source, Ownership.NONE));
         }
         
         public static void signalPixbufLoaderAreaUpdated(MemoryAddress source, int x, int y, int width, int height, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (PixbufLoader.AreaUpdated) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new PixbufLoader(source, Ownership.UNKNOWN), x, y, width, height);
+            HANDLER.signalReceived(new PixbufLoader(source, Ownership.NONE), x, y, width, height);
         }
         
         public static void signalPixbufLoaderClosed(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (PixbufLoader.Closed) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new PixbufLoader(source, Ownership.UNKNOWN));
+            HANDLER.signalReceived(new PixbufLoader(source, Ownership.NONE));
         }
         
         public static void signalPixbufLoaderSizePrepared(MemoryAddress source, int width, int height, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (PixbufLoader.SizePrepared) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new PixbufLoader(source, Ownership.UNKNOWN), width, height);
+            HANDLER.signalReceived(new PixbufLoader(source, Ownership.NONE), width, height);
         }
     }
 }

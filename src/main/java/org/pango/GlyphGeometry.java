@@ -22,7 +22,7 @@ import org.jetbrains.annotations.*;
  * 3. Advance the current point to (x + width, y)
  * 4. Render the next glyph
  */
-public class GlyphGeometry extends io.github.jwharm.javagi.ProxyBase {
+public class GlyphGeometry extends Struct {
     
     static {
         Pango.javagi$ensureInitialized();
@@ -30,10 +30,10 @@ public class GlyphGeometry extends io.github.jwharm.javagi.ProxyBase {
     
     private static final java.lang.String C_TYPE_NAME = "PangoGlyphGeometry";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
-        ValueLayout.JAVA_INT.withName("width"),
-        ValueLayout.JAVA_INT.withName("x_offset"),
-        ValueLayout.JAVA_INT.withName("y_offset")
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
+        Interop.valueLayout.C_INT.withName("width"),
+        Interop.valueLayout.C_INT.withName("x_offset"),
+        Interop.valueLayout.C_INT.withName("y_offset")
     ).withName(C_TYPE_NAME);
     
     /**
@@ -47,6 +47,10 @@ public class GlyphGeometry extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link GlyphGeometry}
+     * @return A new, uninitialized @{link GlyphGeometry}
+     */
     public static GlyphGeometry allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         GlyphGeometry newInstance = new GlyphGeometry(segment.address(), Ownership.NONE);
@@ -125,5 +129,69 @@ public class GlyphGeometry extends io.github.jwharm.javagi.ProxyBase {
     @ApiStatus.Internal
     public GlyphGeometry(Addressable address, Ownership ownership) {
         super(address, ownership);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private GlyphGeometry struct;
+        
+         /**
+         * A {@link GlyphGeometry.Build} object constructs a {@link GlyphGeometry} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = GlyphGeometry.allocate();
+        }
+        
+         /**
+         * Finish building the {@link GlyphGeometry} struct.
+         * @return A new instance of {@code GlyphGeometry} with the fields 
+         *         that were set in the Build object.
+         */
+        public GlyphGeometry construct() {
+            return struct;
+        }
+        
+        /**
+         * the logical width to use for the the character.
+         * @param width The value for the {@code width} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setWidth(org.pango.GlyphUnit width) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("width"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (width == null ? MemoryAddress.NULL : width.getValue().intValue()));
+            return this;
+        }
+        
+        /**
+         * horizontal offset from nominal character position.
+         * @param x_offset The value for the {@code x_offset} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setXOffset(org.pango.GlyphUnit x_offset) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("x_offset"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (x_offset == null ? MemoryAddress.NULL : x_offset.getValue().intValue()));
+            return this;
+        }
+        
+        /**
+         * vertical offset from nominal character position.
+         * @param y_offset The value for the {@code y_offset} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setYOffset(org.pango.GlyphUnit y_offset) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("y_offset"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (y_offset == null ? MemoryAddress.NULL : y_offset.getValue().intValue()));
+            return this;
+        }
     }
 }

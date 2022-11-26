@@ -55,7 +55,7 @@ public class GLError extends io.github.jwharm.javagi.Enumeration {
         
         private static final MethodHandle gdk_gl_error_quark = Interop.downcallHandle(
             "gdk_gl_error_quark",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT),
             false
         );
     }

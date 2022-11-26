@@ -61,7 +61,7 @@ public class ListItem extends org.gtk.gobject.Object {
      * @throws ClassCastException If the GType is not derived from "GtkListItem", a ClassCastException will be thrown.
      */
     public static ListItem castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkListItem"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), ListItem.getType())) {
             return new ListItem(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkListItem");
@@ -235,59 +235,180 @@ public class ListItem extends org.gtk.gobject.Object {
         }
     }
     
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.gtk_list_item_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gobject.Object.Build {
+        
+         /**
+         * A {@link ListItem.Build} object constructs a {@link ListItem} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link ListItem} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link ListItem} using {@link ListItem#castFrom}.
+         * @return A new instance of {@code ListItem} with the properties 
+         *         that were set in the Build object.
+         */
+        public ListItem construct() {
+            return ListItem.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    ListItem.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+        
+        /**
+         * If the item can be activated by the user.
+         * @param activatable The value for the {@code activatable} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setActivatable(boolean activatable) {
+            names.add("activatable");
+            values.add(org.gtk.gobject.Value.create(activatable));
+            return this;
+        }
+        
+        /**
+         * Widget used for display.
+         * @param child The value for the {@code child} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setChild(org.gtk.gtk.Widget child) {
+            names.add("child");
+            values.add(org.gtk.gobject.Value.create(child));
+            return this;
+        }
+        
+        /**
+         * Displayed item.
+         * @param item The value for the {@code item} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setItem(org.gtk.gobject.Object item) {
+            names.add("item");
+            values.add(org.gtk.gobject.Value.create(item));
+            return this;
+        }
+        
+        /**
+         * Position of the item.
+         * @param position The value for the {@code position} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setPosition(int position) {
+            names.add("position");
+            values.add(org.gtk.gobject.Value.create(position));
+            return this;
+        }
+        
+        /**
+         * If the item can be selected by the user.
+         * @param selectable The value for the {@code selectable} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setSelectable(boolean selectable) {
+            names.add("selectable");
+            values.add(org.gtk.gobject.Value.create(selectable));
+            return this;
+        }
+        
+        /**
+         * If the item is currently selected.
+         * @param selected The value for the {@code selected} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setSelected(boolean selected) {
+            names.add("selected");
+            values.add(org.gtk.gobject.Value.create(selected));
+            return this;
+        }
+    }
+    
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_list_item_get_activatable = Interop.downcallHandle(
             "gtk_list_item_get_activatable",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_list_item_get_child = Interop.downcallHandle(
             "gtk_list_item_get_child",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_list_item_get_item = Interop.downcallHandle(
             "gtk_list_item_get_item",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_list_item_get_position = Interop.downcallHandle(
             "gtk_list_item_get_position",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_list_item_get_selectable = Interop.downcallHandle(
             "gtk_list_item_get_selectable",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_list_item_get_selected = Interop.downcallHandle(
             "gtk_list_item_get_selected",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_list_item_set_activatable = Interop.downcallHandle(
             "gtk_list_item_set_activatable",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_list_item_set_child = Interop.downcallHandle(
             "gtk_list_item_set_child",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_list_item_set_selectable = Interop.downcallHandle(
             "gtk_list_item_set_selectable",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+            false
+        );
+        
+        private static final MethodHandle gtk_list_item_get_type = Interop.downcallHandle(
+            "gtk_list_item_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }

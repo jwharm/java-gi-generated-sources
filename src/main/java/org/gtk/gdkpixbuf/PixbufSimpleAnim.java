@@ -48,7 +48,7 @@ public class PixbufSimpleAnim extends org.gtk.gdkpixbuf.PixbufAnimation {
      * @throws ClassCastException If the GType is not derived from "GdkPixbufSimpleAnim", a ClassCastException will be thrown.
      */
     public static PixbufSimpleAnim castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GdkPixbufSimpleAnim"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), PixbufSimpleAnim.getType())) {
             return new PixbufSimpleAnim(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GdkPixbufSimpleAnim");
@@ -124,29 +124,95 @@ public class PixbufSimpleAnim extends org.gtk.gdkpixbuf.PixbufAnimation {
         }
     }
     
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.gdk_pixbuf_simple_anim_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gdkpixbuf.PixbufAnimation.Build {
+        
+         /**
+         * A {@link PixbufSimpleAnim.Build} object constructs a {@link PixbufSimpleAnim} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link PixbufSimpleAnim} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link PixbufSimpleAnim} using {@link PixbufSimpleAnim#castFrom}.
+         * @return A new instance of {@code PixbufSimpleAnim} with the properties 
+         *         that were set in the Build object.
+         */
+        public PixbufSimpleAnim construct() {
+            return PixbufSimpleAnim.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    PixbufSimpleAnim.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+        
+        /**
+         * Whether the animation should loop when it reaches the end.
+         * @param loop The value for the {@code loop} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setLoop(boolean loop) {
+            names.add("loop");
+            values.add(org.gtk.gobject.Value.create(loop));
+            return this;
+        }
+    }
+    
     private static class DowncallHandles {
         
         private static final MethodHandle gdk_pixbuf_simple_anim_new = Interop.downcallHandle(
             "gdk_pixbuf_simple_anim_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_FLOAT),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_FLOAT),
             false
         );
         
         private static final MethodHandle gdk_pixbuf_simple_anim_add_frame = Interop.downcallHandle(
             "gdk_pixbuf_simple_anim_add_frame",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_pixbuf_simple_anim_get_loop = Interop.downcallHandle(
             "gdk_pixbuf_simple_anim_get_loop",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_pixbuf_simple_anim_set_loop = Interop.downcallHandle(
             "gdk_pixbuf_simple_anim_set_loop",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+            false
+        );
+        
+        private static final MethodHandle gdk_pixbuf_simple_anim_get_type = Interop.downcallHandle(
+            "gdk_pixbuf_simple_anim_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }

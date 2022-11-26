@@ -85,11 +85,25 @@ public class ShortcutsWindow extends org.gtk.gtk.Window implements org.gtk.gtk.A
      * @throws ClassCastException If the GType is not derived from "GtkShortcutsWindow", a ClassCastException will be thrown.
      */
     public static ShortcutsWindow castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkShortcutsWindow"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), ShortcutsWindow.getType())) {
             return new ShortcutsWindow(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkShortcutsWindow");
         }
+    }
+    
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.gtk_shortcuts_window_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
     }
     
     @FunctionalInterface
@@ -114,7 +128,7 @@ public class ShortcutsWindow extends org.gtk.gtk.Window implements org.gtk.gtk.A
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(ShortcutsWindow.Callbacks.class, "signalShortcutsWindowClose",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                     Interop.getScope()),
                 Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
@@ -146,7 +160,7 @@ public class ShortcutsWindow extends org.gtk.gtk.Window implements org.gtk.gtk.A
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(ShortcutsWindow.Callbacks.class, "signalShortcutsWindowSearch",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                     Interop.getScope()),
                 Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
@@ -155,19 +169,94 @@ public class ShortcutsWindow extends org.gtk.gtk.Window implements org.gtk.gtk.A
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gtk.Window.Build {
+        
+         /**
+         * A {@link ShortcutsWindow.Build} object constructs a {@link ShortcutsWindow} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link ShortcutsWindow} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link ShortcutsWindow} using {@link ShortcutsWindow#castFrom}.
+         * @return A new instance of {@code ShortcutsWindow} with the properties 
+         *         that were set in the Build object.
+         */
+        public ShortcutsWindow construct() {
+            return ShortcutsWindow.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    ShortcutsWindow.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+        
+        /**
+         * The name of the section to show.
+         * <p>
+         * This should be the section-name of one of the {@code GtkShortcutsSection}
+         * objects that are in this shortcuts window.
+         * @param sectionName The value for the {@code section-name} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setSectionName(java.lang.String sectionName) {
+            names.add("section-name");
+            values.add(org.gtk.gobject.Value.create(sectionName));
+            return this;
+        }
+        
+        /**
+         * The view name by which to filter the contents.
+         * <p>
+         * This should correspond to the {@code Gtk.ShortcutsGroup:view}
+         * property of some of the {@link ShortcutsGroup} objects that
+         * are inside this shortcuts window.
+         * <p>
+         * Set this to {@code null} to show all groups.
+         * @param viewName The value for the {@code view-name} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setViewName(java.lang.String viewName) {
+            names.add("view-name");
+            values.add(org.gtk.gobject.Value.create(viewName));
+            return this;
+        }
+    }
+    
+    private static class DowncallHandles {
+        
+        private static final MethodHandle gtk_shortcuts_window_get_type = Interop.downcallHandle(
+            "gtk_shortcuts_window_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+            false
+        );
+    }
     
     private static class Callbacks {
         
         public static void signalShortcutsWindowClose(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (ShortcutsWindow.Close) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new ShortcutsWindow(source, Ownership.UNKNOWN));
+            HANDLER.signalReceived(new ShortcutsWindow(source, Ownership.NONE));
         }
         
         public static void signalShortcutsWindowSearch(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (ShortcutsWindow.Search) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new ShortcutsWindow(source, Ownership.UNKNOWN));
+            HANDLER.signalReceived(new ShortcutsWindow(source, Ownership.NONE));
         }
     }
 }

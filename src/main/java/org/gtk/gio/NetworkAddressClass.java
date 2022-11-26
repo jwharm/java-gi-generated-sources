@@ -5,7 +5,7 @@ import java.lang.foreign.*;
 import java.lang.invoke.*;
 import org.jetbrains.annotations.*;
 
-public class NetworkAddressClass extends io.github.jwharm.javagi.ProxyBase {
+public class NetworkAddressClass extends Struct {
     
     static {
         Gio.javagi$ensureInitialized();
@@ -13,7 +13,7 @@ public class NetworkAddressClass extends io.github.jwharm.javagi.ProxyBase {
     
     private static final java.lang.String C_TYPE_NAME = "GNetworkAddressClass";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gobject.ObjectClass.getMemoryLayout().withName("parent_class")
     ).withName(C_TYPE_NAME);
     
@@ -28,6 +28,10 @@ public class NetworkAddressClass extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link NetworkAddressClass}
+     * @return A new, uninitialized @{link NetworkAddressClass}
+     */
     public static NetworkAddressClass allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         NetworkAddressClass newInstance = new NetworkAddressClass(segment.address(), Ownership.NONE);
@@ -52,5 +56,40 @@ public class NetworkAddressClass extends io.github.jwharm.javagi.ProxyBase {
     @ApiStatus.Internal
     public NetworkAddressClass(Addressable address, Ownership ownership) {
         super(address, ownership);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private NetworkAddressClass struct;
+        
+         /**
+         * A {@link NetworkAddressClass.Build} object constructs a {@link NetworkAddressClass} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = NetworkAddressClass.allocate();
+        }
+        
+         /**
+         * Finish building the {@link NetworkAddressClass} struct.
+         * @return A new instance of {@code NetworkAddressClass} with the fields 
+         *         that were set in the Build object.
+         */
+        public NetworkAddressClass construct() {
+            return struct;
+        }
+        
+        public Build setParentClass(org.gtk.gobject.ObjectClass parent_class) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parent_class == null ? MemoryAddress.NULL : parent_class.handle()));
+            return this;
+        }
     }
 }

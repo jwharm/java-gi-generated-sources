@@ -53,7 +53,7 @@ public class DesktopAppInfo extends org.gtk.gobject.Object implements org.gtk.gi
      * @throws ClassCastException If the GType is not derived from "GDesktopAppInfo", a ClassCastException will be thrown.
      */
     public static DesktopAppInfo castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GDesktopAppInfo"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), DesktopAppInfo.getType())) {
             return new DesktopAppInfo(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GDesktopAppInfo");
@@ -376,7 +376,7 @@ public class DesktopAppInfo extends org.gtk.gobject.Object implements org.gtk.gi
     public @NotNull java.lang.String[] getStringList(@NotNull java.lang.String key, Out<Long> length) {
         java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
         java.util.Objects.requireNonNull(length, "Parameter 'length' must not be null");
-        MemorySegment lengthPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_LONG);
+        MemorySegment lengthPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_desktop_app_info_get_string_list.invokeExact(
@@ -386,10 +386,10 @@ public class DesktopAppInfo extends org.gtk.gobject.Object implements org.gtk.gi
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        length.set(lengthPOINTER.get(ValueLayout.JAVA_LONG, 0));
+        length.set(lengthPOINTER.get(Interop.valueLayout.C_LONG, 0));
         java.lang.String[] resultARRAY = new java.lang.String[length.get().intValue()];
         for (int I = 0; I < length.get().intValue(); I++) {
-            var OBJ = RESULT.get(ValueLayout.ADDRESS, I);
+            var OBJ = RESULT.get(Interop.valueLayout.ADDRESS, I);
             resultARRAY[I] = Interop.getStringFrom(OBJ);
         }
         return resultARRAY;
@@ -474,7 +474,7 @@ public class DesktopAppInfo extends org.gtk.gobject.Object implements org.gtk.gi
     public boolean launchUrisAsManager(@NotNull org.gtk.glib.List uris, @Nullable org.gtk.gio.AppLaunchContext launchContext, @NotNull org.gtk.glib.SpawnFlags spawnFlags, @Nullable org.gtk.glib.SpawnChildSetupFunc userSetup, @Nullable org.gtk.gio.DesktopAppLaunchCallback pidCallback) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(uris, "Parameter 'uris' must not be null");
         java.util.Objects.requireNonNull(spawnFlags, "Parameter 'spawnFlags' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_desktop_app_info_launch_uris_as_manager.invokeExact(
@@ -485,13 +485,13 @@ public class DesktopAppInfo extends org.gtk.gobject.Object implements org.gtk.gi
                     (Addressable) (userSetup == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbSpawnChildSetupFunc",
                             MethodType.methodType(void.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
                         Interop.getScope())),
                     (Addressable) (userSetup == null ? MemoryAddress.NULL : Interop.registerCallback(userSetup)),
                     (Addressable) (pidCallback == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbDesktopAppLaunchCallback",
                             MethodType.methodType(void.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
                         Interop.getScope())),
                     (Addressable) (userSetup == null ? MemoryAddress.NULL : Interop.registerCallback(userSetup)),
                     (Addressable) GERROR);
@@ -526,7 +526,7 @@ public class DesktopAppInfo extends org.gtk.gobject.Object implements org.gtk.gi
     public boolean launchUrisAsManagerWithFds(@NotNull org.gtk.glib.List uris, @Nullable org.gtk.gio.AppLaunchContext launchContext, @NotNull org.gtk.glib.SpawnFlags spawnFlags, @Nullable org.gtk.glib.SpawnChildSetupFunc userSetup, @Nullable org.gtk.gio.DesktopAppLaunchCallback pidCallback, int stdinFd, int stdoutFd, int stderrFd) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(uris, "Parameter 'uris' must not be null");
         java.util.Objects.requireNonNull(spawnFlags, "Parameter 'spawnFlags' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_desktop_app_info_launch_uris_as_manager_with_fds.invokeExact(
@@ -537,13 +537,13 @@ public class DesktopAppInfo extends org.gtk.gobject.Object implements org.gtk.gi
                     (Addressable) (userSetup == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbSpawnChildSetupFunc",
                             MethodType.methodType(void.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
                         Interop.getScope())),
                     (Addressable) (userSetup == null ? MemoryAddress.NULL : Interop.registerCallback(userSetup)),
                     (Addressable) (pidCallback == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbDesktopAppLaunchCallback",
                             MethodType.methodType(void.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
                         Interop.getScope())),
                     (Addressable) (userSetup == null ? MemoryAddress.NULL : Interop.registerCallback(userSetup)),
                     stdinFd,
@@ -576,6 +576,20 @@ public class DesktopAppInfo extends org.gtk.gobject.Object implements org.gtk.gi
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return new PointerString(RESULT);
+    }
+    
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.g_desktop_app_info_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
     }
     
     /**
@@ -654,150 +668,202 @@ public class DesktopAppInfo extends org.gtk.gobject.Object implements org.gtk.gi
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gobject.Object.Build {
+        
+         /**
+         * A {@link DesktopAppInfo.Build} object constructs a {@link DesktopAppInfo} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link DesktopAppInfo} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link DesktopAppInfo} using {@link DesktopAppInfo#castFrom}.
+         * @return A new instance of {@code DesktopAppInfo} with the properties 
+         *         that were set in the Build object.
+         */
+        public DesktopAppInfo construct() {
+            return DesktopAppInfo.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    DesktopAppInfo.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+        
+        /**
+         * The origin filename of this {@link DesktopAppInfo}
+         * @param filename The value for the {@code filename} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setFilename(java.lang.String filename) {
+            names.add("filename");
+            values.add(org.gtk.gobject.Value.create(filename));
+            return this;
+        }
+    }
     
     private static class DowncallHandles {
         
         private static final MethodHandle g_desktop_app_info_new = Interop.downcallHandle(
             "g_desktop_app_info_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_desktop_app_info_new_from_filename = Interop.downcallHandle(
             "g_desktop_app_info_new_from_filename",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_desktop_app_info_new_from_keyfile = Interop.downcallHandle(
             "g_desktop_app_info_new_from_keyfile",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_desktop_app_info_get_action_name = Interop.downcallHandle(
             "g_desktop_app_info_get_action_name",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_desktop_app_info_get_boolean = Interop.downcallHandle(
             "g_desktop_app_info_get_boolean",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_desktop_app_info_get_categories = Interop.downcallHandle(
             "g_desktop_app_info_get_categories",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_desktop_app_info_get_filename = Interop.downcallHandle(
             "g_desktop_app_info_get_filename",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_desktop_app_info_get_generic_name = Interop.downcallHandle(
             "g_desktop_app_info_get_generic_name",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_desktop_app_info_get_is_hidden = Interop.downcallHandle(
             "g_desktop_app_info_get_is_hidden",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_desktop_app_info_get_keywords = Interop.downcallHandle(
             "g_desktop_app_info_get_keywords",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_desktop_app_info_get_locale_string = Interop.downcallHandle(
             "g_desktop_app_info_get_locale_string",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_desktop_app_info_get_nodisplay = Interop.downcallHandle(
             "g_desktop_app_info_get_nodisplay",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_desktop_app_info_get_show_in = Interop.downcallHandle(
             "g_desktop_app_info_get_show_in",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_desktop_app_info_get_startup_wm_class = Interop.downcallHandle(
             "g_desktop_app_info_get_startup_wm_class",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_desktop_app_info_get_string = Interop.downcallHandle(
             "g_desktop_app_info_get_string",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_desktop_app_info_get_string_list = Interop.downcallHandle(
             "g_desktop_app_info_get_string_list",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_desktop_app_info_has_key = Interop.downcallHandle(
             "g_desktop_app_info_has_key",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_desktop_app_info_launch_action = Interop.downcallHandle(
             "g_desktop_app_info_launch_action",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_desktop_app_info_launch_uris_as_manager = Interop.downcallHandle(
             "g_desktop_app_info_launch_uris_as_manager",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_desktop_app_info_launch_uris_as_manager_with_fds = Interop.downcallHandle(
             "g_desktop_app_info_launch_uris_as_manager_with_fds",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_desktop_app_info_list_actions = Interop.downcallHandle(
             "g_desktop_app_info_list_actions",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+            false
+        );
+        
+        private static final MethodHandle g_desktop_app_info_get_type = Interop.downcallHandle(
+            "g_desktop_app_info_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
         
         private static final MethodHandle g_desktop_app_info_get_implementations = Interop.downcallHandle(
             "g_desktop_app_info_get_implementations",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_desktop_app_info_search = Interop.downcallHandle(
             "g_desktop_app_info_search",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_desktop_app_info_set_desktop_env = Interop.downcallHandle(
             "g_desktop_app_info_set_desktop_env",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
     }

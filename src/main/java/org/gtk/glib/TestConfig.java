@@ -5,7 +5,7 @@ import java.lang.foreign.*;
 import java.lang.invoke.*;
 import org.jetbrains.annotations.*;
 
-public class TestConfig extends io.github.jwharm.javagi.ProxyBase {
+public class TestConfig extends Struct {
     
     static {
         GLib.javagi$ensureInitialized();
@@ -13,13 +13,13 @@ public class TestConfig extends io.github.jwharm.javagi.ProxyBase {
     
     private static final java.lang.String C_TYPE_NAME = "GTestConfig";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
-        ValueLayout.JAVA_INT.withName("test_initialized"),
-        ValueLayout.JAVA_INT.withName("test_quick"),
-        ValueLayout.JAVA_INT.withName("test_perf"),
-        ValueLayout.JAVA_INT.withName("test_verbose"),
-        ValueLayout.JAVA_INT.withName("test_quiet"),
-        ValueLayout.JAVA_INT.withName("test_undefined")
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
+        Interop.valueLayout.C_INT.withName("test_initialized"),
+        Interop.valueLayout.C_INT.withName("test_quick"),
+        Interop.valueLayout.C_INT.withName("test_perf"),
+        Interop.valueLayout.C_INT.withName("test_verbose"),
+        Interop.valueLayout.C_INT.withName("test_quiet"),
+        Interop.valueLayout.C_INT.withName("test_undefined")
     ).withName(C_TYPE_NAME);
     
     /**
@@ -33,6 +33,10 @@ public class TestConfig extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link TestConfig}
+     * @return A new, uninitialized @{link TestConfig}
+     */
     public static TestConfig allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         TestConfig newInstance = new TestConfig(segment.address(), Ownership.NONE);
@@ -174,5 +178,75 @@ public class TestConfig extends io.github.jwharm.javagi.ProxyBase {
     @ApiStatus.Internal
     public TestConfig(Addressable address, Ownership ownership) {
         super(address, ownership);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private TestConfig struct;
+        
+         /**
+         * A {@link TestConfig.Build} object constructs a {@link TestConfig} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = TestConfig.allocate();
+        }
+        
+         /**
+         * Finish building the {@link TestConfig} struct.
+         * @return A new instance of {@code TestConfig} with the fields 
+         *         that were set in the Build object.
+         */
+        public TestConfig construct() {
+            return struct;
+        }
+        
+        public Build setTestInitialized(boolean test_initialized) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("test_initialized"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), test_initialized ? 1 : 0);
+            return this;
+        }
+        
+        public Build setTestQuick(boolean test_quick) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("test_quick"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), test_quick ? 1 : 0);
+            return this;
+        }
+        
+        public Build setTestPerf(boolean test_perf) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("test_perf"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), test_perf ? 1 : 0);
+            return this;
+        }
+        
+        public Build setTestVerbose(boolean test_verbose) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("test_verbose"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), test_verbose ? 1 : 0);
+            return this;
+        }
+        
+        public Build setTestQuiet(boolean test_quiet) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("test_quiet"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), test_quiet ? 1 : 0);
+            return this;
+        }
+        
+        public Build setTestUndefined(boolean test_undefined) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("test_undefined"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), test_undefined ? 1 : 0);
+            return this;
+        }
     }
 }

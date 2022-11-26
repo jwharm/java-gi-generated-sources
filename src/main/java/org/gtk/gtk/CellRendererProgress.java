@@ -51,7 +51,7 @@ public class CellRendererProgress extends org.gtk.gtk.CellRenderer implements or
      * @throws ClassCastException If the GType is not derived from "GtkCellRendererProgress", a ClassCastException will be thrown.
      */
     public static CellRendererProgress castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkCellRendererProgress"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), CellRendererProgress.getType())) {
             return new CellRendererProgress(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkCellRendererProgress");
@@ -75,11 +75,144 @@ public class CellRendererProgress extends org.gtk.gtk.CellRenderer implements or
         super(constructNew(), Ownership.NONE);
     }
     
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.gtk_cell_renderer_progress_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gtk.CellRenderer.Build {
+        
+         /**
+         * A {@link CellRendererProgress.Build} object constructs a {@link CellRendererProgress} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link CellRendererProgress} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link CellRendererProgress} using {@link CellRendererProgress#castFrom}.
+         * @return A new instance of {@code CellRendererProgress} with the properties 
+         *         that were set in the Build object.
+         */
+        public CellRendererProgress construct() {
+            return CellRendererProgress.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    CellRendererProgress.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+        
+        public Build setInverted(boolean inverted) {
+            names.add("inverted");
+            values.add(org.gtk.gobject.Value.create(inverted));
+            return this;
+        }
+        
+        /**
+         * Setting this to a non-negative value causes the cell renderer to
+         * enter "activity mode", where a block bounces back and forth to
+         * indicate that some progress is made, without specifying exactly how
+         * much.
+         * <p>
+         * Each increment of the property causes the block to move by a little
+         * bit.
+         * <p>
+         * To indicate that the activity has not started yet, set the property
+         * to zero. To indicate completion, set the property to {@code G_MAXINT}.
+         * @param pulse The value for the {@code pulse} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setPulse(int pulse) {
+            names.add("pulse");
+            values.add(org.gtk.gobject.Value.create(pulse));
+            return this;
+        }
+        
+        /**
+         * The "text" property determines the label which will be drawn
+         * over the progress bar. Setting this property to {@code null} causes the default
+         * label to be displayed. Setting this property to an empty string causes
+         * no label to be displayed.
+         * @param text The value for the {@code text} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setText(java.lang.String text) {
+            names.add("text");
+            values.add(org.gtk.gobject.Value.create(text));
+            return this;
+        }
+        
+        /**
+         * The "text-xalign" property controls the horizontal alignment of the
+         * text in the progress bar.  Valid values range from 0 (left) to 1
+         * (right).  Reserved for RTL layouts.
+         * @param textXalign The value for the {@code text-xalign} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setTextXalign(float textXalign) {
+            names.add("text-xalign");
+            values.add(org.gtk.gobject.Value.create(textXalign));
+            return this;
+        }
+        
+        /**
+         * The "text-yalign" property controls the vertical alignment of the
+         * text in the progress bar.  Valid values range from 0 (top) to 1
+         * (bottom).
+         * @param textYalign The value for the {@code text-yalign} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setTextYalign(float textYalign) {
+            names.add("text-yalign");
+            values.add(org.gtk.gobject.Value.create(textYalign));
+            return this;
+        }
+        
+        /**
+         * The "value" property determines the percentage to which the
+         * progress bar will be "filled in".
+         * @param value The value for the {@code value} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setValue(int value) {
+            names.add("value");
+            values.add(org.gtk.gobject.Value.create(value));
+            return this;
+        }
+    }
+    
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_cell_renderer_progress_new = Interop.downcallHandle(
             "gtk_cell_renderer_progress_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+            false
+        );
+        
+        private static final MethodHandle gtk_cell_renderer_progress_get_type = Interop.downcallHandle(
+            "gtk_cell_renderer_progress_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }

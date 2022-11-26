@@ -13,6 +13,11 @@ public class MarkupParseFlags extends io.github.jwharm.javagi.Bitfield {
     private static final java.lang.String C_TYPE_NAME = "GMarkupParseFlags";
     
     /**
+     * No special behaviour. Since: 2.74
+     */
+    public static final MarkupParseFlags DEFAULT_FLAGS = new MarkupParseFlags(0);
+    
+    /**
      * flag you should not use
      */
     public static final MarkupParseFlags DO_NOT_USE_THIS_UNSUPPORTED_FLAG = new MarkupParseFlags(1);

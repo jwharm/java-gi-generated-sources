@@ -5,7 +5,7 @@ import java.lang.foreign.*;
 import java.lang.invoke.*;
 import org.jetbrains.annotations.*;
 
-public class PropertyAnimationTargetClass extends io.github.jwharm.javagi.ProxyBase {
+public class PropertyAnimationTargetClass extends Struct {
     
     static {
         Adw.javagi$ensureInitialized();
@@ -24,6 +24,10 @@ public class PropertyAnimationTargetClass extends io.github.jwharm.javagi.ProxyB
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link PropertyAnimationTargetClass}
+     * @return A new, uninitialized @{link PropertyAnimationTargetClass}
+     */
     public static PropertyAnimationTargetClass allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         PropertyAnimationTargetClass newInstance = new PropertyAnimationTargetClass(segment.address(), Ownership.NONE);
@@ -39,5 +43,33 @@ public class PropertyAnimationTargetClass extends io.github.jwharm.javagi.ProxyB
     @ApiStatus.Internal
     public PropertyAnimationTargetClass(Addressable address, Ownership ownership) {
         super(address, ownership);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private PropertyAnimationTargetClass struct;
+        
+         /**
+         * A {@link PropertyAnimationTargetClass.Build} object constructs a {@link PropertyAnimationTargetClass} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = PropertyAnimationTargetClass.allocate();
+        }
+        
+         /**
+         * Finish building the {@link PropertyAnimationTargetClass} struct.
+         * @return A new instance of {@code PropertyAnimationTargetClass} with the fields 
+         *         that were set in the Build object.
+         */
+        public PropertyAnimationTargetClass construct() {
+            return struct;
+        }
     }
 }

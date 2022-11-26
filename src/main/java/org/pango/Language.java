@@ -12,7 +12,7 @@ import org.jetbrains.annotations.*;
  * {@code PangoLanguage} pointers can be efficiently
  * copied and compared with each other.
  */
-public class Language extends io.github.jwharm.javagi.ProxyBase {
+public class Language extends Struct {
     
     static {
         Pango.javagi$ensureInitialized();
@@ -31,6 +31,10 @@ public class Language extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link Language}
+     * @return A new, uninitialized @{link Language}
+     */
     public static Language allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         Language newInstance = new Language(segment.address(), Ownership.NONE);
@@ -104,8 +108,7 @@ public class Language extends io.github.jwharm.javagi.ProxyBase {
      * Note: while the return value is declared as {@code PangoScript}, the
      * returned values are from the {@code GUnicodeScript} enumeration, which
      * may have more values. Callers need to handle unknown values.
-     * @param numScripts location to
-     *   return number of scripts
+     * @param numScripts location to return number of scripts
      * @return An array of {@code PangoScript} values, with the number of entries in
      *   the array stored in {@code num_scripts}, or {@code null} if Pango does not have
      *   any information about this particular language tag (also the case
@@ -113,7 +116,7 @@ public class Language extends io.github.jwharm.javagi.ProxyBase {
      */
     public @Nullable org.pango.Script[] getScripts(Out<Integer> numScripts) {
         java.util.Objects.requireNonNull(numScripts, "Parameter 'numScripts' must not be null");
-        MemorySegment numScriptsPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
+        MemorySegment numScriptsPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.pango_language_get_scripts.invokeExact(
@@ -122,11 +125,11 @@ public class Language extends io.github.jwharm.javagi.ProxyBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        numScripts.set(numScriptsPOINTER.get(ValueLayout.JAVA_INT, 0));
+        numScripts.set(numScriptsPOINTER.get(Interop.valueLayout.C_INT, 0));
         if (RESULT.equals(MemoryAddress.NULL)) return null;
         org.pango.Script[] resultARRAY = new org.pango.Script[numScripts.get().intValue()];
         for (int I = 0; I < numScripts.get().intValue(); I++) {
-            var OBJ = RESULT.get(ValueLayout.JAVA_INT, I);
+            var OBJ = RESULT.get(Interop.valueLayout.C_INT, I);
             resultARRAY[I] = new org.pango.Script(OBJ);
         }
         return resultARRAY;
@@ -306,50 +309,78 @@ public class Language extends io.github.jwharm.javagi.ProxyBase {
         
         private static final MethodHandle pango_language_get_sample_string = Interop.downcallHandle(
             "pango_language_get_sample_string",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle pango_language_get_scripts = Interop.downcallHandle(
             "pango_language_get_scripts",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle pango_language_includes_script = Interop.downcallHandle(
             "pango_language_includes_script",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle pango_language_matches = Interop.downcallHandle(
             "pango_language_matches",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle pango_language_to_string = Interop.downcallHandle(
             "pango_language_to_string",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle pango_language_from_string = Interop.downcallHandle(
             "pango_language_from_string",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle pango_language_get_default = Interop.downcallHandle(
             "pango_language_get_default",
-            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle pango_language_get_preferred = Interop.downcallHandle(
             "pango_language_get_preferred",
-            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(),
             false
         );
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private Language struct;
+        
+         /**
+         * A {@link Language.Build} object constructs a {@link Language} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = Language.allocate();
+        }
+        
+         /**
+         * Finish building the {@link Language} struct.
+         * @return A new instance of {@code Language} with the fields 
+         *         that were set in the Build object.
+         */
+        public Language construct() {
+            return struct;
+        }
     }
 }

@@ -67,7 +67,7 @@ public class TabBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
      * @throws ClassCastException If the GType is not derived from "AdwTabBar", a ClassCastException will be thrown.
      */
     public static TabBar castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("AdwTabBar"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), TabBar.getType())) {
             return new TabBar(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of AdwTabBar");
@@ -339,6 +339,20 @@ public class TabBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
         }
     }
     
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.adw_tab_bar_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+    
     @FunctionalInterface
     public interface ExtraDragDrop {
         boolean signalReceived(TabBar source, @NotNull org.gnome.adw.TabPage page, @NotNull org.gtk.gobject.Value value);
@@ -362,7 +376,7 @@ public class TabBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(TabBar.Callbacks.class, "signalTabBarExtraDragDrop",
                         MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                    FunctionDescriptor.of(Interop.valueLayout.C_BOOLEAN, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                     Interop.getScope()),
                 Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
@@ -371,102 +385,246 @@ public class TabBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gtk.Widget.Build {
+        
+         /**
+         * A {@link TabBar.Build} object constructs a {@link TabBar} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link TabBar} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link TabBar} using {@link TabBar#castFrom}.
+         * @return A new instance of {@code TabBar} with the properties 
+         *         that were set in the Build object.
+         */
+        public TabBar construct() {
+            return TabBar.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    TabBar.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+        
+        /**
+         * Whether the tabs automatically hide.
+         * <p>
+         * If set to {@code TRUE}, the tab bar disappears when {@code TabBar:view} has 0
+         * or 1 tab, no pinned tabs, and no tab is being transferred.
+         * <p>
+         * See {@code TabBar:tabs-revealed}.
+         * @param autohide The value for the {@code autohide} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setAutohide(boolean autohide) {
+            names.add("autohide");
+            values.add(org.gtk.gobject.Value.create(autohide));
+            return this;
+        }
+        
+        /**
+         * The widget shown after the tabs.
+         * @param endActionWidget The value for the {@code end-action-widget} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setEndActionWidget(org.gtk.gtk.Widget endActionWidget) {
+            names.add("end-action-widget");
+            values.add(org.gtk.gobject.Value.create(endActionWidget));
+            return this;
+        }
+        
+        /**
+         * Whether tabs expand to full width.
+         * <p>
+         * If set to {@code TRUE}, the tabs will always vary width filling the whole width
+         * when possible, otherwise tabs will always have the minimum possible size.
+         * @param expandTabs The value for the {@code expand-tabs} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setExpandTabs(boolean expandTabs) {
+            names.add("expand-tabs");
+            values.add(org.gtk.gobject.Value.create(expandTabs));
+            return this;
+        }
+        
+        /**
+         * Whether tabs use inverted layout.
+         * <p>
+         * If set to {@code TRUE}, non-pinned tabs will have the close button at the
+         * beginning and the indicator at the end rather than the opposite.
+         * @param inverted The value for the {@code inverted} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setInverted(boolean inverted) {
+            names.add("inverted");
+            values.add(org.gtk.gobject.Value.create(inverted));
+            return this;
+        }
+        
+        /**
+         * Whether the tab bar is overflowing.
+         * <p>
+         * If {@code TRUE}, all tabs cannot be displayed at once and require scrolling.
+         * @param isOverflowing The value for the {@code is-overflowing} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setIsOverflowing(boolean isOverflowing) {
+            names.add("is-overflowing");
+            values.add(org.gtk.gobject.Value.create(isOverflowing));
+            return this;
+        }
+        
+        /**
+         * The widget shown before the tabs.
+         * @param startActionWidget The value for the {@code start-action-widget} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setStartActionWidget(org.gtk.gtk.Widget startActionWidget) {
+            names.add("start-action-widget");
+            values.add(org.gtk.gobject.Value.create(startActionWidget));
+            return this;
+        }
+        
+        /**
+         * Whether the tabs are currently revealed.
+         * <p>
+         * See {@code TabBar:autohide}.
+         * @param tabsRevealed The value for the {@code tabs-revealed} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setTabsRevealed(boolean tabsRevealed) {
+            names.add("tabs-revealed");
+            values.add(org.gtk.gobject.Value.create(tabsRevealed));
+            return this;
+        }
+        
+        /**
+         * The tab view the tab bar controls.
+         * @param view The value for the {@code view} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setView(org.gnome.adw.TabView view) {
+            names.add("view");
+            values.add(org.gtk.gobject.Value.create(view));
+            return this;
+        }
+    }
     
     private static class DowncallHandles {
         
         private static final MethodHandle adw_tab_bar_new = Interop.downcallHandle(
             "adw_tab_bar_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_tab_bar_get_autohide = Interop.downcallHandle(
             "adw_tab_bar_get_autohide",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_tab_bar_get_end_action_widget = Interop.downcallHandle(
             "adw_tab_bar_get_end_action_widget",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_tab_bar_get_expand_tabs = Interop.downcallHandle(
             "adw_tab_bar_get_expand_tabs",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_tab_bar_get_inverted = Interop.downcallHandle(
             "adw_tab_bar_get_inverted",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_tab_bar_get_is_overflowing = Interop.downcallHandle(
             "adw_tab_bar_get_is_overflowing",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_tab_bar_get_start_action_widget = Interop.downcallHandle(
             "adw_tab_bar_get_start_action_widget",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_tab_bar_get_tabs_revealed = Interop.downcallHandle(
             "adw_tab_bar_get_tabs_revealed",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_tab_bar_get_view = Interop.downcallHandle(
             "adw_tab_bar_get_view",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_tab_bar_set_autohide = Interop.downcallHandle(
             "adw_tab_bar_set_autohide",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle adw_tab_bar_set_end_action_widget = Interop.downcallHandle(
             "adw_tab_bar_set_end_action_widget",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_tab_bar_set_expand_tabs = Interop.downcallHandle(
             "adw_tab_bar_set_expand_tabs",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle adw_tab_bar_set_inverted = Interop.downcallHandle(
             "adw_tab_bar_set_inverted",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle adw_tab_bar_set_start_action_widget = Interop.downcallHandle(
             "adw_tab_bar_set_start_action_widget",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_tab_bar_set_view = Interop.downcallHandle(
             "adw_tab_bar_set_view",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_tab_bar_setup_extra_drop_target = Interop.downcallHandle(
             "adw_tab_bar_setup_extra_drop_target",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
+            false
+        );
+        
+        private static final MethodHandle adw_tab_bar_get_type = Interop.downcallHandle(
+            "adw_tab_bar_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }
@@ -474,9 +632,9 @@ public class TabBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
     private static class Callbacks {
         
         public static boolean signalTabBarExtraDragDrop(MemoryAddress source, MemoryAddress page, MemoryAddress value, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (TabBar.ExtraDragDrop) Interop.signalRegistry.get(HASH);
-            return HANDLER.signalReceived(new TabBar(source, Ownership.UNKNOWN), new org.gnome.adw.TabPage(page, Ownership.NONE), new org.gtk.gobject.Value(value, Ownership.NONE));
+            return HANDLER.signalReceived(new TabBar(source, Ownership.NONE), new org.gnome.adw.TabPage(page, Ownership.NONE), new org.gtk.gobject.Value(value, Ownership.NONE));
         }
     }
 }

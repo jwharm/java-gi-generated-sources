@@ -9,7 +9,7 @@ import org.jetbrains.annotations.*;
  * An opaque type which identifies a specific node in a {@link Tree}.
  * @version 2.68
  */
-public class TreeNode extends io.github.jwharm.javagi.ProxyBase {
+public class TreeNode extends Struct {
     
     static {
         GLib.javagi$ensureInitialized();
@@ -28,6 +28,10 @@ public class TreeNode extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link TreeNode}
+     * @return A new, uninitialized @{link TreeNode}
+     */
     public static TreeNode allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         TreeNode newInstance = new TreeNode(segment.address(), Ownership.NONE);
@@ -111,26 +115,54 @@ public class TreeNode extends io.github.jwharm.javagi.ProxyBase {
         
         private static final MethodHandle g_tree_node_key = Interop.downcallHandle(
             "g_tree_node_key",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_tree_node_next = Interop.downcallHandle(
             "g_tree_node_next",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_tree_node_previous = Interop.downcallHandle(
             "g_tree_node_previous",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_tree_node_value = Interop.downcallHandle(
             "g_tree_node_value",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private TreeNode struct;
+        
+         /**
+         * A {@link TreeNode.Build} object constructs a {@link TreeNode} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = TreeNode.allocate();
+        }
+        
+         /**
+         * Finish building the {@link TreeNode} struct.
+         * @return A new instance of {@code TreeNode} with the fields 
+         *         that were set in the Build object.
+         */
+        public TreeNode construct() {
+            return struct;
+        }
     }
 }

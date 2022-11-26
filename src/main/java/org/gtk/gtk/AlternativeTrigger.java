@@ -52,7 +52,7 @@ public class AlternativeTrigger extends org.gtk.gtk.ShortcutTrigger {
      * @throws ClassCastException If the GType is not derived from "GtkAlternativeTrigger", a ClassCastException will be thrown.
      */
     public static AlternativeTrigger castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkAlternativeTrigger"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), AlternativeTrigger.getType())) {
             return new AlternativeTrigger(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkAlternativeTrigger");
@@ -126,23 +126,100 @@ public class AlternativeTrigger extends org.gtk.gtk.ShortcutTrigger {
         return new org.gtk.gtk.ShortcutTrigger(RESULT, Ownership.NONE);
     }
     
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.gtk_alternative_trigger_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gtk.ShortcutTrigger.Build {
+        
+         /**
+         * A {@link AlternativeTrigger.Build} object constructs a {@link AlternativeTrigger} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link AlternativeTrigger} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link AlternativeTrigger} using {@link AlternativeTrigger#castFrom}.
+         * @return A new instance of {@code AlternativeTrigger} with the properties 
+         *         that were set in the Build object.
+         */
+        public AlternativeTrigger construct() {
+            return AlternativeTrigger.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    AlternativeTrigger.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+        
+        /**
+         * The first {@code GtkShortcutTrigger} to check.
+         * @param first The value for the {@code first} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setFirst(org.gtk.gtk.ShortcutTrigger first) {
+            names.add("first");
+            values.add(org.gtk.gobject.Value.create(first));
+            return this;
+        }
+        
+        /**
+         * The second {@code GtkShortcutTrigger} to check.
+         * @param second The value for the {@code second} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setSecond(org.gtk.gtk.ShortcutTrigger second) {
+            names.add("second");
+            values.add(org.gtk.gobject.Value.create(second));
+            return this;
+        }
+    }
+    
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_alternative_trigger_new = Interop.downcallHandle(
             "gtk_alternative_trigger_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_alternative_trigger_get_first = Interop.downcallHandle(
             "gtk_alternative_trigger_get_first",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_alternative_trigger_get_second = Interop.downcallHandle(
             "gtk_alternative_trigger_get_second",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+            false
+        );
+        
+        private static final MethodHandle gtk_alternative_trigger_get_type = Interop.downcallHandle(
+            "gtk_alternative_trigger_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }

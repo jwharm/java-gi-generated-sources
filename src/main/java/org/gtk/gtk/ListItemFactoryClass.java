@@ -5,7 +5,7 @@ import java.lang.foreign.*;
 import java.lang.invoke.*;
 import org.jetbrains.annotations.*;
 
-public class ListItemFactoryClass extends io.github.jwharm.javagi.ProxyBase {
+public class ListItemFactoryClass extends Struct {
     
     static {
         Gtk.javagi$ensureInitialized();
@@ -24,6 +24,10 @@ public class ListItemFactoryClass extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link ListItemFactoryClass}
+     * @return A new, uninitialized @{link ListItemFactoryClass}
+     */
     public static ListItemFactoryClass allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         ListItemFactoryClass newInstance = new ListItemFactoryClass(segment.address(), Ownership.NONE);
@@ -39,5 +43,33 @@ public class ListItemFactoryClass extends io.github.jwharm.javagi.ProxyBase {
     @ApiStatus.Internal
     public ListItemFactoryClass(Addressable address, Ownership ownership) {
         super(address, ownership);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private ListItemFactoryClass struct;
+        
+         /**
+         * A {@link ListItemFactoryClass.Build} object constructs a {@link ListItemFactoryClass} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = ListItemFactoryClass.allocate();
+        }
+        
+         /**
+         * Finish building the {@link ListItemFactoryClass} struct.
+         * @return A new instance of {@code ListItemFactoryClass} with the fields 
+         *         that were set in the Build object.
+         */
+        public ListItemFactoryClass construct() {
+            return struct;
+        }
     }
 }

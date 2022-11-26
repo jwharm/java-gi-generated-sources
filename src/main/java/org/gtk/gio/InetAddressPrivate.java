@@ -5,7 +5,7 @@ import java.lang.foreign.*;
 import java.lang.invoke.*;
 import org.jetbrains.annotations.*;
 
-public class InetAddressPrivate extends io.github.jwharm.javagi.ProxyBase {
+public class InetAddressPrivate extends Struct {
     
     static {
         Gio.javagi$ensureInitialized();
@@ -24,6 +24,10 @@ public class InetAddressPrivate extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link InetAddressPrivate}
+     * @return A new, uninitialized @{link InetAddressPrivate}
+     */
     public static InetAddressPrivate allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         InetAddressPrivate newInstance = new InetAddressPrivate(segment.address(), Ownership.NONE);
@@ -39,5 +43,33 @@ public class InetAddressPrivate extends io.github.jwharm.javagi.ProxyBase {
     @ApiStatus.Internal
     public InetAddressPrivate(Addressable address, Ownership ownership) {
         super(address, ownership);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private InetAddressPrivate struct;
+        
+         /**
+         * A {@link InetAddressPrivate.Build} object constructs a {@link InetAddressPrivate} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = InetAddressPrivate.allocate();
+        }
+        
+         /**
+         * Finish building the {@link InetAddressPrivate} struct.
+         * @return A new instance of {@code InetAddressPrivate} with the fields 
+         *         that were set in the Build object.
+         */
+        public InetAddressPrivate construct() {
+            return struct;
+        }
     }
 }

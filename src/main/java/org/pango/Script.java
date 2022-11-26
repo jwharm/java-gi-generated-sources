@@ -695,13 +695,13 @@ public class Script extends io.github.jwharm.javagi.Enumeration {
         
         private static final MethodHandle pango_script_for_unichar = Interop.downcallHandle(
             "pango_script_for_unichar",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle pango_script_get_sample_language = Interop.downcallHandle(
             "pango_script_get_sample_language",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
     }

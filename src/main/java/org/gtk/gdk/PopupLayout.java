@@ -40,7 +40,7 @@ import org.jetbrains.annotations.*;
  * But you have to be careful avoid changing the size of the popover, or it
  * has to be presented again.
  */
-public class PopupLayout extends io.github.jwharm.javagi.ProxyBase {
+public class PopupLayout extends Struct {
     
     static {
         Gdk.javagi$ensureInitialized();
@@ -59,6 +59,10 @@ public class PopupLayout extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link PopupLayout}
+     * @return A new, uninitialized @{link PopupLayout}
+     */
     public static PopupLayout allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         PopupLayout newInstance = new PopupLayout(segment.address(), Ownership.NONE);
@@ -184,9 +188,9 @@ public class PopupLayout extends io.github.jwharm.javagi.ProxyBase {
      */
     public void getOffset(Out<Integer> dx, Out<Integer> dy) {
         java.util.Objects.requireNonNull(dx, "Parameter 'dx' must not be null");
+        MemorySegment dxPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         java.util.Objects.requireNonNull(dy, "Parameter 'dy' must not be null");
-        MemorySegment dxPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
-        MemorySegment dyPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
+        MemorySegment dyPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         try {
             DowncallHandles.gdk_popup_layout_get_offset.invokeExact(
                     handle(),
@@ -195,8 +199,8 @@ public class PopupLayout extends io.github.jwharm.javagi.ProxyBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        dx.set(dxPOINTER.get(ValueLayout.JAVA_INT, 0));
-        dy.set(dyPOINTER.get(ValueLayout.JAVA_INT, 0));
+        dx.set(dxPOINTER.get(Interop.valueLayout.C_INT, 0));
+        dy.set(dyPOINTER.get(Interop.valueLayout.C_INT, 0));
     }
     
     /**
@@ -223,13 +227,13 @@ public class PopupLayout extends io.github.jwharm.javagi.ProxyBase {
      */
     public void getShadowWidth(Out<Integer> left, Out<Integer> right, Out<Integer> top, Out<Integer> bottom) {
         java.util.Objects.requireNonNull(left, "Parameter 'left' must not be null");
+        MemorySegment leftPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         java.util.Objects.requireNonNull(right, "Parameter 'right' must not be null");
+        MemorySegment rightPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         java.util.Objects.requireNonNull(top, "Parameter 'top' must not be null");
+        MemorySegment topPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         java.util.Objects.requireNonNull(bottom, "Parameter 'bottom' must not be null");
-        MemorySegment leftPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
-        MemorySegment rightPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
-        MemorySegment topPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
-        MemorySegment bottomPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
+        MemorySegment bottomPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         try {
             DowncallHandles.gdk_popup_layout_get_shadow_width.invokeExact(
                     handle(),
@@ -240,10 +244,10 @@ public class PopupLayout extends io.github.jwharm.javagi.ProxyBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        left.set(leftPOINTER.get(ValueLayout.JAVA_INT, 0));
-        right.set(rightPOINTER.get(ValueLayout.JAVA_INT, 0));
-        top.set(topPOINTER.get(ValueLayout.JAVA_INT, 0));
-        bottom.set(bottomPOINTER.get(ValueLayout.JAVA_INT, 0));
+        left.set(leftPOINTER.get(Interop.valueLayout.C_INT, 0));
+        right.set(rightPOINTER.get(Interop.valueLayout.C_INT, 0));
+        top.set(topPOINTER.get(Interop.valueLayout.C_INT, 0));
+        bottom.set(bottomPOINTER.get(Interop.valueLayout.C_INT, 0));
     }
     
     /**
@@ -398,104 +402,132 @@ public class PopupLayout extends io.github.jwharm.javagi.ProxyBase {
         
         private static final MethodHandle gdk_popup_layout_new = Interop.downcallHandle(
             "gdk_popup_layout_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gdk_popup_layout_copy = Interop.downcallHandle(
             "gdk_popup_layout_copy",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_popup_layout_equal = Interop.downcallHandle(
             "gdk_popup_layout_equal",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_popup_layout_get_anchor_hints = Interop.downcallHandle(
             "gdk_popup_layout_get_anchor_hints",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_popup_layout_get_anchor_rect = Interop.downcallHandle(
             "gdk_popup_layout_get_anchor_rect",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_popup_layout_get_offset = Interop.downcallHandle(
             "gdk_popup_layout_get_offset",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_popup_layout_get_rect_anchor = Interop.downcallHandle(
             "gdk_popup_layout_get_rect_anchor",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_popup_layout_get_shadow_width = Interop.downcallHandle(
             "gdk_popup_layout_get_shadow_width",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_popup_layout_get_surface_anchor = Interop.downcallHandle(
             "gdk_popup_layout_get_surface_anchor",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_popup_layout_ref = Interop.downcallHandle(
             "gdk_popup_layout_ref",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_popup_layout_set_anchor_hints = Interop.downcallHandle(
             "gdk_popup_layout_set_anchor_hints",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gdk_popup_layout_set_anchor_rect = Interop.downcallHandle(
             "gdk_popup_layout_set_anchor_rect",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_popup_layout_set_offset = Interop.downcallHandle(
             "gdk_popup_layout_set_offset",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gdk_popup_layout_set_rect_anchor = Interop.downcallHandle(
             "gdk_popup_layout_set_rect_anchor",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gdk_popup_layout_set_shadow_width = Interop.downcallHandle(
             "gdk_popup_layout_set_shadow_width",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gdk_popup_layout_set_surface_anchor = Interop.downcallHandle(
             "gdk_popup_layout_set_surface_anchor",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gdk_popup_layout_unref = Interop.downcallHandle(
             "gdk_popup_layout_unref",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private PopupLayout struct;
+        
+         /**
+         * A {@link PopupLayout.Build} object constructs a {@link PopupLayout} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = PopupLayout.allocate();
+        }
+        
+         /**
+         * Finish building the {@link PopupLayout} struct.
+         * @return A new instance of {@code PopupLayout} with the fields 
+         *         that were set in the Build object.
+         */
+        public PopupLayout construct() {
+            return struct;
+        }
     }
 }

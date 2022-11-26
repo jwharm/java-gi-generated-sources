@@ -16,7 +16,7 @@ public class OptionArg extends io.github.jwharm.javagi.Enumeration {
     private static final java.lang.String C_TYPE_NAME = "GOptionArg";
     
     /**
-     * No extra argument. This is useful for simple flags.
+     * No extra argument. This is useful for simple flags or booleans.
      */
     public static final OptionArg NONE = new OptionArg(0);
     

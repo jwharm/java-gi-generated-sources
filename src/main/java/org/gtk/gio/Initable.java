@@ -47,7 +47,7 @@ public interface Initable extends io.github.jwharm.javagi.Proxy {
      * @throws ClassCastException If the GType is not derived from "GInitable", a ClassCastException will be thrown.
      */
     public static Initable castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GInitable"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), Initable.getType())) {
             return new InitableImpl(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GInitable");
@@ -99,7 +99,7 @@ public interface Initable extends io.github.jwharm.javagi.Proxy {
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     default boolean init(@Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_initable_init.invokeExact(
@@ -113,6 +113,20 @@ public interface Initable extends io.github.jwharm.javagi.Proxy {
             throw new GErrorException(GERROR);
         }
         return RESULT != 0;
+    }
+    
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.g_initable_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
     }
     
     /**
@@ -163,7 +177,7 @@ public interface Initable extends io.github.jwharm.javagi.Proxy {
         java.util.Objects.requireNonNull(objectType, "Parameter 'objectType' must not be null");
         java.util.Objects.requireNonNull(firstPropertyName, "Parameter 'firstPropertyName' must not be null");
         java.util.Objects.requireNonNull(varArgs, "Parameter 'varArgs' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_initable_new_valist.invokeExact(
@@ -199,13 +213,13 @@ public interface Initable extends io.github.jwharm.javagi.Proxy {
     public static @NotNull org.gtk.gobject.Object newv(@NotNull org.gtk.glib.Type objectType, int nParameters, @NotNull org.gtk.gobject.Parameter[] parameters, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(objectType, "Parameter 'objectType' must not be null");
         java.util.Objects.requireNonNull(parameters, "Parameter 'parameters' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_initable_newv.invokeExact(
                     objectType.getValue().longValue(),
                     nParameters,
-                    Interop.allocateNativeArray(parameters, false),
+                    Interop.allocateNativeArray(parameters, org.gtk.gobject.Parameter.getMemoryLayout(), false),
                     (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
@@ -223,28 +237,35 @@ public interface Initable extends io.github.jwharm.javagi.Proxy {
         @ApiStatus.Internal
         static final MethodHandle g_initable_init = Interop.downcallHandle(
             "g_initable_init",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+            false
+        );
+        
+        @ApiStatus.Internal
+        static final MethodHandle g_initable_get_type = Interop.downcallHandle(
+            "g_initable_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_initable_new = Interop.downcallHandle(
             "g_initable_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             true
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_initable_new_valist = Interop.downcallHandle(
             "g_initable_new_valist",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_initable_newv = Interop.downcallHandle(
             "g_initable_newv",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
     }

@@ -8,7 +8,7 @@ import org.jetbrains.annotations.*;
 /**
  * Structure representing a setting for an {@link AatLayoutFeatureTypeT}.
  */
-public class AatLayoutFeatureSelectorInfoT extends io.github.jwharm.javagi.ProxyBase {
+public class AatLayoutFeatureSelectorInfoT extends Struct {
     
     static {
         HarfBuzz.javagi$ensureInitialized();
@@ -16,11 +16,11 @@ public class AatLayoutFeatureSelectorInfoT extends io.github.jwharm.javagi.Proxy
     
     private static final java.lang.String C_TYPE_NAME = "hb_aat_layout_feature_selector_info_t";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
-        ValueLayout.JAVA_INT.withName("name_id"),
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
+        Interop.valueLayout.C_INT.withName("name_id"),
         Interop.valueLayout.C_INT.withName("enable"),
         Interop.valueLayout.C_INT.withName("disable"),
-        ValueLayout.JAVA_INT.withName("reserved")
+        Interop.valueLayout.C_INT.withName("reserved")
     ).withName(C_TYPE_NAME);
     
     /**
@@ -34,6 +34,10 @@ public class AatLayoutFeatureSelectorInfoT extends io.github.jwharm.javagi.Proxy
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link AatLayoutFeatureSelectorInfoT}
+     * @return A new, uninitialized @{link AatLayoutFeatureSelectorInfoT}
+     */
     public static AatLayoutFeatureSelectorInfoT allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         AatLayoutFeatureSelectorInfoT newInstance = new AatLayoutFeatureSelectorInfoT(segment.address(), Ownership.NONE);
@@ -112,5 +116,76 @@ public class AatLayoutFeatureSelectorInfoT extends io.github.jwharm.javagi.Proxy
     @ApiStatus.Internal
     public AatLayoutFeatureSelectorInfoT(Addressable address, Ownership ownership) {
         super(address, ownership);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private AatLayoutFeatureSelectorInfoT struct;
+        
+         /**
+         * A {@link AatLayoutFeatureSelectorInfoT.Build} object constructs a {@link AatLayoutFeatureSelectorInfoT} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = AatLayoutFeatureSelectorInfoT.allocate();
+        }
+        
+         /**
+         * Finish building the {@link AatLayoutFeatureSelectorInfoT} struct.
+         * @return A new instance of {@code AatLayoutFeatureSelectorInfoT} with the fields 
+         *         that were set in the Build object.
+         */
+        public AatLayoutFeatureSelectorInfoT construct() {
+            return struct;
+        }
+        
+        /**
+         * The selector's name identifier
+         * @param name_id The value for the {@code name_id} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setNameId(org.harfbuzz.OtNameIdT name_id) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("name_id"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (name_id == null ? MemoryAddress.NULL : name_id.getValue().intValue()));
+            return this;
+        }
+        
+        /**
+         * The value to turn the selector on
+         * @param enable The value for the {@code enable} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setEnable(org.harfbuzz.AatLayoutFeatureSelectorT enable) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("enable"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (enable == null ? MemoryAddress.NULL : enable.getValue()));
+            return this;
+        }
+        
+        /**
+         * The value to turn the selector off
+         * @param disable The value for the {@code disable} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setDisable(org.harfbuzz.AatLayoutFeatureSelectorT disable) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("disable"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (disable == null ? MemoryAddress.NULL : disable.getValue()));
+            return this;
+        }
+        
+        public Build setReserved(int reserved) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("reserved"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), reserved);
+            return this;
+        }
     }
 }

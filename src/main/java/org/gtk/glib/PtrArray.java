@@ -8,7 +8,7 @@ import org.jetbrains.annotations.*;
 /**
  * Contains the public fields of a pointer array.
  */
-public class PtrArray extends io.github.jwharm.javagi.ProxyBase {
+public class PtrArray extends Struct {
     
     static {
         GLib.javagi$ensureInitialized();
@@ -16,9 +16,9 @@ public class PtrArray extends io.github.jwharm.javagi.ProxyBase {
     
     private static final java.lang.String C_TYPE_NAME = "GPtrArray";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
         Interop.valueLayout.ADDRESS.withName("pdata"),
-        ValueLayout.JAVA_INT.withName("len")
+        Interop.valueLayout.C_INT.withName("len")
     ).withName(C_TYPE_NAME);
     
     /**
@@ -32,6 +32,10 @@ public class PtrArray extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link PtrArray}
+     * @return A new, uninitialized @{link PtrArray}
+     */
     public static PtrArray allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         PtrArray newInstance = new PtrArray(segment.address(), Ownership.NONE);
@@ -57,7 +61,7 @@ public class PtrArray extends io.github.jwharm.javagi.ProxyBase {
     public void pdata$set(java.lang.foreign.MemoryAddress pdata) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("pdata"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), pdata);
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) pdata);
     }
     
     /**
@@ -102,7 +106,7 @@ public class PtrArray extends io.github.jwharm.javagi.ProxyBase {
         try {
             DowncallHandles.g_ptr_array_add.invokeExact(
                     Interop.allocateNativeArray(array, false),
-                    data);
+                    (Addressable) data);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -121,7 +125,8 @@ public class PtrArray extends io.github.jwharm.javagi.ProxyBase {
      * pointing to) are copied to the new {@link PtrArray}.
      * <p>
      * The copy of {@code array} will have the same {@link DestroyNotify} for its elements as
-     * {@code array}.
+     * {@code array}. The copy will also be {@code null} terminated if (and only if) the source
+     * array is.
      * @param array {@link PtrArray} to duplicate
      * @param func a copy function used to copy every element in the array
      * @return a deep copy of the initial {@link PtrArray}.
@@ -135,7 +140,7 @@ public class PtrArray extends io.github.jwharm.javagi.ProxyBase {
                     (Addressable) (func == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbCopyFunc",
                             MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                         Interop.getScope())),
                     (Addressable) (func == null ? MemoryAddress.NULL : Interop.registerCallback(func)));
         } catch (Throwable ERR) {
@@ -157,6 +162,8 @@ public class PtrArray extends io.github.jwharm.javagi.ProxyBase {
      * <p>
      * If {@code func} is {@code null}, then only the pointers (and not what they are
      * pointing to) are copied to the new {@link PtrArray}.
+     * <p>
+     * Whether {@code array_to_extend} is {@code null} terminated stays unchanged by this function.
      * @param arrayToExtend a {@link PtrArray}.
      * @param array a {@link PtrArray} to add to the end of {@code array_to_extend}.
      * @param func a copy function used to copy every element in the array
@@ -171,7 +178,7 @@ public class PtrArray extends io.github.jwharm.javagi.ProxyBase {
                     (Addressable) (func == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbCopyFunc",
                             MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                         Interop.getScope())),
                     (Addressable) (func == null ? MemoryAddress.NULL : Interop.registerCallback(func)));
         } catch (Throwable ERR) {
@@ -220,17 +227,17 @@ public class PtrArray extends io.github.jwharm.javagi.ProxyBase {
     public static boolean find(@NotNull java.lang.foreign.MemoryAddress[] haystack, @Nullable java.lang.foreign.MemoryAddress needle, Out<Integer> index) {
         java.util.Objects.requireNonNull(haystack, "Parameter 'haystack' must not be null");
         java.util.Objects.requireNonNull(index, "Parameter 'index' must not be null");
-        MemorySegment indexPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
+        MemorySegment indexPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_ptr_array_find.invokeExact(
                     Interop.allocateNativeArray(haystack, false),
-                    (Addressable) (needle == null ? MemoryAddress.NULL : needle),
+                    (Addressable) (needle == null ? MemoryAddress.NULL : (Addressable) needle),
                     (Addressable) indexPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        index.set(indexPOINTER.get(ValueLayout.JAVA_INT, 0));
+        index.set(indexPOINTER.get(Interop.valueLayout.C_INT, 0));
         return RESULT != 0;
     }
     
@@ -272,7 +279,7 @@ public class PtrArray extends io.github.jwharm.javagi.ProxyBase {
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbFunc",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                         Interop.getScope()),
                     (Addressable) (Interop.registerCallback(func)));
         } catch (Throwable ERR) {
@@ -291,6 +298,10 @@ public class PtrArray extends io.github.jwharm.javagi.ProxyBase {
      * If array contents point to dynamically-allocated memory, they should
      * be freed separately if {@code free_seg} is {@code true} and no {@link DestroyNotify}
      * function has been set for {@code array}.
+     * <p>
+     * Note that if the array is {@code null} terminated and {@code free_seg} is {@code false}
+     * then this will always return an allocated {@code null} terminated buffer.
+     * If pdata is previously {@code null}, a new buffer will be allocated.
      * <p>
      * This function is not thread-safe. If using a {@link PtrArray} from multiple
      * threads, use only the atomic g_ptr_array_ref() and g_ptr_array_unref()
@@ -326,10 +337,32 @@ public class PtrArray extends io.github.jwharm.javagi.ProxyBase {
             DowncallHandles.g_ptr_array_insert.invokeExact(
                     Interop.allocateNativeArray(array, false),
                     index,
-                    data);
+                    (Addressable) data);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+    }
+    
+    /**
+     * Gets whether the {@code array} was constructed as {@code null}-terminated.
+     * <p>
+     * This will only return {@code true} for arrays constructed by passing {@code true} to the
+     * {@code null_terminated} argument of g_ptr_array_new_null_terminated(). It will not
+     * return {@code true} for normal arrays which have had a {@code null} element appended to
+     * them.
+     * @param array the {@link PtrArray}
+     * @return {@code true} if the array is made to be {@code null} terminated.
+     */
+    public static boolean isNullTerminated(@NotNull java.lang.foreign.MemoryAddress[] array) {
+        java.util.Objects.requireNonNull(array, "Parameter 'array' must not be null");
+        int RESULT;
+        try {
+            RESULT = (int) DowncallHandles.g_ptr_array_is_null_terminated.invokeExact(
+                    Interop.allocateNativeArray(array, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return RESULT != 0;
     }
     
     /**
@@ -360,6 +393,35 @@ public class PtrArray extends io.github.jwharm.javagi.ProxyBase {
      * @return A new {@link PtrArray}
      */
     public static @NotNull PointerAddress newFull(int reservedSize, @Nullable org.gtk.glib.DestroyNotify elementFreeFunc) {
+        throw new UnsupportedOperationException("Operation not supported yet");
+    }
+    
+    /**
+     * Like g_ptr_array_new_full() but also allows to set the array to
+     * be {@code null} terminated. A {@code null} terminated pointer array has an
+     * additional {@code null} pointer after the last element, beyond the
+     * current length.
+     * <p>
+     * {@link PtrArray} created by other constructors are not automatically {@code null}
+     * terminated.
+     * <p>
+     * Note that if the {@code array}'s length is zero and currently no
+     * data array is allocated, then pdata will still be {@code null}.
+     * {@code GPtrArray} will only {@code null} terminate pdata, if an actual
+     * array is allocated. It does not guarantee that an array
+     * is always allocated. In other words, if the length is zero,
+     * then pdata may either point to a {@code null} terminated array of length
+     * zero or be {@code null}.
+     * @param reservedSize number of pointers preallocated.
+     *     If {@code null_terminated} is {@code true}, the actually allocated
+     *     buffer size is {@code reserved_size} plus 1, unless {@code reserved_size}
+     *     is zero, in which case no initial buffer gets allocated.
+     * @param elementFreeFunc A function to free elements with
+     *     destroy {@code array} or {@code null}
+     * @param nullTerminated whether to make the array as {@code null} terminated.
+     * @return A new {@link PtrArray}
+     */
+    public static @NotNull PointerAddress newNullTerminated(int reservedSize, @Nullable org.gtk.glib.DestroyNotify elementFreeFunc, boolean nullTerminated) {
         throw new UnsupportedOperationException("Operation not supported yet");
     }
     
@@ -413,7 +475,7 @@ public class PtrArray extends io.github.jwharm.javagi.ProxyBase {
         try {
             RESULT = (int) DowncallHandles.g_ptr_array_remove.invokeExact(
                     Interop.allocateNativeArray(array, false),
-                    data);
+                    (Addressable) data);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -439,7 +501,7 @@ public class PtrArray extends io.github.jwharm.javagi.ProxyBase {
         try {
             RESULT = (int) DowncallHandles.g_ptr_array_remove_fast.invokeExact(
                     Interop.allocateNativeArray(array, false),
-                    data);
+                    (Addressable) data);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -675,7 +737,7 @@ public class PtrArray extends io.github.jwharm.javagi.ProxyBase {
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbCompareDataFunc",
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                         Interop.getScope()),
                     (Addressable) (Interop.registerCallback(compareFunc)));
         } catch (Throwable ERR) {
@@ -687,6 +749,10 @@ public class PtrArray extends io.github.jwharm.javagi.ProxyBase {
      * Frees the data in the array and resets the size to zero, while
      * the underlying array is preserved for use elsewhere and returned
      * to the caller.
+     * <p>
+     * Note that if the array is {@code null} terminated this may still return
+     * {@code null} if the length of the array was zero and pdata was not yet
+     * allocated.
      * <p>
      * Even if set, the {@link DestroyNotify} function will never be called
      * on the current contents of the array and the caller is
@@ -728,12 +794,13 @@ public class PtrArray extends io.github.jwharm.javagi.ProxyBase {
      * @param len pointer to retrieve the number of
      *    elements of the original array
      * @return the element data, which should be
-     *     freed using g_free().
+     *     freed using g_free(). This may be {@code null} if the array doesn’t have any
+     *     elements (i.e. if {@code *len} is zero).
      */
     public static @Nullable java.lang.foreign.MemoryAddress steal(@NotNull java.lang.foreign.MemoryAddress[] array, Out<Long> len) {
         java.util.Objects.requireNonNull(array, "Parameter 'array' must not be null");
         java.util.Objects.requireNonNull(len, "Parameter 'len' must not be null");
-        MemorySegment lenPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_LONG);
+        MemorySegment lenPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_ptr_array_steal.invokeExact(
@@ -742,7 +809,7 @@ public class PtrArray extends io.github.jwharm.javagi.ProxyBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        len.set(lenPOINTER.get(ValueLayout.JAVA_LONG, 0));
+        len.set(lenPOINTER.get(Interop.valueLayout.C_LONG, 0));
         return RESULT;
     }
     
@@ -813,55 +880,61 @@ public class PtrArray extends io.github.jwharm.javagi.ProxyBase {
         
         private static final MethodHandle g_ptr_array_add = Interop.downcallHandle(
             "g_ptr_array_add",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_ptr_array_copy = Interop.downcallHandle(
             "g_ptr_array_copy",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_ptr_array_extend = Interop.downcallHandle(
             "g_ptr_array_extend",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_ptr_array_extend_and_steal = Interop.downcallHandle(
             "g_ptr_array_extend_and_steal",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_ptr_array_find = Interop.downcallHandle(
             "g_ptr_array_find",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_ptr_array_find_with_equal_func = Interop.downcallHandle(
             "g_ptr_array_find_with_equal_func",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_ptr_array_foreach = Interop.downcallHandle(
             "g_ptr_array_foreach",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_ptr_array_free = Interop.downcallHandle(
             "g_ptr_array_free",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_ptr_array_insert = Interop.downcallHandle(
             "g_ptr_array_insert",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+            false
+        );
+        
+        private static final MethodHandle g_ptr_array_is_null_terminated = Interop.downcallHandle(
+            "g_ptr_array_is_null_terminated",
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
@@ -873,104 +946,163 @@ public class PtrArray extends io.github.jwharm.javagi.ProxyBase {
         
         private static final MethodHandle g_ptr_array_new_full = Interop.downcallHandle(
             "g_ptr_array_new_full",
-            FunctionDescriptor.ofVoid(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+            false
+        );
+        
+        private static final MethodHandle g_ptr_array_new_null_terminated = Interop.downcallHandle(
+            "g_ptr_array_new_null_terminated",
+            FunctionDescriptor.ofVoid(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_ptr_array_new_with_free_func = Interop.downcallHandle(
             "g_ptr_array_new_with_free_func",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_ptr_array_ref = Interop.downcallHandle(
             "g_ptr_array_ref",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_ptr_array_remove = Interop.downcallHandle(
             "g_ptr_array_remove",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_ptr_array_remove_fast = Interop.downcallHandle(
             "g_ptr_array_remove_fast",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_ptr_array_remove_index = Interop.downcallHandle(
             "g_ptr_array_remove_index",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_ptr_array_remove_index_fast = Interop.downcallHandle(
             "g_ptr_array_remove_index_fast",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_ptr_array_remove_range = Interop.downcallHandle(
             "g_ptr_array_remove_range",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_ptr_array_set_free_func = Interop.downcallHandle(
             "g_ptr_array_set_free_func",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_ptr_array_set_size = Interop.downcallHandle(
             "g_ptr_array_set_size",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_ptr_array_sized_new = Interop.downcallHandle(
             "g_ptr_array_sized_new",
-            FunctionDescriptor.ofVoid(ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_ptr_array_sort = Interop.downcallHandle(
             "g_ptr_array_sort",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_ptr_array_sort_with_data = Interop.downcallHandle(
             "g_ptr_array_sort_with_data",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_ptr_array_steal = Interop.downcallHandle(
             "g_ptr_array_steal",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_ptr_array_steal_index = Interop.downcallHandle(
             "g_ptr_array_steal_index",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_ptr_array_steal_index_fast = Interop.downcallHandle(
             "g_ptr_array_steal_index_fast",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_ptr_array_unref = Interop.downcallHandle(
             "g_ptr_array_unref",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private PtrArray struct;
+        
+         /**
+         * A {@link PtrArray.Build} object constructs a {@link PtrArray} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = PtrArray.allocate();
+        }
+        
+         /**
+         * Finish building the {@link PtrArray} struct.
+         * @return A new instance of {@code PtrArray} with the fields 
+         *         that were set in the Build object.
+         */
+        public PtrArray construct() {
+            return struct;
+        }
+        
+        /**
+         * points to the array of pointers, which may be moved when the
+         *     array grows
+         * @param pdata The value for the {@code pdata} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setPdata(java.lang.foreign.MemoryAddress pdata) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("pdata"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (pdata == null ? MemoryAddress.NULL : (Addressable) pdata));
+            return this;
+        }
+        
+        /**
+         * number of pointers in the array
+         * @param len The value for the {@code len} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setLen(int len) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("len"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), len);
+            return this;
+        }
     }
 }

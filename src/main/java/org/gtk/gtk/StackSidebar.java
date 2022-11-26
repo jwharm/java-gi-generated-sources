@@ -61,7 +61,7 @@ public class StackSidebar extends org.gtk.gtk.Widget implements org.gtk.gtk.Acce
      * @throws ClassCastException If the GType is not derived from "GtkStackSidebar", a ClassCastException will be thrown.
      */
     public static StackSidebar castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkStackSidebar"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), StackSidebar.getType())) {
             return new StackSidebar(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkStackSidebar");
@@ -119,23 +119,89 @@ public class StackSidebar extends org.gtk.gtk.Widget implements org.gtk.gtk.Acce
         }
     }
     
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.gtk_stack_sidebar_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gtk.Widget.Build {
+        
+         /**
+         * A {@link StackSidebar.Build} object constructs a {@link StackSidebar} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link StackSidebar} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link StackSidebar} using {@link StackSidebar#castFrom}.
+         * @return A new instance of {@code StackSidebar} with the properties 
+         *         that were set in the Build object.
+         */
+        public StackSidebar construct() {
+            return StackSidebar.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    StackSidebar.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+        
+        /**
+         * The stack.
+         * @param stack The value for the {@code stack} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setStack(org.gtk.gtk.Stack stack) {
+            names.add("stack");
+            values.add(org.gtk.gobject.Value.create(stack));
+            return this;
+        }
+    }
+    
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_stack_sidebar_new = Interop.downcallHandle(
             "gtk_stack_sidebar_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_stack_sidebar_get_stack = Interop.downcallHandle(
             "gtk_stack_sidebar_get_stack",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_stack_sidebar_set_stack = Interop.downcallHandle(
             "gtk_stack_sidebar_set_stack",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+            false
+        );
+        
+        private static final MethodHandle gtk_stack_sidebar_get_type = Interop.downcallHandle(
+            "gtk_stack_sidebar_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }

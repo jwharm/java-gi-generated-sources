@@ -8,7 +8,7 @@ import org.jetbrains.annotations.*;
 /**
  * Opaque datatype that records a start time.
  */
-public class Timer extends io.github.jwharm.javagi.ProxyBase {
+public class Timer extends Struct {
     
     static {
         GLib.javagi$ensureInitialized();
@@ -27,6 +27,10 @@ public class Timer extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link Timer}
+     * @return A new, uninitialized @{link Timer}
+     */
     public static Timer allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         Timer newInstance = new Timer(segment.address(), Ownership.NONE);
@@ -172,50 +176,78 @@ public class Timer extends io.github.jwharm.javagi.ProxyBase {
         
         private static final MethodHandle g_timer_continue = Interop.downcallHandle(
             "g_timer_continue",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_timer_destroy = Interop.downcallHandle(
             "g_timer_destroy",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_timer_elapsed = Interop.downcallHandle(
             "g_timer_elapsed",
-            FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_DOUBLE, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_timer_is_active = Interop.downcallHandle(
             "g_timer_is_active",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_timer_reset = Interop.downcallHandle(
             "g_timer_reset",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_timer_start = Interop.downcallHandle(
             "g_timer_start",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_timer_stop = Interop.downcallHandle(
             "g_timer_stop",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_timer_new = Interop.downcallHandle(
             "g_timer_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
             false
         );
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private Timer struct;
+        
+         /**
+         * A {@link Timer.Build} object constructs a {@link Timer} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = Timer.allocate();
+        }
+        
+         /**
+         * Finish building the {@link Timer} struct.
+         * @return A new instance of {@code Timer} with the fields 
+         *         that were set in the Build object.
+         */
+        public Timer construct() {
+            return struct;
+        }
     }
 }

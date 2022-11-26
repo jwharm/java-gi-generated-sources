@@ -9,7 +9,7 @@ import org.jetbrains.annotations.*;
  * Virtual table for handling subtrees registered with g_dbus_connection_register_subtree().
  * @version 2.26
  */
-public class DBusSubtreeVTable extends io.github.jwharm.javagi.ProxyBase {
+public class DBusSubtreeVTable extends Struct {
     
     static {
         Gio.javagi$ensureInitialized();
@@ -17,12 +17,11 @@ public class DBusSubtreeVTable extends io.github.jwharm.javagi.ProxyBase {
     
     private static final java.lang.String C_TYPE_NAME = "GDBusSubtreeVTable";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
         Interop.valueLayout.ADDRESS.withName("enumerate"),
         Interop.valueLayout.ADDRESS.withName("introspect"),
         Interop.valueLayout.ADDRESS.withName("dispatch"),
-        MemoryLayout.paddingLayout(320),
-        MemoryLayout.sequenceLayout(8, ValueLayout.ADDRESS).withName("padding")
+        MemoryLayout.sequenceLayout(8, Interop.valueLayout.ADDRESS).withName("padding")
     ).withName(C_TYPE_NAME);
     
     /**
@@ -36,6 +35,10 @@ public class DBusSubtreeVTable extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link DBusSubtreeVTable}
+     * @return A new, uninitialized @{link DBusSubtreeVTable}
+     */
     public static DBusSubtreeVTable allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         DBusSubtreeVTable newInstance = new DBusSubtreeVTable(segment.address(), Ownership.NONE);
@@ -84,5 +87,76 @@ public class DBusSubtreeVTable extends io.github.jwharm.javagi.ProxyBase {
     @ApiStatus.Internal
     public DBusSubtreeVTable(Addressable address, Ownership ownership) {
         super(address, ownership);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private DBusSubtreeVTable struct;
+        
+         /**
+         * A {@link DBusSubtreeVTable.Build} object constructs a {@link DBusSubtreeVTable} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = DBusSubtreeVTable.allocate();
+        }
+        
+         /**
+         * Finish building the {@link DBusSubtreeVTable} struct.
+         * @return A new instance of {@code DBusSubtreeVTable} with the fields 
+         *         that were set in the Build object.
+         */
+        public DBusSubtreeVTable construct() {
+            return struct;
+        }
+        
+        /**
+         * Function for enumerating child nodes.
+         * @param enumerate The value for the {@code enumerate} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setEnumerate(java.lang.foreign.MemoryAddress enumerate) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("enumerate"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (enumerate == null ? MemoryAddress.NULL : enumerate));
+            return this;
+        }
+        
+        /**
+         * Function for introspecting a child node.
+         * @param introspect The value for the {@code introspect} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setIntrospect(java.lang.foreign.MemoryAddress introspect) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("introspect"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (introspect == null ? MemoryAddress.NULL : introspect));
+            return this;
+        }
+        
+        /**
+         * Function for dispatching a remote call on a child node.
+         * @param dispatch The value for the {@code dispatch} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setDispatch(java.lang.foreign.MemoryAddress dispatch) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("dispatch"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (dispatch == null ? MemoryAddress.NULL : dispatch));
+            return this;
+        }
+        
+        public Build setPadding(java.lang.foreign.MemoryAddress[] padding) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("padding"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (padding == null ? MemoryAddress.NULL : Interop.allocateNativeArray(padding, false)));
+            return this;
+        }
     }
 }

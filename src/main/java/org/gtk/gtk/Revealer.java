@@ -66,7 +66,7 @@ public class Revealer extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * @throws ClassCastException If the GType is not derived from "GtkRevealer", a ClassCastException will be thrown.
      */
     public static Revealer castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkRevealer"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), Revealer.getType())) {
             return new Revealer(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkRevealer");
@@ -238,65 +238,175 @@ public class Revealer extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
         }
     }
     
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.gtk_revealer_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gtk.Widget.Build {
+        
+         /**
+         * A {@link Revealer.Build} object constructs a {@link Revealer} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link Revealer} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link Revealer} using {@link Revealer#castFrom}.
+         * @return A new instance of {@code Revealer} with the properties 
+         *         that were set in the Build object.
+         */
+        public Revealer construct() {
+            return Revealer.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    Revealer.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+        
+        /**
+         * The child widget.
+         * @param child The value for the {@code child} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setChild(org.gtk.gtk.Widget child) {
+            names.add("child");
+            values.add(org.gtk.gobject.Value.create(child));
+            return this;
+        }
+        
+        /**
+         * Whether the child is revealed and the animation target reached.
+         * @param childRevealed The value for the {@code child-revealed} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setChildRevealed(boolean childRevealed) {
+            names.add("child-revealed");
+            values.add(org.gtk.gobject.Value.create(childRevealed));
+            return this;
+        }
+        
+        /**
+         * Whether the revealer should reveal the child.
+         * @param revealChild The value for the {@code reveal-child} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setRevealChild(boolean revealChild) {
+            names.add("reveal-child");
+            values.add(org.gtk.gobject.Value.create(revealChild));
+            return this;
+        }
+        
+        /**
+         * The animation duration, in milliseconds.
+         * @param transitionDuration The value for the {@code transition-duration} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setTransitionDuration(int transitionDuration) {
+            names.add("transition-duration");
+            values.add(org.gtk.gobject.Value.create(transitionDuration));
+            return this;
+        }
+        
+        /**
+         * The type of animation used to transition.
+         * @param transitionType The value for the {@code transition-type} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setTransitionType(org.gtk.gtk.RevealerTransitionType transitionType) {
+            names.add("transition-type");
+            values.add(org.gtk.gobject.Value.create(transitionType));
+            return this;
+        }
+    }
+    
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_revealer_new = Interop.downcallHandle(
             "gtk_revealer_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_revealer_get_child = Interop.downcallHandle(
             "gtk_revealer_get_child",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_revealer_get_child_revealed = Interop.downcallHandle(
             "gtk_revealer_get_child_revealed",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_revealer_get_reveal_child = Interop.downcallHandle(
             "gtk_revealer_get_reveal_child",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_revealer_get_transition_duration = Interop.downcallHandle(
             "gtk_revealer_get_transition_duration",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_revealer_get_transition_type = Interop.downcallHandle(
             "gtk_revealer_get_transition_type",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_revealer_set_child = Interop.downcallHandle(
             "gtk_revealer_set_child",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_revealer_set_reveal_child = Interop.downcallHandle(
             "gtk_revealer_set_reveal_child",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_revealer_set_transition_duration = Interop.downcallHandle(
             "gtk_revealer_set_transition_duration",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_revealer_set_transition_type = Interop.downcallHandle(
             "gtk_revealer_set_transition_type",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+            false
+        );
+        
+        private static final MethodHandle gtk_revealer_get_type = Interop.downcallHandle(
+            "gtk_revealer_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }

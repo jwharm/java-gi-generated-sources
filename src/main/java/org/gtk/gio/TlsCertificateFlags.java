@@ -24,6 +24,11 @@ public class TlsCertificateFlags extends io.github.jwharm.javagi.Bitfield {
     private static final java.lang.String C_TYPE_NAME = "GTlsCertificateFlags";
     
     /**
+     * No flags set. Since: 2.74
+     */
+    public static final TlsCertificateFlags NO_FLAGS = new TlsCertificateFlags(0);
+    
+    /**
      * The signing certificate authority is
      *   not known.
      */

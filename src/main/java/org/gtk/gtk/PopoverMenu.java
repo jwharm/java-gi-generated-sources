@@ -148,7 +148,7 @@ public class PopoverMenu extends org.gtk.gtk.Popover implements org.gtk.gtk.Acce
      * @throws ClassCastException If the GType is not derived from "GtkPopoverMenu", a ClassCastException will be thrown.
      */
     public static PopoverMenu castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkPopoverMenu"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), PopoverMenu.getType())) {
             return new PopoverMenu(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkPopoverMenu");
@@ -218,7 +218,7 @@ public class PopoverMenu extends org.gtk.gtk.Popover implements org.gtk.gtk.Acce
      * @return the new {@code GtkPopoverMenu}
      */
     public static PopoverMenu newFromModelFull(@NotNull org.gtk.gio.MenuModel model, @NotNull org.gtk.gtk.PopoverMenuFlags flags) {
-        return new PopoverMenu(constructNewFromModelFull(model, flags), Ownership.FULL);
+        return new PopoverMenu(constructNewFromModelFull(model, flags), Ownership.NONE);
     }
     
     /**
@@ -297,41 +297,118 @@ public class PopoverMenu extends org.gtk.gtk.Popover implements org.gtk.gtk.Acce
         }
     }
     
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.gtk_popover_menu_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gtk.Popover.Build {
+        
+         /**
+         * A {@link PopoverMenu.Build} object constructs a {@link PopoverMenu} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link PopoverMenu} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link PopoverMenu} using {@link PopoverMenu#castFrom}.
+         * @return A new instance of {@code PopoverMenu} with the properties 
+         *         that were set in the Build object.
+         */
+        public PopoverMenu construct() {
+            return PopoverMenu.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    PopoverMenu.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+        
+        /**
+         * The model from which the menu is made.
+         * @param menuModel The value for the {@code menu-model} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setMenuModel(org.gtk.gio.MenuModel menuModel) {
+            names.add("menu-model");
+            values.add(org.gtk.gobject.Value.create(menuModel));
+            return this;
+        }
+        
+        /**
+         * The name of the visible submenu.
+         * @param visibleSubmenu The value for the {@code visible-submenu} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setVisibleSubmenu(java.lang.String visibleSubmenu) {
+            names.add("visible-submenu");
+            values.add(org.gtk.gobject.Value.create(visibleSubmenu));
+            return this;
+        }
+    }
+    
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_popover_menu_new_from_model = Interop.downcallHandle(
             "gtk_popover_menu_new_from_model",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_popover_menu_new_from_model_full = Interop.downcallHandle(
             "gtk_popover_menu_new_from_model_full",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_popover_menu_add_child = Interop.downcallHandle(
             "gtk_popover_menu_add_child",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_popover_menu_get_menu_model = Interop.downcallHandle(
             "gtk_popover_menu_get_menu_model",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_popover_menu_remove_child = Interop.downcallHandle(
             "gtk_popover_menu_remove_child",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_popover_menu_set_menu_model = Interop.downcallHandle(
             "gtk_popover_menu_set_menu_model",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+            false
+        );
+        
+        private static final MethodHandle gtk_popover_menu_get_type = Interop.downcallHandle(
+            "gtk_popover_menu_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }

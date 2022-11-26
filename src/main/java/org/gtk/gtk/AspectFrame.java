@@ -54,7 +54,7 @@ public class AspectFrame extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
      * @throws ClassCastException If the GType is not derived from "GtkAspectFrame", a ClassCastException will be thrown.
      */
     public static AspectFrame castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkAspectFrame"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), AspectFrame.getType())) {
             return new AspectFrame(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkAspectFrame");
@@ -242,71 +242,184 @@ public class AspectFrame extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
         }
     }
     
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.gtk_aspect_frame_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gtk.Widget.Build {
+        
+         /**
+         * A {@link AspectFrame.Build} object constructs a {@link AspectFrame} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link AspectFrame} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link AspectFrame} using {@link AspectFrame#castFrom}.
+         * @return A new instance of {@code AspectFrame} with the properties 
+         *         that were set in the Build object.
+         */
+        public AspectFrame construct() {
+            return AspectFrame.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    AspectFrame.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+        
+        /**
+         * The child widget.
+         * @param child The value for the {@code child} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setChild(org.gtk.gtk.Widget child) {
+            names.add("child");
+            values.add(org.gtk.gobject.Value.create(child));
+            return this;
+        }
+        
+        /**
+         * Whether the {@code GtkAspectFrame} should use the aspect ratio of its child.
+         * @param obeyChild The value for the {@code obey-child} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setObeyChild(boolean obeyChild) {
+            names.add("obey-child");
+            values.add(org.gtk.gobject.Value.create(obeyChild));
+            return this;
+        }
+        
+        /**
+         * The aspect ratio to be used by the {@code GtkAspectFrame}.
+         * <p>
+         * This property is only used if
+         * {@code Gtk.AspectFrame:obey-child} is set to {@code false}.
+         * @param ratio The value for the {@code ratio} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setRatio(float ratio) {
+            names.add("ratio");
+            values.add(org.gtk.gobject.Value.create(ratio));
+            return this;
+        }
+        
+        /**
+         * The horizontal alignment of the child.
+         * @param xalign The value for the {@code xalign} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setXalign(float xalign) {
+            names.add("xalign");
+            values.add(org.gtk.gobject.Value.create(xalign));
+            return this;
+        }
+        
+        /**
+         * The vertical alignment of the child.
+         * @param yalign The value for the {@code yalign} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setYalign(float yalign) {
+            names.add("yalign");
+            values.add(org.gtk.gobject.Value.create(yalign));
+            return this;
+        }
+    }
+    
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_aspect_frame_new = Interop.downcallHandle(
             "gtk_aspect_frame_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_FLOAT, Interop.valueLayout.C_FLOAT, Interop.valueLayout.C_FLOAT, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_aspect_frame_get_child = Interop.downcallHandle(
             "gtk_aspect_frame_get_child",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_aspect_frame_get_obey_child = Interop.downcallHandle(
             "gtk_aspect_frame_get_obey_child",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_aspect_frame_get_ratio = Interop.downcallHandle(
             "gtk_aspect_frame_get_ratio",
-            FunctionDescriptor.of(ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_FLOAT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_aspect_frame_get_xalign = Interop.downcallHandle(
             "gtk_aspect_frame_get_xalign",
-            FunctionDescriptor.of(ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_FLOAT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_aspect_frame_get_yalign = Interop.downcallHandle(
             "gtk_aspect_frame_get_yalign",
-            FunctionDescriptor.of(ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_FLOAT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_aspect_frame_set_child = Interop.downcallHandle(
             "gtk_aspect_frame_set_child",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_aspect_frame_set_obey_child = Interop.downcallHandle(
             "gtk_aspect_frame_set_obey_child",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_aspect_frame_set_ratio = Interop.downcallHandle(
             "gtk_aspect_frame_set_ratio",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_FLOAT),
             false
         );
         
         private static final MethodHandle gtk_aspect_frame_set_xalign = Interop.downcallHandle(
             "gtk_aspect_frame_set_xalign",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_FLOAT),
             false
         );
         
         private static final MethodHandle gtk_aspect_frame_set_yalign = Interop.downcallHandle(
             "gtk_aspect_frame_set_yalign",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_FLOAT),
+            false
+        );
+        
+        private static final MethodHandle gtk_aspect_frame_get_type = Interop.downcallHandle(
+            "gtk_aspect_frame_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }

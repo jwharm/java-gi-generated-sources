@@ -94,7 +94,7 @@ public class ViewStack extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
      * @throws ClassCastException If the GType is not derived from "AdwViewStack", a ClassCastException will be thrown.
      */
     public static ViewStack castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("AdwViewStack"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), ViewStack.getType())) {
             return new ViewStack(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of AdwViewStack");
@@ -415,107 +415,235 @@ public class ViewStack extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
         }
     }
     
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.adw_view_stack_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gtk.Widget.Build {
+        
+         /**
+         * A {@link ViewStack.Build} object constructs a {@link ViewStack} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link ViewStack} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link ViewStack} using {@link ViewStack#castFrom}.
+         * @return A new instance of {@code ViewStack} with the properties 
+         *         that were set in the Build object.
+         */
+        public ViewStack construct() {
+            return ViewStack.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    ViewStack.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+        
+        /**
+         * Whether the stack is horizontally homogeneous.
+         * <p>
+         * If the stack is horizontally homogeneous, it allocates the same width for
+         * all children.
+         * <p>
+         * If it's {@code FALSE}, the stack may change width when a different child becomes
+         * visible.
+         * @param hhomogeneous The value for the {@code hhomogeneous} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setHhomogeneous(boolean hhomogeneous) {
+            names.add("hhomogeneous");
+            values.add(org.gtk.gobject.Value.create(hhomogeneous));
+            return this;
+        }
+        
+        /**
+         * A selection model with the stack's pages.
+         * <p>
+         * This can be used to keep an up-to-date view. The model also implements
+         * {@code Gtk.SelectionModel} and can be used to track and change the visible
+         * page.
+         * @param pages The value for the {@code pages} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setPages(org.gtk.gtk.SelectionModel pages) {
+            names.add("pages");
+            values.add(org.gtk.gobject.Value.create(pages));
+            return this;
+        }
+        
+        /**
+         * Whether the stack is vertically homogeneous.
+         * <p>
+         * If the stack is vertically homogeneous, it allocates the same height for
+         * all children.
+         * <p>
+         * If it's {@code FALSE}, the stack may change height when a different child becomes
+         * visible.
+         * @param vhomogeneous The value for the {@code vhomogeneous} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setVhomogeneous(boolean vhomogeneous) {
+            names.add("vhomogeneous");
+            values.add(org.gtk.gobject.Value.create(vhomogeneous));
+            return this;
+        }
+        
+        /**
+         * The widget currently visible in the stack.
+         * @param visibleChild The value for the {@code visible-child} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setVisibleChild(org.gtk.gtk.Widget visibleChild) {
+            names.add("visible-child");
+            values.add(org.gtk.gobject.Value.create(visibleChild));
+            return this;
+        }
+        
+        /**
+         * The name of the widget currently visible in the stack.
+         * <p>
+         * See {@code ViewStack:visible-child}.
+         * @param visibleChildName The value for the {@code visible-child-name} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setVisibleChildName(java.lang.String visibleChildName) {
+            names.add("visible-child-name");
+            values.add(org.gtk.gobject.Value.create(visibleChildName));
+            return this;
+        }
+    }
+    
     private static class DowncallHandles {
         
         private static final MethodHandle adw_view_stack_new = Interop.downcallHandle(
             "adw_view_stack_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_view_stack_add = Interop.downcallHandle(
             "adw_view_stack_add",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_view_stack_add_named = Interop.downcallHandle(
             "adw_view_stack_add_named",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_view_stack_add_titled = Interop.downcallHandle(
             "adw_view_stack_add_titled",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_view_stack_add_titled_with_icon = Interop.downcallHandle(
             "adw_view_stack_add_titled_with_icon",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_view_stack_get_child_by_name = Interop.downcallHandle(
             "adw_view_stack_get_child_by_name",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_view_stack_get_hhomogeneous = Interop.downcallHandle(
             "adw_view_stack_get_hhomogeneous",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_view_stack_get_page = Interop.downcallHandle(
             "adw_view_stack_get_page",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_view_stack_get_pages = Interop.downcallHandle(
             "adw_view_stack_get_pages",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_view_stack_get_vhomogeneous = Interop.downcallHandle(
             "adw_view_stack_get_vhomogeneous",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_view_stack_get_visible_child = Interop.downcallHandle(
             "adw_view_stack_get_visible_child",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_view_stack_get_visible_child_name = Interop.downcallHandle(
             "adw_view_stack_get_visible_child_name",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_view_stack_remove = Interop.downcallHandle(
             "adw_view_stack_remove",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_view_stack_set_hhomogeneous = Interop.downcallHandle(
             "adw_view_stack_set_hhomogeneous",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle adw_view_stack_set_vhomogeneous = Interop.downcallHandle(
             "adw_view_stack_set_vhomogeneous",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle adw_view_stack_set_visible_child = Interop.downcallHandle(
             "adw_view_stack_set_visible_child",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_view_stack_set_visible_child_name = Interop.downcallHandle(
             "adw_view_stack_set_visible_child_name",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+            false
+        );
+        
+        private static final MethodHandle adw_view_stack_get_type = Interop.downcallHandle(
+            "adw_view_stack_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }

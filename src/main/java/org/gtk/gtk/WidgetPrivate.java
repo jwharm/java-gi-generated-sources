@@ -5,7 +5,7 @@ import java.lang.foreign.*;
 import java.lang.invoke.*;
 import org.jetbrains.annotations.*;
 
-public class WidgetPrivate extends io.github.jwharm.javagi.ProxyBase {
+public class WidgetPrivate extends Struct {
     
     static {
         Gtk.javagi$ensureInitialized();
@@ -24,6 +24,10 @@ public class WidgetPrivate extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link WidgetPrivate}
+     * @return A new, uninitialized @{link WidgetPrivate}
+     */
     public static WidgetPrivate allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         WidgetPrivate newInstance = new WidgetPrivate(segment.address(), Ownership.NONE);
@@ -39,5 +43,33 @@ public class WidgetPrivate extends io.github.jwharm.javagi.ProxyBase {
     @ApiStatus.Internal
     public WidgetPrivate(Addressable address, Ownership ownership) {
         super(address, ownership);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private WidgetPrivate struct;
+        
+         /**
+         * A {@link WidgetPrivate.Build} object constructs a {@link WidgetPrivate} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = WidgetPrivate.allocate();
+        }
+        
+         /**
+         * Finish building the {@link WidgetPrivate} struct.
+         * @return A new instance of {@code WidgetPrivate} with the fields 
+         *         that were set in the Build object.
+         */
+        public WidgetPrivate construct() {
+            return struct;
+        }
     }
 }

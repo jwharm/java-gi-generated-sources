@@ -5,24 +5,23 @@ import java.lang.foreign.*;
 import java.lang.invoke.*;
 import org.jetbrains.annotations.*;
 
-public class ValueDataUnion extends io.github.jwharm.javagi.ProxyBase {
+public class ValueDataUnion extends io.github.jwharm.javagi.ObjectBase {
     
     static {
         GObject.javagi$ensureInitialized();
     }
     
-    private static final java.lang.String C_TYPE_NAME = "null";
+    private static final java.lang.String C_TYPE_NAME = "_Value__data__union";
     
-    private static GroupLayout memoryLayout = MemoryLayout.unionLayout(
-        ValueLayout.JAVA_INT.withName("v_int"),
-        ValueLayout.JAVA_INT.withName("v_uint"),
-        ValueLayout.JAVA_LONG.withName("v_long"),
-        ValueLayout.JAVA_LONG.withName("v_ulong"),
-        ValueLayout.JAVA_LONG.withName("v_int64"),
-        ValueLayout.JAVA_LONG.withName("v_uint64"),
-        ValueLayout.JAVA_FLOAT.withName("v_float"),
-        MemoryLayout.paddingLayout(32),
-        ValueLayout.JAVA_DOUBLE.withName("v_double"),
+    private static final GroupLayout memoryLayout = MemoryLayout.unionLayout(
+        Interop.valueLayout.C_INT.withName("v_int"),
+        Interop.valueLayout.C_INT.withName("v_uint"),
+        Interop.valueLayout.C_LONG.withName("v_long"),
+        Interop.valueLayout.C_LONG.withName("v_ulong"),
+        Interop.valueLayout.C_LONG.withName("v_int64"),
+        Interop.valueLayout.C_LONG.withName("v_uint64"),
+        Interop.valueLayout.C_FLOAT.withName("v_float"),
+        Interop.valueLayout.C_DOUBLE.withName("v_double"),
         Interop.valueLayout.ADDRESS.withName("v_pointer")
     ).withName(C_TYPE_NAME);
     

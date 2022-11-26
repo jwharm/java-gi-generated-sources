@@ -17,7 +17,7 @@ public class DataInputStream extends org.gtk.gio.BufferedInputStream implements 
     
     private static final java.lang.String C_TYPE_NAME = "GDataInputStream";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gio.BufferedInputStream.getMemoryLayout().withName("parent_instance"),
         Interop.valueLayout.ADDRESS.withName("priv")
     ).withName(C_TYPE_NAME);
@@ -63,7 +63,7 @@ public class DataInputStream extends org.gtk.gio.BufferedInputStream implements 
      * @throws ClassCastException If the GType is not derived from "GDataInputStream", a ClassCastException will be thrown.
      */
     public static DataInputStream castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GDataInputStream"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), DataInputStream.getType())) {
             return new DataInputStream(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GDataInputStream");
@@ -128,7 +128,7 @@ public class DataInputStream extends org.gtk.gio.BufferedInputStream implements 
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public byte readByte(@Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         byte RESULT;
         try {
             RESULT = (byte) DowncallHandles.g_data_input_stream_read_byte.invokeExact(
@@ -155,7 +155,7 @@ public class DataInputStream extends org.gtk.gio.BufferedInputStream implements 
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public short readInt16(@Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         short RESULT;
         try {
             RESULT = (short) DowncallHandles.g_data_input_stream_read_int16.invokeExact(
@@ -186,7 +186,7 @@ public class DataInputStream extends org.gtk.gio.BufferedInputStream implements 
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public int readInt32(@Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_data_input_stream_read_int32.invokeExact(
@@ -217,7 +217,7 @@ public class DataInputStream extends org.gtk.gio.BufferedInputStream implements 
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public long readInt64(@Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.g_data_input_stream_read_int64.invokeExact(
@@ -252,8 +252,8 @@ public class DataInputStream extends org.gtk.gio.BufferedInputStream implements 
      */
     public @Nullable PointerByte readLine(Out<Long> length, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(length, "Parameter 'length' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        MemorySegment lengthPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_LONG);
+        MemorySegment lengthPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_data_input_stream_read_line.invokeExact(
@@ -267,7 +267,7 @@ public class DataInputStream extends org.gtk.gio.BufferedInputStream implements 
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        length.set(lengthPOINTER.get(ValueLayout.JAVA_LONG, 0));
+        length.set(lengthPOINTER.get(Interop.valueLayout.C_LONG, 0));
         return new PointerByte(RESULT);
     }
     
@@ -291,7 +291,7 @@ public class DataInputStream extends org.gtk.gio.BufferedInputStream implements 
                     (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                         Interop.getScope())),
                     (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
         } catch (Throwable ERR) {
@@ -316,8 +316,8 @@ public class DataInputStream extends org.gtk.gio.BufferedInputStream implements 
     public @Nullable PointerByte readLineFinish(@NotNull org.gtk.gio.AsyncResult result, Out<Long> length) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(result, "Parameter 'result' must not be null");
         java.util.Objects.requireNonNull(length, "Parameter 'length' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        MemorySegment lengthPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_LONG);
+        MemorySegment lengthPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_data_input_stream_read_line_finish.invokeExact(
@@ -331,7 +331,7 @@ public class DataInputStream extends org.gtk.gio.BufferedInputStream implements 
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        length.set(lengthPOINTER.get(ValueLayout.JAVA_LONG, 0));
+        length.set(lengthPOINTER.get(Interop.valueLayout.C_LONG, 0));
         return new PointerByte(RESULT);
     }
     
@@ -351,8 +351,8 @@ public class DataInputStream extends org.gtk.gio.BufferedInputStream implements 
     public @Nullable java.lang.String readLineFinishUtf8(@NotNull org.gtk.gio.AsyncResult result, Out<Long> length) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(result, "Parameter 'result' must not be null");
         java.util.Objects.requireNonNull(length, "Parameter 'length' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        MemorySegment lengthPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_LONG);
+        MemorySegment lengthPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_data_input_stream_read_line_finish_utf8.invokeExact(
@@ -366,7 +366,7 @@ public class DataInputStream extends org.gtk.gio.BufferedInputStream implements 
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        length.set(lengthPOINTER.get(ValueLayout.JAVA_LONG, 0));
+        length.set(lengthPOINTER.get(Interop.valueLayout.C_LONG, 0));
         return Interop.getStringFrom(RESULT);
     }
     
@@ -389,8 +389,8 @@ public class DataInputStream extends org.gtk.gio.BufferedInputStream implements 
      */
     public @Nullable java.lang.String readLineUtf8(Out<Long> length, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(length, "Parameter 'length' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        MemorySegment lengthPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_LONG);
+        MemorySegment lengthPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_data_input_stream_read_line_utf8.invokeExact(
@@ -404,7 +404,7 @@ public class DataInputStream extends org.gtk.gio.BufferedInputStream implements 
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        length.set(lengthPOINTER.get(ValueLayout.JAVA_LONG, 0));
+        length.set(lengthPOINTER.get(Interop.valueLayout.C_LONG, 0));
         return Interop.getStringFrom(RESULT);
     }
     
@@ -419,7 +419,7 @@ public class DataInputStream extends org.gtk.gio.BufferedInputStream implements 
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public short readUint16(@Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         short RESULT;
         try {
             RESULT = (short) DowncallHandles.g_data_input_stream_read_uint16.invokeExact(
@@ -450,7 +450,7 @@ public class DataInputStream extends org.gtk.gio.BufferedInputStream implements 
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public int readUint32(@Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_data_input_stream_read_uint32.invokeExact(
@@ -481,7 +481,7 @@ public class DataInputStream extends org.gtk.gio.BufferedInputStream implements 
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public long readUint64(@Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.g_data_input_stream_read_uint64.invokeExact(
@@ -524,8 +524,8 @@ public class DataInputStream extends org.gtk.gio.BufferedInputStream implements 
     public @NotNull java.lang.String readUntil(@NotNull java.lang.String stopChars, Out<Long> length, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(stopChars, "Parameter 'stopChars' must not be null");
         java.util.Objects.requireNonNull(length, "Parameter 'length' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        MemorySegment lengthPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_LONG);
+        MemorySegment lengthPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_data_input_stream_read_until.invokeExact(
@@ -540,7 +540,7 @@ public class DataInputStream extends org.gtk.gio.BufferedInputStream implements 
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        length.set(lengthPOINTER.get(ValueLayout.JAVA_LONG, 0));
+        length.set(lengthPOINTER.get(Interop.valueLayout.C_LONG, 0));
         return Interop.getStringFrom(RESULT);
     }
     
@@ -579,7 +579,7 @@ public class DataInputStream extends org.gtk.gio.BufferedInputStream implements 
                     (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                         Interop.getScope())),
                     (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
         } catch (Throwable ERR) {
@@ -604,8 +604,8 @@ public class DataInputStream extends org.gtk.gio.BufferedInputStream implements 
     public @NotNull java.lang.String readUntilFinish(@NotNull org.gtk.gio.AsyncResult result, Out<Long> length) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(result, "Parameter 'result' must not be null");
         java.util.Objects.requireNonNull(length, "Parameter 'length' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        MemorySegment lengthPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_LONG);
+        MemorySegment lengthPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_data_input_stream_read_until_finish.invokeExact(
@@ -619,7 +619,7 @@ public class DataInputStream extends org.gtk.gio.BufferedInputStream implements 
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        length.set(lengthPOINTER.get(ValueLayout.JAVA_LONG, 0));
+        length.set(lengthPOINTER.get(Interop.valueLayout.C_LONG, 0));
         return Interop.getStringFrom(RESULT);
     }
     
@@ -650,8 +650,8 @@ public class DataInputStream extends org.gtk.gio.BufferedInputStream implements 
     public @NotNull java.lang.String readUpto(@NotNull java.lang.String stopChars, long stopCharsLen, Out<Long> length, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(stopChars, "Parameter 'stopChars' must not be null");
         java.util.Objects.requireNonNull(length, "Parameter 'length' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        MemorySegment lengthPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_LONG);
+        MemorySegment lengthPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_data_input_stream_read_upto.invokeExact(
@@ -667,7 +667,7 @@ public class DataInputStream extends org.gtk.gio.BufferedInputStream implements 
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        length.set(lengthPOINTER.get(ValueLayout.JAVA_LONG, 0));
+        length.set(lengthPOINTER.get(Interop.valueLayout.C_LONG, 0));
         return Interop.getStringFrom(RESULT);
     }
     
@@ -705,7 +705,7 @@ public class DataInputStream extends org.gtk.gio.BufferedInputStream implements 
                     (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                         Interop.getScope())),
                     (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
         } catch (Throwable ERR) {
@@ -733,8 +733,8 @@ public class DataInputStream extends org.gtk.gio.BufferedInputStream implements 
     public @NotNull java.lang.String readUptoFinish(@NotNull org.gtk.gio.AsyncResult result, Out<Long> length) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(result, "Parameter 'result' must not be null");
         java.util.Objects.requireNonNull(length, "Parameter 'length' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        MemorySegment lengthPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_LONG);
+        MemorySegment lengthPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_data_input_stream_read_upto_finish.invokeExact(
@@ -748,7 +748,7 @@ public class DataInputStream extends org.gtk.gio.BufferedInputStream implements 
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        length.set(lengthPOINTER.get(ValueLayout.JAVA_LONG, 0));
+        length.set(lengthPOINTER.get(Interop.valueLayout.C_LONG, 0));
         return Interop.getStringFrom(RESULT);
     }
     
@@ -787,143 +787,223 @@ public class DataInputStream extends org.gtk.gio.BufferedInputStream implements 
         }
     }
     
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.g_data_input_stream_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gio.BufferedInputStream.Build {
+        
+         /**
+         * A {@link DataInputStream.Build} object constructs a {@link DataInputStream} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link DataInputStream} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link DataInputStream} using {@link DataInputStream#castFrom}.
+         * @return A new instance of {@code DataInputStream} with the properties 
+         *         that were set in the Build object.
+         */
+        public DataInputStream construct() {
+            return DataInputStream.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    DataInputStream.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+        
+        /**
+         * The :byte-order property determines the byte ordering that
+         * is used when reading multi-byte entities (such as integers)
+         * from the stream.
+         * @param byteOrder The value for the {@code byte-order} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setByteOrder(org.gtk.gio.DataStreamByteOrder byteOrder) {
+            names.add("byte-order");
+            values.add(org.gtk.gobject.Value.create(byteOrder));
+            return this;
+        }
+        
+        /**
+         * The :newline-type property determines what is considered
+         * as a line ending when reading complete lines from the stream.
+         * @param newlineType The value for the {@code newline-type} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setNewlineType(org.gtk.gio.DataStreamNewlineType newlineType) {
+            names.add("newline-type");
+            values.add(org.gtk.gobject.Value.create(newlineType));
+            return this;
+        }
+    }
+    
     private static class DowncallHandles {
         
         private static final MethodHandle g_data_input_stream_new = Interop.downcallHandle(
             "g_data_input_stream_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_data_input_stream_get_byte_order = Interop.downcallHandle(
             "g_data_input_stream_get_byte_order",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_data_input_stream_get_newline_type = Interop.downcallHandle(
             "g_data_input_stream_get_newline_type",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_data_input_stream_read_byte = Interop.downcallHandle(
             "g_data_input_stream_read_byte",
-            FunctionDescriptor.of(ValueLayout.JAVA_BYTE, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_BYTE, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_data_input_stream_read_int16 = Interop.downcallHandle(
             "g_data_input_stream_read_int16",
-            FunctionDescriptor.of(ValueLayout.JAVA_SHORT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_SHORT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_data_input_stream_read_int32 = Interop.downcallHandle(
             "g_data_input_stream_read_int32",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_data_input_stream_read_int64 = Interop.downcallHandle(
             "g_data_input_stream_read_int64",
-            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_data_input_stream_read_line = Interop.downcallHandle(
             "g_data_input_stream_read_line",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_data_input_stream_read_line_async = Interop.downcallHandle(
             "g_data_input_stream_read_line_async",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_data_input_stream_read_line_finish = Interop.downcallHandle(
             "g_data_input_stream_read_line_finish",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_data_input_stream_read_line_finish_utf8 = Interop.downcallHandle(
             "g_data_input_stream_read_line_finish_utf8",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_data_input_stream_read_line_utf8 = Interop.downcallHandle(
             "g_data_input_stream_read_line_utf8",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_data_input_stream_read_uint16 = Interop.downcallHandle(
             "g_data_input_stream_read_uint16",
-            FunctionDescriptor.of(ValueLayout.JAVA_SHORT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_SHORT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_data_input_stream_read_uint32 = Interop.downcallHandle(
             "g_data_input_stream_read_uint32",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_data_input_stream_read_uint64 = Interop.downcallHandle(
             "g_data_input_stream_read_uint64",
-            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_data_input_stream_read_until = Interop.downcallHandle(
             "g_data_input_stream_read_until",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_data_input_stream_read_until_async = Interop.downcallHandle(
             "g_data_input_stream_read_until_async",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_data_input_stream_read_until_finish = Interop.downcallHandle(
             "g_data_input_stream_read_until_finish",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_data_input_stream_read_upto = Interop.downcallHandle(
             "g_data_input_stream_read_upto",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_data_input_stream_read_upto_async = Interop.downcallHandle(
             "g_data_input_stream_read_upto_async",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_data_input_stream_read_upto_finish = Interop.downcallHandle(
             "g_data_input_stream_read_upto_finish",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_data_input_stream_set_byte_order = Interop.downcallHandle(
             "g_data_input_stream_set_byte_order",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_data_input_stream_set_newline_type = Interop.downcallHandle(
             "g_data_input_stream_set_newline_type",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+            false
+        );
+        
+        private static final MethodHandle g_data_input_stream_get_type = Interop.downcallHandle(
+            "g_data_input_stream_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }

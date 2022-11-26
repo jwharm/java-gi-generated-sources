@@ -19,7 +19,7 @@ import org.jetbrains.annotations.*;
  * struct, the {@link ObjectClass} (or derived) struct, and any private data allocated
  * by G_ADD_PRIVATE().
  */
-public class Object extends io.github.jwharm.javagi.ProxyBase {
+public class Object extends io.github.jwharm.javagi.ObjectBase {
     
     static {
         GObject.javagi$ensureInitialized();
@@ -27,9 +27,9 @@ public class Object extends io.github.jwharm.javagi.ProxyBase {
     
     private static final java.lang.String C_TYPE_NAME = "GObject";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gobject.TypeInstance.getMemoryLayout().withName("g_type_instance"),
-        ValueLayout.JAVA_INT.withName("ref_count"),
+        Interop.valueLayout.C_INT.withName("ref_count"),
         MemoryLayout.paddingLayout(32),
         Interop.valueLayout.ADDRESS.withName("qdata")
     ).withName(C_TYPE_NAME);
@@ -75,7 +75,7 @@ public class Object extends io.github.jwharm.javagi.ProxyBase {
      * @throws ClassCastException If the GType is not derived from "GObject", a ClassCastException will be thrown.
      */
     public static Object castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GObject"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), Object.getType())) {
             return new Object(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GObject");
@@ -174,7 +174,7 @@ public class Object extends io.github.jwharm.javagi.ProxyBase {
                     objectType.getValue().longValue(),
                     nProperties,
                     Interop.allocateNativeArray(names, false),
-                    Interop.allocateNativeArray(values, false));
+                    Interop.allocateNativeArray(values, org.gtk.gobject.Value.getMemoryLayout(), false));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -207,7 +207,7 @@ public class Object extends io.github.jwharm.javagi.ProxyBase {
             RESULT = (MemoryAddress) DowncallHandles.g_object_newv.invokeExact(
                     objectType.getValue().longValue(),
                     nParameters,
-                    Interop.allocateNativeArray(parameters, false));
+                    Interop.allocateNativeArray(parameters, org.gtk.gobject.Parameter.getMemoryLayout(), false));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -273,7 +273,7 @@ public class Object extends io.github.jwharm.javagi.ProxyBase {
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GObject.Callbacks.class, "cbToggleNotify",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, int.class)),
-                        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
                         Interop.getScope()),
                     (Addressable) (Interop.registerCallback(notify)));
         } catch (Throwable ERR) {
@@ -296,7 +296,7 @@ public class Object extends io.github.jwharm.javagi.ProxyBase {
      */
     public void addWeakPointer(@NotNull Out<java.lang.foreign.MemoryAddress> weakPointerLocation) {
         java.util.Objects.requireNonNull(weakPointerLocation, "Parameter 'weakPointerLocation' must not be null");
-        MemorySegment weakPointerLocationPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment weakPointerLocationPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         try {
             DowncallHandles.g_object_add_weak_pointer.invokeExact(
                     handle(),
@@ -304,7 +304,7 @@ public class Object extends io.github.jwharm.javagi.ProxyBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        weakPointerLocation.set(weakPointerLocationPOINTER.get(ValueLayout.ADDRESS, 0));
+        weakPointerLocation.set(weakPointerLocationPOINTER.get(Interop.valueLayout.ADDRESS, 0));
     }
     
     /**
@@ -419,12 +419,12 @@ public class Object extends io.github.jwharm.javagi.ProxyBase {
                     (Addressable) (transformTo == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GObject.Callbacks.class, "cbBindingTransformFunc",
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                         Interop.getScope())),
                     (Addressable) (transformFrom == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GObject.Callbacks.class, "cbBindingTransformFunc",
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                         Interop.getScope())),
                     (Addressable) (transformTo == null ? MemoryAddress.NULL : Interop.registerCallback(transformTo)),
                     Interop.cbDestroyNotifySymbol());
@@ -483,8 +483,8 @@ public class Object extends io.github.jwharm.javagi.ProxyBase {
      * The signal specs expected by this function have the form
      * "modifier::signal_name", where modifier can be one of the following:
      * <ul>
-     * <li>signal: equivalent to g_signal_connect_data (..., NULL, 0)
-     * <li>object-signal, object_signal: equivalent to g_signal_connect_object (..., 0)
+     * <li>signal: equivalent to g_signal_connect_data (..., NULL, G_CONNECT_DEFAULT)
+     * <li>object-signal, object_signal: equivalent to g_signal_connect_object (..., G_CONNECT_DEFAULT)
      * <li>swapped-signal, swapped_signal: equivalent to g_signal_connect_data (..., NULL, G_CONNECT_SWAPPED)
      * <li>swapped_object_signal, swapped-object-signal: equivalent to g_signal_connect_object (..., G_CONNECT_SWAPPED)
      * <li>signal_after, signal-after: equivalent to g_signal_connect_data (..., NULL, G_CONNECT_AFTER)
@@ -578,7 +578,7 @@ public class Object extends io.github.jwharm.javagi.ProxyBase {
                     (Addressable) (dupFunc == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GObject.Callbacks.class, "cbDuplicateFunc",
                             MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                         Interop.getScope())),
                     (Addressable) (dupFunc == null ? MemoryAddress.NULL : Interop.registerCallback(dupFunc)));
         } catch (Throwable ERR) {
@@ -619,7 +619,7 @@ public class Object extends io.github.jwharm.javagi.ProxyBase {
                     (Addressable) (dupFunc == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GObject.Callbacks.class, "cbDuplicateFunc",
                             MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                         Interop.getScope())),
                     (Addressable) (dupFunc == null ? MemoryAddress.NULL : Interop.registerCallback(dupFunc)));
         } catch (Throwable ERR) {
@@ -820,7 +820,7 @@ public class Object extends io.github.jwharm.javagi.ProxyBase {
                     handle(),
                     nProperties,
                     Interop.allocateNativeArray(names, false),
-                    Interop.allocateNativeArray(values, false));
+                    Interop.allocateNativeArray(values, org.gtk.gobject.Value.getMemoryLayout(), false));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -876,12 +876,11 @@ public class Object extends io.github.jwharm.javagi.ProxyBase {
      * instead, is to store the GParamSpec used with
      * g_object_class_install_property() inside a static array, e.g.:
      * <pre>{@code <!-- language="C" -->
-     *   enum
+     *   typedef enum
      *   {
-     *     PROP_0,
-     *     PROP_FOO,
+     *     PROP_FOO = 1,
      *     PROP_LAST
-     *   };
+     *   } MyObjectProperty;
      * 
      *   static GParamSpec *properties[PROP_LAST];
      * 
@@ -891,7 +890,7 @@ public class Object extends io.github.jwharm.javagi.ProxyBase {
      *     properties[PROP_FOO] = g_param_spec_int ("foo", "Foo", "The foo",
      *                                              0, 100,
      *                                              50,
-     *                                              G_PARAM_READWRITE);
+     *                                              G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
      *     g_object_class_install_property (gobject_class,
      *                                      PROP_FOO,
      *                                      properties[PROP_FOO]);
@@ -975,7 +974,7 @@ public class Object extends io.github.jwharm.javagi.ProxyBase {
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GObject.Callbacks.class, "cbToggleNotify",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, int.class)),
-                        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
                         Interop.getScope()),
                     (Addressable) (Interop.registerCallback(notify)));
         } catch (Throwable ERR) {
@@ -992,7 +991,7 @@ public class Object extends io.github.jwharm.javagi.ProxyBase {
      */
     public void removeWeakPointer(@NotNull Out<java.lang.foreign.MemoryAddress> weakPointerLocation) {
         java.util.Objects.requireNonNull(weakPointerLocation, "Parameter 'weakPointerLocation' must not be null");
-        MemorySegment weakPointerLocationPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment weakPointerLocationPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         try {
             DowncallHandles.g_object_remove_weak_pointer.invokeExact(
                     handle(),
@@ -1000,7 +999,7 @@ public class Object extends io.github.jwharm.javagi.ProxyBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        weakPointerLocation.set(weakPointerLocationPOINTER.get(ValueLayout.ADDRESS, 0));
+        weakPointerLocation.set(weakPointerLocationPOINTER.get(Interop.valueLayout.ADDRESS, 0));
     }
     
     /**
@@ -1120,7 +1119,7 @@ public class Object extends io.github.jwharm.javagi.ProxyBase {
             DowncallHandles.g_object_set_data.invokeExact(
                     handle(),
                     Interop.allocateNativeString(key),
-                    data);
+                    (Addressable) data);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1142,7 +1141,7 @@ public class Object extends io.github.jwharm.javagi.ProxyBase {
             DowncallHandles.g_object_set_data_full.invokeExact(
                     handle(),
                     Interop.allocateNativeString(key),
-                    data,
+                    (Addressable) data,
                     Interop.cbDestroyNotifySymbol());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -1185,7 +1184,7 @@ public class Object extends io.github.jwharm.javagi.ProxyBase {
             DowncallHandles.g_object_set_qdata.invokeExact(
                     handle(),
                     quark.getValue().intValue(),
-                    data);
+                    (Addressable) data);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1208,7 +1207,7 @@ public class Object extends io.github.jwharm.javagi.ProxyBase {
             DowncallHandles.g_object_set_qdata_full.invokeExact(
                     handle(),
                     quark.getValue().intValue(),
-                    data,
+                    (Addressable) data,
                     Interop.cbDestroyNotifySymbol());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -1251,7 +1250,7 @@ public class Object extends io.github.jwharm.javagi.ProxyBase {
                     handle(),
                     nProperties,
                     Interop.allocateNativeArray(names, false),
-                    Interop.allocateNativeArray(values, false));
+                    Interop.allocateNativeArray(values, org.gtk.gobject.Value.getMemoryLayout(), false));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1460,7 +1459,7 @@ public class Object extends io.github.jwharm.javagi.ProxyBase {
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GObject.Callbacks.class, "cbWeakNotify",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                         Interop.getScope()),
                     (Addressable) (Interop.registerCallback(notify)));
         } catch (Throwable ERR) {
@@ -1480,7 +1479,7 @@ public class Object extends io.github.jwharm.javagi.ProxyBase {
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GObject.Callbacks.class, "cbWeakNotify",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                         Interop.getScope()),
                     (Addressable) (Interop.registerCallback(notify)));
         } catch (Throwable ERR) {
@@ -1488,12 +1487,26 @@ public class Object extends io.github.jwharm.javagi.ProxyBase {
         }
     }
     
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.g_object_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+    
     public static long compatControl(long what, @Nullable java.lang.foreign.MemoryAddress data) {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.g_object_compat_control.invokeExact(
                     what,
-                    data);
+                    (Addressable) data);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1578,7 +1591,7 @@ public class Object extends io.github.jwharm.javagi.ProxyBase {
     public static @NotNull org.gtk.gobject.ParamSpec[] interfaceListProperties(@NotNull org.gtk.gobject.TypeInterface gIface, Out<Integer> nPropertiesP) {
         java.util.Objects.requireNonNull(gIface, "Parameter 'gIface' must not be null");
         java.util.Objects.requireNonNull(nPropertiesP, "Parameter 'nPropertiesP' must not be null");
-        MemorySegment nPropertiesPPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
+        MemorySegment nPropertiesPPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_object_interface_list_properties.invokeExact(
@@ -1587,10 +1600,10 @@ public class Object extends io.github.jwharm.javagi.ProxyBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        nPropertiesP.set(nPropertiesPPOINTER.get(ValueLayout.JAVA_INT, 0));
+        nPropertiesP.set(nPropertiesPPOINTER.get(Interop.valueLayout.C_INT, 0));
         org.gtk.gobject.ParamSpec[] resultARRAY = new org.gtk.gobject.ParamSpec[nPropertiesP.get().intValue()];
         for (int I = 0; I < nPropertiesP.get().intValue(); I++) {
-            var OBJ = RESULT.get(ValueLayout.ADDRESS, I);
+            var OBJ = RESULT.get(Interop.valueLayout.ADDRESS, I);
             resultARRAY[I] = new org.gtk.gobject.ParamSpec(OBJ, Ownership.CONTAINER);
         }
         return resultARRAY;
@@ -1638,7 +1651,7 @@ public class Object extends io.github.jwharm.javagi.ProxyBase {
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(Object.Callbacks.class, "signalObjectNotify",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                     Interop.getScope()),
                 Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
@@ -1647,312 +1660,353 @@ public class Object extends io.github.jwharm.javagi.ProxyBase {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends io.github.jwharm.javagi.Build {
+        
+         /**
+         * A {@link Object.Build} object constructs a {@link Object} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link Object} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link Object} using {@link Object#castFrom}.
+         * @return A new instance of {@code Object} with the properties 
+         *         that were set in the Build object.
+         */
+        public Object construct() {
+            return Object.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    Object.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+    }
     
     private static class DowncallHandles {
         
         private static final MethodHandle g_object_new = Interop.downcallHandle(
             "g_object_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
             true
         );
         
         private static final MethodHandle g_object_new_valist = Interop.downcallHandle(
             "g_object_new_valist",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_object_new_with_properties = Interop.downcallHandle(
             "g_object_new_with_properties",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_object_newv = Interop.downcallHandle(
             "g_object_newv",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_object_add_toggle_ref = Interop.downcallHandle(
             "g_object_add_toggle_ref",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_object_add_weak_pointer = Interop.downcallHandle(
             "g_object_add_weak_pointer",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_object_bind_property = Interop.downcallHandle(
             "g_object_bind_property",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_object_bind_property_full = Interop.downcallHandle(
             "g_object_bind_property_full",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_object_bind_property_with_closures = Interop.downcallHandle(
             "g_object_bind_property_with_closures",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_object_connect = Interop.downcallHandle(
             "g_object_connect",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             true
         );
         
         private static final MethodHandle g_object_disconnect = Interop.downcallHandle(
             "g_object_disconnect",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             true
         );
         
         private static final MethodHandle g_object_dup_data = Interop.downcallHandle(
             "g_object_dup_data",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_object_dup_qdata = Interop.downcallHandle(
             "g_object_dup_qdata",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_object_force_floating = Interop.downcallHandle(
             "g_object_force_floating",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_object_freeze_notify = Interop.downcallHandle(
             "g_object_freeze_notify",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_object_get = Interop.downcallHandle(
             "g_object_get",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             true
         );
         
         private static final MethodHandle g_object_get_data = Interop.downcallHandle(
             "g_object_get_data",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_object_get_property = Interop.downcallHandle(
             "g_object_get_property",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_object_get_qdata = Interop.downcallHandle(
             "g_object_get_qdata",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_object_get_valist = Interop.downcallHandle(
             "g_object_get_valist",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_object_getv = Interop.downcallHandle(
             "g_object_getv",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_object_is_floating = Interop.downcallHandle(
             "g_object_is_floating",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_object_notify = Interop.downcallHandle(
             "g_object_notify",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_object_notify_by_pspec = Interop.downcallHandle(
             "g_object_notify_by_pspec",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_object_ref = Interop.downcallHandle(
             "g_object_ref",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_object_ref_sink = Interop.downcallHandle(
             "g_object_ref_sink",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_object_remove_toggle_ref = Interop.downcallHandle(
             "g_object_remove_toggle_ref",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_object_remove_weak_pointer = Interop.downcallHandle(
             "g_object_remove_weak_pointer",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_object_replace_data = Interop.downcallHandle(
             "g_object_replace_data",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_object_replace_qdata = Interop.downcallHandle(
             "g_object_replace_qdata",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_object_run_dispose = Interop.downcallHandle(
             "g_object_run_dispose",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_object_set = Interop.downcallHandle(
             "g_object_set",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             true
         );
         
         private static final MethodHandle g_object_set_data = Interop.downcallHandle(
             "g_object_set_data",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_object_set_data_full = Interop.downcallHandle(
             "g_object_set_data_full",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_object_set_property = Interop.downcallHandle(
             "g_object_set_property",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_object_set_qdata = Interop.downcallHandle(
             "g_object_set_qdata",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_object_set_qdata_full = Interop.downcallHandle(
             "g_object_set_qdata_full",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_object_set_valist = Interop.downcallHandle(
             "g_object_set_valist",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_object_setv = Interop.downcallHandle(
             "g_object_setv",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_object_steal_data = Interop.downcallHandle(
             "g_object_steal_data",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_object_steal_qdata = Interop.downcallHandle(
             "g_object_steal_qdata",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_object_take_ref = Interop.downcallHandle(
             "g_object_take_ref",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_object_thaw_notify = Interop.downcallHandle(
             "g_object_thaw_notify",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_object_unref = Interop.downcallHandle(
             "g_object_unref",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_object_watch_closure = Interop.downcallHandle(
             "g_object_watch_closure",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_object_weak_ref = Interop.downcallHandle(
             "g_object_weak_ref",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_object_weak_unref = Interop.downcallHandle(
             "g_object_weak_unref",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+            false
+        );
+        
+        private static final MethodHandle g_object_get_type = Interop.downcallHandle(
+            "g_object_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
         
         private static final MethodHandle g_object_compat_control = Interop.downcallHandle(
             "g_object_compat_control",
-            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_object_interface_find_property = Interop.downcallHandle(
             "g_object_interface_find_property",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_object_interface_install_property = Interop.downcallHandle(
             "g_object_interface_install_property",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_object_interface_list_properties = Interop.downcallHandle(
             "g_object_interface_list_properties",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
     }
@@ -1960,9 +2014,9 @@ public class Object extends io.github.jwharm.javagi.ProxyBase {
     private static class Callbacks {
         
         public static void signalObjectNotify(MemoryAddress source, MemoryAddress pspec, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (Object.Notify) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Object(source, Ownership.UNKNOWN), new org.gtk.gobject.ParamSpec(pspec, Ownership.NONE));
+            HANDLER.signalReceived(new Object(source, Ownership.NONE), new org.gtk.gobject.ParamSpec(pspec, Ownership.NONE));
         }
     }
 }

@@ -111,6 +111,8 @@ public class DebugFlags extends io.github.jwharm.javagi.Bitfield {
      */
     public static final DebugFlags ICONFALLBACK = new DebugFlags(262144);
     
+    public static final DebugFlags INVERT_TEXT_DIR = new DebugFlags(524288);
+    
     public DebugFlags(int value) {
         super(value);
     }

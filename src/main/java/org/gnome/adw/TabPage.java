@@ -48,7 +48,7 @@ public class TabPage extends org.gtk.gobject.Object {
      * @throws ClassCastException If the GType is not derived from "AdwTabPage", a ClassCastException will be thrown.
      */
     public static TabPage castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("AdwTabPage"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), TabPage.getType())) {
             return new TabPage(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of AdwTabPage");
@@ -399,125 +399,361 @@ public class TabPage extends org.gtk.gobject.Object {
         }
     }
     
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.adw_tab_page_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gobject.Object.Build {
+        
+         /**
+         * A {@link TabPage.Build} object constructs a {@link TabPage} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link TabPage} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link TabPage} using {@link TabPage#castFrom}.
+         * @return A new instance of {@code TabPage} with the properties 
+         *         that were set in the Build object.
+         */
+        public TabPage construct() {
+            return TabPage.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    TabPage.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+        
+        /**
+         * The child of the page.
+         * @param child The value for the {@code child} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setChild(org.gtk.gtk.Widget child) {
+            names.add("child");
+            values.add(org.gtk.gobject.Value.create(child));
+            return this;
+        }
+        
+        /**
+         * The icon of the page.
+         * <p>
+         * {@link TabBar} displays the icon next to the title.
+         * <p>
+         * It will not show the icon if {@code TabPage:loading} is set to {@code TRUE},
+         * or if the page is pinned and [propertyTabPage:indicator-icon] is set.
+         * @param icon The value for the {@code icon} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setIcon(org.gtk.gio.Icon icon) {
+            names.add("icon");
+            values.add(org.gtk.gobject.Value.create(icon));
+            return this;
+        }
+        
+        /**
+         * Whether the indicator icon is activatable.
+         * <p>
+         * If set to {@code TRUE}, {@code TabView::indicator-activated} will be emitted
+         * when the indicator icon is clicked.
+         * <p>
+         * If {@code TabPage:indicator-icon} is not set, does nothing.
+         * @param indicatorActivatable The value for the {@code indicator-activatable} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setIndicatorActivatable(boolean indicatorActivatable) {
+            names.add("indicator-activatable");
+            values.add(org.gtk.gobject.Value.create(indicatorActivatable));
+            return this;
+        }
+        
+        /**
+         * An indicator icon for the page.
+         * <p>
+         * A common use case is an audio or camera indicator in a web browser.
+         * <p>
+         * {@link TabBar} will show it at the beginning of the tab, alongside icon
+         * representing {@code TabPage:icon} or loading spinner.
+         * <p>
+         * If the page is pinned, the indicator will be shown instead of icon or
+         * spinner.
+         * <p>
+         * {@code TabPage:indicator-tooltip} can be used to set the tooltip on the
+         * indicator icon.
+         * <p>
+         * If {@code TabPage:indicator-activatable} is set to {@code TRUE}, the
+         * indicator icon can act as a button.
+         * @param indicatorIcon The value for the {@code indicator-icon} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setIndicatorIcon(org.gtk.gio.Icon indicatorIcon) {
+            names.add("indicator-icon");
+            values.add(org.gtk.gobject.Value.create(indicatorIcon));
+            return this;
+        }
+        
+        /**
+         * The tooltip of the indicator icon.
+         * <p>
+         * The tooltip can be marked up with the Pango text markup language.
+         * <p>
+         * See {@code TabPage:indicator-icon}.
+         * @param indicatorTooltip The value for the {@code indicator-tooltip} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setIndicatorTooltip(java.lang.String indicatorTooltip) {
+            names.add("indicator-tooltip");
+            values.add(org.gtk.gobject.Value.create(indicatorTooltip));
+            return this;
+        }
+        
+        /**
+         * Whether the page is loading.
+         * <p>
+         * If set to {@code TRUE}, {@link TabBar} will display a spinner in place of icon.
+         * <p>
+         * If the page is pinned and {@code TabPage:indicator-icon} is set, the
+         * loading status will not be visible.
+         * @param loading The value for the {@code loading} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setLoading(boolean loading) {
+            names.add("loading");
+            values.add(org.gtk.gobject.Value.create(loading));
+            return this;
+        }
+        
+        /**
+         * Whether the page needs attention.
+         * <p>
+         * {@link TabBar} will display a line under the tab representing the page if
+         * set to {@code TRUE}. If the tab is not visible, the corresponding edge of the tab
+         * bar will be highlighted.
+         * @param needsAttention The value for the {@code needs-attention} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setNeedsAttention(boolean needsAttention) {
+            names.add("needs-attention");
+            values.add(org.gtk.gobject.Value.create(needsAttention));
+            return this;
+        }
+        
+        /**
+         * The parent page of the page.
+         * <p>
+         * See {@code TabView.add_page#] and [method@TabView.closePage}.
+         * @param parent The value for the {@code parent} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setParent(org.gnome.adw.TabPage parent) {
+            names.add("parent");
+            values.add(org.gtk.gobject.Value.create(parent));
+            return this;
+        }
+        
+        /**
+         * Whether the page is pinned.
+         * <p>
+         * See {@code TabView#setPagePinned}.
+         * @param pinned The value for the {@code pinned} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setPinned(boolean pinned) {
+            names.add("pinned");
+            values.add(org.gtk.gobject.Value.create(pinned));
+            return this;
+        }
+        
+        /**
+         * Whether the page is selected.
+         * @param selected The value for the {@code selected} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setSelected(boolean selected) {
+            names.add("selected");
+            values.add(org.gtk.gobject.Value.create(selected));
+            return this;
+        }
+        
+        /**
+         * The title of the page.
+         * <p>
+         * {@link TabBar} will display it in the center of the tab unless it's pinned,
+         * and will use it as a tooltip unless {@code TabPage:tooltip} is set.
+         * @param title The value for the {@code title} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setTitle(java.lang.String title) {
+            names.add("title");
+            values.add(org.gtk.gobject.Value.create(title));
+            return this;
+        }
+        
+        /**
+         * The tooltip of the page.
+         * <p>
+         * The tooltip can be marked up with the Pango text markup language.
+         * <p>
+         * If not set, {@link TabBar} as a tooltip
+         * instead.
+         * @param tooltip The value for the {@code tooltip} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setTooltip(java.lang.String tooltip) {
+            names.add("tooltip");
+            values.add(org.gtk.gobject.Value.create(tooltip));
+            return this;
+        }
+    }
+    
     private static class DowncallHandles {
         
         private static final MethodHandle adw_tab_page_get_child = Interop.downcallHandle(
             "adw_tab_page_get_child",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_tab_page_get_icon = Interop.downcallHandle(
             "adw_tab_page_get_icon",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_tab_page_get_indicator_activatable = Interop.downcallHandle(
             "adw_tab_page_get_indicator_activatable",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_tab_page_get_indicator_icon = Interop.downcallHandle(
             "adw_tab_page_get_indicator_icon",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_tab_page_get_indicator_tooltip = Interop.downcallHandle(
             "adw_tab_page_get_indicator_tooltip",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_tab_page_get_loading = Interop.downcallHandle(
             "adw_tab_page_get_loading",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_tab_page_get_needs_attention = Interop.downcallHandle(
             "adw_tab_page_get_needs_attention",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_tab_page_get_parent = Interop.downcallHandle(
             "adw_tab_page_get_parent",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_tab_page_get_pinned = Interop.downcallHandle(
             "adw_tab_page_get_pinned",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_tab_page_get_selected = Interop.downcallHandle(
             "adw_tab_page_get_selected",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_tab_page_get_title = Interop.downcallHandle(
             "adw_tab_page_get_title",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_tab_page_get_tooltip = Interop.downcallHandle(
             "adw_tab_page_get_tooltip",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_tab_page_set_icon = Interop.downcallHandle(
             "adw_tab_page_set_icon",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_tab_page_set_indicator_activatable = Interop.downcallHandle(
             "adw_tab_page_set_indicator_activatable",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle adw_tab_page_set_indicator_icon = Interop.downcallHandle(
             "adw_tab_page_set_indicator_icon",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_tab_page_set_indicator_tooltip = Interop.downcallHandle(
             "adw_tab_page_set_indicator_tooltip",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_tab_page_set_loading = Interop.downcallHandle(
             "adw_tab_page_set_loading",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle adw_tab_page_set_needs_attention = Interop.downcallHandle(
             "adw_tab_page_set_needs_attention",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle adw_tab_page_set_title = Interop.downcallHandle(
             "adw_tab_page_set_title",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_tab_page_set_tooltip = Interop.downcallHandle(
             "adw_tab_page_set_tooltip",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+            false
+        );
+        
+        private static final MethodHandle adw_tab_page_get_type = Interop.downcallHandle(
+            "adw_tab_page_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }

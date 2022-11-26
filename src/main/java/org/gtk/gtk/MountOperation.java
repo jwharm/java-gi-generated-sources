@@ -28,7 +28,7 @@ public class MountOperation extends org.gtk.gio.MountOperation {
     
     private static final java.lang.String C_TYPE_NAME = "GtkMountOperation";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gio.MountOperation.getMemoryLayout().withName("parent_instance"),
         Interop.valueLayout.ADDRESS.withName("priv")
     ).withName(C_TYPE_NAME);
@@ -74,7 +74,7 @@ public class MountOperation extends org.gtk.gio.MountOperation {
      * @throws ClassCastException If the GType is not derived from "GtkMountOperation", a ClassCastException will be thrown.
      */
     public static MountOperation castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkMountOperation"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), MountOperation.getType())) {
             return new MountOperation(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkMountOperation");
@@ -177,41 +177,129 @@ public class MountOperation extends org.gtk.gio.MountOperation {
         }
     }
     
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.gtk_mount_operation_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gio.MountOperation.Build {
+        
+         /**
+         * A {@link MountOperation.Build} object constructs a {@link MountOperation} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link MountOperation} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link MountOperation} using {@link MountOperation#castFrom}.
+         * @return A new instance of {@code MountOperation} with the properties 
+         *         that were set in the Build object.
+         */
+        public MountOperation construct() {
+            return MountOperation.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    MountOperation.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+        
+        /**
+         * The display where dialogs will be shown.
+         * @param display The value for the {@code display} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setDisplay(org.gtk.gdk.Display display) {
+            names.add("display");
+            values.add(org.gtk.gobject.Value.create(display));
+            return this;
+        }
+        
+        /**
+         * Whether a dialog is currently shown.
+         * @param isShowing The value for the {@code is-showing} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setIsShowing(boolean isShowing) {
+            names.add("is-showing");
+            values.add(org.gtk.gobject.Value.create(isShowing));
+            return this;
+        }
+        
+        /**
+         * The parent window.
+         * @param parent The value for the {@code parent} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setParent(org.gtk.gtk.Window parent) {
+            names.add("parent");
+            values.add(org.gtk.gobject.Value.create(parent));
+            return this;
+        }
+    }
+    
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_mount_operation_new = Interop.downcallHandle(
             "gtk_mount_operation_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_mount_operation_get_display = Interop.downcallHandle(
             "gtk_mount_operation_get_display",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_mount_operation_get_parent = Interop.downcallHandle(
             "gtk_mount_operation_get_parent",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_mount_operation_is_showing = Interop.downcallHandle(
             "gtk_mount_operation_is_showing",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_mount_operation_set_display = Interop.downcallHandle(
             "gtk_mount_operation_set_display",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_mount_operation_set_parent = Interop.downcallHandle(
             "gtk_mount_operation_set_parent",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+            false
+        );
+        
+        private static final MethodHandle gtk_mount_operation_get_type = Interop.downcallHandle(
+            "gtk_mount_operation_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }

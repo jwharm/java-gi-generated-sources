@@ -10,7 +10,7 @@ import org.jetbrains.annotations.*;
  * public read-only members, but the underlying struct is bigger,
  * so you must not copy this struct.
  */
-public class ThreadPool extends io.github.jwharm.javagi.ProxyBase {
+public class ThreadPool extends Struct {
     
     static {
         GLib.javagi$ensureInitialized();
@@ -18,10 +18,10 @@ public class ThreadPool extends io.github.jwharm.javagi.ProxyBase {
     
     private static final java.lang.String C_TYPE_NAME = "GThreadPool";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
         Interop.valueLayout.ADDRESS.withName("func"),
         Interop.valueLayout.ADDRESS.withName("user_data"),
-        ValueLayout.JAVA_INT.withName("exclusive")
+        Interop.valueLayout.C_INT.withName("exclusive")
     ).withName(C_TYPE_NAME);
     
     /**
@@ -35,6 +35,10 @@ public class ThreadPool extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link ThreadPool}
+     * @return A new, uninitialized @{link ThreadPool}
+     */
     public static ThreadPool allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         ThreadPool newInstance = new ThreadPool(segment.address(), Ownership.NONE);
@@ -71,7 +75,7 @@ public class ThreadPool extends io.github.jwharm.javagi.ProxyBase {
     public void user_data$set(java.lang.foreign.MemoryAddress user_data) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("user_data"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), user_data);
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) user_data);
     }
     
     /**
@@ -175,7 +179,7 @@ public class ThreadPool extends io.github.jwharm.javagi.ProxyBase {
         try {
             RESULT = (int) DowncallHandles.g_thread_pool_move_to_front.invokeExact(
                     handle(),
-                    data);
+                    (Addressable) data);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -202,12 +206,12 @@ public class ThreadPool extends io.github.jwharm.javagi.ProxyBase {
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public boolean push(@Nullable java.lang.foreign.MemoryAddress data) throws io.github.jwharm.javagi.GErrorException {
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_thread_pool_push.invokeExact(
                     handle(),
-                    data,
+                    (Addressable) data,
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -245,7 +249,7 @@ public class ThreadPool extends io.github.jwharm.javagi.ProxyBase {
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public boolean setMaxThreads(int maxThreads) throws io.github.jwharm.javagi.GErrorException {
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_thread_pool_set_max_threads.invokeExact(
@@ -286,7 +290,7 @@ public class ThreadPool extends io.github.jwharm.javagi.ProxyBase {
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbCompareDataFunc",
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                         Interop.getScope()),
                     (Addressable) (Interop.registerCallback(func)));
         } catch (Throwable ERR) {
@@ -399,14 +403,14 @@ public class ThreadPool extends io.github.jwharm.javagi.ProxyBase {
      */
     public static @NotNull org.gtk.glib.ThreadPool new_(@NotNull org.gtk.glib.Func func, int maxThreads, boolean exclusive) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(func, "Parameter 'func' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_thread_pool_new.invokeExact(
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbFunc",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                         Interop.getScope()),
                     (Addressable) (Interop.registerCallback(func)),
                     maxThreads,
@@ -435,14 +439,14 @@ public class ThreadPool extends io.github.jwharm.javagi.ProxyBase {
      */
     public static @NotNull org.gtk.glib.ThreadPool newFull(@NotNull org.gtk.glib.Func func, int maxThreads, boolean exclusive) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(func, "Parameter 'func' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_thread_pool_new_full.invokeExact(
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbFunc",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                         Interop.getScope()),
                     (Addressable) (Interop.registerCallback(func)),
                     Interop.cbDestroyNotifySymbol(),
@@ -514,91 +518,91 @@ public class ThreadPool extends io.github.jwharm.javagi.ProxyBase {
         
         private static final MethodHandle g_thread_pool_free = Interop.downcallHandle(
             "g_thread_pool_free",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_thread_pool_get_max_threads = Interop.downcallHandle(
             "g_thread_pool_get_max_threads",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_thread_pool_get_num_threads = Interop.downcallHandle(
             "g_thread_pool_get_num_threads",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_thread_pool_move_to_front = Interop.downcallHandle(
             "g_thread_pool_move_to_front",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_thread_pool_push = Interop.downcallHandle(
             "g_thread_pool_push",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_thread_pool_set_max_threads = Interop.downcallHandle(
             "g_thread_pool_set_max_threads",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_thread_pool_set_sort_function = Interop.downcallHandle(
             "g_thread_pool_set_sort_function",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_thread_pool_unprocessed = Interop.downcallHandle(
             "g_thread_pool_unprocessed",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_thread_pool_get_max_idle_time = Interop.downcallHandle(
             "g_thread_pool_get_max_idle_time",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_thread_pool_get_max_unused_threads = Interop.downcallHandle(
             "g_thread_pool_get_max_unused_threads",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_thread_pool_get_num_unused_threads = Interop.downcallHandle(
             "g_thread_pool_get_num_unused_threads",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_thread_pool_new = Interop.downcallHandle(
             "g_thread_pool_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_thread_pool_new_full = Interop.downcallHandle(
             "g_thread_pool_new_full",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_thread_pool_set_max_idle_time = Interop.downcallHandle(
             "g_thread_pool_set_max_idle_time",
-            FunctionDescriptor.ofVoid(ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_thread_pool_set_max_unused_threads = Interop.downcallHandle(
             "g_thread_pool_set_max_unused_threads",
-            FunctionDescriptor.ofVoid(ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.C_INT),
             false
         );
         
@@ -607,5 +611,69 @@ public class ThreadPool extends io.github.jwharm.javagi.ProxyBase {
             FunctionDescriptor.ofVoid(),
             false
         );
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private ThreadPool struct;
+        
+         /**
+         * A {@link ThreadPool.Build} object constructs a {@link ThreadPool} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = ThreadPool.allocate();
+        }
+        
+         /**
+         * Finish building the {@link ThreadPool} struct.
+         * @return A new instance of {@code ThreadPool} with the fields 
+         *         that were set in the Build object.
+         */
+        public ThreadPool construct() {
+            return struct;
+        }
+        
+        /**
+         * the function to execute in the threads of this pool
+         * @param func The value for the {@code func} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setFunc(java.lang.foreign.MemoryAddress func) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("func"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (func == null ? MemoryAddress.NULL : func));
+            return this;
+        }
+        
+        /**
+         * the user data for the threads of this pool
+         * @param user_data The value for the {@code user_data} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setUserData(java.lang.foreign.MemoryAddress user_data) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("user_data"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (user_data == null ? MemoryAddress.NULL : (Addressable) user_data));
+            return this;
+        }
+        
+        /**
+         * are all threads exclusive to this pool
+         * @param exclusive The value for the {@code exclusive} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setExclusive(boolean exclusive) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("exclusive"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), exclusive ? 1 : 0);
+            return this;
+        }
     }
 }

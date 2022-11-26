@@ -101,7 +101,7 @@ public class PrintUnixDialog extends org.gtk.gtk.Dialog implements org.gtk.gtk.A
      * @throws ClassCastException If the GType is not derived from "GtkPrintUnixDialog", a ClassCastException will be thrown.
      */
     public static PrintUnixDialog castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkPrintUnixDialog"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), PrintUnixDialog.getType())) {
             return new PrintUnixDialog(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkPrintUnixDialog");
@@ -399,113 +399,256 @@ public class PrintUnixDialog extends org.gtk.gtk.Dialog implements org.gtk.gtk.A
         }
     }
     
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.gtk_print_unix_dialog_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gtk.Dialog.Build {
+        
+         /**
+         * A {@link PrintUnixDialog.Build} object constructs a {@link PrintUnixDialog} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link PrintUnixDialog} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link PrintUnixDialog} using {@link PrintUnixDialog#castFrom}.
+         * @return A new instance of {@code PrintUnixDialog} with the properties 
+         *         that were set in the Build object.
+         */
+        public PrintUnixDialog construct() {
+            return PrintUnixDialog.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    PrintUnixDialog.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+        
+        /**
+         * The current page in the document.
+         * @param currentPage The value for the {@code current-page} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setCurrentPage(int currentPage) {
+            names.add("current-page");
+            values.add(org.gtk.gobject.Value.create(currentPage));
+            return this;
+        }
+        
+        /**
+         * {@code true} if the page setup controls are embedded.
+         * @param embedPageSetup The value for the {@code embed-page-setup} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setEmbedPageSetup(boolean embedPageSetup) {
+            names.add("embed-page-setup");
+            values.add(org.gtk.gobject.Value.create(embedPageSetup));
+            return this;
+        }
+        
+        /**
+         * Whether the application has a selection.
+         * @param hasSelection The value for the {@code has-selection} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setHasSelection(boolean hasSelection) {
+            names.add("has-selection");
+            values.add(org.gtk.gobject.Value.create(hasSelection));
+            return this;
+        }
+        
+        /**
+         * Capabilities the application can handle.
+         * @param manualCapabilities The value for the {@code manual-capabilities} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setManualCapabilities(org.gtk.gtk.PrintCapabilities manualCapabilities) {
+            names.add("manual-capabilities");
+            values.add(org.gtk.gobject.Value.create(manualCapabilities));
+            return this;
+        }
+        
+        /**
+         * The {@code GtkPageSetup} object to use.
+         * @param pageSetup The value for the {@code page-setup} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setPageSetup(org.gtk.gtk.PageSetup pageSetup) {
+            names.add("page-setup");
+            values.add(org.gtk.gobject.Value.create(pageSetup));
+            return this;
+        }
+        
+        /**
+         * The {@code GtkPrintSettings} object used for this dialog.
+         * @param printSettings The value for the {@code print-settings} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setPrintSettings(org.gtk.gtk.PrintSettings printSettings) {
+            names.add("print-settings");
+            values.add(org.gtk.gobject.Value.create(printSettings));
+            return this;
+        }
+        
+        /**
+         * The {@code GtkPrinter} which is selected.
+         * @param selectedPrinter The value for the {@code selected-printer} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setSelectedPrinter(org.gtk.gtk.Printer selectedPrinter) {
+            names.add("selected-printer");
+            values.add(org.gtk.gobject.Value.create(selectedPrinter));
+            return this;
+        }
+        
+        /**
+         * Whether the dialog supports selection.
+         * @param supportSelection The value for the {@code support-selection} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setSupportSelection(boolean supportSelection) {
+            names.add("support-selection");
+            values.add(org.gtk.gobject.Value.create(supportSelection));
+            return this;
+        }
+    }
+    
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_print_unix_dialog_new = Interop.downcallHandle(
             "gtk_print_unix_dialog_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_print_unix_dialog_add_custom_tab = Interop.downcallHandle(
             "gtk_print_unix_dialog_add_custom_tab",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_print_unix_dialog_get_current_page = Interop.downcallHandle(
             "gtk_print_unix_dialog_get_current_page",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_print_unix_dialog_get_embed_page_setup = Interop.downcallHandle(
             "gtk_print_unix_dialog_get_embed_page_setup",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_print_unix_dialog_get_has_selection = Interop.downcallHandle(
             "gtk_print_unix_dialog_get_has_selection",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_print_unix_dialog_get_manual_capabilities = Interop.downcallHandle(
             "gtk_print_unix_dialog_get_manual_capabilities",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_print_unix_dialog_get_page_setup = Interop.downcallHandle(
             "gtk_print_unix_dialog_get_page_setup",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_print_unix_dialog_get_page_setup_set = Interop.downcallHandle(
             "gtk_print_unix_dialog_get_page_setup_set",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_print_unix_dialog_get_selected_printer = Interop.downcallHandle(
             "gtk_print_unix_dialog_get_selected_printer",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_print_unix_dialog_get_settings = Interop.downcallHandle(
             "gtk_print_unix_dialog_get_settings",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_print_unix_dialog_get_support_selection = Interop.downcallHandle(
             "gtk_print_unix_dialog_get_support_selection",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_print_unix_dialog_set_current_page = Interop.downcallHandle(
             "gtk_print_unix_dialog_set_current_page",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_print_unix_dialog_set_embed_page_setup = Interop.downcallHandle(
             "gtk_print_unix_dialog_set_embed_page_setup",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_print_unix_dialog_set_has_selection = Interop.downcallHandle(
             "gtk_print_unix_dialog_set_has_selection",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_print_unix_dialog_set_manual_capabilities = Interop.downcallHandle(
             "gtk_print_unix_dialog_set_manual_capabilities",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_print_unix_dialog_set_page_setup = Interop.downcallHandle(
             "gtk_print_unix_dialog_set_page_setup",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_print_unix_dialog_set_settings = Interop.downcallHandle(
             "gtk_print_unix_dialog_set_settings",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_print_unix_dialog_set_support_selection = Interop.downcallHandle(
             "gtk_print_unix_dialog_set_support_selection",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+            false
+        );
+        
+        private static final MethodHandle gtk_print_unix_dialog_get_type = Interop.downcallHandle(
+            "gtk_print_unix_dialog_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }

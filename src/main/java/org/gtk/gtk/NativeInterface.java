@@ -5,7 +5,7 @@ import java.lang.foreign.*;
 import java.lang.invoke.*;
 import org.jetbrains.annotations.*;
 
-public class NativeInterface extends io.github.jwharm.javagi.ProxyBase {
+public class NativeInterface extends Struct {
     
     static {
         Gtk.javagi$ensureInitialized();
@@ -24,6 +24,10 @@ public class NativeInterface extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link NativeInterface}
+     * @return A new, uninitialized @{link NativeInterface}
+     */
     public static NativeInterface allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         NativeInterface newInstance = new NativeInterface(segment.address(), Ownership.NONE);
@@ -39,5 +43,33 @@ public class NativeInterface extends io.github.jwharm.javagi.ProxyBase {
     @ApiStatus.Internal
     public NativeInterface(Addressable address, Ownership ownership) {
         super(address, ownership);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private NativeInterface struct;
+        
+         /**
+         * A {@link NativeInterface.Build} object constructs a {@link NativeInterface} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = NativeInterface.allocate();
+        }
+        
+         /**
+         * Finish building the {@link NativeInterface} struct.
+         * @return A new instance of {@code NativeInterface} with the fields 
+         *         that were set in the Build object.
+         */
+        public NativeInterface construct() {
+            return struct;
+        }
     }
 }

@@ -28,7 +28,7 @@ public class UnixFDMessage extends org.gtk.gio.SocketControlMessage {
     
     private static final java.lang.String C_TYPE_NAME = "GUnixFDMessage";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gio.SocketControlMessage.getMemoryLayout().withName("parent_instance"),
         Interop.valueLayout.ADDRESS.withName("priv")
     ).withName(C_TYPE_NAME);
@@ -74,7 +74,7 @@ public class UnixFDMessage extends org.gtk.gio.SocketControlMessage {
      * @throws ClassCastException If the GType is not derived from "GUnixFDMessage", a ClassCastException will be thrown.
      */
     public static UnixFDMessage castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GUnixFDMessage"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), UnixFDMessage.getType())) {
             return new UnixFDMessage(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GUnixFDMessage");
@@ -134,7 +134,7 @@ public class UnixFDMessage extends org.gtk.gio.SocketControlMessage {
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public boolean appendFd(int fd) throws io.github.jwharm.javagi.GErrorException {
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_unix_fd_message_append_fd.invokeExact(
@@ -192,7 +192,7 @@ public class UnixFDMessage extends org.gtk.gio.SocketControlMessage {
      */
     public @NotNull int[] stealFds(Out<Integer> length) {
         java.util.Objects.requireNonNull(length, "Parameter 'length' must not be null");
-        MemorySegment lengthPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
+        MemorySegment lengthPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_unix_fd_message_steal_fds.invokeExact(
@@ -201,39 +201,100 @@ public class UnixFDMessage extends org.gtk.gio.SocketControlMessage {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        length.set(lengthPOINTER.get(ValueLayout.JAVA_INT, 0));
-        return MemorySegment.ofAddress(RESULT.get(ValueLayout.ADDRESS, 0), length.get().intValue() * ValueLayout.JAVA_INT.byteSize(), Interop.getScope()).toArray(ValueLayout.JAVA_INT);
+        length.set(lengthPOINTER.get(Interop.valueLayout.C_INT, 0));
+        return MemorySegment.ofAddress(RESULT.get(Interop.valueLayout.ADDRESS, 0), length.get().intValue() * Interop.valueLayout.C_INT.byteSize(), Interop.getScope()).toArray(Interop.valueLayout.C_INT);
+    }
+    
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.g_unix_fd_message_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gio.SocketControlMessage.Build {
+        
+         /**
+         * A {@link UnixFDMessage.Build} object constructs a {@link UnixFDMessage} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link UnixFDMessage} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link UnixFDMessage} using {@link UnixFDMessage#castFrom}.
+         * @return A new instance of {@code UnixFDMessage} with the properties 
+         *         that were set in the Build object.
+         */
+        public UnixFDMessage construct() {
+            return UnixFDMessage.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    UnixFDMessage.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+        
+        public Build setFdList(org.gtk.gio.UnixFDList fdList) {
+            names.add("fd-list");
+            values.add(org.gtk.gobject.Value.create(fdList));
+            return this;
+        }
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle g_unix_fd_message_new = Interop.downcallHandle(
             "g_unix_fd_message_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_unix_fd_message_new_with_fd_list = Interop.downcallHandle(
             "g_unix_fd_message_new_with_fd_list",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_unix_fd_message_append_fd = Interop.downcallHandle(
             "g_unix_fd_message_append_fd",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_unix_fd_message_get_fd_list = Interop.downcallHandle(
             "g_unix_fd_message_get_fd_list",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_unix_fd_message_steal_fds = Interop.downcallHandle(
             "g_unix_fd_message_steal_fds",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+            false
+        );
+        
+        private static final MethodHandle g_unix_fd_message_get_type = Interop.downcallHandle(
+            "g_unix_fd_message_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }

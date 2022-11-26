@@ -56,7 +56,7 @@ public class Printer extends org.gtk.gobject.Object {
      * @throws ClassCastException If the GType is not derived from "GtkPrinter", a ClassCastException will be thrown.
      */
     public static Printer castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkPrinter"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), Printer.getType())) {
             return new Printer(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkPrinter");
@@ -225,13 +225,13 @@ public class Printer extends org.gtk.gobject.Object {
      */
     public boolean getHardMargins(Out<Double> top, Out<Double> bottom, Out<Double> left, Out<Double> right) {
         java.util.Objects.requireNonNull(top, "Parameter 'top' must not be null");
+        MemorySegment topPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_DOUBLE);
         java.util.Objects.requireNonNull(bottom, "Parameter 'bottom' must not be null");
+        MemorySegment bottomPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_DOUBLE);
         java.util.Objects.requireNonNull(left, "Parameter 'left' must not be null");
+        MemorySegment leftPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_DOUBLE);
         java.util.Objects.requireNonNull(right, "Parameter 'right' must not be null");
-        MemorySegment topPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_DOUBLE);
-        MemorySegment bottomPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_DOUBLE);
-        MemorySegment leftPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_DOUBLE);
-        MemorySegment rightPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_DOUBLE);
+        MemorySegment rightPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_DOUBLE);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_printer_get_hard_margins.invokeExact(
@@ -243,10 +243,10 @@ public class Printer extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        top.set(topPOINTER.get(ValueLayout.JAVA_DOUBLE, 0));
-        bottom.set(bottomPOINTER.get(ValueLayout.JAVA_DOUBLE, 0));
-        left.set(leftPOINTER.get(ValueLayout.JAVA_DOUBLE, 0));
-        right.set(rightPOINTER.get(ValueLayout.JAVA_DOUBLE, 0));
+        top.set(topPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
+        bottom.set(bottomPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
+        left.set(leftPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
+        right.set(rightPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
         return RESULT != 0;
     }
     
@@ -269,13 +269,13 @@ public class Printer extends org.gtk.gobject.Object {
     public boolean getHardMarginsForPaperSize(@NotNull org.gtk.gtk.PaperSize paperSize, Out<Double> top, Out<Double> bottom, Out<Double> left, Out<Double> right) {
         java.util.Objects.requireNonNull(paperSize, "Parameter 'paperSize' must not be null");
         java.util.Objects.requireNonNull(top, "Parameter 'top' must not be null");
+        MemorySegment topPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_DOUBLE);
         java.util.Objects.requireNonNull(bottom, "Parameter 'bottom' must not be null");
+        MemorySegment bottomPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_DOUBLE);
         java.util.Objects.requireNonNull(left, "Parameter 'left' must not be null");
+        MemorySegment leftPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_DOUBLE);
         java.util.Objects.requireNonNull(right, "Parameter 'right' must not be null");
-        MemorySegment topPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_DOUBLE);
-        MemorySegment bottomPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_DOUBLE);
-        MemorySegment leftPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_DOUBLE);
-        MemorySegment rightPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_DOUBLE);
+        MemorySegment rightPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_DOUBLE);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_printer_get_hard_margins_for_paper_size.invokeExact(
@@ -288,10 +288,10 @@ public class Printer extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        top.set(topPOINTER.get(ValueLayout.JAVA_DOUBLE, 0));
-        bottom.set(bottomPOINTER.get(ValueLayout.JAVA_DOUBLE, 0));
-        left.set(leftPOINTER.get(ValueLayout.JAVA_DOUBLE, 0));
-        right.set(rightPOINTER.get(ValueLayout.JAVA_DOUBLE, 0));
+        top.set(topPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
+        bottom.set(bottomPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
+        left.set(leftPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
+        right.set(rightPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
         return RESULT != 0;
     }
     
@@ -503,6 +503,20 @@ public class Printer extends org.gtk.gobject.Object {
         }
     }
     
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.gtk_printer_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+    
     @FunctionalInterface
     public interface DetailsAcquired {
         void signalReceived(Printer source, boolean success);
@@ -525,7 +539,7 @@ public class Printer extends org.gtk.gobject.Object {
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(Printer.Callbacks.class, "signalPrinterDetailsAcquired",
                         MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
                     Interop.getScope()),
                 Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
@@ -534,144 +548,309 @@ public class Printer extends org.gtk.gobject.Object {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gobject.Object.Build {
+        
+         /**
+         * A {@link Printer.Build} object constructs a {@link Printer} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link Printer} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link Printer} using {@link Printer#castFrom}.
+         * @return A new instance of {@code Printer} with the properties 
+         *         that were set in the Build object.
+         */
+        public Printer construct() {
+            return Printer.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    Printer.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+        
+        /**
+         * {@code true} if the printer is accepting jobs.
+         * @param acceptingJobs The value for the {@code accepting-jobs} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setAcceptingJobs(boolean acceptingJobs) {
+            names.add("accepting-jobs");
+            values.add(org.gtk.gobject.Value.create(acceptingJobs));
+            return this;
+        }
+        
+        /**
+         * {@code true} if this printer can accept PDF.
+         * @param acceptsPdf The value for the {@code accepts-pdf} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setAcceptsPdf(boolean acceptsPdf) {
+            names.add("accepts-pdf");
+            values.add(org.gtk.gobject.Value.create(acceptsPdf));
+            return this;
+        }
+        
+        /**
+         * {@code true} if this printer can accept PostScript.
+         * @param acceptsPs The value for the {@code accepts-ps} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setAcceptsPs(boolean acceptsPs) {
+            names.add("accepts-ps");
+            values.add(org.gtk.gobject.Value.create(acceptsPs));
+            return this;
+        }
+        
+        /**
+         * The backend for the printer.
+         * @param backend The value for the {@code backend} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setBackend(java.lang.foreign.MemoryAddress backend) {
+            names.add("backend");
+            values.add(org.gtk.gobject.Value.create(backend));
+            return this;
+        }
+        
+        /**
+         * Icon name to use for the printer.
+         * @param iconName The value for the {@code icon-name} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setIconName(java.lang.String iconName) {
+            names.add("icon-name");
+            values.add(org.gtk.gobject.Value.create(iconName));
+            return this;
+        }
+        
+        /**
+         * {@code false} if this represents a real hardware device.
+         * @param isVirtual The value for the {@code is-virtual} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setIsVirtual(boolean isVirtual) {
+            names.add("is-virtual");
+            values.add(org.gtk.gobject.Value.create(isVirtual));
+            return this;
+        }
+        
+        /**
+         * Number of jobs queued in the printer.
+         * @param jobCount The value for the {@code job-count} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setJobCount(int jobCount) {
+            names.add("job-count");
+            values.add(org.gtk.gobject.Value.create(jobCount));
+            return this;
+        }
+        
+        /**
+         * Information about the location of the printer.
+         * @param location The value for the {@code location} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setLocation(java.lang.String location) {
+            names.add("location");
+            values.add(org.gtk.gobject.Value.create(location));
+            return this;
+        }
+        
+        /**
+         * The name of the printer.
+         * @param name The value for the {@code name} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setName(java.lang.String name) {
+            names.add("name");
+            values.add(org.gtk.gobject.Value.create(name));
+            return this;
+        }
+        
+        /**
+         * {@code true} if this printer is paused.
+         * <p>
+         * A paused printer still accepts jobs, but it does
+         * not print them.
+         * @param paused The value for the {@code paused} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setPaused(boolean paused) {
+            names.add("paused");
+            values.add(org.gtk.gobject.Value.create(paused));
+            return this;
+        }
+        
+        /**
+         * String giving the current status of the printer.
+         * @param stateMessage The value for the {@code state-message} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setStateMessage(java.lang.String stateMessage) {
+            names.add("state-message");
+            values.add(org.gtk.gobject.Value.create(stateMessage));
+            return this;
+        }
+    }
     
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_printer_new = Interop.downcallHandle(
             "gtk_printer_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_printer_accepts_pdf = Interop.downcallHandle(
             "gtk_printer_accepts_pdf",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_printer_accepts_ps = Interop.downcallHandle(
             "gtk_printer_accepts_ps",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_printer_compare = Interop.downcallHandle(
             "gtk_printer_compare",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_printer_get_backend = Interop.downcallHandle(
             "gtk_printer_get_backend",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_printer_get_capabilities = Interop.downcallHandle(
             "gtk_printer_get_capabilities",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_printer_get_default_page_size = Interop.downcallHandle(
             "gtk_printer_get_default_page_size",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_printer_get_description = Interop.downcallHandle(
             "gtk_printer_get_description",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_printer_get_hard_margins = Interop.downcallHandle(
             "gtk_printer_get_hard_margins",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_printer_get_hard_margins_for_paper_size = Interop.downcallHandle(
             "gtk_printer_get_hard_margins_for_paper_size",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_printer_get_icon_name = Interop.downcallHandle(
             "gtk_printer_get_icon_name",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_printer_get_job_count = Interop.downcallHandle(
             "gtk_printer_get_job_count",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_printer_get_location = Interop.downcallHandle(
             "gtk_printer_get_location",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_printer_get_name = Interop.downcallHandle(
             "gtk_printer_get_name",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_printer_get_state_message = Interop.downcallHandle(
             "gtk_printer_get_state_message",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_printer_has_details = Interop.downcallHandle(
             "gtk_printer_has_details",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_printer_is_accepting_jobs = Interop.downcallHandle(
             "gtk_printer_is_accepting_jobs",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_printer_is_active = Interop.downcallHandle(
             "gtk_printer_is_active",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_printer_is_default = Interop.downcallHandle(
             "gtk_printer_is_default",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_printer_is_paused = Interop.downcallHandle(
             "gtk_printer_is_paused",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_printer_is_virtual = Interop.downcallHandle(
             "gtk_printer_is_virtual",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_printer_list_papers = Interop.downcallHandle(
             "gtk_printer_list_papers",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_printer_request_details = Interop.downcallHandle(
             "gtk_printer_request_details",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+            false
+        );
+        
+        private static final MethodHandle gtk_printer_get_type = Interop.downcallHandle(
+            "gtk_printer_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }
@@ -679,9 +858,9 @@ public class Printer extends org.gtk.gobject.Object {
     private static class Callbacks {
         
         public static void signalPrinterDetailsAcquired(MemoryAddress source, int success, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (Printer.DetailsAcquired) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Printer(source, Ownership.UNKNOWN), success != 0);
+            HANDLER.signalReceived(new Printer(source, Ownership.NONE), success != 0);
         }
     }
 }

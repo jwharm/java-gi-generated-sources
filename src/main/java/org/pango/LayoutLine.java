@@ -13,7 +13,7 @@ import org.jetbrains.annotations.*;
  * {@link Layout#getLine} and are only valid until the text,
  * attributes, or settings of the parent {@code PangoLayout} are modified.
  */
-public class LayoutLine extends io.github.jwharm.javagi.ProxyBase {
+public class LayoutLine extends Struct {
     
     static {
         Pango.javagi$ensureInitialized();
@@ -21,13 +21,13 @@ public class LayoutLine extends io.github.jwharm.javagi.ProxyBase {
     
     private static final java.lang.String C_TYPE_NAME = "PangoLayoutLine";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
         Interop.valueLayout.ADDRESS.withName("layout"),
-        ValueLayout.JAVA_INT.withName("start_index"),
-        ValueLayout.JAVA_INT.withName("length"),
+        Interop.valueLayout.C_INT.withName("start_index"),
+        Interop.valueLayout.C_INT.withName("length"),
         Interop.valueLayout.ADDRESS.withName("runs"),
-        ValueLayout.JAVA_INT.withName("is_paragraph_start"),
-        ValueLayout.JAVA_INT.withName("resolved_dir")
+        Interop.valueLayout.C_INT.withName("is_paragraph_start"),
+        Interop.valueLayout.C_INT.withName("resolved_dir")
     ).withName(C_TYPE_NAME);
     
     /**
@@ -41,6 +41,10 @@ public class LayoutLine extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link LayoutLine}
+     * @return A new, uninitialized @{link LayoutLine}
+     */
     public static LayoutLine allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         LayoutLine newInstance = new LayoutLine(segment.address(), Ownership.NONE);
@@ -219,7 +223,7 @@ public class LayoutLine extends io.github.jwharm.javagi.ProxyBase {
      */
     public void getHeight(Out<Integer> height) {
         java.util.Objects.requireNonNull(height, "Parameter 'height' must not be null");
-        MemorySegment heightPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
+        MemorySegment heightPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         try {
             DowncallHandles.pango_layout_line_get_height.invokeExact(
                     handle(),
@@ -227,7 +231,7 @@ public class LayoutLine extends io.github.jwharm.javagi.ProxyBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        height.set(heightPOINTER.get(ValueLayout.JAVA_INT, 0));
+        height.set(heightPOINTER.get(Interop.valueLayout.C_INT, 0));
     }
     
     /**
@@ -326,9 +330,9 @@ public class LayoutLine extends io.github.jwharm.javagi.ProxyBase {
      */
     public void getXRanges(int startIndex, int endIndex, @NotNull Out<int[]> ranges, Out<Integer> nRanges) {
         java.util.Objects.requireNonNull(ranges, "Parameter 'ranges' must not be null");
+        MemorySegment rangesPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         java.util.Objects.requireNonNull(nRanges, "Parameter 'nRanges' must not be null");
-        MemorySegment rangesPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        MemorySegment nRangesPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
+        MemorySegment nRangesPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         try {
             DowncallHandles.pango_layout_line_get_x_ranges.invokeExact(
                     handle(),
@@ -339,8 +343,8 @@ public class LayoutLine extends io.github.jwharm.javagi.ProxyBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        nRanges.set(nRangesPOINTER.get(ValueLayout.JAVA_INT, 0));
-        ranges.set(MemorySegment.ofAddress(rangesPOINTER.get(ValueLayout.ADDRESS, 0), nRanges.get().intValue() * ValueLayout.JAVA_INT.byteSize(), Interop.getScope()).toArray(ValueLayout.JAVA_INT));
+        nRanges.set(nRangesPOINTER.get(Interop.valueLayout.C_INT, 0));
+        ranges.set(MemorySegment.ofAddress(rangesPOINTER.get(Interop.valueLayout.ADDRESS, 0), nRanges.get().intValue() * Interop.valueLayout.C_INT.byteSize(), Interop.getScope()).toArray(Interop.valueLayout.C_INT));
     }
     
     /**
@@ -353,7 +357,7 @@ public class LayoutLine extends io.github.jwharm.javagi.ProxyBase {
      */
     public void indexToX(int index, boolean trailing, Out<Integer> xPos) {
         java.util.Objects.requireNonNull(xPos, "Parameter 'xPos' must not be null");
-        MemorySegment xPosPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
+        MemorySegment xPosPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         try {
             DowncallHandles.pango_layout_line_index_to_x.invokeExact(
                     handle(),
@@ -363,7 +367,7 @@ public class LayoutLine extends io.github.jwharm.javagi.ProxyBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        xPos.set(xPosPOINTER.get(ValueLayout.JAVA_INT, 0));
+        xPos.set(xPosPOINTER.get(Interop.valueLayout.C_INT, 0));
     }
     
     /**
@@ -385,7 +389,7 @@ public class LayoutLine extends io.github.jwharm.javagi.ProxyBase {
      * Increase the reference count of a {@code PangoLayoutLine} by one.
      * @return the line passed in.
      */
-    public @NotNull org.pango.LayoutLine ref() {
+    public @Nullable org.pango.LayoutLine ref() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.pango_layout_line_ref.invokeExact(
@@ -433,9 +437,9 @@ public class LayoutLine extends io.github.jwharm.javagi.ProxyBase {
      */
     public boolean xToIndex(int xPos, Out<Integer> index, Out<Integer> trailing) {
         java.util.Objects.requireNonNull(index, "Parameter 'index' must not be null");
+        MemorySegment indexPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         java.util.Objects.requireNonNull(trailing, "Parameter 'trailing' must not be null");
-        MemorySegment indexPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
-        MemorySegment trailingPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
+        MemorySegment trailingPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.pango_layout_line_x_to_index.invokeExact(
@@ -446,8 +450,8 @@ public class LayoutLine extends io.github.jwharm.javagi.ProxyBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        index.set(indexPOINTER.get(ValueLayout.JAVA_INT, 0));
-        trailing.set(trailingPOINTER.get(ValueLayout.JAVA_INT, 0));
+        index.set(indexPOINTER.get(Interop.valueLayout.C_INT, 0));
+        trailing.set(trailingPOINTER.get(Interop.valueLayout.C_INT, 0));
         return RESULT != 0;
     }
     
@@ -455,74 +459,175 @@ public class LayoutLine extends io.github.jwharm.javagi.ProxyBase {
         
         private static final MethodHandle pango_layout_line_get_extents = Interop.downcallHandle(
             "pango_layout_line_get_extents",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle pango_layout_line_get_height = Interop.downcallHandle(
             "pango_layout_line_get_height",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle pango_layout_line_get_length = Interop.downcallHandle(
             "pango_layout_line_get_length",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle pango_layout_line_get_pixel_extents = Interop.downcallHandle(
             "pango_layout_line_get_pixel_extents",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle pango_layout_line_get_resolved_direction = Interop.downcallHandle(
             "pango_layout_line_get_resolved_direction",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle pango_layout_line_get_start_index = Interop.downcallHandle(
             "pango_layout_line_get_start_index",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle pango_layout_line_get_x_ranges = Interop.downcallHandle(
             "pango_layout_line_get_x_ranges",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle pango_layout_line_index_to_x = Interop.downcallHandle(
             "pango_layout_line_index_to_x",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle pango_layout_line_is_paragraph_start = Interop.downcallHandle(
             "pango_layout_line_is_paragraph_start",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle pango_layout_line_ref = Interop.downcallHandle(
             "pango_layout_line_ref",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle pango_layout_line_unref = Interop.downcallHandle(
             "pango_layout_line_unref",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle pango_layout_line_x_to_index = Interop.downcallHandle(
             "pango_layout_line_x_to_index",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private LayoutLine struct;
+        
+         /**
+         * A {@link LayoutLine.Build} object constructs a {@link LayoutLine} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = LayoutLine.allocate();
+        }
+        
+         /**
+         * Finish building the {@link LayoutLine} struct.
+         * @return A new instance of {@code LayoutLine} with the fields 
+         *         that were set in the Build object.
+         */
+        public LayoutLine construct() {
+            return struct;
+        }
+        
+        /**
+         * the layout this line belongs to, might be {@code null}
+         * @param layout The value for the {@code layout} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setLayout(org.pango.Layout layout) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("layout"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (layout == null ? MemoryAddress.NULL : layout.handle()));
+            return this;
+        }
+        
+        /**
+         * start of line as byte index into layout-&gt;text
+         * @param start_index The value for the {@code start_index} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setStartIndex(int start_index) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("start_index"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), start_index);
+            return this;
+        }
+        
+        /**
+         * length of line in bytes
+         * @param length The value for the {@code length} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setLength(int length) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("length"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), length);
+            return this;
+        }
+        
+        /**
+         * list of runs in the
+         *   line, from left to right
+         * @param runs The value for the {@code runs} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setRuns(org.gtk.glib.SList runs) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("runs"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (runs == null ? MemoryAddress.NULL : runs.handle()));
+            return this;
+        }
+        
+        /**
+         * {@code TRUE} if this is the first line of the paragraph
+         * @param is_paragraph_start The value for the {@code is_paragraph_start} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setIsParagraphStart(int is_paragraph_start) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("is_paragraph_start"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), is_paragraph_start);
+            return this;
+        }
+        
+        /**
+         * {@code Resolved} PangoDirection of line
+         * @param resolved_dir The value for the {@code resolved_dir} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setResolvedDir(int resolved_dir) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("resolved_dir"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), resolved_dir);
+            return this;
+        }
     }
 }

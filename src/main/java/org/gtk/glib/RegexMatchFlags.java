@@ -14,6 +14,11 @@ public class RegexMatchFlags extends io.github.jwharm.javagi.Bitfield {
     private static final java.lang.String C_TYPE_NAME = "GRegexMatchFlags";
     
     /**
+     * No special options set. Since: 2.74
+     */
+    public static final RegexMatchFlags DEFAULT = new RegexMatchFlags(0);
+    
+    /**
      * The pattern is forced to be "anchored", that is,
      *     it is constrained to match only at the first matching point in the
      *     string that is being searched. This effect can also be achieved by

@@ -75,7 +75,7 @@ public class Application extends org.gtk.gio.Application implements org.gtk.gio.
     
     private static final java.lang.String C_TYPE_NAME = "GtkApplication";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gio.Application.getMemoryLayout().withName("parent_instance")
     ).withName(C_TYPE_NAME);
     
@@ -120,7 +120,7 @@ public class Application extends org.gtk.gio.Application implements org.gtk.gio.
      * @throws ClassCastException If the GType is not derived from "GtkApplication", a ClassCastException will be thrown.
      */
     public static Application castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkApplication"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), Application.getType())) {
             return new Application(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkApplication");
@@ -517,6 +517,20 @@ public class Application extends org.gtk.gio.Application implements org.gtk.gio.
         }
     }
     
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.gtk_application_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+    
     @FunctionalInterface
     public interface QueryEnd {
         void signalReceived(Application source);
@@ -540,7 +554,7 @@ public class Application extends org.gtk.gio.Application implements org.gtk.gio.
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(Application.Callbacks.class, "signalApplicationQueryEnd",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                     Interop.getScope()),
                 Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
@@ -569,7 +583,7 @@ public class Application extends org.gtk.gio.Application implements org.gtk.gio.
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(Application.Callbacks.class, "signalApplicationWindowAdded",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                     Interop.getScope()),
                 Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
@@ -600,7 +614,7 @@ public class Application extends org.gtk.gio.Application implements org.gtk.gio.
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(Application.Callbacks.class, "signalApplicationWindowRemoved",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                     Interop.getScope()),
                 Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
@@ -609,96 +623,191 @@ public class Application extends org.gtk.gio.Application implements org.gtk.gio.
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gio.Application.Build {
+        
+         /**
+         * A {@link Application.Build} object constructs a {@link Application} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link Application} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link Application} using {@link Application#castFrom}.
+         * @return A new instance of {@code Application} with the properties 
+         *         that were set in the Build object.
+         */
+        public Application construct() {
+            return Application.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    Application.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+        
+        /**
+         * The currently focused window of the application.
+         * @param activeWindow The value for the {@code active-window} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setActiveWindow(org.gtk.gtk.Window activeWindow) {
+            names.add("active-window");
+            values.add(org.gtk.gobject.Value.create(activeWindow));
+            return this;
+        }
+        
+        /**
+         * The {@code GMenuModel} to be used for the application's menu bar.
+         * @param menubar The value for the {@code menubar} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setMenubar(org.gtk.gio.MenuModel menubar) {
+            names.add("menubar");
+            values.add(org.gtk.gobject.Value.create(menubar));
+            return this;
+        }
+        
+        /**
+         * Set this property to {@code TRUE} to register with the session manager.
+         * <p>
+         * This will make GTK track the session state (such as the
+         * {@code Gtk.Application:screensaver-active} property).
+         * @param registerSession The value for the {@code register-session} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setRegisterSession(boolean registerSession) {
+            names.add("register-session");
+            values.add(org.gtk.gobject.Value.create(registerSession));
+            return this;
+        }
+        
+        /**
+         * This property is {@code TRUE} if GTK believes that the screensaver is
+         * currently active.
+         * <p>
+         * GTK only tracks session state (including this) when
+         * {@code Gtk.Application:register-session} is set to {@code true}.
+         * <p>
+         * Tracking the screensaver state is currently only supported on
+         * Linux.
+         * @param screensaverActive The value for the {@code screensaver-active} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setScreensaverActive(boolean screensaverActive) {
+            names.add("screensaver-active");
+            values.add(org.gtk.gobject.Value.create(screensaverActive));
+            return this;
+        }
+    }
     
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_application_new = Interop.downcallHandle(
             "gtk_application_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_application_add_window = Interop.downcallHandle(
             "gtk_application_add_window",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_application_get_accels_for_action = Interop.downcallHandle(
             "gtk_application_get_accels_for_action",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_application_get_actions_for_accel = Interop.downcallHandle(
             "gtk_application_get_actions_for_accel",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_application_get_active_window = Interop.downcallHandle(
             "gtk_application_get_active_window",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_application_get_menu_by_id = Interop.downcallHandle(
             "gtk_application_get_menu_by_id",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_application_get_menubar = Interop.downcallHandle(
             "gtk_application_get_menubar",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_application_get_window_by_id = Interop.downcallHandle(
             "gtk_application_get_window_by_id",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_application_get_windows = Interop.downcallHandle(
             "gtk_application_get_windows",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_application_inhibit = Interop.downcallHandle(
             "gtk_application_inhibit",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_application_list_action_descriptions = Interop.downcallHandle(
             "gtk_application_list_action_descriptions",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_application_remove_window = Interop.downcallHandle(
             "gtk_application_remove_window",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_application_set_accels_for_action = Interop.downcallHandle(
             "gtk_application_set_accels_for_action",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_application_set_menubar = Interop.downcallHandle(
             "gtk_application_set_menubar",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_application_uninhibit = Interop.downcallHandle(
             "gtk_application_uninhibit",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+            false
+        );
+        
+        private static final MethodHandle gtk_application_get_type = Interop.downcallHandle(
+            "gtk_application_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }
@@ -706,21 +815,21 @@ public class Application extends org.gtk.gio.Application implements org.gtk.gio.
     private static class Callbacks {
         
         public static void signalApplicationQueryEnd(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (Application.QueryEnd) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Application(source, Ownership.UNKNOWN));
+            HANDLER.signalReceived(new Application(source, Ownership.NONE));
         }
         
         public static void signalApplicationWindowAdded(MemoryAddress source, MemoryAddress window, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (Application.WindowAdded) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Application(source, Ownership.UNKNOWN), new org.gtk.gtk.Window(window, Ownership.NONE));
+            HANDLER.signalReceived(new Application(source, Ownership.NONE), new org.gtk.gtk.Window(window, Ownership.NONE));
         }
         
         public static void signalApplicationWindowRemoved(MemoryAddress source, MemoryAddress window, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (Application.WindowRemoved) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Application(source, Ownership.UNKNOWN), new org.gtk.gtk.Window(window, Ownership.NONE));
+            HANDLER.signalReceived(new Application(source, Ownership.NONE), new org.gtk.gtk.Window(window, Ownership.NONE));
         }
     }
 }

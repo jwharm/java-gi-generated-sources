@@ -55,7 +55,7 @@ public class FileChooserWidget extends org.gtk.gtk.Widget implements org.gtk.gtk
      * @throws ClassCastException If the GType is not derived from "GtkFileChooserWidget", a ClassCastException will be thrown.
      */
     public static FileChooserWidget castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkFileChooserWidget"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), FileChooserWidget.getType())) {
             return new FileChooserWidget(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkFileChooserWidget");
@@ -86,6 +86,20 @@ public class FileChooserWidget extends org.gtk.gtk.Widget implements org.gtk.gtk
         super(constructNew(action), Ownership.NONE);
     }
     
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.gtk_file_chooser_widget_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+    
     @FunctionalInterface
     public interface DesktopFolder {
         void signalReceived(FileChooserWidget source);
@@ -111,7 +125,7 @@ public class FileChooserWidget extends org.gtk.gtk.Widget implements org.gtk.gtk
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(FileChooserWidget.Callbacks.class, "signalFileChooserWidgetDesktopFolder",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                     Interop.getScope()),
                 Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
@@ -150,7 +164,7 @@ public class FileChooserWidget extends org.gtk.gtk.Widget implements org.gtk.gtk
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(FileChooserWidget.Callbacks.class, "signalFileChooserWidgetDownFolder",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                     Interop.getScope()),
                 Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
@@ -185,7 +199,7 @@ public class FileChooserWidget extends org.gtk.gtk.Widget implements org.gtk.gtk
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(FileChooserWidget.Callbacks.class, "signalFileChooserWidgetHomeFolder",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                     Interop.getScope()),
                 Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
@@ -225,7 +239,7 @@ public class FileChooserWidget extends org.gtk.gtk.Widget implements org.gtk.gtk
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(FileChooserWidget.Callbacks.class, "signalFileChooserWidgetLocationPopup",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                     Interop.getScope()),
                 Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
@@ -260,7 +274,7 @@ public class FileChooserWidget extends org.gtk.gtk.Widget implements org.gtk.gtk
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(FileChooserWidget.Callbacks.class, "signalFileChooserWidgetLocationPopupOnPaste",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                     Interop.getScope()),
                 Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
@@ -296,7 +310,7 @@ public class FileChooserWidget extends org.gtk.gtk.Widget implements org.gtk.gtk
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(FileChooserWidget.Callbacks.class, "signalFileChooserWidgetLocationTogglePopup",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                     Interop.getScope()),
                 Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
@@ -330,7 +344,7 @@ public class FileChooserWidget extends org.gtk.gtk.Widget implements org.gtk.gtk
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(FileChooserWidget.Callbacks.class, "signalFileChooserWidgetPlacesShortcut",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                     Interop.getScope()),
                 Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
@@ -371,7 +385,7 @@ public class FileChooserWidget extends org.gtk.gtk.Widget implements org.gtk.gtk
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(FileChooserWidget.Callbacks.class, "signalFileChooserWidgetQuickBookmark",
                         MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
                     Interop.getScope()),
                 Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
@@ -405,7 +419,7 @@ public class FileChooserWidget extends org.gtk.gtk.Widget implements org.gtk.gtk
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(FileChooserWidget.Callbacks.class, "signalFileChooserWidgetRecentShortcut",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                     Interop.getScope()),
                 Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
@@ -439,7 +453,7 @@ public class FileChooserWidget extends org.gtk.gtk.Widget implements org.gtk.gtk
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(FileChooserWidget.Callbacks.class, "signalFileChooserWidgetSearchShortcut",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                     Interop.getScope()),
                 Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
@@ -473,7 +487,7 @@ public class FileChooserWidget extends org.gtk.gtk.Widget implements org.gtk.gtk
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(FileChooserWidget.Callbacks.class, "signalFileChooserWidgetShowHidden",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                     Interop.getScope()),
                 Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
@@ -508,7 +522,7 @@ public class FileChooserWidget extends org.gtk.gtk.Widget implements org.gtk.gtk
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(FileChooserWidget.Callbacks.class, "signalFileChooserWidgetUpFolder",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                     Interop.getScope()),
                 Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
@@ -517,12 +531,65 @@ public class FileChooserWidget extends org.gtk.gtk.Widget implements org.gtk.gtk
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gtk.Widget.Build {
+        
+         /**
+         * A {@link FileChooserWidget.Build} object constructs a {@link FileChooserWidget} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link FileChooserWidget} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link FileChooserWidget} using {@link FileChooserWidget#castFrom}.
+         * @return A new instance of {@code FileChooserWidget} with the properties 
+         *         that were set in the Build object.
+         */
+        public FileChooserWidget construct() {
+            return FileChooserWidget.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    FileChooserWidget.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+        
+        public Build setSearchMode(boolean searchMode) {
+            names.add("search-mode");
+            values.add(org.gtk.gobject.Value.create(searchMode));
+            return this;
+        }
+        
+        public Build setSubtitle(java.lang.String subtitle) {
+            names.add("subtitle");
+            values.add(org.gtk.gobject.Value.create(subtitle));
+            return this;
+        }
+    }
     
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_file_chooser_widget_new = Interop.downcallHandle(
             "gtk_file_chooser_widget_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+            false
+        );
+        
+        private static final MethodHandle gtk_file_chooser_widget_get_type = Interop.downcallHandle(
+            "gtk_file_chooser_widget_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }
@@ -530,75 +597,75 @@ public class FileChooserWidget extends org.gtk.gtk.Widget implements org.gtk.gtk
     private static class Callbacks {
         
         public static void signalFileChooserWidgetDesktopFolder(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (FileChooserWidget.DesktopFolder) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new FileChooserWidget(source, Ownership.UNKNOWN));
+            HANDLER.signalReceived(new FileChooserWidget(source, Ownership.NONE));
         }
         
         public static void signalFileChooserWidgetDownFolder(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (FileChooserWidget.DownFolder) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new FileChooserWidget(source, Ownership.UNKNOWN));
+            HANDLER.signalReceived(new FileChooserWidget(source, Ownership.NONE));
         }
         
         public static void signalFileChooserWidgetHomeFolder(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (FileChooserWidget.HomeFolder) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new FileChooserWidget(source, Ownership.UNKNOWN));
+            HANDLER.signalReceived(new FileChooserWidget(source, Ownership.NONE));
         }
         
         public static void signalFileChooserWidgetLocationPopup(MemoryAddress source, MemoryAddress path, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (FileChooserWidget.LocationPopup) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new FileChooserWidget(source, Ownership.UNKNOWN), Interop.getStringFrom(path));
+            HANDLER.signalReceived(new FileChooserWidget(source, Ownership.NONE), Interop.getStringFrom(path));
         }
         
         public static void signalFileChooserWidgetLocationPopupOnPaste(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (FileChooserWidget.LocationPopupOnPaste) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new FileChooserWidget(source, Ownership.UNKNOWN));
+            HANDLER.signalReceived(new FileChooserWidget(source, Ownership.NONE));
         }
         
         public static void signalFileChooserWidgetLocationTogglePopup(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (FileChooserWidget.LocationTogglePopup) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new FileChooserWidget(source, Ownership.UNKNOWN));
+            HANDLER.signalReceived(new FileChooserWidget(source, Ownership.NONE));
         }
         
         public static void signalFileChooserWidgetPlacesShortcut(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (FileChooserWidget.PlacesShortcut) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new FileChooserWidget(source, Ownership.UNKNOWN));
+            HANDLER.signalReceived(new FileChooserWidget(source, Ownership.NONE));
         }
         
         public static void signalFileChooserWidgetQuickBookmark(MemoryAddress source, int bookmarkIndex, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (FileChooserWidget.QuickBookmark) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new FileChooserWidget(source, Ownership.UNKNOWN), bookmarkIndex);
+            HANDLER.signalReceived(new FileChooserWidget(source, Ownership.NONE), bookmarkIndex);
         }
         
         public static void signalFileChooserWidgetRecentShortcut(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (FileChooserWidget.RecentShortcut) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new FileChooserWidget(source, Ownership.UNKNOWN));
+            HANDLER.signalReceived(new FileChooserWidget(source, Ownership.NONE));
         }
         
         public static void signalFileChooserWidgetSearchShortcut(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (FileChooserWidget.SearchShortcut) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new FileChooserWidget(source, Ownership.UNKNOWN));
+            HANDLER.signalReceived(new FileChooserWidget(source, Ownership.NONE));
         }
         
         public static void signalFileChooserWidgetShowHidden(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (FileChooserWidget.ShowHidden) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new FileChooserWidget(source, Ownership.UNKNOWN));
+            HANDLER.signalReceived(new FileChooserWidget(source, Ownership.NONE));
         }
         
         public static void signalFileChooserWidgetUpFolder(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (FileChooserWidget.UpFolder) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new FileChooserWidget(source, Ownership.UNKNOWN));
+            HANDLER.signalReceived(new FileChooserWidget(source, Ownership.NONE));
         }
     }
 }

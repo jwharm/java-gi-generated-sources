@@ -82,7 +82,7 @@ public class SplitButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
      * @throws ClassCastException If the GType is not derived from "AdwSplitButton", a ClassCastException will be thrown.
      */
     public static SplitButton castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("AdwSplitButton"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), SplitButton.getType())) {
             return new SplitButton(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of AdwSplitButton");
@@ -400,6 +400,20 @@ public class SplitButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
         }
     }
     
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.adw_split_button_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+    
     @FunctionalInterface
     public interface Activate {
         void signalReceived(SplitButton source);
@@ -421,7 +435,7 @@ public class SplitButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(SplitButton.Callbacks.class, "signalSplitButtonActivate",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                     Interop.getScope()),
                 Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
@@ -449,7 +463,7 @@ public class SplitButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(SplitButton.Callbacks.class, "signalSplitButtonClicked",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                     Interop.getScope()),
                 Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
@@ -458,120 +472,283 @@ public class SplitButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gtk.Widget.Build {
+        
+         /**
+         * A {@link SplitButton.Build} object constructs a {@link SplitButton} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link SplitButton} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link SplitButton} using {@link SplitButton#castFrom}.
+         * @return A new instance of {@code SplitButton} with the properties 
+         *         that were set in the Build object.
+         */
+        public SplitButton construct() {
+            return SplitButton.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    SplitButton.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+        
+        /**
+         * The child widget.
+         * <p>
+         * Setting the child widget will set {@code SplitButton:label} and
+         * {@code SplitButton:icon-name} to {@code NULL}.
+         * @param child The value for the {@code child} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setChild(org.gtk.gtk.Widget child) {
+            names.add("child");
+            values.add(org.gtk.gobject.Value.create(child));
+            return this;
+        }
+        
+        /**
+         * The direction in which the popup will be popped up.
+         * <p>
+         * The dropdown arrow icon will point at the same direction.
+         * <p>
+         * If the does not fit in the available space in the given direction, GTK will
+         * try its best to keep it inside the screen and fully visible.
+         * <p>
+         * If you pass {@code GTK_ARROW_NONE}, it's equivalent to {@code GTK_ARROW_DOWN}.
+         * @param direction The value for the {@code direction} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setDirection(org.gtk.gtk.ArrowType direction) {
+            names.add("direction");
+            values.add(org.gtk.gobject.Value.create(direction));
+            return this;
+        }
+        
+        /**
+         * The tooltip of the dropdown button.
+         * <p>
+         * The tooltip can be marked up with the Pango text markup language.
+         * @param dropdownTooltip The value for the {@code dropdown-tooltip} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setDropdownTooltip(java.lang.String dropdownTooltip) {
+            names.add("dropdown-tooltip");
+            values.add(org.gtk.gobject.Value.create(dropdownTooltip));
+            return this;
+        }
+        
+        /**
+         * The name of the icon used to automatically populate the button.
+         * <p>
+         * Setting the icon name will set {@code SplitButton:label} and
+         * {@code SplitButton:child} to {@code NULL}.
+         * @param iconName The value for the {@code icon-name} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setIconName(java.lang.String iconName) {
+            names.add("icon-name");
+            values.add(org.gtk.gobject.Value.create(iconName));
+            return this;
+        }
+        
+        /**
+         * The label for the button.
+         * <p>
+         * Setting the label will set {@code SplitButton:icon-name} and
+         * {@code SplitButton:child} to {@code NULL}.
+         * @param label The value for the {@code label} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setLabel(java.lang.String label) {
+            names.add("label");
+            values.add(org.gtk.gobject.Value.create(label));
+            return this;
+        }
+        
+        /**
+         * The {@code GMenuModel} from which the popup will be created.
+         * <p>
+         * If the menu model is {@code NULL}, the dropdown is disabled.
+         * <p>
+         * A {@link org.gtk.gtk.Popover} will be created from the menu model with
+         * {@link org.gtk.gtk.PopoverMenu#newFromModel}. Actions will be connected as
+         * documented for this function.
+         * <p>
+         * If {@code SplitButton:popover} is already set, it will be dissociated
+         * from the button, and the property is set to {@code NULL}.
+         * @param menuModel The value for the {@code menu-model} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setMenuModel(org.gtk.gio.MenuModel menuModel) {
+            names.add("menu-model");
+            values.add(org.gtk.gobject.Value.create(menuModel));
+            return this;
+        }
+        
+        /**
+         * The {@code GtkPopover} that will be popped up when the dropdown is clicked.
+         * <p>
+         * If the popover is {@code NULL}, the dropdown is disabled.
+         * <p>
+         * If {@code SplitButton:menu-model} is set, the menu model is dissociated
+         * from the button, and the property is set to {@code NULL}.
+         * @param popover The value for the {@code popover} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setPopover(org.gtk.gtk.Popover popover) {
+            names.add("popover");
+            values.add(org.gtk.gobject.Value.create(popover));
+            return this;
+        }
+        
+        /**
+         * Whether an underline in the text indicates a mnemonic.
+         * <p>
+         * See {@code SplitButton:label}.
+         * @param useUnderline The value for the {@code use-underline} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setUseUnderline(boolean useUnderline) {
+            names.add("use-underline");
+            values.add(org.gtk.gobject.Value.create(useUnderline));
+            return this;
+        }
+    }
     
     private static class DowncallHandles {
         
         private static final MethodHandle adw_split_button_new = Interop.downcallHandle(
             "adw_split_button_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_split_button_get_child = Interop.downcallHandle(
             "adw_split_button_get_child",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_split_button_get_direction = Interop.downcallHandle(
             "adw_split_button_get_direction",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_split_button_get_dropdown_tooltip = Interop.downcallHandle(
             "adw_split_button_get_dropdown_tooltip",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_split_button_get_icon_name = Interop.downcallHandle(
             "adw_split_button_get_icon_name",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_split_button_get_label = Interop.downcallHandle(
             "adw_split_button_get_label",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_split_button_get_menu_model = Interop.downcallHandle(
             "adw_split_button_get_menu_model",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_split_button_get_popover = Interop.downcallHandle(
             "adw_split_button_get_popover",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_split_button_get_use_underline = Interop.downcallHandle(
             "adw_split_button_get_use_underline",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_split_button_popdown = Interop.downcallHandle(
             "adw_split_button_popdown",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_split_button_popup = Interop.downcallHandle(
             "adw_split_button_popup",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_split_button_set_child = Interop.downcallHandle(
             "adw_split_button_set_child",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_split_button_set_direction = Interop.downcallHandle(
             "adw_split_button_set_direction",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle adw_split_button_set_dropdown_tooltip = Interop.downcallHandle(
             "adw_split_button_set_dropdown_tooltip",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_split_button_set_icon_name = Interop.downcallHandle(
             "adw_split_button_set_icon_name",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_split_button_set_label = Interop.downcallHandle(
             "adw_split_button_set_label",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_split_button_set_menu_model = Interop.downcallHandle(
             "adw_split_button_set_menu_model",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_split_button_set_popover = Interop.downcallHandle(
             "adw_split_button_set_popover",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_split_button_set_use_underline = Interop.downcallHandle(
             "adw_split_button_set_use_underline",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+            false
+        );
+        
+        private static final MethodHandle adw_split_button_get_type = Interop.downcallHandle(
+            "adw_split_button_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }
@@ -579,15 +756,15 @@ public class SplitButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
     private static class Callbacks {
         
         public static void signalSplitButtonActivate(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (SplitButton.Activate) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new SplitButton(source, Ownership.UNKNOWN));
+            HANDLER.signalReceived(new SplitButton(source, Ownership.NONE));
         }
         
         public static void signalSplitButtonClicked(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (SplitButton.Clicked) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new SplitButton(source, Ownership.UNKNOWN));
+            HANDLER.signalReceived(new SplitButton(source, Ownership.NONE));
         }
     }
 }

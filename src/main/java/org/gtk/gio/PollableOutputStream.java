@@ -27,7 +27,7 @@ public interface PollableOutputStream extends io.github.jwharm.javagi.Proxy {
      * @throws ClassCastException If the GType is not derived from "GPollableOutputStream", a ClassCastException will be thrown.
      */
     public static PollableOutputStream castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GPollableOutputStream"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), PollableOutputStream.getType())) {
             return new PollableOutputStreamImpl(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GPollableOutputStream");
@@ -130,7 +130,7 @@ public interface PollableOutputStream extends io.github.jwharm.javagi.Proxy {
      */
     default long writeNonblocking(@NotNull byte[] buffer, long count, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.g_pollable_output_stream_write_nonblocking.invokeExact(
@@ -179,13 +179,13 @@ public interface PollableOutputStream extends io.github.jwharm.javagi.Proxy {
     default @NotNull org.gtk.gio.PollableReturn writevNonblocking(@NotNull org.gtk.gio.OutputVector[] vectors, long nVectors, Out<Long> bytesWritten, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(vectors, "Parameter 'vectors' must not be null");
         java.util.Objects.requireNonNull(bytesWritten, "Parameter 'bytesWritten' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        MemorySegment bytesWrittenPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_LONG);
+        MemorySegment bytesWrittenPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_pollable_output_stream_writev_nonblocking.invokeExact(
                     handle(),
-                    Interop.allocateNativeArray(vectors, false),
+                    Interop.allocateNativeArray(vectors, org.gtk.gio.OutputVector.getMemoryLayout(), false),
                     nVectors,
                     (Addressable) bytesWrittenPOINTER.address(),
                     (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
@@ -196,8 +196,22 @@ public interface PollableOutputStream extends io.github.jwharm.javagi.Proxy {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        bytesWritten.set(bytesWrittenPOINTER.get(ValueLayout.JAVA_LONG, 0));
+        bytesWritten.set(bytesWrittenPOINTER.get(Interop.valueLayout.C_LONG, 0));
         return new org.gtk.gio.PollableReturn(RESULT);
+    }
+    
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.g_pollable_output_stream_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
     }
     
     @ApiStatus.Internal
@@ -206,35 +220,42 @@ public interface PollableOutputStream extends io.github.jwharm.javagi.Proxy {
         @ApiStatus.Internal
         static final MethodHandle g_pollable_output_stream_can_poll = Interop.downcallHandle(
             "g_pollable_output_stream_can_poll",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_pollable_output_stream_create_source = Interop.downcallHandle(
             "g_pollable_output_stream_create_source",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_pollable_output_stream_is_writable = Interop.downcallHandle(
             "g_pollable_output_stream_is_writable",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_pollable_output_stream_write_nonblocking = Interop.downcallHandle(
             "g_pollable_output_stream_write_nonblocking",
-            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_pollable_output_stream_writev_nonblocking = Interop.downcallHandle(
             "g_pollable_output_stream_writev_nonblocking",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+            false
+        );
+        
+        @ApiStatus.Internal
+        static final MethodHandle g_pollable_output_stream_get_type = Interop.downcallHandle(
+            "g_pollable_output_stream_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }

@@ -9,7 +9,7 @@ import org.jetbrains.annotations.*;
  * An opaque data structure representing String Chunks.
  * It should only be accessed by using the following functions.
  */
-public class StringChunk extends io.github.jwharm.javagi.ProxyBase {
+public class StringChunk extends Struct {
     
     static {
         GLib.javagi$ensureInitialized();
@@ -28,6 +28,10 @@ public class StringChunk extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link StringChunk}
+     * @return A new, uninitialized @{link StringChunk}
+     */
     public static StringChunk allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         StringChunk newInstance = new StringChunk(segment.address(), Ownership.NONE);
@@ -185,38 +189,66 @@ public class StringChunk extends io.github.jwharm.javagi.ProxyBase {
         
         private static final MethodHandle g_string_chunk_clear = Interop.downcallHandle(
             "g_string_chunk_clear",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_string_chunk_free = Interop.downcallHandle(
             "g_string_chunk_free",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_string_chunk_insert = Interop.downcallHandle(
             "g_string_chunk_insert",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_string_chunk_insert_const = Interop.downcallHandle(
             "g_string_chunk_insert_const",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_string_chunk_insert_len = Interop.downcallHandle(
             "g_string_chunk_insert_len",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
             false
         );
         
         private static final MethodHandle g_string_chunk_new = Interop.downcallHandle(
             "g_string_chunk_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
             false
         );
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private StringChunk struct;
+        
+         /**
+         * A {@link StringChunk.Build} object constructs a {@link StringChunk} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = StringChunk.allocate();
+        }
+        
+         /**
+         * Finish building the {@link StringChunk} struct.
+         * @return A new instance of {@code StringChunk} with the fields 
+         *         that were set in the Build object.
+         */
+        public StringChunk construct() {
+            return struct;
+        }
     }
 }

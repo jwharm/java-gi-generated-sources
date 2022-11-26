@@ -53,7 +53,7 @@ public class CellRendererToggle extends org.gtk.gtk.CellRenderer {
      * @throws ClassCastException If the GType is not derived from "GtkCellRendererToggle", a ClassCastException will be thrown.
      */
     public static CellRendererToggle castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkCellRendererToggle"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), CellRendererToggle.getType())) {
             return new CellRendererToggle(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkCellRendererToggle");
@@ -178,6 +178,20 @@ public class CellRendererToggle extends org.gtk.gtk.CellRenderer {
         }
     }
     
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.gtk_cell_renderer_toggle_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+    
     @FunctionalInterface
     public interface Toggled {
         void signalReceived(CellRendererToggle source, @NotNull java.lang.String path);
@@ -200,7 +214,7 @@ public class CellRendererToggle extends org.gtk.gtk.CellRenderer {
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(CellRendererToggle.Callbacks.class, "signalCellRendererToggleToggled",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                     Interop.getScope()),
                 Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
@@ -209,48 +223,113 @@ public class CellRendererToggle extends org.gtk.gtk.CellRenderer {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gtk.CellRenderer.Build {
+        
+         /**
+         * A {@link CellRendererToggle.Build} object constructs a {@link CellRendererToggle} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link CellRendererToggle} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link CellRendererToggle} using {@link CellRendererToggle#castFrom}.
+         * @return A new instance of {@code CellRendererToggle} with the properties 
+         *         that were set in the Build object.
+         */
+        public CellRendererToggle construct() {
+            return CellRendererToggle.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    CellRendererToggle.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+        
+        public Build setActivatable(boolean activatable) {
+            names.add("activatable");
+            values.add(org.gtk.gobject.Value.create(activatable));
+            return this;
+        }
+        
+        public Build setActive(boolean active) {
+            names.add("active");
+            values.add(org.gtk.gobject.Value.create(active));
+            return this;
+        }
+        
+        public Build setInconsistent(boolean inconsistent) {
+            names.add("inconsistent");
+            values.add(org.gtk.gobject.Value.create(inconsistent));
+            return this;
+        }
+        
+        public Build setRadio(boolean radio) {
+            names.add("radio");
+            values.add(org.gtk.gobject.Value.create(radio));
+            return this;
+        }
+    }
     
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_cell_renderer_toggle_new = Interop.downcallHandle(
             "gtk_cell_renderer_toggle_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_cell_renderer_toggle_get_activatable = Interop.downcallHandle(
             "gtk_cell_renderer_toggle_get_activatable",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_cell_renderer_toggle_get_active = Interop.downcallHandle(
             "gtk_cell_renderer_toggle_get_active",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_cell_renderer_toggle_get_radio = Interop.downcallHandle(
             "gtk_cell_renderer_toggle_get_radio",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_cell_renderer_toggle_set_activatable = Interop.downcallHandle(
             "gtk_cell_renderer_toggle_set_activatable",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_cell_renderer_toggle_set_active = Interop.downcallHandle(
             "gtk_cell_renderer_toggle_set_active",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_cell_renderer_toggle_set_radio = Interop.downcallHandle(
             "gtk_cell_renderer_toggle_set_radio",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+            false
+        );
+        
+        private static final MethodHandle gtk_cell_renderer_toggle_get_type = Interop.downcallHandle(
+            "gtk_cell_renderer_toggle_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }
@@ -258,9 +337,9 @@ public class CellRendererToggle extends org.gtk.gtk.CellRenderer {
     private static class Callbacks {
         
         public static void signalCellRendererToggleToggled(MemoryAddress source, MemoryAddress path, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (CellRendererToggle.Toggled) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new CellRendererToggle(source, Ownership.UNKNOWN), Interop.getStringFrom(path));
+            HANDLER.signalReceived(new CellRendererToggle(source, Ownership.NONE), Interop.getStringFrom(path));
         }
     }
 }

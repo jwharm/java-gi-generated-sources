@@ -215,7 +215,7 @@ public class Easing extends io.github.jwharm.javagi.Enumeration {
         
         private static final MethodHandle adw_easing_ease = Interop.downcallHandle(
             "adw_easing_ease",
-            FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_INT, ValueLayout.JAVA_DOUBLE),
+            FunctionDescriptor.of(Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_INT, Interop.valueLayout.C_DOUBLE),
             false
         );
     }

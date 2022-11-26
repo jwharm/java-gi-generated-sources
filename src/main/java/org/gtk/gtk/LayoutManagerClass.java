@@ -10,7 +10,7 @@ import org.jetbrains.annotations.*;
  * should only be accessed through the provided API, or when subclassing
  * {@code GtkLayoutManager}.
  */
-public class LayoutManagerClass extends io.github.jwharm.javagi.ProxyBase {
+public class LayoutManagerClass extends Struct {
     
     static {
         Gtk.javagi$ensureInitialized();
@@ -18,17 +18,16 @@ public class LayoutManagerClass extends io.github.jwharm.javagi.ProxyBase {
     
     private static final java.lang.String C_TYPE_NAME = "GtkLayoutManagerClass";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gobject.ObjectClass.getMemoryLayout().withName("parent_class"),
         Interop.valueLayout.ADDRESS.withName("get_request_mode"),
         Interop.valueLayout.ADDRESS.withName("measure"),
         Interop.valueLayout.ADDRESS.withName("allocate"),
-        ValueLayout.JAVA_LONG.withName("layout_child_type"),
+        Interop.valueLayout.C_LONG.withName("layout_child_type"),
         Interop.valueLayout.ADDRESS.withName("create_layout_child"),
         Interop.valueLayout.ADDRESS.withName("root"),
         Interop.valueLayout.ADDRESS.withName("unroot"),
-        MemoryLayout.paddingLayout(512),
-        MemoryLayout.sequenceLayout(16, ValueLayout.ADDRESS).withName("_padding")
+        MemoryLayout.sequenceLayout(16, Interop.valueLayout.ADDRESS).withName("_padding")
     ).withName(C_TYPE_NAME);
     
     /**
@@ -42,6 +41,10 @@ public class LayoutManagerClass extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link LayoutManagerClass}
+     * @return A new, uninitialized @{link LayoutManagerClass}
+     */
     public static LayoutManagerClass allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         LayoutManagerClass newInstance = new LayoutManagerClass(segment.address(), Ownership.NONE);
@@ -78,5 +81,101 @@ public class LayoutManagerClass extends io.github.jwharm.javagi.ProxyBase {
     @ApiStatus.Internal
     public LayoutManagerClass(Addressable address, Ownership ownership) {
         super(address, ownership);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private LayoutManagerClass struct;
+        
+         /**
+         * A {@link LayoutManagerClass.Build} object constructs a {@link LayoutManagerClass} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = LayoutManagerClass.allocate();
+        }
+        
+         /**
+         * Finish building the {@link LayoutManagerClass} struct.
+         * @return A new instance of {@code LayoutManagerClass} with the fields 
+         *         that were set in the Build object.
+         */
+        public LayoutManagerClass construct() {
+            return struct;
+        }
+        
+        public Build setParentClass(org.gtk.gobject.ObjectClass parent_class) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parent_class == null ? MemoryAddress.NULL : parent_class.handle()));
+            return this;
+        }
+        
+        public Build setGetRequestMode(java.lang.foreign.MemoryAddress get_request_mode) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("get_request_mode"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (get_request_mode == null ? MemoryAddress.NULL : get_request_mode));
+            return this;
+        }
+        
+        public Build setMeasure(java.lang.foreign.MemoryAddress measure) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("measure"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (measure == null ? MemoryAddress.NULL : measure));
+            return this;
+        }
+        
+        public Build setAllocate(java.lang.foreign.MemoryAddress allocate) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("allocate"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (allocate == null ? MemoryAddress.NULL : allocate));
+            return this;
+        }
+        
+        /**
+         * the type of {@code GtkLayoutChild} used by this layout manager
+         * @param layout_child_type The value for the {@code layout_child_type} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setLayoutChildType(org.gtk.glib.Type layout_child_type) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("layout_child_type"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (layout_child_type == null ? MemoryAddress.NULL : layout_child_type.getValue().longValue()));
+            return this;
+        }
+        
+        public Build setCreateLayoutChild(java.lang.foreign.MemoryAddress create_layout_child) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("create_layout_child"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (create_layout_child == null ? MemoryAddress.NULL : create_layout_child));
+            return this;
+        }
+        
+        public Build setRoot(java.lang.foreign.MemoryAddress root) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("root"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (root == null ? MemoryAddress.NULL : root));
+            return this;
+        }
+        
+        public Build setUnroot(java.lang.foreign.MemoryAddress unroot) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("unroot"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (unroot == null ? MemoryAddress.NULL : unroot));
+            return this;
+        }
+        
+        public Build setPadding(java.lang.foreign.MemoryAddress[] _padding) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("_padding"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (_padding == null ? MemoryAddress.NULL : Interop.allocateNativeArray(_padding, false)));
+            return this;
+        }
     }
 }

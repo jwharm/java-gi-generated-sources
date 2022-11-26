@@ -10,7 +10,7 @@ import org.jetbrains.annotations.*;
  * <a href="class.Widget.html#height-for-width-geometry-management">GtkWidget’s geometry management section</a> for
  * more information.
  */
-public class Requisition extends io.github.jwharm.javagi.ProxyBase {
+public class Requisition extends Struct {
     
     static {
         Gtk.javagi$ensureInitialized();
@@ -18,9 +18,9 @@ public class Requisition extends io.github.jwharm.javagi.ProxyBase {
     
     private static final java.lang.String C_TYPE_NAME = "GtkRequisition";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
-        ValueLayout.JAVA_INT.withName("width"),
-        ValueLayout.JAVA_INT.withName("height")
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
+        Interop.valueLayout.C_INT.withName("width"),
+        Interop.valueLayout.C_INT.withName("height")
     ).withName(C_TYPE_NAME);
     
     /**
@@ -34,6 +34,10 @@ public class Requisition extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link Requisition}
+     * @return A new, uninitialized @{link Requisition}
+     */
     public static Requisition allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         Requisition newInstance = new Requisition(segment.address(), Ownership.NONE);
@@ -143,20 +147,72 @@ public class Requisition extends io.github.jwharm.javagi.ProxyBase {
         
         private static final MethodHandle gtk_requisition_new = Interop.downcallHandle(
             "gtk_requisition_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_requisition_copy = Interop.downcallHandle(
             "gtk_requisition_copy",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_requisition_free = Interop.downcallHandle(
             "gtk_requisition_free",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private Requisition struct;
+        
+         /**
+         * A {@link Requisition.Build} object constructs a {@link Requisition} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = Requisition.allocate();
+        }
+        
+         /**
+         * Finish building the {@link Requisition} struct.
+         * @return A new instance of {@code Requisition} with the fields 
+         *         that were set in the Build object.
+         */
+        public Requisition construct() {
+            return struct;
+        }
+        
+        /**
+         * the widget’s desired width
+         * @param width The value for the {@code width} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setWidth(int width) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("width"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), width);
+            return this;
+        }
+        
+        /**
+         * the widget’s desired height
+         * @param height The value for the {@code height} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setHeight(int height) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("height"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), height);
+            return this;
+        }
     }
 }

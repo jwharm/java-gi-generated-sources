@@ -70,7 +70,7 @@ public class ClampLayout extends org.gtk.gtk.LayoutManager implements org.gtk.gt
      * @throws ClassCastException If the GType is not derived from "AdwClampLayout", a ClassCastException will be thrown.
      */
     public static ClampLayout castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("AdwClampLayout"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), ClampLayout.getType())) {
             return new ClampLayout(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of AdwClampLayout");
@@ -167,35 +167,128 @@ public class ClampLayout extends org.gtk.gtk.LayoutManager implements org.gtk.gt
         }
     }
     
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.adw_clamp_layout_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gtk.LayoutManager.Build {
+        
+         /**
+         * A {@link ClampLayout.Build} object constructs a {@link ClampLayout} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link ClampLayout} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link ClampLayout} using {@link ClampLayout#castFrom}.
+         * @return A new instance of {@code ClampLayout} with the properties 
+         *         that were set in the Build object.
+         */
+        public ClampLayout construct() {
+            return ClampLayout.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    ClampLayout.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+        
+        /**
+         * The maximum size to allocate to the children.
+         * <p>
+         * It is the width if the layout is horizontal, or the height if it is
+         * vertical.
+         * @param maximumSize The value for the {@code maximum-size} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setMaximumSize(int maximumSize) {
+            names.add("maximum-size");
+            values.add(org.gtk.gobject.Value.create(maximumSize));
+            return this;
+        }
+        
+        /**
+         * The size above which the children are clamped.
+         * <p>
+         * Starting from this size, the layout will tighten its grip on the children,
+         * slowly allocating less and less of the available size up to the maximum
+         * allocated size. Below that threshold and below the maximum size, the
+         * children will be allocated all the available size.
+         * <p>
+         * If the threshold is greater than the maximum size to allocate to the
+         * children, they will be allocated the whole size up to the maximum. If the
+         * threshold is lower than the minimum size to allocate to the children, that
+         * size will be used as the tightening threshold.
+         * <p>
+         * Effectively, tightening the grip on a child before it reaches its maximum
+         * size makes transitions to and from the maximum size smoother when resizing.
+         * @param tighteningThreshold The value for the {@code tightening-threshold} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setTighteningThreshold(int tighteningThreshold) {
+            names.add("tightening-threshold");
+            values.add(org.gtk.gobject.Value.create(tighteningThreshold));
+            return this;
+        }
+    }
+    
     private static class DowncallHandles {
         
         private static final MethodHandle adw_clamp_layout_new = Interop.downcallHandle(
             "adw_clamp_layout_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_clamp_layout_get_maximum_size = Interop.downcallHandle(
             "adw_clamp_layout_get_maximum_size",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_clamp_layout_get_tightening_threshold = Interop.downcallHandle(
             "adw_clamp_layout_get_tightening_threshold",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_clamp_layout_set_maximum_size = Interop.downcallHandle(
             "adw_clamp_layout_set_maximum_size",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle adw_clamp_layout_set_tightening_threshold = Interop.downcallHandle(
             "adw_clamp_layout_set_tightening_threshold",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+            false
+        );
+        
+        private static final MethodHandle adw_clamp_layout_get_type = Interop.downcallHandle(
+            "adw_clamp_layout_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }

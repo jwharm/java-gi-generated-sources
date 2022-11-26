@@ -5,7 +5,7 @@ import java.lang.foreign.*;
 import java.lang.invoke.*;
 import org.jetbrains.annotations.*;
 
-public class FilterClass extends io.github.jwharm.javagi.ProxyBase {
+public class FilterClass extends Struct {
     
     static {
         Gtk.javagi$ensureInitialized();
@@ -13,7 +13,7 @@ public class FilterClass extends io.github.jwharm.javagi.ProxyBase {
     
     private static final java.lang.String C_TYPE_NAME = "GtkFilterClass";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gobject.ObjectClass.getMemoryLayout().withName("parent_class"),
         Interop.valueLayout.ADDRESS.withName("match"),
         Interop.valueLayout.ADDRESS.withName("get_strictness"),
@@ -38,6 +38,10 @@ public class FilterClass extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link FilterClass}
+     * @return A new, uninitialized @{link FilterClass}
+     */
     public static FilterClass allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         FilterClass newInstance = new FilterClass(segment.address(), Ownership.NONE);
@@ -62,5 +66,110 @@ public class FilterClass extends io.github.jwharm.javagi.ProxyBase {
     @ApiStatus.Internal
     public FilterClass(Addressable address, Ownership ownership) {
         super(address, ownership);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private FilterClass struct;
+        
+         /**
+         * A {@link FilterClass.Build} object constructs a {@link FilterClass} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = FilterClass.allocate();
+        }
+        
+         /**
+         * Finish building the {@link FilterClass} struct.
+         * @return A new instance of {@code FilterClass} with the fields 
+         *         that were set in the Build object.
+         */
+        public FilterClass construct() {
+            return struct;
+        }
+        
+        public Build setParentClass(org.gtk.gobject.ObjectClass parent_class) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parent_class == null ? MemoryAddress.NULL : parent_class.handle()));
+            return this;
+        }
+        
+        public Build setMatch(java.lang.foreign.MemoryAddress match) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("match"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (match == null ? MemoryAddress.NULL : match));
+            return this;
+        }
+        
+        public Build setGetStrictness(java.lang.foreign.MemoryAddress get_strictness) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("get_strictness"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (get_strictness == null ? MemoryAddress.NULL : get_strictness));
+            return this;
+        }
+        
+        public Build setGtkReserved1(java.lang.foreign.MemoryAddress _gtk_reserved1) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("_gtk_reserved1"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (_gtk_reserved1 == null ? MemoryAddress.NULL : _gtk_reserved1));
+            return this;
+        }
+        
+        public Build setGtkReserved2(java.lang.foreign.MemoryAddress _gtk_reserved2) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("_gtk_reserved2"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (_gtk_reserved2 == null ? MemoryAddress.NULL : _gtk_reserved2));
+            return this;
+        }
+        
+        public Build setGtkReserved3(java.lang.foreign.MemoryAddress _gtk_reserved3) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("_gtk_reserved3"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (_gtk_reserved3 == null ? MemoryAddress.NULL : _gtk_reserved3));
+            return this;
+        }
+        
+        public Build setGtkReserved4(java.lang.foreign.MemoryAddress _gtk_reserved4) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("_gtk_reserved4"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (_gtk_reserved4 == null ? MemoryAddress.NULL : _gtk_reserved4));
+            return this;
+        }
+        
+        public Build setGtkReserved5(java.lang.foreign.MemoryAddress _gtk_reserved5) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("_gtk_reserved5"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (_gtk_reserved5 == null ? MemoryAddress.NULL : _gtk_reserved5));
+            return this;
+        }
+        
+        public Build setGtkReserved6(java.lang.foreign.MemoryAddress _gtk_reserved6) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("_gtk_reserved6"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (_gtk_reserved6 == null ? MemoryAddress.NULL : _gtk_reserved6));
+            return this;
+        }
+        
+        public Build setGtkReserved7(java.lang.foreign.MemoryAddress _gtk_reserved7) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("_gtk_reserved7"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (_gtk_reserved7 == null ? MemoryAddress.NULL : _gtk_reserved7));
+            return this;
+        }
+        
+        public Build setGtkReserved8(java.lang.foreign.MemoryAddress _gtk_reserved8) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("_gtk_reserved8"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (_gtk_reserved8 == null ? MemoryAddress.NULL : _gtk_reserved8));
+            return this;
+        }
     }
 }

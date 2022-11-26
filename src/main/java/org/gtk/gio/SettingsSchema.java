@@ -96,7 +96,7 @@ import org.jetbrains.annotations.*;
  * itself before attempting to create the settings source.
  * @version 2.32
  */
-public class SettingsSchema extends io.github.jwharm.javagi.ProxyBase {
+public class SettingsSchema extends Struct {
     
     static {
         Gio.javagi$ensureInitialized();
@@ -115,6 +115,10 @@ public class SettingsSchema extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link SettingsSchema}
+     * @return A new, uninitialized @{link SettingsSchema}
+     */
     public static SettingsSchema allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         SettingsSchema newInstance = new SettingsSchema(segment.address(), Ownership.NONE);
@@ -279,50 +283,78 @@ public class SettingsSchema extends io.github.jwharm.javagi.ProxyBase {
         
         private static final MethodHandle g_settings_schema_get_id = Interop.downcallHandle(
             "g_settings_schema_get_id",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_settings_schema_get_key = Interop.downcallHandle(
             "g_settings_schema_get_key",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_settings_schema_get_path = Interop.downcallHandle(
             "g_settings_schema_get_path",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_settings_schema_has_key = Interop.downcallHandle(
             "g_settings_schema_has_key",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_settings_schema_list_children = Interop.downcallHandle(
             "g_settings_schema_list_children",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_settings_schema_list_keys = Interop.downcallHandle(
             "g_settings_schema_list_keys",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_settings_schema_ref = Interop.downcallHandle(
             "g_settings_schema_ref",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_settings_schema_unref = Interop.downcallHandle(
             "g_settings_schema_unref",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private SettingsSchema struct;
+        
+         /**
+         * A {@link SettingsSchema.Build} object constructs a {@link SettingsSchema} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = SettingsSchema.allocate();
+        }
+        
+         /**
+         * Finish building the {@link SettingsSchema} struct.
+         * @return A new instance of {@code SettingsSchema} with the fields 
+         *         that were set in the Build object.
+         */
+        public SettingsSchema construct() {
+            return struct;
+        }
     }
 }

@@ -5,7 +5,7 @@ import java.lang.foreign.*;
 import java.lang.invoke.*;
 import org.jetbrains.annotations.*;
 
-public class RootInterface extends io.github.jwharm.javagi.ProxyBase {
+public class RootInterface extends Struct {
     
     static {
         Gtk.javagi$ensureInitialized();
@@ -24,6 +24,10 @@ public class RootInterface extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link RootInterface}
+     * @return A new, uninitialized @{link RootInterface}
+     */
     public static RootInterface allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         RootInterface newInstance = new RootInterface(segment.address(), Ownership.NONE);
@@ -39,5 +43,33 @@ public class RootInterface extends io.github.jwharm.javagi.ProxyBase {
     @ApiStatus.Internal
     public RootInterface(Addressable address, Ownership ownership) {
         super(address, ownership);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private RootInterface struct;
+        
+         /**
+         * A {@link RootInterface.Build} object constructs a {@link RootInterface} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = RootInterface.allocate();
+        }
+        
+         /**
+         * Finish building the {@link RootInterface} struct.
+         * @return A new instance of {@code RootInterface} with the fields 
+         *         that were set in the Build object.
+         */
+        public RootInterface construct() {
+            return struct;
+        }
     }
 }

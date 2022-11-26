@@ -67,7 +67,7 @@ public class Socket extends org.gtk.gobject.Object implements org.gtk.gio.Datagr
     
     private static final java.lang.String C_TYPE_NAME = "GSocket";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gobject.Object.getMemoryLayout().withName("parent_instance"),
         Interop.valueLayout.ADDRESS.withName("priv")
     ).withName(C_TYPE_NAME);
@@ -113,7 +113,7 @@ public class Socket extends org.gtk.gobject.Object implements org.gtk.gio.Datagr
      * @throws ClassCastException If the GType is not derived from "GSocket", a ClassCastException will be thrown.
      */
     public static Socket castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GSocket"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), Socket.getType())) {
             return new Socket(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GSocket");
@@ -124,7 +124,7 @@ public class Socket extends org.gtk.gobject.Object implements org.gtk.gio.Datagr
         java.util.Objects.requireNonNull(family, "Parameter 'family' must not be null");
         java.util.Objects.requireNonNull(type, "Parameter 'type' must not be null");
         java.util.Objects.requireNonNull(protocol, "Parameter 'protocol' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         Addressable RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_socket_new.invokeExact(
@@ -165,7 +165,7 @@ public class Socket extends org.gtk.gobject.Object implements org.gtk.gio.Datagr
     }
     
     private static Addressable constructNewFromFd(int fd) throws GErrorException {
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         Addressable RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_socket_new_from_fd.invokeExact(
@@ -220,7 +220,7 @@ public class Socket extends org.gtk.gobject.Object implements org.gtk.gio.Datagr
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public @NotNull org.gtk.gio.Socket accept(@Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_socket_accept.invokeExact(
@@ -267,7 +267,7 @@ public class Socket extends org.gtk.gobject.Object implements org.gtk.gio.Datagr
      */
     public boolean bind(@NotNull org.gtk.gio.SocketAddress address, boolean allowReuse) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(address, "Parameter 'address' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_socket_bind.invokeExact(
@@ -292,7 +292,7 @@ public class Socket extends org.gtk.gobject.Object implements org.gtk.gio.Datagr
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public boolean checkConnectResult() throws io.github.jwharm.javagi.GErrorException {
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_socket_check_connect_result.invokeExact(
@@ -341,7 +341,7 @@ public class Socket extends org.gtk.gobject.Object implements org.gtk.gio.Datagr
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public boolean close() throws io.github.jwharm.javagi.GErrorException {
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_socket_close.invokeExact(
@@ -415,7 +415,7 @@ public class Socket extends org.gtk.gobject.Object implements org.gtk.gio.Datagr
      */
     public boolean conditionTimedWait(@NotNull org.gtk.glib.IOCondition condition, long timeoutUs, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(condition, "Parameter 'condition' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_socket_condition_timed_wait.invokeExact(
@@ -451,7 +451,7 @@ public class Socket extends org.gtk.gobject.Object implements org.gtk.gio.Datagr
      */
     public boolean conditionWait(@NotNull org.gtk.glib.IOCondition condition, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(condition, "Parameter 'condition' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_socket_condition_wait.invokeExact(
@@ -492,7 +492,7 @@ public class Socket extends org.gtk.gobject.Object implements org.gtk.gio.Datagr
      */
     public boolean connect(@NotNull org.gtk.gio.SocketAddress address, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(address, "Parameter 'address' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_socket_connect.invokeExact(
@@ -651,7 +651,7 @@ public class Socket extends org.gtk.gobject.Object implements org.gtk.gio.Datagr
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public @NotNull org.gtk.gio.Credentials getCredentials() throws io.github.jwharm.javagi.GErrorException {
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_socket_get_credentials.invokeExact(
@@ -741,7 +741,7 @@ public class Socket extends org.gtk.gobject.Object implements org.gtk.gio.Datagr
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public @NotNull org.gtk.gio.SocketAddress getLocalAddress() throws io.github.jwharm.javagi.GErrorException {
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_socket_get_local_address.invokeExact(
@@ -813,8 +813,8 @@ public class Socket extends org.gtk.gobject.Object implements org.gtk.gio.Datagr
      */
     public boolean getOption(int level, int optname, Out<Integer> value) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        MemorySegment valuePOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
+        MemorySegment valuePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_socket_get_option.invokeExact(
@@ -829,7 +829,7 @@ public class Socket extends org.gtk.gobject.Object implements org.gtk.gio.Datagr
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        value.set(valuePOINTER.get(ValueLayout.JAVA_INT, 0));
+        value.set(valuePOINTER.get(Interop.valueLayout.C_INT, 0));
         return RESULT != 0;
     }
     
@@ -857,7 +857,7 @@ public class Socket extends org.gtk.gobject.Object implements org.gtk.gio.Datagr
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public @NotNull org.gtk.gio.SocketAddress getRemoteAddress() throws io.github.jwharm.javagi.GErrorException {
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_socket_get_remote_address.invokeExact(
@@ -978,7 +978,7 @@ public class Socket extends org.gtk.gobject.Object implements org.gtk.gio.Datagr
      */
     public boolean joinMulticastGroup(@NotNull org.gtk.gio.InetAddress group, boolean sourceSpecific, @Nullable java.lang.String iface) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(group, "Parameter 'group' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_socket_join_multicast_group.invokeExact(
@@ -1021,7 +1021,7 @@ public class Socket extends org.gtk.gobject.Object implements org.gtk.gio.Datagr
      */
     public boolean joinMulticastGroupSsm(@NotNull org.gtk.gio.InetAddress group, @Nullable org.gtk.gio.InetAddress sourceSpecific, @Nullable java.lang.String iface) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(group, "Parameter 'group' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_socket_join_multicast_group_ssm.invokeExact(
@@ -1057,7 +1057,7 @@ public class Socket extends org.gtk.gobject.Object implements org.gtk.gio.Datagr
      */
     public boolean leaveMulticastGroup(@NotNull org.gtk.gio.InetAddress group, boolean sourceSpecific, @Nullable java.lang.String iface) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(group, "Parameter 'group' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_socket_leave_multicast_group.invokeExact(
@@ -1091,7 +1091,7 @@ public class Socket extends org.gtk.gobject.Object implements org.gtk.gio.Datagr
      */
     public boolean leaveMulticastGroupSsm(@NotNull org.gtk.gio.InetAddress group, @Nullable org.gtk.gio.InetAddress sourceSpecific, @Nullable java.lang.String iface) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(group, "Parameter 'group' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_socket_leave_multicast_group_ssm.invokeExact(
@@ -1122,7 +1122,7 @@ public class Socket extends org.gtk.gobject.Object implements org.gtk.gio.Datagr
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public boolean listen() throws io.github.jwharm.javagi.GErrorException {
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_socket_listen.invokeExact(
@@ -1170,9 +1170,9 @@ public class Socket extends org.gtk.gobject.Object implements org.gtk.gio.Datagr
      */
     public long receive(@NotNull Out<byte[]> buffer, Out<Long> size, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        MemorySegment bufferPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        MemorySegment sizePOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_LONG);
+        MemorySegment bufferPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
+        MemorySegment sizePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.g_socket_receive.invokeExact(
@@ -1187,8 +1187,8 @@ public class Socket extends org.gtk.gobject.Object implements org.gtk.gio.Datagr
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        size.set(sizePOINTER.get(ValueLayout.JAVA_LONG, 0));
-        buffer.set(MemorySegment.ofAddress(bufferPOINTER.get(ValueLayout.ADDRESS, 0), size.get().intValue() * ValueLayout.JAVA_BYTE.byteSize(), Interop.getScope()).toArray(ValueLayout.JAVA_BYTE));
+        size.set(sizePOINTER.get(Interop.valueLayout.C_LONG, 0));
+        buffer.set(MemorySegment.ofAddress(bufferPOINTER.get(Interop.valueLayout.ADDRESS, 0), size.get().intValue() * Interop.valueLayout.C_BYTE.byteSize(), Interop.getScope()).toArray(Interop.valueLayout.C_BYTE));
         return RESULT;
     }
     
@@ -1212,9 +1212,9 @@ public class Socket extends org.gtk.gobject.Object implements org.gtk.gio.Datagr
     public long receiveFrom(@NotNull PointerProxy<org.gtk.gio.SocketAddress> address, @NotNull Out<byte[]> buffer, Out<Long> size, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(address, "Parameter 'address' must not be null");
         java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        MemorySegment bufferPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        MemorySegment sizePOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_LONG);
+        MemorySegment bufferPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
+        MemorySegment sizePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.g_socket_receive_from.invokeExact(
@@ -1230,8 +1230,8 @@ public class Socket extends org.gtk.gobject.Object implements org.gtk.gio.Datagr
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        size.set(sizePOINTER.get(ValueLayout.JAVA_LONG, 0));
-        buffer.set(MemorySegment.ofAddress(bufferPOINTER.get(ValueLayout.ADDRESS, 0), size.get().intValue() * ValueLayout.JAVA_BYTE.byteSize(), Interop.getScope()).toArray(ValueLayout.JAVA_BYTE));
+        size.set(sizePOINTER.get(Interop.valueLayout.C_LONG, 0));
+        buffer.set(MemorySegment.ofAddress(bufferPOINTER.get(Interop.valueLayout.ADDRESS, 0), size.get().intValue() * Interop.valueLayout.C_BYTE.byteSize(), Interop.getScope()).toArray(Interop.valueLayout.C_BYTE));
         return RESULT;
     }
     
@@ -1314,18 +1314,18 @@ public class Socket extends org.gtk.gobject.Object implements org.gtk.gio.Datagr
     public long receiveMessage(@NotNull PointerProxy<org.gtk.gio.SocketAddress> address, @NotNull org.gtk.gio.InputVector[] vectors, int numVectors, @Nullable Out<org.gtk.gio.SocketControlMessage[]> messages, Out<Integer> numMessages, Out<Integer> flags, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(address, "Parameter 'address' must not be null");
         java.util.Objects.requireNonNull(vectors, "Parameter 'vectors' must not be null");
+        MemorySegment messagesPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         java.util.Objects.requireNonNull(numMessages, "Parameter 'numMessages' must not be null");
+        MemorySegment numMessagesPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        MemorySegment messagesPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        MemorySegment numMessagesPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
-        MemorySegment flagsPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
+        MemorySegment flagsPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.g_socket_receive_message.invokeExact(
                     handle(),
                     address.handle(),
-                    Interop.allocateNativeArray(vectors, false),
+                    Interop.allocateNativeArray(vectors, org.gtk.gio.InputVector.getMemoryLayout(), false),
                     numVectors,
                     (Addressable) (messages == null ? MemoryAddress.NULL : (Addressable) messagesPOINTER.address()),
                     (Addressable) numMessagesPOINTER.address(),
@@ -1338,11 +1338,11 @@ public class Socket extends org.gtk.gobject.Object implements org.gtk.gio.Datagr
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        numMessages.set(numMessagesPOINTER.get(ValueLayout.JAVA_INT, 0));
-        flags.set(flagsPOINTER.get(ValueLayout.JAVA_INT, 0));
+        numMessages.set(numMessagesPOINTER.get(Interop.valueLayout.C_INT, 0));
+        flags.set(flagsPOINTER.get(Interop.valueLayout.C_INT, 0));
         org.gtk.gio.SocketControlMessage[] messagesARRAY = new org.gtk.gio.SocketControlMessage[numMessages.get().intValue()];
         for (int I = 0; I < numMessages.get().intValue(); I++) {
-            var OBJ = messagesPOINTER.get(ValueLayout.ADDRESS, I);
+            var OBJ = messagesPOINTER.get(Interop.valueLayout.ADDRESS, I);
             messagesARRAY[I] = new org.gtk.gio.SocketControlMessage(OBJ, Ownership.FULL);
         }
         messages.set(messagesARRAY);
@@ -1413,12 +1413,12 @@ public class Socket extends org.gtk.gobject.Object implements org.gtk.gio.Datagr
      */
     public int receiveMessages(@NotNull org.gtk.gio.InputMessage[] messages, int numMessages, int flags, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(messages, "Parameter 'messages' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_socket_receive_messages.invokeExact(
                     handle(),
-                    Interop.allocateNativeArray(messages, false),
+                    Interop.allocateNativeArray(messages, org.gtk.gio.InputMessage.getMemoryLayout(), false),
                     numMessages,
                     flags,
                     (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
@@ -1446,9 +1446,9 @@ public class Socket extends org.gtk.gobject.Object implements org.gtk.gio.Datagr
      */
     public long receiveWithBlocking(@NotNull Out<byte[]> buffer, Out<Long> size, boolean blocking, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        MemorySegment bufferPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        MemorySegment sizePOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_LONG);
+        MemorySegment bufferPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
+        MemorySegment sizePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.g_socket_receive_with_blocking.invokeExact(
@@ -1464,8 +1464,8 @@ public class Socket extends org.gtk.gobject.Object implements org.gtk.gio.Datagr
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        size.set(sizePOINTER.get(ValueLayout.JAVA_LONG, 0));
-        buffer.set(MemorySegment.ofAddress(bufferPOINTER.get(ValueLayout.ADDRESS, 0), size.get().intValue() * ValueLayout.JAVA_BYTE.byteSize(), Interop.getScope()).toArray(ValueLayout.JAVA_BYTE));
+        size.set(sizePOINTER.get(Interop.valueLayout.C_LONG, 0));
+        buffer.set(MemorySegment.ofAddress(bufferPOINTER.get(Interop.valueLayout.ADDRESS, 0), size.get().intValue() * Interop.valueLayout.C_BYTE.byteSize(), Interop.getScope()).toArray(Interop.valueLayout.C_BYTE));
         return RESULT;
     }
     
@@ -1494,7 +1494,7 @@ public class Socket extends org.gtk.gobject.Object implements org.gtk.gio.Datagr
      */
     public long send(@NotNull byte[] buffer, long size, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.g_socket_send.invokeExact(
@@ -1570,13 +1570,13 @@ public class Socket extends org.gtk.gobject.Object implements org.gtk.gio.Datagr
      */
     public long sendMessage(@Nullable org.gtk.gio.SocketAddress address, @NotNull org.gtk.gio.OutputVector[] vectors, int numVectors, @Nullable org.gtk.gio.SocketControlMessage[] messages, int numMessages, int flags, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(vectors, "Parameter 'vectors' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.g_socket_send_message.invokeExact(
                     handle(),
                     (Addressable) (address == null ? MemoryAddress.NULL : address.handle()),
-                    Interop.allocateNativeArray(vectors, false),
+                    Interop.allocateNativeArray(vectors, org.gtk.gio.OutputVector.getMemoryLayout(), false),
                     numVectors,
                     (Addressable) (messages == null ? MemoryAddress.NULL : Interop.allocateNativeArray(messages, false)),
                     numMessages,
@@ -1619,14 +1619,14 @@ public class Socket extends org.gtk.gobject.Object implements org.gtk.gio.Datagr
     public @NotNull org.gtk.gio.PollableReturn sendMessageWithTimeout(@Nullable org.gtk.gio.SocketAddress address, @NotNull org.gtk.gio.OutputVector[] vectors, int numVectors, @Nullable org.gtk.gio.SocketControlMessage[] messages, int numMessages, int flags, long timeoutUs, Out<Long> bytesWritten, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(vectors, "Parameter 'vectors' must not be null");
         java.util.Objects.requireNonNull(bytesWritten, "Parameter 'bytesWritten' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        MemorySegment bytesWrittenPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_LONG);
+        MemorySegment bytesWrittenPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_socket_send_message_with_timeout.invokeExact(
                     handle(),
                     (Addressable) (address == null ? MemoryAddress.NULL : address.handle()),
-                    Interop.allocateNativeArray(vectors, false),
+                    Interop.allocateNativeArray(vectors, org.gtk.gio.OutputVector.getMemoryLayout(), false),
                     numVectors,
                     (Addressable) (messages == null ? MemoryAddress.NULL : Interop.allocateNativeArray(messages, false)),
                     numMessages,
@@ -1641,7 +1641,7 @@ public class Socket extends org.gtk.gobject.Object implements org.gtk.gio.Datagr
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        bytesWritten.set(bytesWrittenPOINTER.get(ValueLayout.JAVA_LONG, 0));
+        bytesWritten.set(bytesWrittenPOINTER.get(Interop.valueLayout.C_LONG, 0));
         return new org.gtk.gio.PollableReturn(RESULT);
     }
     
@@ -1693,12 +1693,12 @@ public class Socket extends org.gtk.gobject.Object implements org.gtk.gio.Datagr
      */
     public int sendMessages(@NotNull org.gtk.gio.OutputMessage[] messages, int numMessages, int flags, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(messages, "Parameter 'messages' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_socket_send_messages.invokeExact(
                     handle(),
-                    Interop.allocateNativeArray(messages, false),
+                    Interop.allocateNativeArray(messages, org.gtk.gio.OutputMessage.getMemoryLayout(), false),
                     numMessages,
                     flags,
                     (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
@@ -1729,7 +1729,7 @@ public class Socket extends org.gtk.gobject.Object implements org.gtk.gio.Datagr
      */
     public long sendTo(@Nullable org.gtk.gio.SocketAddress address, @NotNull byte[] buffer, long size, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.g_socket_send_to.invokeExact(
@@ -1763,7 +1763,7 @@ public class Socket extends org.gtk.gobject.Object implements org.gtk.gio.Datagr
      */
     public long sendWithBlocking(@NotNull byte[] buffer, long size, boolean blocking, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.g_socket_send_with_blocking.invokeExact(
@@ -1920,7 +1920,7 @@ public class Socket extends org.gtk.gobject.Object implements org.gtk.gio.Datagr
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public boolean setOption(int level, int optname, int value) throws io.github.jwharm.javagi.GErrorException {
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_socket_set_option.invokeExact(
@@ -2007,7 +2007,7 @@ public class Socket extends org.gtk.gobject.Object implements org.gtk.gio.Datagr
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public boolean shutdown(boolean shutdownRead, boolean shutdownWrite) throws io.github.jwharm.javagi.GErrorException {
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_socket_shutdown.invokeExact(
@@ -2047,353 +2047,517 @@ public class Socket extends org.gtk.gobject.Object implements org.gtk.gio.Datagr
         return RESULT != 0;
     }
     
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.g_socket_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gobject.Object.Build {
+        
+         /**
+         * A {@link Socket.Build} object constructs a {@link Socket} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link Socket} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link Socket} using {@link Socket#castFrom}.
+         * @return A new instance of {@code Socket} with the properties 
+         *         that were set in the Build object.
+         */
+        public Socket construct() {
+            return Socket.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    Socket.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+        
+        public Build setBlocking(boolean blocking) {
+            names.add("blocking");
+            values.add(org.gtk.gobject.Value.create(blocking));
+            return this;
+        }
+        
+        /**
+         * Whether the socket should allow sending to broadcast addresses.
+         * @param broadcast The value for the {@code broadcast} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setBroadcast(boolean broadcast) {
+            names.add("broadcast");
+            values.add(org.gtk.gobject.Value.create(broadcast));
+            return this;
+        }
+        
+        public Build setFamily(org.gtk.gio.SocketFamily family) {
+            names.add("family");
+            values.add(org.gtk.gobject.Value.create(family));
+            return this;
+        }
+        
+        public Build setFd(int fd) {
+            names.add("fd");
+            values.add(org.gtk.gobject.Value.create(fd));
+            return this;
+        }
+        
+        public Build setKeepalive(boolean keepalive) {
+            names.add("keepalive");
+            values.add(org.gtk.gobject.Value.create(keepalive));
+            return this;
+        }
+        
+        public Build setListenBacklog(int listenBacklog) {
+            names.add("listen-backlog");
+            values.add(org.gtk.gobject.Value.create(listenBacklog));
+            return this;
+        }
+        
+        public Build setLocalAddress(org.gtk.gio.SocketAddress localAddress) {
+            names.add("local-address");
+            values.add(org.gtk.gobject.Value.create(localAddress));
+            return this;
+        }
+        
+        /**
+         * Whether outgoing multicast packets loop back to the local host.
+         * @param multicastLoopback The value for the {@code multicast-loopback} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setMulticastLoopback(boolean multicastLoopback) {
+            names.add("multicast-loopback");
+            values.add(org.gtk.gobject.Value.create(multicastLoopback));
+            return this;
+        }
+        
+        /**
+         * Time-to-live out outgoing multicast packets
+         * @param multicastTtl The value for the {@code multicast-ttl} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setMulticastTtl(int multicastTtl) {
+            names.add("multicast-ttl");
+            values.add(org.gtk.gobject.Value.create(multicastTtl));
+            return this;
+        }
+        
+        public Build setProtocol(org.gtk.gio.SocketProtocol protocol) {
+            names.add("protocol");
+            values.add(org.gtk.gobject.Value.create(protocol));
+            return this;
+        }
+        
+        public Build setRemoteAddress(org.gtk.gio.SocketAddress remoteAddress) {
+            names.add("remote-address");
+            values.add(org.gtk.gobject.Value.create(remoteAddress));
+            return this;
+        }
+        
+        /**
+         * The timeout in seconds on socket I/O
+         * @param timeout The value for the {@code timeout} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setTimeout(int timeout) {
+            names.add("timeout");
+            values.add(org.gtk.gobject.Value.create(timeout));
+            return this;
+        }
+        
+        /**
+         * Time-to-live for outgoing unicast packets
+         * @param ttl The value for the {@code ttl} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setTtl(int ttl) {
+            names.add("ttl");
+            values.add(org.gtk.gobject.Value.create(ttl));
+            return this;
+        }
+        
+        public Build setType(org.gtk.gio.SocketType type) {
+            names.add("type");
+            values.add(org.gtk.gobject.Value.create(type));
+            return this;
+        }
+    }
+    
     private static class DowncallHandles {
         
         private static final MethodHandle g_socket_new = Interop.downcallHandle(
             "g_socket_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_socket_new_from_fd = Interop.downcallHandle(
             "g_socket_new_from_fd",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_socket_accept = Interop.downcallHandle(
             "g_socket_accept",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_socket_bind = Interop.downcallHandle(
             "g_socket_bind",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_socket_check_connect_result = Interop.downcallHandle(
             "g_socket_check_connect_result",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_socket_close = Interop.downcallHandle(
             "g_socket_close",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_socket_condition_check = Interop.downcallHandle(
             "g_socket_condition_check",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_socket_condition_timed_wait = Interop.downcallHandle(
             "g_socket_condition_timed_wait",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_socket_condition_wait = Interop.downcallHandle(
             "g_socket_condition_wait",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_socket_connect = Interop.downcallHandle(
             "g_socket_connect",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_socket_connection_factory_create_connection = Interop.downcallHandle(
             "g_socket_connection_factory_create_connection",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_socket_create_source = Interop.downcallHandle(
             "g_socket_create_source",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_socket_get_available_bytes = Interop.downcallHandle(
             "g_socket_get_available_bytes",
-            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_socket_get_blocking = Interop.downcallHandle(
             "g_socket_get_blocking",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_socket_get_broadcast = Interop.downcallHandle(
             "g_socket_get_broadcast",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_socket_get_credentials = Interop.downcallHandle(
             "g_socket_get_credentials",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_socket_get_family = Interop.downcallHandle(
             "g_socket_get_family",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_socket_get_fd = Interop.downcallHandle(
             "g_socket_get_fd",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_socket_get_keepalive = Interop.downcallHandle(
             "g_socket_get_keepalive",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_socket_get_listen_backlog = Interop.downcallHandle(
             "g_socket_get_listen_backlog",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_socket_get_local_address = Interop.downcallHandle(
             "g_socket_get_local_address",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_socket_get_multicast_loopback = Interop.downcallHandle(
             "g_socket_get_multicast_loopback",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_socket_get_multicast_ttl = Interop.downcallHandle(
             "g_socket_get_multicast_ttl",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_socket_get_option = Interop.downcallHandle(
             "g_socket_get_option",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_socket_get_protocol = Interop.downcallHandle(
             "g_socket_get_protocol",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_socket_get_remote_address = Interop.downcallHandle(
             "g_socket_get_remote_address",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_socket_get_socket_type = Interop.downcallHandle(
             "g_socket_get_socket_type",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_socket_get_timeout = Interop.downcallHandle(
             "g_socket_get_timeout",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_socket_get_ttl = Interop.downcallHandle(
             "g_socket_get_ttl",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_socket_is_closed = Interop.downcallHandle(
             "g_socket_is_closed",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_socket_is_connected = Interop.downcallHandle(
             "g_socket_is_connected",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_socket_join_multicast_group = Interop.downcallHandle(
             "g_socket_join_multicast_group",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_socket_join_multicast_group_ssm = Interop.downcallHandle(
             "g_socket_join_multicast_group_ssm",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_socket_leave_multicast_group = Interop.downcallHandle(
             "g_socket_leave_multicast_group",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_socket_leave_multicast_group_ssm = Interop.downcallHandle(
             "g_socket_leave_multicast_group_ssm",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_socket_listen = Interop.downcallHandle(
             "g_socket_listen",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_socket_receive = Interop.downcallHandle(
             "g_socket_receive",
-            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_socket_receive_from = Interop.downcallHandle(
             "g_socket_receive_from",
-            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_socket_receive_message = Interop.downcallHandle(
             "g_socket_receive_message",
-            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_socket_receive_messages = Interop.downcallHandle(
             "g_socket_receive_messages",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_socket_receive_with_blocking = Interop.downcallHandle(
             "g_socket_receive_with_blocking",
-            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_socket_send = Interop.downcallHandle(
             "g_socket_send",
-            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_socket_send_message = Interop.downcallHandle(
             "g_socket_send_message",
-            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_socket_send_message_with_timeout = Interop.downcallHandle(
             "g_socket_send_message_with_timeout",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_socket_send_messages = Interop.downcallHandle(
             "g_socket_send_messages",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_socket_send_to = Interop.downcallHandle(
             "g_socket_send_to",
-            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_socket_send_with_blocking = Interop.downcallHandle(
             "g_socket_send_with_blocking",
-            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_socket_set_blocking = Interop.downcallHandle(
             "g_socket_set_blocking",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_socket_set_broadcast = Interop.downcallHandle(
             "g_socket_set_broadcast",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_socket_set_keepalive = Interop.downcallHandle(
             "g_socket_set_keepalive",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_socket_set_listen_backlog = Interop.downcallHandle(
             "g_socket_set_listen_backlog",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_socket_set_multicast_loopback = Interop.downcallHandle(
             "g_socket_set_multicast_loopback",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_socket_set_multicast_ttl = Interop.downcallHandle(
             "g_socket_set_multicast_ttl",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_socket_set_option = Interop.downcallHandle(
             "g_socket_set_option",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_socket_set_timeout = Interop.downcallHandle(
             "g_socket_set_timeout",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_socket_set_ttl = Interop.downcallHandle(
             "g_socket_set_ttl",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_socket_shutdown = Interop.downcallHandle(
             "g_socket_shutdown",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_socket_speaks_ipv4 = Interop.downcallHandle(
             "g_socket_speaks_ipv4",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+            false
+        );
+        
+        private static final MethodHandle g_socket_get_type = Interop.downcallHandle(
+            "g_socket_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }

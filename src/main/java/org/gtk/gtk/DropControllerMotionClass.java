@@ -5,7 +5,7 @@ import java.lang.foreign.*;
 import java.lang.invoke.*;
 import org.jetbrains.annotations.*;
 
-public class DropControllerMotionClass extends io.github.jwharm.javagi.ProxyBase {
+public class DropControllerMotionClass extends Struct {
     
     static {
         Gtk.javagi$ensureInitialized();
@@ -24,6 +24,10 @@ public class DropControllerMotionClass extends io.github.jwharm.javagi.ProxyBase
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link DropControllerMotionClass}
+     * @return A new, uninitialized @{link DropControllerMotionClass}
+     */
     public static DropControllerMotionClass allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         DropControllerMotionClass newInstance = new DropControllerMotionClass(segment.address(), Ownership.NONE);
@@ -39,5 +43,33 @@ public class DropControllerMotionClass extends io.github.jwharm.javagi.ProxyBase
     @ApiStatus.Internal
     public DropControllerMotionClass(Addressable address, Ownership ownership) {
         super(address, ownership);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private DropControllerMotionClass struct;
+        
+         /**
+         * A {@link DropControllerMotionClass.Build} object constructs a {@link DropControllerMotionClass} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = DropControllerMotionClass.allocate();
+        }
+        
+         /**
+         * Finish building the {@link DropControllerMotionClass} struct.
+         * @return A new instance of {@code DropControllerMotionClass} with the fields 
+         *         that were set in the Build object.
+         */
+        public DropControllerMotionClass construct() {
+            return struct;
+        }
     }
 }

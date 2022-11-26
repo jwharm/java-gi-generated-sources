@@ -8,7 +8,7 @@ import org.jetbrains.annotations.*;
 /**
  * A {@link ValueArray} contains an array of {@link Value} elements.
  */
-public class ValueArray extends io.github.jwharm.javagi.ProxyBase {
+public class ValueArray extends Struct {
     
     static {
         GObject.javagi$ensureInitialized();
@@ -16,11 +16,11 @@ public class ValueArray extends io.github.jwharm.javagi.ProxyBase {
     
     private static final java.lang.String C_TYPE_NAME = "GValueArray";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
-        ValueLayout.JAVA_INT.withName("n_values"),
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
+        Interop.valueLayout.C_INT.withName("n_values"),
         MemoryLayout.paddingLayout(32),
         Interop.valueLayout.ADDRESS.withName("values"),
-        ValueLayout.JAVA_INT.withName("n_prealloced")
+        Interop.valueLayout.C_INT.withName("n_prealloced")
     ).withName(C_TYPE_NAME);
     
     /**
@@ -34,6 +34,10 @@ public class ValueArray extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link ValueArray}
+     * @return A new, uninitialized @{link ValueArray}
+     */
     public static ValueArray allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         ValueArray newInstance = new ValueArray(segment.address(), Ownership.NONE);
@@ -261,7 +265,7 @@ public class ValueArray extends io.github.jwharm.javagi.ProxyBase {
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GObject.Callbacks.class, "cbCompareDataFunc",
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                         Interop.getScope()),
                     (Addressable) (Interop.registerCallback(compareFunc)));
         } catch (Throwable ERR) {
@@ -274,62 +278,121 @@ public class ValueArray extends io.github.jwharm.javagi.ProxyBase {
         
         private static final MethodHandle g_value_array_new = Interop.downcallHandle(
             "g_value_array_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_value_array_append = Interop.downcallHandle(
             "g_value_array_append",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_value_array_copy = Interop.downcallHandle(
             "g_value_array_copy",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_value_array_free = Interop.downcallHandle(
             "g_value_array_free",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_value_array_get_nth = Interop.downcallHandle(
             "g_value_array_get_nth",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_value_array_insert = Interop.downcallHandle(
             "g_value_array_insert",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_value_array_prepend = Interop.downcallHandle(
             "g_value_array_prepend",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_value_array_remove = Interop.downcallHandle(
             "g_value_array_remove",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_value_array_sort = Interop.downcallHandle(
             "g_value_array_sort",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_value_array_sort_with_data = Interop.downcallHandle(
             "g_value_array_sort_with_data",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private ValueArray struct;
+        
+         /**
+         * A {@link ValueArray.Build} object constructs a {@link ValueArray} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = ValueArray.allocate();
+        }
+        
+         /**
+         * Finish building the {@link ValueArray} struct.
+         * @return A new instance of {@code ValueArray} with the fields 
+         *         that were set in the Build object.
+         */
+        public ValueArray construct() {
+            return struct;
+        }
+        
+        /**
+         * number of values contained in the array
+         * @param n_values The value for the {@code n_values} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setNValues(int n_values) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("n_values"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), n_values);
+            return this;
+        }
+        
+        /**
+         * array of values
+         * @param values The value for the {@code values} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setValues(org.gtk.gobject.Value values) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("values"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (values == null ? MemoryAddress.NULL : values.handle()));
+            return this;
+        }
+        
+        public Build setNPrealloced(int n_prealloced) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("n_prealloced"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), n_prealloced);
+            return this;
+        }
     }
 }

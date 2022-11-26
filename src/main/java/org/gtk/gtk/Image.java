@@ -83,7 +83,7 @@ public class Image extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      * @throws ClassCastException If the GType is not derived from "GtkImage", a ClassCastException will be thrown.
      */
     public static Image castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkImage"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), Image.getType())) {
             return new Image(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkImage");
@@ -534,137 +534,304 @@ public class Image extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
         }
     }
     
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.gtk_image_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gtk.Widget.Build {
+        
+         /**
+         * A {@link Image.Build} object constructs a {@link Image} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link Image} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link Image} using {@link Image#castFrom}.
+         * @return A new instance of {@code Image} with the properties 
+         *         that were set in the Build object.
+         */
+        public Image construct() {
+            return Image.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    Image.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+        
+        /**
+         * The `GFile to display.
+         * @param file The value for the {@code file} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setFile(java.lang.String file) {
+            names.add("file");
+            values.add(org.gtk.gobject.Value.create(file));
+            return this;
+        }
+        
+        /**
+         * The {@code GIcon} displayed in the GtkImage.
+         * <p>
+         * For themed icons, If the icon theme is changed, the image will be updated
+         * automatically.
+         * @param gicon The value for the {@code gicon} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setGicon(org.gtk.gio.Icon gicon) {
+            names.add("gicon");
+            values.add(org.gtk.gobject.Value.create(gicon));
+            return this;
+        }
+        
+        /**
+         * The name of the icon in the icon theme.
+         * <p>
+         * If the icon theme is changed, the image will be updated automatically.
+         * @param iconName The value for the {@code icon-name} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setIconName(java.lang.String iconName) {
+            names.add("icon-name");
+            values.add(org.gtk.gobject.Value.create(iconName));
+            return this;
+        }
+        
+        /**
+         * The symbolic size to display icons at.
+         * @param iconSize The value for the {@code icon-size} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setIconSize(org.gtk.gtk.IconSize iconSize) {
+            names.add("icon-size");
+            values.add(org.gtk.gobject.Value.create(iconSize));
+            return this;
+        }
+        
+        /**
+         * The {@code GdkPaintable} to display.
+         * @param paintable The value for the {@code paintable} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setPaintable(org.gtk.gdk.Paintable paintable) {
+            names.add("paintable");
+            values.add(org.gtk.gobject.Value.create(paintable));
+            return this;
+        }
+        
+        /**
+         * The size in pixels to display icons at.
+         * <p>
+         * If set to a value != -1, this property overrides the
+         * {@code Gtk.Image:icon-size} property for images of type
+         * {@code GTK_IMAGE_ICON_NAME}.
+         * @param pixelSize The value for the {@code pixel-size} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setPixelSize(int pixelSize) {
+            names.add("pixel-size");
+            values.add(org.gtk.gobject.Value.create(pixelSize));
+            return this;
+        }
+        
+        /**
+         * A path to a resource file to display.
+         * @param resource The value for the {@code resource} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setResource(java.lang.String resource) {
+            names.add("resource");
+            values.add(org.gtk.gobject.Value.create(resource));
+            return this;
+        }
+        
+        /**
+         * The representation being used for image data.
+         * @param storageType The value for the {@code storage-type} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setStorageType(org.gtk.gtk.ImageType storageType) {
+            names.add("storage-type");
+            values.add(org.gtk.gobject.Value.create(storageType));
+            return this;
+        }
+        
+        /**
+         * Whether the icon displayed in the {@code GtkImage} will use
+         * standard icon names fallback.
+         * <p>
+         * The value of this property is only relevant for images of type
+         * {@link ImageType#ICON_NAME} and {@link ImageType#GICON}.
+         * @param useFallback The value for the {@code use-fallback} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setUseFallback(boolean useFallback) {
+            names.add("use-fallback");
+            values.add(org.gtk.gobject.Value.create(useFallback));
+            return this;
+        }
+    }
+    
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_image_new = Interop.downcallHandle(
             "gtk_image_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_image_new_from_file = Interop.downcallHandle(
             "gtk_image_new_from_file",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_image_new_from_gicon = Interop.downcallHandle(
             "gtk_image_new_from_gicon",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_image_new_from_icon_name = Interop.downcallHandle(
             "gtk_image_new_from_icon_name",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_image_new_from_paintable = Interop.downcallHandle(
             "gtk_image_new_from_paintable",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_image_new_from_pixbuf = Interop.downcallHandle(
             "gtk_image_new_from_pixbuf",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_image_new_from_resource = Interop.downcallHandle(
             "gtk_image_new_from_resource",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_image_clear = Interop.downcallHandle(
             "gtk_image_clear",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_image_get_gicon = Interop.downcallHandle(
             "gtk_image_get_gicon",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_image_get_icon_name = Interop.downcallHandle(
             "gtk_image_get_icon_name",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_image_get_icon_size = Interop.downcallHandle(
             "gtk_image_get_icon_size",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_image_get_paintable = Interop.downcallHandle(
             "gtk_image_get_paintable",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_image_get_pixel_size = Interop.downcallHandle(
             "gtk_image_get_pixel_size",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_image_get_storage_type = Interop.downcallHandle(
             "gtk_image_get_storage_type",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_image_set_from_file = Interop.downcallHandle(
             "gtk_image_set_from_file",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_image_set_from_gicon = Interop.downcallHandle(
             "gtk_image_set_from_gicon",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_image_set_from_icon_name = Interop.downcallHandle(
             "gtk_image_set_from_icon_name",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_image_set_from_paintable = Interop.downcallHandle(
             "gtk_image_set_from_paintable",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_image_set_from_pixbuf = Interop.downcallHandle(
             "gtk_image_set_from_pixbuf",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_image_set_from_resource = Interop.downcallHandle(
             "gtk_image_set_from_resource",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_image_set_icon_size = Interop.downcallHandle(
             "gtk_image_set_icon_size",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_image_set_pixel_size = Interop.downcallHandle(
             "gtk_image_set_pixel_size",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+            false
+        );
+        
+        private static final MethodHandle gtk_image_get_type = Interop.downcallHandle(
+            "gtk_image_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }

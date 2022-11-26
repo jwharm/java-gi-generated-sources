@@ -73,7 +73,7 @@ public class ViewSwitcher extends org.gtk.gtk.Widget implements org.gtk.gtk.Acce
      * @throws ClassCastException If the GType is not derived from "AdwViewSwitcher", a ClassCastException will be thrown.
      */
     public static ViewSwitcher castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("AdwViewSwitcher"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), ViewSwitcher.getType())) {
             return new ViewSwitcher(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of AdwViewSwitcher");
@@ -156,35 +156,112 @@ public class ViewSwitcher extends org.gtk.gtk.Widget implements org.gtk.gtk.Acce
         }
     }
     
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.adw_view_switcher_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gtk.Widget.Build {
+        
+         /**
+         * A {@link ViewSwitcher.Build} object constructs a {@link ViewSwitcher} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link ViewSwitcher} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link ViewSwitcher} using {@link ViewSwitcher#castFrom}.
+         * @return A new instance of {@code ViewSwitcher} with the properties 
+         *         that were set in the Build object.
+         */
+        public ViewSwitcher construct() {
+            return ViewSwitcher.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    ViewSwitcher.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+        
+        /**
+         * The policy to determine which mode to use.
+         * @param policy The value for the {@code policy} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setPolicy(org.gnome.adw.ViewSwitcherPolicy policy) {
+            names.add("policy");
+            values.add(org.gtk.gobject.Value.create(policy));
+            return this;
+        }
+        
+        /**
+         * The stack the view switcher controls.
+         * @param stack The value for the {@code stack} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setStack(org.gnome.adw.ViewStack stack) {
+            names.add("stack");
+            values.add(org.gtk.gobject.Value.create(stack));
+            return this;
+        }
+    }
+    
     private static class DowncallHandles {
         
         private static final MethodHandle adw_view_switcher_new = Interop.downcallHandle(
             "adw_view_switcher_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_view_switcher_get_policy = Interop.downcallHandle(
             "adw_view_switcher_get_policy",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_view_switcher_get_stack = Interop.downcallHandle(
             "adw_view_switcher_get_stack",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_view_switcher_set_policy = Interop.downcallHandle(
             "adw_view_switcher_set_policy",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle adw_view_switcher_set_stack = Interop.downcallHandle(
             "adw_view_switcher_set_stack",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+            false
+        );
+        
+        private static final MethodHandle adw_view_switcher_get_type = Interop.downcallHandle(
+            "adw_view_switcher_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }

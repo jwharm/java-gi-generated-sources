@@ -71,7 +71,7 @@ public class Switch extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
      * @throws ClassCastException If the GType is not derived from "GtkSwitch", a ClassCastException will be thrown.
      */
     public static Switch castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkSwitch"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), Switch.getType())) {
             return new Switch(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkSwitch");
@@ -159,6 +159,20 @@ public class Switch extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
         }
     }
     
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.gtk_switch_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+    
     @FunctionalInterface
     public interface Activate {
         void signalReceived(Switch source);
@@ -180,7 +194,7 @@ public class Switch extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(Switch.Callbacks.class, "signalSwitchActivate",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                     Interop.getScope()),
                 Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
@@ -222,7 +236,7 @@ public class Switch extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(Switch.Callbacks.class, "signalSwitchStateSet",
                         MethodType.methodType(boolean.class, MemoryAddress.class, int.class, MemoryAddress.class)),
-                    FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+                    FunctionDescriptor.of(Interop.valueLayout.C_BOOLEAN, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
                     Interop.getScope()),
                 Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
@@ -231,36 +245,101 @@ public class Switch extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gtk.Widget.Build {
+        
+         /**
+         * A {@link Switch.Build} object constructs a {@link Switch} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link Switch} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link Switch} using {@link Switch#castFrom}.
+         * @return A new instance of {@code Switch} with the properties 
+         *         that were set in the Build object.
+         */
+        public Switch construct() {
+            return Switch.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    Switch.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+        
+        /**
+         * Whether the {@code GtkSwitch} widget is in its on or off state.
+         * @param active The value for the {@code active} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setActive(boolean active) {
+            names.add("active");
+            values.add(org.gtk.gobject.Value.create(active));
+            return this;
+        }
+        
+        /**
+         * The backend state that is controlled by the switch.
+         * <p>
+         * See {@code GtkSwitch::state-set} for details.
+         * @param state The value for the {@code state} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setState(boolean state) {
+            names.add("state");
+            values.add(org.gtk.gobject.Value.create(state));
+            return this;
+        }
+    }
     
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_switch_new = Interop.downcallHandle(
             "gtk_switch_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_switch_get_active = Interop.downcallHandle(
             "gtk_switch_get_active",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_switch_get_state = Interop.downcallHandle(
             "gtk_switch_get_state",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_switch_set_active = Interop.downcallHandle(
             "gtk_switch_set_active",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_switch_set_state = Interop.downcallHandle(
             "gtk_switch_set_state",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+            false
+        );
+        
+        private static final MethodHandle gtk_switch_get_type = Interop.downcallHandle(
+            "gtk_switch_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }
@@ -268,15 +347,15 @@ public class Switch extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
     private static class Callbacks {
         
         public static void signalSwitchActivate(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (Switch.Activate) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Switch(source, Ownership.UNKNOWN));
+            HANDLER.signalReceived(new Switch(source, Ownership.NONE));
         }
         
         public static boolean signalSwitchStateSet(MemoryAddress source, int state, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (Switch.StateSet) Interop.signalRegistry.get(HASH);
-            return HANDLER.signalReceived(new Switch(source, Ownership.UNKNOWN), state != 0);
+            return HANDLER.signalReceived(new Switch(source, Ownership.NONE), state != 0);
         }
     }
 }

@@ -175,7 +175,7 @@ public class ApplicationCommandLine extends org.gtk.gobject.Object {
     
     private static final java.lang.String C_TYPE_NAME = "GApplicationCommandLine";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gobject.Object.getMemoryLayout().withName("parent_instance"),
         Interop.valueLayout.ADDRESS.withName("priv")
     ).withName(C_TYPE_NAME);
@@ -212,7 +212,7 @@ public class ApplicationCommandLine extends org.gtk.gobject.Object {
      * @throws ClassCastException If the GType is not derived from "GApplicationCommandLine", a ClassCastException will be thrown.
      */
     public static ApplicationCommandLine castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GApplicationCommandLine"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), ApplicationCommandLine.getType())) {
             return new ApplicationCommandLine(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GApplicationCommandLine");
@@ -259,7 +259,7 @@ public class ApplicationCommandLine extends org.gtk.gobject.Object {
      */
     public @NotNull java.lang.String[] getArguments(Out<Integer> argc) {
         java.util.Objects.requireNonNull(argc, "Parameter 'argc' must not be null");
-        MemorySegment argcPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
+        MemorySegment argcPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_application_command_line_get_arguments.invokeExact(
@@ -268,10 +268,10 @@ public class ApplicationCommandLine extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        argc.set(argcPOINTER.get(ValueLayout.JAVA_INT, 0));
+        argc.set(argcPOINTER.get(Interop.valueLayout.C_INT, 0));
         java.lang.String[] resultARRAY = new java.lang.String[argc.get().intValue()];
         for (int I = 0; I < argc.get().intValue(); I++) {
-            var OBJ = RESULT.get(ValueLayout.ADDRESS, I);
+            var OBJ = RESULT.get(Interop.valueLayout.ADDRESS, I);
             resultARRAY[I] = Interop.getStringFrom(OBJ);
         }
         return resultARRAY;
@@ -534,83 +534,162 @@ public class ApplicationCommandLine extends org.gtk.gobject.Object {
         }
     }
     
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.g_application_command_line_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gobject.Object.Build {
+        
+         /**
+         * A {@link ApplicationCommandLine.Build} object constructs a {@link ApplicationCommandLine} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link ApplicationCommandLine} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link ApplicationCommandLine} using {@link ApplicationCommandLine#castFrom}.
+         * @return A new instance of {@code ApplicationCommandLine} with the properties 
+         *         that were set in the Build object.
+         */
+        public ApplicationCommandLine construct() {
+            return ApplicationCommandLine.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    ApplicationCommandLine.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+        
+        public Build setArguments(org.gtk.glib.Variant arguments) {
+            names.add("arguments");
+            values.add(org.gtk.gobject.Value.create(arguments));
+            return this;
+        }
+        
+        public Build setIsRemote(boolean isRemote) {
+            names.add("is-remote");
+            values.add(org.gtk.gobject.Value.create(isRemote));
+            return this;
+        }
+        
+        public Build setOptions(org.gtk.glib.Variant options) {
+            names.add("options");
+            values.add(org.gtk.gobject.Value.create(options));
+            return this;
+        }
+        
+        public Build setPlatformData(org.gtk.glib.Variant platformData) {
+            names.add("platform-data");
+            values.add(org.gtk.gobject.Value.create(platformData));
+            return this;
+        }
+    }
+    
     private static class DowncallHandles {
         
         private static final MethodHandle g_application_command_line_create_file_for_arg = Interop.downcallHandle(
             "g_application_command_line_create_file_for_arg",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_application_command_line_get_arguments = Interop.downcallHandle(
             "g_application_command_line_get_arguments",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_application_command_line_get_cwd = Interop.downcallHandle(
             "g_application_command_line_get_cwd",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_application_command_line_get_environ = Interop.downcallHandle(
             "g_application_command_line_get_environ",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_application_command_line_get_exit_status = Interop.downcallHandle(
             "g_application_command_line_get_exit_status",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_application_command_line_get_is_remote = Interop.downcallHandle(
             "g_application_command_line_get_is_remote",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_application_command_line_get_options_dict = Interop.downcallHandle(
             "g_application_command_line_get_options_dict",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_application_command_line_get_platform_data = Interop.downcallHandle(
             "g_application_command_line_get_platform_data",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_application_command_line_get_stdin = Interop.downcallHandle(
             "g_application_command_line_get_stdin",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_application_command_line_getenv = Interop.downcallHandle(
             "g_application_command_line_getenv",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_application_command_line_print = Interop.downcallHandle(
             "g_application_command_line_print",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             true
         );
         
         private static final MethodHandle g_application_command_line_printerr = Interop.downcallHandle(
             "g_application_command_line_printerr",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             true
         );
         
         private static final MethodHandle g_application_command_line_set_exit_status = Interop.downcallHandle(
             "g_application_command_line_set_exit_status",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+            false
+        );
+        
+        private static final MethodHandle g_application_command_line_get_type = Interop.downcallHandle(
+            "g_application_command_line_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }

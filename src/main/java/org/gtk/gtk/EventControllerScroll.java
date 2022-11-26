@@ -81,7 +81,7 @@ public class EventControllerScroll extends org.gtk.gtk.EventController {
      * @throws ClassCastException If the GType is not derived from "GtkEventControllerScroll", a ClassCastException will be thrown.
      */
     public static EventControllerScroll castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkEventControllerScroll"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), EventControllerScroll.getType())) {
             return new EventControllerScroll(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkEventControllerScroll");
@@ -124,6 +124,25 @@ public class EventControllerScroll extends org.gtk.gtk.EventController {
     }
     
     /**
+     * Gets the scroll unit of the last
+     * {@code Gtk.EventControllerScroll::scroll} signal received.
+     * <p>
+     * Always returns {@link org.gtk.gdk.ScrollUnit#WHEEL} if the
+     * {@link EventControllerScrollFlags#DISCRETE} flag is set.
+     * @return the scroll unit.
+     */
+    public @NotNull org.gtk.gdk.ScrollUnit getUnit() {
+        int RESULT;
+        try {
+            RESULT = (int) DowncallHandles.gtk_event_controller_scroll_get_unit.invokeExact(
+                    handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.gdk.ScrollUnit(RESULT);
+    }
+    
+    /**
      * Sets the flags conditioning scroll controller behavior.
      * @param flags flags affecting the controller behavior
      */
@@ -136,6 +155,20 @@ public class EventControllerScroll extends org.gtk.gtk.EventController {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+    }
+    
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.gtk_event_controller_scroll_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
     }
     
     @FunctionalInterface
@@ -161,7 +194,7 @@ public class EventControllerScroll extends org.gtk.gtk.EventController {
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(EventControllerScroll.Callbacks.class, "signalEventControllerScrollDecelerate",
                         MethodType.methodType(void.class, MemoryAddress.class, double.class, double.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS),
+                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.ADDRESS),
                     Interop.getScope()),
                 Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
@@ -179,6 +212,9 @@ public class EventControllerScroll extends org.gtk.gtk.EventController {
     /**
      * Signals that the widget should scroll by the
      * amount specified by {@code dx} and {@code dy}.
+     * <p>
+     * For the representation unit of the deltas, see
+     * {@link EventControllerScroll#getUnit}.
      * @param handler The signal handler
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
@@ -190,7 +226,7 @@ public class EventControllerScroll extends org.gtk.gtk.EventController {
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(EventControllerScroll.Callbacks.class, "signalEventControllerScrollScroll",
                         MethodType.methodType(boolean.class, MemoryAddress.class, double.class, double.class, MemoryAddress.class)),
-                    FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS),
+                    FunctionDescriptor.of(Interop.valueLayout.C_BOOLEAN, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.ADDRESS),
                     Interop.getScope()),
                 Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
@@ -220,7 +256,7 @@ public class EventControllerScroll extends org.gtk.gtk.EventController {
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(EventControllerScroll.Callbacks.class, "signalEventControllerScrollScrollBegin",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                     Interop.getScope()),
                 Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
@@ -250,7 +286,7 @@ public class EventControllerScroll extends org.gtk.gtk.EventController {
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(EventControllerScroll.Callbacks.class, "signalEventControllerScrollScrollEnd",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                     Interop.getScope()),
                 Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
@@ -259,24 +295,82 @@ public class EventControllerScroll extends org.gtk.gtk.EventController {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gtk.EventController.Build {
+        
+         /**
+         * A {@link EventControllerScroll.Build} object constructs a {@link EventControllerScroll} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link EventControllerScroll} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link EventControllerScroll} using {@link EventControllerScroll#castFrom}.
+         * @return A new instance of {@code EventControllerScroll} with the properties 
+         *         that were set in the Build object.
+         */
+        public EventControllerScroll construct() {
+            return EventControllerScroll.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    EventControllerScroll.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+        
+        /**
+         * The flags affecting event controller behavior.
+         * @param flags The value for the {@code flags} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setFlags(org.gtk.gtk.EventControllerScrollFlags flags) {
+            names.add("flags");
+            values.add(org.gtk.gobject.Value.create(flags));
+            return this;
+        }
+    }
     
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_event_controller_scroll_new = Interop.downcallHandle(
             "gtk_event_controller_scroll_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_event_controller_scroll_get_flags = Interop.downcallHandle(
             "gtk_event_controller_scroll_get_flags",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+            false
+        );
+        
+        private static final MethodHandle gtk_event_controller_scroll_get_unit = Interop.downcallHandle(
+            "gtk_event_controller_scroll_get_unit",
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_event_controller_scroll_set_flags = Interop.downcallHandle(
             "gtk_event_controller_scroll_set_flags",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+            false
+        );
+        
+        private static final MethodHandle gtk_event_controller_scroll_get_type = Interop.downcallHandle(
+            "gtk_event_controller_scroll_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }
@@ -284,27 +378,27 @@ public class EventControllerScroll extends org.gtk.gtk.EventController {
     private static class Callbacks {
         
         public static void signalEventControllerScrollDecelerate(MemoryAddress source, double velX, double velY, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (EventControllerScroll.Decelerate) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new EventControllerScroll(source, Ownership.UNKNOWN), velX, velY);
+            HANDLER.signalReceived(new EventControllerScroll(source, Ownership.NONE), velX, velY);
         }
         
         public static boolean signalEventControllerScrollScroll(MemoryAddress source, double dx, double dy, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (EventControllerScroll.Scroll) Interop.signalRegistry.get(HASH);
-            return HANDLER.signalReceived(new EventControllerScroll(source, Ownership.UNKNOWN), dx, dy);
+            return HANDLER.signalReceived(new EventControllerScroll(source, Ownership.NONE), dx, dy);
         }
         
         public static void signalEventControllerScrollScrollBegin(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (EventControllerScroll.ScrollBegin) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new EventControllerScroll(source, Ownership.UNKNOWN));
+            HANDLER.signalReceived(new EventControllerScroll(source, Ownership.NONE));
         }
         
         public static void signalEventControllerScrollScrollEnd(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (EventControllerScroll.ScrollEnd) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new EventControllerScroll(source, Ownership.UNKNOWN));
+            HANDLER.signalReceived(new EventControllerScroll(source, Ownership.NONE));
         }
     }
 }

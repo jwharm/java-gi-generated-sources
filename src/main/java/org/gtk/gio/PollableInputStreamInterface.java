@@ -18,7 +18,7 @@ import org.jetbrains.annotations.*;
  * readable.
  * @version 2.28
  */
-public class PollableInputStreamInterface extends io.github.jwharm.javagi.ProxyBase {
+public class PollableInputStreamInterface extends Struct {
     
     static {
         Gio.javagi$ensureInitialized();
@@ -26,7 +26,7 @@ public class PollableInputStreamInterface extends io.github.jwharm.javagi.ProxyB
     
     private static final java.lang.String C_TYPE_NAME = "GPollableInputStreamInterface";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gobject.TypeInterface.getMemoryLayout().withName("g_iface"),
         Interop.valueLayout.ADDRESS.withName("can_poll"),
         Interop.valueLayout.ADDRESS.withName("is_readable"),
@@ -45,6 +45,10 @@ public class PollableInputStreamInterface extends io.github.jwharm.javagi.ProxyB
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link PollableInputStreamInterface}
+     * @return A new, uninitialized @{link PollableInputStreamInterface}
+     */
     public static PollableInputStreamInterface allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         PollableInputStreamInterface newInstance = new PollableInputStreamInterface(segment.address(), Ownership.NONE);
@@ -69,5 +73,73 @@ public class PollableInputStreamInterface extends io.github.jwharm.javagi.ProxyB
     @ApiStatus.Internal
     public PollableInputStreamInterface(Addressable address, Ownership ownership) {
         super(address, ownership);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private PollableInputStreamInterface struct;
+        
+         /**
+         * A {@link PollableInputStreamInterface.Build} object constructs a {@link PollableInputStreamInterface} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = PollableInputStreamInterface.allocate();
+        }
+        
+         /**
+         * Finish building the {@link PollableInputStreamInterface} struct.
+         * @return A new instance of {@code PollableInputStreamInterface} with the fields 
+         *         that were set in the Build object.
+         */
+        public PollableInputStreamInterface construct() {
+            return struct;
+        }
+        
+        /**
+         * The parent interface.
+         * @param g_iface The value for the {@code g_iface} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setGIface(org.gtk.gobject.TypeInterface g_iface) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("g_iface"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (g_iface == null ? MemoryAddress.NULL : g_iface.handle()));
+            return this;
+        }
+        
+        public Build setCanPoll(java.lang.foreign.MemoryAddress can_poll) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("can_poll"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (can_poll == null ? MemoryAddress.NULL : can_poll));
+            return this;
+        }
+        
+        public Build setIsReadable(java.lang.foreign.MemoryAddress is_readable) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("is_readable"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (is_readable == null ? MemoryAddress.NULL : is_readable));
+            return this;
+        }
+        
+        public Build setCreateSource(java.lang.foreign.MemoryAddress create_source) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("create_source"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (create_source == null ? MemoryAddress.NULL : create_source));
+            return this;
+        }
+        
+        public Build setReadNonblocking(java.lang.foreign.MemoryAddress read_nonblocking) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("read_nonblocking"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (read_nonblocking == null ? MemoryAddress.NULL : read_nonblocking));
+            return this;
+        }
     }
 }

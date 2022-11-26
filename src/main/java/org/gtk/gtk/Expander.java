@@ -132,7 +132,7 @@ public class Expander extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * @throws ClassCastException If the GType is not derived from "GtkExpander", a ClassCastException will be thrown.
      */
     public static Expander castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkExpander"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), Expander.getType())) {
             return new Expander(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkExpander");
@@ -409,6 +409,20 @@ public class Expander extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
         }
     }
     
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.gtk_expander_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+    
     @FunctionalInterface
     public interface Activate {
         void signalReceived(Expander source);
@@ -427,7 +441,7 @@ public class Expander extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(Expander.Callbacks.class, "signalExpanderActivate",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                     Interop.getScope()),
                 Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
@@ -436,102 +450,221 @@ public class Expander extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gtk.Widget.Build {
+        
+         /**
+         * A {@link Expander.Build} object constructs a {@link Expander} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link Expander} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link Expander} using {@link Expander#castFrom}.
+         * @return A new instance of {@code Expander} with the properties 
+         *         that were set in the Build object.
+         */
+        public Expander construct() {
+            return Expander.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    Expander.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+        
+        /**
+         * The child widget.
+         * @param child The value for the {@code child} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setChild(org.gtk.gtk.Widget child) {
+            names.add("child");
+            values.add(org.gtk.gobject.Value.create(child));
+            return this;
+        }
+        
+        /**
+         * Whether the expander has been opened to reveal the child.
+         * @param expanded The value for the {@code expanded} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setExpanded(boolean expanded) {
+            names.add("expanded");
+            values.add(org.gtk.gobject.Value.create(expanded));
+            return this;
+        }
+        
+        /**
+         * The text of the expanders label.
+         * @param label The value for the {@code label} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setLabel(java.lang.String label) {
+            names.add("label");
+            values.add(org.gtk.gobject.Value.create(label));
+            return this;
+        }
+        
+        /**
+         * A widget to display instead of the usual expander label.
+         * @param labelWidget The value for the {@code label-widget} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setLabelWidget(org.gtk.gtk.Widget labelWidget) {
+            names.add("label-widget");
+            values.add(org.gtk.gobject.Value.create(labelWidget));
+            return this;
+        }
+        
+        /**
+         * When this property is {@code true}, the expander will resize the toplevel
+         * widget containing the expander upon expanding and collapsing.
+         * @param resizeToplevel The value for the {@code resize-toplevel} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setResizeToplevel(boolean resizeToplevel) {
+            names.add("resize-toplevel");
+            values.add(org.gtk.gobject.Value.create(resizeToplevel));
+            return this;
+        }
+        
+        /**
+         * Whether the text in the label is Pango markup.
+         * @param useMarkup The value for the {@code use-markup} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setUseMarkup(boolean useMarkup) {
+            names.add("use-markup");
+            values.add(org.gtk.gobject.Value.create(useMarkup));
+            return this;
+        }
+        
+        /**
+         * Whether an underline in the text indicates a mnemonic.
+         * @param useUnderline The value for the {@code use-underline} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setUseUnderline(boolean useUnderline) {
+            names.add("use-underline");
+            values.add(org.gtk.gobject.Value.create(useUnderline));
+            return this;
+        }
+    }
     
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_expander_new = Interop.downcallHandle(
             "gtk_expander_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_expander_new_with_mnemonic = Interop.downcallHandle(
             "gtk_expander_new_with_mnemonic",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_expander_get_child = Interop.downcallHandle(
             "gtk_expander_get_child",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_expander_get_expanded = Interop.downcallHandle(
             "gtk_expander_get_expanded",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_expander_get_label = Interop.downcallHandle(
             "gtk_expander_get_label",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_expander_get_label_widget = Interop.downcallHandle(
             "gtk_expander_get_label_widget",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_expander_get_resize_toplevel = Interop.downcallHandle(
             "gtk_expander_get_resize_toplevel",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_expander_get_use_markup = Interop.downcallHandle(
             "gtk_expander_get_use_markup",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_expander_get_use_underline = Interop.downcallHandle(
             "gtk_expander_get_use_underline",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_expander_set_child = Interop.downcallHandle(
             "gtk_expander_set_child",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_expander_set_expanded = Interop.downcallHandle(
             "gtk_expander_set_expanded",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_expander_set_label = Interop.downcallHandle(
             "gtk_expander_set_label",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_expander_set_label_widget = Interop.downcallHandle(
             "gtk_expander_set_label_widget",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_expander_set_resize_toplevel = Interop.downcallHandle(
             "gtk_expander_set_resize_toplevel",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_expander_set_use_markup = Interop.downcallHandle(
             "gtk_expander_set_use_markup",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_expander_set_use_underline = Interop.downcallHandle(
             "gtk_expander_set_use_underline",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+            false
+        );
+        
+        private static final MethodHandle gtk_expander_get_type = Interop.downcallHandle(
+            "gtk_expander_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }
@@ -539,9 +672,9 @@ public class Expander extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     private static class Callbacks {
         
         public static void signalExpanderActivate(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (Expander.Activate) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Expander(source, Ownership.UNKNOWN));
+            HANDLER.signalReceived(new Expander(source, Ownership.NONE));
         }
     }
 }

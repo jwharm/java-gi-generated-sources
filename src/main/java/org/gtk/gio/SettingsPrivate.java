@@ -5,7 +5,7 @@ import java.lang.foreign.*;
 import java.lang.invoke.*;
 import org.jetbrains.annotations.*;
 
-public class SettingsPrivate extends io.github.jwharm.javagi.ProxyBase {
+public class SettingsPrivate extends Struct {
     
     static {
         Gio.javagi$ensureInitialized();
@@ -24,6 +24,10 @@ public class SettingsPrivate extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link SettingsPrivate}
+     * @return A new, uninitialized @{link SettingsPrivate}
+     */
     public static SettingsPrivate allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         SettingsPrivate newInstance = new SettingsPrivate(segment.address(), Ownership.NONE);
@@ -39,5 +43,33 @@ public class SettingsPrivate extends io.github.jwharm.javagi.ProxyBase {
     @ApiStatus.Internal
     public SettingsPrivate(Addressable address, Ownership ownership) {
         super(address, ownership);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private SettingsPrivate struct;
+        
+         /**
+         * A {@link SettingsPrivate.Build} object constructs a {@link SettingsPrivate} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = SettingsPrivate.allocate();
+        }
+        
+         /**
+         * Finish building the {@link SettingsPrivate} struct.
+         * @return A new instance of {@code SettingsPrivate} with the fields 
+         *         that were set in the Build object.
+         */
+        public SettingsPrivate construct() {
+            return struct;
+        }
     }
 }

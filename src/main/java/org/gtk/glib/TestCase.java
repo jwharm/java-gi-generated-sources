@@ -8,7 +8,7 @@ import org.jetbrains.annotations.*;
 /**
  * An opaque structure representing a test case.
  */
-public class TestCase extends io.github.jwharm.javagi.ProxyBase {
+public class TestCase extends Struct {
     
     static {
         GLib.javagi$ensureInitialized();
@@ -27,6 +27,10 @@ public class TestCase extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link TestCase}
+     * @return A new, uninitialized @{link TestCase}
+     */
     public static TestCase allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         TestCase newInstance = new TestCase(segment.address(), Ownership.NONE);
@@ -60,8 +64,36 @@ public class TestCase extends io.github.jwharm.javagi.ProxyBase {
         
         private static final MethodHandle g_test_case_free = Interop.downcallHandle(
             "g_test_case_free",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private TestCase struct;
+        
+         /**
+         * A {@link TestCase.Build} object constructs a {@link TestCase} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = TestCase.allocate();
+        }
+        
+         /**
+         * Finish building the {@link TestCase} struct.
+         * @return A new instance of {@code TestCase} with the fields 
+         *         that were set in the Build object.
+         */
+        public TestCase construct() {
+            return struct;
+        }
     }
 }

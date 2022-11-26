@@ -72,7 +72,7 @@ public class ComboBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     
     private static final java.lang.String C_TYPE_NAME = "GtkComboBox";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gtk.Widget.getMemoryLayout().withName("parent_instance")
     ).withName(C_TYPE_NAME);
     
@@ -117,7 +117,7 @@ public class ComboBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * @throws ClassCastException If the GType is not derived from "GtkComboBox", a ClassCastException will be thrown.
      */
     public static ComboBox castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkComboBox"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), ComboBox.getType())) {
             return new ComboBox(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkComboBox");
@@ -632,13 +632,27 @@ public class ComboBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
                     (Addressable) (func == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gtk.Callbacks.class, "cbTreeViewRowSeparatorFunc",
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                         Interop.getScope())),
                     (Addressable) (func == null ? MemoryAddress.NULL : Interop.registerCallback(func)),
                     Interop.cbDestroyNotifySymbol());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+    }
+    
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.gtk_combo_box_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
     }
     
     @FunctionalInterface
@@ -662,7 +676,7 @@ public class ComboBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(ComboBox.Callbacks.class, "signalComboBoxActivate",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                     Interop.getScope()),
                 Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
@@ -694,7 +708,7 @@ public class ComboBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(ComboBox.Callbacks.class, "signalComboBoxChanged",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                     Interop.getScope()),
                 Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
@@ -752,7 +766,7 @@ public class ComboBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(ComboBox.Callbacks.class, "signalComboBoxFormatEntryText",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                     Interop.getScope()),
                 Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
@@ -782,7 +796,7 @@ public class ComboBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(ComboBox.Callbacks.class, "signalComboBoxMoveActive",
                         MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
                     Interop.getScope()),
                 Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
@@ -814,7 +828,7 @@ public class ComboBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(ComboBox.Callbacks.class, "signalComboBoxPopdown",
                         MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                    FunctionDescriptor.of(Interop.valueLayout.C_BOOLEAN, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                     Interop.getScope()),
                 Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
@@ -846,7 +860,7 @@ public class ComboBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(ComboBox.Callbacks.class, "signalComboBoxPopup",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                     Interop.getScope()),
                 Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
@@ -855,174 +869,350 @@ public class ComboBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gtk.Widget.Build {
+        
+         /**
+         * A {@link ComboBox.Build} object constructs a {@link ComboBox} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link ComboBox} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link ComboBox} using {@link ComboBox#castFrom}.
+         * @return A new instance of {@code ComboBox} with the properties 
+         *         that were set in the Build object.
+         */
+        public ComboBox construct() {
+            return ComboBox.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    ComboBox.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+        
+        /**
+         * The item which is currently active.
+         * <p>
+         * If the model is a non-flat treemodel, and the active item is not an
+         * immediate child of the root of the tree, this property has the value
+         * {@code gtk_tree_path_get_indices (path)[0]}, where {@code path} is the
+         * {@code Gtk.TreePath} of the active item.
+         * @param active The value for the {@code active} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setActive(int active) {
+            names.add("active");
+            values.add(org.gtk.gobject.Value.create(active));
+            return this;
+        }
+        
+        /**
+         * The value of the ID column of the active row.
+         * @param activeId The value for the {@code active-id} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setActiveId(java.lang.String activeId) {
+            names.add("active-id");
+            values.add(org.gtk.gobject.Value.create(activeId));
+            return this;
+        }
+        
+        /**
+         * Whether the dropdown button is sensitive when
+         * the model is empty.
+         * @param buttonSensitivity The value for the {@code button-sensitivity} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setButtonSensitivity(org.gtk.gtk.SensitivityType buttonSensitivity) {
+            names.add("button-sensitivity");
+            values.add(org.gtk.gobject.Value.create(buttonSensitivity));
+            return this;
+        }
+        
+        /**
+         * The child widget.
+         * @param child The value for the {@code child} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setChild(org.gtk.gtk.Widget child) {
+            names.add("child");
+            values.add(org.gtk.gobject.Value.create(child));
+            return this;
+        }
+        
+        /**
+         * The model column to associate with strings from the entry.
+         * <p>
+         * This is property only relevant if the combo was created with
+         * {@code Gtk.ComboBox:has-entry} is {@code true}.
+         * @param entryTextColumn The value for the {@code entry-text-column} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setEntryTextColumn(int entryTextColumn) {
+            names.add("entry-text-column");
+            values.add(org.gtk.gobject.Value.create(entryTextColumn));
+            return this;
+        }
+        
+        /**
+         * Whether the combo box has an entry.
+         * @param hasEntry The value for the {@code has-entry} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setHasEntry(boolean hasEntry) {
+            names.add("has-entry");
+            values.add(org.gtk.gobject.Value.create(hasEntry));
+            return this;
+        }
+        
+        /**
+         * The {@code has-frame} property controls whether a frame is drawn around the entry.
+         * @param hasFrame The value for the {@code has-frame} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setHasFrame(boolean hasFrame) {
+            names.add("has-frame");
+            values.add(org.gtk.gobject.Value.create(hasFrame));
+            return this;
+        }
+        
+        /**
+         * The model column that provides string IDs for the values
+         * in the model, if != -1.
+         * @param idColumn The value for the {@code id-column} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setIdColumn(int idColumn) {
+            names.add("id-column");
+            values.add(org.gtk.gobject.Value.create(idColumn));
+            return this;
+        }
+        
+        /**
+         * The model from which the combo box takes its values.
+         * @param model The value for the {@code model} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setModel(org.gtk.gtk.TreeModel model) {
+            names.add("model");
+            values.add(org.gtk.gobject.Value.create(model));
+            return this;
+        }
+        
+        /**
+         * Whether the popup's width should be a fixed width matching the
+         * allocated width of the combo box.
+         * @param popupFixedWidth The value for the {@code popup-fixed-width} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setPopupFixedWidth(boolean popupFixedWidth) {
+            names.add("popup-fixed-width");
+            values.add(org.gtk.gobject.Value.create(popupFixedWidth));
+            return this;
+        }
+        
+        /**
+         * Whether the combo boxes dropdown is popped up.
+         * <p>
+         * Note that this property is mainly useful, because
+         * it allows you to connect to notify::popup-shown.
+         * @param popupShown The value for the {@code popup-shown} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setPopupShown(boolean popupShown) {
+            names.add("popup-shown");
+            values.add(org.gtk.gobject.Value.create(popupShown));
+            return this;
+        }
+    }
     
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_combo_box_new = Interop.downcallHandle(
             "gtk_combo_box_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_combo_box_new_with_entry = Interop.downcallHandle(
             "gtk_combo_box_new_with_entry",
-            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_combo_box_new_with_model = Interop.downcallHandle(
             "gtk_combo_box_new_with_model",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_combo_box_new_with_model_and_entry = Interop.downcallHandle(
             "gtk_combo_box_new_with_model_and_entry",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_combo_box_get_active = Interop.downcallHandle(
             "gtk_combo_box_get_active",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_combo_box_get_active_id = Interop.downcallHandle(
             "gtk_combo_box_get_active_id",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_combo_box_get_active_iter = Interop.downcallHandle(
             "gtk_combo_box_get_active_iter",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_combo_box_get_button_sensitivity = Interop.downcallHandle(
             "gtk_combo_box_get_button_sensitivity",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_combo_box_get_child = Interop.downcallHandle(
             "gtk_combo_box_get_child",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_combo_box_get_entry_text_column = Interop.downcallHandle(
             "gtk_combo_box_get_entry_text_column",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_combo_box_get_has_entry = Interop.downcallHandle(
             "gtk_combo_box_get_has_entry",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_combo_box_get_id_column = Interop.downcallHandle(
             "gtk_combo_box_get_id_column",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_combo_box_get_model = Interop.downcallHandle(
             "gtk_combo_box_get_model",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_combo_box_get_popup_fixed_width = Interop.downcallHandle(
             "gtk_combo_box_get_popup_fixed_width",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_combo_box_get_row_separator_func = Interop.downcallHandle(
             "gtk_combo_box_get_row_separator_func",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_combo_box_popdown = Interop.downcallHandle(
             "gtk_combo_box_popdown",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_combo_box_popup = Interop.downcallHandle(
             "gtk_combo_box_popup",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_combo_box_popup_for_device = Interop.downcallHandle(
             "gtk_combo_box_popup_for_device",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_combo_box_set_active = Interop.downcallHandle(
             "gtk_combo_box_set_active",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_combo_box_set_active_id = Interop.downcallHandle(
             "gtk_combo_box_set_active_id",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_combo_box_set_active_iter = Interop.downcallHandle(
             "gtk_combo_box_set_active_iter",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_combo_box_set_button_sensitivity = Interop.downcallHandle(
             "gtk_combo_box_set_button_sensitivity",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_combo_box_set_child = Interop.downcallHandle(
             "gtk_combo_box_set_child",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_combo_box_set_entry_text_column = Interop.downcallHandle(
             "gtk_combo_box_set_entry_text_column",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_combo_box_set_id_column = Interop.downcallHandle(
             "gtk_combo_box_set_id_column",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_combo_box_set_model = Interop.downcallHandle(
             "gtk_combo_box_set_model",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_combo_box_set_popup_fixed_width = Interop.downcallHandle(
             "gtk_combo_box_set_popup_fixed_width",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_combo_box_set_row_separator_func = Interop.downcallHandle(
             "gtk_combo_box_set_row_separator_func",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+            false
+        );
+        
+        private static final MethodHandle gtk_combo_box_get_type = Interop.downcallHandle(
+            "gtk_combo_box_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }
@@ -1030,39 +1220,39 @@ public class ComboBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     private static class Callbacks {
         
         public static void signalComboBoxActivate(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (ComboBox.Activate) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new ComboBox(source, Ownership.UNKNOWN));
+            HANDLER.signalReceived(new ComboBox(source, Ownership.NONE));
         }
         
         public static void signalComboBoxChanged(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (ComboBox.Changed) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new ComboBox(source, Ownership.UNKNOWN));
+            HANDLER.signalReceived(new ComboBox(source, Ownership.NONE));
         }
         
         public static void signalComboBoxFormatEntryText(MemoryAddress source, MemoryAddress path, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (ComboBox.FormatEntryText) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new ComboBox(source, Ownership.UNKNOWN), Interop.getStringFrom(path));
+            HANDLER.signalReceived(new ComboBox(source, Ownership.NONE), Interop.getStringFrom(path));
         }
         
         public static void signalComboBoxMoveActive(MemoryAddress source, int scrollType, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (ComboBox.MoveActive) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new ComboBox(source, Ownership.UNKNOWN), new org.gtk.gtk.ScrollType(scrollType));
+            HANDLER.signalReceived(new ComboBox(source, Ownership.NONE), new org.gtk.gtk.ScrollType(scrollType));
         }
         
         public static boolean signalComboBoxPopdown(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (ComboBox.Popdown) Interop.signalRegistry.get(HASH);
-            return HANDLER.signalReceived(new ComboBox(source, Ownership.UNKNOWN));
+            return HANDLER.signalReceived(new ComboBox(source, Ownership.NONE));
         }
         
         public static void signalComboBoxPopup(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (ComboBox.Popup) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new ComboBox(source, Ownership.UNKNOWN));
+            HANDLER.signalReceived(new ComboBox(source, Ownership.NONE));
         }
     }
 }

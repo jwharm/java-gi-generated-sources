@@ -8,7 +8,7 @@ import org.jetbrains.annotations.*;
 /**
  * {@code GtkRecentManagerClass} contains only private data.
  */
-public class RecentManagerClass extends io.github.jwharm.javagi.ProxyBase {
+public class RecentManagerClass extends Struct {
     
     static {
         Gtk.javagi$ensureInitialized();
@@ -16,7 +16,7 @@ public class RecentManagerClass extends io.github.jwharm.javagi.ProxyBase {
     
     private static final java.lang.String C_TYPE_NAME = "GtkRecentManagerClass";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gobject.ObjectClass.getMemoryLayout().withName("parent_class"),
         Interop.valueLayout.ADDRESS.withName("changed"),
         Interop.valueLayout.ADDRESS.withName("_gtk_recent1"),
@@ -36,6 +36,10 @@ public class RecentManagerClass extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link RecentManagerClass}
+     * @return A new, uninitialized @{link RecentManagerClass}
+     */
     public static RecentManagerClass allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         RecentManagerClass newInstance = new RecentManagerClass(segment.address(), Ownership.NONE);
@@ -51,5 +55,75 @@ public class RecentManagerClass extends io.github.jwharm.javagi.ProxyBase {
     @ApiStatus.Internal
     public RecentManagerClass(Addressable address, Ownership ownership) {
         super(address, ownership);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private RecentManagerClass struct;
+        
+         /**
+         * A {@link RecentManagerClass.Build} object constructs a {@link RecentManagerClass} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = RecentManagerClass.allocate();
+        }
+        
+         /**
+         * Finish building the {@link RecentManagerClass} struct.
+         * @return A new instance of {@code RecentManagerClass} with the fields 
+         *         that were set in the Build object.
+         */
+        public RecentManagerClass construct() {
+            return struct;
+        }
+        
+        public Build setParentClass(org.gtk.gobject.ObjectClass parent_class) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parent_class == null ? MemoryAddress.NULL : parent_class.handle()));
+            return this;
+        }
+        
+        public Build setChanged(java.lang.foreign.MemoryAddress changed) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("changed"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (changed == null ? MemoryAddress.NULL : changed));
+            return this;
+        }
+        
+        public Build setGtkRecent1(java.lang.foreign.MemoryAddress _gtk_recent1) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("_gtk_recent1"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (_gtk_recent1 == null ? MemoryAddress.NULL : _gtk_recent1));
+            return this;
+        }
+        
+        public Build setGtkRecent2(java.lang.foreign.MemoryAddress _gtk_recent2) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("_gtk_recent2"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (_gtk_recent2 == null ? MemoryAddress.NULL : _gtk_recent2));
+            return this;
+        }
+        
+        public Build setGtkRecent3(java.lang.foreign.MemoryAddress _gtk_recent3) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("_gtk_recent3"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (_gtk_recent3 == null ? MemoryAddress.NULL : _gtk_recent3));
+            return this;
+        }
+        
+        public Build setGtkRecent4(java.lang.foreign.MemoryAddress _gtk_recent4) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("_gtk_recent4"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (_gtk_recent4 == null ? MemoryAddress.NULL : _gtk_recent4));
+            return this;
+        }
     }
 }

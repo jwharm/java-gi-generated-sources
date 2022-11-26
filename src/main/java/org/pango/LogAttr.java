@@ -9,7 +9,7 @@ import org.jetbrains.annotations.*;
  * The {@code PangoLogAttr} structure stores information about the attributes of a
  * single character.
  */
-public class LogAttr extends io.github.jwharm.javagi.ProxyBase {
+public class LogAttr extends Struct {
     
     static {
         Pango.javagi$ensureInitialized();
@@ -17,23 +17,23 @@ public class LogAttr extends io.github.jwharm.javagi.ProxyBase {
     
     private static final java.lang.String C_TYPE_NAME = "PangoLogAttr";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
-        ValueLayout.JAVA_INT.withName("is_line_break"),
-        ValueLayout.JAVA_INT.withName("is_mandatory_break"),
-        ValueLayout.JAVA_INT.withName("is_char_break"),
-        ValueLayout.JAVA_INT.withName("is_white"),
-        ValueLayout.JAVA_INT.withName("is_cursor_position"),
-        ValueLayout.JAVA_INT.withName("is_word_start"),
-        ValueLayout.JAVA_INT.withName("is_word_end"),
-        ValueLayout.JAVA_INT.withName("is_sentence_boundary"),
-        ValueLayout.JAVA_INT.withName("is_sentence_start"),
-        ValueLayout.JAVA_INT.withName("is_sentence_end"),
-        ValueLayout.JAVA_INT.withName("backspace_deletes_character"),
-        ValueLayout.JAVA_INT.withName("is_expandable_space"),
-        ValueLayout.JAVA_INT.withName("is_word_boundary"),
-        ValueLayout.JAVA_INT.withName("break_inserts_hyphen"),
-        ValueLayout.JAVA_INT.withName("break_removes_preceding"),
-        ValueLayout.JAVA_INT.withName("reserved")
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
+        Interop.valueLayout.C_INT.withName("is_line_break"),
+        Interop.valueLayout.C_INT.withName("is_mandatory_break"),
+        Interop.valueLayout.C_INT.withName("is_char_break"),
+        Interop.valueLayout.C_INT.withName("is_white"),
+        Interop.valueLayout.C_INT.withName("is_cursor_position"),
+        Interop.valueLayout.C_INT.withName("is_word_start"),
+        Interop.valueLayout.C_INT.withName("is_word_end"),
+        Interop.valueLayout.C_INT.withName("is_sentence_boundary"),
+        Interop.valueLayout.C_INT.withName("is_sentence_start"),
+        Interop.valueLayout.C_INT.withName("is_sentence_end"),
+        Interop.valueLayout.C_INT.withName("backspace_deletes_character"),
+        Interop.valueLayout.C_INT.withName("is_expandable_space"),
+        Interop.valueLayout.C_INT.withName("is_word_boundary"),
+        Interop.valueLayout.C_INT.withName("break_inserts_hyphen"),
+        Interop.valueLayout.C_INT.withName("break_removes_preceding"),
+        Interop.valueLayout.C_INT.withName("reserved")
     ).withName(C_TYPE_NAME);
     
     /**
@@ -47,6 +47,10 @@ public class LogAttr extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link LogAttr}
+     * @return A new, uninitialized @{link LogAttr}
+     */
     public static LogAttr allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         LogAttr newInstance = new LogAttr(segment.address(), Ownership.NONE);
@@ -398,5 +402,249 @@ public class LogAttr extends io.github.jwharm.javagi.ProxyBase {
     @ApiStatus.Internal
     public LogAttr(Addressable address, Ownership ownership) {
         super(address, ownership);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private LogAttr struct;
+        
+         /**
+         * A {@link LogAttr.Build} object constructs a {@link LogAttr} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = LogAttr.allocate();
+        }
+        
+         /**
+         * Finish building the {@link LogAttr} struct.
+         * @return A new instance of {@code LogAttr} with the fields 
+         *         that were set in the Build object.
+         */
+        public LogAttr construct() {
+            return struct;
+        }
+        
+        /**
+         * if set, can break line in front of character
+         * @param is_line_break The value for the {@code is_line_break} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setIsLineBreak(int is_line_break) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("is_line_break"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), is_line_break);
+            return this;
+        }
+        
+        /**
+         * if set, must break line in front of character
+         * @param is_mandatory_break The value for the {@code is_mandatory_break} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setIsMandatoryBreak(int is_mandatory_break) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("is_mandatory_break"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), is_mandatory_break);
+            return this;
+        }
+        
+        /**
+         * if set, can break here when doing character wrapping
+         * @param is_char_break The value for the {@code is_char_break} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setIsCharBreak(int is_char_break) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("is_char_break"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), is_char_break);
+            return this;
+        }
+        
+        /**
+         * is whitespace character
+         * @param is_white The value for the {@code is_white} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setIsWhite(int is_white) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("is_white"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), is_white);
+            return this;
+        }
+        
+        /**
+         * if set, cursor can appear in front of character.
+         *   i.e. this is a grapheme boundary, or the first character in the text.
+         *   This flag implements Unicode's
+         *   <a href="http://www.unicode.org/reports/tr29/">Grapheme Cluster Boundaries</a>
+         *   semantics.
+         * @param is_cursor_position The value for the {@code is_cursor_position} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setIsCursorPosition(int is_cursor_position) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("is_cursor_position"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), is_cursor_position);
+            return this;
+        }
+        
+        /**
+         * is first character in a word
+         * @param is_word_start The value for the {@code is_word_start} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setIsWordStart(int is_word_start) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("is_word_start"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), is_word_start);
+            return this;
+        }
+        
+        /**
+         * is first non-word char after a word
+         *   Note that in degenerate cases, you could have both {@code is_word_start}
+         *   and {@code is_word_end} set for some character.
+         * @param is_word_end The value for the {@code is_word_end} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setIsWordEnd(int is_word_end) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("is_word_end"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), is_word_end);
+            return this;
+        }
+        
+        /**
+         * is a sentence boundary.
+         *   There are two ways to divide sentences. The first assigns all
+         *   inter-sentence whitespace/control/format chars to some sentence,
+         *   so all chars are in some sentence; {@code is_sentence_boundary} denotes
+         *   the boundaries there. The second way doesn't assign
+         *   between-sentence spaces, etc. to any sentence, so
+         *   {@code is_sentence_start}/{@code is_sentence_end} mark the boundaries of those sentences.
+         * @param is_sentence_boundary The value for the {@code is_sentence_boundary} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setIsSentenceBoundary(int is_sentence_boundary) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("is_sentence_boundary"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), is_sentence_boundary);
+            return this;
+        }
+        
+        /**
+         * is first character in a sentence
+         * @param is_sentence_start The value for the {@code is_sentence_start} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setIsSentenceStart(int is_sentence_start) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("is_sentence_start"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), is_sentence_start);
+            return this;
+        }
+        
+        /**
+         * is first char after a sentence.
+         *   Note that in degenerate cases, you could have both {@code is_sentence_start}
+         *   and {@code is_sentence_end} set for some character. (e.g. no space after a
+         *   period, so the next sentence starts right away)
+         * @param is_sentence_end The value for the {@code is_sentence_end} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setIsSentenceEnd(int is_sentence_end) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("is_sentence_end"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), is_sentence_end);
+            return this;
+        }
+        
+        /**
+         * if set, backspace deletes one character
+         *   rather than the entire grapheme cluster. This field is only meaningful
+         *   on grapheme boundaries (where {@code is_cursor_position} is set). In some languages,
+         *   the full grapheme (e.g. letter + diacritics) is considered a unit, while in
+         *   others, each decomposed character in the grapheme is a unit. In the default
+         *   implementation of {@link Pango#break_}, this bit is set on all grapheme boundaries
+         *   except those following Latin, Cyrillic or Greek base characters.
+         * @param backspace_deletes_character The value for the {@code backspace_deletes_character} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setBackspaceDeletesCharacter(int backspace_deletes_character) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("backspace_deletes_character"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), backspace_deletes_character);
+            return this;
+        }
+        
+        /**
+         * is a whitespace character that can possibly be
+         *   expanded for justification purposes. (Since: 1.18)
+         * @param is_expandable_space The value for the {@code is_expandable_space} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setIsExpandableSpace(int is_expandable_space) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("is_expandable_space"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), is_expandable_space);
+            return this;
+        }
+        
+        /**
+         * is a word boundary, as defined by UAX{@code 29}.
+         *   More specifically, means that this is not a position in the middle of a word.
+         *   For example, both sides of a punctuation mark are considered word boundaries.
+         *   This flag is particularly useful when selecting text word-by-word. This flag
+         *   implements Unicode's <a href="http://www.unicode.org/reports/tr29/">Word Boundaries</a>
+         *   semantics. (Since: 1.22)
+         * @param is_word_boundary The value for the {@code is_word_boundary} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setIsWordBoundary(int is_word_boundary) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("is_word_boundary"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), is_word_boundary);
+            return this;
+        }
+        
+        /**
+         * when breaking lines before this char, insert a hyphen.
+         *   Since: 1.50
+         * @param break_inserts_hyphen The value for the {@code break_inserts_hyphen} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setBreakInsertsHyphen(int break_inserts_hyphen) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("break_inserts_hyphen"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), break_inserts_hyphen);
+            return this;
+        }
+        
+        /**
+         * when breaking lines before this char, remove the
+         *   preceding char. Since 1.50
+         * @param break_removes_preceding The value for the {@code break_removes_preceding} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setBreakRemovesPreceding(int break_removes_preceding) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("break_removes_preceding"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), break_removes_preceding);
+            return this;
+        }
+        
+        public Build setReserved(int reserved) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("reserved"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), reserved);
+            return this;
+        }
     }
 }

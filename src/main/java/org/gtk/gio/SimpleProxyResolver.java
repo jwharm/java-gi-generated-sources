@@ -24,7 +24,7 @@ public class SimpleProxyResolver extends org.gtk.gobject.Object implements org.g
     
     private static final java.lang.String C_TYPE_NAME = "GSimpleProxyResolver";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gobject.Object.getMemoryLayout().withName("parent_instance"),
         Interop.valueLayout.ADDRESS.withName("priv")
     ).withName(C_TYPE_NAME);
@@ -70,7 +70,7 @@ public class SimpleProxyResolver extends org.gtk.gobject.Object implements org.g
      * @throws ClassCastException If the GType is not derived from "GSimpleProxyResolver", a ClassCastException will be thrown.
      */
     public static SimpleProxyResolver castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GSimpleProxyResolver"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), SimpleProxyResolver.getType())) {
             return new SimpleProxyResolver(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GSimpleProxyResolver");
@@ -87,12 +87,11 @@ public class SimpleProxyResolver extends org.gtk.gobject.Object implements org.g
      * the socks5, socks4a, and socks4 proxy types.
      * @param defaultProxy the default proxy to use
      */
-    public void setDefaultProxy(@NotNull java.lang.String defaultProxy) {
-        java.util.Objects.requireNonNull(defaultProxy, "Parameter 'defaultProxy' must not be null");
+    public void setDefaultProxy(@Nullable java.lang.String defaultProxy) {
         try {
             DowncallHandles.g_simple_proxy_resolver_set_default_proxy.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(defaultProxy));
+                    (Addressable) (defaultProxy == null ? MemoryAddress.NULL : Interop.allocateNativeString(defaultProxy)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -143,6 +142,20 @@ public class SimpleProxyResolver extends org.gtk.gobject.Object implements org.g
     }
     
     /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.g_simple_proxy_resolver_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+    
+    /**
      * Creates a new {@link SimpleProxyResolver}. See
      * {@link SimpleProxyResolver}:default-proxy and
      * {@link SimpleProxyResolver}:ignore-hosts for more details on how the
@@ -164,30 +177,88 @@ public class SimpleProxyResolver extends org.gtk.gobject.Object implements org.g
         }
         return new org.gtk.gio.ProxyResolver.ProxyResolverImpl(RESULT, Ownership.FULL);
     }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gobject.Object.Build {
+        
+         /**
+         * A {@link SimpleProxyResolver.Build} object constructs a {@link SimpleProxyResolver} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link SimpleProxyResolver} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link SimpleProxyResolver} using {@link SimpleProxyResolver#castFrom}.
+         * @return A new instance of {@code SimpleProxyResolver} with the properties 
+         *         that were set in the Build object.
+         */
+        public SimpleProxyResolver construct() {
+            return SimpleProxyResolver.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    SimpleProxyResolver.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+        
+        /**
+         * The default proxy URI that will be used for any URI that doesn't
+         * match {@link SimpleProxyResolver}:ignore-hosts, and doesn't match any
+         * of the schemes set with g_simple_proxy_resolver_set_uri_proxy().
+         * <p>
+         * Note that as a special case, if this URI starts with
+         * "socks://", {@link SimpleProxyResolver} will treat it as referring
+         * to all three of the socks5, socks4a, and socks4 proxy types.
+         * @param defaultProxy The value for the {@code default-proxy} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setDefaultProxy(java.lang.String defaultProxy) {
+            names.add("default-proxy");
+            values.add(org.gtk.gobject.Value.create(defaultProxy));
+            return this;
+        }
+    }
     
     private static class DowncallHandles {
         
         private static final MethodHandle g_simple_proxy_resolver_set_default_proxy = Interop.downcallHandle(
             "g_simple_proxy_resolver_set_default_proxy",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_simple_proxy_resolver_set_ignore_hosts = Interop.downcallHandle(
             "g_simple_proxy_resolver_set_ignore_hosts",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_simple_proxy_resolver_set_uri_proxy = Interop.downcallHandle(
             "g_simple_proxy_resolver_set_uri_proxy",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+            false
+        );
+        
+        private static final MethodHandle g_simple_proxy_resolver_get_type = Interop.downcallHandle(
+            "g_simple_proxy_resolver_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
         
         private static final MethodHandle g_simple_proxy_resolver_new = Interop.downcallHandle(
             "g_simple_proxy_resolver_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
     }

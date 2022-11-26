@@ -31,7 +31,7 @@ public class ThreadedSocketService extends org.gtk.gio.SocketService {
     
     private static final java.lang.String C_TYPE_NAME = "GThreadedSocketService";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gio.SocketService.getMemoryLayout().withName("parent_instance"),
         Interop.valueLayout.ADDRESS.withName("priv")
     ).withName(C_TYPE_NAME);
@@ -77,7 +77,7 @@ public class ThreadedSocketService extends org.gtk.gio.SocketService {
      * @throws ClassCastException If the GType is not derived from "GThreadedSocketService", a ClassCastException will be thrown.
      */
     public static ThreadedSocketService castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GThreadedSocketService"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), ThreadedSocketService.getType())) {
             return new ThreadedSocketService(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GThreadedSocketService");
@@ -105,6 +105,20 @@ public class ThreadedSocketService extends org.gtk.gio.SocketService {
         super(constructNew(maxThreads), Ownership.FULL);
     }
     
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.g_threaded_socket_service_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+    
     @FunctionalInterface
     public interface Run {
         boolean signalReceived(ThreadedSocketService source, @NotNull org.gtk.gio.SocketConnection connection, @Nullable org.gtk.gobject.Object sourceObject);
@@ -126,7 +140,7 @@ public class ThreadedSocketService extends org.gtk.gio.SocketService {
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(ThreadedSocketService.Callbacks.class, "signalThreadedSocketServiceRun",
                         MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                    FunctionDescriptor.of(Interop.valueLayout.C_BOOLEAN, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                     Interop.getScope()),
                 Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
@@ -135,12 +149,59 @@ public class ThreadedSocketService extends org.gtk.gio.SocketService {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gio.SocketService.Build {
+        
+         /**
+         * A {@link ThreadedSocketService.Build} object constructs a {@link ThreadedSocketService} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link ThreadedSocketService} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link ThreadedSocketService} using {@link ThreadedSocketService#castFrom}.
+         * @return A new instance of {@code ThreadedSocketService} with the properties 
+         *         that were set in the Build object.
+         */
+        public ThreadedSocketService construct() {
+            return ThreadedSocketService.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    ThreadedSocketService.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+        
+        public Build setMaxThreads(int maxThreads) {
+            names.add("max-threads");
+            values.add(org.gtk.gobject.Value.create(maxThreads));
+            return this;
+        }
+    }
     
     private static class DowncallHandles {
         
         private static final MethodHandle g_threaded_socket_service_new = Interop.downcallHandle(
             "g_threaded_socket_service_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+            false
+        );
+        
+        private static final MethodHandle g_threaded_socket_service_get_type = Interop.downcallHandle(
+            "g_threaded_socket_service_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }
@@ -148,9 +209,9 @@ public class ThreadedSocketService extends org.gtk.gio.SocketService {
     private static class Callbacks {
         
         public static boolean signalThreadedSocketServiceRun(MemoryAddress source, MemoryAddress connection, MemoryAddress sourceObject, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (ThreadedSocketService.Run) Interop.signalRegistry.get(HASH);
-            return HANDLER.signalReceived(new ThreadedSocketService(source, Ownership.UNKNOWN), new org.gtk.gio.SocketConnection(connection, Ownership.NONE), new org.gtk.gobject.Object(sourceObject, Ownership.NONE));
+            return HANDLER.signalReceived(new ThreadedSocketService(source, Ownership.NONE), new org.gtk.gio.SocketConnection(connection, Ownership.NONE), new org.gtk.gobject.Object(sourceObject, Ownership.NONE));
         }
     }
 }

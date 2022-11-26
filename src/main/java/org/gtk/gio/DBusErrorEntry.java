@@ -9,7 +9,7 @@ import org.jetbrains.annotations.*;
  * Struct used in g_dbus_error_register_error_domain().
  * @version 2.26
  */
-public class DBusErrorEntry extends io.github.jwharm.javagi.ProxyBase {
+public class DBusErrorEntry extends Struct {
     
     static {
         Gio.javagi$ensureInitialized();
@@ -17,8 +17,8 @@ public class DBusErrorEntry extends io.github.jwharm.javagi.ProxyBase {
     
     private static final java.lang.String C_TYPE_NAME = "GDBusErrorEntry";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
-        ValueLayout.JAVA_INT.withName("error_code"),
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
+        Interop.valueLayout.C_INT.withName("error_code"),
         MemoryLayout.paddingLayout(32),
         Interop.valueLayout.ADDRESS.withName("dbus_error_name")
     ).withName(C_TYPE_NAME);
@@ -34,6 +34,10 @@ public class DBusErrorEntry extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link DBusErrorEntry}
+     * @return A new, uninitialized @{link DBusErrorEntry}
+     */
     public static DBusErrorEntry allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         DBusErrorEntry newInstance = new DBusErrorEntry(segment.address(), Ownership.NONE);
@@ -91,5 +95,57 @@ public class DBusErrorEntry extends io.github.jwharm.javagi.ProxyBase {
     @ApiStatus.Internal
     public DBusErrorEntry(Addressable address, Ownership ownership) {
         super(address, ownership);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private DBusErrorEntry struct;
+        
+         /**
+         * A {@link DBusErrorEntry.Build} object constructs a {@link DBusErrorEntry} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = DBusErrorEntry.allocate();
+        }
+        
+         /**
+         * Finish building the {@link DBusErrorEntry} struct.
+         * @return A new instance of {@code DBusErrorEntry} with the fields 
+         *         that were set in the Build object.
+         */
+        public DBusErrorEntry construct() {
+            return struct;
+        }
+        
+        /**
+         * An error code.
+         * @param error_code The value for the {@code error_code} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setErrorCode(int error_code) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("error_code"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), error_code);
+            return this;
+        }
+        
+        /**
+         * The D-Bus error name to associate with {@code error_code}.
+         * @param dbus_error_name The value for the {@code dbus_error_name} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setDbusErrorName(java.lang.String dbus_error_name) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("dbus_error_name"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (dbus_error_name == null ? MemoryAddress.NULL : Interop.allocateNativeString(dbus_error_name)));
+            return this;
+        }
     }
 }

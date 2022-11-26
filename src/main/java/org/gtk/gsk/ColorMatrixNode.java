@@ -48,7 +48,7 @@ public class ColorMatrixNode extends org.gtk.gsk.RenderNode {
      * @throws ClassCastException If the GType is not derived from "GskColorMatrixNode", a ClassCastException will be thrown.
      */
     public static ColorMatrixNode castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GskColorMatrixNode"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), ColorMatrixNode.getType())) {
             return new ColorMatrixNode(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GskColorMatrixNode");
@@ -133,29 +133,84 @@ public class ColorMatrixNode extends org.gtk.gsk.RenderNode {
         return new org.gtk.graphene.Vec4(RESULT, Ownership.NONE);
     }
     
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.gsk_color_matrix_node_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gsk.RenderNode.Build {
+        
+         /**
+         * A {@link ColorMatrixNode.Build} object constructs a {@link ColorMatrixNode} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link ColorMatrixNode} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link ColorMatrixNode} using {@link ColorMatrixNode#castFrom}.
+         * @return A new instance of {@code ColorMatrixNode} with the properties 
+         *         that were set in the Build object.
+         */
+        public ColorMatrixNode construct() {
+            return ColorMatrixNode.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    ColorMatrixNode.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+    }
+    
     private static class DowncallHandles {
         
         private static final MethodHandle gsk_color_matrix_node_new = Interop.downcallHandle(
             "gsk_color_matrix_node_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gsk_color_matrix_node_get_child = Interop.downcallHandle(
             "gsk_color_matrix_node_get_child",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gsk_color_matrix_node_get_color_matrix = Interop.downcallHandle(
             "gsk_color_matrix_node_get_color_matrix",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gsk_color_matrix_node_get_color_offset = Interop.downcallHandle(
             "gsk_color_matrix_node_get_color_offset",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+            false
+        );
+        
+        private static final MethodHandle gsk_color_matrix_node_get_type = Interop.downcallHandle(
+            "gsk_color_matrix_node_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }

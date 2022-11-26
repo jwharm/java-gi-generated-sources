@@ -29,7 +29,7 @@ public class PreferencesWindow extends org.gnome.adw.Window implements org.gtk.g
     
     private static final java.lang.String C_TYPE_NAME = "AdwPreferencesWindow";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gnome.adw.Window.getMemoryLayout().withName("parent_instance")
     ).withName(C_TYPE_NAME);
     
@@ -74,7 +74,7 @@ public class PreferencesWindow extends org.gnome.adw.Window implements org.gtk.g
      * @throws ClassCastException If the GType is not derived from "AdwPreferencesWindow", a ClassCastException will be thrown.
      */
     public static PreferencesWindow castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("AdwPreferencesWindow"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), PreferencesWindow.getType())) {
             return new PreferencesWindow(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of AdwPreferencesWindow");
@@ -310,89 +310,190 @@ public class PreferencesWindow extends org.gnome.adw.Window implements org.gtk.g
         }
     }
     
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.adw_preferences_window_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gnome.adw.Window.Build {
+        
+         /**
+         * A {@link PreferencesWindow.Build} object constructs a {@link PreferencesWindow} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link PreferencesWindow} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link PreferencesWindow} using {@link PreferencesWindow#castFrom}.
+         * @return A new instance of {@code PreferencesWindow} with the properties 
+         *         that were set in the Build object.
+         */
+        public PreferencesWindow construct() {
+            return PreferencesWindow.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    PreferencesWindow.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+        
+        /**
+         * Whether gestures and shortcuts for closing subpages are enabled.
+         * <p>
+         * The supported gestures are:
+         * <ul>
+         * <li>One-finger swipe on touchscreens
+         * <li>Horizontal scrolling on touchpads (usually two-finger swipe)
+         * <li>Back mouse button
+         * </ul>
+         * <p>
+         * The keyboard back key is also supported, as well as the
+         * &lt;kbd&gt;Alt&lt;/kbd&gt;+&lt;kbd&gt;←&lt;/kbd&gt; shortcut.
+         * <p>
+         * For right-to-left locales, gestures and shortcuts are reversed.
+         * @param canNavigateBack The value for the {@code can-navigate-back} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setCanNavigateBack(boolean canNavigateBack) {
+            names.add("can-navigate-back");
+            values.add(org.gtk.gobject.Value.create(canNavigateBack));
+            return this;
+        }
+        
+        /**
+         * Whether search is enabled.
+         * @param searchEnabled The value for the {@code search-enabled} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setSearchEnabled(boolean searchEnabled) {
+            names.add("search-enabled");
+            values.add(org.gtk.gobject.Value.create(searchEnabled));
+            return this;
+        }
+        
+        public Build setVisiblePage(org.gtk.gtk.Widget visiblePage) {
+            names.add("visible-page");
+            values.add(org.gtk.gobject.Value.create(visiblePage));
+            return this;
+        }
+        
+        public Build setVisiblePageName(java.lang.String visiblePageName) {
+            names.add("visible-page-name");
+            values.add(org.gtk.gobject.Value.create(visiblePageName));
+            return this;
+        }
+    }
+    
     private static class DowncallHandles {
         
         private static final MethodHandle adw_preferences_window_new = Interop.downcallHandle(
             "adw_preferences_window_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_preferences_window_add = Interop.downcallHandle(
             "adw_preferences_window_add",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_preferences_window_add_toast = Interop.downcallHandle(
             "adw_preferences_window_add_toast",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_preferences_window_close_subpage = Interop.downcallHandle(
             "adw_preferences_window_close_subpage",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_preferences_window_get_can_navigate_back = Interop.downcallHandle(
             "adw_preferences_window_get_can_navigate_back",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_preferences_window_get_search_enabled = Interop.downcallHandle(
             "adw_preferences_window_get_search_enabled",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_preferences_window_get_visible_page = Interop.downcallHandle(
             "adw_preferences_window_get_visible_page",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_preferences_window_get_visible_page_name = Interop.downcallHandle(
             "adw_preferences_window_get_visible_page_name",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_preferences_window_present_subpage = Interop.downcallHandle(
             "adw_preferences_window_present_subpage",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_preferences_window_remove = Interop.downcallHandle(
             "adw_preferences_window_remove",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_preferences_window_set_can_navigate_back = Interop.downcallHandle(
             "adw_preferences_window_set_can_navigate_back",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle adw_preferences_window_set_search_enabled = Interop.downcallHandle(
             "adw_preferences_window_set_search_enabled",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle adw_preferences_window_set_visible_page = Interop.downcallHandle(
             "adw_preferences_window_set_visible_page",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_preferences_window_set_visible_page_name = Interop.downcallHandle(
             "adw_preferences_window_set_visible_page_name",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+            false
+        );
+        
+        private static final MethodHandle adw_preferences_window_get_type = Interop.downcallHandle(
+            "adw_preferences_window_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }

@@ -29,7 +29,7 @@ public class BufferedOutputStream extends org.gtk.gio.FilterOutputStream impleme
     
     private static final java.lang.String C_TYPE_NAME = "GBufferedOutputStream";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gio.FilterOutputStream.getMemoryLayout().withName("parent_instance"),
         Interop.valueLayout.ADDRESS.withName("priv")
     ).withName(C_TYPE_NAME);
@@ -75,7 +75,7 @@ public class BufferedOutputStream extends org.gtk.gio.FilterOutputStream impleme
      * @throws ClassCastException If the GType is not derived from "GBufferedOutputStream", a ClassCastException will be thrown.
      */
     public static BufferedOutputStream castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GBufferedOutputStream"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), BufferedOutputStream.getType())) {
             return new BufferedOutputStream(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GBufferedOutputStream");
@@ -187,41 +187,108 @@ public class BufferedOutputStream extends org.gtk.gio.FilterOutputStream impleme
         }
     }
     
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.g_buffered_output_stream_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gio.FilterOutputStream.Build {
+        
+         /**
+         * A {@link BufferedOutputStream.Build} object constructs a {@link BufferedOutputStream} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link BufferedOutputStream} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link BufferedOutputStream} using {@link BufferedOutputStream#castFrom}.
+         * @return A new instance of {@code BufferedOutputStream} with the properties 
+         *         that were set in the Build object.
+         */
+        public BufferedOutputStream construct() {
+            return BufferedOutputStream.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    BufferedOutputStream.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+        
+        public Build setAutoGrow(boolean autoGrow) {
+            names.add("auto-grow");
+            values.add(org.gtk.gobject.Value.create(autoGrow));
+            return this;
+        }
+        
+        public Build setBufferSize(int bufferSize) {
+            names.add("buffer-size");
+            values.add(org.gtk.gobject.Value.create(bufferSize));
+            return this;
+        }
+    }
+    
     private static class DowncallHandles {
         
         private static final MethodHandle g_buffered_output_stream_new = Interop.downcallHandle(
             "g_buffered_output_stream_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_buffered_output_stream_new_sized = Interop.downcallHandle(
             "g_buffered_output_stream_new_sized",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
             false
         );
         
         private static final MethodHandle g_buffered_output_stream_get_auto_grow = Interop.downcallHandle(
             "g_buffered_output_stream_get_auto_grow",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_buffered_output_stream_get_buffer_size = Interop.downcallHandle(
             "g_buffered_output_stream_get_buffer_size",
-            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_buffered_output_stream_set_auto_grow = Interop.downcallHandle(
             "g_buffered_output_stream_set_auto_grow",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_buffered_output_stream_set_buffer_size = Interop.downcallHandle(
             "g_buffered_output_stream_set_buffer_size",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
+            false
+        );
+        
+        private static final MethodHandle g_buffered_output_stream_get_type = Interop.downcallHandle(
+            "g_buffered_output_stream_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }

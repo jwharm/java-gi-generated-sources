@@ -5,7 +5,7 @@ import java.lang.foreign.*;
 import java.lang.invoke.*;
 import org.jetbrains.annotations.*;
 
-public class ContextClass extends io.github.jwharm.javagi.ProxyBase {
+public class ContextClass extends Struct {
     
     static {
         Pango.javagi$ensureInitialized();
@@ -24,6 +24,10 @@ public class ContextClass extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link ContextClass}
+     * @return A new, uninitialized @{link ContextClass}
+     */
     public static ContextClass allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         ContextClass newInstance = new ContextClass(segment.address(), Ownership.NONE);
@@ -39,5 +43,33 @@ public class ContextClass extends io.github.jwharm.javagi.ProxyBase {
     @ApiStatus.Internal
     public ContextClass(Addressable address, Ownership ownership) {
         super(address, ownership);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private ContextClass struct;
+        
+         /**
+         * A {@link ContextClass.Build} object constructs a {@link ContextClass} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = ContextClass.allocate();
+        }
+        
+         /**
+         * Finish building the {@link ContextClass} struct.
+         * @return A new instance of {@code ContextClass} with the fields 
+         *         that were set in the Build object.
+         */
+        public ContextClass construct() {
+            return struct;
+        }
     }
 }

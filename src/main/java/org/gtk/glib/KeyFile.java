@@ -9,7 +9,7 @@ import org.jetbrains.annotations.*;
  * The GKeyFile struct contains only private data
  * and should not be accessed directly.
  */
-public class KeyFile extends io.github.jwharm.javagi.ProxyBase {
+public class KeyFile extends Struct {
     
     static {
         GLib.javagi$ensureInitialized();
@@ -28,6 +28,10 @@ public class KeyFile extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link KeyFile}
+     * @return A new, uninitialized @{link KeyFile}
+     */
     public static KeyFile allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         KeyFile newInstance = new KeyFile(segment.address(), Ownership.NONE);
@@ -96,7 +100,7 @@ public class KeyFile extends io.github.jwharm.javagi.ProxyBase {
     public boolean getBoolean(@NotNull java.lang.String groupName, @NotNull java.lang.String key) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(groupName, "Parameter 'groupName' must not be null");
         java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_key_file_get_boolean.invokeExact(
@@ -133,8 +137,8 @@ public class KeyFile extends io.github.jwharm.javagi.ProxyBase {
         java.util.Objects.requireNonNull(groupName, "Parameter 'groupName' must not be null");
         java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
         java.util.Objects.requireNonNull(length, "Parameter 'length' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        MemorySegment lengthPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_LONG);
+        MemorySegment lengthPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_key_file_get_boolean_list.invokeExact(
@@ -149,10 +153,10 @@ public class KeyFile extends io.github.jwharm.javagi.ProxyBase {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        length.set(lengthPOINTER.get(ValueLayout.JAVA_LONG, 0));
+        length.set(lengthPOINTER.get(Interop.valueLayout.C_LONG, 0));
         boolean[] resultARRAY = new boolean[length.get().intValue()];
         for (int I = 0; I < length.get().intValue(); I++) {
-            var OBJ = RESULT.get(ValueLayout.JAVA_INT, I);
+            var OBJ = RESULT.get(Interop.valueLayout.C_INT, I);
             resultARRAY[I] = OBJ != 0;
         }
         return resultARRAY;
@@ -173,7 +177,7 @@ public class KeyFile extends io.github.jwharm.javagi.ProxyBase {
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public @NotNull java.lang.String getComment(@Nullable java.lang.String groupName, @Nullable java.lang.String key) throws io.github.jwharm.javagi.GErrorException {
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_key_file_get_comment.invokeExact(
@@ -207,7 +211,7 @@ public class KeyFile extends io.github.jwharm.javagi.ProxyBase {
     public double getDouble(@NotNull java.lang.String groupName, @NotNull java.lang.String key) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(groupName, "Parameter 'groupName' must not be null");
         java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         double RESULT;
         try {
             RESULT = (double) DowncallHandles.g_key_file_get_double.invokeExact(
@@ -244,8 +248,8 @@ public class KeyFile extends io.github.jwharm.javagi.ProxyBase {
         java.util.Objects.requireNonNull(groupName, "Parameter 'groupName' must not be null");
         java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
         java.util.Objects.requireNonNull(length, "Parameter 'length' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        MemorySegment lengthPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_LONG);
+        MemorySegment lengthPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_key_file_get_double_list.invokeExact(
@@ -260,8 +264,8 @@ public class KeyFile extends io.github.jwharm.javagi.ProxyBase {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        length.set(lengthPOINTER.get(ValueLayout.JAVA_LONG, 0));
-        return MemorySegment.ofAddress(RESULT.get(ValueLayout.ADDRESS, 0), length.get().intValue() * ValueLayout.JAVA_DOUBLE.byteSize(), Interop.getScope()).toArray(ValueLayout.JAVA_DOUBLE);
+        length.set(lengthPOINTER.get(Interop.valueLayout.C_LONG, 0));
+        return MemorySegment.ofAddress(RESULT.get(Interop.valueLayout.ADDRESS, 0), length.get().intValue() * Interop.valueLayout.C_DOUBLE.byteSize(), Interop.getScope()).toArray(Interop.valueLayout.C_DOUBLE);
     }
     
     /**
@@ -274,7 +278,7 @@ public class KeyFile extends io.github.jwharm.javagi.ProxyBase {
      */
     public @NotNull PointerString getGroups(Out<Long> length) {
         java.util.Objects.requireNonNull(length, "Parameter 'length' must not be null");
-        MemorySegment lengthPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_LONG);
+        MemorySegment lengthPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_key_file_get_groups.invokeExact(
@@ -283,7 +287,7 @@ public class KeyFile extends io.github.jwharm.javagi.ProxyBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        length.set(lengthPOINTER.get(ValueLayout.JAVA_LONG, 0));
+        length.set(lengthPOINTER.get(Interop.valueLayout.C_LONG, 0));
         return new PointerString(RESULT);
     }
     
@@ -300,7 +304,7 @@ public class KeyFile extends io.github.jwharm.javagi.ProxyBase {
     public long getInt64(@NotNull java.lang.String groupName, @NotNull java.lang.String key) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(groupName, "Parameter 'groupName' must not be null");
         java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.g_key_file_get_int64.invokeExact(
@@ -335,7 +339,7 @@ public class KeyFile extends io.github.jwharm.javagi.ProxyBase {
     public int getInteger(@NotNull java.lang.String groupName, @NotNull java.lang.String key) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(groupName, "Parameter 'groupName' must not be null");
         java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_key_file_get_integer.invokeExact(
@@ -373,8 +377,8 @@ public class KeyFile extends io.github.jwharm.javagi.ProxyBase {
         java.util.Objects.requireNonNull(groupName, "Parameter 'groupName' must not be null");
         java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
         java.util.Objects.requireNonNull(length, "Parameter 'length' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        MemorySegment lengthPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_LONG);
+        MemorySegment lengthPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_key_file_get_integer_list.invokeExact(
@@ -389,8 +393,8 @@ public class KeyFile extends io.github.jwharm.javagi.ProxyBase {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        length.set(lengthPOINTER.get(ValueLayout.JAVA_LONG, 0));
-        return MemorySegment.ofAddress(RESULT.get(ValueLayout.ADDRESS, 0), length.get().intValue() * ValueLayout.JAVA_INT.byteSize(), Interop.getScope()).toArray(ValueLayout.JAVA_INT);
+        length.set(lengthPOINTER.get(Interop.valueLayout.C_LONG, 0));
+        return MemorySegment.ofAddress(RESULT.get(Interop.valueLayout.ADDRESS, 0), length.get().intValue() * Interop.valueLayout.C_INT.byteSize(), Interop.getScope()).toArray(Interop.valueLayout.C_INT);
     }
     
     /**
@@ -408,8 +412,8 @@ public class KeyFile extends io.github.jwharm.javagi.ProxyBase {
     public @NotNull PointerString getKeys(@NotNull java.lang.String groupName, Out<Long> length) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(groupName, "Parameter 'groupName' must not be null");
         java.util.Objects.requireNonNull(length, "Parameter 'length' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        MemorySegment lengthPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_LONG);
+        MemorySegment lengthPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_key_file_get_keys.invokeExact(
@@ -423,7 +427,7 @@ public class KeyFile extends io.github.jwharm.javagi.ProxyBase {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        length.set(lengthPOINTER.get(ValueLayout.JAVA_LONG, 0));
+        length.set(lengthPOINTER.get(Interop.valueLayout.C_LONG, 0));
         return new PointerString(RESULT);
     }
     
@@ -482,7 +486,7 @@ public class KeyFile extends io.github.jwharm.javagi.ProxyBase {
     public @NotNull java.lang.String getLocaleString(@NotNull java.lang.String groupName, @NotNull java.lang.String key, @Nullable java.lang.String locale) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(groupName, "Parameter 'groupName' must not be null");
         java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_key_file_get_locale_string.invokeExact(
@@ -528,8 +532,8 @@ public class KeyFile extends io.github.jwharm.javagi.ProxyBase {
         java.util.Objects.requireNonNull(groupName, "Parameter 'groupName' must not be null");
         java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
         java.util.Objects.requireNonNull(length, "Parameter 'length' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        MemorySegment lengthPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_LONG);
+        MemorySegment lengthPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_key_file_get_locale_string_list.invokeExact(
@@ -545,10 +549,10 @@ public class KeyFile extends io.github.jwharm.javagi.ProxyBase {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        length.set(lengthPOINTER.get(ValueLayout.JAVA_LONG, 0));
+        length.set(lengthPOINTER.get(Interop.valueLayout.C_LONG, 0));
         java.lang.String[] resultARRAY = new java.lang.String[length.get().intValue()];
         for (int I = 0; I < length.get().intValue(); I++) {
-            var OBJ = RESULT.get(ValueLayout.ADDRESS, I);
+            var OBJ = RESULT.get(Interop.valueLayout.ADDRESS, I);
             resultARRAY[I] = Interop.getStringFrom(OBJ);
         }
         return resultARRAY;
@@ -587,7 +591,7 @@ public class KeyFile extends io.github.jwharm.javagi.ProxyBase {
     public @NotNull java.lang.String getString(@NotNull java.lang.String groupName, @NotNull java.lang.String key) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(groupName, "Parameter 'groupName' must not be null");
         java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_key_file_get_string.invokeExact(
@@ -622,8 +626,8 @@ public class KeyFile extends io.github.jwharm.javagi.ProxyBase {
         java.util.Objects.requireNonNull(groupName, "Parameter 'groupName' must not be null");
         java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
         java.util.Objects.requireNonNull(length, "Parameter 'length' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        MemorySegment lengthPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_LONG);
+        MemorySegment lengthPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_key_file_get_string_list.invokeExact(
@@ -638,10 +642,10 @@ public class KeyFile extends io.github.jwharm.javagi.ProxyBase {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        length.set(lengthPOINTER.get(ValueLayout.JAVA_LONG, 0));
+        length.set(lengthPOINTER.get(Interop.valueLayout.C_LONG, 0));
         java.lang.String[] resultARRAY = new java.lang.String[length.get().intValue()];
         for (int I = 0; I < length.get().intValue(); I++) {
-            var OBJ = RESULT.get(ValueLayout.ADDRESS, I);
+            var OBJ = RESULT.get(Interop.valueLayout.ADDRESS, I);
             resultARRAY[I] = Interop.getStringFrom(OBJ);
         }
         return resultARRAY;
@@ -660,7 +664,7 @@ public class KeyFile extends io.github.jwharm.javagi.ProxyBase {
     public long getUint64(@NotNull java.lang.String groupName, @NotNull java.lang.String key) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(groupName, "Parameter 'groupName' must not be null");
         java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.g_key_file_get_uint64.invokeExact(
@@ -694,7 +698,7 @@ public class KeyFile extends io.github.jwharm.javagi.ProxyBase {
     public @NotNull java.lang.String getValue(@NotNull java.lang.String groupName, @NotNull java.lang.String key) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(groupName, "Parameter 'groupName' must not be null");
         java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_key_file_get_value.invokeExact(
@@ -749,7 +753,7 @@ public class KeyFile extends io.github.jwharm.javagi.ProxyBase {
     public boolean hasKey(@NotNull java.lang.String groupName, @NotNull java.lang.String key) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(groupName, "Parameter 'groupName' must not be null");
         java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_key_file_has_key.invokeExact(
@@ -777,7 +781,7 @@ public class KeyFile extends io.github.jwharm.javagi.ProxyBase {
     public boolean loadFromBytes(@NotNull org.gtk.glib.Bytes bytes, @NotNull org.gtk.glib.KeyFileFlags flags) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(bytes, "Parameter 'bytes' must not be null");
         java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_key_file_load_from_bytes.invokeExact(
@@ -806,7 +810,7 @@ public class KeyFile extends io.github.jwharm.javagi.ProxyBase {
     public boolean loadFromData(@NotNull java.lang.String data, long length, @NotNull org.gtk.glib.KeyFileFlags flags) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(data, "Parameter 'data' must not be null");
         java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_key_file_load_from_data.invokeExact(
@@ -840,9 +844,9 @@ public class KeyFile extends io.github.jwharm.javagi.ProxyBase {
     public boolean loadFromDataDirs(@NotNull java.lang.String file, @NotNull Out<java.lang.String> fullPath, @NotNull org.gtk.glib.KeyFileFlags flags) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(file, "Parameter 'file' must not be null");
         java.util.Objects.requireNonNull(fullPath, "Parameter 'fullPath' must not be null");
+        MemorySegment fullPathPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        MemorySegment fullPathPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_key_file_load_from_data_dirs.invokeExact(
@@ -857,7 +861,7 @@ public class KeyFile extends io.github.jwharm.javagi.ProxyBase {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        fullPath.set(Interop.getStringFrom(fullPathPOINTER.get(ValueLayout.ADDRESS, 0)));
+        fullPath.set(Interop.getStringFrom(fullPathPOINTER.get(Interop.valueLayout.ADDRESS, 0)));
         return RESULT != 0;
     }
     
@@ -883,9 +887,9 @@ public class KeyFile extends io.github.jwharm.javagi.ProxyBase {
         java.util.Objects.requireNonNull(file, "Parameter 'file' must not be null");
         java.util.Objects.requireNonNull(searchDirs, "Parameter 'searchDirs' must not be null");
         java.util.Objects.requireNonNull(fullPath, "Parameter 'fullPath' must not be null");
+        MemorySegment fullPathPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        MemorySegment fullPathPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_key_file_load_from_dirs.invokeExact(
@@ -901,7 +905,7 @@ public class KeyFile extends io.github.jwharm.javagi.ProxyBase {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        fullPath.set(Interop.getStringFrom(fullPathPOINTER.get(ValueLayout.ADDRESS, 0)));
+        fullPath.set(Interop.getStringFrom(fullPathPOINTER.get(Interop.valueLayout.ADDRESS, 0)));
         return RESULT != 0;
     }
     
@@ -922,7 +926,7 @@ public class KeyFile extends io.github.jwharm.javagi.ProxyBase {
     public boolean loadFromFile(@NotNull java.lang.String file, @NotNull org.gtk.glib.KeyFileFlags flags) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(file, "Parameter 'file' must not be null");
         java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_key_file_load_from_file.invokeExact(
@@ -965,7 +969,7 @@ public class KeyFile extends io.github.jwharm.javagi.ProxyBase {
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public boolean removeComment(@Nullable java.lang.String groupName, @Nullable java.lang.String key) throws io.github.jwharm.javagi.GErrorException {
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_key_file_remove_comment.invokeExact(
@@ -991,7 +995,7 @@ public class KeyFile extends io.github.jwharm.javagi.ProxyBase {
      */
     public boolean removeGroup(@NotNull java.lang.String groupName) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(groupName, "Parameter 'groupName' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_key_file_remove_group.invokeExact(
@@ -1017,7 +1021,7 @@ public class KeyFile extends io.github.jwharm.javagi.ProxyBase {
     public boolean removeKey(@NotNull java.lang.String groupName, @NotNull java.lang.String key) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(groupName, "Parameter 'groupName' must not be null");
         java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_key_file_remove_key.invokeExact(
@@ -1048,7 +1052,7 @@ public class KeyFile extends io.github.jwharm.javagi.ProxyBase {
      */
     public boolean saveToFile(@NotNull java.lang.String filename) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(filename, "Parameter 'filename' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_key_file_save_to_file.invokeExact(
@@ -1127,7 +1131,7 @@ public class KeyFile extends io.github.jwharm.javagi.ProxyBase {
      */
     public boolean setComment(@Nullable java.lang.String groupName, @Nullable java.lang.String key, @NotNull java.lang.String comment) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(comment, "Parameter 'comment' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_key_file_set_comment.invokeExact(
@@ -1435,8 +1439,8 @@ public class KeyFile extends io.github.jwharm.javagi.ProxyBase {
      */
     public @NotNull java.lang.String toData(Out<Long> length) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(length, "Parameter 'length' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        MemorySegment lengthPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_LONG);
+        MemorySegment lengthPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_key_file_to_data.invokeExact(
@@ -1449,7 +1453,7 @@ public class KeyFile extends io.github.jwharm.javagi.ProxyBase {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        length.set(lengthPOINTER.get(ValueLayout.JAVA_LONG, 0));
+        length.set(lengthPOINTER.get(Interop.valueLayout.C_LONG, 0));
         return Interop.getStringFrom(RESULT);
     }
     
@@ -1480,302 +1484,330 @@ public class KeyFile extends io.github.jwharm.javagi.ProxyBase {
         
         private static final MethodHandle g_key_file_new = Interop.downcallHandle(
             "g_key_file_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_key_file_free = Interop.downcallHandle(
             "g_key_file_free",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_key_file_get_boolean = Interop.downcallHandle(
             "g_key_file_get_boolean",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_key_file_get_boolean_list = Interop.downcallHandle(
             "g_key_file_get_boolean_list",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_key_file_get_comment = Interop.downcallHandle(
             "g_key_file_get_comment",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_key_file_get_double = Interop.downcallHandle(
             "g_key_file_get_double",
-            FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_DOUBLE, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_key_file_get_double_list = Interop.downcallHandle(
             "g_key_file_get_double_list",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_key_file_get_groups = Interop.downcallHandle(
             "g_key_file_get_groups",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_key_file_get_int64 = Interop.downcallHandle(
             "g_key_file_get_int64",
-            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_key_file_get_integer = Interop.downcallHandle(
             "g_key_file_get_integer",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_key_file_get_integer_list = Interop.downcallHandle(
             "g_key_file_get_integer_list",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_key_file_get_keys = Interop.downcallHandle(
             "g_key_file_get_keys",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_key_file_get_locale_for_key = Interop.downcallHandle(
             "g_key_file_get_locale_for_key",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_key_file_get_locale_string = Interop.downcallHandle(
             "g_key_file_get_locale_string",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_key_file_get_locale_string_list = Interop.downcallHandle(
             "g_key_file_get_locale_string_list",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_key_file_get_start_group = Interop.downcallHandle(
             "g_key_file_get_start_group",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_key_file_get_string = Interop.downcallHandle(
             "g_key_file_get_string",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_key_file_get_string_list = Interop.downcallHandle(
             "g_key_file_get_string_list",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_key_file_get_uint64 = Interop.downcallHandle(
             "g_key_file_get_uint64",
-            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_key_file_get_value = Interop.downcallHandle(
             "g_key_file_get_value",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_key_file_has_group = Interop.downcallHandle(
             "g_key_file_has_group",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_key_file_has_key = Interop.downcallHandle(
             "g_key_file_has_key",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_key_file_load_from_bytes = Interop.downcallHandle(
             "g_key_file_load_from_bytes",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_key_file_load_from_data = Interop.downcallHandle(
             "g_key_file_load_from_data",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_key_file_load_from_data_dirs = Interop.downcallHandle(
             "g_key_file_load_from_data_dirs",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_key_file_load_from_dirs = Interop.downcallHandle(
             "g_key_file_load_from_dirs",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_key_file_load_from_file = Interop.downcallHandle(
             "g_key_file_load_from_file",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_key_file_ref = Interop.downcallHandle(
             "g_key_file_ref",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_key_file_remove_comment = Interop.downcallHandle(
             "g_key_file_remove_comment",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_key_file_remove_group = Interop.downcallHandle(
             "g_key_file_remove_group",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_key_file_remove_key = Interop.downcallHandle(
             "g_key_file_remove_key",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_key_file_save_to_file = Interop.downcallHandle(
             "g_key_file_save_to_file",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_key_file_set_boolean = Interop.downcallHandle(
             "g_key_file_set_boolean",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_key_file_set_boolean_list = Interop.downcallHandle(
             "g_key_file_set_boolean_list",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
             false
         );
         
         private static final MethodHandle g_key_file_set_comment = Interop.downcallHandle(
             "g_key_file_set_comment",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_key_file_set_double = Interop.downcallHandle(
             "g_key_file_set_double",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE),
             false
         );
         
         private static final MethodHandle g_key_file_set_double_list = Interop.downcallHandle(
             "g_key_file_set_double_list",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
             false
         );
         
         private static final MethodHandle g_key_file_set_int64 = Interop.downcallHandle(
             "g_key_file_set_int64",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
             false
         );
         
         private static final MethodHandle g_key_file_set_integer = Interop.downcallHandle(
             "g_key_file_set_integer",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_key_file_set_integer_list = Interop.downcallHandle(
             "g_key_file_set_integer_list",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
             false
         );
         
         private static final MethodHandle g_key_file_set_list_separator = Interop.downcallHandle(
             "g_key_file_set_list_separator",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_BYTE),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_BYTE),
             false
         );
         
         private static final MethodHandle g_key_file_set_locale_string = Interop.downcallHandle(
             "g_key_file_set_locale_string",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_key_file_set_locale_string_list = Interop.downcallHandle(
             "g_key_file_set_locale_string_list",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
             false
         );
         
         private static final MethodHandle g_key_file_set_string = Interop.downcallHandle(
             "g_key_file_set_string",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_key_file_set_string_list = Interop.downcallHandle(
             "g_key_file_set_string_list",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
             false
         );
         
         private static final MethodHandle g_key_file_set_uint64 = Interop.downcallHandle(
             "g_key_file_set_uint64",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
             false
         );
         
         private static final MethodHandle g_key_file_set_value = Interop.downcallHandle(
             "g_key_file_set_value",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_key_file_to_data = Interop.downcallHandle(
             "g_key_file_to_data",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_key_file_unref = Interop.downcallHandle(
             "g_key_file_unref",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_key_file_error_quark = Interop.downcallHandle(
             "g_key_file_error_quark",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT),
             false
         );
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private KeyFile struct;
+        
+         /**
+         * A {@link KeyFile.Build} object constructs a {@link KeyFile} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = KeyFile.allocate();
+        }
+        
+         /**
+         * Finish building the {@link KeyFile} struct.
+         * @return A new instance of {@code KeyFile} with the fields 
+         *         that were set in the Build object.
+         */
+        public KeyFile construct() {
+            return struct;
+        }
     }
 }

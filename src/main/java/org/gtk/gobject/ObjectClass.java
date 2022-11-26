@@ -32,7 +32,7 @@ import org.jetbrains.annotations.*;
  * }
  * }</pre>
  */
-public class ObjectClass extends io.github.jwharm.javagi.ProxyBase {
+public class ObjectClass extends Struct {
     
     static {
         GObject.javagi$ensureInitialized();
@@ -40,7 +40,7 @@ public class ObjectClass extends io.github.jwharm.javagi.ProxyBase {
     
     private static final java.lang.String C_TYPE_NAME = "GObjectClass";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gobject.TypeClass.getMemoryLayout().withName("g_type_class"),
         Interop.valueLayout.ADDRESS.withName("construct_properties"),
         Interop.valueLayout.ADDRESS.withName("constructor"),
@@ -51,9 +51,11 @@ public class ObjectClass extends io.github.jwharm.javagi.ProxyBase {
         Interop.valueLayout.ADDRESS.withName("dispatch_properties_changed"),
         Interop.valueLayout.ADDRESS.withName("notify"),
         Interop.valueLayout.ADDRESS.withName("constructed"),
-        ValueLayout.JAVA_LONG.withName("flags"),
-        MemoryLayout.paddingLayout(64),
-        MemoryLayout.sequenceLayout(6, ValueLayout.ADDRESS).withName("pdummy")
+        Interop.valueLayout.C_LONG.withName("flags"),
+        Interop.valueLayout.C_LONG.withName("n_construct_properties"),
+        Interop.valueLayout.ADDRESS.withName("pspecs"),
+        Interop.valueLayout.C_LONG.withName("n_pspecs"),
+        MemoryLayout.sequenceLayout(3, Interop.valueLayout.ADDRESS).withName("pdummy")
     ).withName(C_TYPE_NAME);
     
     /**
@@ -67,6 +69,10 @@ public class ObjectClass extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link ObjectClass}
+     * @return A new, uninitialized @{link ObjectClass}
+     */
     public static ObjectClass allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         ObjectClass newInstance = new ObjectClass(segment.address(), Ownership.NONE);
@@ -130,9 +136,11 @@ public class ObjectClass extends io.github.jwharm.javagi.ProxyBase {
      * {@code GParamSpecs} and g_object_notify_by_pspec(). For instance, this
      * class initialization:
      * <pre>{@code <!-- language="C" -->
-     * enum {
-     *   PROP_0, PROP_FOO, PROP_BAR, N_PROPERTIES
-     * };
+     * typedef enum {
+     *   PROP_FOO = 1,
+     *   PROP_BAR,
+     *   N_PROPERTIES
+     * } MyObjectProperty;
      * 
      * static GParamSpec *obj_properties[N_PROPERTIES] = { NULL, };
      * 
@@ -145,17 +153,17 @@ public class ObjectClass extends io.github.jwharm.javagi.ProxyBase {
      *     g_param_spec_int ("foo", "Foo", "Foo",
      *                       -1, G_MAXINT,
      *                       0,
-     *                       G_PARAM_READWRITE);
+     *                       G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
      * 
      *   obj_properties[PROP_BAR] =
      *     g_param_spec_string ("bar", "Bar", "Bar",
      *                          NULL,
-     *                          G_PARAM_READWRITE);
+     *                          G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
      * 
      *   gobject_class->set_property = my_object_set_property;
      *   gobject_class->get_property = my_object_get_property;
      *   g_object_class_install_properties (gobject_class,
-     *                                      N_PROPERTIES,
+     *                                      G_N_ELEMENTS (obj_properties),
      *                                      obj_properties);
      * }
      * }</pre>
@@ -222,7 +230,7 @@ public class ObjectClass extends io.github.jwharm.javagi.ProxyBase {
      */
     public @NotNull org.gtk.gobject.ParamSpec[] listProperties(Out<Integer> nProperties) {
         java.util.Objects.requireNonNull(nProperties, "Parameter 'nProperties' must not be null");
-        MemorySegment nPropertiesPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
+        MemorySegment nPropertiesPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_object_class_list_properties.invokeExact(
@@ -231,10 +239,10 @@ public class ObjectClass extends io.github.jwharm.javagi.ProxyBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        nProperties.set(nPropertiesPOINTER.get(ValueLayout.JAVA_INT, 0));
+        nProperties.set(nPropertiesPOINTER.get(Interop.valueLayout.C_INT, 0));
         org.gtk.gobject.ParamSpec[] resultARRAY = new org.gtk.gobject.ParamSpec[nProperties.get().intValue()];
         for (int I = 0; I < nProperties.get().intValue(); I++) {
-            var OBJ = RESULT.get(ValueLayout.ADDRESS, I);
+            var OBJ = RESULT.get(Interop.valueLayout.ADDRESS, I);
             resultARRAY[I] = new org.gtk.gobject.ParamSpec(OBJ, Ownership.CONTAINER);
         }
         return resultARRAY;
@@ -277,32 +285,170 @@ public class ObjectClass extends io.github.jwharm.javagi.ProxyBase {
         
         private static final MethodHandle g_object_class_find_property = Interop.downcallHandle(
             "g_object_class_find_property",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_object_class_install_properties = Interop.downcallHandle(
             "g_object_class_install_properties",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_object_class_install_property = Interop.downcallHandle(
             "g_object_class_install_property",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_object_class_list_properties = Interop.downcallHandle(
             "g_object_class_list_properties",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_object_class_override_property = Interop.downcallHandle(
             "g_object_class_override_property",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private ObjectClass struct;
+        
+         /**
+         * A {@link ObjectClass.Build} object constructs a {@link ObjectClass} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = ObjectClass.allocate();
+        }
+        
+         /**
+         * Finish building the {@link ObjectClass} struct.
+         * @return A new instance of {@code ObjectClass} with the fields 
+         *         that were set in the Build object.
+         */
+        public ObjectClass construct() {
+            return struct;
+        }
+        
+        /**
+         * the parent class
+         * @param g_type_class The value for the {@code g_type_class} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setGTypeClass(org.gtk.gobject.TypeClass g_type_class) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("g_type_class"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (g_type_class == null ? MemoryAddress.NULL : g_type_class.handle()));
+            return this;
+        }
+        
+        public Build setConstructProperties(org.gtk.glib.SList construct_properties) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("construct_properties"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (construct_properties == null ? MemoryAddress.NULL : construct_properties.handle()));
+            return this;
+        }
+        
+        public Build setConstructor(java.lang.foreign.MemoryAddress constructor) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("constructor"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (constructor == null ? MemoryAddress.NULL : constructor));
+            return this;
+        }
+        
+        public Build setSetProperty(java.lang.foreign.MemoryAddress set_property) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("set_property"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (set_property == null ? MemoryAddress.NULL : set_property));
+            return this;
+        }
+        
+        public Build setGetProperty(java.lang.foreign.MemoryAddress get_property) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("get_property"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (get_property == null ? MemoryAddress.NULL : get_property));
+            return this;
+        }
+        
+        public Build setDispose(java.lang.foreign.MemoryAddress dispose) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("dispose"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (dispose == null ? MemoryAddress.NULL : dispose));
+            return this;
+        }
+        
+        public Build setFinalize(java.lang.foreign.MemoryAddress finalize) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("finalize"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (finalize == null ? MemoryAddress.NULL : finalize));
+            return this;
+        }
+        
+        public Build setDispatchPropertiesChanged(java.lang.foreign.MemoryAddress dispatch_properties_changed) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("dispatch_properties_changed"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (dispatch_properties_changed == null ? MemoryAddress.NULL : dispatch_properties_changed));
+            return this;
+        }
+        
+        public Build setNotify(java.lang.foreign.MemoryAddress notify) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("notify"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (notify == null ? MemoryAddress.NULL : notify));
+            return this;
+        }
+        
+        public Build setConstructed(java.lang.foreign.MemoryAddress constructed) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("constructed"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (constructed == null ? MemoryAddress.NULL : constructed));
+            return this;
+        }
+        
+        public Build setFlags(long flags) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("flags"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), flags);
+            return this;
+        }
+        
+        public Build setNConstructProperties(long n_construct_properties) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("n_construct_properties"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), n_construct_properties);
+            return this;
+        }
+        
+        public Build setPspecs(java.lang.foreign.MemoryAddress pspecs) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("pspecs"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (pspecs == null ? MemoryAddress.NULL : (Addressable) pspecs));
+            return this;
+        }
+        
+        public Build setNPspecs(long n_pspecs) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("n_pspecs"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), n_pspecs);
+            return this;
+        }
+        
+        public Build setPdummy(java.lang.foreign.MemoryAddress[] pdummy) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("pdummy"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (pdummy == null ? MemoryAddress.NULL : Interop.allocateNativeArray(pdummy, false)));
+            return this;
+        }
     }
 }

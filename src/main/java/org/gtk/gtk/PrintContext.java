@@ -115,7 +115,7 @@ public class PrintContext extends org.gtk.gobject.Object {
      * @throws ClassCastException If the GType is not derived from "GtkPrintContext", a ClassCastException will be thrown.
      */
     public static PrintContext castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkPrintContext"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), PrintContext.getType())) {
             return new PrintContext(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkPrintContext");
@@ -213,13 +213,13 @@ public class PrintContext extends org.gtk.gobject.Object {
      */
     public boolean getHardMargins(Out<Double> top, Out<Double> bottom, Out<Double> left, Out<Double> right) {
         java.util.Objects.requireNonNull(top, "Parameter 'top' must not be null");
+        MemorySegment topPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_DOUBLE);
         java.util.Objects.requireNonNull(bottom, "Parameter 'bottom' must not be null");
+        MemorySegment bottomPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_DOUBLE);
         java.util.Objects.requireNonNull(left, "Parameter 'left' must not be null");
+        MemorySegment leftPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_DOUBLE);
         java.util.Objects.requireNonNull(right, "Parameter 'right' must not be null");
-        MemorySegment topPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_DOUBLE);
-        MemorySegment bottomPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_DOUBLE);
-        MemorySegment leftPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_DOUBLE);
-        MemorySegment rightPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_DOUBLE);
+        MemorySegment rightPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_DOUBLE);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_print_context_get_hard_margins.invokeExact(
@@ -231,10 +231,10 @@ public class PrintContext extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        top.set(topPOINTER.get(ValueLayout.JAVA_DOUBLE, 0));
-        bottom.set(bottomPOINTER.get(ValueLayout.JAVA_DOUBLE, 0));
-        left.set(leftPOINTER.get(ValueLayout.JAVA_DOUBLE, 0));
-        right.set(rightPOINTER.get(ValueLayout.JAVA_DOUBLE, 0));
+        top.set(topPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
+        bottom.set(bottomPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
+        left.set(leftPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
+        right.set(rightPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
         return RESULT != 0;
     }
     
@@ -324,71 +324,126 @@ public class PrintContext extends org.gtk.gobject.Object {
         }
     }
     
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.gtk_print_context_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gobject.Object.Build {
+        
+         /**
+         * A {@link PrintContext.Build} object constructs a {@link PrintContext} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link PrintContext} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link PrintContext} using {@link PrintContext#castFrom}.
+         * @return A new instance of {@code PrintContext} with the properties 
+         *         that were set in the Build object.
+         */
+        public PrintContext construct() {
+            return PrintContext.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    PrintContext.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+    }
+    
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_print_context_create_pango_context = Interop.downcallHandle(
             "gtk_print_context_create_pango_context",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_print_context_create_pango_layout = Interop.downcallHandle(
             "gtk_print_context_create_pango_layout",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_print_context_get_cairo_context = Interop.downcallHandle(
             "gtk_print_context_get_cairo_context",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_print_context_get_dpi_x = Interop.downcallHandle(
             "gtk_print_context_get_dpi_x",
-            FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_DOUBLE, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_print_context_get_dpi_y = Interop.downcallHandle(
             "gtk_print_context_get_dpi_y",
-            FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_DOUBLE, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_print_context_get_hard_margins = Interop.downcallHandle(
             "gtk_print_context_get_hard_margins",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_print_context_get_height = Interop.downcallHandle(
             "gtk_print_context_get_height",
-            FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_DOUBLE, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_print_context_get_page_setup = Interop.downcallHandle(
             "gtk_print_context_get_page_setup",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_print_context_get_pango_fontmap = Interop.downcallHandle(
             "gtk_print_context_get_pango_fontmap",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_print_context_get_width = Interop.downcallHandle(
             "gtk_print_context_get_width",
-            FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_DOUBLE, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_print_context_set_cairo_context = Interop.downcallHandle(
             "gtk_print_context_set_cairo_context",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_DOUBLE),
+            false
+        );
+        
+        private static final MethodHandle gtk_print_context_get_type = Interop.downcallHandle(
+            "gtk_print_context_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }

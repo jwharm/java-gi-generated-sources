@@ -88,7 +88,7 @@ public class DragAction extends io.github.jwharm.javagi.Bitfield {
         
         private static final MethodHandle gdk_drag_action_is_unique = Interop.downcallHandle(
             "gdk_drag_action_is_unique",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
             false
         );
     }

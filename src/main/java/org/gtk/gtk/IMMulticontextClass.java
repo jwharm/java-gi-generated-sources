@@ -5,7 +5,7 @@ import java.lang.foreign.*;
 import java.lang.invoke.*;
 import org.jetbrains.annotations.*;
 
-public class IMMulticontextClass extends io.github.jwharm.javagi.ProxyBase {
+public class IMMulticontextClass extends Struct {
     
     static {
         Gtk.javagi$ensureInitialized();
@@ -13,7 +13,7 @@ public class IMMulticontextClass extends io.github.jwharm.javagi.ProxyBase {
     
     private static final java.lang.String C_TYPE_NAME = "GtkIMMulticontextClass";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gtk.IMContextClass.getMemoryLayout().withName("parent_class"),
         Interop.valueLayout.ADDRESS.withName("_gtk_reserved1"),
         Interop.valueLayout.ADDRESS.withName("_gtk_reserved2"),
@@ -32,6 +32,10 @@ public class IMMulticontextClass extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link IMMulticontextClass}
+     * @return A new, uninitialized @{link IMMulticontextClass}
+     */
     public static IMMulticontextClass allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         IMMulticontextClass newInstance = new IMMulticontextClass(segment.address(), Ownership.NONE);
@@ -56,5 +60,68 @@ public class IMMulticontextClass extends io.github.jwharm.javagi.ProxyBase {
     @ApiStatus.Internal
     public IMMulticontextClass(Addressable address, Ownership ownership) {
         super(address, ownership);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private IMMulticontextClass struct;
+        
+         /**
+         * A {@link IMMulticontextClass.Build} object constructs a {@link IMMulticontextClass} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = IMMulticontextClass.allocate();
+        }
+        
+         /**
+         * Finish building the {@link IMMulticontextClass} struct.
+         * @return A new instance of {@code IMMulticontextClass} with the fields 
+         *         that were set in the Build object.
+         */
+        public IMMulticontextClass construct() {
+            return struct;
+        }
+        
+        public Build setParentClass(org.gtk.gtk.IMContextClass parent_class) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parent_class == null ? MemoryAddress.NULL : parent_class.handle()));
+            return this;
+        }
+        
+        public Build setGtkReserved1(java.lang.foreign.MemoryAddress _gtk_reserved1) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("_gtk_reserved1"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (_gtk_reserved1 == null ? MemoryAddress.NULL : _gtk_reserved1));
+            return this;
+        }
+        
+        public Build setGtkReserved2(java.lang.foreign.MemoryAddress _gtk_reserved2) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("_gtk_reserved2"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (_gtk_reserved2 == null ? MemoryAddress.NULL : _gtk_reserved2));
+            return this;
+        }
+        
+        public Build setGtkReserved3(java.lang.foreign.MemoryAddress _gtk_reserved3) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("_gtk_reserved3"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (_gtk_reserved3 == null ? MemoryAddress.NULL : _gtk_reserved3));
+            return this;
+        }
+        
+        public Build setGtkReserved4(java.lang.foreign.MemoryAddress _gtk_reserved4) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("_gtk_reserved4"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (_gtk_reserved4 == null ? MemoryAddress.NULL : _gtk_reserved4));
+            return this;
+        }
     }
 }

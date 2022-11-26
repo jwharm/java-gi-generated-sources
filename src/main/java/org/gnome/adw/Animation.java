@@ -60,7 +60,7 @@ public class Animation extends org.gtk.gobject.Object {
     
     private static final java.lang.String C_TYPE_NAME = "AdwAnimation";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gobject.Object.getMemoryLayout().withName("parent_instance")
     ).withName(C_TYPE_NAME);
     
@@ -105,7 +105,7 @@ public class Animation extends org.gtk.gobject.Object {
      * @throws ClassCastException If the GType is not derived from "AdwAnimation", a ClassCastException will be thrown.
      */
     public static Animation castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("AdwAnimation"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), Animation.getType())) {
             return new Animation(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of AdwAnimation");
@@ -288,6 +288,20 @@ public class Animation extends org.gtk.gobject.Object {
         }
     }
     
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.adw_animation_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+    
     @FunctionalInterface
     public interface Done {
         void signalReceived(Animation source);
@@ -307,7 +321,7 @@ public class Animation extends org.gtk.gobject.Object {
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(Animation.Callbacks.class, "signalAnimationDone",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                     Interop.getScope()),
                 Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
@@ -316,66 +330,161 @@ public class Animation extends org.gtk.gobject.Object {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gobject.Object.Build {
+        
+         /**
+         * A {@link Animation.Build} object constructs a {@link Animation} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link Animation} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link Animation} using {@link Animation#castFrom}.
+         * @return A new instance of {@code Animation} with the properties 
+         *         that were set in the Build object.
+         */
+        public Animation construct() {
+            return Animation.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    Animation.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+        
+        /**
+         * The animation state.
+         * <p>
+         * The state indicates whether the animation is currently playing, paused,
+         * finished or hasn't been started yet.
+         * @param state The value for the {@code state} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setState(org.gnome.adw.AnimationState state) {
+            names.add("state");
+            values.add(org.gtk.gobject.Value.create(state));
+            return this;
+        }
+        
+        /**
+         * The target to animate.
+         * @param target The value for the {@code target} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setTarget(org.gnome.adw.AnimationTarget target) {
+            names.add("target");
+            values.add(org.gtk.gobject.Value.create(target));
+            return this;
+        }
+        
+        /**
+         * The current value of the animation.
+         * @param value The value for the {@code value} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setValue(double value) {
+            names.add("value");
+            values.add(org.gtk.gobject.Value.create(value));
+            return this;
+        }
+        
+        /**
+         * The animation widget.
+         * <p>
+         * It provides the frame clock for the animation. It's not strictly necessary
+         * for this widget to be same as the one being animated.
+         * <p>
+         * The widget must be mapped in order for the animation to work. If it's not
+         * mapped, or if it gets unmapped during an ongoing animation, the animation
+         * will be automatically skipped.
+         * @param widget The value for the {@code widget} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setWidget(org.gtk.gtk.Widget widget) {
+            names.add("widget");
+            values.add(org.gtk.gobject.Value.create(widget));
+            return this;
+        }
+    }
     
     private static class DowncallHandles {
         
         private static final MethodHandle adw_animation_get_state = Interop.downcallHandle(
             "adw_animation_get_state",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_animation_get_target = Interop.downcallHandle(
             "adw_animation_get_target",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_animation_get_value = Interop.downcallHandle(
             "adw_animation_get_value",
-            FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_DOUBLE, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_animation_get_widget = Interop.downcallHandle(
             "adw_animation_get_widget",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_animation_pause = Interop.downcallHandle(
             "adw_animation_pause",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_animation_play = Interop.downcallHandle(
             "adw_animation_play",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_animation_reset = Interop.downcallHandle(
             "adw_animation_reset",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_animation_resume = Interop.downcallHandle(
             "adw_animation_resume",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_animation_set_target = Interop.downcallHandle(
             "adw_animation_set_target",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_animation_skip = Interop.downcallHandle(
             "adw_animation_skip",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+            false
+        );
+        
+        private static final MethodHandle adw_animation_get_type = Interop.downcallHandle(
+            "adw_animation_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }
@@ -383,9 +492,9 @@ public class Animation extends org.gtk.gobject.Object {
     private static class Callbacks {
         
         public static void signalAnimationDone(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (Animation.Done) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Animation(source, Ownership.UNKNOWN));
+            HANDLER.signalReceived(new Animation(source, Ownership.NONE));
         }
     }
 }

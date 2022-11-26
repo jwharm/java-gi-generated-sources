@@ -9,7 +9,7 @@ import org.jetbrains.annotations.*;
  * {@code GtkRecentInfo} contains the metadata associated with an item in the
  * recently used files list.
  */
-public class RecentInfo extends io.github.jwharm.javagi.ProxyBase {
+public class RecentInfo extends Struct {
     
     static {
         Gtk.javagi$ensureInitialized();
@@ -28,6 +28,10 @@ public class RecentInfo extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link RecentInfo}
+     * @return A new, uninitialized @{link RecentInfo}
+     */
     public static RecentInfo allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         RecentInfo newInstance = new RecentInfo(segment.address(), Ownership.NONE);
@@ -57,7 +61,7 @@ public class RecentInfo extends io.github.jwharm.javagi.ProxyBase {
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public @Nullable org.gtk.gio.AppInfo createAppInfo(@Nullable java.lang.String appName) throws io.github.jwharm.javagi.GErrorException {
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_recent_info_create_app_info.invokeExact(
@@ -144,10 +148,10 @@ public class RecentInfo extends io.github.jwharm.javagi.ProxyBase {
     public boolean getApplicationInfo(@NotNull java.lang.String appName, @NotNull Out<java.lang.String> appExec, Out<Integer> count, @NotNull PointerProxy<org.gtk.glib.DateTime> stamp) {
         java.util.Objects.requireNonNull(appName, "Parameter 'appName' must not be null");
         java.util.Objects.requireNonNull(appExec, "Parameter 'appExec' must not be null");
+        MemorySegment appExecPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         java.util.Objects.requireNonNull(count, "Parameter 'count' must not be null");
+        MemorySegment countPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         java.util.Objects.requireNonNull(stamp, "Parameter 'stamp' must not be null");
-        MemorySegment appExecPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        MemorySegment countPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_recent_info_get_application_info.invokeExact(
@@ -159,8 +163,8 @@ public class RecentInfo extends io.github.jwharm.javagi.ProxyBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        appExec.set(Interop.getStringFrom(appExecPOINTER.get(ValueLayout.ADDRESS, 0)));
-        count.set(countPOINTER.get(ValueLayout.JAVA_INT, 0));
+        appExec.set(Interop.getStringFrom(appExecPOINTER.get(Interop.valueLayout.ADDRESS, 0)));
+        count.set(countPOINTER.get(Interop.valueLayout.C_INT, 0));
         return RESULT != 0;
     }
     
@@ -172,7 +176,7 @@ public class RecentInfo extends io.github.jwharm.javagi.ProxyBase {
      */
     public @NotNull java.lang.String[] getApplications(Out<Long> length) {
         java.util.Objects.requireNonNull(length, "Parameter 'length' must not be null");
-        MemorySegment lengthPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_LONG);
+        MemorySegment lengthPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_recent_info_get_applications.invokeExact(
@@ -181,10 +185,10 @@ public class RecentInfo extends io.github.jwharm.javagi.ProxyBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        length.set(lengthPOINTER.get(ValueLayout.JAVA_LONG, 0));
+        length.set(lengthPOINTER.get(Interop.valueLayout.C_LONG, 0));
         java.lang.String[] resultARRAY = new java.lang.String[length.get().intValue()];
         for (int I = 0; I < length.get().intValue(); I++) {
-            var OBJ = RESULT.get(ValueLayout.ADDRESS, I);
+            var OBJ = RESULT.get(Interop.valueLayout.ADDRESS, I);
             resultARRAY[I] = Interop.getStringFrom(OBJ);
         }
         return resultARRAY;
@@ -251,7 +255,7 @@ public class RecentInfo extends io.github.jwharm.javagi.ProxyBase {
      */
     public @NotNull java.lang.String[] getGroups(Out<Long> length) {
         java.util.Objects.requireNonNull(length, "Parameter 'length' must not be null");
-        MemorySegment lengthPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_LONG);
+        MemorySegment lengthPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_recent_info_get_groups.invokeExact(
@@ -260,10 +264,10 @@ public class RecentInfo extends io.github.jwharm.javagi.ProxyBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        length.set(lengthPOINTER.get(ValueLayout.JAVA_LONG, 0));
+        length.set(lengthPOINTER.get(Interop.valueLayout.C_LONG, 0));
         java.lang.String[] resultARRAY = new java.lang.String[length.get().intValue()];
         for (int I = 0; I < length.get().intValue(); I++) {
-            var OBJ = RESULT.get(ValueLayout.ADDRESS, I);
+            var OBJ = RESULT.get(Interop.valueLayout.ADDRESS, I);
             resultARRAY[I] = Interop.getStringFrom(OBJ);
         }
         return resultARRAY;
@@ -518,146 +522,174 @@ public class RecentInfo extends io.github.jwharm.javagi.ProxyBase {
         
         private static final MethodHandle gtk_recent_info_create_app_info = Interop.downcallHandle(
             "gtk_recent_info_create_app_info",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_recent_info_exists = Interop.downcallHandle(
             "gtk_recent_info_exists",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_recent_info_get_added = Interop.downcallHandle(
             "gtk_recent_info_get_added",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_recent_info_get_age = Interop.downcallHandle(
             "gtk_recent_info_get_age",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_recent_info_get_application_info = Interop.downcallHandle(
             "gtk_recent_info_get_application_info",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_recent_info_get_applications = Interop.downcallHandle(
             "gtk_recent_info_get_applications",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_recent_info_get_description = Interop.downcallHandle(
             "gtk_recent_info_get_description",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_recent_info_get_display_name = Interop.downcallHandle(
             "gtk_recent_info_get_display_name",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_recent_info_get_gicon = Interop.downcallHandle(
             "gtk_recent_info_get_gicon",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_recent_info_get_groups = Interop.downcallHandle(
             "gtk_recent_info_get_groups",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_recent_info_get_mime_type = Interop.downcallHandle(
             "gtk_recent_info_get_mime_type",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_recent_info_get_modified = Interop.downcallHandle(
             "gtk_recent_info_get_modified",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_recent_info_get_private_hint = Interop.downcallHandle(
             "gtk_recent_info_get_private_hint",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_recent_info_get_short_name = Interop.downcallHandle(
             "gtk_recent_info_get_short_name",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_recent_info_get_uri = Interop.downcallHandle(
             "gtk_recent_info_get_uri",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_recent_info_get_uri_display = Interop.downcallHandle(
             "gtk_recent_info_get_uri_display",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_recent_info_get_visited = Interop.downcallHandle(
             "gtk_recent_info_get_visited",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_recent_info_has_application = Interop.downcallHandle(
             "gtk_recent_info_has_application",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_recent_info_has_group = Interop.downcallHandle(
             "gtk_recent_info_has_group",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_recent_info_is_local = Interop.downcallHandle(
             "gtk_recent_info_is_local",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_recent_info_last_application = Interop.downcallHandle(
             "gtk_recent_info_last_application",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_recent_info_match = Interop.downcallHandle(
             "gtk_recent_info_match",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_recent_info_ref = Interop.downcallHandle(
             "gtk_recent_info_ref",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_recent_info_unref = Interop.downcallHandle(
             "gtk_recent_info_unref",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private RecentInfo struct;
+        
+         /**
+         * A {@link RecentInfo.Build} object constructs a {@link RecentInfo} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = RecentInfo.allocate();
+        }
+        
+         /**
+         * Finish building the {@link RecentInfo} struct.
+         * @return A new instance of {@code RecentInfo} with the fields 
+         *         that were set in the Build object.
+         */
+        public RecentInfo construct() {
+            return struct;
+        }
     }
 }

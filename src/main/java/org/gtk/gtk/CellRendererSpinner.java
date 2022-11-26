@@ -59,7 +59,7 @@ public class CellRendererSpinner extends org.gtk.gtk.CellRenderer {
      * @throws ClassCastException If the GType is not derived from "GtkCellRendererSpinner", a ClassCastException will be thrown.
      */
     public static CellRendererSpinner castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkCellRendererSpinner"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), CellRendererSpinner.getType())) {
             return new CellRendererSpinner(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkCellRendererSpinner");
@@ -84,11 +84,98 @@ public class CellRendererSpinner extends org.gtk.gtk.CellRenderer {
         super(constructNew(), Ownership.NONE);
     }
     
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.gtk_cell_renderer_spinner_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gtk.CellRenderer.Build {
+        
+         /**
+         * A {@link CellRendererSpinner.Build} object constructs a {@link CellRendererSpinner} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link CellRendererSpinner} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link CellRendererSpinner} using {@link CellRendererSpinner#castFrom}.
+         * @return A new instance of {@code CellRendererSpinner} with the properties 
+         *         that were set in the Build object.
+         */
+        public CellRendererSpinner construct() {
+            return CellRendererSpinner.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    CellRendererSpinner.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+        
+        public Build setActive(boolean active) {
+            names.add("active");
+            values.add(org.gtk.gobject.Value.create(active));
+            return this;
+        }
+        
+        /**
+         * Pulse of the spinner. Increment this value to draw the next frame of the
+         * spinner animation. Usually, you would update this value in a timeout.
+         * <p>
+         * By default, the {@code GtkSpinner} widget draws one full cycle of the animation,
+         * consisting of 12 frames, in 750 milliseconds.
+         * @param pulse The value for the {@code pulse} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setPulse(int pulse) {
+            names.add("pulse");
+            values.add(org.gtk.gobject.Value.create(pulse));
+            return this;
+        }
+        
+        /**
+         * The {@code GtkIconSize} value that specifies the size of the rendered spinner.
+         * @param size The value for the {@code size} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setSize(org.gtk.gtk.IconSize size) {
+            names.add("size");
+            values.add(org.gtk.gobject.Value.create(size));
+            return this;
+        }
+    }
+    
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_cell_renderer_spinner_new = Interop.downcallHandle(
             "gtk_cell_renderer_spinner_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+            false
+        );
+        
+        private static final MethodHandle gtk_cell_renderer_spinner_get_type = Interop.downcallHandle(
+            "gtk_cell_renderer_spinner_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }

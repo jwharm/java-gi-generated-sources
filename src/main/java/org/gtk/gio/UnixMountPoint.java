@@ -9,7 +9,7 @@ import org.jetbrains.annotations.*;
  * Defines a Unix mount point (e.g. &lt;filename&gt;/dev&lt;/filename&gt;).
  * This corresponds roughly to a fstab entry.
  */
-public class UnixMountPoint extends io.github.jwharm.javagi.ProxyBase {
+public class UnixMountPoint extends Struct {
     
     static {
         Gio.javagi$ensureInitialized();
@@ -28,6 +28,10 @@ public class UnixMountPoint extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link UnixMountPoint}
+     * @return A new, uninitialized @{link UnixMountPoint}
+     */
     public static UnixMountPoint allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         UnixMountPoint newInstance = new UnixMountPoint(segment.address(), Ownership.NONE);
@@ -273,7 +277,7 @@ public class UnixMountPoint extends io.github.jwharm.javagi.ProxyBase {
     public static @Nullable org.gtk.gio.UnixMountPoint at(@NotNull java.lang.String mountPath, Out<Long> timeRead) {
         java.util.Objects.requireNonNull(mountPath, "Parameter 'mountPath' must not be null");
         java.util.Objects.requireNonNull(timeRead, "Parameter 'timeRead' must not be null");
-        MemorySegment timeReadPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_LONG);
+        MemorySegment timeReadPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_unix_mount_point_at.invokeExact(
@@ -282,7 +286,7 @@ public class UnixMountPoint extends io.github.jwharm.javagi.ProxyBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        timeRead.set(timeReadPOINTER.get(ValueLayout.JAVA_LONG, 0));
+        timeRead.set(timeReadPOINTER.get(Interop.valueLayout.C_LONG, 0));
         return new org.gtk.gio.UnixMountPoint(RESULT, Ownership.FULL);
     }
     
@@ -290,92 +294,120 @@ public class UnixMountPoint extends io.github.jwharm.javagi.ProxyBase {
         
         private static final MethodHandle g_unix_mount_point_compare = Interop.downcallHandle(
             "g_unix_mount_point_compare",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_unix_mount_point_copy = Interop.downcallHandle(
             "g_unix_mount_point_copy",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_unix_mount_point_free = Interop.downcallHandle(
             "g_unix_mount_point_free",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_unix_mount_point_get_device_path = Interop.downcallHandle(
             "g_unix_mount_point_get_device_path",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_unix_mount_point_get_fs_type = Interop.downcallHandle(
             "g_unix_mount_point_get_fs_type",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_unix_mount_point_get_mount_path = Interop.downcallHandle(
             "g_unix_mount_point_get_mount_path",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_unix_mount_point_get_options = Interop.downcallHandle(
             "g_unix_mount_point_get_options",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_unix_mount_point_guess_can_eject = Interop.downcallHandle(
             "g_unix_mount_point_guess_can_eject",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_unix_mount_point_guess_icon = Interop.downcallHandle(
             "g_unix_mount_point_guess_icon",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_unix_mount_point_guess_name = Interop.downcallHandle(
             "g_unix_mount_point_guess_name",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_unix_mount_point_guess_symbolic_icon = Interop.downcallHandle(
             "g_unix_mount_point_guess_symbolic_icon",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_unix_mount_point_is_loopback = Interop.downcallHandle(
             "g_unix_mount_point_is_loopback",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_unix_mount_point_is_readonly = Interop.downcallHandle(
             "g_unix_mount_point_is_readonly",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_unix_mount_point_is_user_mountable = Interop.downcallHandle(
             "g_unix_mount_point_is_user_mountable",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_unix_mount_point_at = Interop.downcallHandle(
             "g_unix_mount_point_at",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private UnixMountPoint struct;
+        
+         /**
+         * A {@link UnixMountPoint.Build} object constructs a {@link UnixMountPoint} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = UnixMountPoint.allocate();
+        }
+        
+         /**
+         * Finish building the {@link UnixMountPoint} struct.
+         * @return A new instance of {@code UnixMountPoint} with the fields 
+         *         that were set in the Build object.
+         */
+        public UnixMountPoint construct() {
+            return struct;
+        }
     }
 }

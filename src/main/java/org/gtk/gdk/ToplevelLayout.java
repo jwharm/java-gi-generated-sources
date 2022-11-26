@@ -16,7 +16,7 @@ import org.jetbrains.annotations.*;
  * to the user in various states (maximized, on all workspaces,
  * etc).
  */
-public class ToplevelLayout extends io.github.jwharm.javagi.ProxyBase {
+public class ToplevelLayout extends Struct {
     
     static {
         Gdk.javagi$ensureInitialized();
@@ -35,6 +35,10 @@ public class ToplevelLayout extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link ToplevelLayout}
+     * @return A new, uninitialized @{link ToplevelLayout}
+     */
     public static ToplevelLayout allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         ToplevelLayout newInstance = new ToplevelLayout(segment.address(), Ownership.NONE);
@@ -118,7 +122,7 @@ public class ToplevelLayout extends io.github.jwharm.javagi.ProxyBase {
      */
     public boolean getFullscreen(Out<Boolean> fullscreen) {
         java.util.Objects.requireNonNull(fullscreen, "Parameter 'fullscreen' must not be null");
-        MemorySegment fullscreenPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
+        MemorySegment fullscreenPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gdk_toplevel_layout_get_fullscreen.invokeExact(
@@ -127,7 +131,7 @@ public class ToplevelLayout extends io.github.jwharm.javagi.ProxyBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        fullscreen.set(fullscreenPOINTER.get(ValueLayout.JAVA_INT, 0) != 0);
+        fullscreen.set(fullscreenPOINTER.get(Interop.valueLayout.C_INT, 0) != 0);
         return RESULT != 0;
     }
     
@@ -156,7 +160,7 @@ public class ToplevelLayout extends io.github.jwharm.javagi.ProxyBase {
      */
     public boolean getMaximized(Out<Boolean> maximized) {
         java.util.Objects.requireNonNull(maximized, "Parameter 'maximized' must not be null");
-        MemorySegment maximizedPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
+        MemorySegment maximizedPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gdk_toplevel_layout_get_maximized.invokeExact(
@@ -165,7 +169,7 @@ public class ToplevelLayout extends io.github.jwharm.javagi.ProxyBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        maximized.set(maximizedPOINTER.get(ValueLayout.JAVA_INT, 0) != 0);
+        maximized.set(maximizedPOINTER.get(Interop.valueLayout.C_INT, 0) != 0);
         return RESULT != 0;
     }
     
@@ -263,74 +267,102 @@ public class ToplevelLayout extends io.github.jwharm.javagi.ProxyBase {
         
         private static final MethodHandle gdk_toplevel_layout_new = Interop.downcallHandle(
             "gdk_toplevel_layout_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_toplevel_layout_copy = Interop.downcallHandle(
             "gdk_toplevel_layout_copy",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_toplevel_layout_equal = Interop.downcallHandle(
             "gdk_toplevel_layout_equal",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_toplevel_layout_get_fullscreen = Interop.downcallHandle(
             "gdk_toplevel_layout_get_fullscreen",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gdk_toplevel_layout_get_fullscreen_monitor = Interop.downcallHandle(
             "gdk_toplevel_layout_get_fullscreen_monitor",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_toplevel_layout_get_maximized = Interop.downcallHandle(
             "gdk_toplevel_layout_get_maximized",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gdk_toplevel_layout_get_resizable = Interop.downcallHandle(
             "gdk_toplevel_layout_get_resizable",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_toplevel_layout_ref = Interop.downcallHandle(
             "gdk_toplevel_layout_ref",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_toplevel_layout_set_fullscreen = Interop.downcallHandle(
             "gdk_toplevel_layout_set_fullscreen",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_toplevel_layout_set_maximized = Interop.downcallHandle(
             "gdk_toplevel_layout_set_maximized",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gdk_toplevel_layout_set_resizable = Interop.downcallHandle(
             "gdk_toplevel_layout_set_resizable",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gdk_toplevel_layout_unref = Interop.downcallHandle(
             "gdk_toplevel_layout_unref",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private ToplevelLayout struct;
+        
+         /**
+         * A {@link ToplevelLayout.Build} object constructs a {@link ToplevelLayout} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = ToplevelLayout.allocate();
+        }
+        
+         /**
+         * Finish building the {@link ToplevelLayout} struct.
+         * @return A new instance of {@code ToplevelLayout} with the fields 
+         *         that were set in the Build object.
+         */
+        public ToplevelLayout construct() {
+            return struct;
+        }
     }
 }

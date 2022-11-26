@@ -126,37 +126,37 @@ public final class Gsk {
         
         private static final MethodHandle gsk_serialization_error_quark = Interop.downcallHandle(
             "gsk_serialization_error_quark",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gsk_transform_parse = Interop.downcallHandle(
             "gsk_transform_parse",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gsk_value_dup_render_node = Interop.downcallHandle(
             "gsk_value_dup_render_node",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gsk_value_get_render_node = Interop.downcallHandle(
             "gsk_value_get_render_node",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gsk_value_set_render_node = Interop.downcallHandle(
             "gsk_value_set_render_node",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gsk_value_take_render_node = Interop.downcallHandle(
             "gsk_value_take_render_node",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
     }
@@ -165,7 +165,7 @@ public final class Gsk {
     public static class Callbacks {
         
         public static void cbParseErrorFunc(MemoryAddress start, MemoryAddress end, MemoryAddress error, MemoryAddress userData) {
-            int HASH = userData.get(ValueLayout.JAVA_INT, 0);
+            int HASH = userData.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (ParseErrorFunc) Interop.signalRegistry.get(HASH);
             HANDLER.onParseErrorFunc(new org.gtk.gsk.ParseLocation(start, Ownership.NONE), new org.gtk.gsk.ParseLocation(end, Ownership.NONE), new org.gtk.glib.Error(error, Ownership.NONE));
         }

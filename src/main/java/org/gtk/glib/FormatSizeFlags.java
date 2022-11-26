@@ -37,6 +37,20 @@ public class FormatSizeFlags extends io.github.jwharm.javagi.Bitfield {
      */
     public static final FormatSizeFlags BITS = new FormatSizeFlags(4);
     
+    /**
+     * return only value, without unit; this should
+     *     not be used together with {@code G_FORMAT_SIZE_LONG_FORMAT}
+     *     nor {@code G_FORMAT_SIZE_ONLY_UNIT}. Since: 2.74
+     */
+    public static final FormatSizeFlags ONLY_VALUE = new FormatSizeFlags(8);
+    
+    /**
+     * return only unit, without value; this should
+     *     not be used together with {@code G_FORMAT_SIZE_LONG_FORMAT}
+     *     nor {@code G_FORMAT_SIZE_ONLY_VALUE}. Since: 2.74
+     */
+    public static final FormatSizeFlags ONLY_UNIT = new FormatSizeFlags(16);
+    
     public FormatSizeFlags(int value) {
         super(value);
     }

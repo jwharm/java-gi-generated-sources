@@ -9,7 +9,7 @@ import org.jetbrains.annotations.*;
  * Class structure for {@link DBusObjectProxy}.
  * @version 2.30
  */
-public class DBusObjectProxyClass extends io.github.jwharm.javagi.ProxyBase {
+public class DBusObjectProxyClass extends Struct {
     
     static {
         Gio.javagi$ensureInitialized();
@@ -17,10 +17,9 @@ public class DBusObjectProxyClass extends io.github.jwharm.javagi.ProxyBase {
     
     private static final java.lang.String C_TYPE_NAME = "GDBusObjectProxyClass";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gobject.ObjectClass.getMemoryLayout().withName("parent_class"),
-        MemoryLayout.paddingLayout(448),
-        MemoryLayout.sequenceLayout(8, ValueLayout.ADDRESS).withName("padding")
+        MemoryLayout.sequenceLayout(8, Interop.valueLayout.ADDRESS).withName("padding")
     ).withName(C_TYPE_NAME);
     
     /**
@@ -34,6 +33,10 @@ public class DBusObjectProxyClass extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link DBusObjectProxyClass}
+     * @return A new, uninitialized @{link DBusObjectProxyClass}
+     */
     public static DBusObjectProxyClass allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         DBusObjectProxyClass newInstance = new DBusObjectProxyClass(segment.address(), Ownership.NONE);
@@ -58,5 +61,52 @@ public class DBusObjectProxyClass extends io.github.jwharm.javagi.ProxyBase {
     @ApiStatus.Internal
     public DBusObjectProxyClass(Addressable address, Ownership ownership) {
         super(address, ownership);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private DBusObjectProxyClass struct;
+        
+         /**
+         * A {@link DBusObjectProxyClass.Build} object constructs a {@link DBusObjectProxyClass} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = DBusObjectProxyClass.allocate();
+        }
+        
+         /**
+         * Finish building the {@link DBusObjectProxyClass} struct.
+         * @return A new instance of {@code DBusObjectProxyClass} with the fields 
+         *         that were set in the Build object.
+         */
+        public DBusObjectProxyClass construct() {
+            return struct;
+        }
+        
+        /**
+         * The parent class.
+         * @param parent_class The value for the {@code parent_class} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setParentClass(org.gtk.gobject.ObjectClass parent_class) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parent_class == null ? MemoryAddress.NULL : parent_class.handle()));
+            return this;
+        }
+        
+        public Build setPadding(java.lang.foreign.MemoryAddress[] padding) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("padding"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (padding == null ? MemoryAddress.NULL : Interop.allocateNativeArray(padding, false)));
+            return this;
+        }
     }
 }

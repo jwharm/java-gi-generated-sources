@@ -32,7 +32,7 @@ public class MediaStream extends org.gtk.gobject.Object implements org.gtk.gdk.P
     
     private static final java.lang.String C_TYPE_NAME = "GtkMediaStream";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gobject.Object.getMemoryLayout().withName("parent_instance")
     ).withName(C_TYPE_NAME);
     
@@ -77,7 +77,7 @@ public class MediaStream extends org.gtk.gobject.Object implements org.gtk.gdk.P
      * @throws ClassCastException If the GType is not derived from "GtkMediaStream", a ClassCastException will be thrown.
      */
     public static MediaStream castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkMediaStream"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), MediaStream.getType())) {
             return new MediaStream(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkMediaStream");
@@ -742,209 +742,409 @@ public class MediaStream extends org.gtk.gobject.Object implements org.gtk.gdk.P
         }
     }
     
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.gtk_media_stream_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gobject.Object.Build {
+        
+         /**
+         * A {@link MediaStream.Build} object constructs a {@link MediaStream} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link MediaStream} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link MediaStream} using {@link MediaStream#castFrom}.
+         * @return A new instance of {@code MediaStream} with the properties 
+         *         that were set in the Build object.
+         */
+        public MediaStream construct() {
+            return MediaStream.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    MediaStream.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+        
+        /**
+         * The stream's duration in microseconds or 0 if unknown.
+         * @param duration The value for the {@code duration} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setDuration(long duration) {
+            names.add("duration");
+            values.add(org.gtk.gobject.Value.create(duration));
+            return this;
+        }
+        
+        /**
+         * Set when playback has finished.
+         * @param ended The value for the {@code ended} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setEnded(boolean ended) {
+            names.add("ended");
+            values.add(org.gtk.gobject.Value.create(ended));
+            return this;
+        }
+        
+        /**
+         * {@code null} for a properly working stream or the {@code GError}
+         * that the stream is in.
+         * @param error The value for the {@code error} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setError(org.gtk.glib.Error error) {
+            names.add("error");
+            values.add(org.gtk.gobject.Value.create(error));
+            return this;
+        }
+        
+        /**
+         * Whether the stream contains audio.
+         * @param hasAudio The value for the {@code has-audio} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setHasAudio(boolean hasAudio) {
+            names.add("has-audio");
+            values.add(org.gtk.gobject.Value.create(hasAudio));
+            return this;
+        }
+        
+        /**
+         * Whether the stream contains video.
+         * @param hasVideo The value for the {@code has-video} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setHasVideo(boolean hasVideo) {
+            names.add("has-video");
+            values.add(org.gtk.gobject.Value.create(hasVideo));
+            return this;
+        }
+        
+        /**
+         * Try to restart the media from the beginning once it ended.
+         * @param loop The value for the {@code loop} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setLoop(boolean loop) {
+            names.add("loop");
+            values.add(org.gtk.gobject.Value.create(loop));
+            return this;
+        }
+        
+        /**
+         * Whether the audio stream should be muted.
+         * @param muted The value for the {@code muted} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setMuted(boolean muted) {
+            names.add("muted");
+            values.add(org.gtk.gobject.Value.create(muted));
+            return this;
+        }
+        
+        /**
+         * Whether the stream is currently playing.
+         * @param playing The value for the {@code playing} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setPlaying(boolean playing) {
+            names.add("playing");
+            values.add(org.gtk.gobject.Value.create(playing));
+            return this;
+        }
+        
+        /**
+         * Whether the stream has finished initializing and existence of
+         * audio and video is known.
+         * @param prepared The value for the {@code prepared} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setPrepared(boolean prepared) {
+            names.add("prepared");
+            values.add(org.gtk.gobject.Value.create(prepared));
+            return this;
+        }
+        
+        /**
+         * Set unless the stream is known to not support seeking.
+         * @param seekable The value for the {@code seekable} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setSeekable(boolean seekable) {
+            names.add("seekable");
+            values.add(org.gtk.gobject.Value.create(seekable));
+            return this;
+        }
+        
+        /**
+         * Set while a seek is in progress.
+         * @param seeking The value for the {@code seeking} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setSeeking(boolean seeking) {
+            names.add("seeking");
+            values.add(org.gtk.gobject.Value.create(seeking));
+            return this;
+        }
+        
+        /**
+         * The current presentation timestamp in microseconds.
+         * @param timestamp The value for the {@code timestamp} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setTimestamp(long timestamp) {
+            names.add("timestamp");
+            values.add(org.gtk.gobject.Value.create(timestamp));
+            return this;
+        }
+        
+        /**
+         * Volume of the audio stream.
+         * @param volume The value for the {@code volume} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setVolume(double volume) {
+            names.add("volume");
+            values.add(org.gtk.gobject.Value.create(volume));
+            return this;
+        }
+    }
+    
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_media_stream_ended = Interop.downcallHandle(
             "gtk_media_stream_ended",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_media_stream_error = Interop.downcallHandle(
             "gtk_media_stream_error",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             true
         );
         
         private static final MethodHandle gtk_media_stream_error_valist = Interop.downcallHandle(
             "gtk_media_stream_error_valist",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_media_stream_gerror = Interop.downcallHandle(
             "gtk_media_stream_gerror",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_media_stream_get_duration = Interop.downcallHandle(
             "gtk_media_stream_get_duration",
-            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_media_stream_get_ended = Interop.downcallHandle(
             "gtk_media_stream_get_ended",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_media_stream_get_error = Interop.downcallHandle(
             "gtk_media_stream_get_error",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_media_stream_get_loop = Interop.downcallHandle(
             "gtk_media_stream_get_loop",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_media_stream_get_muted = Interop.downcallHandle(
             "gtk_media_stream_get_muted",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_media_stream_get_playing = Interop.downcallHandle(
             "gtk_media_stream_get_playing",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_media_stream_get_timestamp = Interop.downcallHandle(
             "gtk_media_stream_get_timestamp",
-            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_media_stream_get_volume = Interop.downcallHandle(
             "gtk_media_stream_get_volume",
-            FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_DOUBLE, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_media_stream_has_audio = Interop.downcallHandle(
             "gtk_media_stream_has_audio",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_media_stream_has_video = Interop.downcallHandle(
             "gtk_media_stream_has_video",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_media_stream_is_prepared = Interop.downcallHandle(
             "gtk_media_stream_is_prepared",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_media_stream_is_seekable = Interop.downcallHandle(
             "gtk_media_stream_is_seekable",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_media_stream_is_seeking = Interop.downcallHandle(
             "gtk_media_stream_is_seeking",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_media_stream_pause = Interop.downcallHandle(
             "gtk_media_stream_pause",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_media_stream_play = Interop.downcallHandle(
             "gtk_media_stream_play",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_media_stream_prepared = Interop.downcallHandle(
             "gtk_media_stream_prepared",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_LONG),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_LONG),
             false
         );
         
         private static final MethodHandle gtk_media_stream_realize = Interop.downcallHandle(
             "gtk_media_stream_realize",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_media_stream_seek = Interop.downcallHandle(
             "gtk_media_stream_seek",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
             false
         );
         
         private static final MethodHandle gtk_media_stream_seek_failed = Interop.downcallHandle(
             "gtk_media_stream_seek_failed",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_media_stream_seek_success = Interop.downcallHandle(
             "gtk_media_stream_seek_success",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_media_stream_set_loop = Interop.downcallHandle(
             "gtk_media_stream_set_loop",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_media_stream_set_muted = Interop.downcallHandle(
             "gtk_media_stream_set_muted",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_media_stream_set_playing = Interop.downcallHandle(
             "gtk_media_stream_set_playing",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_media_stream_set_volume = Interop.downcallHandle(
             "gtk_media_stream_set_volume",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE),
             false
         );
         
         private static final MethodHandle gtk_media_stream_stream_ended = Interop.downcallHandle(
             "gtk_media_stream_stream_ended",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_media_stream_stream_prepared = Interop.downcallHandle(
             "gtk_media_stream_stream_prepared",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_LONG),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_LONG),
             false
         );
         
         private static final MethodHandle gtk_media_stream_stream_unprepared = Interop.downcallHandle(
             "gtk_media_stream_stream_unprepared",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_media_stream_unprepared = Interop.downcallHandle(
             "gtk_media_stream_unprepared",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_media_stream_unrealize = Interop.downcallHandle(
             "gtk_media_stream_unrealize",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_media_stream_update = Interop.downcallHandle(
             "gtk_media_stream_update",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
+            false
+        );
+        
+        private static final MethodHandle gtk_media_stream_get_type = Interop.downcallHandle(
+            "gtk_media_stream_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }

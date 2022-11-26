@@ -72,7 +72,7 @@ public class TlsChannelBindingError extends io.github.jwharm.javagi.Enumeration 
         
         private static final MethodHandle g_tls_channel_binding_error_quark = Interop.downcallHandle(
             "g_tls_channel_binding_error_quark",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT),
             false
         );
     }

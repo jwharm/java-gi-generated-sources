@@ -27,7 +27,7 @@ public interface CellEditable extends io.github.jwharm.javagi.Proxy {
      * @throws ClassCastException If the GType is not derived from "GtkCellEditable", a ClassCastException will be thrown.
      */
     public static CellEditable castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkCellEditable"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), CellEditable.getType())) {
             return new CellEditableImpl(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkCellEditable");
@@ -82,6 +82,20 @@ public interface CellEditable extends io.github.jwharm.javagi.Proxy {
         }
     }
     
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.gtk_cell_editable_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+    
     @FunctionalInterface
     public interface EditingDone {
         void signalReceived(CellEditable source);
@@ -110,7 +124,7 @@ public interface CellEditable extends io.github.jwharm.javagi.Proxy {
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(CellEditable.Callbacks.class, "signalCellEditableEditingDone",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                     Interop.getScope()),
                 Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
@@ -149,7 +163,7 @@ public interface CellEditable extends io.github.jwharm.javagi.Proxy {
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(CellEditable.Callbacks.class, "signalCellEditableRemoveWidget",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                     Interop.getScope()),
                 Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
@@ -165,21 +179,28 @@ public interface CellEditable extends io.github.jwharm.javagi.Proxy {
         @ApiStatus.Internal
         static final MethodHandle gtk_cell_editable_editing_done = Interop.downcallHandle(
             "gtk_cell_editable_editing_done",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_cell_editable_remove_widget = Interop.downcallHandle(
             "gtk_cell_editable_remove_widget",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_cell_editable_start_editing = Interop.downcallHandle(
             "gtk_cell_editable_start_editing",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+            false
+        );
+        
+        @ApiStatus.Internal
+        static final MethodHandle gtk_cell_editable_get_type = Interop.downcallHandle(
+            "gtk_cell_editable_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }
@@ -188,15 +209,15 @@ public interface CellEditable extends io.github.jwharm.javagi.Proxy {
     static class Callbacks {
         
         public static void signalCellEditableEditingDone(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (CellEditable.EditingDone) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new CellEditable.CellEditableImpl(source, Ownership.UNKNOWN));
+            HANDLER.signalReceived(new CellEditable.CellEditableImpl(source, Ownership.NONE));
         }
         
         public static void signalCellEditableRemoveWidget(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (CellEditable.RemoveWidget) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new CellEditable.CellEditableImpl(source, Ownership.UNKNOWN));
+            HANDLER.signalReceived(new CellEditable.CellEditableImpl(source, Ownership.NONE));
         }
     }
     

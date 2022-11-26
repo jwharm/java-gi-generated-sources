@@ -8,7 +8,7 @@ import org.jetbrains.annotations.*;
 /**
  * An opaque structure used as the base of all interface types.
  */
-public class TypeInterface extends io.github.jwharm.javagi.ProxyBase {
+public class TypeInterface extends Struct {
     
     static {
         GObject.javagi$ensureInitialized();
@@ -16,9 +16,9 @@ public class TypeInterface extends io.github.jwharm.javagi.ProxyBase {
     
     private static final java.lang.String C_TYPE_NAME = "GTypeInterface";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
-        ValueLayout.JAVA_LONG.withName("g_type"),
-        ValueLayout.JAVA_LONG.withName("g_instance_type")
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
+        Interop.valueLayout.C_LONG.withName("g_type"),
+        Interop.valueLayout.C_LONG.withName("g_instance_type")
     ).withName(C_TYPE_NAME);
     
     /**
@@ -32,6 +32,10 @@ public class TypeInterface extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link TypeInterface}
+     * @return A new, uninitialized @{link TypeInterface}
+     */
     public static TypeInterface allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         TypeInterface newInstance = new TypeInterface(segment.address(), Ownership.NONE);
@@ -172,7 +176,7 @@ public class TypeInterface extends io.github.jwharm.javagi.ProxyBase {
     public static @NotNull org.gtk.glib.Type[] prerequisites(@NotNull org.gtk.glib.Type interfaceType, Out<Integer> nPrerequisites) {
         java.util.Objects.requireNonNull(interfaceType, "Parameter 'interfaceType' must not be null");
         java.util.Objects.requireNonNull(nPrerequisites, "Parameter 'nPrerequisites' must not be null");
-        MemorySegment nPrerequisitesPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
+        MemorySegment nPrerequisitesPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_type_interface_prerequisites.invokeExact(
@@ -181,10 +185,10 @@ public class TypeInterface extends io.github.jwharm.javagi.ProxyBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        nPrerequisites.set(nPrerequisitesPOINTER.get(ValueLayout.JAVA_INT, 0));
+        nPrerequisites.set(nPrerequisitesPOINTER.get(Interop.valueLayout.C_INT, 0));
         org.gtk.glib.Type[] resultARRAY = new org.gtk.glib.Type[nPrerequisites.get().intValue()];
         for (int I = 0; I < nPrerequisites.get().intValue(); I++) {
-            var OBJ = RESULT.get(ValueLayout.JAVA_LONG, I);
+            var OBJ = RESULT.get(Interop.valueLayout.C_LONG, I);
             resultARRAY[I] = new org.gtk.glib.Type(OBJ);
         }
         return resultARRAY;
@@ -194,38 +198,80 @@ public class TypeInterface extends io.github.jwharm.javagi.ProxyBase {
         
         private static final MethodHandle g_type_interface_peek_parent = Interop.downcallHandle(
             "g_type_interface_peek_parent",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_type_interface_add_prerequisite = Interop.downcallHandle(
             "g_type_interface_add_prerequisite",
-            FunctionDescriptor.ofVoid(ValueLayout.JAVA_LONG, ValueLayout.JAVA_LONG),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.C_LONG, Interop.valueLayout.C_LONG),
             false
         );
         
         private static final MethodHandle g_type_interface_get_plugin = Interop.downcallHandle(
             "g_type_interface_get_plugin",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_LONG),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.C_LONG),
             false
         );
         
         private static final MethodHandle g_type_interface_instantiatable_prerequisite = Interop.downcallHandle(
             "g_type_interface_instantiatable_prerequisite",
-            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.JAVA_LONG),
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.C_LONG),
             false
         );
         
         private static final MethodHandle g_type_interface_peek = Interop.downcallHandle(
             "g_type_interface_peek",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
             false
         );
         
         private static final MethodHandle g_type_interface_prerequisites = Interop.downcallHandle(
             "g_type_interface_prerequisites",
-            FunctionDescriptor.ofVoid(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
             false
         );
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private TypeInterface struct;
+        
+         /**
+         * A {@link TypeInterface.Build} object constructs a {@link TypeInterface} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = TypeInterface.allocate();
+        }
+        
+         /**
+         * Finish building the {@link TypeInterface} struct.
+         * @return A new instance of {@code TypeInterface} with the fields 
+         *         that were set in the Build object.
+         */
+        public TypeInterface construct() {
+            return struct;
+        }
+        
+        public Build setGType(org.gtk.glib.Type g_type) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("g_type"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (g_type == null ? MemoryAddress.NULL : g_type.getValue().longValue()));
+            return this;
+        }
+        
+        public Build setGInstanceType(org.gtk.glib.Type g_instance_type) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("g_instance_type"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (g_instance_type == null ? MemoryAddress.NULL : g_instance_type.getValue().longValue()));
+            return this;
+        }
     }
 }

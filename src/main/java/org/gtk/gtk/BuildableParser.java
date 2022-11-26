@@ -8,7 +8,7 @@ import org.jetbrains.annotations.*;
 /**
  * A sub-parser for {@code GtkBuildable} implementations.
  */
-public class BuildableParser extends io.github.jwharm.javagi.ProxyBase {
+public class BuildableParser extends Struct {
     
     static {
         Gtk.javagi$ensureInitialized();
@@ -16,12 +16,12 @@ public class BuildableParser extends io.github.jwharm.javagi.ProxyBase {
     
     private static final java.lang.String C_TYPE_NAME = "GtkBuildableParser";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
         Interop.valueLayout.ADDRESS.withName("start_element"),
         Interop.valueLayout.ADDRESS.withName("end_element"),
         Interop.valueLayout.ADDRESS.withName("text"),
         Interop.valueLayout.ADDRESS.withName("error"),
-        MemoryLayout.sequenceLayout(4, ValueLayout.ADDRESS).withName("padding")
+        MemoryLayout.sequenceLayout(4, Interop.valueLayout.ADDRESS).withName("padding")
     ).withName(C_TYPE_NAME);
     
     /**
@@ -35,6 +35,10 @@ public class BuildableParser extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link BuildableParser}
+     * @return A new, uninitialized @{link BuildableParser}
+     */
     public static BuildableParser allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         BuildableParser newInstance = new BuildableParser(segment.address(), Ownership.NONE);
@@ -50,5 +54,68 @@ public class BuildableParser extends io.github.jwharm.javagi.ProxyBase {
     @ApiStatus.Internal
     public BuildableParser(Addressable address, Ownership ownership) {
         super(address, ownership);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private BuildableParser struct;
+        
+         /**
+         * A {@link BuildableParser.Build} object constructs a {@link BuildableParser} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = BuildableParser.allocate();
+        }
+        
+         /**
+         * Finish building the {@link BuildableParser} struct.
+         * @return A new instance of {@code BuildableParser} with the fields 
+         *         that were set in the Build object.
+         */
+        public BuildableParser construct() {
+            return struct;
+        }
+        
+        public Build setStartElement(java.lang.foreign.MemoryAddress start_element) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("start_element"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (start_element == null ? MemoryAddress.NULL : start_element));
+            return this;
+        }
+        
+        public Build setEndElement(java.lang.foreign.MemoryAddress end_element) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("end_element"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (end_element == null ? MemoryAddress.NULL : end_element));
+            return this;
+        }
+        
+        public Build setText(java.lang.foreign.MemoryAddress text) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("text"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (text == null ? MemoryAddress.NULL : text));
+            return this;
+        }
+        
+        public Build setError(java.lang.foreign.MemoryAddress error) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("error"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (error == null ? MemoryAddress.NULL : error));
+            return this;
+        }
+        
+        public Build setPadding(java.lang.foreign.MemoryAddress[] padding) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("padding"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (padding == null ? MemoryAddress.NULL : Interop.allocateNativeArray(padding, false)));
+            return this;
+        }
     }
 }

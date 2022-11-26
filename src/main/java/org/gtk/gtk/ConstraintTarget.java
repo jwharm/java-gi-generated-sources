@@ -26,11 +26,36 @@ public interface ConstraintTarget extends io.github.jwharm.javagi.Proxy {
      * @throws ClassCastException If the GType is not derived from "GtkConstraintTarget", a ClassCastException will be thrown.
      */
     public static ConstraintTarget castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkConstraintTarget"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), ConstraintTarget.getType())) {
             return new ConstraintTargetImpl(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkConstraintTarget");
         }
+    }
+    
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.gtk_constraint_target_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+    
+    @ApiStatus.Internal
+    static class DowncallHandles {
+        
+        @ApiStatus.Internal
+        static final MethodHandle gtk_constraint_target_get_type = Interop.downcallHandle(
+            "gtk_constraint_target_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+            false
+        );
     }
     
     class ConstraintTargetImpl extends org.gtk.gobject.Object implements ConstraintTarget {

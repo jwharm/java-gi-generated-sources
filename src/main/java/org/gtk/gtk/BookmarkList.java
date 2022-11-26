@@ -55,7 +55,7 @@ public class BookmarkList extends org.gtk.gobject.Object implements org.gtk.gio.
      * @throws ClassCastException If the GType is not derived from "GtkBookmarkList", a ClassCastException will be thrown.
      */
     public static BookmarkList castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkBookmarkList"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), BookmarkList.getType())) {
             return new BookmarkList(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkBookmarkList");
@@ -181,47 +181,168 @@ public class BookmarkList extends org.gtk.gobject.Object implements org.gtk.gio.
         }
     }
     
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.gtk_bookmark_list_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gobject.Object.Build {
+        
+         /**
+         * A {@link BookmarkList.Build} object constructs a {@link BookmarkList} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link BookmarkList} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link BookmarkList} using {@link BookmarkList#castFrom}.
+         * @return A new instance of {@code BookmarkList} with the properties 
+         *         that were set in the Build object.
+         */
+        public BookmarkList construct() {
+            return BookmarkList.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    BookmarkList.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+        
+        /**
+         * The attributes to query.
+         * @param attributes The value for the {@code attributes} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setAttributes(java.lang.String attributes) {
+            names.add("attributes");
+            values.add(org.gtk.gobject.Value.create(attributes));
+            return this;
+        }
+        
+        /**
+         * The bookmark file to load.
+         * @param filename The value for the {@code filename} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setFilename(java.lang.String filename) {
+            names.add("filename");
+            values.add(org.gtk.gobject.Value.create(filename));
+            return this;
+        }
+        
+        /**
+         * Priority used when loading.
+         * @param ioPriority The value for the {@code io-priority} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setIoPriority(int ioPriority) {
+            names.add("io-priority");
+            values.add(org.gtk.gobject.Value.create(ioPriority));
+            return this;
+        }
+        
+        /**
+         * The type of items. See {@link org.gtk.gio.ListModel#getItemType}.
+         * @param itemType The value for the {@code item-type} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setItemType(org.gtk.glib.Type itemType) {
+            names.add("item-type");
+            values.add(org.gtk.gobject.Value.create(itemType));
+            return this;
+        }
+        
+        /**
+         * {@code true} if files are being loaded.
+         * @param loading The value for the {@code loading} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setLoading(boolean loading) {
+            names.add("loading");
+            values.add(org.gtk.gobject.Value.create(loading));
+            return this;
+        }
+        
+        /**
+         * The number of items. See {@link org.gtk.gio.ListModel#getNItems}.
+         * @param nItems The value for the {@code n-items} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setNItems(int nItems) {
+            names.add("n-items");
+            values.add(org.gtk.gobject.Value.create(nItems));
+            return this;
+        }
+    }
+    
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_bookmark_list_new = Interop.downcallHandle(
             "gtk_bookmark_list_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_bookmark_list_get_attributes = Interop.downcallHandle(
             "gtk_bookmark_list_get_attributes",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_bookmark_list_get_filename = Interop.downcallHandle(
             "gtk_bookmark_list_get_filename",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_bookmark_list_get_io_priority = Interop.downcallHandle(
             "gtk_bookmark_list_get_io_priority",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_bookmark_list_is_loading = Interop.downcallHandle(
             "gtk_bookmark_list_is_loading",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_bookmark_list_set_attributes = Interop.downcallHandle(
             "gtk_bookmark_list_set_attributes",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_bookmark_list_set_io_priority = Interop.downcallHandle(
             "gtk_bookmark_list_set_io_priority",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+            false
+        );
+        
+        private static final MethodHandle gtk_bookmark_list_get_type = Interop.downcallHandle(
+            "gtk_bookmark_list_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }

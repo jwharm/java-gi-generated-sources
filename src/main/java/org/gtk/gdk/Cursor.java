@@ -79,7 +79,7 @@ public class Cursor extends org.gtk.gobject.Object {
      * @throws ClassCastException If the GType is not derived from "GdkCursor", a ClassCastException will be thrown.
      */
     public static Cursor castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GdkCursor"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), Cursor.getType())) {
             return new Cursor(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GdkCursor");
@@ -255,47 +255,161 @@ public class Cursor extends org.gtk.gobject.Object {
         return new org.gtk.gdk.Texture(RESULT, Ownership.NONE);
     }
     
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.gdk_cursor_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gobject.Object.Build {
+        
+         /**
+         * A {@link Cursor.Build} object constructs a {@link Cursor} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link Cursor} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link Cursor} using {@link Cursor#castFrom}.
+         * @return A new instance of {@code Cursor} with the properties 
+         *         that were set in the Build object.
+         */
+        public Cursor construct() {
+            return Cursor.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    Cursor.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+        
+        /**
+         * Cursor to fall back to if this cursor cannot be displayed.
+         * @param fallback The value for the {@code fallback} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setFallback(org.gtk.gdk.Cursor fallback) {
+            names.add("fallback");
+            values.add(org.gtk.gobject.Value.create(fallback));
+            return this;
+        }
+        
+        /**
+         * X position of the cursor hotspot in the cursor image.
+         * @param hotspotX The value for the {@code hotspot-x} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setHotspotX(int hotspotX) {
+            names.add("hotspot-x");
+            values.add(org.gtk.gobject.Value.create(hotspotX));
+            return this;
+        }
+        
+        /**
+         * Y position of the cursor hotspot in the cursor image.
+         * @param hotspotY The value for the {@code hotspot-y} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setHotspotY(int hotspotY) {
+            names.add("hotspot-y");
+            values.add(org.gtk.gobject.Value.create(hotspotY));
+            return this;
+        }
+        
+        /**
+         * Name of this this cursor.
+         * <p>
+         * The name will be {@code null} if the cursor was created from a texture.
+         * @param name The value for the {@code name} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setName(java.lang.String name) {
+            names.add("name");
+            values.add(org.gtk.gobject.Value.create(name));
+            return this;
+        }
+        
+        /**
+         * The texture displayed by this cursor.
+         * <p>
+         * The texture will be {@code null} if the cursor was created from a name.
+         * @param texture The value for the {@code texture} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setTexture(org.gtk.gdk.Texture texture) {
+            names.add("texture");
+            values.add(org.gtk.gobject.Value.create(texture));
+            return this;
+        }
+    }
+    
     private static class DowncallHandles {
         
         private static final MethodHandle gdk_cursor_new_from_name = Interop.downcallHandle(
             "gdk_cursor_new_from_name",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_cursor_new_from_texture = Interop.downcallHandle(
             "gdk_cursor_new_from_texture",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_cursor_get_fallback = Interop.downcallHandle(
             "gdk_cursor_get_fallback",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_cursor_get_hotspot_x = Interop.downcallHandle(
             "gdk_cursor_get_hotspot_x",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_cursor_get_hotspot_y = Interop.downcallHandle(
             "gdk_cursor_get_hotspot_y",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_cursor_get_name = Interop.downcallHandle(
             "gdk_cursor_get_name",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_cursor_get_texture = Interop.downcallHandle(
             "gdk_cursor_get_texture",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+            false
+        );
+        
+        private static final MethodHandle gdk_cursor_get_type = Interop.downcallHandle(
+            "gdk_cursor_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }

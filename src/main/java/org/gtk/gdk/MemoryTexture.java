@@ -48,7 +48,7 @@ public class MemoryTexture extends org.gtk.gdk.Texture implements org.gtk.gdk.Pa
      * @throws ClassCastException If the GType is not derived from "GdkMemoryTexture", a ClassCastException will be thrown.
      */
     public static MemoryTexture castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GdkMemoryTexture"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), MemoryTexture.getType())) {
             return new MemoryTexture(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GdkMemoryTexture");
@@ -87,11 +87,66 @@ public class MemoryTexture extends org.gtk.gdk.Texture implements org.gtk.gdk.Pa
         super(constructNew(width, height, format, bytes, stride), Ownership.FULL);
     }
     
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.gdk_memory_texture_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gdk.Texture.Build {
+        
+         /**
+         * A {@link MemoryTexture.Build} object constructs a {@link MemoryTexture} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link MemoryTexture} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link MemoryTexture} using {@link MemoryTexture#castFrom}.
+         * @return A new instance of {@code MemoryTexture} with the properties 
+         *         that were set in the Build object.
+         */
+        public MemoryTexture construct() {
+            return MemoryTexture.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    MemoryTexture.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+    }
+    
     private static class DowncallHandles {
         
         private static final MethodHandle gdk_memory_texture_new = Interop.downcallHandle(
             "gdk_memory_texture_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
+            false
+        );
+        
+        private static final MethodHandle gdk_memory_texture_get_type = Interop.downcallHandle(
+            "gdk_memory_texture_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }

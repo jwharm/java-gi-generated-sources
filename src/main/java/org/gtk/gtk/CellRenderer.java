@@ -52,7 +52,7 @@ public class CellRenderer extends org.gtk.gobject.InitiallyUnowned {
     
     private static final java.lang.String C_TYPE_NAME = "GtkCellRenderer";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gobject.InitiallyUnowned.getMemoryLayout().withName("parent_instance"),
         Interop.valueLayout.ADDRESS.withName("priv")
     ).withName(C_TYPE_NAME);
@@ -98,7 +98,7 @@ public class CellRenderer extends org.gtk.gobject.InitiallyUnowned {
      * @throws ClassCastException If the GType is not derived from "GtkCellRenderer", a ClassCastException will be thrown.
      */
     public static CellRenderer castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkCellRenderer"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), CellRenderer.getType())) {
             return new CellRenderer(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkCellRenderer");
@@ -174,9 +174,9 @@ public class CellRenderer extends org.gtk.gobject.InitiallyUnowned {
      */
     public void getAlignment(Out<Float> xalign, Out<Float> yalign) {
         java.util.Objects.requireNonNull(xalign, "Parameter 'xalign' must not be null");
+        MemorySegment xalignPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_FLOAT);
         java.util.Objects.requireNonNull(yalign, "Parameter 'yalign' must not be null");
-        MemorySegment xalignPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_FLOAT);
-        MemorySegment yalignPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_FLOAT);
+        MemorySegment yalignPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_FLOAT);
         try {
             DowncallHandles.gtk_cell_renderer_get_alignment.invokeExact(
                     handle(),
@@ -185,8 +185,8 @@ public class CellRenderer extends org.gtk.gobject.InitiallyUnowned {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        xalign.set(xalignPOINTER.get(ValueLayout.JAVA_FLOAT, 0));
-        yalign.set(yalignPOINTER.get(ValueLayout.JAVA_FLOAT, 0));
+        xalign.set(xalignPOINTER.get(Interop.valueLayout.C_FLOAT, 0));
+        yalign.set(yalignPOINTER.get(Interop.valueLayout.C_FLOAT, 0));
     }
     
     /**
@@ -196,9 +196,9 @@ public class CellRenderer extends org.gtk.gobject.InitiallyUnowned {
      */
     public void getFixedSize(Out<Integer> width, Out<Integer> height) {
         java.util.Objects.requireNonNull(width, "Parameter 'width' must not be null");
+        MemorySegment widthPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         java.util.Objects.requireNonNull(height, "Parameter 'height' must not be null");
-        MemorySegment widthPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
-        MemorySegment heightPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
+        MemorySegment heightPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         try {
             DowncallHandles.gtk_cell_renderer_get_fixed_size.invokeExact(
                     handle(),
@@ -207,8 +207,8 @@ public class CellRenderer extends org.gtk.gobject.InitiallyUnowned {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        width.set(widthPOINTER.get(ValueLayout.JAVA_INT, 0));
-        height.set(heightPOINTER.get(ValueLayout.JAVA_INT, 0));
+        width.set(widthPOINTER.get(Interop.valueLayout.C_INT, 0));
+        height.set(heightPOINTER.get(Interop.valueLayout.C_INT, 0));
     }
     
     /**
@@ -248,9 +248,9 @@ public class CellRenderer extends org.gtk.gobject.InitiallyUnowned {
      */
     public void getPadding(Out<Integer> xpad, Out<Integer> ypad) {
         java.util.Objects.requireNonNull(xpad, "Parameter 'xpad' must not be null");
+        MemorySegment xpadPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         java.util.Objects.requireNonNull(ypad, "Parameter 'ypad' must not be null");
-        MemorySegment xpadPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
-        MemorySegment ypadPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
+        MemorySegment ypadPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         try {
             DowncallHandles.gtk_cell_renderer_get_padding.invokeExact(
                     handle(),
@@ -259,8 +259,8 @@ public class CellRenderer extends org.gtk.gobject.InitiallyUnowned {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        xpad.set(xpadPOINTER.get(ValueLayout.JAVA_INT, 0));
-        ypad.set(ypadPOINTER.get(ValueLayout.JAVA_INT, 0));
+        xpad.set(xpadPOINTER.get(Interop.valueLayout.C_INT, 0));
+        ypad.set(ypadPOINTER.get(Interop.valueLayout.C_INT, 0));
     }
     
     /**
@@ -272,9 +272,9 @@ public class CellRenderer extends org.gtk.gobject.InitiallyUnowned {
     public void getPreferredHeight(@NotNull org.gtk.gtk.Widget widget, Out<Integer> minimumSize, Out<Integer> naturalSize) {
         java.util.Objects.requireNonNull(widget, "Parameter 'widget' must not be null");
         java.util.Objects.requireNonNull(minimumSize, "Parameter 'minimumSize' must not be null");
+        MemorySegment minimumSizePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         java.util.Objects.requireNonNull(naturalSize, "Parameter 'naturalSize' must not be null");
-        MemorySegment minimumSizePOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
-        MemorySegment naturalSizePOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
+        MemorySegment naturalSizePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         try {
             DowncallHandles.gtk_cell_renderer_get_preferred_height.invokeExact(
                     handle(),
@@ -284,8 +284,8 @@ public class CellRenderer extends org.gtk.gobject.InitiallyUnowned {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        minimumSize.set(minimumSizePOINTER.get(ValueLayout.JAVA_INT, 0));
-        naturalSize.set(naturalSizePOINTER.get(ValueLayout.JAVA_INT, 0));
+        minimumSize.set(minimumSizePOINTER.get(Interop.valueLayout.C_INT, 0));
+        naturalSize.set(naturalSizePOINTER.get(Interop.valueLayout.C_INT, 0));
     }
     
     /**
@@ -299,9 +299,9 @@ public class CellRenderer extends org.gtk.gobject.InitiallyUnowned {
     public void getPreferredHeightForWidth(@NotNull org.gtk.gtk.Widget widget, int width, Out<Integer> minimumHeight, Out<Integer> naturalHeight) {
         java.util.Objects.requireNonNull(widget, "Parameter 'widget' must not be null");
         java.util.Objects.requireNonNull(minimumHeight, "Parameter 'minimumHeight' must not be null");
+        MemorySegment minimumHeightPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         java.util.Objects.requireNonNull(naturalHeight, "Parameter 'naturalHeight' must not be null");
-        MemorySegment minimumHeightPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
-        MemorySegment naturalHeightPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
+        MemorySegment naturalHeightPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         try {
             DowncallHandles.gtk_cell_renderer_get_preferred_height_for_width.invokeExact(
                     handle(),
@@ -312,8 +312,8 @@ public class CellRenderer extends org.gtk.gobject.InitiallyUnowned {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        minimumHeight.set(minimumHeightPOINTER.get(ValueLayout.JAVA_INT, 0));
-        naturalHeight.set(naturalHeightPOINTER.get(ValueLayout.JAVA_INT, 0));
+        minimumHeight.set(minimumHeightPOINTER.get(Interop.valueLayout.C_INT, 0));
+        naturalHeight.set(naturalHeightPOINTER.get(Interop.valueLayout.C_INT, 0));
     }
     
     /**
@@ -347,9 +347,9 @@ public class CellRenderer extends org.gtk.gobject.InitiallyUnowned {
     public void getPreferredWidth(@NotNull org.gtk.gtk.Widget widget, Out<Integer> minimumSize, Out<Integer> naturalSize) {
         java.util.Objects.requireNonNull(widget, "Parameter 'widget' must not be null");
         java.util.Objects.requireNonNull(minimumSize, "Parameter 'minimumSize' must not be null");
+        MemorySegment minimumSizePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         java.util.Objects.requireNonNull(naturalSize, "Parameter 'naturalSize' must not be null");
-        MemorySegment minimumSizePOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
-        MemorySegment naturalSizePOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
+        MemorySegment naturalSizePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         try {
             DowncallHandles.gtk_cell_renderer_get_preferred_width.invokeExact(
                     handle(),
@@ -359,8 +359,8 @@ public class CellRenderer extends org.gtk.gobject.InitiallyUnowned {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        minimumSize.set(minimumSizePOINTER.get(ValueLayout.JAVA_INT, 0));
-        naturalSize.set(naturalSizePOINTER.get(ValueLayout.JAVA_INT, 0));
+        minimumSize.set(minimumSizePOINTER.get(Interop.valueLayout.C_INT, 0));
+        naturalSize.set(naturalSizePOINTER.get(Interop.valueLayout.C_INT, 0));
     }
     
     /**
@@ -374,9 +374,9 @@ public class CellRenderer extends org.gtk.gobject.InitiallyUnowned {
     public void getPreferredWidthForHeight(@NotNull org.gtk.gtk.Widget widget, int height, Out<Integer> minimumWidth, Out<Integer> naturalWidth) {
         java.util.Objects.requireNonNull(widget, "Parameter 'widget' must not be null");
         java.util.Objects.requireNonNull(minimumWidth, "Parameter 'minimumWidth' must not be null");
+        MemorySegment minimumWidthPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         java.util.Objects.requireNonNull(naturalWidth, "Parameter 'naturalWidth' must not be null");
-        MemorySegment minimumWidthPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
-        MemorySegment naturalWidthPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
+        MemorySegment naturalWidthPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         try {
             DowncallHandles.gtk_cell_renderer_get_preferred_width_for_height.invokeExact(
                     handle(),
@@ -387,8 +387,8 @@ public class CellRenderer extends org.gtk.gobject.InitiallyUnowned {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        minimumWidth.set(minimumWidthPOINTER.get(ValueLayout.JAVA_INT, 0));
-        naturalWidth.set(naturalWidthPOINTER.get(ValueLayout.JAVA_INT, 0));
+        minimumWidth.set(minimumWidthPOINTER.get(Interop.valueLayout.C_INT, 0));
+        naturalWidth.set(naturalWidthPOINTER.get(Interop.valueLayout.C_INT, 0));
     }
     
     /**
@@ -667,6 +667,20 @@ public class CellRenderer extends org.gtk.gobject.InitiallyUnowned {
         }
     }
     
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.gtk_cell_renderer_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+    
     @FunctionalInterface
     public interface EditingCanceled {
         void signalReceived(CellRenderer source);
@@ -689,7 +703,7 @@ public class CellRenderer extends org.gtk.gobject.InitiallyUnowned {
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(CellRenderer.Callbacks.class, "signalCellRendererEditingCanceled",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                     Interop.getScope()),
                 Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
@@ -745,7 +759,7 @@ public class CellRenderer extends org.gtk.gobject.InitiallyUnowned {
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(CellRenderer.Callbacks.class, "signalCellRendererEditingStarted",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                     Interop.getScope()),
                 Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
@@ -754,168 +768,304 @@ public class CellRenderer extends org.gtk.gobject.InitiallyUnowned {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gobject.InitiallyUnowned.Build {
+        
+         /**
+         * A {@link CellRenderer.Build} object constructs a {@link CellRenderer} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link CellRenderer} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link CellRenderer} using {@link CellRenderer#castFrom}.
+         * @return A new instance of {@code CellRenderer} with the properties 
+         *         that were set in the Build object.
+         */
+        public CellRenderer construct() {
+            return CellRenderer.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    CellRenderer.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+        
+        public Build setCellBackground(java.lang.String cellBackground) {
+            names.add("cell-background");
+            values.add(org.gtk.gobject.Value.create(cellBackground));
+            return this;
+        }
+        
+        /**
+         * Cell background as a {@code GdkRGBA}
+         * @param cellBackgroundRgba The value for the {@code cell-background-rgba} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setCellBackgroundRgba(org.gtk.gdk.RGBA cellBackgroundRgba) {
+            names.add("cell-background-rgba");
+            values.add(org.gtk.gobject.Value.create(cellBackgroundRgba));
+            return this;
+        }
+        
+        public Build setCellBackgroundSet(boolean cellBackgroundSet) {
+            names.add("cell-background-set");
+            values.add(org.gtk.gobject.Value.create(cellBackgroundSet));
+            return this;
+        }
+        
+        public Build setEditing(boolean editing) {
+            names.add("editing");
+            values.add(org.gtk.gobject.Value.create(editing));
+            return this;
+        }
+        
+        public Build setHeight(int height) {
+            names.add("height");
+            values.add(org.gtk.gobject.Value.create(height));
+            return this;
+        }
+        
+        public Build setIsExpanded(boolean isExpanded) {
+            names.add("is-expanded");
+            values.add(org.gtk.gobject.Value.create(isExpanded));
+            return this;
+        }
+        
+        public Build setIsExpander(boolean isExpander) {
+            names.add("is-expander");
+            values.add(org.gtk.gobject.Value.create(isExpander));
+            return this;
+        }
+        
+        public Build setMode(org.gtk.gtk.CellRendererMode mode) {
+            names.add("mode");
+            values.add(org.gtk.gobject.Value.create(mode));
+            return this;
+        }
+        
+        public Build setSensitive(boolean sensitive) {
+            names.add("sensitive");
+            values.add(org.gtk.gobject.Value.create(sensitive));
+            return this;
+        }
+        
+        public Build setVisible(boolean visible) {
+            names.add("visible");
+            values.add(org.gtk.gobject.Value.create(visible));
+            return this;
+        }
+        
+        public Build setWidth(int width) {
+            names.add("width");
+            values.add(org.gtk.gobject.Value.create(width));
+            return this;
+        }
+        
+        public Build setXalign(float xalign) {
+            names.add("xalign");
+            values.add(org.gtk.gobject.Value.create(xalign));
+            return this;
+        }
+        
+        public Build setXpad(int xpad) {
+            names.add("xpad");
+            values.add(org.gtk.gobject.Value.create(xpad));
+            return this;
+        }
+        
+        public Build setYalign(float yalign) {
+            names.add("yalign");
+            values.add(org.gtk.gobject.Value.create(yalign));
+            return this;
+        }
+        
+        public Build setYpad(int ypad) {
+            names.add("ypad");
+            values.add(org.gtk.gobject.Value.create(ypad));
+            return this;
+        }
+    }
     
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_cell_renderer_activate = Interop.downcallHandle(
             "gtk_cell_renderer_activate",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_cell_renderer_get_aligned_area = Interop.downcallHandle(
             "gtk_cell_renderer_get_aligned_area",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_cell_renderer_get_alignment = Interop.downcallHandle(
             "gtk_cell_renderer_get_alignment",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_cell_renderer_get_fixed_size = Interop.downcallHandle(
             "gtk_cell_renderer_get_fixed_size",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_cell_renderer_get_is_expanded = Interop.downcallHandle(
             "gtk_cell_renderer_get_is_expanded",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_cell_renderer_get_is_expander = Interop.downcallHandle(
             "gtk_cell_renderer_get_is_expander",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_cell_renderer_get_padding = Interop.downcallHandle(
             "gtk_cell_renderer_get_padding",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_cell_renderer_get_preferred_height = Interop.downcallHandle(
             "gtk_cell_renderer_get_preferred_height",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_cell_renderer_get_preferred_height_for_width = Interop.downcallHandle(
             "gtk_cell_renderer_get_preferred_height_for_width",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_cell_renderer_get_preferred_size = Interop.downcallHandle(
             "gtk_cell_renderer_get_preferred_size",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_cell_renderer_get_preferred_width = Interop.downcallHandle(
             "gtk_cell_renderer_get_preferred_width",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_cell_renderer_get_preferred_width_for_height = Interop.downcallHandle(
             "gtk_cell_renderer_get_preferred_width_for_height",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_cell_renderer_get_request_mode = Interop.downcallHandle(
             "gtk_cell_renderer_get_request_mode",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_cell_renderer_get_sensitive = Interop.downcallHandle(
             "gtk_cell_renderer_get_sensitive",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_cell_renderer_get_state = Interop.downcallHandle(
             "gtk_cell_renderer_get_state",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_cell_renderer_get_visible = Interop.downcallHandle(
             "gtk_cell_renderer_get_visible",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_cell_renderer_is_activatable = Interop.downcallHandle(
             "gtk_cell_renderer_is_activatable",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_cell_renderer_set_alignment = Interop.downcallHandle(
             "gtk_cell_renderer_set_alignment",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_FLOAT, Interop.valueLayout.C_FLOAT),
             false
         );
         
         private static final MethodHandle gtk_cell_renderer_set_fixed_size = Interop.downcallHandle(
             "gtk_cell_renderer_set_fixed_size",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_cell_renderer_set_is_expanded = Interop.downcallHandle(
             "gtk_cell_renderer_set_is_expanded",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_cell_renderer_set_is_expander = Interop.downcallHandle(
             "gtk_cell_renderer_set_is_expander",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_cell_renderer_set_padding = Interop.downcallHandle(
             "gtk_cell_renderer_set_padding",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_cell_renderer_set_sensitive = Interop.downcallHandle(
             "gtk_cell_renderer_set_sensitive",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_cell_renderer_set_visible = Interop.downcallHandle(
             "gtk_cell_renderer_set_visible",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_cell_renderer_snapshot = Interop.downcallHandle(
             "gtk_cell_renderer_snapshot",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_cell_renderer_start_editing = Interop.downcallHandle(
             "gtk_cell_renderer_start_editing",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_cell_renderer_stop_editing = Interop.downcallHandle(
             "gtk_cell_renderer_stop_editing",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+            false
+        );
+        
+        private static final MethodHandle gtk_cell_renderer_get_type = Interop.downcallHandle(
+            "gtk_cell_renderer_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }
@@ -923,15 +1073,15 @@ public class CellRenderer extends org.gtk.gobject.InitiallyUnowned {
     private static class Callbacks {
         
         public static void signalCellRendererEditingCanceled(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (CellRenderer.EditingCanceled) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new CellRenderer(source, Ownership.UNKNOWN));
+            HANDLER.signalReceived(new CellRenderer(source, Ownership.NONE));
         }
         
         public static void signalCellRendererEditingStarted(MemoryAddress source, MemoryAddress editable, MemoryAddress path, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (CellRenderer.EditingStarted) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new CellRenderer(source, Ownership.UNKNOWN), new org.gtk.gtk.CellEditable.CellEditableImpl(editable, Ownership.NONE), Interop.getStringFrom(path));
+            HANDLER.signalReceived(new CellRenderer(source, Ownership.NONE), new org.gtk.gtk.CellEditable.CellEditableImpl(editable, Ownership.NONE), Interop.getStringFrom(path));
         }
     }
 }

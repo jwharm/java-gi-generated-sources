@@ -9,7 +9,7 @@ import org.jetbrains.annotations.*;
  * The {@code GError} structure contains information about
  * an error that has occurred.
  */
-public class Error extends io.github.jwharm.javagi.ProxyBase {
+public class Error extends Struct {
     
     static {
         GLib.javagi$ensureInitialized();
@@ -17,9 +17,9 @@ public class Error extends io.github.jwharm.javagi.ProxyBase {
     
     private static final java.lang.String C_TYPE_NAME = "GError";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
-        ValueLayout.JAVA_INT.withName("domain"),
-        ValueLayout.JAVA_INT.withName("code"),
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
+        Interop.valueLayout.C_INT.withName("domain"),
+        Interop.valueLayout.C_INT.withName("code"),
         Interop.valueLayout.ADDRESS.withName("message")
     ).withName(C_TYPE_NAME);
     
@@ -34,6 +34,10 @@ public class Error extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link Error}
+     * @return A new, uninitialized @{link Error}
+     */
     public static Error allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         Error newInstance = new Error(segment.address(), Ownership.NONE);
@@ -305,50 +309,114 @@ public class Error extends io.github.jwharm.javagi.ProxyBase {
         
         private static final MethodHandle g_error_new = Interop.downcallHandle(
             "g_error_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             true
         );
         
         private static final MethodHandle g_error_new_literal = Interop.downcallHandle(
             "g_error_new_literal",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_error_new_valist = Interop.downcallHandle(
             "g_error_new_valist",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_error_copy = Interop.downcallHandle(
             "g_error_copy",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_error_free = Interop.downcallHandle(
             "g_error_free",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_error_matches = Interop.downcallHandle(
             "g_error_matches",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_error_domain_register = Interop.downcallHandle(
             "g_error_domain_register",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_error_domain_register_static = Interop.downcallHandle(
             "g_error_domain_register_static",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private Error struct;
+        
+         /**
+         * A {@link Error.Build} object constructs a {@link Error} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = Error.allocate();
+        }
+        
+         /**
+         * Finish building the {@link Error} struct.
+         * @return A new instance of {@code Error} with the fields 
+         *         that were set in the Build object.
+         */
+        public Error construct() {
+            return struct;
+        }
+        
+        /**
+         * error domain, e.g. {@code G_FILE_ERROR}
+         * @param domain The value for the {@code domain} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setDomain(org.gtk.glib.Quark domain) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("domain"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (domain == null ? MemoryAddress.NULL : domain.getValue().intValue()));
+            return this;
+        }
+        
+        /**
+         * error code, e.g. {@link FileError#NOENT}
+         * @param code The value for the {@code code} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setCode(int code) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("code"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), code);
+            return this;
+        }
+        
+        /**
+         * human-readable informative error message
+         * @param message The value for the {@code message} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setMessage(java.lang.String message) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("message"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (message == null ? MemoryAddress.NULL : Interop.allocateNativeString(message)));
+            return this;
+        }
     }
 }

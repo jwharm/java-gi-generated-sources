@@ -39,7 +39,7 @@ public interface Accessible extends io.github.jwharm.javagi.Proxy {
      * @throws ClassCastException If the GType is not derived from "GtkAccessible", a ClassCastException will be thrown.
      */
     public static Accessible castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkAccessible"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), Accessible.getType())) {
             return new AccessibleImpl(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkAccessible");
@@ -157,7 +157,7 @@ public interface Accessible extends io.github.jwharm.javagi.Proxy {
                     handle(),
                     nProperties,
                     Interop.allocateNativeArray(org.gtk.gtk.AccessibleProperty.getValues(properties), false),
-                    Interop.allocateNativeArray(values, false));
+                    Interop.allocateNativeArray(values, org.gtk.gobject.Value.getMemoryLayout(), false));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -213,7 +213,7 @@ public interface Accessible extends io.github.jwharm.javagi.Proxy {
                     handle(),
                     nRelations,
                     Interop.allocateNativeArray(org.gtk.gtk.AccessibleRelation.getValues(relations), false),
-                    Interop.allocateNativeArray(values, false));
+                    Interop.allocateNativeArray(values, org.gtk.gobject.Value.getMemoryLayout(), false));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -267,10 +267,24 @@ public interface Accessible extends io.github.jwharm.javagi.Proxy {
                     handle(),
                     nStates,
                     Interop.allocateNativeArray(org.gtk.gtk.AccessibleState.getValues(states), false),
-                    Interop.allocateNativeArray(values, false));
+                    Interop.allocateNativeArray(values, org.gtk.gobject.Value.getMemoryLayout(), false));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+    }
+    
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.gtk_accessible_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
     }
     
     @ApiStatus.Internal
@@ -279,70 +293,77 @@ public interface Accessible extends io.github.jwharm.javagi.Proxy {
         @ApiStatus.Internal
         static final MethodHandle gtk_accessible_get_accessible_role = Interop.downcallHandle(
             "gtk_accessible_get_accessible_role",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_accessible_reset_property = Interop.downcallHandle(
             "gtk_accessible_reset_property",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_accessible_reset_relation = Interop.downcallHandle(
             "gtk_accessible_reset_relation",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_accessible_reset_state = Interop.downcallHandle(
             "gtk_accessible_reset_state",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_accessible_update_property = Interop.downcallHandle(
             "gtk_accessible_update_property",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             true
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_accessible_update_property_value = Interop.downcallHandle(
             "gtk_accessible_update_property_value",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_accessible_update_relation = Interop.downcallHandle(
             "gtk_accessible_update_relation",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             true
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_accessible_update_relation_value = Interop.downcallHandle(
             "gtk_accessible_update_relation_value",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_accessible_update_state = Interop.downcallHandle(
             "gtk_accessible_update_state",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             true
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_accessible_update_state_value = Interop.downcallHandle(
             "gtk_accessible_update_state_value",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+            false
+        );
+        
+        @ApiStatus.Internal
+        static final MethodHandle gtk_accessible_get_type = Interop.downcallHandle(
+            "gtk_accessible_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }

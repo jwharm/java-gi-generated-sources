@@ -5,7 +5,7 @@ import java.lang.foreign.*;
 import java.lang.invoke.*;
 import org.jetbrains.annotations.*;
 
-public class CellRendererClassPrivate extends io.github.jwharm.javagi.ProxyBase {
+public class CellRendererClassPrivate extends Struct {
     
     static {
         Gtk.javagi$ensureInitialized();
@@ -24,6 +24,10 @@ public class CellRendererClassPrivate extends io.github.jwharm.javagi.ProxyBase 
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link CellRendererClassPrivate}
+     * @return A new, uninitialized @{link CellRendererClassPrivate}
+     */
     public static CellRendererClassPrivate allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         CellRendererClassPrivate newInstance = new CellRendererClassPrivate(segment.address(), Ownership.NONE);
@@ -39,5 +43,33 @@ public class CellRendererClassPrivate extends io.github.jwharm.javagi.ProxyBase 
     @ApiStatus.Internal
     public CellRendererClassPrivate(Addressable address, Ownership ownership) {
         super(address, ownership);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private CellRendererClassPrivate struct;
+        
+         /**
+         * A {@link CellRendererClassPrivate.Build} object constructs a {@link CellRendererClassPrivate} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = CellRendererClassPrivate.allocate();
+        }
+        
+         /**
+         * Finish building the {@link CellRendererClassPrivate} struct.
+         * @return A new instance of {@code CellRendererClassPrivate} with the fields 
+         *         that were set in the Build object.
+         */
+        public CellRendererClassPrivate construct() {
+            return struct;
+        }
     }
 }

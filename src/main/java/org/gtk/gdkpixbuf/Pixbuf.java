@@ -175,7 +175,7 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
      * @throws ClassCastException If the GType is not derived from "GdkPixbuf", a ClassCastException will be thrown.
      */
     public static Pixbuf castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GdkPixbuf"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), Pixbuf.getType())) {
             return new Pixbuf(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GdkPixbuf");
@@ -270,7 +270,7 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
                     (Addressable) (destroyFn == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GdkPixbuf.Callbacks.class, "cbPixbufDestroyNotify",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                         Interop.getScope())),
                     (Addressable) (destroyFn == null ? MemoryAddress.NULL : Interop.registerCallback(destroyFn)));
         } catch (Throwable ERR) {
@@ -308,7 +308,7 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
     
     private static Addressable constructNewFromFile(@NotNull java.lang.String filename) throws GErrorException {
         java.util.Objects.requireNonNull(filename, "Parameter 'filename' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         Addressable RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gdk_pixbuf_new_from_file.invokeExact(
@@ -348,7 +348,7 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
     
     private static Addressable constructNewFromFileAtScale(@NotNull java.lang.String filename, int width, int height, boolean preserveAspectRatio) throws GErrorException {
         java.util.Objects.requireNonNull(filename, "Parameter 'filename' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         Addressable RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gdk_pixbuf_new_from_file_at_scale.invokeExact(
@@ -404,7 +404,7 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
     
     private static Addressable constructNewFromFileAtSize(@NotNull java.lang.String filename, int width, int height) throws GErrorException {
         java.util.Objects.requireNonNull(filename, "Parameter 'filename' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         Addressable RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gdk_pixbuf_new_from_file_at_size.invokeExact(
@@ -454,7 +454,7 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
     
     private static Addressable constructNewFromInline(int dataLength, @NotNull byte[] data, boolean copyPixels) throws GErrorException {
         java.util.Objects.requireNonNull(data, "Parameter 'data' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         Addressable RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gdk_pixbuf_new_from_inline.invokeExact(
@@ -520,7 +520,7 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
     
     private static Addressable constructNewFromResource(@NotNull java.lang.String resourcePath) throws GErrorException {
         java.util.Objects.requireNonNull(resourcePath, "Parameter 'resourcePath' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         Addressable RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gdk_pixbuf_new_from_resource.invokeExact(
@@ -550,7 +550,7 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
     
     private static Addressable constructNewFromResourceAtScale(@NotNull java.lang.String resourcePath, int width, int height, boolean preserveAspectRatio) throws GErrorException {
         java.util.Objects.requireNonNull(resourcePath, "Parameter 'resourcePath' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         Addressable RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gdk_pixbuf_new_from_resource_at_scale.invokeExact(
@@ -595,7 +595,7 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
     
     private static Addressable constructNewFromStream(@NotNull org.gtk.gio.InputStream stream, @Nullable org.gtk.gio.Cancellable cancellable) throws GErrorException {
         java.util.Objects.requireNonNull(stream, "Parameter 'stream' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         Addressable RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gdk_pixbuf_new_from_stream.invokeExact(
@@ -635,7 +635,7 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
     
     private static Addressable constructNewFromStreamAtScale(@NotNull org.gtk.gio.InputStream stream, int width, int height, boolean preserveAspectRatio, @Nullable org.gtk.gio.Cancellable cancellable) throws GErrorException {
         java.util.Objects.requireNonNull(stream, "Parameter 'stream' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         Addressable RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gdk_pixbuf_new_from_stream_at_scale.invokeExact(
@@ -690,7 +690,7 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
     
     private static Addressable constructNewFromStreamFinish(@NotNull org.gtk.gio.AsyncResult asyncResult) throws GErrorException {
         java.util.Objects.requireNonNull(asyncResult, "Parameter 'asyncResult' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         Addressable RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gdk_pixbuf_new_from_stream_finish.invokeExact(
@@ -1223,7 +1223,7 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
      */
     public @NotNull byte[] getPixelsWithLength(Out<Integer> length) {
         java.util.Objects.requireNonNull(length, "Parameter 'length' must not be null");
-        MemorySegment lengthPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
+        MemorySegment lengthPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gdk_pixbuf_get_pixels_with_length.invokeExact(
@@ -1232,8 +1232,8 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        length.set(lengthPOINTER.get(ValueLayout.JAVA_INT, 0));
-        return MemorySegment.ofAddress(RESULT.get(ValueLayout.ADDRESS, 0), length.get().intValue() * ValueLayout.JAVA_BYTE.byteSize(), Interop.getScope()).toArray(ValueLayout.JAVA_BYTE);
+        length.set(lengthPOINTER.get(Interop.valueLayout.C_INT, 0));
+        return MemorySegment.ofAddress(RESULT.get(Interop.valueLayout.ADDRESS, 0), length.get().intValue() * Interop.valueLayout.C_BYTE.byteSize(), Interop.getScope()).toArray(Interop.valueLayout.C_BYTE);
     }
     
     /**
@@ -1543,10 +1543,10 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
      */
     public boolean saveToBuffer(@NotNull Out<byte[]> buffer, Out<Long> bufferSize, @NotNull java.lang.String type, @Nullable PointerProxy<org.gtk.glib.Error> error, java.lang.Object... varargs) {
         java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
+        MemorySegment bufferPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         java.util.Objects.requireNonNull(bufferSize, "Parameter 'bufferSize' must not be null");
+        MemorySegment bufferSizePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
         java.util.Objects.requireNonNull(type, "Parameter 'type' must not be null");
-        MemorySegment bufferPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        MemorySegment bufferSizePOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_LONG);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gdk_pixbuf_save_to_buffer.invokeExact(
@@ -1559,8 +1559,8 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        bufferSize.set(bufferSizePOINTER.get(ValueLayout.JAVA_LONG, 0));
-        buffer.set(MemorySegment.ofAddress(bufferPOINTER.get(ValueLayout.ADDRESS, 0), bufferSize.get().intValue() * ValueLayout.JAVA_BYTE.byteSize(), Interop.getScope()).toArray(ValueLayout.JAVA_BYTE));
+        bufferSize.set(bufferSizePOINTER.get(Interop.valueLayout.C_LONG, 0));
+        buffer.set(MemorySegment.ofAddress(bufferPOINTER.get(Interop.valueLayout.ADDRESS, 0), bufferSize.get().intValue() * Interop.valueLayout.C_BYTE.byteSize(), Interop.getScope()).toArray(Interop.valueLayout.C_BYTE));
         return RESULT != 0;
     }
     
@@ -1581,11 +1581,11 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
      */
     public boolean saveToBufferv(@NotNull Out<byte[]> buffer, Out<Long> bufferSize, @NotNull java.lang.String type, @Nullable java.lang.String[] optionKeys, @Nullable java.lang.String[] optionValues) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
+        MemorySegment bufferPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         java.util.Objects.requireNonNull(bufferSize, "Parameter 'bufferSize' must not be null");
+        MemorySegment bufferSizePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
         java.util.Objects.requireNonNull(type, "Parameter 'type' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        MemorySegment bufferPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        MemorySegment bufferSizePOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_LONG);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gdk_pixbuf_save_to_bufferv.invokeExact(
@@ -1602,8 +1602,8 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        bufferSize.set(bufferSizePOINTER.get(ValueLayout.JAVA_LONG, 0));
-        buffer.set(MemorySegment.ofAddress(bufferPOINTER.get(ValueLayout.ADDRESS, 0), bufferSize.get().intValue() * ValueLayout.JAVA_BYTE.byteSize(), Interop.getScope()).toArray(ValueLayout.JAVA_BYTE));
+        bufferSize.set(bufferSizePOINTER.get(Interop.valueLayout.C_LONG, 0));
+        buffer.set(MemorySegment.ofAddress(bufferPOINTER.get(Interop.valueLayout.ADDRESS, 0), bufferSize.get().intValue() * Interop.valueLayout.C_BYTE.byteSize(), Interop.getScope()).toArray(Interop.valueLayout.C_BYTE));
         return RESULT != 0;
     }
     
@@ -1636,7 +1636,7 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GdkPixbuf.Callbacks.class, "cbPixbufSaveFunc",
                             MethodType.methodType(int.class, MemoryAddress.class, long.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                         Interop.getScope()),
                     (Addressable) (Interop.registerCallback(saveFunc)),
                     Interop.allocateNativeString(type),
@@ -1668,7 +1668,7 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
     public boolean saveToCallbackv(@NotNull org.gtk.gdkpixbuf.PixbufSaveFunc saveFunc, @NotNull java.lang.String type, @Nullable java.lang.String[] optionKeys, @Nullable java.lang.String[] optionValues) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(saveFunc, "Parameter 'saveFunc' must not be null");
         java.util.Objects.requireNonNull(type, "Parameter 'type' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gdk_pixbuf_save_to_callbackv.invokeExact(
@@ -1676,7 +1676,7 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GdkPixbuf.Callbacks.class, "cbPixbufSaveFunc",
                             MethodType.methodType(int.class, MemoryAddress.class, long.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                         Interop.getScope()),
                     (Addressable) (Interop.registerCallback(saveFunc)),
                     Interop.allocateNativeString(type),
@@ -1758,7 +1758,7 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
                     (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GdkPixbuf.Callbacks.class, "cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                         Interop.getScope())),
                     (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)),
                     varargs);
@@ -1786,7 +1786,7 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
     public boolean saveToStreamv(@NotNull org.gtk.gio.OutputStream stream, @NotNull java.lang.String type, @Nullable java.lang.String[] optionKeys, @Nullable java.lang.String[] optionValues, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(stream, "Parameter 'stream' must not be null");
         java.util.Objects.requireNonNull(type, "Parameter 'type' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gdk_pixbuf_save_to_streamv.invokeExact(
@@ -1837,7 +1837,7 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
                     (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GdkPixbuf.Callbacks.class, "cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                         Interop.getScope())),
                     (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
         } catch (Throwable ERR) {
@@ -1863,7 +1863,7 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
     public boolean savev(@NotNull java.lang.String filename, @NotNull java.lang.String type, @Nullable java.lang.String[] optionKeys, @Nullable java.lang.String[] optionValues) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(filename, "Parameter 'filename' must not be null");
         java.util.Objects.requireNonNull(type, "Parameter 'type' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gdk_pixbuf_savev.invokeExact(
@@ -2006,6 +2006,20 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
     }
     
     /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.gdk_pixbuf_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+    
+    /**
      * Calculates the rowstride that an image created with those values would
      * have.
      * <p>
@@ -2045,9 +2059,9 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
     public static @Nullable org.gtk.gdkpixbuf.PixbufFormat getFileInfo(@NotNull java.lang.String filename, Out<Integer> width, Out<Integer> height) {
         java.util.Objects.requireNonNull(filename, "Parameter 'filename' must not be null");
         java.util.Objects.requireNonNull(width, "Parameter 'width' must not be null");
+        MemorySegment widthPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         java.util.Objects.requireNonNull(height, "Parameter 'height' must not be null");
-        MemorySegment widthPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
-        MemorySegment heightPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
+        MemorySegment heightPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gdk_pixbuf_get_file_info.invokeExact(
@@ -2057,8 +2071,8 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        width.set(widthPOINTER.get(ValueLayout.JAVA_INT, 0));
-        height.set(heightPOINTER.get(ValueLayout.JAVA_INT, 0));
+        width.set(widthPOINTER.get(Interop.valueLayout.C_INT, 0));
+        height.set(heightPOINTER.get(Interop.valueLayout.C_INT, 0));
         return new org.gtk.gdkpixbuf.PixbufFormat(RESULT, Ownership.NONE);
     }
     
@@ -2085,7 +2099,7 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
                     (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GdkPixbuf.Callbacks.class, "cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                         Interop.getScope())),
                     (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
         } catch (Throwable ERR) {
@@ -2106,10 +2120,10 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
     public static @Nullable org.gtk.gdkpixbuf.PixbufFormat getFileInfoFinish(@NotNull org.gtk.gio.AsyncResult asyncResult, Out<Integer> width, Out<Integer> height) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(asyncResult, "Parameter 'asyncResult' must not be null");
         java.util.Objects.requireNonNull(width, "Parameter 'width' must not be null");
+        MemorySegment widthPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         java.util.Objects.requireNonNull(height, "Parameter 'height' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        MemorySegment widthPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
-        MemorySegment heightPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
+        MemorySegment heightPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gdk_pixbuf_get_file_info_finish.invokeExact(
@@ -2123,8 +2137,8 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        width.set(widthPOINTER.get(ValueLayout.JAVA_INT, 0));
-        height.set(heightPOINTER.get(ValueLayout.JAVA_INT, 0));
+        width.set(widthPOINTER.get(Interop.valueLayout.C_INT, 0));
+        height.set(heightPOINTER.get(Interop.valueLayout.C_INT, 0));
         return new org.gtk.gdkpixbuf.PixbufFormat(RESULT, Ownership.NONE);
     }
     
@@ -2163,7 +2177,7 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
      */
     public static boolean initModules(@NotNull java.lang.String path) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(path, "Parameter 'path' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gdk_pixbuf_init_modules.invokeExact(
@@ -2200,7 +2214,7 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
                     (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GdkPixbuf.Callbacks.class, "cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                         Interop.getScope())),
                     (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
         } catch (Throwable ERR) {
@@ -2235,7 +2249,7 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
                     (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GdkPixbuf.Callbacks.class, "cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                         Interop.getScope())),
                     (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
         } catch (Throwable ERR) {
@@ -2252,7 +2266,7 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
      */
     public static boolean saveToStreamFinish(@NotNull org.gtk.gio.AsyncResult asyncResult) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(asyncResult, "Parameter 'asyncResult' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gdk_pixbuf_save_to_stream_finish.invokeExact(
@@ -2266,396 +2280,541 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
         }
         return RESULT != 0;
     }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gobject.Object.Build {
+        
+         /**
+         * A {@link Pixbuf.Build} object constructs a {@link Pixbuf} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link Pixbuf} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link Pixbuf} using {@link Pixbuf#castFrom}.
+         * @return A new instance of {@code Pixbuf} with the properties 
+         *         that were set in the Build object.
+         */
+        public Pixbuf construct() {
+            return Pixbuf.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    Pixbuf.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+        
+        /**
+         * The number of bits per sample.
+         * <p>
+         * Currently only 8 bit per sample are supported.
+         * @param bitsPerSample The value for the {@code bits-per-sample} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setBitsPerSample(int bitsPerSample) {
+            names.add("bits-per-sample");
+            values.add(org.gtk.gobject.Value.create(bitsPerSample));
+            return this;
+        }
+        
+        /**
+         * The color space of the pixbuf.
+         * <p>
+         * Currently, only {@code GDK_COLORSPACE_RGB} is supported.
+         * @param colorspace The value for the {@code colorspace} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setColorspace(org.gtk.gdkpixbuf.Colorspace colorspace) {
+            names.add("colorspace");
+            values.add(org.gtk.gobject.Value.create(colorspace));
+            return this;
+        }
+        
+        /**
+         * Whether the pixbuf has an alpha channel.
+         * @param hasAlpha The value for the {@code has-alpha} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setHasAlpha(boolean hasAlpha) {
+            names.add("has-alpha");
+            values.add(org.gtk.gobject.Value.create(hasAlpha));
+            return this;
+        }
+        
+        /**
+         * The number of rows of the pixbuf.
+         * @param height The value for the {@code height} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setHeight(int height) {
+            names.add("height");
+            values.add(org.gtk.gobject.Value.create(height));
+            return this;
+        }
+        
+        /**
+         * The number of samples per pixel.
+         * <p>
+         * Currently, only 3 or 4 samples per pixel are supported.
+         * @param nChannels The value for the {@code n-channels} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setNChannels(int nChannels) {
+            names.add("n-channels");
+            values.add(org.gtk.gobject.Value.create(nChannels));
+            return this;
+        }
+        
+        public Build setPixelBytes(org.gtk.glib.Bytes pixelBytes) {
+            names.add("pixel-bytes");
+            values.add(org.gtk.gobject.Value.create(pixelBytes));
+            return this;
+        }
+        
+        /**
+         * A pointer to the pixel data of the pixbuf.
+         * @param pixels The value for the {@code pixels} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setPixels(java.lang.foreign.MemoryAddress pixels) {
+            names.add("pixels");
+            values.add(org.gtk.gobject.Value.create(pixels));
+            return this;
+        }
+        
+        /**
+         * The number of bytes between the start of a row and
+         * the start of the next row.
+         * <p>
+         * This number must (obviously) be at least as large as the
+         * width of the pixbuf.
+         * @param rowstride The value for the {@code rowstride} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setRowstride(int rowstride) {
+            names.add("rowstride");
+            values.add(org.gtk.gobject.Value.create(rowstride));
+            return this;
+        }
+        
+        /**
+         * The number of columns of the pixbuf.
+         * @param width The value for the {@code width} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setWidth(int width) {
+            names.add("width");
+            values.add(org.gtk.gobject.Value.create(width));
+            return this;
+        }
+    }
     
     private static class DowncallHandles {
         
         private static final MethodHandle gdk_pixbuf_new = Interop.downcallHandle(
             "gdk_pixbuf_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gdk_pixbuf_new_from_bytes = Interop.downcallHandle(
             "gdk_pixbuf_new_from_bytes",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gdk_pixbuf_new_from_data = Interop.downcallHandle(
             "gdk_pixbuf_new_from_data",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_pixbuf_new_from_file = Interop.downcallHandle(
             "gdk_pixbuf_new_from_file",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_pixbuf_new_from_file_at_scale = Interop.downcallHandle(
             "gdk_pixbuf_new_from_file_at_scale",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_pixbuf_new_from_file_at_size = Interop.downcallHandle(
             "gdk_pixbuf_new_from_file_at_size",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_pixbuf_new_from_inline = Interop.downcallHandle(
             "gdk_pixbuf_new_from_inline",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_pixbuf_new_from_resource = Interop.downcallHandle(
             "gdk_pixbuf_new_from_resource",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_pixbuf_new_from_resource_at_scale = Interop.downcallHandle(
             "gdk_pixbuf_new_from_resource_at_scale",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_pixbuf_new_from_stream = Interop.downcallHandle(
             "gdk_pixbuf_new_from_stream",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_pixbuf_new_from_stream_at_scale = Interop.downcallHandle(
             "gdk_pixbuf_new_from_stream_at_scale",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_pixbuf_new_from_stream_finish = Interop.downcallHandle(
             "gdk_pixbuf_new_from_stream_finish",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_pixbuf_new_from_xpm_data = Interop.downcallHandle(
             "gdk_pixbuf_new_from_xpm_data",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_pixbuf_add_alpha = Interop.downcallHandle(
             "gdk_pixbuf_add_alpha",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_BYTE, ValueLayout.JAVA_BYTE, ValueLayout.JAVA_BYTE),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_BYTE, Interop.valueLayout.C_BYTE, Interop.valueLayout.C_BYTE),
             false
         );
         
         private static final MethodHandle gdk_pixbuf_apply_embedded_orientation = Interop.downcallHandle(
             "gdk_pixbuf_apply_embedded_orientation",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_pixbuf_composite = Interop.downcallHandle(
             "gdk_pixbuf_composite",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gdk_pixbuf_composite_color = Interop.downcallHandle(
             "gdk_pixbuf_composite_color",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gdk_pixbuf_composite_color_simple = Interop.downcallHandle(
             "gdk_pixbuf_composite_color_simple",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gdk_pixbuf_copy = Interop.downcallHandle(
             "gdk_pixbuf_copy",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_pixbuf_copy_area = Interop.downcallHandle(
             "gdk_pixbuf_copy_area",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gdk_pixbuf_copy_options = Interop.downcallHandle(
             "gdk_pixbuf_copy_options",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_pixbuf_fill = Interop.downcallHandle(
             "gdk_pixbuf_fill",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gdk_pixbuf_flip = Interop.downcallHandle(
             "gdk_pixbuf_flip",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gdk_pixbuf_get_bits_per_sample = Interop.downcallHandle(
             "gdk_pixbuf_get_bits_per_sample",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_pixbuf_get_byte_length = Interop.downcallHandle(
             "gdk_pixbuf_get_byte_length",
-            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_pixbuf_get_colorspace = Interop.downcallHandle(
             "gdk_pixbuf_get_colorspace",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_pixbuf_get_has_alpha = Interop.downcallHandle(
             "gdk_pixbuf_get_has_alpha",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_pixbuf_get_height = Interop.downcallHandle(
             "gdk_pixbuf_get_height",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_pixbuf_get_n_channels = Interop.downcallHandle(
             "gdk_pixbuf_get_n_channels",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_pixbuf_get_option = Interop.downcallHandle(
             "gdk_pixbuf_get_option",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_pixbuf_get_options = Interop.downcallHandle(
             "gdk_pixbuf_get_options",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_pixbuf_get_pixels = Interop.downcallHandle(
             "gdk_pixbuf_get_pixels",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_pixbuf_get_pixels_with_length = Interop.downcallHandle(
             "gdk_pixbuf_get_pixels_with_length",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_pixbuf_get_rowstride = Interop.downcallHandle(
             "gdk_pixbuf_get_rowstride",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_pixbuf_get_width = Interop.downcallHandle(
             "gdk_pixbuf_get_width",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_pixbuf_new_subpixbuf = Interop.downcallHandle(
             "gdk_pixbuf_new_subpixbuf",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gdk_pixbuf_read_pixel_bytes = Interop.downcallHandle(
             "gdk_pixbuf_read_pixel_bytes",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_pixbuf_read_pixels = Interop.downcallHandle(
             "gdk_pixbuf_read_pixels",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_pixbuf_ref = Interop.downcallHandle(
             "gdk_pixbuf_ref",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_pixbuf_remove_option = Interop.downcallHandle(
             "gdk_pixbuf_remove_option",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_pixbuf_rotate_simple = Interop.downcallHandle(
             "gdk_pixbuf_rotate_simple",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gdk_pixbuf_saturate_and_pixelate = Interop.downcallHandle(
             "gdk_pixbuf_saturate_and_pixelate",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_FLOAT, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gdk_pixbuf_save = Interop.downcallHandle(
             "gdk_pixbuf_save",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             true
         );
         
         private static final MethodHandle gdk_pixbuf_save_to_buffer = Interop.downcallHandle(
             "gdk_pixbuf_save_to_buffer",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             true
         );
         
         private static final MethodHandle gdk_pixbuf_save_to_bufferv = Interop.downcallHandle(
             "gdk_pixbuf_save_to_bufferv",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_pixbuf_save_to_callback = Interop.downcallHandle(
             "gdk_pixbuf_save_to_callback",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             true
         );
         
         private static final MethodHandle gdk_pixbuf_save_to_callbackv = Interop.downcallHandle(
             "gdk_pixbuf_save_to_callbackv",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_pixbuf_save_to_stream = Interop.downcallHandle(
             "gdk_pixbuf_save_to_stream",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             true
         );
         
         private static final MethodHandle gdk_pixbuf_save_to_stream_async = Interop.downcallHandle(
             "gdk_pixbuf_save_to_stream_async",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             true
         );
         
         private static final MethodHandle gdk_pixbuf_save_to_streamv = Interop.downcallHandle(
             "gdk_pixbuf_save_to_streamv",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_pixbuf_save_to_streamv_async = Interop.downcallHandle(
             "gdk_pixbuf_save_to_streamv_async",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_pixbuf_savev = Interop.downcallHandle(
             "gdk_pixbuf_savev",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_pixbuf_scale = Interop.downcallHandle(
             "gdk_pixbuf_scale",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gdk_pixbuf_scale_simple = Interop.downcallHandle(
             "gdk_pixbuf_scale_simple",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gdk_pixbuf_set_option = Interop.downcallHandle(
             "gdk_pixbuf_set_option",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_pixbuf_unref = Interop.downcallHandle(
             "gdk_pixbuf_unref",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+            false
+        );
+        
+        private static final MethodHandle gdk_pixbuf_get_type = Interop.downcallHandle(
+            "gdk_pixbuf_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
         
         private static final MethodHandle gdk_pixbuf_calculate_rowstride = Interop.downcallHandle(
             "gdk_pixbuf_calculate_rowstride",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gdk_pixbuf_get_file_info = Interop.downcallHandle(
             "gdk_pixbuf_get_file_info",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_pixbuf_get_file_info_async = Interop.downcallHandle(
             "gdk_pixbuf_get_file_info_async",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_pixbuf_get_file_info_finish = Interop.downcallHandle(
             "gdk_pixbuf_get_file_info_finish",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_pixbuf_get_formats = Interop.downcallHandle(
             "gdk_pixbuf_get_formats",
-            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_pixbuf_init_modules = Interop.downcallHandle(
             "gdk_pixbuf_init_modules",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_pixbuf_new_from_stream_async = Interop.downcallHandle(
             "gdk_pixbuf_new_from_stream_async",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_pixbuf_new_from_stream_at_scale_async = Interop.downcallHandle(
             "gdk_pixbuf_new_from_stream_at_scale_async",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_pixbuf_save_to_stream_finish = Interop.downcallHandle(
             "gdk_pixbuf_save_to_stream_finish",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
     }

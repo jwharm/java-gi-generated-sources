@@ -12,7 +12,7 @@ import org.jetbrains.annotations.*;
  * Setting start to {@code HB_FEATURE_GLOBAL_START} and end to {@code HB_FEATURE_GLOBAL_END}
  * specifies that the feature always applies to the entire buffer.
  */
-public class FeatureT extends io.github.jwharm.javagi.ProxyBase {
+public class FeatureT extends Struct {
     
     static {
         HarfBuzz.javagi$ensureInitialized();
@@ -20,11 +20,11 @@ public class FeatureT extends io.github.jwharm.javagi.ProxyBase {
     
     private static final java.lang.String C_TYPE_NAME = "hb_feature_t";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
-        ValueLayout.JAVA_INT.withName("tag"),
-        ValueLayout.JAVA_INT.withName("value"),
-        ValueLayout.JAVA_INT.withName("start"),
-        ValueLayout.JAVA_INT.withName("end")
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
+        Interop.valueLayout.C_INT.withName("tag"),
+        Interop.valueLayout.C_INT.withName("value"),
+        Interop.valueLayout.C_INT.withName("start"),
+        Interop.valueLayout.C_INT.withName("end")
     ).withName(C_TYPE_NAME);
     
     /**
@@ -38,6 +38,10 @@ public class FeatureT extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link FeatureT}
+     * @return A new, uninitialized @{link FeatureT}
+     */
     public static FeatureT allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         FeatureT newInstance = new FeatureT(segment.address(), Ownership.NONE);
@@ -140,7 +144,7 @@ public class FeatureT extends io.github.jwharm.javagi.ProxyBase {
     }
     
     /**
-     * Converts a {@link FeatureT} into a {@code null}-terminated string in the format
+     * Converts a {@link FeatureT} into a {@code NULL}-terminated string in the format
      * understood by hb_feature_from_string(). The client in responsible for
      * allocating big enough size for {@code buf}, 128 bytes is more than enough.
      * @param buf output string
@@ -148,8 +152,8 @@ public class FeatureT extends io.github.jwharm.javagi.ProxyBase {
      */
     public void String(@NotNull Out<java.lang.String[]> buf, Out<Integer> size) {
         java.util.Objects.requireNonNull(buf, "Parameter 'buf' must not be null");
-        MemorySegment bufPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        MemorySegment sizePOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
+        MemorySegment bufPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
+        MemorySegment sizePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         try {
             DowncallHandles.hb_feature_to_string.invokeExact(
                     handle(),
@@ -158,10 +162,10 @@ public class FeatureT extends io.github.jwharm.javagi.ProxyBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        size.set(sizePOINTER.get(ValueLayout.JAVA_INT, 0));
+        size.set(sizePOINTER.get(Interop.valueLayout.C_INT, 0));
         java.lang.String[] bufARRAY = new java.lang.String[size.get().intValue()];
         for (int I = 0; I < size.get().intValue(); I++) {
-            var OBJ = bufPOINTER.get(ValueLayout.ADDRESS, I);
+            var OBJ = bufPOINTER.get(Interop.valueLayout.ADDRESS, I);
             bufARRAY[I] = Interop.getStringFrom(OBJ);
         }
         buf.set(bufARRAY);
@@ -171,8 +175,86 @@ public class FeatureT extends io.github.jwharm.javagi.ProxyBase {
         
         private static final MethodHandle hb_feature_to_string = Interop.downcallHandle(
             "hb_feature_to_string",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private FeatureT struct;
+        
+         /**
+         * A {@link FeatureT.Build} object constructs a {@link FeatureT} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = FeatureT.allocate();
+        }
+        
+         /**
+         * Finish building the {@link FeatureT} struct.
+         * @return A new instance of {@code FeatureT} with the fields 
+         *         that were set in the Build object.
+         */
+        public FeatureT construct() {
+            return struct;
+        }
+        
+        /**
+         * The {@link TagT} tag of the feature
+         * @param tag The value for the {@code tag} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setTag(org.harfbuzz.TagT tag) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("tag"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (tag == null ? MemoryAddress.NULL : tag.getValue().intValue()));
+            return this;
+        }
+        
+        /**
+         * The value of the feature. 0 disables the feature, non-zero (usually
+         * 1) enables the feature.  For features implemented as lookup type 3 (like
+         * 'salt') the {@code value} is a one based index into the alternates.
+         * @param value The value for the {@code value} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setValue(int value) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("value"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), value);
+            return this;
+        }
+        
+        /**
+         * the cluster to start applying this feature setting (inclusive).
+         * @param start The value for the {@code start} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setStart(int start) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("start"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), start);
+            return this;
+        }
+        
+        /**
+         * the cluster to end applying this feature setting (exclusive).
+         * @param end The value for the {@code end} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setEnd(int end) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("end"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), end);
+            return this;
+        }
     }
 }

@@ -31,11 +31,25 @@ public interface StyleProvider extends io.github.jwharm.javagi.Proxy {
      * @throws ClassCastException If the GType is not derived from "GtkStyleProvider", a ClassCastException will be thrown.
      */
     public static StyleProvider castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkStyleProvider"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), StyleProvider.getType())) {
             return new StyleProviderImpl(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkStyleProvider");
         }
+    }
+    
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.gtk_style_provider_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
     }
     
     @FunctionalInterface
@@ -51,7 +65,7 @@ public interface StyleProvider extends io.github.jwharm.javagi.Proxy {
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(StyleProvider.Callbacks.class, "signalStyleProviderGtkPrivateChanged",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                     Interop.getScope()),
                 Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
@@ -62,12 +76,23 @@ public interface StyleProvider extends io.github.jwharm.javagi.Proxy {
     }
     
     @ApiStatus.Internal
+    static class DowncallHandles {
+        
+        @ApiStatus.Internal
+        static final MethodHandle gtk_style_provider_get_type = Interop.downcallHandle(
+            "gtk_style_provider_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+            false
+        );
+    }
+    
+    @ApiStatus.Internal
     static class Callbacks {
         
         public static void signalStyleProviderGtkPrivateChanged(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (StyleProvider.GtkPrivateChanged) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new StyleProvider.StyleProviderImpl(source, Ownership.UNKNOWN));
+            HANDLER.signalReceived(new StyleProvider.StyleProviderImpl(source, Ownership.NONE));
         }
     }
     

@@ -21,7 +21,7 @@ import org.jetbrains.annotations.*;
  *   &lt;img alt="Font metrics" src="fontmetrics-light.png"&gt;
  * &lt;/picture&gt;
  */
-public class FontMetrics extends io.github.jwharm.javagi.ProxyBase {
+public class FontMetrics extends Struct {
     
     static {
         Pango.javagi$ensureInitialized();
@@ -29,17 +29,17 @@ public class FontMetrics extends io.github.jwharm.javagi.ProxyBase {
     
     private static final java.lang.String C_TYPE_NAME = "PangoFontMetrics";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
-        ValueLayout.JAVA_INT.withName("ref_count"),
-        ValueLayout.JAVA_INT.withName("ascent"),
-        ValueLayout.JAVA_INT.withName("descent"),
-        ValueLayout.JAVA_INT.withName("height"),
-        ValueLayout.JAVA_INT.withName("approximate_char_width"),
-        ValueLayout.JAVA_INT.withName("approximate_digit_width"),
-        ValueLayout.JAVA_INT.withName("underline_position"),
-        ValueLayout.JAVA_INT.withName("underline_thickness"),
-        ValueLayout.JAVA_INT.withName("strikethrough_position"),
-        ValueLayout.JAVA_INT.withName("strikethrough_thickness")
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
+        Interop.valueLayout.C_INT.withName("ref_count"),
+        Interop.valueLayout.C_INT.withName("ascent"),
+        Interop.valueLayout.C_INT.withName("descent"),
+        Interop.valueLayout.C_INT.withName("height"),
+        Interop.valueLayout.C_INT.withName("approximate_char_width"),
+        Interop.valueLayout.C_INT.withName("approximate_digit_width"),
+        Interop.valueLayout.C_INT.withName("underline_position"),
+        Interop.valueLayout.C_INT.withName("underline_thickness"),
+        Interop.valueLayout.C_INT.withName("strikethrough_position"),
+        Interop.valueLayout.C_INT.withName("strikethrough_thickness")
     ).withName(C_TYPE_NAME);
     
     /**
@@ -53,6 +53,10 @@ public class FontMetrics extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link FontMetrics}
+     * @return A new, uninitialized @{link FontMetrics}
+     */
     public static FontMetrics allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         FontMetrics newInstance = new FontMetrics(segment.address(), Ownership.NONE);
@@ -270,68 +274,166 @@ public class FontMetrics extends io.github.jwharm.javagi.ProxyBase {
         
         private static final MethodHandle pango_font_metrics_get_approximate_char_width = Interop.downcallHandle(
             "pango_font_metrics_get_approximate_char_width",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle pango_font_metrics_get_approximate_digit_width = Interop.downcallHandle(
             "pango_font_metrics_get_approximate_digit_width",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle pango_font_metrics_get_ascent = Interop.downcallHandle(
             "pango_font_metrics_get_ascent",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle pango_font_metrics_get_descent = Interop.downcallHandle(
             "pango_font_metrics_get_descent",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle pango_font_metrics_get_height = Interop.downcallHandle(
             "pango_font_metrics_get_height",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle pango_font_metrics_get_strikethrough_position = Interop.downcallHandle(
             "pango_font_metrics_get_strikethrough_position",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle pango_font_metrics_get_strikethrough_thickness = Interop.downcallHandle(
             "pango_font_metrics_get_strikethrough_thickness",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle pango_font_metrics_get_underline_position = Interop.downcallHandle(
             "pango_font_metrics_get_underline_position",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle pango_font_metrics_get_underline_thickness = Interop.downcallHandle(
             "pango_font_metrics_get_underline_thickness",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle pango_font_metrics_ref = Interop.downcallHandle(
             "pango_font_metrics_ref",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle pango_font_metrics_unref = Interop.downcallHandle(
             "pango_font_metrics_unref",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private FontMetrics struct;
+        
+         /**
+         * A {@link FontMetrics.Build} object constructs a {@link FontMetrics} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = FontMetrics.allocate();
+        }
+        
+         /**
+         * Finish building the {@link FontMetrics} struct.
+         * @return A new instance of {@code FontMetrics} with the fields 
+         *         that were set in the Build object.
+         */
+        public FontMetrics construct() {
+            return struct;
+        }
+        
+        public Build setRefCount(int ref_count) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("ref_count"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), ref_count);
+            return this;
+        }
+        
+        public Build setAscent(int ascent) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("ascent"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), ascent);
+            return this;
+        }
+        
+        public Build setDescent(int descent) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("descent"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), descent);
+            return this;
+        }
+        
+        public Build setHeight(int height) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("height"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), height);
+            return this;
+        }
+        
+        public Build setApproximateCharWidth(int approximate_char_width) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("approximate_char_width"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), approximate_char_width);
+            return this;
+        }
+        
+        public Build setApproximateDigitWidth(int approximate_digit_width) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("approximate_digit_width"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), approximate_digit_width);
+            return this;
+        }
+        
+        public Build setUnderlinePosition(int underline_position) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("underline_position"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), underline_position);
+            return this;
+        }
+        
+        public Build setUnderlineThickness(int underline_thickness) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("underline_thickness"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), underline_thickness);
+            return this;
+        }
+        
+        public Build setStrikethroughPosition(int strikethrough_position) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("strikethrough_position"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), strikethrough_position);
+            return this;
+        }
+        
+        public Build setStrikethroughThickness(int strikethrough_thickness) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("strikethrough_thickness"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), strikethrough_thickness);
+            return this;
+        }
     }
 }

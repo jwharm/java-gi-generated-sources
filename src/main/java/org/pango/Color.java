@@ -9,7 +9,7 @@ import org.jetbrains.annotations.*;
  * The {@code PangoColor} structure is used to
  * represent a color in an uncalibrated RGB color-space.
  */
-public class Color extends io.github.jwharm.javagi.ProxyBase {
+public class Color extends Struct {
     
     static {
         Pango.javagi$ensureInitialized();
@@ -17,10 +17,10 @@ public class Color extends io.github.jwharm.javagi.ProxyBase {
     
     private static final java.lang.String C_TYPE_NAME = "PangoColor";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
-        ValueLayout.JAVA_SHORT.withName("red"),
-        ValueLayout.JAVA_SHORT.withName("green"),
-        ValueLayout.JAVA_SHORT.withName("blue")
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
+        Interop.valueLayout.C_SHORT.withName("red"),
+        Interop.valueLayout.C_SHORT.withName("green"),
+        Interop.valueLayout.C_SHORT.withName("blue")
     ).withName(C_TYPE_NAME);
     
     /**
@@ -34,6 +34,10 @@ public class Color extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link Color}
+     * @return A new, uninitialized @{link Color}
+     */
     public static Color allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         Color newInstance = new Color(segment.address(), Ownership.NONE);
@@ -197,8 +201,8 @@ public class Color extends io.github.jwharm.javagi.ProxyBase {
      */
     public boolean parseWithAlpha(Out<Short> alpha, @NotNull java.lang.String spec) {
         java.util.Objects.requireNonNull(alpha, "Parameter 'alpha' must not be null");
+        MemorySegment alphaPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_SHORT);
         java.util.Objects.requireNonNull(spec, "Parameter 'spec' must not be null");
-        MemorySegment alphaPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_SHORT);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.pango_color_parse_with_alpha.invokeExact(
@@ -208,7 +212,7 @@ public class Color extends io.github.jwharm.javagi.ProxyBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        alpha.set(alphaPOINTER.get(ValueLayout.JAVA_SHORT, 0));
+        alpha.set(alphaPOINTER.get(Interop.valueLayout.C_SHORT, 0));
         return RESULT != 0;
     }
     
@@ -236,32 +240,96 @@ public class Color extends io.github.jwharm.javagi.ProxyBase {
         
         private static final MethodHandle pango_color_copy = Interop.downcallHandle(
             "pango_color_copy",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle pango_color_free = Interop.downcallHandle(
             "pango_color_free",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle pango_color_parse = Interop.downcallHandle(
             "pango_color_parse",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle pango_color_parse_with_alpha = Interop.downcallHandle(
             "pango_color_parse_with_alpha",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle pango_color_to_string = Interop.downcallHandle(
             "pango_color_to_string",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private Color struct;
+        
+         /**
+         * A {@link Color.Build} object constructs a {@link Color} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = Color.allocate();
+        }
+        
+         /**
+         * Finish building the {@link Color} struct.
+         * @return A new instance of {@code Color} with the fields 
+         *         that were set in the Build object.
+         */
+        public Color construct() {
+            return struct;
+        }
+        
+        /**
+         * value of red component
+         * @param red The value for the {@code red} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setRed(short red) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("red"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), red);
+            return this;
+        }
+        
+        /**
+         * value of green component
+         * @param green The value for the {@code green} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setGreen(short green) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("green"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), green);
+            return this;
+        }
+        
+        /**
+         * value of blue component
+         * @param blue The value for the {@code blue} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setBlue(short blue) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("blue"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), blue);
+            return this;
+        }
     }
 }

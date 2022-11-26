@@ -16,12 +16,12 @@ public class ParamSpecDouble extends org.gtk.gobject.ParamSpec {
     
     private static final java.lang.String C_TYPE_NAME = "GParamSpecDouble";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gobject.ParamSpec.getMemoryLayout().withName("parent_instance"),
-        ValueLayout.JAVA_DOUBLE.withName("minimum"),
-        ValueLayout.JAVA_DOUBLE.withName("maximum"),
-        ValueLayout.JAVA_DOUBLE.withName("default_value"),
-        ValueLayout.JAVA_DOUBLE.withName("epsilon")
+        Interop.valueLayout.C_DOUBLE.withName("minimum"),
+        Interop.valueLayout.C_DOUBLE.withName("maximum"),
+        Interop.valueLayout.C_DOUBLE.withName("default_value"),
+        Interop.valueLayout.C_DOUBLE.withName("epsilon")
     ).withName(C_TYPE_NAME);
     
     /**
@@ -149,10 +149,68 @@ public class ParamSpecDouble extends org.gtk.gobject.ParamSpec {
      * @throws ClassCastException If the GType is not derived from "GParamSpecDouble", a ClassCastException will be thrown.
      */
     public static ParamSpecDouble castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GParamSpecDouble"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), ParamSpecDouble.getType())) {
             return new ParamSpecDouble(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GParamSpecDouble");
         }
+    }
+    
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.intern.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gobject.ParamSpec.Build {
+        
+         /**
+         * A {@link ParamSpecDouble.Build} object constructs a {@link ParamSpecDouble} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link ParamSpecDouble} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link ParamSpecDouble} using {@link ParamSpecDouble#castFrom}.
+         * @return A new instance of {@code ParamSpecDouble} with the properties 
+         *         that were set in the Build object.
+         */
+        public ParamSpecDouble construct() {
+            return ParamSpecDouble.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    ParamSpecDouble.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+    }
+    
+    private static class DowncallHandles {
+        
+        private static final MethodHandle intern = Interop.downcallHandle(
+            "intern",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+            false
+        );
     }
 }

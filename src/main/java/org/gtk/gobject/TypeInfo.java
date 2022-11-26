@@ -16,7 +16,7 @@ import org.jetbrains.annotations.*;
  * copy of this structure, so its memory does not need to be persistent
  * across invocation of g_type_register_static().
  */
-public class TypeInfo extends io.github.jwharm.javagi.ProxyBase {
+public class TypeInfo extends Struct {
     
     static {
         GObject.javagi$ensureInitialized();
@@ -24,16 +24,16 @@ public class TypeInfo extends io.github.jwharm.javagi.ProxyBase {
     
     private static final java.lang.String C_TYPE_NAME = "GTypeInfo";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
-        ValueLayout.JAVA_SHORT.withName("class_size"),
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
+        Interop.valueLayout.C_SHORT.withName("class_size"),
         MemoryLayout.paddingLayout(48),
         Interop.valueLayout.ADDRESS.withName("base_init"),
         Interop.valueLayout.ADDRESS.withName("base_finalize"),
         Interop.valueLayout.ADDRESS.withName("class_init"),
         Interop.valueLayout.ADDRESS.withName("class_finalize"),
         Interop.valueLayout.ADDRESS.withName("class_data"),
-        ValueLayout.JAVA_SHORT.withName("instance_size"),
-        ValueLayout.JAVA_SHORT.withName("n_preallocs"),
+        Interop.valueLayout.C_SHORT.withName("instance_size"),
+        Interop.valueLayout.C_SHORT.withName("n_preallocs"),
         MemoryLayout.paddingLayout(32),
         Interop.valueLayout.ADDRESS.withName("instance_init"),
         Interop.valueLayout.ADDRESS.withName("value_table")
@@ -50,6 +50,10 @@ public class TypeInfo extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link TypeInfo}
+     * @return A new, uninitialized @{link TypeInfo}
+     */
     public static TypeInfo allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         TypeInfo newInstance = new TypeInfo(segment.address(), Ownership.NONE);
@@ -140,7 +144,7 @@ public class TypeInfo extends io.github.jwharm.javagi.ProxyBase {
     public void class_data$set(java.lang.foreign.MemoryAddress class_data) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("class_data"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), class_data);
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) class_data);
     }
     
     /**
@@ -225,5 +229,161 @@ public class TypeInfo extends io.github.jwharm.javagi.ProxyBase {
     @ApiStatus.Internal
     public TypeInfo(Addressable address, Ownership ownership) {
         super(address, ownership);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private TypeInfo struct;
+        
+         /**
+         * A {@link TypeInfo.Build} object constructs a {@link TypeInfo} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = TypeInfo.allocate();
+        }
+        
+         /**
+         * Finish building the {@link TypeInfo} struct.
+         * @return A new instance of {@code TypeInfo} with the fields 
+         *         that were set in the Build object.
+         */
+        public TypeInfo construct() {
+            return struct;
+        }
+        
+        /**
+         * Size of the class structure (required for interface, classed and instantiatable types)
+         * @param class_size The value for the {@code class_size} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setClassSize(short class_size) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("class_size"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), class_size);
+            return this;
+        }
+        
+        /**
+         * Location of the base initialization function (optional)
+         * @param base_init The value for the {@code base_init} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setBaseInit(java.lang.foreign.MemoryAddress base_init) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("base_init"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (base_init == null ? MemoryAddress.NULL : base_init));
+            return this;
+        }
+        
+        /**
+         * Location of the base finalization function (optional)
+         * @param base_finalize The value for the {@code base_finalize} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setBaseFinalize(java.lang.foreign.MemoryAddress base_finalize) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("base_finalize"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (base_finalize == null ? MemoryAddress.NULL : base_finalize));
+            return this;
+        }
+        
+        /**
+         * Location of the class initialization function for
+         *  classed and instantiatable types. Location of the default vtable
+         *  inititalization function for interface types. (optional) This function
+         *  is used both to fill in virtual functions in the class or default vtable,
+         *  and to do type-specific setup such as registering signals and object
+         *  properties.
+         * @param class_init The value for the {@code class_init} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setClassInit(java.lang.foreign.MemoryAddress class_init) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("class_init"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (class_init == null ? MemoryAddress.NULL : class_init));
+            return this;
+        }
+        
+        /**
+         * Location of the class finalization function for
+         *  classed and instantiatable types. Location of the default vtable
+         *  finalization function for interface types. (optional)
+         * @param class_finalize The value for the {@code class_finalize} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setClassFinalize(java.lang.foreign.MemoryAddress class_finalize) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("class_finalize"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (class_finalize == null ? MemoryAddress.NULL : class_finalize));
+            return this;
+        }
+        
+        /**
+         * User-supplied data passed to the class init/finalize functions
+         * @param class_data The value for the {@code class_data} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setClassData(java.lang.foreign.MemoryAddress class_data) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("class_data"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (class_data == null ? MemoryAddress.NULL : (Addressable) class_data));
+            return this;
+        }
+        
+        /**
+         * Size of the instance (object) structure (required for instantiatable types only)
+         * @param instance_size The value for the {@code instance_size} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setInstanceSize(short instance_size) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("instance_size"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), instance_size);
+            return this;
+        }
+        
+        /**
+         * Prior to GLib 2.10, it specified the number of pre-allocated (cached) instances to reserve memory for (0 indicates no caching). Since GLib 2.10, it is ignored, since instances are allocated with the [slice allocator][glib-Memory-Slices] now.
+         * @param n_preallocs The value for the {@code n_preallocs} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setNPreallocs(short n_preallocs) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("n_preallocs"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), n_preallocs);
+            return this;
+        }
+        
+        /**
+         * Location of the instance initialization function (optional, for instantiatable types only)
+         * @param instance_init The value for the {@code instance_init} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setInstanceInit(java.lang.foreign.MemoryAddress instance_init) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("instance_init"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (instance_init == null ? MemoryAddress.NULL : instance_init));
+            return this;
+        }
+        
+        /**
+         * A {@link TypeValueTable} function table for generic handling of GValues
+         *  of this type (usually only useful for fundamental types)
+         * @param value_table The value for the {@code value_table} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setValueTable(org.gtk.gobject.TypeValueTable value_table) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("value_table"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (value_table == null ? MemoryAddress.NULL : value_table.handle()));
+            return this;
+        }
     }
 }

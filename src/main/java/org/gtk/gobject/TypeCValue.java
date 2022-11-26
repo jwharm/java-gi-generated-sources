@@ -5,7 +5,7 @@ import java.lang.foreign.*;
 import java.lang.invoke.*;
 import org.jetbrains.annotations.*;
 
-public class TypeCValue extends io.github.jwharm.javagi.ProxyBase {
+public class TypeCValue extends io.github.jwharm.javagi.ObjectBase {
     
     static {
         GObject.javagi$ensureInitialized();

@@ -5,7 +5,7 @@ import java.lang.foreign.*;
 import java.lang.invoke.*;
 import org.jetbrains.annotations.*;
 
-public class TestLogBuffer extends io.github.jwharm.javagi.ProxyBase {
+public class TestLogBuffer extends Struct {
     
     static {
         GLib.javagi$ensureInitialized();
@@ -13,7 +13,7 @@ public class TestLogBuffer extends io.github.jwharm.javagi.ProxyBase {
     
     private static final java.lang.String C_TYPE_NAME = "GTestLogBuffer";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
         Interop.valueLayout.ADDRESS.withName("data"),
         Interop.valueLayout.ADDRESS.withName("msgs")
     ).withName(C_TYPE_NAME);
@@ -29,6 +29,10 @@ public class TestLogBuffer extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link TestLogBuffer}
+     * @return A new, uninitialized @{link TestLogBuffer}
+     */
     public static TestLogBuffer allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         TestLogBuffer newInstance = new TestLogBuffer(segment.address(), Ownership.NONE);
@@ -104,26 +108,68 @@ public class TestLogBuffer extends io.github.jwharm.javagi.ProxyBase {
         
         private static final MethodHandle g_test_log_buffer_free = Interop.downcallHandle(
             "g_test_log_buffer_free",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_test_log_buffer_pop = Interop.downcallHandle(
             "g_test_log_buffer_pop",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_test_log_buffer_push = Interop.downcallHandle(
             "g_test_log_buffer_push",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_test_log_buffer_new = Interop.downcallHandle(
             "g_test_log_buffer_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
             false
         );
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private TestLogBuffer struct;
+        
+         /**
+         * A {@link TestLogBuffer.Build} object constructs a {@link TestLogBuffer} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = TestLogBuffer.allocate();
+        }
+        
+         /**
+         * Finish building the {@link TestLogBuffer} struct.
+         * @return A new instance of {@code TestLogBuffer} with the fields 
+         *         that were set in the Build object.
+         */
+        public TestLogBuffer construct() {
+            return struct;
+        }
+        
+        public Build setData(org.gtk.glib.String data) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("data"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (data == null ? MemoryAddress.NULL : data.handle()));
+            return this;
+        }
+        
+        public Build setMsgs(org.gtk.glib.SList msgs) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("msgs"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (msgs == null ? MemoryAddress.NULL : msgs.handle()));
+            return this;
+        }
     }
 }

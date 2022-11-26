@@ -56,7 +56,7 @@ public class EventControllerMotion extends org.gtk.gtk.EventController {
      * @throws ClassCastException If the GType is not derived from "GtkEventControllerMotion", a ClassCastException will be thrown.
      */
     public static EventControllerMotion castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkEventControllerMotion"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), EventControllerMotion.getType())) {
             return new EventControllerMotion(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkEventControllerMotion");
@@ -110,6 +110,20 @@ public class EventControllerMotion extends org.gtk.gtk.EventController {
         return RESULT != 0;
     }
     
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.gtk_event_controller_motion_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+    
     @FunctionalInterface
     public interface Enter {
         void signalReceived(EventControllerMotion source, double x, double y);
@@ -128,7 +142,7 @@ public class EventControllerMotion extends org.gtk.gtk.EventController {
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(EventControllerMotion.Callbacks.class, "signalEventControllerMotionEnter",
                         MethodType.methodType(void.class, MemoryAddress.class, double.class, double.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS),
+                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.ADDRESS),
                     Interop.getScope()),
                 Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
@@ -156,7 +170,7 @@ public class EventControllerMotion extends org.gtk.gtk.EventController {
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(EventControllerMotion.Callbacks.class, "signalEventControllerMotionLeave",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                     Interop.getScope()),
                 Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
@@ -184,7 +198,7 @@ public class EventControllerMotion extends org.gtk.gtk.EventController {
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(EventControllerMotion.Callbacks.class, "signalEventControllerMotionMotion",
                         MethodType.methodType(void.class, MemoryAddress.class, double.class, double.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS),
+                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.ADDRESS),
                     Interop.getScope()),
                 Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
@@ -193,24 +207,100 @@ public class EventControllerMotion extends org.gtk.gtk.EventController {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gtk.EventController.Build {
+        
+         /**
+         * A {@link EventControllerMotion.Build} object constructs a {@link EventControllerMotion} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link EventControllerMotion} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link EventControllerMotion} using {@link EventControllerMotion#castFrom}.
+         * @return A new instance of {@code EventControllerMotion} with the properties 
+         *         that were set in the Build object.
+         */
+        public EventControllerMotion construct() {
+            return EventControllerMotion.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    EventControllerMotion.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+        
+        /**
+         * Whether the pointer is in the controllers widget or a descendant.
+         * <p>
+         * See also {@code Gtk.EventControllerMotion:is-pointer}.
+         * <p>
+         * When handling crossing events, this property is updated
+         * before {@code Gtk.EventControllerMotion::enter}, but after
+         * {@code Gtk.EventControllerMotion::leave} is emitted.
+         * @param containsPointer The value for the {@code contains-pointer} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setContainsPointer(boolean containsPointer) {
+            names.add("contains-pointer");
+            values.add(org.gtk.gobject.Value.create(containsPointer));
+            return this;
+        }
+        
+        /**
+         * Whether the pointer is in the controllers widget itself,
+         * as opposed to in a descendent widget.
+         * <p>
+         * See also {@code Gtk.EventControllerMotion:contains-pointer}.
+         * <p>
+         * When handling crossing events, this property is updated
+         * before {@code Gtk.EventControllerMotion::enter}, but after
+         * {@code Gtk.EventControllerMotion::leave} is emitted.
+         * @param isPointer The value for the {@code is-pointer} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setIsPointer(boolean isPointer) {
+            names.add("is-pointer");
+            values.add(org.gtk.gobject.Value.create(isPointer));
+            return this;
+        }
+    }
     
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_event_controller_motion_new = Interop.downcallHandle(
             "gtk_event_controller_motion_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_event_controller_motion_contains_pointer = Interop.downcallHandle(
             "gtk_event_controller_motion_contains_pointer",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_event_controller_motion_is_pointer = Interop.downcallHandle(
             "gtk_event_controller_motion_is_pointer",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+            false
+        );
+        
+        private static final MethodHandle gtk_event_controller_motion_get_type = Interop.downcallHandle(
+            "gtk_event_controller_motion_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }
@@ -218,21 +308,21 @@ public class EventControllerMotion extends org.gtk.gtk.EventController {
     private static class Callbacks {
         
         public static void signalEventControllerMotionEnter(MemoryAddress source, double x, double y, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (EventControllerMotion.Enter) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new EventControllerMotion(source, Ownership.UNKNOWN), x, y);
+            HANDLER.signalReceived(new EventControllerMotion(source, Ownership.NONE), x, y);
         }
         
         public static void signalEventControllerMotionLeave(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (EventControllerMotion.Leave) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new EventControllerMotion(source, Ownership.UNKNOWN));
+            HANDLER.signalReceived(new EventControllerMotion(source, Ownership.NONE));
         }
         
         public static void signalEventControllerMotionMotion(MemoryAddress source, double x, double y, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (EventControllerMotion.Motion) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new EventControllerMotion(source, Ownership.UNKNOWN), x, y);
+            HANDLER.signalReceived(new EventControllerMotion(source, Ownership.NONE), x, y);
         }
     }
 }

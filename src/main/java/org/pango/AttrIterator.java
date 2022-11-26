@@ -14,7 +14,7 @@ import org.jetbrains.annotations.*;
  * style change, the range of the current style segment and the attributes
  * currently in effect can be queried.
  */
-public class AttrIterator extends io.github.jwharm.javagi.ProxyBase {
+public class AttrIterator extends Struct {
     
     static {
         Pango.javagi$ensureInitialized();
@@ -33,6 +33,10 @@ public class AttrIterator extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link AttrIterator}
+     * @return A new, uninitialized @{link AttrIterator}
+     */
     public static AttrIterator allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         AttrIterator newInstance = new AttrIterator(segment.address(), Ownership.NONE);
@@ -183,9 +187,9 @@ public class AttrIterator extends io.github.jwharm.javagi.ProxyBase {
      */
     public void range(Out<Integer> start, Out<Integer> end) {
         java.util.Objects.requireNonNull(start, "Parameter 'start' must not be null");
+        MemorySegment startPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         java.util.Objects.requireNonNull(end, "Parameter 'end' must not be null");
-        MemorySegment startPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
-        MemorySegment endPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
+        MemorySegment endPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         try {
             DowncallHandles.pango_attr_iterator_range.invokeExact(
                     handle(),
@@ -194,52 +198,80 @@ public class AttrIterator extends io.github.jwharm.javagi.ProxyBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        start.set(startPOINTER.get(ValueLayout.JAVA_INT, 0));
-        end.set(endPOINTER.get(ValueLayout.JAVA_INT, 0));
+        start.set(startPOINTER.get(Interop.valueLayout.C_INT, 0));
+        end.set(endPOINTER.get(Interop.valueLayout.C_INT, 0));
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle pango_attr_iterator_copy = Interop.downcallHandle(
             "pango_attr_iterator_copy",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle pango_attr_iterator_destroy = Interop.downcallHandle(
             "pango_attr_iterator_destroy",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle pango_attr_iterator_get = Interop.downcallHandle(
             "pango_attr_iterator_get",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle pango_attr_iterator_get_attrs = Interop.downcallHandle(
             "pango_attr_iterator_get_attrs",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle pango_attr_iterator_get_font = Interop.downcallHandle(
             "pango_attr_iterator_get_font",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle pango_attr_iterator_next = Interop.downcallHandle(
             "pango_attr_iterator_next",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle pango_attr_iterator_range = Interop.downcallHandle(
             "pango_attr_iterator_range",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private AttrIterator struct;
+        
+         /**
+         * A {@link AttrIterator.Build} object constructs a {@link AttrIterator} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = AttrIterator.allocate();
+        }
+        
+         /**
+         * Finish building the {@link AttrIterator} struct.
+         * @return A new instance of {@code AttrIterator} with the fields 
+         *         that were set in the Build object.
+         */
+        public AttrIterator construct() {
+            return struct;
+        }
     }
 }

@@ -51,7 +51,7 @@ public class GestureRotate extends org.gtk.gtk.Gesture {
      * @throws ClassCastException If the GType is not derived from "GtkGestureRotate", a ClassCastException will be thrown.
      */
     public static GestureRotate castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkGestureRotate"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), GestureRotate.getType())) {
             return new GestureRotate(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkGestureRotate");
@@ -95,6 +95,20 @@ public class GestureRotate extends org.gtk.gtk.Gesture {
         return RESULT;
     }
     
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.gtk_gesture_rotate_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+    
     @FunctionalInterface
     public interface AngleChanged {
         void signalReceived(GestureRotate source, double angle, double angleDelta);
@@ -113,7 +127,7 @@ public class GestureRotate extends org.gtk.gtk.Gesture {
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(GestureRotate.Callbacks.class, "signalGestureRotateAngleChanged",
                         MethodType.methodType(void.class, MemoryAddress.class, double.class, double.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS),
+                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.ADDRESS),
                     Interop.getScope()),
                 Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
@@ -122,18 +136,59 @@ public class GestureRotate extends org.gtk.gtk.Gesture {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gtk.Gesture.Build {
+        
+         /**
+         * A {@link GestureRotate.Build} object constructs a {@link GestureRotate} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link GestureRotate} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link GestureRotate} using {@link GestureRotate#castFrom}.
+         * @return A new instance of {@code GestureRotate} with the properties 
+         *         that were set in the Build object.
+         */
+        public GestureRotate construct() {
+            return GestureRotate.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    GestureRotate.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+    }
     
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_gesture_rotate_new = Interop.downcallHandle(
             "gtk_gesture_rotate_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_gesture_rotate_get_angle_delta = Interop.downcallHandle(
             "gtk_gesture_rotate_get_angle_delta",
-            FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_DOUBLE, Interop.valueLayout.ADDRESS),
+            false
+        );
+        
+        private static final MethodHandle gtk_gesture_rotate_get_type = Interop.downcallHandle(
+            "gtk_gesture_rotate_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }
@@ -141,9 +196,9 @@ public class GestureRotate extends org.gtk.gtk.Gesture {
     private static class Callbacks {
         
         public static void signalGestureRotateAngleChanged(MemoryAddress source, double angle, double angleDelta, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (GestureRotate.AngleChanged) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new GestureRotate(source, Ownership.UNKNOWN), angle, angleDelta);
+            HANDLER.signalReceived(new GestureRotate(source, Ownership.NONE), angle, angleDelta);
         }
     }
 }

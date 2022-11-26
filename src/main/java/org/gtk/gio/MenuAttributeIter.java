@@ -18,7 +18,7 @@ public class MenuAttributeIter extends org.gtk.gobject.Object {
     
     private static final java.lang.String C_TYPE_NAME = "GMenuAttributeIter";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gobject.Object.getMemoryLayout().withName("parent_instance"),
         Interop.valueLayout.ADDRESS.withName("priv")
     ).withName(C_TYPE_NAME);
@@ -64,7 +64,7 @@ public class MenuAttributeIter extends org.gtk.gobject.Object {
      * @throws ClassCastException If the GType is not derived from "GMenuAttributeIter", a ClassCastException will be thrown.
      */
     public static MenuAttributeIter castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GMenuAttributeIter"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), MenuAttributeIter.getType())) {
             return new MenuAttributeIter(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GMenuAttributeIter");
@@ -112,8 +112,8 @@ public class MenuAttributeIter extends org.gtk.gobject.Object {
      */
     public boolean getNext(@NotNull Out<java.lang.String> outName, @NotNull PointerProxy<org.gtk.glib.Variant> value) {
         java.util.Objects.requireNonNull(outName, "Parameter 'outName' must not be null");
+        MemorySegment outNamePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
-        MemorySegment outNamePOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_menu_attribute_iter_get_next.invokeExact(
@@ -123,7 +123,7 @@ public class MenuAttributeIter extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        outName.set(Interop.getStringFrom(outNamePOINTER.get(ValueLayout.ADDRESS, 0)));
+        outName.set(Interop.getStringFrom(outNamePOINTER.get(Interop.valueLayout.ADDRESS, 0)));
         return RESULT != 0;
     }
     
@@ -167,29 +167,84 @@ public class MenuAttributeIter extends org.gtk.gobject.Object {
         return RESULT != 0;
     }
     
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.g_menu_attribute_iter_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gobject.Object.Build {
+        
+         /**
+         * A {@link MenuAttributeIter.Build} object constructs a {@link MenuAttributeIter} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link MenuAttributeIter} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link MenuAttributeIter} using {@link MenuAttributeIter#castFrom}.
+         * @return A new instance of {@code MenuAttributeIter} with the properties 
+         *         that were set in the Build object.
+         */
+        public MenuAttributeIter construct() {
+            return MenuAttributeIter.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    MenuAttributeIter.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+    }
+    
     private static class DowncallHandles {
         
         private static final MethodHandle g_menu_attribute_iter_get_name = Interop.downcallHandle(
             "g_menu_attribute_iter_get_name",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_menu_attribute_iter_get_next = Interop.downcallHandle(
             "g_menu_attribute_iter_get_next",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_menu_attribute_iter_get_value = Interop.downcallHandle(
             "g_menu_attribute_iter_get_value",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_menu_attribute_iter_next = Interop.downcallHandle(
             "g_menu_attribute_iter_next",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+            false
+        );
+        
+        private static final MethodHandle g_menu_attribute_iter_get_type = Interop.downcallHandle(
+            "g_menu_attribute_iter_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }

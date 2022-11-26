@@ -87,7 +87,7 @@ public class SignalListItemFactory extends org.gtk.gtk.ListItemFactory {
      * @throws ClassCastException If the GType is not derived from "GtkSignalListItemFactory", a ClassCastException will be thrown.
      */
     public static SignalListItemFactory castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkSignalListItemFactory"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), SignalListItemFactory.getType())) {
             return new SignalListItemFactory(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkSignalListItemFactory");
@@ -113,17 +113,32 @@ public class SignalListItemFactory extends org.gtk.gtk.ListItemFactory {
         super(constructNew(), Ownership.FULL);
     }
     
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.gtk_signal_list_item_factory_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+    
     @FunctionalInterface
     public interface Bind {
-        void signalReceived(SignalListItemFactory source, @NotNull org.gtk.gtk.ListItem listitem);
+        void signalReceived(SignalListItemFactory source, @NotNull org.gtk.gobject.Object object);
     }
     
     /**
-     * Emitted when a new {@code Gtk.ListItem:item} has been set
-     * on the {@code listitem} and should be bound for use.
+     * Emitted when an object has been bound, for example when a
+     * new {@code Gtk.ListItem:item} has been set on a
+     * {@code GtkListItem} and should be bound for use.
      * <p>
-     * After this signal was emitted, the listitem might be shown in
-     * a {@link ListView} or other list widget.
+     * After this signal was emitted, the object might be shown in
+     * a {@link ListView} or other widget.
      * <p>
      * The {@code Gtk.SignalListItemFactory::unbind} signal is the
      * opposite of this signal and can be used to undo everything done
@@ -139,7 +154,7 @@ public class SignalListItemFactory extends org.gtk.gtk.ListItemFactory {
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(SignalListItemFactory.Callbacks.class, "signalSignalListItemFactoryBind",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                     Interop.getScope()),
                 Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
@@ -151,7 +166,7 @@ public class SignalListItemFactory extends org.gtk.gtk.ListItemFactory {
     
     @FunctionalInterface
     public interface Setup {
-        void signalReceived(SignalListItemFactory source, @NotNull org.gtk.gtk.ListItem listitem);
+        void signalReceived(SignalListItemFactory source, @NotNull org.gtk.gobject.Object object);
     }
     
     /**
@@ -172,7 +187,7 @@ public class SignalListItemFactory extends org.gtk.gtk.ListItemFactory {
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(SignalListItemFactory.Callbacks.class, "signalSignalListItemFactorySetup",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                     Interop.getScope()),
                 Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
@@ -184,13 +199,13 @@ public class SignalListItemFactory extends org.gtk.gtk.ListItemFactory {
     
     @FunctionalInterface
     public interface Teardown {
-        void signalReceived(SignalListItemFactory source, @NotNull org.gtk.gtk.ListItem listitem);
+        void signalReceived(SignalListItemFactory source, @NotNull org.gtk.gobject.Object object);
     }
     
     /**
-     * Emitted when a listitem is about to be destroyed.
+     * Emitted when an object is about to be destroyed.
      * <p>
-     * It is the last signal ever emitted for this {@code listitem}.
+     * It is the last signal ever emitted for this {@code object}.
      * <p>
      * This signal is the opposite of the {@code Gtk.SignalListItemFactory::setup}
      * signal and should be used to undo everything done in that signal.
@@ -205,7 +220,7 @@ public class SignalListItemFactory extends org.gtk.gtk.ListItemFactory {
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(SignalListItemFactory.Callbacks.class, "signalSignalListItemFactoryTeardown",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                     Interop.getScope()),
                 Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
@@ -217,11 +232,12 @@ public class SignalListItemFactory extends org.gtk.gtk.ListItemFactory {
     
     @FunctionalInterface
     public interface Unbind {
-        void signalReceived(SignalListItemFactory source, @NotNull org.gtk.gtk.ListItem listitem);
+        void signalReceived(SignalListItemFactory source, @NotNull org.gtk.gobject.Object object);
     }
     
     /**
-     * Emitted when a listitem has been removed from use in a list widget
+     * Emitted when a object has been unbound from its item, for example when
+     * a listitem was removed from use in a list widget
      * and its new {@code Gtk.ListItem:item} is about to be unset.
      * <p>
      * This signal is the opposite of the {@code Gtk.SignalListItemFactory::bind}
@@ -237,7 +253,7 @@ public class SignalListItemFactory extends org.gtk.gtk.ListItemFactory {
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(SignalListItemFactory.Callbacks.class, "signalSignalListItemFactoryUnbind",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                     Interop.getScope()),
                 Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
@@ -246,40 +262,81 @@ public class SignalListItemFactory extends org.gtk.gtk.ListItemFactory {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gtk.ListItemFactory.Build {
+        
+         /**
+         * A {@link SignalListItemFactory.Build} object constructs a {@link SignalListItemFactory} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link SignalListItemFactory} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link SignalListItemFactory} using {@link SignalListItemFactory#castFrom}.
+         * @return A new instance of {@code SignalListItemFactory} with the properties 
+         *         that were set in the Build object.
+         */
+        public SignalListItemFactory construct() {
+            return SignalListItemFactory.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    SignalListItemFactory.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+    }
     
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_signal_list_item_factory_new = Interop.downcallHandle(
             "gtk_signal_list_item_factory_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+            false
+        );
+        
+        private static final MethodHandle gtk_signal_list_item_factory_get_type = Interop.downcallHandle(
+            "gtk_signal_list_item_factory_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }
     
     private static class Callbacks {
         
-        public static void signalSignalListItemFactoryBind(MemoryAddress source, MemoryAddress listitem, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+        public static void signalSignalListItemFactoryBind(MemoryAddress source, MemoryAddress object, MemoryAddress data) {
+            int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (SignalListItemFactory.Bind) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new SignalListItemFactory(source, Ownership.UNKNOWN), new org.gtk.gtk.ListItem(listitem, Ownership.NONE));
+            HANDLER.signalReceived(new SignalListItemFactory(source, Ownership.NONE), new org.gtk.gobject.Object(object, Ownership.NONE));
         }
         
-        public static void signalSignalListItemFactorySetup(MemoryAddress source, MemoryAddress listitem, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+        public static void signalSignalListItemFactorySetup(MemoryAddress source, MemoryAddress object, MemoryAddress data) {
+            int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (SignalListItemFactory.Setup) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new SignalListItemFactory(source, Ownership.UNKNOWN), new org.gtk.gtk.ListItem(listitem, Ownership.NONE));
+            HANDLER.signalReceived(new SignalListItemFactory(source, Ownership.NONE), new org.gtk.gobject.Object(object, Ownership.NONE));
         }
         
-        public static void signalSignalListItemFactoryTeardown(MemoryAddress source, MemoryAddress listitem, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+        public static void signalSignalListItemFactoryTeardown(MemoryAddress source, MemoryAddress object, MemoryAddress data) {
+            int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (SignalListItemFactory.Teardown) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new SignalListItemFactory(source, Ownership.UNKNOWN), new org.gtk.gtk.ListItem(listitem, Ownership.NONE));
+            HANDLER.signalReceived(new SignalListItemFactory(source, Ownership.NONE), new org.gtk.gobject.Object(object, Ownership.NONE));
         }
         
-        public static void signalSignalListItemFactoryUnbind(MemoryAddress source, MemoryAddress listitem, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+        public static void signalSignalListItemFactoryUnbind(MemoryAddress source, MemoryAddress object, MemoryAddress data) {
+            int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (SignalListItemFactory.Unbind) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new SignalListItemFactory(source, Ownership.UNKNOWN), new org.gtk.gtk.ListItem(listitem, Ownership.NONE));
+            HANDLER.signalReceived(new SignalListItemFactory(source, Ownership.NONE), new org.gtk.gobject.Object(object, Ownership.NONE));
         }
     }
 }

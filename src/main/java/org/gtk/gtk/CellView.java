@@ -65,7 +65,7 @@ public class CellView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * @throws ClassCastException If the GType is not derived from "GtkCellView", a ClassCastException will be thrown.
      */
     public static CellView castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkCellView"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), CellView.getType())) {
             return new CellView(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkCellView");
@@ -323,83 +323,220 @@ public class CellView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
         }
     }
     
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.gtk_cell_view_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gtk.Widget.Build {
+        
+         /**
+         * A {@link CellView.Build} object constructs a {@link CellView} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link CellView} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link CellView} using {@link CellView#castFrom}.
+         * @return A new instance of {@code CellView} with the properties 
+         *         that were set in the Build object.
+         */
+        public CellView construct() {
+            return CellView.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    CellView.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+        
+        /**
+         * The {@code GtkCellArea} rendering cells
+         * <p>
+         * If no area is specified when creating the cell view with gtk_cell_view_new_with_context()
+         * a horizontally oriented {@code GtkCellArea}Box will be used.
+         * <p>
+         * since 3.0
+         * @param cellArea The value for the {@code cell-area} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setCellArea(org.gtk.gtk.CellArea cellArea) {
+            names.add("cell-area");
+            values.add(org.gtk.gobject.Value.create(cellArea));
+            return this;
+        }
+        
+        /**
+         * The {@code GtkCellAreaContext} used to compute the geometry of the cell view.
+         * <p>
+         * A group of cell views can be assigned the same context in order to
+         * ensure the sizes and cell alignments match across all the views with
+         * the same context.
+         * <p>
+         * {@code GtkComboBox} menus uses this to assign the same context to all cell views
+         * in the menu items for a single menu (each submenu creates its own
+         * context since the size of each submenu does not depend on parent
+         * or sibling menus).
+         * <p>
+         * since 3.0
+         * @param cellAreaContext The value for the {@code cell-area-context} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setCellAreaContext(org.gtk.gtk.CellAreaContext cellAreaContext) {
+            names.add("cell-area-context");
+            values.add(org.gtk.gobject.Value.create(cellAreaContext));
+            return this;
+        }
+        
+        /**
+         * Whether all cells should be draw as sensitive for this view regardless
+         * of the actual cell properties (used to make menus with submenus appear
+         * sensitive when the items in submenus might be insensitive).
+         * <p>
+         * since 3.0
+         * @param drawSensitive The value for the {@code draw-sensitive} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setDrawSensitive(boolean drawSensitive) {
+            names.add("draw-sensitive");
+            values.add(org.gtk.gobject.Value.create(drawSensitive));
+            return this;
+        }
+        
+        /**
+         * Whether the view should request enough space to always fit
+         * the size of every row in the model (used by the combo box to
+         * ensure the combo box size doesn't change when different items
+         * are selected).
+         * <p>
+         * since 3.0
+         * @param fitModel The value for the {@code fit-model} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setFitModel(boolean fitModel) {
+            names.add("fit-model");
+            values.add(org.gtk.gobject.Value.create(fitModel));
+            return this;
+        }
+        
+        /**
+         * The model for cell view
+         * <p>
+         * since 2.10
+         * @param model The value for the {@code model} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setModel(org.gtk.gtk.TreeModel model) {
+            names.add("model");
+            values.add(org.gtk.gobject.Value.create(model));
+            return this;
+        }
+    }
+    
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_cell_view_new = Interop.downcallHandle(
             "gtk_cell_view_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_cell_view_new_with_context = Interop.downcallHandle(
             "gtk_cell_view_new_with_context",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_cell_view_new_with_markup = Interop.downcallHandle(
             "gtk_cell_view_new_with_markup",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_cell_view_new_with_text = Interop.downcallHandle(
             "gtk_cell_view_new_with_text",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_cell_view_new_with_texture = Interop.downcallHandle(
             "gtk_cell_view_new_with_texture",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_cell_view_get_displayed_row = Interop.downcallHandle(
             "gtk_cell_view_get_displayed_row",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_cell_view_get_draw_sensitive = Interop.downcallHandle(
             "gtk_cell_view_get_draw_sensitive",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_cell_view_get_fit_model = Interop.downcallHandle(
             "gtk_cell_view_get_fit_model",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_cell_view_get_model = Interop.downcallHandle(
             "gtk_cell_view_get_model",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_cell_view_set_displayed_row = Interop.downcallHandle(
             "gtk_cell_view_set_displayed_row",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_cell_view_set_draw_sensitive = Interop.downcallHandle(
             "gtk_cell_view_set_draw_sensitive",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_cell_view_set_fit_model = Interop.downcallHandle(
             "gtk_cell_view_set_fit_model",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_cell_view_set_model = Interop.downcallHandle(
             "gtk_cell_view_set_model",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+            false
+        );
+        
+        private static final MethodHandle gtk_cell_view_get_type = Interop.downcallHandle(
+            "gtk_cell_view_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }

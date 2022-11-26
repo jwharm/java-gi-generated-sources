@@ -33,11 +33,11 @@ import org.jetbrains.annotations.*;
  * if you want to display a fixed-size image, such as an icon.
  * <p>
  * <strong>Sizing the paintable</strong><br/>
- * You can influence how the paintable is displayed inside the {@code GtkPicture}.
- * By turning off {@code Gtk.Picture:keep-aspect-ratio} you can allow the
- * paintable to get stretched. {@code Gtk.Picture:can-shrink} can be unset
- * to make sure that paintables are never made smaller than their ideal size -
- * but be careful if you do not know the size of the paintable in use (like
+ * You can influence how the paintable is displayed inside the {@code GtkPicture}
+ * by changing {@code Gtk.Picture:content-fit}. See {@code Gtk.ContentFit}
+ * for details. {@code Gtk.Picture:can-shrink} can be unset to make sure
+ * that paintables are never made smaller than their ideal size - but
+ * be careful if you do not know the size of the paintable in use (like
  * when displaying user-loaded images). This can easily cause the picture to
  * grow larger than the screen. And {@code GtkWidget:halign} and
  * {@code GtkWidget:valign} can be used to make sure the paintable doesn't
@@ -89,7 +89,7 @@ public class Picture extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      * @throws ClassCastException If the GType is not derived from "GtkPicture", a ClassCastException will be thrown.
      */
     public static Picture castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkPicture"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), Picture.getType())) {
             return new Picture(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkPicture");
@@ -267,6 +267,23 @@ public class Picture extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
     }
     
     /**
+     * Returns the fit mode for the content of the {@code GtkPicture}.
+     * <p>
+     * See {@code Gtk.ContentFit} for details.
+     * @return the content fit mode
+     */
+    public @NotNull org.gtk.gtk.ContentFit getContentFit() {
+        int RESULT;
+        try {
+            RESULT = (int) DowncallHandles.gtk_picture_get_content_fit.invokeExact(
+                    handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.gtk.ContentFit(RESULT);
+    }
+    
+    /**
      * Gets the {@code GFile} currently displayed if {@code self} is displaying a file.
      * <p>
      * If {@code self} is not displaying a file, for example when
@@ -287,7 +304,11 @@ public class Picture extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
     /**
      * Returns whether the {@code GtkPicture} preserves its contents aspect ratio.
      * @return {@code true} if the self tries to keep the contents' aspect ratio
+     * @deprecated Use {@link Picture#getContentFit} instead. This will
+     *   now return {@code FALSE} only if {@code Gtk.Picture:content-fit} is
+     *   {@code GTK_CONTENT_FIT_FILL}. Returns {@code TRUE} otherwise.
      */
+    @Deprecated
     public boolean getKeepAspectRatio() {
         int RESULT;
         try {
@@ -358,6 +379,23 @@ public class Picture extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
     }
     
     /**
+     * Sets how the content should be resized to fit the {@code GtkPicture}.
+     * <p>
+     * See {@code Gtk.ContentFit} for details.
+     * @param contentFit the content fit mode
+     */
+    public void setContentFit(@NotNull org.gtk.gtk.ContentFit contentFit) {
+        java.util.Objects.requireNonNull(contentFit, "Parameter 'contentFit' must not be null");
+        try {
+            DowncallHandles.gtk_picture_set_content_fit.invokeExact(
+                    handle(),
+                    contentFit.getValue());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+    }
+    
+    /**
      * Makes {@code self} load and display {@code file}.
      * <p>
      * See {@link Picture#newForFile} for details.
@@ -399,7 +437,12 @@ public class Picture extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      * If set to {@code false} or if the contents provide no aspect ratio,
      * the contents will be stretched over the picture's whole area.
      * @param keepAspectRatio whether to keep aspect ratio
+     * @deprecated Use {@link Picture#setContentFit} instead. If still
+     *   used, this method will always set the {@code Gtk.Picture:content-fit}
+     *   property to {@code GTK_CONTENT_FIT_CONTAIN} if {@code keep_aspect_ratio} is true,
+     *   otherwise it will set it to {@code GTK_CONTENT_FIT_FILL}.
      */
+    @Deprecated
     public void setKeepAspectRatio(boolean keepAspectRatio) {
         try {
             DowncallHandles.gtk_picture_set_keep_aspect_ratio.invokeExact(
@@ -463,119 +506,253 @@ public class Picture extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
         }
     }
     
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.gtk_picture_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gtk.Widget.Build {
+        
+         /**
+         * A {@link Picture.Build} object constructs a {@link Picture} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link Picture} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link Picture} using {@link Picture#castFrom}.
+         * @return A new instance of {@code Picture} with the properties 
+         *         that were set in the Build object.
+         */
+        public Picture construct() {
+            return Picture.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    Picture.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+        
+        /**
+         * The alternative textual description for the picture.
+         * @param alternativeText The value for the {@code alternative-text} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setAlternativeText(java.lang.String alternativeText) {
+            names.add("alternative-text");
+            values.add(org.gtk.gobject.Value.create(alternativeText));
+            return this;
+        }
+        
+        /**
+         * If the {@code GtkPicture} can be made smaller than the natural size of its contents.
+         * @param canShrink The value for the {@code can-shrink} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setCanShrink(boolean canShrink) {
+            names.add("can-shrink");
+            values.add(org.gtk.gobject.Value.create(canShrink));
+            return this;
+        }
+        
+        /**
+         * How the content should be resized to fit inside the {@code GtkPicture}.
+         * @param contentFit The value for the {@code content-fit} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setContentFit(org.gtk.gtk.ContentFit contentFit) {
+            names.add("content-fit");
+            values.add(org.gtk.gobject.Value.create(contentFit));
+            return this;
+        }
+        
+        /**
+         * The {@code GFile} that is displayed or {@code null} if none.
+         * @param file The value for the {@code file} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setFile(org.gtk.gio.File file) {
+            names.add("file");
+            values.add(org.gtk.gobject.Value.create(file));
+            return this;
+        }
+        
+        /**
+         * Whether the GtkPicture will render its contents trying to preserve the aspect
+         * ratio.
+         * @param keepAspectRatio The value for the {@code keep-aspect-ratio} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setKeepAspectRatio(boolean keepAspectRatio) {
+            names.add("keep-aspect-ratio");
+            values.add(org.gtk.gobject.Value.create(keepAspectRatio));
+            return this;
+        }
+        
+        /**
+         * The {@code GdkPaintable} to be displayed by this {@code GtkPicture}.
+         * @param paintable The value for the {@code paintable} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setPaintable(org.gtk.gdk.Paintable paintable) {
+            names.add("paintable");
+            values.add(org.gtk.gobject.Value.create(paintable));
+            return this;
+        }
+    }
+    
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_picture_new = Interop.downcallHandle(
             "gtk_picture_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_picture_new_for_file = Interop.downcallHandle(
             "gtk_picture_new_for_file",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_picture_new_for_filename = Interop.downcallHandle(
             "gtk_picture_new_for_filename",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_picture_new_for_paintable = Interop.downcallHandle(
             "gtk_picture_new_for_paintable",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_picture_new_for_pixbuf = Interop.downcallHandle(
             "gtk_picture_new_for_pixbuf",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_picture_new_for_resource = Interop.downcallHandle(
             "gtk_picture_new_for_resource",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_picture_get_alternative_text = Interop.downcallHandle(
             "gtk_picture_get_alternative_text",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_picture_get_can_shrink = Interop.downcallHandle(
             "gtk_picture_get_can_shrink",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+            false
+        );
+        
+        private static final MethodHandle gtk_picture_get_content_fit = Interop.downcallHandle(
+            "gtk_picture_get_content_fit",
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_picture_get_file = Interop.downcallHandle(
             "gtk_picture_get_file",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_picture_get_keep_aspect_ratio = Interop.downcallHandle(
             "gtk_picture_get_keep_aspect_ratio",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_picture_get_paintable = Interop.downcallHandle(
             "gtk_picture_get_paintable",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_picture_set_alternative_text = Interop.downcallHandle(
             "gtk_picture_set_alternative_text",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_picture_set_can_shrink = Interop.downcallHandle(
             "gtk_picture_set_can_shrink",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+            false
+        );
+        
+        private static final MethodHandle gtk_picture_set_content_fit = Interop.downcallHandle(
+            "gtk_picture_set_content_fit",
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_picture_set_file = Interop.downcallHandle(
             "gtk_picture_set_file",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_picture_set_filename = Interop.downcallHandle(
             "gtk_picture_set_filename",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_picture_set_keep_aspect_ratio = Interop.downcallHandle(
             "gtk_picture_set_keep_aspect_ratio",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_picture_set_paintable = Interop.downcallHandle(
             "gtk_picture_set_paintable",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_picture_set_pixbuf = Interop.downcallHandle(
             "gtk_picture_set_pixbuf",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_picture_set_resource = Interop.downcallHandle(
             "gtk_picture_set_resource",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+            false
+        );
+        
+        private static final MethodHandle gtk_picture_get_type = Interop.downcallHandle(
+            "gtk_picture_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }

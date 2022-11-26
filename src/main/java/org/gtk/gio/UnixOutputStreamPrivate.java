@@ -5,7 +5,7 @@ import java.lang.foreign.*;
 import java.lang.invoke.*;
 import org.jetbrains.annotations.*;
 
-public class UnixOutputStreamPrivate extends io.github.jwharm.javagi.ProxyBase {
+public class UnixOutputStreamPrivate extends Struct {
     
     static {
         Gio.javagi$ensureInitialized();
@@ -24,6 +24,10 @@ public class UnixOutputStreamPrivate extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link UnixOutputStreamPrivate}
+     * @return A new, uninitialized @{link UnixOutputStreamPrivate}
+     */
     public static UnixOutputStreamPrivate allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         UnixOutputStreamPrivate newInstance = new UnixOutputStreamPrivate(segment.address(), Ownership.NONE);
@@ -39,5 +43,33 @@ public class UnixOutputStreamPrivate extends io.github.jwharm.javagi.ProxyBase {
     @ApiStatus.Internal
     public UnixOutputStreamPrivate(Addressable address, Ownership ownership) {
         super(address, ownership);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private UnixOutputStreamPrivate struct;
+        
+         /**
+         * A {@link UnixOutputStreamPrivate.Build} object constructs a {@link UnixOutputStreamPrivate} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = UnixOutputStreamPrivate.allocate();
+        }
+        
+         /**
+         * Finish building the {@link UnixOutputStreamPrivate} struct.
+         * @return A new instance of {@code UnixOutputStreamPrivate} with the fields 
+         *         that were set in the Build object.
+         */
+        public UnixOutputStreamPrivate construct() {
+            return struct;
+        }
     }
 }

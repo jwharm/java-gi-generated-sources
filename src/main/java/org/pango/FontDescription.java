@@ -13,7 +13,7 @@ import org.jetbrains.annotations.*;
  * available on the system and also for specifying the characteristics of
  * a font to load.
  */
-public class FontDescription extends io.github.jwharm.javagi.ProxyBase {
+public class FontDescription extends Struct {
     
     static {
         Pango.javagi$ensureInitialized();
@@ -32,6 +32,10 @@ public class FontDescription extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link FontDescription}
+     * @return A new, uninitialized @{link FontDescription}
+     */
     public static FontDescription allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         FontDescription newInstance = new FontDescription(segment.address(), Ownership.NONE);
@@ -176,8 +180,8 @@ public class FontDescription extends io.github.jwharm.javagi.ProxyBase {
      * Gets the family name field of a font description.
      * <p>
      * See {@link FontDescription#setFamily}.
-     * @return the family name field for the font
-     *   description, or {@code null} if not previously set. This has the same
+     * @return the family name field for the
+     *   font description, or {@code null} if not previously set. This has the same
      *   life-time as the font description itself and should not be freed.
      */
     public @Nullable java.lang.String getFamily() {
@@ -683,7 +687,7 @@ public class FontDescription extends io.github.jwharm.javagi.ProxyBase {
      * lower case only.
      * @return a new string that must be freed with g_free().
      */
-    public @NotNull java.lang.String toFilename() {
+    public @Nullable java.lang.String toFilename() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.pango_font_description_to_filename.invokeExact(
@@ -795,206 +799,234 @@ public class FontDescription extends io.github.jwharm.javagi.ProxyBase {
         
         private static final MethodHandle pango_font_description_new = Interop.downcallHandle(
             "pango_font_description_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle pango_font_description_better_match = Interop.downcallHandle(
             "pango_font_description_better_match",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle pango_font_description_copy = Interop.downcallHandle(
             "pango_font_description_copy",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle pango_font_description_copy_static = Interop.downcallHandle(
             "pango_font_description_copy_static",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle pango_font_description_equal = Interop.downcallHandle(
             "pango_font_description_equal",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle pango_font_description_free = Interop.downcallHandle(
             "pango_font_description_free",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle pango_font_description_get_family = Interop.downcallHandle(
             "pango_font_description_get_family",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle pango_font_description_get_gravity = Interop.downcallHandle(
             "pango_font_description_get_gravity",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle pango_font_description_get_set_fields = Interop.downcallHandle(
             "pango_font_description_get_set_fields",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle pango_font_description_get_size = Interop.downcallHandle(
             "pango_font_description_get_size",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle pango_font_description_get_size_is_absolute = Interop.downcallHandle(
             "pango_font_description_get_size_is_absolute",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle pango_font_description_get_stretch = Interop.downcallHandle(
             "pango_font_description_get_stretch",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle pango_font_description_get_style = Interop.downcallHandle(
             "pango_font_description_get_style",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle pango_font_description_get_variant = Interop.downcallHandle(
             "pango_font_description_get_variant",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle pango_font_description_get_variations = Interop.downcallHandle(
             "pango_font_description_get_variations",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle pango_font_description_get_weight = Interop.downcallHandle(
             "pango_font_description_get_weight",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle pango_font_description_hash = Interop.downcallHandle(
             "pango_font_description_hash",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle pango_font_description_merge = Interop.downcallHandle(
             "pango_font_description_merge",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle pango_font_description_merge_static = Interop.downcallHandle(
             "pango_font_description_merge_static",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle pango_font_description_set_absolute_size = Interop.downcallHandle(
             "pango_font_description_set_absolute_size",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE),
             false
         );
         
         private static final MethodHandle pango_font_description_set_family = Interop.downcallHandle(
             "pango_font_description_set_family",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle pango_font_description_set_family_static = Interop.downcallHandle(
             "pango_font_description_set_family_static",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle pango_font_description_set_gravity = Interop.downcallHandle(
             "pango_font_description_set_gravity",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle pango_font_description_set_size = Interop.downcallHandle(
             "pango_font_description_set_size",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle pango_font_description_set_stretch = Interop.downcallHandle(
             "pango_font_description_set_stretch",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle pango_font_description_set_style = Interop.downcallHandle(
             "pango_font_description_set_style",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle pango_font_description_set_variant = Interop.downcallHandle(
             "pango_font_description_set_variant",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle pango_font_description_set_variations = Interop.downcallHandle(
             "pango_font_description_set_variations",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle pango_font_description_set_variations_static = Interop.downcallHandle(
             "pango_font_description_set_variations_static",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle pango_font_description_set_weight = Interop.downcallHandle(
             "pango_font_description_set_weight",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle pango_font_description_to_filename = Interop.downcallHandle(
             "pango_font_description_to_filename",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle pango_font_description_to_string = Interop.downcallHandle(
             "pango_font_description_to_string",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle pango_font_description_unset_fields = Interop.downcallHandle(
             "pango_font_description_unset_fields",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle pango_font_description_from_string = Interop.downcallHandle(
             "pango_font_description_from_string",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private FontDescription struct;
+        
+         /**
+         * A {@link FontDescription.Build} object constructs a {@link FontDescription} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = FontDescription.allocate();
+        }
+        
+         /**
+         * Finish building the {@link FontDescription} struct.
+         * @return A new instance of {@code FontDescription} with the fields 
+         *         that were set in the Build object.
+         */
+        public FontDescription construct() {
+            return struct;
+        }
     }
 }

@@ -60,7 +60,7 @@ public class FontChooserDialog extends org.gtk.gtk.Dialog implements org.gtk.gtk
      * @throws ClassCastException If the GType is not derived from "GtkFontChooserDialog", a ClassCastException will be thrown.
      */
     public static FontChooserDialog castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkFontChooserDialog"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), FontChooserDialog.getType())) {
             return new FontChooserDialog(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkFontChooserDialog");
@@ -88,11 +88,66 @@ public class FontChooserDialog extends org.gtk.gtk.Dialog implements org.gtk.gtk
         super(constructNew(title, parent), Ownership.NONE);
     }
     
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.gtk_font_chooser_dialog_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gtk.Dialog.Build {
+        
+         /**
+         * A {@link FontChooserDialog.Build} object constructs a {@link FontChooserDialog} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link FontChooserDialog} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link FontChooserDialog} using {@link FontChooserDialog#castFrom}.
+         * @return A new instance of {@code FontChooserDialog} with the properties 
+         *         that were set in the Build object.
+         */
+        public FontChooserDialog construct() {
+            return FontChooserDialog.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    FontChooserDialog.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+    }
+    
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_font_chooser_dialog_new = Interop.downcallHandle(
             "gtk_font_chooser_dialog_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+            false
+        );
+        
+        private static final MethodHandle gtk_font_chooser_dialog_get_type = Interop.downcallHandle(
+            "gtk_font_chooser_dialog_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }

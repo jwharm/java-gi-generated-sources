@@ -48,7 +48,7 @@ public class NotebookPage extends org.gtk.gobject.Object {
      * @throws ClassCastException If the GType is not derived from "GtkNotebookPage", a ClassCastException will be thrown.
      */
     public static NotebookPage castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkNotebookPage"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), NotebookPage.getType())) {
             return new NotebookPage(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkNotebookPage");
@@ -70,11 +70,176 @@ public class NotebookPage extends org.gtk.gobject.Object {
         return new org.gtk.gtk.Widget(RESULT, Ownership.NONE);
     }
     
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.gtk_notebook_page_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gobject.Object.Build {
+        
+         /**
+         * A {@link NotebookPage.Build} object constructs a {@link NotebookPage} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link NotebookPage} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link NotebookPage} using {@link NotebookPage#castFrom}.
+         * @return A new instance of {@code NotebookPage} with the properties 
+         *         that were set in the Build object.
+         */
+        public NotebookPage construct() {
+            return NotebookPage.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    NotebookPage.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+        
+        /**
+         * The child for this page.
+         * @param child The value for the {@code child} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setChild(org.gtk.gtk.Widget child) {
+            names.add("child");
+            values.add(org.gtk.gobject.Value.create(child));
+            return this;
+        }
+        
+        /**
+         * Whether the tab is detachable.
+         * @param detachable The value for the {@code detachable} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setDetachable(boolean detachable) {
+            names.add("detachable");
+            values.add(org.gtk.gobject.Value.create(detachable));
+            return this;
+        }
+        
+        /**
+         * The label widget displayed in the childs menu entry.
+         * @param menu The value for the {@code menu} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setMenu(org.gtk.gtk.Widget menu) {
+            names.add("menu");
+            values.add(org.gtk.gobject.Value.create(menu));
+            return this;
+        }
+        
+        /**
+         * The text of the menu widget.
+         * @param menuLabel The value for the {@code menu-label} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setMenuLabel(java.lang.String menuLabel) {
+            names.add("menu-label");
+            values.add(org.gtk.gobject.Value.create(menuLabel));
+            return this;
+        }
+        
+        /**
+         * The index of the child in the parent.
+         * @param position The value for the {@code position} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setPosition(int position) {
+            names.add("position");
+            values.add(org.gtk.gobject.Value.create(position));
+            return this;
+        }
+        
+        /**
+         * Whether the tab is reorderable by user action.
+         * @param reorderable The value for the {@code reorderable} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setReorderable(boolean reorderable) {
+            names.add("reorderable");
+            values.add(org.gtk.gobject.Value.create(reorderable));
+            return this;
+        }
+        
+        /**
+         * The tab widget for tihs page.
+         * @param tab The value for the {@code tab} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setTab(org.gtk.gtk.Widget tab) {
+            names.add("tab");
+            values.add(org.gtk.gobject.Value.create(tab));
+            return this;
+        }
+        
+        /**
+         * Whether to expand the childs tab.
+         * @param tabExpand The value for the {@code tab-expand} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setTabExpand(boolean tabExpand) {
+            names.add("tab-expand");
+            values.add(org.gtk.gobject.Value.create(tabExpand));
+            return this;
+        }
+        
+        /**
+         * Whether the childs tab should fill the allocated area.
+         * @param tabFill The value for the {@code tab-fill} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setTabFill(boolean tabFill) {
+            names.add("tab-fill");
+            values.add(org.gtk.gobject.Value.create(tabFill));
+            return this;
+        }
+        
+        /**
+         * The text of the tab widget.
+         * @param tabLabel The value for the {@code tab-label} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setTabLabel(java.lang.String tabLabel) {
+            names.add("tab-label");
+            values.add(org.gtk.gobject.Value.create(tabLabel));
+            return this;
+        }
+    }
+    
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_notebook_page_get_child = Interop.downcallHandle(
             "gtk_notebook_page_get_child",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+            false
+        );
+        
+        private static final MethodHandle gtk_notebook_page_get_type = Interop.downcallHandle(
+            "gtk_notebook_page_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }

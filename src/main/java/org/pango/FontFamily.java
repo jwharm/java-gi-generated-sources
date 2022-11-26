@@ -20,7 +20,7 @@ public class FontFamily extends org.gtk.gobject.Object implements org.gtk.gio.Li
     
     private static final java.lang.String C_TYPE_NAME = "PangoFontFamily";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gobject.Object.getMemoryLayout().withName("parent_instance")
     ).withName(C_TYPE_NAME);
     
@@ -65,7 +65,7 @@ public class FontFamily extends org.gtk.gobject.Object implements org.gtk.gio.Li
      * @throws ClassCastException If the GType is not derived from "PangoFontFamily", a ClassCastException will be thrown.
      */
     public static FontFamily castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("PangoFontFamily"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), FontFamily.getType())) {
             return new FontFamily(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of PangoFontFamily");
@@ -177,9 +177,9 @@ public class FontFamily extends org.gtk.gobject.Object implements org.gtk.gio.Li
      */
     public void listFaces(@NotNull Out<org.pango.FontFace[]> faces, Out<Integer> nFaces) {
         java.util.Objects.requireNonNull(faces, "Parameter 'faces' must not be null");
+        MemorySegment facesPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         java.util.Objects.requireNonNull(nFaces, "Parameter 'nFaces' must not be null");
-        MemorySegment facesPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        MemorySegment nFacesPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
+        MemorySegment nFacesPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         try {
             DowncallHandles.pango_font_family_list_faces.invokeExact(
                     handle(),
@@ -188,44 +188,121 @@ public class FontFamily extends org.gtk.gobject.Object implements org.gtk.gio.Li
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        nFaces.set(nFacesPOINTER.get(ValueLayout.JAVA_INT, 0));
+        nFaces.set(nFacesPOINTER.get(Interop.valueLayout.C_INT, 0));
         org.pango.FontFace[] facesARRAY = new org.pango.FontFace[nFaces.get().intValue()];
         for (int I = 0; I < nFaces.get().intValue(); I++) {
-            var OBJ = facesPOINTER.get(ValueLayout.ADDRESS, I);
+            var OBJ = facesPOINTER.get(Interop.valueLayout.ADDRESS, I);
             facesARRAY[I] = new org.pango.FontFace(OBJ, Ownership.CONTAINER);
         }
         faces.set(facesARRAY);
+    }
+    
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.pango_font_family_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gobject.Object.Build {
+        
+         /**
+         * A {@link FontFamily.Build} object constructs a {@link FontFamily} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link FontFamily} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link FontFamily} using {@link FontFamily#castFrom}.
+         * @return A new instance of {@code FontFamily} with the properties 
+         *         that were set in the Build object.
+         */
+        public FontFamily construct() {
+            return FontFamily.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    FontFamily.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+        
+        /**
+         * The type of items contained in this list.
+         * @param itemType The value for the {@code item-type} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setItemType(org.gtk.glib.Type itemType) {
+            names.add("item-type");
+            values.add(org.gtk.gobject.Value.create(itemType));
+            return this;
+        }
+        
+        /**
+         * The number of items contained in this list.
+         * @param nItems The value for the {@code n-items} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setNItems(int nItems) {
+            names.add("n-items");
+            values.add(org.gtk.gobject.Value.create(nItems));
+            return this;
+        }
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle pango_font_family_get_face = Interop.downcallHandle(
             "pango_font_family_get_face",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle pango_font_family_get_name = Interop.downcallHandle(
             "pango_font_family_get_name",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle pango_font_family_is_monospace = Interop.downcallHandle(
             "pango_font_family_is_monospace",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle pango_font_family_is_variable = Interop.downcallHandle(
             "pango_font_family_is_variable",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle pango_font_family_list_faces = Interop.downcallHandle(
             "pango_font_family_list_faces",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+            false
+        );
+        
+        private static final MethodHandle pango_font_family_get_type = Interop.downcallHandle(
+            "pango_font_family_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }

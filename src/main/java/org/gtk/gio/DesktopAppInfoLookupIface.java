@@ -9,7 +9,7 @@ import org.jetbrains.annotations.*;
  * Interface that is used by backends to associate default
  * handlers with URI schemes.
  */
-public class DesktopAppInfoLookupIface extends io.github.jwharm.javagi.ProxyBase {
+public class DesktopAppInfoLookupIface extends Struct {
     
     static {
         Gio.javagi$ensureInitialized();
@@ -17,7 +17,7 @@ public class DesktopAppInfoLookupIface extends io.github.jwharm.javagi.ProxyBase
     
     private static final java.lang.String C_TYPE_NAME = "GDesktopAppInfoLookupIface";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gobject.TypeInterface.getMemoryLayout().withName("g_iface"),
         Interop.valueLayout.ADDRESS.withName("get_default_for_uri_scheme")
     ).withName(C_TYPE_NAME);
@@ -33,6 +33,10 @@ public class DesktopAppInfoLookupIface extends io.github.jwharm.javagi.ProxyBase
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link DesktopAppInfoLookupIface}
+     * @return A new, uninitialized @{link DesktopAppInfoLookupIface}
+     */
     public static DesktopAppInfoLookupIface allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         DesktopAppInfoLookupIface newInstance = new DesktopAppInfoLookupIface(segment.address(), Ownership.NONE);
@@ -57,5 +61,47 @@ public class DesktopAppInfoLookupIface extends io.github.jwharm.javagi.ProxyBase
     @ApiStatus.Internal
     public DesktopAppInfoLookupIface(Addressable address, Ownership ownership) {
         super(address, ownership);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private DesktopAppInfoLookupIface struct;
+        
+         /**
+         * A {@link DesktopAppInfoLookupIface.Build} object constructs a {@link DesktopAppInfoLookupIface} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = DesktopAppInfoLookupIface.allocate();
+        }
+        
+         /**
+         * Finish building the {@link DesktopAppInfoLookupIface} struct.
+         * @return A new instance of {@code DesktopAppInfoLookupIface} with the fields 
+         *         that were set in the Build object.
+         */
+        public DesktopAppInfoLookupIface construct() {
+            return struct;
+        }
+        
+        public Build setGIface(org.gtk.gobject.TypeInterface g_iface) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("g_iface"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (g_iface == null ? MemoryAddress.NULL : g_iface.handle()));
+            return this;
+        }
+        
+        public Build setGetDefaultForUriScheme(java.lang.foreign.MemoryAddress get_default_for_uri_scheme) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("get_default_for_uri_scheme"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (get_default_for_uri_scheme == null ? MemoryAddress.NULL : get_default_for_uri_scheme));
+            return this;
+        }
     }
 }

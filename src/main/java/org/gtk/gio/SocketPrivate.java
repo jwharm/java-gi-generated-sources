@@ -5,7 +5,7 @@ import java.lang.foreign.*;
 import java.lang.invoke.*;
 import org.jetbrains.annotations.*;
 
-public class SocketPrivate extends io.github.jwharm.javagi.ProxyBase {
+public class SocketPrivate extends Struct {
     
     static {
         Gio.javagi$ensureInitialized();
@@ -24,6 +24,10 @@ public class SocketPrivate extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link SocketPrivate}
+     * @return A new, uninitialized @{link SocketPrivate}
+     */
     public static SocketPrivate allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         SocketPrivate newInstance = new SocketPrivate(segment.address(), Ownership.NONE);
@@ -39,5 +43,33 @@ public class SocketPrivate extends io.github.jwharm.javagi.ProxyBase {
     @ApiStatus.Internal
     public SocketPrivate(Addressable address, Ownership ownership) {
         super(address, ownership);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private SocketPrivate struct;
+        
+         /**
+         * A {@link SocketPrivate.Build} object constructs a {@link SocketPrivate} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = SocketPrivate.allocate();
+        }
+        
+         /**
+         * Finish building the {@link SocketPrivate} struct.
+         * @return A new instance of {@code SocketPrivate} with the fields 
+         *         that were set in the Build object.
+         */
+        public SocketPrivate construct() {
+            return struct;
+        }
     }
 }

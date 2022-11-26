@@ -61,7 +61,7 @@ public class Constraint extends org.gtk.gobject.Object {
      * @throws ClassCastException If the GType is not derived from "GtkConstraint", a ClassCastException will be thrown.
      */
     public static Constraint castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkConstraint"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), Constraint.getType())) {
             return new Constraint(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkConstraint");
@@ -313,83 +313,240 @@ public class Constraint extends org.gtk.gobject.Object {
         return RESULT != 0;
     }
     
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.gtk_constraint_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gobject.Object.Build {
+        
+         /**
+         * A {@link Constraint.Build} object constructs a {@link Constraint} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link Constraint} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link Constraint} using {@link Constraint#castFrom}.
+         * @return A new instance of {@code Constraint} with the properties 
+         *         that were set in the Build object.
+         */
+        public Constraint construct() {
+            return Constraint.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    Constraint.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+        
+        /**
+         * The constant value to be added to the {@code Gtk.Constraint:source-attribute}.
+         * @param constant The value for the {@code constant} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setConstant(double constant) {
+            names.add("constant");
+            values.add(org.gtk.gobject.Value.create(constant));
+            return this;
+        }
+        
+        /**
+         * The multiplication factor to be applied to
+         * the {@code Gtk.Constraint:source-attribute}.
+         * @param multiplier The value for the {@code multiplier} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setMultiplier(double multiplier) {
+            names.add("multiplier");
+            values.add(org.gtk.gobject.Value.create(multiplier));
+            return this;
+        }
+        
+        /**
+         * The order relation between the terms of the constraint.
+         * @param relation The value for the {@code relation} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setRelation(org.gtk.gtk.ConstraintRelation relation) {
+            names.add("relation");
+            values.add(org.gtk.gobject.Value.create(relation));
+            return this;
+        }
+        
+        /**
+         * The source of the constraint.
+         * <p>
+         * The constraint will set the {@code Gtk.Constraint:target-attribute}
+         * property of the target using the {@code Gtk.Constraint:source-attribute}
+         * property of the source.
+         * @param source The value for the {@code source} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setSource(org.gtk.gtk.ConstraintTarget source) {
+            names.add("source");
+            values.add(org.gtk.gobject.Value.create(source));
+            return this;
+        }
+        
+        /**
+         * The attribute of the {@code Gtk.Constraint:source} read by the
+         * constraint.
+         * @param sourceAttribute The value for the {@code source-attribute} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setSourceAttribute(org.gtk.gtk.ConstraintAttribute sourceAttribute) {
+            names.add("source-attribute");
+            values.add(org.gtk.gobject.Value.create(sourceAttribute));
+            return this;
+        }
+        
+        /**
+         * The strength of the constraint.
+         * <p>
+         * The strength can be expressed either using one of the symbolic values
+         * of the {@code Gtk.ConstraintStrength} enumeration, or any positive integer
+         * value.
+         * @param strength The value for the {@code strength} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setStrength(int strength) {
+            names.add("strength");
+            values.add(org.gtk.gobject.Value.create(strength));
+            return this;
+        }
+        
+        /**
+         * The target of the constraint.
+         * <p>
+         * The constraint will set the {@code Gtk.Constraint:target-attribute}
+         * property of the target using the {@code Gtk.Constraint:source-attribute}
+         * property of the source widget.
+         * @param target The value for the {@code target} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setTarget(org.gtk.gtk.ConstraintTarget target) {
+            names.add("target");
+            values.add(org.gtk.gobject.Value.create(target));
+            return this;
+        }
+        
+        /**
+         * The attribute of the {@code Gtk.Constraint:target} set by the constraint.
+         * @param targetAttribute The value for the {@code target-attribute} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setTargetAttribute(org.gtk.gtk.ConstraintAttribute targetAttribute) {
+            names.add("target-attribute");
+            values.add(org.gtk.gobject.Value.create(targetAttribute));
+            return this;
+        }
+    }
+    
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_constraint_new = Interop.downcallHandle(
             "gtk_constraint_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_constraint_new_constant = Interop.downcallHandle(
             "gtk_constraint_new_constant",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_constraint_get_constant = Interop.downcallHandle(
             "gtk_constraint_get_constant",
-            FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_DOUBLE, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_constraint_get_multiplier = Interop.downcallHandle(
             "gtk_constraint_get_multiplier",
-            FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_DOUBLE, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_constraint_get_relation = Interop.downcallHandle(
             "gtk_constraint_get_relation",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_constraint_get_source = Interop.downcallHandle(
             "gtk_constraint_get_source",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_constraint_get_source_attribute = Interop.downcallHandle(
             "gtk_constraint_get_source_attribute",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_constraint_get_strength = Interop.downcallHandle(
             "gtk_constraint_get_strength",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_constraint_get_target = Interop.downcallHandle(
             "gtk_constraint_get_target",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_constraint_get_target_attribute = Interop.downcallHandle(
             "gtk_constraint_get_target_attribute",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_constraint_is_attached = Interop.downcallHandle(
             "gtk_constraint_is_attached",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_constraint_is_constant = Interop.downcallHandle(
             "gtk_constraint_is_constant",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_constraint_is_required = Interop.downcallHandle(
             "gtk_constraint_is_required",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+            false
+        );
+        
+        private static final MethodHandle gtk_constraint_get_type = Interop.downcallHandle(
+            "gtk_constraint_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }

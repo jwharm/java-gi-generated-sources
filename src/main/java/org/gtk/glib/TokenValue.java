@@ -8,7 +8,7 @@ import org.jetbrains.annotations.*;
 /**
  * A union holding the value of the token.
  */
-public class TokenValue extends io.github.jwharm.javagi.ProxyBase {
+public class TokenValue extends io.github.jwharm.javagi.ObjectBase {
     
     static {
         GLib.javagi$ensureInitialized();
@@ -16,20 +16,19 @@ public class TokenValue extends io.github.jwharm.javagi.ProxyBase {
     
     private static final java.lang.String C_TYPE_NAME = "GTokenValue";
     
-    private static GroupLayout memoryLayout = MemoryLayout.unionLayout(
+    private static final GroupLayout memoryLayout = MemoryLayout.unionLayout(
         Interop.valueLayout.ADDRESS.withName("v_symbol"),
         Interop.valueLayout.ADDRESS.withName("v_identifier"),
-        ValueLayout.JAVA_LONG.withName("v_binary"),
-        ValueLayout.JAVA_LONG.withName("v_octal"),
-        ValueLayout.JAVA_LONG.withName("v_int"),
-        ValueLayout.JAVA_LONG.withName("v_int64"),
-        ValueLayout.JAVA_DOUBLE.withName("v_float"),
-        ValueLayout.JAVA_LONG.withName("v_hex"),
+        Interop.valueLayout.C_LONG.withName("v_binary"),
+        Interop.valueLayout.C_LONG.withName("v_octal"),
+        Interop.valueLayout.C_LONG.withName("v_int"),
+        Interop.valueLayout.C_LONG.withName("v_int64"),
+        Interop.valueLayout.C_DOUBLE.withName("v_float"),
+        Interop.valueLayout.C_LONG.withName("v_hex"),
         Interop.valueLayout.ADDRESS.withName("v_string"),
         Interop.valueLayout.ADDRESS.withName("v_comment"),
-        ValueLayout.JAVA_BYTE.withName("v_char"),
-        MemoryLayout.paddingLayout(24),
-        ValueLayout.JAVA_INT.withName("v_error")
+        Interop.valueLayout.C_BYTE.withName("v_char"),
+        Interop.valueLayout.C_INT.withName("v_error")
     ).withName(C_TYPE_NAME);
     
     /**

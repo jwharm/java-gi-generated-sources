@@ -51,7 +51,7 @@ import org.jetbrains.annotations.*;
  * <p>
  * A {@link Mutex} should only be accessed via g_mutex_ functions.
  */
-public class Mutex extends io.github.jwharm.javagi.ProxyBase {
+public class Mutex extends io.github.jwharm.javagi.ObjectBase {
     
     static {
         GLib.javagi$ensureInitialized();
@@ -59,9 +59,9 @@ public class Mutex extends io.github.jwharm.javagi.ProxyBase {
     
     private static final java.lang.String C_TYPE_NAME = "GMutex";
     
-    private static GroupLayout memoryLayout = MemoryLayout.unionLayout(
+    private static final GroupLayout memoryLayout = MemoryLayout.unionLayout(
         Interop.valueLayout.ADDRESS.withName("p"),
-        MemoryLayout.sequenceLayout(2, ValueLayout.JAVA_INT).withName("i")
+        MemoryLayout.sequenceLayout(2, Interop.valueLayout.C_INT).withName("i")
     ).withName(C_TYPE_NAME);
     
     /**

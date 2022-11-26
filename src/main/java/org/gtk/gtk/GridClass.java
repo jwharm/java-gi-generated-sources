@@ -5,7 +5,7 @@ import java.lang.foreign.*;
 import java.lang.invoke.*;
 import org.jetbrains.annotations.*;
 
-public class GridClass extends io.github.jwharm.javagi.ProxyBase {
+public class GridClass extends Struct {
     
     static {
         Gtk.javagi$ensureInitialized();
@@ -13,10 +13,9 @@ public class GridClass extends io.github.jwharm.javagi.ProxyBase {
     
     private static final java.lang.String C_TYPE_NAME = "GtkGridClass";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gtk.WidgetClass.getMemoryLayout().withName("parent_class"),
-        MemoryLayout.paddingLayout(448),
-        MemoryLayout.sequenceLayout(8, ValueLayout.ADDRESS).withName("padding")
+        MemoryLayout.sequenceLayout(8, Interop.valueLayout.ADDRESS).withName("padding")
     ).withName(C_TYPE_NAME);
     
     /**
@@ -30,6 +29,10 @@ public class GridClass extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link GridClass}
+     * @return A new, uninitialized @{link GridClass}
+     */
     public static GridClass allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         GridClass newInstance = new GridClass(segment.address(), Ownership.NONE);
@@ -54,5 +57,52 @@ public class GridClass extends io.github.jwharm.javagi.ProxyBase {
     @ApiStatus.Internal
     public GridClass(Addressable address, Ownership ownership) {
         super(address, ownership);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private GridClass struct;
+        
+         /**
+         * A {@link GridClass.Build} object constructs a {@link GridClass} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = GridClass.allocate();
+        }
+        
+         /**
+         * Finish building the {@link GridClass} struct.
+         * @return A new instance of {@code GridClass} with the fields 
+         *         that were set in the Build object.
+         */
+        public GridClass construct() {
+            return struct;
+        }
+        
+        /**
+         * The parent class.
+         * @param parent_class The value for the {@code parent_class} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setParentClass(org.gtk.gtk.WidgetClass parent_class) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parent_class == null ? MemoryAddress.NULL : parent_class.handle()));
+            return this;
+        }
+        
+        public Build setPadding(java.lang.foreign.MemoryAddress[] padding) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("padding"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (padding == null ? MemoryAddress.NULL : Interop.allocateNativeArray(padding, false)));
+            return this;
+        }
     }
 }

@@ -57,7 +57,7 @@ public class Ordering extends io.github.jwharm.javagi.Enumeration {
         
         private static final MethodHandle gtk_ordering_from_cmpfunc = Interop.downcallHandle(
             "gtk_ordering_from_cmpfunc",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
             false
         );
     }

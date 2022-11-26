@@ -9,7 +9,7 @@ import org.jetbrains.annotations.*;
  * This is an opaque structure type.  You may not access it directly.
  * @version 2.32
  */
-public class SettingsSchemaSource extends io.github.jwharm.javagi.ProxyBase {
+public class SettingsSchemaSource extends Struct {
     
     static {
         Gio.javagi$ensureInitialized();
@@ -28,6 +28,10 @@ public class SettingsSchemaSource extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link SettingsSchemaSource}
+     * @return A new, uninitialized @{link SettingsSchemaSource}
+     */
     public static SettingsSchemaSource allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         SettingsSchemaSource newInstance = new SettingsSchemaSource(segment.address(), Ownership.NONE);
@@ -47,7 +51,7 @@ public class SettingsSchemaSource extends io.github.jwharm.javagi.ProxyBase {
     
     private static Addressable constructNewFromDirectory(@NotNull java.lang.String directory, @Nullable org.gtk.gio.SettingsSchemaSource parent, boolean trusted) throws GErrorException {
         java.util.Objects.requireNonNull(directory, "Parameter 'directory' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         Addressable RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_settings_schema_source_new_from_directory.invokeExact(
@@ -214,38 +218,66 @@ public class SettingsSchemaSource extends io.github.jwharm.javagi.ProxyBase {
         
         private static final MethodHandle g_settings_schema_source_new_from_directory = Interop.downcallHandle(
             "g_settings_schema_source_new_from_directory",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_settings_schema_source_list_schemas = Interop.downcallHandle(
             "g_settings_schema_source_list_schemas",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_settings_schema_source_lookup = Interop.downcallHandle(
             "g_settings_schema_source_lookup",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_settings_schema_source_ref = Interop.downcallHandle(
             "g_settings_schema_source_ref",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_settings_schema_source_unref = Interop.downcallHandle(
             "g_settings_schema_source_unref",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_settings_schema_source_get_default = Interop.downcallHandle(
             "g_settings_schema_source_get_default",
-            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
             false
         );
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private SettingsSchemaSource struct;
+        
+         /**
+         * A {@link SettingsSchemaSource.Build} object constructs a {@link SettingsSchemaSource} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = SettingsSchemaSource.allocate();
+        }
+        
+         /**
+         * Finish building the {@link SettingsSchemaSource} struct.
+         * @return A new instance of {@code SettingsSchemaSource} with the fields 
+         *         that were set in the Build object.
+         */
+        public SettingsSchemaSource construct() {
+            return struct;
+        }
     }
 }

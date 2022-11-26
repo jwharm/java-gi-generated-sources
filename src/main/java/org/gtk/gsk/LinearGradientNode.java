@@ -48,7 +48,7 @@ public class LinearGradientNode extends org.gtk.gsk.RenderNode {
      * @throws ClassCastException If the GType is not derived from "GskLinearGradientNode", a ClassCastException will be thrown.
      */
     public static LinearGradientNode castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GskLinearGradientNode"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), LinearGradientNode.getType())) {
             return new LinearGradientNode(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GskLinearGradientNode");
@@ -66,7 +66,7 @@ public class LinearGradientNode extends org.gtk.gsk.RenderNode {
                     bounds.handle(),
                     start.handle(),
                     end.handle(),
-                    Interop.allocateNativeArray(colorStops, false),
+                    Interop.allocateNativeArray(colorStops, org.gtk.gsk.ColorStop.getMemoryLayout(), false),
                     nColorStops);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -97,7 +97,7 @@ public class LinearGradientNode extends org.gtk.gsk.RenderNode {
      */
     public @NotNull org.gtk.gsk.ColorStop[] getColorStops(Out<Long> nStops) {
         java.util.Objects.requireNonNull(nStops, "Parameter 'nStops' must not be null");
-        MemorySegment nStopsPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_LONG);
+        MemorySegment nStopsPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gsk_linear_gradient_node_get_color_stops.invokeExact(
@@ -106,10 +106,10 @@ public class LinearGradientNode extends org.gtk.gsk.RenderNode {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        nStops.set(nStopsPOINTER.get(ValueLayout.JAVA_LONG, 0));
+        nStops.set(nStopsPOINTER.get(Interop.valueLayout.C_LONG, 0));
         org.gtk.gsk.ColorStop[] resultARRAY = new org.gtk.gsk.ColorStop[nStops.get().intValue()];
         for (int I = 0; I < nStops.get().intValue(); I++) {
-            var OBJ = RESULT.get(ValueLayout.ADDRESS, I);
+            var OBJ = RESULT.get(Interop.valueLayout.ADDRESS, I);
             resultARRAY[I] = new org.gtk.gsk.ColorStop(OBJ, Ownership.NONE);
         }
         return resultARRAY;
@@ -160,35 +160,90 @@ public class LinearGradientNode extends org.gtk.gsk.RenderNode {
         return new org.gtk.graphene.Point(RESULT, Ownership.NONE);
     }
     
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.gsk_linear_gradient_node_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gsk.RenderNode.Build {
+        
+         /**
+         * A {@link LinearGradientNode.Build} object constructs a {@link LinearGradientNode} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link LinearGradientNode} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link LinearGradientNode} using {@link LinearGradientNode#castFrom}.
+         * @return A new instance of {@code LinearGradientNode} with the properties 
+         *         that were set in the Build object.
+         */
+        public LinearGradientNode construct() {
+            return LinearGradientNode.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    LinearGradientNode.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+    }
+    
     private static class DowncallHandles {
         
         private static final MethodHandle gsk_linear_gradient_node_new = Interop.downcallHandle(
             "gsk_linear_gradient_node_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
             false
         );
         
         private static final MethodHandle gsk_linear_gradient_node_get_color_stops = Interop.downcallHandle(
             "gsk_linear_gradient_node_get_color_stops",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gsk_linear_gradient_node_get_end = Interop.downcallHandle(
             "gsk_linear_gradient_node_get_end",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gsk_linear_gradient_node_get_n_color_stops = Interop.downcallHandle(
             "gsk_linear_gradient_node_get_n_color_stops",
-            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gsk_linear_gradient_node_get_start = Interop.downcallHandle(
             "gsk_linear_gradient_node_get_start",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+            false
+        );
+        
+        private static final MethodHandle gsk_linear_gradient_node_get_type = Interop.downcallHandle(
+            "gsk_linear_gradient_node_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }

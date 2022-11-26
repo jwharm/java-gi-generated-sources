@@ -54,7 +54,7 @@ public class SingleSelection extends org.gtk.gobject.Object implements org.gtk.g
      * @throws ClassCastException If the GType is not derived from "GtkSingleSelection", a ClassCastException will be thrown.
      */
     public static SingleSelection castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkSingleSelection"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), SingleSelection.getType())) {
             return new SingleSelection(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkSingleSelection");
@@ -236,65 +236,197 @@ public class SingleSelection extends org.gtk.gobject.Object implements org.gtk.g
         }
     }
     
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.gtk_single_selection_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gobject.Object.Build {
+        
+         /**
+         * A {@link SingleSelection.Build} object constructs a {@link SingleSelection} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link SingleSelection} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link SingleSelection} using {@link SingleSelection#castFrom}.
+         * @return A new instance of {@code SingleSelection} with the properties 
+         *         that were set in the Build object.
+         */
+        public SingleSelection construct() {
+            return SingleSelection.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    SingleSelection.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+        
+        /**
+         * If the selection will always select an item.
+         * @param autoselect The value for the {@code autoselect} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setAutoselect(boolean autoselect) {
+            names.add("autoselect");
+            values.add(org.gtk.gobject.Value.create(autoselect));
+            return this;
+        }
+        
+        /**
+         * If unselecting the selected item is allowed.
+         * @param canUnselect The value for the {@code can-unselect} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setCanUnselect(boolean canUnselect) {
+            names.add("can-unselect");
+            values.add(org.gtk.gobject.Value.create(canUnselect));
+            return this;
+        }
+        
+        /**
+         * The type of items. See {@link org.gtk.gio.ListModel#getItemType}.
+         * @param itemType The value for the {@code item-type} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setItemType(org.gtk.glib.Type itemType) {
+            names.add("item-type");
+            values.add(org.gtk.gobject.Value.create(itemType));
+            return this;
+        }
+        
+        /**
+         * The model being managed.
+         * @param model The value for the {@code model} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setModel(org.gtk.gio.ListModel model) {
+            names.add("model");
+            values.add(org.gtk.gobject.Value.create(model));
+            return this;
+        }
+        
+        /**
+         * The number of items. See {@link org.gtk.gio.ListModel#getNItems}.
+         * @param nItems The value for the {@code n-items} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setNItems(int nItems) {
+            names.add("n-items");
+            values.add(org.gtk.gobject.Value.create(nItems));
+            return this;
+        }
+        
+        /**
+         * Position of the selected item.
+         * @param selected The value for the {@code selected} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setSelected(int selected) {
+            names.add("selected");
+            values.add(org.gtk.gobject.Value.create(selected));
+            return this;
+        }
+        
+        /**
+         * The selected item.
+         * @param selectedItem The value for the {@code selected-item} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setSelectedItem(org.gtk.gobject.Object selectedItem) {
+            names.add("selected-item");
+            values.add(org.gtk.gobject.Value.create(selectedItem));
+            return this;
+        }
+    }
+    
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_single_selection_new = Interop.downcallHandle(
             "gtk_single_selection_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_single_selection_get_autoselect = Interop.downcallHandle(
             "gtk_single_selection_get_autoselect",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_single_selection_get_can_unselect = Interop.downcallHandle(
             "gtk_single_selection_get_can_unselect",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_single_selection_get_model = Interop.downcallHandle(
             "gtk_single_selection_get_model",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_single_selection_get_selected = Interop.downcallHandle(
             "gtk_single_selection_get_selected",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_single_selection_get_selected_item = Interop.downcallHandle(
             "gtk_single_selection_get_selected_item",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_single_selection_set_autoselect = Interop.downcallHandle(
             "gtk_single_selection_set_autoselect",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_single_selection_set_can_unselect = Interop.downcallHandle(
             "gtk_single_selection_set_can_unselect",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_single_selection_set_model = Interop.downcallHandle(
             "gtk_single_selection_set_model",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_single_selection_set_selected = Interop.downcallHandle(
             "gtk_single_selection_set_selected",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+            false
+        );
+        
+        private static final MethodHandle gtk_single_selection_get_type = Interop.downcallHandle(
+            "gtk_single_selection_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }

@@ -13,7 +13,7 @@ import org.jetbrains.annotations.*;
  * of shaping text with {@code PangoLayout} is a list of {@code PangoLayoutLine},
  * each of which contains a list of {@code PangoGlyphItem}.
  */
-public class GlyphItem extends io.github.jwharm.javagi.ProxyBase {
+public class GlyphItem extends Struct {
     
     static {
         Pango.javagi$ensureInitialized();
@@ -21,12 +21,12 @@ public class GlyphItem extends io.github.jwharm.javagi.ProxyBase {
     
     private static final java.lang.String C_TYPE_NAME = "PangoGlyphItem";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
         Interop.valueLayout.ADDRESS.withName("item"),
         Interop.valueLayout.ADDRESS.withName("glyphs"),
-        ValueLayout.JAVA_INT.withName("y_offset"),
-        ValueLayout.JAVA_INT.withName("start_x_offset"),
-        ValueLayout.JAVA_INT.withName("end_x_offset")
+        Interop.valueLayout.C_INT.withName("y_offset"),
+        Interop.valueLayout.C_INT.withName("start_x_offset"),
+        Interop.valueLayout.C_INT.withName("end_x_offset")
     ).withName(C_TYPE_NAME);
     
     /**
@@ -40,6 +40,10 @@ public class GlyphItem extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link GlyphItem}
+     * @return A new, uninitialized @{link GlyphItem}
+     */
     public static GlyphItem allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         GlyphItem newInstance = new GlyphItem(segment.address(), Ownership.NONE);
@@ -277,7 +281,7 @@ public class GlyphItem extends io.github.jwharm.javagi.ProxyBase {
             DowncallHandles.pango_glyph_item_letter_space.invokeExact(
                     handle(),
                     Interop.allocateNativeString(text),
-                    Interop.allocateNativeArray(logAttrs, false),
+                    Interop.allocateNativeArray(logAttrs, org.pango.LogAttr.getMemoryLayout(), false),
                     letterSpacing);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -299,11 +303,11 @@ public class GlyphItem extends io.github.jwharm.javagi.ProxyBase {
      * @param text text to which positions in {@code orig} apply
      * @param splitIndex byte index of position to split item, relative to the
      *   start of the item
-     * @return the newly allocated item representing text before
-     *   {@code split_index}, which should be freed
+     * @return the newly allocated item
+     *   representing text before {@code split_index}, which should be freed
      *   with pango_glyph_item_free().
      */
-    public @NotNull org.pango.GlyphItem split(@NotNull java.lang.String text, int splitIndex) {
+    public @Nullable org.pango.GlyphItem split(@NotNull java.lang.String text, int splitIndex) {
         java.util.Objects.requireNonNull(text, "Parameter 'text' must not be null");
         MemoryAddress RESULT;
         try {
@@ -321,38 +325,129 @@ public class GlyphItem extends io.github.jwharm.javagi.ProxyBase {
         
         private static final MethodHandle pango_glyph_item_apply_attrs = Interop.downcallHandle(
             "pango_glyph_item_apply_attrs",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle pango_glyph_item_copy = Interop.downcallHandle(
             "pango_glyph_item_copy",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle pango_glyph_item_free = Interop.downcallHandle(
             "pango_glyph_item_free",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle pango_glyph_item_get_logical_widths = Interop.downcallHandle(
             "pango_glyph_item_get_logical_widths",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle pango_glyph_item_letter_space = Interop.downcallHandle(
             "pango_glyph_item_letter_space",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle pango_glyph_item_split = Interop.downcallHandle(
             "pango_glyph_item_split",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private GlyphItem struct;
+        
+         /**
+         * A {@link GlyphItem.Build} object constructs a {@link GlyphItem} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = GlyphItem.allocate();
+        }
+        
+         /**
+         * Finish building the {@link GlyphItem} struct.
+         * @return A new instance of {@code GlyphItem} with the fields 
+         *         that were set in the Build object.
+         */
+        public GlyphItem construct() {
+            return struct;
+        }
+        
+        /**
+         * corresponding {@code PangoItem}
+         * @param item The value for the {@code item} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setItem(org.pango.Item item) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("item"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (item == null ? MemoryAddress.NULL : item.handle()));
+            return this;
+        }
+        
+        /**
+         * corresponding {@code PangoGlyphString}
+         * @param glyphs The value for the {@code glyphs} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setGlyphs(org.pango.GlyphString glyphs) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("glyphs"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (glyphs == null ? MemoryAddress.NULL : glyphs.handle()));
+            return this;
+        }
+        
+        /**
+         * shift of the baseline, relative to the baseline
+         *   of the containing line. Positive values shift upwards
+         * @param y_offset The value for the {@code y_offset} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setYOffset(int y_offset) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("y_offset"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), y_offset);
+            return this;
+        }
+        
+        /**
+         * horizontal displacement to apply before the
+         *   glyph item. Positive values shift right
+         * @param start_x_offset The value for the {@code start_x_offset} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setStartXOffset(int start_x_offset) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("start_x_offset"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), start_x_offset);
+            return this;
+        }
+        
+        /**
+         * horizontal displacement to apply after th
+         *   glyph item. Positive values shift right
+         * @param end_x_offset The value for the {@code end_x_offset} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setEndXOffset(int end_x_offset) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("end_x_offset"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), end_x_offset);
+            return this;
+        }
     }
 }

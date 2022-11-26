@@ -8,7 +8,7 @@ import org.jetbrains.annotations.*;
 /**
  * An opaque structure used as the base of all type instances.
  */
-public class TypeInstance extends io.github.jwharm.javagi.ProxyBase {
+public class TypeInstance extends Struct {
     
     static {
         GObject.javagi$ensureInitialized();
@@ -16,7 +16,7 @@ public class TypeInstance extends io.github.jwharm.javagi.ProxyBase {
     
     private static final java.lang.String C_TYPE_NAME = "GTypeInstance";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
         Interop.valueLayout.ADDRESS.withName("g_class")
     ).withName(C_TYPE_NAME);
     
@@ -31,6 +31,10 @@ public class TypeInstance extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link TypeInstance}
+     * @return A new, uninitialized @{link TypeInstance}
+     */
     public static TypeInstance allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         TypeInstance newInstance = new TypeInstance(segment.address(), Ownership.NONE);
@@ -65,8 +69,43 @@ public class TypeInstance extends io.github.jwharm.javagi.ProxyBase {
         
         private static final MethodHandle g_type_instance_get_private = Interop.downcallHandle(
             "g_type_instance_get_private",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
             false
         );
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private TypeInstance struct;
+        
+         /**
+         * A {@link TypeInstance.Build} object constructs a {@link TypeInstance} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = TypeInstance.allocate();
+        }
+        
+         /**
+         * Finish building the {@link TypeInstance} struct.
+         * @return A new instance of {@code TypeInstance} with the fields 
+         *         that were set in the Build object.
+         */
+        public TypeInstance construct() {
+            return struct;
+        }
+        
+        public Build setGClass(org.gtk.gobject.TypeClass g_class) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("g_class"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (g_class == null ? MemoryAddress.NULL : g_class.handle()));
+            return this;
+        }
     }
 }

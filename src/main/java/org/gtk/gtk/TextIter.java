@@ -13,7 +13,7 @@ import org.jetbrains.annotations.*;
  * which gives an overview of all the objects and data types
  * related to the text widget and how they work together.
  */
-public class TextIter extends io.github.jwharm.javagi.ProxyBase {
+public class TextIter extends Struct {
     
     static {
         Gtk.javagi$ensureInitialized();
@@ -21,20 +21,20 @@ public class TextIter extends io.github.jwharm.javagi.ProxyBase {
     
     private static final java.lang.String C_TYPE_NAME = "GtkTextIter";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
         Interop.valueLayout.ADDRESS.withName("dummy1"),
         Interop.valueLayout.ADDRESS.withName("dummy2"),
-        ValueLayout.JAVA_INT.withName("dummy3"),
-        ValueLayout.JAVA_INT.withName("dummy4"),
-        ValueLayout.JAVA_INT.withName("dummy5"),
-        ValueLayout.JAVA_INT.withName("dummy6"),
-        ValueLayout.JAVA_INT.withName("dummy7"),
-        ValueLayout.JAVA_INT.withName("dummy8"),
+        Interop.valueLayout.C_INT.withName("dummy3"),
+        Interop.valueLayout.C_INT.withName("dummy4"),
+        Interop.valueLayout.C_INT.withName("dummy5"),
+        Interop.valueLayout.C_INT.withName("dummy6"),
+        Interop.valueLayout.C_INT.withName("dummy7"),
+        Interop.valueLayout.C_INT.withName("dummy8"),
         Interop.valueLayout.ADDRESS.withName("dummy9"),
         Interop.valueLayout.ADDRESS.withName("dummy10"),
-        ValueLayout.JAVA_INT.withName("dummy11"),
-        ValueLayout.JAVA_INT.withName("dummy12"),
-        ValueLayout.JAVA_INT.withName("dummy13"),
+        Interop.valueLayout.C_INT.withName("dummy11"),
+        Interop.valueLayout.C_INT.withName("dummy12"),
+        Interop.valueLayout.C_INT.withName("dummy13"),
         MemoryLayout.paddingLayout(32),
         Interop.valueLayout.ADDRESS.withName("dummy14")
     ).withName(C_TYPE_NAME);
@@ -50,6 +50,10 @@ public class TextIter extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link TextIter}
+     * @return A new, uninitialized @{link TextIter}
+     */
     public static TextIter allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         TextIter newInstance = new TextIter(segment.address(), Ownership.NONE);
@@ -181,7 +185,7 @@ public class TextIter extends io.github.jwharm.javagi.ProxyBase {
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gtk.Callbacks.class, "cbTextCharPredicate",
                             MethodType.methodType(int.class, int.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+                        FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
                         Interop.getScope()),
                     (Addressable) (Interop.registerCallback(pred)),
                     (Addressable) (limit == null ? MemoryAddress.NULL : limit.handle()));
@@ -818,7 +822,7 @@ public class TextIter extends io.github.jwharm.javagi.ProxyBase {
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gtk.Callbacks.class, "cbTextCharPredicate",
                             MethodType.methodType(int.class, int.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+                        FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
                         Interop.getScope()),
                     (Addressable) (Interop.registerCallback(pred)),
                     (Addressable) (limit == null ? MemoryAddress.NULL : limit.handle()));
@@ -1967,542 +1971,668 @@ public class TextIter extends io.github.jwharm.javagi.ProxyBase {
         
         private static final MethodHandle gtk_text_iter_assign = Interop.downcallHandle(
             "gtk_text_iter_assign",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_text_iter_backward_char = Interop.downcallHandle(
             "gtk_text_iter_backward_char",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_text_iter_backward_chars = Interop.downcallHandle(
             "gtk_text_iter_backward_chars",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_text_iter_backward_cursor_position = Interop.downcallHandle(
             "gtk_text_iter_backward_cursor_position",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_text_iter_backward_cursor_positions = Interop.downcallHandle(
             "gtk_text_iter_backward_cursor_positions",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_text_iter_backward_find_char = Interop.downcallHandle(
             "gtk_text_iter_backward_find_char",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_text_iter_backward_line = Interop.downcallHandle(
             "gtk_text_iter_backward_line",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_text_iter_backward_lines = Interop.downcallHandle(
             "gtk_text_iter_backward_lines",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_text_iter_backward_search = Interop.downcallHandle(
             "gtk_text_iter_backward_search",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_text_iter_backward_sentence_start = Interop.downcallHandle(
             "gtk_text_iter_backward_sentence_start",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_text_iter_backward_sentence_starts = Interop.downcallHandle(
             "gtk_text_iter_backward_sentence_starts",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_text_iter_backward_to_tag_toggle = Interop.downcallHandle(
             "gtk_text_iter_backward_to_tag_toggle",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_text_iter_backward_visible_cursor_position = Interop.downcallHandle(
             "gtk_text_iter_backward_visible_cursor_position",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_text_iter_backward_visible_cursor_positions = Interop.downcallHandle(
             "gtk_text_iter_backward_visible_cursor_positions",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_text_iter_backward_visible_line = Interop.downcallHandle(
             "gtk_text_iter_backward_visible_line",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_text_iter_backward_visible_lines = Interop.downcallHandle(
             "gtk_text_iter_backward_visible_lines",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_text_iter_backward_visible_word_start = Interop.downcallHandle(
             "gtk_text_iter_backward_visible_word_start",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_text_iter_backward_visible_word_starts = Interop.downcallHandle(
             "gtk_text_iter_backward_visible_word_starts",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_text_iter_backward_word_start = Interop.downcallHandle(
             "gtk_text_iter_backward_word_start",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_text_iter_backward_word_starts = Interop.downcallHandle(
             "gtk_text_iter_backward_word_starts",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_text_iter_can_insert = Interop.downcallHandle(
             "gtk_text_iter_can_insert",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_text_iter_compare = Interop.downcallHandle(
             "gtk_text_iter_compare",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_text_iter_copy = Interop.downcallHandle(
             "gtk_text_iter_copy",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_text_iter_editable = Interop.downcallHandle(
             "gtk_text_iter_editable",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_text_iter_ends_line = Interop.downcallHandle(
             "gtk_text_iter_ends_line",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_text_iter_ends_sentence = Interop.downcallHandle(
             "gtk_text_iter_ends_sentence",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_text_iter_ends_tag = Interop.downcallHandle(
             "gtk_text_iter_ends_tag",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_text_iter_ends_word = Interop.downcallHandle(
             "gtk_text_iter_ends_word",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_text_iter_equal = Interop.downcallHandle(
             "gtk_text_iter_equal",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_text_iter_forward_char = Interop.downcallHandle(
             "gtk_text_iter_forward_char",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_text_iter_forward_chars = Interop.downcallHandle(
             "gtk_text_iter_forward_chars",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_text_iter_forward_cursor_position = Interop.downcallHandle(
             "gtk_text_iter_forward_cursor_position",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_text_iter_forward_cursor_positions = Interop.downcallHandle(
             "gtk_text_iter_forward_cursor_positions",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_text_iter_forward_find_char = Interop.downcallHandle(
             "gtk_text_iter_forward_find_char",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_text_iter_forward_line = Interop.downcallHandle(
             "gtk_text_iter_forward_line",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_text_iter_forward_lines = Interop.downcallHandle(
             "gtk_text_iter_forward_lines",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_text_iter_forward_search = Interop.downcallHandle(
             "gtk_text_iter_forward_search",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_text_iter_forward_sentence_end = Interop.downcallHandle(
             "gtk_text_iter_forward_sentence_end",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_text_iter_forward_sentence_ends = Interop.downcallHandle(
             "gtk_text_iter_forward_sentence_ends",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_text_iter_forward_to_end = Interop.downcallHandle(
             "gtk_text_iter_forward_to_end",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_text_iter_forward_to_line_end = Interop.downcallHandle(
             "gtk_text_iter_forward_to_line_end",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_text_iter_forward_to_tag_toggle = Interop.downcallHandle(
             "gtk_text_iter_forward_to_tag_toggle",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_text_iter_forward_visible_cursor_position = Interop.downcallHandle(
             "gtk_text_iter_forward_visible_cursor_position",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_text_iter_forward_visible_cursor_positions = Interop.downcallHandle(
             "gtk_text_iter_forward_visible_cursor_positions",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_text_iter_forward_visible_line = Interop.downcallHandle(
             "gtk_text_iter_forward_visible_line",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_text_iter_forward_visible_lines = Interop.downcallHandle(
             "gtk_text_iter_forward_visible_lines",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_text_iter_forward_visible_word_end = Interop.downcallHandle(
             "gtk_text_iter_forward_visible_word_end",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_text_iter_forward_visible_word_ends = Interop.downcallHandle(
             "gtk_text_iter_forward_visible_word_ends",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_text_iter_forward_word_end = Interop.downcallHandle(
             "gtk_text_iter_forward_word_end",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_text_iter_forward_word_ends = Interop.downcallHandle(
             "gtk_text_iter_forward_word_ends",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_text_iter_free = Interop.downcallHandle(
             "gtk_text_iter_free",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_text_iter_get_buffer = Interop.downcallHandle(
             "gtk_text_iter_get_buffer",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_text_iter_get_bytes_in_line = Interop.downcallHandle(
             "gtk_text_iter_get_bytes_in_line",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_text_iter_get_char = Interop.downcallHandle(
             "gtk_text_iter_get_char",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_text_iter_get_chars_in_line = Interop.downcallHandle(
             "gtk_text_iter_get_chars_in_line",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_text_iter_get_child_anchor = Interop.downcallHandle(
             "gtk_text_iter_get_child_anchor",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_text_iter_get_language = Interop.downcallHandle(
             "gtk_text_iter_get_language",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_text_iter_get_line = Interop.downcallHandle(
             "gtk_text_iter_get_line",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_text_iter_get_line_index = Interop.downcallHandle(
             "gtk_text_iter_get_line_index",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_text_iter_get_line_offset = Interop.downcallHandle(
             "gtk_text_iter_get_line_offset",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_text_iter_get_marks = Interop.downcallHandle(
             "gtk_text_iter_get_marks",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_text_iter_get_offset = Interop.downcallHandle(
             "gtk_text_iter_get_offset",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_text_iter_get_paintable = Interop.downcallHandle(
             "gtk_text_iter_get_paintable",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_text_iter_get_slice = Interop.downcallHandle(
             "gtk_text_iter_get_slice",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_text_iter_get_tags = Interop.downcallHandle(
             "gtk_text_iter_get_tags",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_text_iter_get_text = Interop.downcallHandle(
             "gtk_text_iter_get_text",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_text_iter_get_toggled_tags = Interop.downcallHandle(
             "gtk_text_iter_get_toggled_tags",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_text_iter_get_visible_line_index = Interop.downcallHandle(
             "gtk_text_iter_get_visible_line_index",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_text_iter_get_visible_line_offset = Interop.downcallHandle(
             "gtk_text_iter_get_visible_line_offset",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_text_iter_get_visible_slice = Interop.downcallHandle(
             "gtk_text_iter_get_visible_slice",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_text_iter_get_visible_text = Interop.downcallHandle(
             "gtk_text_iter_get_visible_text",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_text_iter_has_tag = Interop.downcallHandle(
             "gtk_text_iter_has_tag",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_text_iter_in_range = Interop.downcallHandle(
             "gtk_text_iter_in_range",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_text_iter_inside_sentence = Interop.downcallHandle(
             "gtk_text_iter_inside_sentence",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_text_iter_inside_word = Interop.downcallHandle(
             "gtk_text_iter_inside_word",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_text_iter_is_cursor_position = Interop.downcallHandle(
             "gtk_text_iter_is_cursor_position",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_text_iter_is_end = Interop.downcallHandle(
             "gtk_text_iter_is_end",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_text_iter_is_start = Interop.downcallHandle(
             "gtk_text_iter_is_start",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_text_iter_order = Interop.downcallHandle(
             "gtk_text_iter_order",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_text_iter_set_line = Interop.downcallHandle(
             "gtk_text_iter_set_line",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_text_iter_set_line_index = Interop.downcallHandle(
             "gtk_text_iter_set_line_index",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_text_iter_set_line_offset = Interop.downcallHandle(
             "gtk_text_iter_set_line_offset",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_text_iter_set_offset = Interop.downcallHandle(
             "gtk_text_iter_set_offset",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_text_iter_set_visible_line_index = Interop.downcallHandle(
             "gtk_text_iter_set_visible_line_index",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_text_iter_set_visible_line_offset = Interop.downcallHandle(
             "gtk_text_iter_set_visible_line_offset",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_text_iter_starts_line = Interop.downcallHandle(
             "gtk_text_iter_starts_line",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_text_iter_starts_sentence = Interop.downcallHandle(
             "gtk_text_iter_starts_sentence",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_text_iter_starts_tag = Interop.downcallHandle(
             "gtk_text_iter_starts_tag",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_text_iter_starts_word = Interop.downcallHandle(
             "gtk_text_iter_starts_word",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_text_iter_toggles_tag = Interop.downcallHandle(
             "gtk_text_iter_toggles_tag",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private TextIter struct;
+        
+         /**
+         * A {@link TextIter.Build} object constructs a {@link TextIter} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = TextIter.allocate();
+        }
+        
+         /**
+         * Finish building the {@link TextIter} struct.
+         * @return A new instance of {@code TextIter} with the fields 
+         *         that were set in the Build object.
+         */
+        public TextIter construct() {
+            return struct;
+        }
+        
+        public Build setDummy1(java.lang.foreign.MemoryAddress dummy1) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("dummy1"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (dummy1 == null ? MemoryAddress.NULL : (Addressable) dummy1));
+            return this;
+        }
+        
+        public Build setDummy2(java.lang.foreign.MemoryAddress dummy2) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("dummy2"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (dummy2 == null ? MemoryAddress.NULL : (Addressable) dummy2));
+            return this;
+        }
+        
+        public Build setDummy3(int dummy3) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("dummy3"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), dummy3);
+            return this;
+        }
+        
+        public Build setDummy4(int dummy4) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("dummy4"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), dummy4);
+            return this;
+        }
+        
+        public Build setDummy5(int dummy5) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("dummy5"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), dummy5);
+            return this;
+        }
+        
+        public Build setDummy6(int dummy6) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("dummy6"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), dummy6);
+            return this;
+        }
+        
+        public Build setDummy7(int dummy7) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("dummy7"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), dummy7);
+            return this;
+        }
+        
+        public Build setDummy8(int dummy8) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("dummy8"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), dummy8);
+            return this;
+        }
+        
+        public Build setDummy9(java.lang.foreign.MemoryAddress dummy9) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("dummy9"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (dummy9 == null ? MemoryAddress.NULL : (Addressable) dummy9));
+            return this;
+        }
+        
+        public Build setDummy10(java.lang.foreign.MemoryAddress dummy10) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("dummy10"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (dummy10 == null ? MemoryAddress.NULL : (Addressable) dummy10));
+            return this;
+        }
+        
+        public Build setDummy11(int dummy11) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("dummy11"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), dummy11);
+            return this;
+        }
+        
+        public Build setDummy12(int dummy12) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("dummy12"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), dummy12);
+            return this;
+        }
+        
+        public Build setDummy13(int dummy13) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("dummy13"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), dummy13);
+            return this;
+        }
+        
+        public Build setDummy14(java.lang.foreign.MemoryAddress dummy14) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("dummy14"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (dummy14 == null ? MemoryAddress.NULL : (Addressable) dummy14));
+            return this;
+        }
     }
 }

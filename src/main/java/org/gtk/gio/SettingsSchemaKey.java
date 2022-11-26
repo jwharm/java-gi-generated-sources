@@ -9,7 +9,7 @@ import org.jetbrains.annotations.*;
  * {@link SettingsSchemaKey} is an opaque data structure and can only be accessed
  * using the following functions.
  */
-public class SettingsSchemaKey extends io.github.jwharm.javagi.ProxyBase {
+public class SettingsSchemaKey extends Struct {
     
     static {
         Gio.javagi$ensureInitialized();
@@ -28,6 +28,10 @@ public class SettingsSchemaKey extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link SettingsSchemaKey}
+     * @return A new, uninitialized @{link SettingsSchemaKey}
+     */
     public static SettingsSchemaKey allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         SettingsSchemaKey newInstance = new SettingsSchemaKey(segment.address(), Ownership.NONE);
@@ -251,56 +255,84 @@ public class SettingsSchemaKey extends io.github.jwharm.javagi.ProxyBase {
         
         private static final MethodHandle g_settings_schema_key_get_default_value = Interop.downcallHandle(
             "g_settings_schema_key_get_default_value",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_settings_schema_key_get_description = Interop.downcallHandle(
             "g_settings_schema_key_get_description",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_settings_schema_key_get_name = Interop.downcallHandle(
             "g_settings_schema_key_get_name",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_settings_schema_key_get_range = Interop.downcallHandle(
             "g_settings_schema_key_get_range",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_settings_schema_key_get_summary = Interop.downcallHandle(
             "g_settings_schema_key_get_summary",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_settings_schema_key_get_value_type = Interop.downcallHandle(
             "g_settings_schema_key_get_value_type",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_settings_schema_key_range_check = Interop.downcallHandle(
             "g_settings_schema_key_range_check",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_settings_schema_key_ref = Interop.downcallHandle(
             "g_settings_schema_key_ref",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_settings_schema_key_unref = Interop.downcallHandle(
             "g_settings_schema_key_unref",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private SettingsSchemaKey struct;
+        
+         /**
+         * A {@link SettingsSchemaKey.Build} object constructs a {@link SettingsSchemaKey} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = SettingsSchemaKey.allocate();
+        }
+        
+         /**
+         * Finish building the {@link SettingsSchemaKey} struct.
+         * @return A new instance of {@code SettingsSchemaKey} with the fields 
+         *         that were set in the Build object.
+         */
+        public SettingsSchemaKey construct() {
+            return struct;
+        }
     }
 }

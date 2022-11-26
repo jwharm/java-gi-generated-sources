@@ -23,7 +23,7 @@ public class MediaFile extends org.gtk.gtk.MediaStream implements org.gtk.gdk.Pa
     
     private static final java.lang.String C_TYPE_NAME = "GtkMediaFile";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gtk.MediaStream.getMemoryLayout().withName("parent_instance")
     ).withName(C_TYPE_NAME);
     
@@ -68,7 +68,7 @@ public class MediaFile extends org.gtk.gtk.MediaStream implements org.gtk.gdk.Pa
      * @throws ClassCastException If the GType is not derived from "GtkMediaFile", a ClassCastException will be thrown.
      */
     public static MediaFile castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkMediaFile"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), MediaFile.getType())) {
             return new MediaFile(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkMediaFile");
@@ -302,77 +302,156 @@ public class MediaFile extends org.gtk.gtk.MediaStream implements org.gtk.gdk.Pa
         }
     }
     
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.gtk_media_file_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gtk.MediaStream.Build {
+        
+         /**
+         * A {@link MediaFile.Build} object constructs a {@link MediaFile} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link MediaFile} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link MediaFile} using {@link MediaFile#castFrom}.
+         * @return A new instance of {@code MediaFile} with the properties 
+         *         that were set in the Build object.
+         */
+        public MediaFile construct() {
+            return MediaFile.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    MediaFile.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+        
+        /**
+         * The file being played back or {@code null} if not playing a file.
+         * @param file The value for the {@code file} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setFile(org.gtk.gio.File file) {
+            names.add("file");
+            values.add(org.gtk.gobject.Value.create(file));
+            return this;
+        }
+        
+        /**
+         * The stream being played back or {@code null} if not playing a stream.
+         * <p>
+         * This is {@code null} when playing a file.
+         * @param inputStream The value for the {@code input-stream} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setInputStream(org.gtk.gio.InputStream inputStream) {
+            names.add("input-stream");
+            values.add(org.gtk.gobject.Value.create(inputStream));
+            return this;
+        }
+    }
+    
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_media_file_new = Interop.downcallHandle(
             "gtk_media_file_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_media_file_new_for_file = Interop.downcallHandle(
             "gtk_media_file_new_for_file",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_media_file_new_for_filename = Interop.downcallHandle(
             "gtk_media_file_new_for_filename",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_media_file_new_for_input_stream = Interop.downcallHandle(
             "gtk_media_file_new_for_input_stream",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_media_file_new_for_resource = Interop.downcallHandle(
             "gtk_media_file_new_for_resource",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_media_file_clear = Interop.downcallHandle(
             "gtk_media_file_clear",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_media_file_get_file = Interop.downcallHandle(
             "gtk_media_file_get_file",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_media_file_get_input_stream = Interop.downcallHandle(
             "gtk_media_file_get_input_stream",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_media_file_set_file = Interop.downcallHandle(
             "gtk_media_file_set_file",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_media_file_set_filename = Interop.downcallHandle(
             "gtk_media_file_set_filename",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_media_file_set_input_stream = Interop.downcallHandle(
             "gtk_media_file_set_input_stream",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_media_file_set_resource = Interop.downcallHandle(
             "gtk_media_file_set_resource",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+            false
+        );
+        
+        private static final MethodHandle gtk_media_file_get_type = Interop.downcallHandle(
+            "gtk_media_file_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }

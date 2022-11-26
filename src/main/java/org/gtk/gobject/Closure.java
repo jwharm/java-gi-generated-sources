@@ -54,7 +54,7 @@ import org.jetbrains.annotations.*;
  *   automatically removed when the objects they point to go away.
  * </ul>
  */
-public class Closure extends io.github.jwharm.javagi.ProxyBase {
+public class Closure extends Struct {
     
     static {
         GObject.javagi$ensureInitialized();
@@ -62,17 +62,17 @@ public class Closure extends io.github.jwharm.javagi.ProxyBase {
     
     private static final java.lang.String C_TYPE_NAME = "GClosure";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
-        ValueLayout.JAVA_INT.withName("ref_count"),
-        ValueLayout.JAVA_INT.withName("meta_marshal_nouse"),
-        ValueLayout.JAVA_INT.withName("n_guards"),
-        ValueLayout.JAVA_INT.withName("n_fnotifiers"),
-        ValueLayout.JAVA_INT.withName("n_inotifiers"),
-        ValueLayout.JAVA_INT.withName("in_inotify"),
-        ValueLayout.JAVA_INT.withName("floating"),
-        ValueLayout.JAVA_INT.withName("derivative_flag"),
-        ValueLayout.JAVA_INT.withName("in_marshal"),
-        ValueLayout.JAVA_INT.withName("is_invalid"),
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
+        Interop.valueLayout.C_INT.withName("ref_count"),
+        Interop.valueLayout.C_INT.withName("meta_marshal_nouse"),
+        Interop.valueLayout.C_INT.withName("n_guards"),
+        Interop.valueLayout.C_INT.withName("n_fnotifiers"),
+        Interop.valueLayout.C_INT.withName("n_inotifiers"),
+        Interop.valueLayout.C_INT.withName("in_inotify"),
+        Interop.valueLayout.C_INT.withName("floating"),
+        Interop.valueLayout.C_INT.withName("derivative_flag"),
+        Interop.valueLayout.C_INT.withName("in_marshal"),
+        Interop.valueLayout.C_INT.withName("is_invalid"),
         Interop.valueLayout.ADDRESS.withName("marshal"),
         Interop.valueLayout.ADDRESS.withName("data"),
         Interop.valueLayout.ADDRESS.withName("notifiers")
@@ -89,6 +89,10 @@ public class Closure extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link Closure}
+     * @return A new, uninitialized @{link Closure}
+     */
     public static Closure allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         Closure newInstance = new Closure(segment.address(), Ownership.NONE);
@@ -181,7 +185,7 @@ public class Closure extends io.github.jwharm.javagi.ProxyBase {
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_closure_new_simple.invokeExact(
                     sizeofClosure,
-                    data);
+                    (Addressable) data);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -252,7 +256,7 @@ public class Closure extends io.github.jwharm.javagi.ProxyBase {
                     (Addressable) (notifyFunc == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GObject.Callbacks.class, "cbClosureNotify",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                         Interop.getScope())));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -275,7 +279,7 @@ public class Closure extends io.github.jwharm.javagi.ProxyBase {
                     (Addressable) (notifyFunc == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GObject.Callbacks.class, "cbClosureNotify",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                         Interop.getScope())));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -300,13 +304,13 @@ public class Closure extends io.github.jwharm.javagi.ProxyBase {
                     (Addressable) (preMarshalNotify == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GObject.Callbacks.class, "cbClosureNotify",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                         Interop.getScope())),
                     (Addressable) (preMarshalNotify == null ? MemoryAddress.NULL : Interop.registerCallback(preMarshalNotify)),
                     (Addressable) (postMarshalNotify == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GObject.Callbacks.class, "cbClosureNotify",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                         Interop.getScope())));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -358,8 +362,8 @@ public class Closure extends io.github.jwharm.javagi.ProxyBase {
                     handle(),
                     returnValue.handle(),
                     nParamValues,
-                    Interop.allocateNativeArray(paramValues, false),
-                    (Addressable) (invocationHint == null ? MemoryAddress.NULL : invocationHint));
+                    Interop.allocateNativeArray(paramValues, org.gtk.gobject.Value.getMemoryLayout(), false),
+                    (Addressable) (invocationHint == null ? MemoryAddress.NULL : (Addressable) invocationHint));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -396,7 +400,7 @@ public class Closure extends io.github.jwharm.javagi.ProxyBase {
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GObject.Callbacks.class, "cbClosureNotify",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                         Interop.getScope()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -418,7 +422,7 @@ public class Closure extends io.github.jwharm.javagi.ProxyBase {
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GObject.Callbacks.class, "cbClosureNotify",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                         Interop.getScope()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -470,7 +474,7 @@ public class Closure extends io.github.jwharm.javagi.ProxyBase {
                     (Addressable) (metaMarshal == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GObject.Callbacks.class, "cbClosureMarshal",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                         Interop.getScope())));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -552,86 +556,217 @@ public class Closure extends io.github.jwharm.javagi.ProxyBase {
         
         private static final MethodHandle g_closure_new_object = Interop.downcallHandle(
             "g_closure_new_object",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_closure_new_simple = Interop.downcallHandle(
             "g_closure_new_simple",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_closure_add_finalize_notifier = Interop.downcallHandle(
             "g_closure_add_finalize_notifier",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_closure_add_invalidate_notifier = Interop.downcallHandle(
             "g_closure_add_invalidate_notifier",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_closure_add_marshal_guards = Interop.downcallHandle(
             "g_closure_add_marshal_guards",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_closure_invalidate = Interop.downcallHandle(
             "g_closure_invalidate",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_closure_invoke = Interop.downcallHandle(
             "g_closure_invoke",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_closure_ref = Interop.downcallHandle(
             "g_closure_ref",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_closure_remove_finalize_notifier = Interop.downcallHandle(
             "g_closure_remove_finalize_notifier",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_closure_remove_invalidate_notifier = Interop.downcallHandle(
             "g_closure_remove_invalidate_notifier",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_closure_set_marshal = Interop.downcallHandle(
             "g_closure_set_marshal",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_closure_set_meta_marshal = Interop.downcallHandle(
             "g_closure_set_meta_marshal",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_closure_sink = Interop.downcallHandle(
             "g_closure_sink",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_closure_unref = Interop.downcallHandle(
             "g_closure_unref",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private Closure struct;
+        
+         /**
+         * A {@link Closure.Build} object constructs a {@link Closure} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = Closure.allocate();
+        }
+        
+         /**
+         * Finish building the {@link Closure} struct.
+         * @return A new instance of {@code Closure} with the fields 
+         *         that were set in the Build object.
+         */
+        public Closure construct() {
+            return struct;
+        }
+        
+        public Build setRefCount(int ref_count) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("ref_count"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), ref_count);
+            return this;
+        }
+        
+        public Build setMetaMarshalNouse(int meta_marshal_nouse) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("meta_marshal_nouse"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), meta_marshal_nouse);
+            return this;
+        }
+        
+        public Build setNGuards(int n_guards) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("n_guards"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), n_guards);
+            return this;
+        }
+        
+        public Build setNFnotifiers(int n_fnotifiers) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("n_fnotifiers"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), n_fnotifiers);
+            return this;
+        }
+        
+        public Build setNInotifiers(int n_inotifiers) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("n_inotifiers"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), n_inotifiers);
+            return this;
+        }
+        
+        public Build setInInotify(int in_inotify) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("in_inotify"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), in_inotify);
+            return this;
+        }
+        
+        public Build setFloating(int floating) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("floating"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), floating);
+            return this;
+        }
+        
+        public Build setDerivativeFlag(int derivative_flag) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("derivative_flag"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), derivative_flag);
+            return this;
+        }
+        
+        /**
+         * Indicates whether the closure is currently being invoked with
+         *  g_closure_invoke()
+         * @param in_marshal The value for the {@code in_marshal} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setInMarshal(int in_marshal) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("in_marshal"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), in_marshal);
+            return this;
+        }
+        
+        /**
+         * Indicates whether the closure has been invalidated by
+         *  g_closure_invalidate()
+         * @param is_invalid The value for the {@code is_invalid} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setIsInvalid(int is_invalid) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("is_invalid"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), is_invalid);
+            return this;
+        }
+        
+        public Build setMarshal(java.lang.foreign.MemoryAddress marshal) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("marshal"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (marshal == null ? MemoryAddress.NULL : marshal));
+            return this;
+        }
+        
+        public Build setData(java.lang.foreign.MemoryAddress data) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("data"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (data == null ? MemoryAddress.NULL : (Addressable) data));
+            return this;
+        }
+        
+        public Build setNotifiers(org.gtk.gobject.ClosureNotifyData notifiers) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("notifiers"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (notifiers == null ? MemoryAddress.NULL : notifiers.handle()));
+            return this;
+        }
     }
 }

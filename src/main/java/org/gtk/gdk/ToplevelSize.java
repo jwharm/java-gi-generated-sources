@@ -9,7 +9,7 @@ import org.jetbrains.annotations.*;
  * The {@code GdkToplevelSize} struct contains information that is useful
  * to compute the size of a toplevel.
  */
-public class ToplevelSize extends io.github.jwharm.javagi.ProxyBase {
+public class ToplevelSize extends Struct {
     
     static {
         Gdk.javagi$ensureInitialized();
@@ -28,6 +28,10 @@ public class ToplevelSize extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link ToplevelSize}
+     * @return A new, uninitialized @{link ToplevelSize}
+     */
     public static ToplevelSize allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         ToplevelSize newInstance = new ToplevelSize(segment.address(), Ownership.NONE);
@@ -58,9 +62,9 @@ public class ToplevelSize extends io.github.jwharm.javagi.ProxyBase {
      */
     public void getBounds(Out<Integer> boundsWidth, Out<Integer> boundsHeight) {
         java.util.Objects.requireNonNull(boundsWidth, "Parameter 'boundsWidth' must not be null");
+        MemorySegment boundsWidthPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         java.util.Objects.requireNonNull(boundsHeight, "Parameter 'boundsHeight' must not be null");
-        MemorySegment boundsWidthPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
-        MemorySegment boundsHeightPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
+        MemorySegment boundsHeightPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         try {
             DowncallHandles.gdk_toplevel_size_get_bounds.invokeExact(
                     handle(),
@@ -69,8 +73,8 @@ public class ToplevelSize extends io.github.jwharm.javagi.ProxyBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        boundsWidth.set(boundsWidthPOINTER.get(ValueLayout.JAVA_INT, 0));
-        boundsHeight.set(boundsHeightPOINTER.get(ValueLayout.JAVA_INT, 0));
+        boundsWidth.set(boundsWidthPOINTER.get(Interop.valueLayout.C_INT, 0));
+        boundsHeight.set(boundsHeightPOINTER.get(Interop.valueLayout.C_INT, 0));
     }
     
     /**
@@ -146,26 +150,54 @@ public class ToplevelSize extends io.github.jwharm.javagi.ProxyBase {
         
         private static final MethodHandle gdk_toplevel_size_get_bounds = Interop.downcallHandle(
             "gdk_toplevel_size_get_bounds",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_toplevel_size_set_min_size = Interop.downcallHandle(
             "gdk_toplevel_size_set_min_size",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gdk_toplevel_size_set_shadow_width = Interop.downcallHandle(
             "gdk_toplevel_size_set_shadow_width",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gdk_toplevel_size_set_size = Interop.downcallHandle(
             "gdk_toplevel_size_set_size",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
             false
         );
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private ToplevelSize struct;
+        
+         /**
+         * A {@link ToplevelSize.Build} object constructs a {@link ToplevelSize} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = ToplevelSize.allocate();
+        }
+        
+         /**
+         * Finish building the {@link ToplevelSize} struct.
+         * @return A new instance of {@code ToplevelSize} with the fields 
+         *         that were set in the Build object.
+         */
+        public ToplevelSize construct() {
+            return struct;
+        }
     }
 }

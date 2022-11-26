@@ -9,7 +9,7 @@ import org.jetbrains.annotations.*;
  * The GIConv struct wraps an iconv() conversion descriptor. It contains
  * private data and should only be accessed using the following functions.
  */
-public class IConv extends io.github.jwharm.javagi.ProxyBase {
+public class IConv extends Struct {
     
     static {
         GLib.javagi$ensureInitialized();
@@ -28,6 +28,10 @@ public class IConv extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link IConv}
+     * @return A new, uninitialized @{link IConv}
+     */
     public static IConv allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         IConv newInstance = new IConv(segment.address(), Ownership.NONE);
@@ -65,22 +69,26 @@ public class IConv extends io.github.jwharm.javagi.ProxyBase {
      * @param outbytesLeft inout parameter, bytes available to fill in {@code outbuf}
      * @return count of non-reversible conversions, or -1 on error
      */
-    public long gIconv(@NotNull PointerString inbuf, PointerLong inbytesLeft, @NotNull PointerString outbuf, PointerLong outbytesLeft) {
+    public long gIconv(@NotNull PointerString inbuf, Out<Long> inbytesLeft, @NotNull PointerString outbuf, Out<Long> outbytesLeft) {
         java.util.Objects.requireNonNull(inbuf, "Parameter 'inbuf' must not be null");
         java.util.Objects.requireNonNull(inbytesLeft, "Parameter 'inbytesLeft' must not be null");
+        MemorySegment inbytesLeftPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
         java.util.Objects.requireNonNull(outbuf, "Parameter 'outbuf' must not be null");
         java.util.Objects.requireNonNull(outbytesLeft, "Parameter 'outbytesLeft' must not be null");
+        MemorySegment outbytesLeftPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.g_iconv.invokeExact(
                     handle(),
                     inbuf.handle(),
-                    inbytesLeft.handle(),
+                    (Addressable) inbytesLeftPOINTER.address(),
                     outbuf.handle(),
-                    outbytesLeft.handle());
+                    (Addressable) outbytesLeftPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        inbytesLeft.set(inbytesLeftPOINTER.get(Interop.valueLayout.C_LONG, 0));
+        outbytesLeft.set(outbytesLeftPOINTER.get(Interop.valueLayout.C_LONG, 0));
         return RESULT;
     }
     
@@ -136,20 +144,48 @@ public class IConv extends io.github.jwharm.javagi.ProxyBase {
         
         private static final MethodHandle g_iconv = Interop.downcallHandle(
             "g_iconv",
-            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_iconv_close = Interop.downcallHandle(
             "g_iconv_close",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_iconv_open = Interop.downcallHandle(
             "g_iconv_open",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private IConv struct;
+        
+         /**
+         * A {@link IConv.Build} object constructs a {@link IConv} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = IConv.allocate();
+        }
+        
+         /**
+         * Finish building the {@link IConv} struct.
+         * @return A new instance of {@code IConv} with the fields 
+         *         that were set in the Build object.
+         */
+        public IConv construct() {
+            return struct;
+        }
     }
 }

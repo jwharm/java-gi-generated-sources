@@ -9,7 +9,7 @@ import org.jetbrains.annotations.*;
  * The {@code GMainLoop} struct is an opaque data type
  * representing the main event loop of a GLib or GTK+ application.
  */
-public class MainLoop extends io.github.jwharm.javagi.ProxyBase {
+public class MainLoop extends Struct {
     
     static {
         GLib.javagi$ensureInitialized();
@@ -28,6 +28,10 @@ public class MainLoop extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link MainLoop}
+     * @return A new, uninitialized @{link MainLoop}
+     */
     public static MainLoop allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         MainLoop newInstance = new MainLoop(segment.address(), Ownership.NONE);
@@ -161,44 +165,72 @@ public class MainLoop extends io.github.jwharm.javagi.ProxyBase {
         
         private static final MethodHandle g_main_loop_new = Interop.downcallHandle(
             "g_main_loop_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_main_loop_get_context = Interop.downcallHandle(
             "g_main_loop_get_context",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_main_loop_is_running = Interop.downcallHandle(
             "g_main_loop_is_running",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_main_loop_quit = Interop.downcallHandle(
             "g_main_loop_quit",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_main_loop_ref = Interop.downcallHandle(
             "g_main_loop_ref",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_main_loop_run = Interop.downcallHandle(
             "g_main_loop_run",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_main_loop_unref = Interop.downcallHandle(
             "g_main_loop_unref",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private MainLoop struct;
+        
+         /**
+         * A {@link MainLoop.Build} object constructs a {@link MainLoop} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = MainLoop.allocate();
+        }
+        
+         /**
+         * Finish building the {@link MainLoop} struct.
+         * @return A new instance of {@code MainLoop} with the fields 
+         *         that were set in the Build object.
+         */
+        public MainLoop construct() {
+            return struct;
+        }
     }
 }

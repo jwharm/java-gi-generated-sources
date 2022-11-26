@@ -94,7 +94,7 @@ public class WindowControls extends org.gtk.gtk.Widget implements org.gtk.gtk.Ac
      * @throws ClassCastException If the GType is not derived from "GtkWindowControls", a ClassCastException will be thrown.
      */
     public static WindowControls castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkWindowControls"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), WindowControls.getType())) {
             return new WindowControls(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkWindowControls");
@@ -211,41 +211,134 @@ public class WindowControls extends org.gtk.gtk.Widget implements org.gtk.gtk.Ac
         }
     }
     
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.gtk_window_controls_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gtk.Widget.Build {
+        
+         /**
+         * A {@link WindowControls.Build} object constructs a {@link WindowControls} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link WindowControls} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link WindowControls} using {@link WindowControls#castFrom}.
+         * @return A new instance of {@code WindowControls} with the properties 
+         *         that were set in the Build object.
+         */
+        public WindowControls construct() {
+            return WindowControls.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    WindowControls.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+        
+        /**
+         * The decoration layout for window buttons.
+         * <p>
+         * If this property is not set, the
+         * {@code Gtk.Settings:gtk-decoration-layout} setting is used.
+         * @param decorationLayout The value for the {@code decoration-layout} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setDecorationLayout(java.lang.String decorationLayout) {
+            names.add("decoration-layout");
+            values.add(org.gtk.gobject.Value.create(decorationLayout));
+            return this;
+        }
+        
+        /**
+         * Whether the widget has any window buttons.
+         * @param empty The value for the {@code empty} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setEmpty(boolean empty) {
+            names.add("empty");
+            values.add(org.gtk.gobject.Value.create(empty));
+            return this;
+        }
+        
+        /**
+         * Whether the widget shows start or end side of the decoration layout.
+         * <p>
+         * See {@code Gtk.WindowControls:decoration_layout}.
+         * @param side The value for the {@code side} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setSide(org.gtk.gtk.PackType side) {
+            names.add("side");
+            values.add(org.gtk.gobject.Value.create(side));
+            return this;
+        }
+    }
+    
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_window_controls_new = Interop.downcallHandle(
             "gtk_window_controls_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_window_controls_get_decoration_layout = Interop.downcallHandle(
             "gtk_window_controls_get_decoration_layout",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_window_controls_get_empty = Interop.downcallHandle(
             "gtk_window_controls_get_empty",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_window_controls_get_side = Interop.downcallHandle(
             "gtk_window_controls_get_side",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_window_controls_set_decoration_layout = Interop.downcallHandle(
             "gtk_window_controls_set_decoration_layout",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_window_controls_set_side = Interop.downcallHandle(
             "gtk_window_controls_set_side",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+            false
+        );
+        
+        private static final MethodHandle gtk_window_controls_get_type = Interop.downcallHandle(
+            "gtk_window_controls_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }

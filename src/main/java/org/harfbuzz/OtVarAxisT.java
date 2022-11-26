@@ -9,7 +9,7 @@ import org.jetbrains.annotations.*;
  * Use {@link OtVarAxisInfoT} instead.
  * @version 1.4.2
  */
-public class OtVarAxisT extends io.github.jwharm.javagi.ProxyBase {
+public class OtVarAxisT extends Struct {
     
     static {
         HarfBuzz.javagi$ensureInitialized();
@@ -17,12 +17,12 @@ public class OtVarAxisT extends io.github.jwharm.javagi.ProxyBase {
     
     private static final java.lang.String C_TYPE_NAME = "hb_ot_var_axis_t";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
-        ValueLayout.JAVA_INT.withName("tag"),
-        ValueLayout.JAVA_INT.withName("name_id"),
-        ValueLayout.JAVA_FLOAT.withName("min_value"),
-        ValueLayout.JAVA_FLOAT.withName("default_value"),
-        ValueLayout.JAVA_FLOAT.withName("max_value")
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
+        Interop.valueLayout.C_INT.withName("tag"),
+        Interop.valueLayout.C_INT.withName("name_id"),
+        Interop.valueLayout.C_FLOAT.withName("min_value"),
+        Interop.valueLayout.C_FLOAT.withName("default_value"),
+        Interop.valueLayout.C_FLOAT.withName("max_value")
     ).withName(C_TYPE_NAME);
     
     /**
@@ -36,6 +36,10 @@ public class OtVarAxisT extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link OtVarAxisT}
+     * @return A new, uninitialized @{link OtVarAxisT}
+     */
     public static OtVarAxisT allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         OtVarAxisT newInstance = new OtVarAxisT(segment.address(), Ownership.NONE);
@@ -156,5 +160,93 @@ public class OtVarAxisT extends io.github.jwharm.javagi.ProxyBase {
     @ApiStatus.Internal
     public OtVarAxisT(Addressable address, Ownership ownership) {
         super(address, ownership);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private OtVarAxisT struct;
+        
+         /**
+         * A {@link OtVarAxisT.Build} object constructs a {@link OtVarAxisT} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = OtVarAxisT.allocate();
+        }
+        
+         /**
+         * Finish building the {@link OtVarAxisT} struct.
+         * @return A new instance of {@code OtVarAxisT} with the fields 
+         *         that were set in the Build object.
+         */
+        public OtVarAxisT construct() {
+            return struct;
+        }
+        
+        /**
+         * axis tag
+         * @param tag The value for the {@code tag} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setTag(org.harfbuzz.TagT tag) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("tag"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (tag == null ? MemoryAddress.NULL : tag.getValue().intValue()));
+            return this;
+        }
+        
+        /**
+         * axis name identifier
+         * @param name_id The value for the {@code name_id} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setNameId(org.harfbuzz.OtNameIdT name_id) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("name_id"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (name_id == null ? MemoryAddress.NULL : name_id.getValue().intValue()));
+            return this;
+        }
+        
+        /**
+         * minimum value of the axis
+         * @param min_value The value for the {@code min_value} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setMinValue(float min_value) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("min_value"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), min_value);
+            return this;
+        }
+        
+        /**
+         * default value of the axis
+         * @param default_value The value for the {@code default_value} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setDefaultValue(float default_value) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("default_value"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), default_value);
+            return this;
+        }
+        
+        /**
+         * maximum value of the axis
+         * @param max_value The value for the {@code max_value} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setMaxValue(float max_value) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("max_value"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), max_value);
+            return this;
+        }
     }
 }

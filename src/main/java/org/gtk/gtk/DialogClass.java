@@ -5,7 +5,7 @@ import java.lang.foreign.*;
 import java.lang.invoke.*;
 import org.jetbrains.annotations.*;
 
-public class DialogClass extends io.github.jwharm.javagi.ProxyBase {
+public class DialogClass extends Struct {
     
     static {
         Gtk.javagi$ensureInitialized();
@@ -13,12 +13,11 @@ public class DialogClass extends io.github.jwharm.javagi.ProxyBase {
     
     private static final java.lang.String C_TYPE_NAME = "GtkDialogClass";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gtk.WindowClass.getMemoryLayout().withName("parent_class"),
         Interop.valueLayout.ADDRESS.withName("response"),
         Interop.valueLayout.ADDRESS.withName("close"),
-        MemoryLayout.paddingLayout(320),
-        MemoryLayout.sequenceLayout(8, ValueLayout.ADDRESS).withName("padding")
+        MemoryLayout.sequenceLayout(8, Interop.valueLayout.ADDRESS).withName("padding")
     ).withName(C_TYPE_NAME);
     
     /**
@@ -32,6 +31,10 @@ public class DialogClass extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link DialogClass}
+     * @return A new, uninitialized @{link DialogClass}
+     */
     public static DialogClass allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         DialogClass newInstance = new DialogClass(segment.address(), Ownership.NONE);
@@ -56,5 +59,66 @@ public class DialogClass extends io.github.jwharm.javagi.ProxyBase {
     @ApiStatus.Internal
     public DialogClass(Addressable address, Ownership ownership) {
         super(address, ownership);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private DialogClass struct;
+        
+         /**
+         * A {@link DialogClass.Build} object constructs a {@link DialogClass} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = DialogClass.allocate();
+        }
+        
+         /**
+         * Finish building the {@link DialogClass} struct.
+         * @return A new instance of {@code DialogClass} with the fields 
+         *         that were set in the Build object.
+         */
+        public DialogClass construct() {
+            return struct;
+        }
+        
+        /**
+         * The parent class.
+         * @param parent_class The value for the {@code parent_class} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setParentClass(org.gtk.gtk.WindowClass parent_class) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parent_class == null ? MemoryAddress.NULL : parent_class.handle()));
+            return this;
+        }
+        
+        public Build setResponse(java.lang.foreign.MemoryAddress response) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("response"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (response == null ? MemoryAddress.NULL : response));
+            return this;
+        }
+        
+        public Build setClose(java.lang.foreign.MemoryAddress close) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("close"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (close == null ? MemoryAddress.NULL : close));
+            return this;
+        }
+        
+        public Build setPadding(java.lang.foreign.MemoryAddress[] padding) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("padding"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (padding == null ? MemoryAddress.NULL : Interop.allocateNativeArray(padding, false)));
+            return this;
+        }
     }
 }

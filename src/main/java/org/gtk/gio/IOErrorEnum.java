@@ -282,6 +282,11 @@ public class IOErrorEnum extends io.github.jwharm.javagi.Enumeration {
      */
     public static final IOErrorEnum MESSAGE_TOO_LARGE = new IOErrorEnum(46);
     
+    /**
+     * No such device found. Since 2.74
+     */
+    public static final IOErrorEnum NO_SUCH_DEVICE = new IOErrorEnum(47);
+    
     public IOErrorEnum(int value) {
         super(value);
     }

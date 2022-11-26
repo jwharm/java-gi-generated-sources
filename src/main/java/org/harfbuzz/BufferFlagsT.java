@@ -78,6 +78,18 @@ public class BufferFlagsT extends io.github.jwharm.javagi.Bitfield {
      */
     public static final BufferFlagsT PRODUCE_UNSAFE_TO_CONCAT = new BufferFlagsT(64);
     
+    /**
+     * flag indicating that the {@code HB_GLYPH_FLAG_SAFE_TO_INSERT_TATWEEL}
+     *                      glyph-flag should be produced by the shaper. By default
+     *                      it will not be produced. Since: 5.1.0
+     */
+    public static final BufferFlagsT PRODUCE_SAFE_TO_INSERT_TATWEEL = new BufferFlagsT(128);
+    
+    /**
+     * All currently defined flags: Since: 4.4.0
+     */
+    public static final BufferFlagsT DEFINED = new BufferFlagsT(255);
+    
     public BufferFlagsT(int value) {
         super(value);
     }

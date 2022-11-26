@@ -7,9 +7,13 @@ import org.jetbrains.annotations.*;
 
 /**
  * Pairs of glyph and color index.
+ * <p>
+ * A color index of 0xFFFF does not refer to a palette
+ * color, but indicates that the foreground color should
+ * be used.
  * @version 2.1.0
  */
-public class OtColorLayerT extends io.github.jwharm.javagi.ProxyBase {
+public class OtColorLayerT extends Struct {
     
     static {
         HarfBuzz.javagi$ensureInitialized();
@@ -17,9 +21,9 @@ public class OtColorLayerT extends io.github.jwharm.javagi.ProxyBase {
     
     private static final java.lang.String C_TYPE_NAME = "hb_ot_color_layer_t";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
-        ValueLayout.JAVA_INT.withName("glyph"),
-        ValueLayout.JAVA_INT.withName("color_index")
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
+        Interop.valueLayout.C_INT.withName("glyph"),
+        Interop.valueLayout.C_INT.withName("color_index")
     ).withName(C_TYPE_NAME);
     
     /**
@@ -33,6 +37,10 @@ public class OtColorLayerT extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link OtColorLayerT}
+     * @return A new, uninitialized @{link OtColorLayerT}
+     */
     public static OtColorLayerT allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         OtColorLayerT newInstance = new OtColorLayerT(segment.address(), Ownership.NONE);
@@ -90,5 +98,57 @@ public class OtColorLayerT extends io.github.jwharm.javagi.ProxyBase {
     @ApiStatus.Internal
     public OtColorLayerT(Addressable address, Ownership ownership) {
         super(address, ownership);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private OtColorLayerT struct;
+        
+         /**
+         * A {@link OtColorLayerT.Build} object constructs a {@link OtColorLayerT} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = OtColorLayerT.allocate();
+        }
+        
+         /**
+         * Finish building the {@link OtColorLayerT} struct.
+         * @return A new instance of {@code OtColorLayerT} with the fields 
+         *         that were set in the Build object.
+         */
+        public OtColorLayerT construct() {
+            return struct;
+        }
+        
+        /**
+         * the glyph ID of the layer
+         * @param glyph The value for the {@code glyph} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setGlyph(org.harfbuzz.CodepointT glyph) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("glyph"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (glyph == null ? MemoryAddress.NULL : glyph.getValue().intValue()));
+            return this;
+        }
+        
+        /**
+         * the palette color index of the layer
+         * @param color_index The value for the {@code color_index} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setColorIndex(int color_index) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("color_index"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), color_index);
+            return this;
+        }
     }
 }

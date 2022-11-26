@@ -9,7 +9,7 @@ import org.jetbrains.annotations.*;
  * Represents a file descriptor, which events to poll for, and which events
  * occurred.
  */
-public class PollFD extends io.github.jwharm.javagi.ProxyBase {
+public class PollFD extends Struct {
     
     static {
         GLib.javagi$ensureInitialized();
@@ -17,10 +17,10 @@ public class PollFD extends io.github.jwharm.javagi.ProxyBase {
     
     private static final java.lang.String C_TYPE_NAME = "GPollFD";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
-        ValueLayout.JAVA_INT.withName("fd"),
-        ValueLayout.JAVA_SHORT.withName("events"),
-        ValueLayout.JAVA_SHORT.withName("revents")
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
+        Interop.valueLayout.C_INT.withName("fd"),
+        Interop.valueLayout.C_SHORT.withName("events"),
+        Interop.valueLayout.C_SHORT.withName("revents")
     ).withName(C_TYPE_NAME);
     
     /**
@@ -34,6 +34,10 @@ public class PollFD extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link PollFD}
+     * @return A new, uninitialized @{link PollFD}
+     */
     public static PollFD allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         PollFD newInstance = new PollFD(segment.address(), Ownership.NONE);
@@ -112,5 +116,73 @@ public class PollFD extends io.github.jwharm.javagi.ProxyBase {
     @ApiStatus.Internal
     public PollFD(Addressable address, Ownership ownership) {
         super(address, ownership);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private PollFD struct;
+        
+         /**
+         * A {@link PollFD.Build} object constructs a {@link PollFD} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = PollFD.allocate();
+        }
+        
+         /**
+         * Finish building the {@link PollFD} struct.
+         * @return A new instance of {@code PollFD} with the fields 
+         *         that were set in the Build object.
+         */
+        public PollFD construct() {
+            return struct;
+        }
+        
+        /**
+         * the file descriptor to poll (or a HANDLE on Win32)
+         * @param fd The value for the {@code fd} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setFd(int fd) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("fd"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), fd);
+            return this;
+        }
+        
+        /**
+         * a bitwise combination from {@link IOCondition}, specifying which
+         *     events should be polled for. Typically for reading from a file
+         *     descriptor you would use {@link IOCondition#IN} | {@link IOCondition#HUP} | {@link IOCondition#ERR}, and
+         *     for writing you would use {@link IOCondition#OUT} | {@link IOCondition#ERR}.
+         * @param events The value for the {@code events} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setEvents(short events) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("events"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), events);
+            return this;
+        }
+        
+        /**
+         * a bitwise combination of flags from {@link IOCondition}, returned
+         *     from the poll() function to indicate which events occurred.
+         * @param revents The value for the {@code revents} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setRevents(short revents) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("revents"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), revents);
+            return this;
+        }
     }
 }

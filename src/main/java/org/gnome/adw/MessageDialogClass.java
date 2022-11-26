@@ -5,7 +5,7 @@ import java.lang.foreign.*;
 import java.lang.invoke.*;
 import org.jetbrains.annotations.*;
 
-public class MessageDialogClass extends io.github.jwharm.javagi.ProxyBase {
+public class MessageDialogClass extends Struct {
     
     static {
         Adw.javagi$ensureInitialized();
@@ -13,11 +13,10 @@ public class MessageDialogClass extends io.github.jwharm.javagi.ProxyBase {
     
     private static final java.lang.String C_TYPE_NAME = "AdwMessageDialogClass";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gtk.WindowClass.getMemoryLayout().withName("parent_class"),
         Interop.valueLayout.ADDRESS.withName("response"),
-        MemoryLayout.paddingLayout(128),
-        MemoryLayout.sequenceLayout(4, ValueLayout.ADDRESS).withName("padding")
+        MemoryLayout.sequenceLayout(4, Interop.valueLayout.ADDRESS).withName("padding")
     ).withName(C_TYPE_NAME);
     
     /**
@@ -31,6 +30,10 @@ public class MessageDialogClass extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link MessageDialogClass}
+     * @return A new, uninitialized @{link MessageDialogClass}
+     */
     public static MessageDialogClass allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         MessageDialogClass newInstance = new MessageDialogClass(segment.address(), Ownership.NONE);
@@ -55,5 +58,54 @@ public class MessageDialogClass extends io.github.jwharm.javagi.ProxyBase {
     @ApiStatus.Internal
     public MessageDialogClass(Addressable address, Ownership ownership) {
         super(address, ownership);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private MessageDialogClass struct;
+        
+         /**
+         * A {@link MessageDialogClass.Build} object constructs a {@link MessageDialogClass} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = MessageDialogClass.allocate();
+        }
+        
+         /**
+         * Finish building the {@link MessageDialogClass} struct.
+         * @return A new instance of {@code MessageDialogClass} with the fields 
+         *         that were set in the Build object.
+         */
+        public MessageDialogClass construct() {
+            return struct;
+        }
+        
+        public Build setParentClass(org.gtk.gtk.WindowClass parent_class) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parent_class == null ? MemoryAddress.NULL : parent_class.handle()));
+            return this;
+        }
+        
+        public Build setResponse(java.lang.foreign.MemoryAddress response) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("response"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (response == null ? MemoryAddress.NULL : response));
+            return this;
+        }
+        
+        public Build setPadding(java.lang.foreign.MemoryAddress[] padding) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("padding"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (padding == null ? MemoryAddress.NULL : Interop.allocateNativeArray(padding, false)));
+            return this;
+        }
     }
 }

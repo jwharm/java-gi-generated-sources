@@ -44,7 +44,7 @@ public class PreferencesGroup extends org.gtk.gtk.Widget implements org.gtk.gtk.
     
     private static final java.lang.String C_TYPE_NAME = "AdwPreferencesGroup";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gtk.Widget.getMemoryLayout().withName("parent_instance")
     ).withName(C_TYPE_NAME);
     
@@ -89,7 +89,7 @@ public class PreferencesGroup extends org.gtk.gtk.Widget implements org.gtk.gtk.
      * @throws ClassCastException If the GType is not derived from "AdwPreferencesGroup", a ClassCastException will be thrown.
      */
     public static PreferencesGroup castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("AdwPreferencesGroup"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), PreferencesGroup.getType())) {
             return new PreferencesGroup(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of AdwPreferencesGroup");
@@ -235,59 +235,152 @@ public class PreferencesGroup extends org.gtk.gtk.Widget implements org.gtk.gtk.
         }
     }
     
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.adw_preferences_group_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gtk.Widget.Build {
+        
+         /**
+         * A {@link PreferencesGroup.Build} object constructs a {@link PreferencesGroup} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link PreferencesGroup} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link PreferencesGroup} using {@link PreferencesGroup#castFrom}.
+         * @return A new instance of {@code PreferencesGroup} with the properties 
+         *         that were set in the Build object.
+         */
+        public PreferencesGroup construct() {
+            return PreferencesGroup.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    PreferencesGroup.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+        
+        /**
+         * The description for this group of preferences.
+         * @param description The value for the {@code description} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setDescription(java.lang.String description) {
+            names.add("description");
+            values.add(org.gtk.gobject.Value.create(description));
+            return this;
+        }
+        
+        /**
+         * The header suffix widget.
+         * <p>
+         * Displayed above the list, next to the title and description.
+         * <p>
+         * Suffixes are commonly used to show a button or a spinner for the whole
+         * group.
+         * @param headerSuffix The value for the {@code header-suffix} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setHeaderSuffix(org.gtk.gtk.Widget headerSuffix) {
+            names.add("header-suffix");
+            values.add(org.gtk.gobject.Value.create(headerSuffix));
+            return this;
+        }
+        
+        /**
+         * The title for this group of preferences.
+         * @param title The value for the {@code title} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setTitle(java.lang.String title) {
+            names.add("title");
+            values.add(org.gtk.gobject.Value.create(title));
+            return this;
+        }
+    }
+    
     private static class DowncallHandles {
         
         private static final MethodHandle adw_preferences_group_new = Interop.downcallHandle(
             "adw_preferences_group_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_preferences_group_add = Interop.downcallHandle(
             "adw_preferences_group_add",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_preferences_group_get_description = Interop.downcallHandle(
             "adw_preferences_group_get_description",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_preferences_group_get_header_suffix = Interop.downcallHandle(
             "adw_preferences_group_get_header_suffix",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_preferences_group_get_title = Interop.downcallHandle(
             "adw_preferences_group_get_title",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_preferences_group_remove = Interop.downcallHandle(
             "adw_preferences_group_remove",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_preferences_group_set_description = Interop.downcallHandle(
             "adw_preferences_group_set_description",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_preferences_group_set_header_suffix = Interop.downcallHandle(
             "adw_preferences_group_set_header_suffix",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_preferences_group_set_title = Interop.downcallHandle(
             "adw_preferences_group_set_title",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+            false
+        );
+        
+        private static final MethodHandle adw_preferences_group_get_type = Interop.downcallHandle(
+            "adw_preferences_group_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }

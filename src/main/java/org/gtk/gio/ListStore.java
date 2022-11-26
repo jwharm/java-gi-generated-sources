@@ -52,7 +52,7 @@ public class ListStore extends org.gtk.gobject.Object implements org.gtk.gio.Lis
      * @throws ClassCastException If the GType is not derived from "GListStore", a ClassCastException will be thrown.
      */
     public static ListStore castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GListStore"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), ListStore.getType())) {
             return new ListStore(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GListStore");
@@ -115,7 +115,7 @@ public class ListStore extends org.gtk.gobject.Object implements org.gtk.gio.Lis
     public boolean find(@NotNull org.gtk.gobject.Object item, Out<Integer> position) {
         java.util.Objects.requireNonNull(item, "Parameter 'item' must not be null");
         java.util.Objects.requireNonNull(position, "Parameter 'position' must not be null");
-        MemorySegment positionPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
+        MemorySegment positionPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_list_store_find.invokeExact(
@@ -125,13 +125,13 @@ public class ListStore extends org.gtk.gobject.Object implements org.gtk.gio.Lis
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        position.set(positionPOINTER.get(ValueLayout.JAVA_INT, 0));
+        position.set(positionPOINTER.get(Interop.valueLayout.C_INT, 0));
         return RESULT != 0;
     }
     
     /**
      * Looks up the given {@code item} in the list store by looping over the items and
-     * comparing them with {@code compare_func} until the first occurrence of {@code item} which
+     * comparing them with {@code equal_func} until the first occurrence of {@code item} which
      * matches. If {@code item} was not found, then {@code position} will not be set, and this
      * method will return {@code false}.
      * @param item an item
@@ -142,6 +142,39 @@ public class ListStore extends org.gtk.gobject.Object implements org.gtk.gio.Lis
      */
     public boolean findWithEqualFunc(@NotNull org.gtk.gobject.Object item, @NotNull org.gtk.glib.EqualFunc equalFunc, Out<Integer> position) {
         throw new UnsupportedOperationException("Operation not supported yet");
+    }
+    
+    /**
+     * Like g_list_store_find_with_equal_func() but with an additional {@code user_data}
+     * that is passed to {@code equal_func}.
+     * @param item an item
+     * @param equalFunc A custom equality check function
+     * @param position the first position of {@code item}, if it was found.
+     * @return Whether {@code store} contains {@code item}. If it was found, {@code position} will be
+     * set to the position where {@code item} occurred for the first time.
+     */
+    public boolean findWithEqualFuncFull(@NotNull org.gtk.gobject.Object item, @NotNull org.gtk.glib.EqualFuncFull equalFunc, Out<Integer> position) {
+        java.util.Objects.requireNonNull(item, "Parameter 'item' must not be null");
+        java.util.Objects.requireNonNull(equalFunc, "Parameter 'equalFunc' must not be null");
+        java.util.Objects.requireNonNull(position, "Parameter 'position' must not be null");
+        MemorySegment positionPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
+        int RESULT;
+        try {
+            RESULT = (int) DowncallHandles.g_list_store_find_with_equal_func_full.invokeExact(
+                    handle(),
+                    item.handle(),
+                    (Addressable) Linker.nativeLinker().upcallStub(
+                        MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbEqualFuncFull",
+                            MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
+                        FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                        Interop.getScope()),
+                    (Addressable) (Interop.registerCallback(equalFunc)),
+                    (Addressable) positionPOINTER.address());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        position.set(positionPOINTER.get(Interop.valueLayout.C_INT, 0));
+        return RESULT != 0;
     }
     
     /**
@@ -192,7 +225,7 @@ public class ListStore extends org.gtk.gobject.Object implements org.gtk.gio.Lis
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbCompareDataFunc",
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                         Interop.getScope()),
                     (Addressable) (Interop.registerCallback(compareFunc)));
         } catch (Throwable ERR) {
@@ -243,7 +276,7 @@ public class ListStore extends org.gtk.gobject.Object implements org.gtk.gio.Lis
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbCompareDataFunc",
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                         Interop.getScope()),
                     (Addressable) (Interop.registerCallback(compareFunc)));
         } catch (Throwable ERR) {
@@ -284,65 +317,149 @@ public class ListStore extends org.gtk.gobject.Object implements org.gtk.gio.Lis
         }
     }
     
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.g_list_store_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gobject.Object.Build {
+        
+         /**
+         * A {@link ListStore.Build} object constructs a {@link ListStore} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link ListStore} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link ListStore} using {@link ListStore#castFrom}.
+         * @return A new instance of {@code ListStore} with the properties 
+         *         that were set in the Build object.
+         */
+        public ListStore construct() {
+            return ListStore.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    ListStore.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+        
+        /**
+         * The type of items contained in this list store. Items must be
+         * subclasses of {@link org.gtk.gobject.Object}.
+         * @param itemType The value for the {@code item-type} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setItemType(org.gtk.glib.Type itemType) {
+            names.add("item-type");
+            values.add(org.gtk.gobject.Value.create(itemType));
+            return this;
+        }
+        
+        /**
+         * The number of items contained in this list store.
+         * @param nItems The value for the {@code n-items} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setNItems(int nItems) {
+            names.add("n-items");
+            values.add(org.gtk.gobject.Value.create(nItems));
+            return this;
+        }
+    }
+    
     private static class DowncallHandles {
         
         private static final MethodHandle g_list_store_new = Interop.downcallHandle(
             "g_list_store_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
             false
         );
         
         private static final MethodHandle g_list_store_append = Interop.downcallHandle(
             "g_list_store_append",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_list_store_find = Interop.downcallHandle(
             "g_list_store_find",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_list_store_find_with_equal_func = Interop.downcallHandle(
             "g_list_store_find_with_equal_func",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+            false
+        );
+        
+        private static final MethodHandle g_list_store_find_with_equal_func_full = Interop.downcallHandle(
+            "g_list_store_find_with_equal_func_full",
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_list_store_insert = Interop.downcallHandle(
             "g_list_store_insert",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_list_store_insert_sorted = Interop.downcallHandle(
             "g_list_store_insert_sorted",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_list_store_remove = Interop.downcallHandle(
             "g_list_store_remove",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_list_store_remove_all = Interop.downcallHandle(
             "g_list_store_remove_all",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_list_store_sort = Interop.downcallHandle(
             "g_list_store_sort",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_list_store_splice = Interop.downcallHandle(
             "g_list_store_splice",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+            false
+        );
+        
+        private static final MethodHandle g_list_store_get_type = Interop.downcallHandle(
+            "g_list_store_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }

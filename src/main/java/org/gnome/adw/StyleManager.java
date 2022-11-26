@@ -56,7 +56,7 @@ public class StyleManager extends org.gtk.gobject.Object {
      * @throws ClassCastException If the GType is not derived from "AdwStyleManager", a ClassCastException will be thrown.
      */
     public static StyleManager castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("AdwStyleManager"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), StyleManager.getType())) {
             return new StyleManager(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of AdwStyleManager");
@@ -196,6 +196,20 @@ public class StyleManager extends org.gtk.gobject.Object {
     }
     
     /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.adw_style_manager_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+    
+    /**
      * Gets the default {@code AdwStyleManager} instance.
      * <p>
      * It manages all {@link org.gtk.gdk.Display} instances unless the style manager for
@@ -235,54 +249,194 @@ public class StyleManager extends org.gtk.gobject.Object {
         }
         return new org.gnome.adw.StyleManager(RESULT, Ownership.NONE);
     }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gobject.Object.Build {
+        
+         /**
+         * A {@link StyleManager.Build} object constructs a {@link StyleManager} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link StyleManager} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link StyleManager} using {@link StyleManager#castFrom}.
+         * @return A new instance of {@code StyleManager} with the properties 
+         *         that were set in the Build object.
+         */
+        public StyleManager construct() {
+            return StyleManager.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    StyleManager.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+        
+        /**
+         * The requested application color scheme.
+         * <p>
+         * The effective appearance will be decided based on the application color
+         * scheme and the system preferred color scheme. The
+         * {@code StyleManager:dark} property can be used to query the current
+         * effective appearance.
+         * <p>
+         * The {@code ADW_COLOR_SCHEME_PREFER_LIGHT} color scheme results in the application
+         * using light appearance unless the system prefers dark colors. This is the
+         * default value.
+         * <p>
+         * The {@code ADW_COLOR_SCHEME_PREFER_DARK} color scheme results in the application
+         * using dark appearance, but can still switch to the light appearance if the
+         * system can prefers it, for example, when the high contrast preference is
+         * enabled.
+         * <p>
+         * The {@code ADW_COLOR_SCHEME_FORCE_LIGHT} and {@code ADW_COLOR_SCHEME_FORCE_DARK} values
+         * ignore the system preference entirely. They are useful if the application
+         * wants to match its UI to its content or to provide a separate color scheme
+         * switcher.
+         * <p>
+         * If a per-{@link org.gtk.gdk.Display} style manager has its color scheme set to
+         * {@code ADW_COLOR_SCHEME_DEFAULT}, it will inherit the color scheme from the
+         * default style manager.
+         * <p>
+         * For the default style manager, {@code ADW_COLOR_SCHEME_DEFAULT} is equivalent to
+         * {@code ADW_COLOR_SCHEME_PREFER_LIGHT}.
+         * <p>
+         * The {@code StyleManager:system-supports-color-schemes} property can be
+         * used to check if the current environment provides a color scheme
+         * preference.
+         * @param colorScheme The value for the {@code color-scheme} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setColorScheme(org.gnome.adw.ColorScheme colorScheme) {
+            names.add("color-scheme");
+            values.add(org.gtk.gobject.Value.create(colorScheme));
+            return this;
+        }
+        
+        /**
+         * Whether the application is using dark appearance.
+         * <p>
+         * This property can be used to query the current appearance, as requested via
+         * {@code StyleManager:color-scheme}.
+         * @param dark The value for the {@code dark} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setDark(boolean dark) {
+            names.add("dark");
+            values.add(org.gtk.gobject.Value.create(dark));
+            return this;
+        }
+        
+        /**
+         * The display the style manager is associated with.
+         * <p>
+         * The display will be {@code NULL} for the style manager returned by
+         * {@code StyleManager.StyleManager#getDefault}.
+         * @param display The value for the {@code display} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setDisplay(org.gtk.gdk.Display display) {
+            names.add("display");
+            values.add(org.gtk.gobject.Value.create(display));
+            return this;
+        }
+        
+        /**
+         * Whether the application is using high contrast appearance.
+         * <p>
+         * This cannot be overridden by applications.
+         * @param highContrast The value for the {@code high-contrast} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setHighContrast(boolean highContrast) {
+            names.add("high-contrast");
+            values.add(org.gtk.gobject.Value.create(highContrast));
+            return this;
+        }
+        
+        /**
+         * Whether the system supports color schemes.
+         * <p>
+         * This property can be used to check if the current environment provides a
+         * color scheme preference. For example, applications might want to show a
+         * separate appearance switcher if it's set to {@code FALSE}.
+         * <p>
+         * See {@code StyleManager:color-scheme}.
+         * @param systemSupportsColorSchemes The value for the {@code system-supports-color-schemes} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setSystemSupportsColorSchemes(boolean systemSupportsColorSchemes) {
+            names.add("system-supports-color-schemes");
+            values.add(org.gtk.gobject.Value.create(systemSupportsColorSchemes));
+            return this;
+        }
+    }
     
     private static class DowncallHandles {
         
         private static final MethodHandle adw_style_manager_get_color_scheme = Interop.downcallHandle(
             "adw_style_manager_get_color_scheme",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_style_manager_get_dark = Interop.downcallHandle(
             "adw_style_manager_get_dark",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_style_manager_get_display = Interop.downcallHandle(
             "adw_style_manager_get_display",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_style_manager_get_high_contrast = Interop.downcallHandle(
             "adw_style_manager_get_high_contrast",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_style_manager_get_system_supports_color_schemes = Interop.downcallHandle(
             "adw_style_manager_get_system_supports_color_schemes",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_style_manager_set_color_scheme = Interop.downcallHandle(
             "adw_style_manager_set_color_scheme",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+            false
+        );
+        
+        private static final MethodHandle adw_style_manager_get_type = Interop.downcallHandle(
+            "adw_style_manager_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
         
         private static final MethodHandle adw_style_manager_get_default = Interop.downcallHandle(
             "adw_style_manager_get_default",
-            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_style_manager_get_for_display = Interop.downcallHandle(
             "adw_style_manager_get_for_display",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
     }

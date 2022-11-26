@@ -8,7 +8,7 @@ import org.jetbrains.annotations.*;
 /**
  * The {@link HookList} struct represents a list of hook functions.
  */
-public class HookList extends io.github.jwharm.javagi.ProxyBase {
+public class HookList extends Struct {
     
     static {
         GLib.javagi$ensureInitialized();
@@ -16,15 +16,14 @@ public class HookList extends io.github.jwharm.javagi.ProxyBase {
     
     private static final java.lang.String C_TYPE_NAME = "GHookList";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
-        ValueLayout.JAVA_LONG.withName("seq_id"),
-        ValueLayout.JAVA_INT.withName("hook_size"),
-        ValueLayout.JAVA_INT.withName("is_setup"),
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
+        Interop.valueLayout.C_LONG.withName("seq_id"),
+        Interop.valueLayout.C_INT.withName("hook_size"),
+        Interop.valueLayout.C_INT.withName("is_setup"),
         Interop.valueLayout.ADDRESS.withName("hooks"),
         Interop.valueLayout.ADDRESS.withName("dummy3"),
         Interop.valueLayout.ADDRESS.withName("finalize_hook"),
-        MemoryLayout.paddingLayout(64),
-        MemoryLayout.sequenceLayout(2, ValueLayout.ADDRESS).withName("dummy")
+        MemoryLayout.sequenceLayout(2, Interop.valueLayout.ADDRESS).withName("dummy")
     ).withName(C_TYPE_NAME);
     
     /**
@@ -38,6 +37,10 @@ public class HookList extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link HookList}
+     * @return A new, uninitialized @{link HookList}
+     */
     public static HookList allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         HookList newInstance = new HookList(segment.address(), Ownership.NONE);
@@ -147,7 +150,7 @@ public class HookList extends io.github.jwharm.javagi.ProxyBase {
     public void dummy3$set(java.lang.foreign.MemoryAddress dummy3) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("dummy3"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), dummy3);
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) dummy3);
     }
     
     /**
@@ -248,7 +251,7 @@ public class HookList extends io.github.jwharm.javagi.ProxyBase {
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbHookMarshaller",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                         Interop.getScope()),
                     (Addressable) (Interop.registerCallback(marshaller)));
         } catch (Throwable ERR) {
@@ -273,7 +276,7 @@ public class HookList extends io.github.jwharm.javagi.ProxyBase {
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbHookCheckMarshaller",
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                         Interop.getScope()),
                     (Addressable) (Interop.registerCallback(marshaller)));
         } catch (Throwable ERR) {
@@ -285,38 +288,151 @@ public class HookList extends io.github.jwharm.javagi.ProxyBase {
         
         private static final MethodHandle g_hook_list_clear = Interop.downcallHandle(
             "g_hook_list_clear",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_hook_list_init = Interop.downcallHandle(
             "g_hook_list_init",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_hook_list_invoke = Interop.downcallHandle(
             "g_hook_list_invoke",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_hook_list_invoke_check = Interop.downcallHandle(
             "g_hook_list_invoke_check",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_hook_list_marshal = Interop.downcallHandle(
             "g_hook_list_marshal",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_hook_list_marshal_check = Interop.downcallHandle(
             "g_hook_list_marshal_check",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private HookList struct;
+        
+         /**
+         * A {@link HookList.Build} object constructs a {@link HookList} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = HookList.allocate();
+        }
+        
+         /**
+         * Finish building the {@link HookList} struct.
+         * @return A new instance of {@code HookList} with the fields 
+         *         that were set in the Build object.
+         */
+        public HookList construct() {
+            return struct;
+        }
+        
+        /**
+         * the next free {@link Hook} id
+         * @param seq_id The value for the {@code seq_id} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setSeqId(long seq_id) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("seq_id"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), seq_id);
+            return this;
+        }
+        
+        /**
+         * the size of the {@link HookList} elements, in bytes
+         * @param hook_size The value for the {@code hook_size} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setHookSize(int hook_size) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("hook_size"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), hook_size);
+            return this;
+        }
+        
+        /**
+         * 1 if the {@link HookList} has been initialized
+         * @param is_setup The value for the {@code is_setup} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setIsSetup(int is_setup) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("is_setup"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), is_setup);
+            return this;
+        }
+        
+        /**
+         * the first {@link Hook} element in the list
+         * @param hooks The value for the {@code hooks} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setHooks(org.gtk.glib.Hook hooks) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("hooks"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (hooks == null ? MemoryAddress.NULL : hooks.handle()));
+            return this;
+        }
+        
+        /**
+         * unused
+         * @param dummy3 The value for the {@code dummy3} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setDummy3(java.lang.foreign.MemoryAddress dummy3) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("dummy3"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (dummy3 == null ? MemoryAddress.NULL : (Addressable) dummy3));
+            return this;
+        }
+        
+        /**
+         * the function to call to finalize a {@link Hook} element.
+         *     The default behaviour is to call the hooks {@code destroy} function
+         * @param finalize_hook The value for the {@code finalize_hook} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setFinalizeHook(java.lang.foreign.MemoryAddress finalize_hook) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("finalize_hook"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (finalize_hook == null ? MemoryAddress.NULL : finalize_hook));
+            return this;
+        }
+        
+        /**
+         * unused
+         * @param dummy The value for the {@code dummy} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setDummy(java.lang.foreign.MemoryAddress[] dummy) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("dummy"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (dummy == null ? MemoryAddress.NULL : Interop.allocateNativeArray(dummy, false)));
+            return this;
+        }
     }
 }

@@ -20,7 +20,7 @@ import org.jetbrains.annotations.*;
  * The structure is opaque -- none of its fields may be directly
  * accessed.
  */
-public class Thread extends io.github.jwharm.javagi.ProxyBase {
+public class Thread extends Struct {
     
     static {
         GLib.javagi$ensureInitialized();
@@ -39,6 +39,10 @@ public class Thread extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link Thread}
+     * @return A new, uninitialized @{link Thread}
+     */
     public static Thread allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         Thread newInstance = new Thread(segment.address(), Ownership.NONE);
@@ -65,7 +69,7 @@ public class Thread extends io.github.jwharm.javagi.ProxyBase {
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbThreadFunc",
                             MethodType.methodType(MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                         Interop.getScope()),
                     (Addressable) (Interop.registerCallback(func)));
         } catch (Throwable ERR) {
@@ -111,7 +115,7 @@ public class Thread extends io.github.jwharm.javagi.ProxyBase {
     
     private static Addressable constructTryNew(@Nullable java.lang.String name, @NotNull org.gtk.glib.ThreadFunc func) throws GErrorException {
         java.util.Objects.requireNonNull(func, "Parameter 'func' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         Addressable RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_thread_try_new.invokeExact(
@@ -119,7 +123,7 @@ public class Thread extends io.github.jwharm.javagi.ProxyBase {
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbThreadFunc",
                             MethodType.methodType(MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                         Interop.getScope()),
                     (Addressable) (Interop.registerCallback(func)),
                     (Addressable) GERROR);
@@ -240,7 +244,7 @@ public class Thread extends io.github.jwharm.javagi.ProxyBase {
     public static void exit(@Nullable java.lang.foreign.MemoryAddress retval) {
         try {
             DowncallHandles.g_thread_exit.invokeExact(
-                    (Addressable) (retval == null ? MemoryAddress.NULL : retval));
+                    (Addressable) (retval == null ? MemoryAddress.NULL : (Addressable) retval));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -286,49 +290,49 @@ public class Thread extends io.github.jwharm.javagi.ProxyBase {
         
         private static final MethodHandle g_thread_new = Interop.downcallHandle(
             "g_thread_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_thread_try_new = Interop.downcallHandle(
             "g_thread_try_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_thread_join = Interop.downcallHandle(
             "g_thread_join",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_thread_ref = Interop.downcallHandle(
             "g_thread_ref",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_thread_unref = Interop.downcallHandle(
             "g_thread_unref",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_thread_error_quark = Interop.downcallHandle(
             "g_thread_error_quark",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_thread_exit = Interop.downcallHandle(
             "g_thread_exit",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_thread_self = Interop.downcallHandle(
             "g_thread_self",
-            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
             false
         );
         
@@ -337,5 +341,33 @@ public class Thread extends io.github.jwharm.javagi.ProxyBase {
             FunctionDescriptor.ofVoid(),
             false
         );
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private Thread struct;
+        
+         /**
+         * A {@link Thread.Build} object constructs a {@link Thread} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = Thread.allocate();
+        }
+        
+         /**
+         * Finish building the {@link Thread} struct.
+         * @return A new instance of {@code Thread} with the fields 
+         *         that were set in the Build object.
+         */
+        public Thread construct() {
+            return struct;
+        }
     }
 }

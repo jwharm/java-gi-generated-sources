@@ -143,7 +143,7 @@ import org.jetbrains.annotations.*;
  * location of a single resource with an individual file.
  * @version 2.32
  */
-public class Resource extends io.github.jwharm.javagi.ProxyBase {
+public class Resource extends Struct {
     
     static {
         Gio.javagi$ensureInitialized();
@@ -162,6 +162,10 @@ public class Resource extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link Resource}
+     * @return A new, uninitialized @{link Resource}
+     */
     public static Resource allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         Resource newInstance = new Resource(segment.address(), Ownership.NONE);
@@ -181,7 +185,7 @@ public class Resource extends io.github.jwharm.javagi.ProxyBase {
     
     private static Addressable constructNewFromData(@NotNull org.gtk.glib.Bytes data) throws GErrorException {
         java.util.Objects.requireNonNull(data, "Parameter 'data' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         Addressable RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_resource_new_from_data.invokeExact(
@@ -260,7 +264,7 @@ public class Resource extends io.github.jwharm.javagi.ProxyBase {
     public @NotNull PointerString enumerateChildren(@NotNull java.lang.String path, @NotNull org.gtk.gio.ResourceLookupFlags lookupFlags) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(path, "Parameter 'path' must not be null");
         java.util.Objects.requireNonNull(lookupFlags, "Parameter 'lookupFlags' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_resource_enumerate_children.invokeExact(
@@ -295,10 +299,10 @@ public class Resource extends io.github.jwharm.javagi.ProxyBase {
         java.util.Objects.requireNonNull(path, "Parameter 'path' must not be null");
         java.util.Objects.requireNonNull(lookupFlags, "Parameter 'lookupFlags' must not be null");
         java.util.Objects.requireNonNull(size, "Parameter 'size' must not be null");
+        MemorySegment sizePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
         java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        MemorySegment sizePOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_LONG);
-        MemorySegment flagsPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
+        MemorySegment flagsPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_resource_get_info.invokeExact(
@@ -314,8 +318,8 @@ public class Resource extends io.github.jwharm.javagi.ProxyBase {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        size.set(sizePOINTER.get(ValueLayout.JAVA_LONG, 0));
-        flags.set(flagsPOINTER.get(ValueLayout.JAVA_INT, 0));
+        size.set(sizePOINTER.get(Interop.valueLayout.C_LONG, 0));
+        flags.set(flagsPOINTER.get(Interop.valueLayout.C_INT, 0));
         return RESULT != 0;
     }
     
@@ -343,7 +347,7 @@ public class Resource extends io.github.jwharm.javagi.ProxyBase {
     public @NotNull org.gtk.glib.Bytes lookupData(@NotNull java.lang.String path, @NotNull org.gtk.gio.ResourceLookupFlags lookupFlags) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(path, "Parameter 'path' must not be null");
         java.util.Objects.requireNonNull(lookupFlags, "Parameter 'lookupFlags' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_resource_lookup_data.invokeExact(
@@ -374,7 +378,7 @@ public class Resource extends io.github.jwharm.javagi.ProxyBase {
     public @NotNull org.gtk.gio.InputStream openStream(@NotNull java.lang.String path, @NotNull org.gtk.gio.ResourceLookupFlags lookupFlags) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(path, "Parameter 'path' must not be null");
         java.util.Objects.requireNonNull(lookupFlags, "Parameter 'lookupFlags' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_resource_open_stream.invokeExact(
@@ -439,7 +443,7 @@ public class Resource extends io.github.jwharm.javagi.ProxyBase {
      */
     public static @NotNull org.gtk.gio.Resource load(@NotNull java.lang.String filename) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(filename, "Parameter 'filename' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_resource_load.invokeExact(
@@ -458,62 +462,90 @@ public class Resource extends io.github.jwharm.javagi.ProxyBase {
         
         private static final MethodHandle g_resource_new_from_data = Interop.downcallHandle(
             "g_resource_new_from_data",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_resources_register = Interop.downcallHandle(
             "g_resources_register",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_resources_unregister = Interop.downcallHandle(
             "g_resources_unregister",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_resource_enumerate_children = Interop.downcallHandle(
             "g_resource_enumerate_children",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_resource_get_info = Interop.downcallHandle(
             "g_resource_get_info",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_resource_lookup_data = Interop.downcallHandle(
             "g_resource_lookup_data",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_resource_open_stream = Interop.downcallHandle(
             "g_resource_open_stream",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_resource_ref = Interop.downcallHandle(
             "g_resource_ref",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_resource_unref = Interop.downcallHandle(
             "g_resource_unref",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_resource_load = Interop.downcallHandle(
             "g_resource_load",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private Resource struct;
+        
+         /**
+         * A {@link Resource.Build} object constructs a {@link Resource} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = Resource.allocate();
+        }
+        
+         /**
+         * Finish building the {@link Resource} struct.
+         * @return A new instance of {@code Resource} with the fields 
+         *         that were set in the Build object.
+         */
+        public Resource construct() {
+            return struct;
+        }
     }
 }

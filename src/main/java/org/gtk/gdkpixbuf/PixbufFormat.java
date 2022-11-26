@@ -13,7 +13,7 @@ import org.jetbrains.annotations.*;
  * use the {@code gdk_pixbuf_format_*} family of functions.
  * @version 2.2
  */
-public class PixbufFormat extends io.github.jwharm.javagi.ProxyBase {
+public class PixbufFormat extends Struct {
     
     static {
         GdkPixbuf.javagi$ensureInitialized();
@@ -21,15 +21,15 @@ public class PixbufFormat extends io.github.jwharm.javagi.ProxyBase {
     
     private static final java.lang.String C_TYPE_NAME = "GdkPixbufFormat";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
         Interop.valueLayout.ADDRESS.withName("name"),
         Interop.valueLayout.ADDRESS.withName("signature"),
         Interop.valueLayout.ADDRESS.withName("domain"),
         Interop.valueLayout.ADDRESS.withName("description"),
         Interop.valueLayout.ADDRESS.withName("mime_types"),
         Interop.valueLayout.ADDRESS.withName("extensions"),
-        ValueLayout.JAVA_INT.withName("flags"),
-        ValueLayout.JAVA_INT.withName("disabled"),
+        Interop.valueLayout.C_INT.withName("flags"),
+        Interop.valueLayout.C_INT.withName("disabled"),
         Interop.valueLayout.ADDRESS.withName("license")
     ).withName(C_TYPE_NAME);
     
@@ -44,6 +44,10 @@ public class PixbufFormat extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link PixbufFormat}
+     * @return A new, uninitialized @{link PixbufFormat}
+     */
     public static PixbufFormat allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         PixbufFormat newInstance = new PixbufFormat(segment.address(), Ownership.NONE);
@@ -413,74 +417,212 @@ public class PixbufFormat extends io.github.jwharm.javagi.ProxyBase {
         
         private static final MethodHandle gdk_pixbuf_format_copy = Interop.downcallHandle(
             "gdk_pixbuf_format_copy",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_pixbuf_format_free = Interop.downcallHandle(
             "gdk_pixbuf_format_free",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_pixbuf_format_get_description = Interop.downcallHandle(
             "gdk_pixbuf_format_get_description",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_pixbuf_format_get_extensions = Interop.downcallHandle(
             "gdk_pixbuf_format_get_extensions",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_pixbuf_format_get_license = Interop.downcallHandle(
             "gdk_pixbuf_format_get_license",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_pixbuf_format_get_mime_types = Interop.downcallHandle(
             "gdk_pixbuf_format_get_mime_types",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_pixbuf_format_get_name = Interop.downcallHandle(
             "gdk_pixbuf_format_get_name",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_pixbuf_format_is_disabled = Interop.downcallHandle(
             "gdk_pixbuf_format_is_disabled",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_pixbuf_format_is_save_option_supported = Interop.downcallHandle(
             "gdk_pixbuf_format_is_save_option_supported",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_pixbuf_format_is_scalable = Interop.downcallHandle(
             "gdk_pixbuf_format_is_scalable",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_pixbuf_format_is_writable = Interop.downcallHandle(
             "gdk_pixbuf_format_is_writable",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_pixbuf_format_set_disabled = Interop.downcallHandle(
             "gdk_pixbuf_format_set_disabled",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private PixbufFormat struct;
+        
+         /**
+         * A {@link PixbufFormat.Build} object constructs a {@link PixbufFormat} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = PixbufFormat.allocate();
+        }
+        
+         /**
+         * Finish building the {@link PixbufFormat} struct.
+         * @return A new instance of {@code PixbufFormat} with the fields 
+         *         that were set in the Build object.
+         */
+        public PixbufFormat construct() {
+            return struct;
+        }
+        
+        /**
+         * the name of the image format
+         * @param name The value for the {@code name} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setName(java.lang.String name) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("name"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (name == null ? MemoryAddress.NULL : Interop.allocateNativeString(name)));
+            return this;
+        }
+        
+        /**
+         * the signature of the module
+         * @param signature The value for the {@code signature} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setSignature(org.gtk.gdkpixbuf.PixbufModulePattern signature) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("signature"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (signature == null ? MemoryAddress.NULL : signature.handle()));
+            return this;
+        }
+        
+        /**
+         * the message domain for the {@code description}
+         * @param domain The value for the {@code domain} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setDomain(java.lang.String domain) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("domain"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (domain == null ? MemoryAddress.NULL : Interop.allocateNativeString(domain)));
+            return this;
+        }
+        
+        /**
+         * a description of the image format
+         * @param description The value for the {@code description} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setDescription(java.lang.String description) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("description"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (description == null ? MemoryAddress.NULL : Interop.allocateNativeString(description)));
+            return this;
+        }
+        
+        /**
+         * the MIME types for the image format
+         * @param mime_types The value for the {@code mime_types} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setMimeTypes(java.lang.String[] mime_types) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("mime_types"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (mime_types == null ? MemoryAddress.NULL : Interop.allocateNativeArray(mime_types, false)));
+            return this;
+        }
+        
+        /**
+         * typical filename extensions for the
+         *   image format
+         * @param extensions The value for the {@code extensions} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setExtensions(java.lang.String[] extensions) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("extensions"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (extensions == null ? MemoryAddress.NULL : Interop.allocateNativeArray(extensions, false)));
+            return this;
+        }
+        
+        /**
+         * a combination of {@code GdkPixbufFormatFlags}
+         * @param flags The value for the {@code flags} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setFlags(int flags) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("flags"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), flags);
+            return this;
+        }
+        
+        /**
+         * a boolean determining whether the loader is disabled`
+         * @param disabled The value for the {@code disabled} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setDisabled(boolean disabled) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("disabled"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), disabled ? 1 : 0);
+            return this;
+        }
+        
+        /**
+         * a string containing license information, typically set to
+         *   shorthands like "GPL", "LGPL", etc.
+         * @param license The value for the {@code license} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setLicense(java.lang.String license) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("license"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (license == null ? MemoryAddress.NULL : Interop.allocateNativeString(license)));
+            return this;
+        }
     }
 }

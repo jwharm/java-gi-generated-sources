@@ -48,7 +48,7 @@ public class SqueezerPage extends org.gtk.gobject.Object {
      * @throws ClassCastException If the GType is not derived from "AdwSqueezerPage", a ClassCastException will be thrown.
      */
     public static SqueezerPage castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("AdwSqueezerPage"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), SqueezerPage.getType())) {
             return new SqueezerPage(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of AdwSqueezerPage");
@@ -108,23 +108,109 @@ public class SqueezerPage extends org.gtk.gobject.Object {
         }
     }
     
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.adw_squeezer_page_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gobject.Object.Build {
+        
+         /**
+         * A {@link SqueezerPage.Build} object constructs a {@link SqueezerPage} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link SqueezerPage} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link SqueezerPage} using {@link SqueezerPage#castFrom}.
+         * @return A new instance of {@code SqueezerPage} with the properties 
+         *         that were set in the Build object.
+         */
+        public SqueezerPage construct() {
+            return SqueezerPage.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    SqueezerPage.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+        
+        /**
+         * The the squeezer child to which the page belongs.
+         * @param child The value for the {@code child} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setChild(org.gtk.gtk.Widget child) {
+            names.add("child");
+            values.add(org.gtk.gobject.Value.create(child));
+            return this;
+        }
+        
+        /**
+         * Whether the child is enabled.
+         * <p>
+         * If a child is disabled, it will be ignored when looking for the child
+         * fitting the available size best.
+         * <p>
+         * This allows to programmatically and prematurely hide a child even if it
+         * fits in the available space.
+         * <p>
+         * This can be used e.g. to ensure a certain child is hidden below a certain
+         * window width, or any other constraint you find suitable.
+         * @param enabled The value for the {@code enabled} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setEnabled(boolean enabled) {
+            names.add("enabled");
+            values.add(org.gtk.gobject.Value.create(enabled));
+            return this;
+        }
+    }
+    
     private static class DowncallHandles {
         
         private static final MethodHandle adw_squeezer_page_get_child = Interop.downcallHandle(
             "adw_squeezer_page_get_child",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_squeezer_page_get_enabled = Interop.downcallHandle(
             "adw_squeezer_page_get_enabled",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_squeezer_page_set_enabled = Interop.downcallHandle(
             "adw_squeezer_page_set_enabled",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+            false
+        );
+        
+        private static final MethodHandle adw_squeezer_page_get_type = Interop.downcallHandle(
+            "adw_squeezer_page_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }

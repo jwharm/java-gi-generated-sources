@@ -45,7 +45,7 @@ public class Application extends org.gtk.gtk.Application implements org.gtk.gio.
     
     private static final java.lang.String C_TYPE_NAME = "AdwApplication";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gtk.Application.getMemoryLayout().withName("parent_instance")
     ).withName(C_TYPE_NAME);
     
@@ -90,7 +90,7 @@ public class Application extends org.gtk.gtk.Application implements org.gtk.gio.
      * @throws ClassCastException If the GType is not derived from "AdwApplication", a ClassCastException will be thrown.
      */
     public static Application castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("AdwApplication"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), Application.getType())) {
             return new Application(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of AdwApplication");
@@ -143,17 +143,86 @@ public class Application extends org.gtk.gtk.Application implements org.gtk.gio.
         return new org.gnome.adw.StyleManager(RESULT, Ownership.NONE);
     }
     
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.adw_application_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gtk.Application.Build {
+        
+         /**
+         * A {@link Application.Build} object constructs a {@link Application} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link Application} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link Application} using {@link Application#castFrom}.
+         * @return A new instance of {@code Application} with the properties 
+         *         that were set in the Build object.
+         */
+        public Application construct() {
+            return Application.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    Application.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+        
+        /**
+         * The style manager for this application.
+         * <p>
+         * This is a convenience property allowing to access {@code AdwStyleManager} through
+         * property bindings or expressions.
+         * @param styleManager The value for the {@code style-manager} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setStyleManager(org.gnome.adw.StyleManager styleManager) {
+            names.add("style-manager");
+            values.add(org.gtk.gobject.Value.create(styleManager));
+            return this;
+        }
+    }
+    
     private static class DowncallHandles {
         
         private static final MethodHandle adw_application_new = Interop.downcallHandle(
             "adw_application_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle adw_application_get_style_manager = Interop.downcallHandle(
             "adw_application_get_style_manager",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+            false
+        );
+        
+        private static final MethodHandle adw_application_get_type = Interop.downcallHandle(
+            "adw_application_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }

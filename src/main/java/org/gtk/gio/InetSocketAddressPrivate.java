@@ -5,7 +5,7 @@ import java.lang.foreign.*;
 import java.lang.invoke.*;
 import org.jetbrains.annotations.*;
 
-public class InetSocketAddressPrivate extends io.github.jwharm.javagi.ProxyBase {
+public class InetSocketAddressPrivate extends Struct {
     
     static {
         Gio.javagi$ensureInitialized();
@@ -24,6 +24,10 @@ public class InetSocketAddressPrivate extends io.github.jwharm.javagi.ProxyBase 
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link InetSocketAddressPrivate}
+     * @return A new, uninitialized @{link InetSocketAddressPrivate}
+     */
     public static InetSocketAddressPrivate allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         InetSocketAddressPrivate newInstance = new InetSocketAddressPrivate(segment.address(), Ownership.NONE);
@@ -39,5 +43,33 @@ public class InetSocketAddressPrivate extends io.github.jwharm.javagi.ProxyBase 
     @ApiStatus.Internal
     public InetSocketAddressPrivate(Addressable address, Ownership ownership) {
         super(address, ownership);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private InetSocketAddressPrivate struct;
+        
+         /**
+         * A {@link InetSocketAddressPrivate.Build} object constructs a {@link InetSocketAddressPrivate} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = InetSocketAddressPrivate.allocate();
+        }
+        
+         /**
+         * Finish building the {@link InetSocketAddressPrivate} struct.
+         * @return A new instance of {@code InetSocketAddressPrivate} with the fields 
+         *         that were set in the Build object.
+         */
+        public InetSocketAddressPrivate construct() {
+            return struct;
+        }
     }
 }

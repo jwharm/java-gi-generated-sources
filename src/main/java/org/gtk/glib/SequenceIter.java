@@ -9,7 +9,7 @@ import org.jetbrains.annotations.*;
  * The {@link SequenceIter} struct is an opaque data type representing an
  * iterator pointing into a {@link Sequence}.
  */
-public class SequenceIter extends io.github.jwharm.javagi.ProxyBase {
+public class SequenceIter extends Struct {
     
     static {
         GLib.javagi$ensureInitialized();
@@ -28,6 +28,10 @@ public class SequenceIter extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link SequenceIter}
+     * @return A new, uninitialized @{link SequenceIter}
+     */
     public static SequenceIter allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         SequenceIter newInstance = new SequenceIter(segment.address(), Ownership.NONE);
@@ -185,50 +189,78 @@ public class SequenceIter extends io.github.jwharm.javagi.ProxyBase {
         
         private static final MethodHandle g_sequence_iter_compare = Interop.downcallHandle(
             "g_sequence_iter_compare",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_sequence_iter_get_position = Interop.downcallHandle(
             "g_sequence_iter_get_position",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_sequence_iter_get_sequence = Interop.downcallHandle(
             "g_sequence_iter_get_sequence",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_sequence_iter_is_begin = Interop.downcallHandle(
             "g_sequence_iter_is_begin",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_sequence_iter_is_end = Interop.downcallHandle(
             "g_sequence_iter_is_end",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_sequence_iter_move = Interop.downcallHandle(
             "g_sequence_iter_move",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_sequence_iter_next = Interop.downcallHandle(
             "g_sequence_iter_next",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_sequence_iter_prev = Interop.downcallHandle(
             "g_sequence_iter_prev",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private SequenceIter struct;
+        
+         /**
+         * A {@link SequenceIter.Build} object constructs a {@link SequenceIter} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = SequenceIter.allocate();
+        }
+        
+         /**
+         * Finish building the {@link SequenceIter} struct.
+         * @return A new instance of {@code SequenceIter} with the fields 
+         *         that were set in the Build object.
+         */
+        public SequenceIter construct() {
+            return struct;
+        }
     }
 }

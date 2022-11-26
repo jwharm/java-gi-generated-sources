@@ -9,7 +9,7 @@ import org.jetbrains.annotations.*;
  * The {@link TypeValueTable} provides the functions required by the {@link Value}
  * implementation, to serve as a container for values of a type.
  */
-public class TypeValueTable extends io.github.jwharm.javagi.ProxyBase {
+public class TypeValueTable extends Struct {
     
     static {
         GObject.javagi$ensureInitialized();
@@ -17,7 +17,7 @@ public class TypeValueTable extends io.github.jwharm.javagi.ProxyBase {
     
     private static final java.lang.String C_TYPE_NAME = "GTypeValueTable";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
         Interop.valueLayout.ADDRESS.withName("value_init"),
         Interop.valueLayout.ADDRESS.withName("value_free"),
         Interop.valueLayout.ADDRESS.withName("value_copy"),
@@ -39,6 +39,10 @@ public class TypeValueTable extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link TypeValueTable}
+     * @return A new, uninitialized @{link TypeValueTable}
+     */
     public static TypeValueTable allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         TypeValueTable newInstance = new TypeValueTable(segment.address(), Ownership.NONE);
@@ -124,8 +128,117 @@ public class TypeValueTable extends io.github.jwharm.javagi.ProxyBase {
         
         private static final MethodHandle g_type_value_table_peek = Interop.downcallHandle(
             "g_type_value_table_peek",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
             false
         );
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private TypeValueTable struct;
+        
+         /**
+         * A {@link TypeValueTable.Build} object constructs a {@link TypeValueTable} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = TypeValueTable.allocate();
+        }
+        
+         /**
+         * Finish building the {@link TypeValueTable} struct.
+         * @return A new instance of {@code TypeValueTable} with the fields 
+         *         that were set in the Build object.
+         */
+        public TypeValueTable construct() {
+            return struct;
+        }
+        
+        public Build setValueInit(java.lang.foreign.MemoryAddress value_init) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("value_init"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (value_init == null ? MemoryAddress.NULL : value_init));
+            return this;
+        }
+        
+        public Build setValueFree(java.lang.foreign.MemoryAddress value_free) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("value_free"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (value_free == null ? MemoryAddress.NULL : value_free));
+            return this;
+        }
+        
+        public Build setValueCopy(java.lang.foreign.MemoryAddress value_copy) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("value_copy"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (value_copy == null ? MemoryAddress.NULL : value_copy));
+            return this;
+        }
+        
+        public Build setValuePeekPointer(java.lang.foreign.MemoryAddress value_peek_pointer) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("value_peek_pointer"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (value_peek_pointer == null ? MemoryAddress.NULL : value_peek_pointer));
+            return this;
+        }
+        
+        /**
+         * A string format describing how to collect the contents of
+         *  this value bit-by-bit. Each character in the format represents
+         *  an argument to be collected, and the characters themselves indicate
+         *  the type of the argument. Currently supported arguments are:
+         * <ul>
+         * <li>'i' - Integers. passed as collect_values[].v_int.
+         * <li>'l' - Longs. passed as collect_values[].v_long.
+         * <li>'d' - Doubles. passed as collect_values[].v_double.
+         * <li>'p' - Pointers. passed as collect_values[].v_pointer.
+         *  It should be noted that for variable argument list construction,
+         *  ANSI C promotes every type smaller than an integer to an int, and
+         *  floats to doubles. So for collection of short int or char, 'i'
+         *  needs to be used, and for collection of floats 'd'.
+         * </ul>
+         * @param collect_format The value for the {@code collect_format} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setCollectFormat(java.lang.String collect_format) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("collect_format"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (collect_format == null ? MemoryAddress.NULL : Interop.allocateNativeString(collect_format)));
+            return this;
+        }
+        
+        public Build setCollectValue(java.lang.foreign.MemoryAddress collect_value) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("collect_value"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (collect_value == null ? MemoryAddress.NULL : collect_value));
+            return this;
+        }
+        
+        /**
+         * Format description of the arguments to collect for {@code lcopy_value},
+         *  analogous to {@code collect_format}. Usually, {@code lcopy_format} string consists
+         *  only of 'p's to provide lcopy_value() with pointers to storage locations.
+         * @param lcopy_format The value for the {@code lcopy_format} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setLcopyFormat(java.lang.String lcopy_format) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("lcopy_format"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (lcopy_format == null ? MemoryAddress.NULL : Interop.allocateNativeString(lcopy_format)));
+            return this;
+        }
+        
+        public Build setLcopyValue(java.lang.foreign.MemoryAddress lcopy_value) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("lcopy_value"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (lcopy_value == null ? MemoryAddress.NULL : lcopy_value));
+            return this;
+        }
     }
 }

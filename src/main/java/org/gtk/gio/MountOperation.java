@@ -36,7 +36,7 @@ public class MountOperation extends org.gtk.gobject.Object {
     
     private static final java.lang.String C_TYPE_NAME = "GMountOperation";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gobject.Object.getMemoryLayout().withName("parent_instance"),
         Interop.valueLayout.ADDRESS.withName("priv")
     ).withName(C_TYPE_NAME);
@@ -82,7 +82,7 @@ public class MountOperation extends org.gtk.gobject.Object {
      * @throws ClassCastException If the GType is not derived from "GMountOperation", a ClassCastException will be thrown.
      */
     public static MountOperation castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GMountOperation"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), MountOperation.getType())) {
             return new MountOperation(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GMountOperation");
@@ -387,6 +387,20 @@ public class MountOperation extends org.gtk.gobject.Object {
         }
     }
     
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.g_mount_operation_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+    
     @FunctionalInterface
     public interface Aborted {
         void signalReceived(MountOperation source);
@@ -409,7 +423,7 @@ public class MountOperation extends org.gtk.gobject.Object {
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(MountOperation.Callbacks.class, "signalMountOperationAborted",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                     Interop.getScope()),
                 Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
@@ -441,7 +455,7 @@ public class MountOperation extends org.gtk.gobject.Object {
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(MountOperation.Callbacks.class, "signalMountOperationAskPassword",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, int.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
                     Interop.getScope()),
                 Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
@@ -488,7 +502,7 @@ public class MountOperation extends org.gtk.gobject.Object {
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(MountOperation.Callbacks.class, "signalMountOperationReply",
                         MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
                     Interop.getScope()),
                 Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
@@ -556,7 +570,7 @@ public class MountOperation extends org.gtk.gobject.Object {
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(MountOperation.Callbacks.class, "signalMountOperationShowUnmountProgress",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, long.class, long.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS),
+                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
                     Interop.getScope()),
                 Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
@@ -565,126 +579,275 @@ public class MountOperation extends org.gtk.gobject.Object {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gobject.Object.Build {
+        
+         /**
+         * A {@link MountOperation.Build} object constructs a {@link MountOperation} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link MountOperation} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link MountOperation} using {@link MountOperation#castFrom}.
+         * @return A new instance of {@code MountOperation} with the properties 
+         *         that were set in the Build object.
+         */
+        public MountOperation construct() {
+            return MountOperation.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    MountOperation.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+        
+        /**
+         * Whether to use an anonymous user when authenticating.
+         * @param anonymous The value for the {@code anonymous} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setAnonymous(boolean anonymous) {
+            names.add("anonymous");
+            values.add(org.gtk.gobject.Value.create(anonymous));
+            return this;
+        }
+        
+        /**
+         * The index of the user's choice when a question is asked during the
+         * mount operation. See the {@link MountOperation}::ask-question signal.
+         * @param choice The value for the {@code choice} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setChoice(int choice) {
+            names.add("choice");
+            values.add(org.gtk.gobject.Value.create(choice));
+            return this;
+        }
+        
+        /**
+         * The domain to use for the mount operation.
+         * @param domain The value for the {@code domain} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setDomain(java.lang.String domain) {
+            names.add("domain");
+            values.add(org.gtk.gobject.Value.create(domain));
+            return this;
+        }
+        
+        /**
+         * Whether the device to be unlocked is a TCRYPT hidden volume.
+         * See <a href="https://www.veracrypt.fr/en/Hidden%20Volume.html">the VeraCrypt documentation</a>.
+         * @param isTcryptHiddenVolume The value for the {@code is-tcrypt-hidden-volume} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setIsTcryptHiddenVolume(boolean isTcryptHiddenVolume) {
+            names.add("is-tcrypt-hidden-volume");
+            values.add(org.gtk.gobject.Value.create(isTcryptHiddenVolume));
+            return this;
+        }
+        
+        /**
+         * Whether the device to be unlocked is a TCRYPT system volume.
+         * In this context, a system volume is a volume with a bootloader
+         * and operating system installed. This is only supported for Windows
+         * operating systems. For further documentation, see
+         * <a href="https://www.veracrypt.fr/en/System%20Encryption.html">the VeraCrypt documentation</a>.
+         * @param isTcryptSystemVolume The value for the {@code is-tcrypt-system-volume} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setIsTcryptSystemVolume(boolean isTcryptSystemVolume) {
+            names.add("is-tcrypt-system-volume");
+            values.add(org.gtk.gobject.Value.create(isTcryptSystemVolume));
+            return this;
+        }
+        
+        /**
+         * The password that is used for authentication when carrying out
+         * the mount operation.
+         * @param password The value for the {@code password} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setPassword(java.lang.String password) {
+            names.add("password");
+            values.add(org.gtk.gobject.Value.create(password));
+            return this;
+        }
+        
+        /**
+         * Determines if and how the password information should be saved.
+         * @param passwordSave The value for the {@code password-save} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setPasswordSave(org.gtk.gio.PasswordSave passwordSave) {
+            names.add("password-save");
+            values.add(org.gtk.gobject.Value.create(passwordSave));
+            return this;
+        }
+        
+        /**
+         * The VeraCrypt PIM value, when unlocking a VeraCrypt volume. See
+         * <a href="https://www.veracrypt.fr/en/Personal%20Iterations%20Multiplier%20(PIM">the VeraCrypt documentation</a>.html).
+         * @param pim The value for the {@code pim} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setPim(int pim) {
+            names.add("pim");
+            values.add(org.gtk.gobject.Value.create(pim));
+            return this;
+        }
+        
+        /**
+         * The user name that is used for authentication when carrying out
+         * the mount operation.
+         * @param username The value for the {@code username} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setUsername(java.lang.String username) {
+            names.add("username");
+            values.add(org.gtk.gobject.Value.create(username));
+            return this;
+        }
+    }
     
     private static class DowncallHandles {
         
         private static final MethodHandle g_mount_operation_new = Interop.downcallHandle(
             "g_mount_operation_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_mount_operation_get_anonymous = Interop.downcallHandle(
             "g_mount_operation_get_anonymous",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_mount_operation_get_choice = Interop.downcallHandle(
             "g_mount_operation_get_choice",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_mount_operation_get_domain = Interop.downcallHandle(
             "g_mount_operation_get_domain",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_mount_operation_get_is_tcrypt_hidden_volume = Interop.downcallHandle(
             "g_mount_operation_get_is_tcrypt_hidden_volume",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_mount_operation_get_is_tcrypt_system_volume = Interop.downcallHandle(
             "g_mount_operation_get_is_tcrypt_system_volume",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_mount_operation_get_password = Interop.downcallHandle(
             "g_mount_operation_get_password",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_mount_operation_get_password_save = Interop.downcallHandle(
             "g_mount_operation_get_password_save",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_mount_operation_get_pim = Interop.downcallHandle(
             "g_mount_operation_get_pim",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_mount_operation_get_username = Interop.downcallHandle(
             "g_mount_operation_get_username",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_mount_operation_reply = Interop.downcallHandle(
             "g_mount_operation_reply",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_mount_operation_set_anonymous = Interop.downcallHandle(
             "g_mount_operation_set_anonymous",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_mount_operation_set_choice = Interop.downcallHandle(
             "g_mount_operation_set_choice",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_mount_operation_set_domain = Interop.downcallHandle(
             "g_mount_operation_set_domain",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_mount_operation_set_is_tcrypt_hidden_volume = Interop.downcallHandle(
             "g_mount_operation_set_is_tcrypt_hidden_volume",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_mount_operation_set_is_tcrypt_system_volume = Interop.downcallHandle(
             "g_mount_operation_set_is_tcrypt_system_volume",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_mount_operation_set_password = Interop.downcallHandle(
             "g_mount_operation_set_password",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_mount_operation_set_password_save = Interop.downcallHandle(
             "g_mount_operation_set_password_save",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_mount_operation_set_pim = Interop.downcallHandle(
             "g_mount_operation_set_pim",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_mount_operation_set_username = Interop.downcallHandle(
             "g_mount_operation_set_username",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+            false
+        );
+        
+        private static final MethodHandle g_mount_operation_get_type = Interop.downcallHandle(
+            "g_mount_operation_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }
@@ -692,15 +855,15 @@ public class MountOperation extends org.gtk.gobject.Object {
     private static class Callbacks {
         
         public static void signalMountOperationAborted(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (MountOperation.Aborted) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new MountOperation(source, Ownership.UNKNOWN));
+            HANDLER.signalReceived(new MountOperation(source, Ownership.NONE));
         }
         
         public static void signalMountOperationAskPassword(MemoryAddress source, MemoryAddress message, MemoryAddress defaultUser, MemoryAddress defaultDomain, int flags, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (MountOperation.AskPassword) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new MountOperation(source, Ownership.UNKNOWN), Interop.getStringFrom(message), Interop.getStringFrom(defaultUser), Interop.getStringFrom(defaultDomain), new org.gtk.gio.AskPasswordFlags(flags));
+            HANDLER.signalReceived(new MountOperation(source, Ownership.NONE), Interop.getStringFrom(message), Interop.getStringFrom(defaultUser), Interop.getStringFrom(defaultDomain), new org.gtk.gio.AskPasswordFlags(flags));
         }
         
         public static void signalMountOperationAskQuestion(MemoryAddress source, MemoryAddress message, MemoryAddress choices, MemoryAddress data) {
@@ -708,9 +871,9 @@ public class MountOperation extends org.gtk.gobject.Object {
     }
         
         public static void signalMountOperationReply(MemoryAddress source, int result, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (MountOperation.Reply) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new MountOperation(source, Ownership.UNKNOWN), new org.gtk.gio.MountOperationResult(result));
+            HANDLER.signalReceived(new MountOperation(source, Ownership.NONE), new org.gtk.gio.MountOperationResult(result));
         }
         
         public static void signalMountOperationShowProcesses(MemoryAddress source, MemoryAddress message, MemoryAddress processes, MemoryAddress choices, MemoryAddress data) {
@@ -718,9 +881,9 @@ public class MountOperation extends org.gtk.gobject.Object {
     }
         
         public static void signalMountOperationShowUnmountProgress(MemoryAddress source, MemoryAddress message, long timeLeft, long bytesLeft, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (MountOperation.ShowUnmountProgress) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new MountOperation(source, Ownership.UNKNOWN), Interop.getStringFrom(message), timeLeft, bytesLeft);
+            HANDLER.signalReceived(new MountOperation(source, Ownership.NONE), Interop.getStringFrom(message), timeLeft, bytesLeft);
         }
     }
 }

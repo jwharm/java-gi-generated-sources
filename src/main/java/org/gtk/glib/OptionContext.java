@@ -10,7 +10,7 @@ import org.jetbrains.annotations.*;
  * are accepted by the commandline option parser. The struct has only private
  * fields and should not be directly accessed.
  */
-public class OptionContext extends io.github.jwharm.javagi.ProxyBase {
+public class OptionContext extends Struct {
     
     static {
         GLib.javagi$ensureInitialized();
@@ -29,6 +29,10 @@ public class OptionContext extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link OptionContext}
+     * @return A new, uninitialized @{link OptionContext}
+     */
     public static OptionContext allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         OptionContext newInstance = new OptionContext(segment.address(), Ownership.NONE);
@@ -77,7 +81,7 @@ public class OptionContext extends io.github.jwharm.javagi.ProxyBase {
         try {
             DowncallHandles.g_option_context_add_main_entries.invokeExact(
                     handle(),
-                    Interop.allocateNativeArray(entries, false),
+                    Interop.allocateNativeArray(entries, org.gtk.glib.OptionEntry.getMemoryLayout(), false),
                     (Addressable) (translationDomain == null ? MemoryAddress.NULL : Interop.allocateNativeString(translationDomain)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -251,10 +255,10 @@ public class OptionContext extends io.github.jwharm.javagi.ProxyBase {
      */
     public boolean parse(Out<Integer> argc, @NotNull Out<java.lang.String[]> argv) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(argc, "Parameter 'argc' must not be null");
+        MemorySegment argcPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         java.util.Objects.requireNonNull(argv, "Parameter 'argv' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        MemorySegment argcPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
-        MemorySegment argvPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment argvPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_option_context_parse.invokeExact(
@@ -268,10 +272,10 @@ public class OptionContext extends io.github.jwharm.javagi.ProxyBase {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        argc.set(argcPOINTER.get(ValueLayout.JAVA_INT, 0));
+        argc.set(argcPOINTER.get(Interop.valueLayout.C_INT, 0));
         java.lang.String[] argvARRAY = new java.lang.String[argc.get().intValue()];
         for (int I = 0; I < argc.get().intValue(); I++) {
-            var OBJ = argvPOINTER.get(ValueLayout.ADDRESS, I);
+            var OBJ = argvPOINTER.get(Interop.valueLayout.ADDRESS, I);
             argvARRAY[I] = Interop.getStringFrom(OBJ);
         }
         argv.set(argvARRAY);
@@ -461,7 +465,7 @@ public class OptionContext extends io.github.jwharm.javagi.ProxyBase {
                     (Addressable) (func == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbTranslateFunc",
                             MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                         Interop.getScope())),
                     (Addressable) (func == null ? MemoryAddress.NULL : Interop.registerCallback(func)),
                     Interop.cbDestroyNotifySymbol());
@@ -527,128 +531,156 @@ public class OptionContext extends io.github.jwharm.javagi.ProxyBase {
         
         private static final MethodHandle g_option_context_add_group = Interop.downcallHandle(
             "g_option_context_add_group",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_option_context_add_main_entries = Interop.downcallHandle(
             "g_option_context_add_main_entries",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_option_context_free = Interop.downcallHandle(
             "g_option_context_free",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_option_context_get_description = Interop.downcallHandle(
             "g_option_context_get_description",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_option_context_get_help = Interop.downcallHandle(
             "g_option_context_get_help",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_option_context_get_help_enabled = Interop.downcallHandle(
             "g_option_context_get_help_enabled",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_option_context_get_ignore_unknown_options = Interop.downcallHandle(
             "g_option_context_get_ignore_unknown_options",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_option_context_get_main_group = Interop.downcallHandle(
             "g_option_context_get_main_group",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_option_context_get_strict_posix = Interop.downcallHandle(
             "g_option_context_get_strict_posix",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_option_context_get_summary = Interop.downcallHandle(
             "g_option_context_get_summary",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_option_context_parse = Interop.downcallHandle(
             "g_option_context_parse",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_option_context_parse_strv = Interop.downcallHandle(
             "g_option_context_parse_strv",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_option_context_set_description = Interop.downcallHandle(
             "g_option_context_set_description",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_option_context_set_help_enabled = Interop.downcallHandle(
             "g_option_context_set_help_enabled",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_option_context_set_ignore_unknown_options = Interop.downcallHandle(
             "g_option_context_set_ignore_unknown_options",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_option_context_set_main_group = Interop.downcallHandle(
             "g_option_context_set_main_group",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_option_context_set_strict_posix = Interop.downcallHandle(
             "g_option_context_set_strict_posix",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_option_context_set_summary = Interop.downcallHandle(
             "g_option_context_set_summary",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_option_context_set_translate_func = Interop.downcallHandle(
             "g_option_context_set_translate_func",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_option_context_set_translation_domain = Interop.downcallHandle(
             "g_option_context_set_translation_domain",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_option_context_new = Interop.downcallHandle(
             "g_option_context_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private OptionContext struct;
+        
+         /**
+         * A {@link OptionContext.Build} object constructs a {@link OptionContext} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = OptionContext.allocate();
+        }
+        
+         /**
+         * Finish building the {@link OptionContext} struct.
+         * @return A new instance of {@code OptionContext} with the fields 
+         *         that were set in the Build object.
+         */
+        public OptionContext construct() {
+            return struct;
+        }
     }
 }

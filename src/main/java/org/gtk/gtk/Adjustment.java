@@ -26,7 +26,7 @@ public class Adjustment extends org.gtk.gobject.InitiallyUnowned {
     
     private static final java.lang.String C_TYPE_NAME = "GtkAdjustment";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gobject.InitiallyUnowned.getMemoryLayout().withName("parent_instance")
     ).withName(C_TYPE_NAME);
     
@@ -71,7 +71,7 @@ public class Adjustment extends org.gtk.gobject.InitiallyUnowned {
      * @throws ClassCastException If the GType is not derived from "GtkAdjustment", a ClassCastException will be thrown.
      */
     public static Adjustment castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkAdjustment"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), Adjustment.getType())) {
             return new Adjustment(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkAdjustment");
@@ -389,6 +389,20 @@ public class Adjustment extends org.gtk.gobject.InitiallyUnowned {
         }
     }
     
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.gtk_adjustment_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+    
     @FunctionalInterface
     public interface Changed {
         void signalReceived(Adjustment source);
@@ -411,7 +425,7 @@ public class Adjustment extends org.gtk.gobject.InitiallyUnowned {
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(Adjustment.Callbacks.class, "signalAdjustmentChanged",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                     Interop.getScope()),
                 Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
@@ -439,7 +453,7 @@ public class Adjustment extends org.gtk.gobject.InitiallyUnowned {
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(Adjustment.Callbacks.class, "signalAdjustmentValueChanged",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                     Interop.getScope()),
                 Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
@@ -448,102 +462,216 @@ public class Adjustment extends org.gtk.gobject.InitiallyUnowned {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gobject.InitiallyUnowned.Build {
+        
+         /**
+         * A {@link Adjustment.Build} object constructs a {@link Adjustment} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link Adjustment} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link Adjustment} using {@link Adjustment#castFrom}.
+         * @return A new instance of {@code Adjustment} with the properties 
+         *         that were set in the Build object.
+         */
+        public Adjustment construct() {
+            return Adjustment.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    Adjustment.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+        
+        /**
+         * The minimum value of the adjustment.
+         * @param lower The value for the {@code lower} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setLower(double lower) {
+            names.add("lower");
+            values.add(org.gtk.gobject.Value.create(lower));
+            return this;
+        }
+        
+        /**
+         * The page increment of the adjustment.
+         * @param pageIncrement The value for the {@code page-increment} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setPageIncrement(double pageIncrement) {
+            names.add("page-increment");
+            values.add(org.gtk.gobject.Value.create(pageIncrement));
+            return this;
+        }
+        
+        /**
+         * The page size of the adjustment.
+         * <p>
+         * Note that the page-size is irrelevant and should be set to zero
+         * if the adjustment is used for a simple scalar value, e.g. in a
+         * {@code GtkSpinButton}.
+         * @param pageSize The value for the {@code page-size} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setPageSize(double pageSize) {
+            names.add("page-size");
+            values.add(org.gtk.gobject.Value.create(pageSize));
+            return this;
+        }
+        
+        /**
+         * The step increment of the adjustment.
+         * @param stepIncrement The value for the {@code step-increment} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setStepIncrement(double stepIncrement) {
+            names.add("step-increment");
+            values.add(org.gtk.gobject.Value.create(stepIncrement));
+            return this;
+        }
+        
+        /**
+         * The maximum value of the adjustment.
+         * <p>
+         * Note that values will be restricted by {@code upper - page-size} if the page-size
+         * property is nonzero.
+         * @param upper The value for the {@code upper} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setUpper(double upper) {
+            names.add("upper");
+            values.add(org.gtk.gobject.Value.create(upper));
+            return this;
+        }
+        
+        /**
+         * The value of the adjustment.
+         * @param value The value for the {@code value} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setValue(double value) {
+            names.add("value");
+            values.add(org.gtk.gobject.Value.create(value));
+            return this;
+        }
+    }
     
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_adjustment_new = Interop.downcallHandle(
             "gtk_adjustment_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_DOUBLE),
             false
         );
         
         private static final MethodHandle gtk_adjustment_clamp_page = Interop.downcallHandle(
             "gtk_adjustment_clamp_page",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_DOUBLE),
             false
         );
         
         private static final MethodHandle gtk_adjustment_configure = Interop.downcallHandle(
             "gtk_adjustment_configure",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_DOUBLE),
             false
         );
         
         private static final MethodHandle gtk_adjustment_get_lower = Interop.downcallHandle(
             "gtk_adjustment_get_lower",
-            FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_DOUBLE, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_adjustment_get_minimum_increment = Interop.downcallHandle(
             "gtk_adjustment_get_minimum_increment",
-            FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_DOUBLE, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_adjustment_get_page_increment = Interop.downcallHandle(
             "gtk_adjustment_get_page_increment",
-            FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_DOUBLE, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_adjustment_get_page_size = Interop.downcallHandle(
             "gtk_adjustment_get_page_size",
-            FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_DOUBLE, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_adjustment_get_step_increment = Interop.downcallHandle(
             "gtk_adjustment_get_step_increment",
-            FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_DOUBLE, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_adjustment_get_upper = Interop.downcallHandle(
             "gtk_adjustment_get_upper",
-            FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_DOUBLE, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_adjustment_get_value = Interop.downcallHandle(
             "gtk_adjustment_get_value",
-            FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_DOUBLE, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_adjustment_set_lower = Interop.downcallHandle(
             "gtk_adjustment_set_lower",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE),
             false
         );
         
         private static final MethodHandle gtk_adjustment_set_page_increment = Interop.downcallHandle(
             "gtk_adjustment_set_page_increment",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE),
             false
         );
         
         private static final MethodHandle gtk_adjustment_set_page_size = Interop.downcallHandle(
             "gtk_adjustment_set_page_size",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE),
             false
         );
         
         private static final MethodHandle gtk_adjustment_set_step_increment = Interop.downcallHandle(
             "gtk_adjustment_set_step_increment",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE),
             false
         );
         
         private static final MethodHandle gtk_adjustment_set_upper = Interop.downcallHandle(
             "gtk_adjustment_set_upper",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE),
             false
         );
         
         private static final MethodHandle gtk_adjustment_set_value = Interop.downcallHandle(
             "gtk_adjustment_set_value",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE),
+            false
+        );
+        
+        private static final MethodHandle gtk_adjustment_get_type = Interop.downcallHandle(
+            "gtk_adjustment_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }
@@ -551,15 +679,15 @@ public class Adjustment extends org.gtk.gobject.InitiallyUnowned {
     private static class Callbacks {
         
         public static void signalAdjustmentChanged(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (Adjustment.Changed) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Adjustment(source, Ownership.UNKNOWN));
+            HANDLER.signalReceived(new Adjustment(source, Ownership.NONE));
         }
         
         public static void signalAdjustmentValueChanged(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (Adjustment.ValueChanged) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Adjustment(source, Ownership.UNKNOWN));
+            HANDLER.signalReceived(new Adjustment(source, Ownership.NONE));
         }
     }
 }

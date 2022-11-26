@@ -19,7 +19,7 @@ public class VolumeButton extends org.gtk.gtk.ScaleButton implements org.gtk.gtk
     
     private static final java.lang.String C_TYPE_NAME = "GtkVolumeButton";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gtk.ScaleButton.getMemoryLayout().withName("parent")
     ).withName(C_TYPE_NAME);
     
@@ -64,7 +64,7 @@ public class VolumeButton extends org.gtk.gtk.ScaleButton implements org.gtk.gtk
      * @throws ClassCastException If the GType is not derived from "GtkVolumeButton", a ClassCastException will be thrown.
      */
     public static VolumeButton castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkVolumeButton"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), VolumeButton.getType())) {
             return new VolumeButton(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkVolumeButton");
@@ -92,11 +92,80 @@ public class VolumeButton extends org.gtk.gtk.ScaleButton implements org.gtk.gtk
         super(constructNew(), Ownership.NONE);
     }
     
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.gtk_volume_button_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gtk.ScaleButton.Build {
+        
+         /**
+         * A {@link VolumeButton.Build} object constructs a {@link VolumeButton} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link VolumeButton} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link VolumeButton} using {@link VolumeButton#castFrom}.
+         * @return A new instance of {@code VolumeButton} with the properties 
+         *         that were set in the Build object.
+         */
+        public VolumeButton construct() {
+            return VolumeButton.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    VolumeButton.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+        
+        /**
+         * Whether to use symbolic icons as the icons.
+         * <p>
+         * Note that if the symbolic icons are not available in your installed
+         * theme, then the normal (potentially colorful) icons will be used.
+         * @param useSymbolic The value for the {@code use-symbolic} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setUseSymbolic(boolean useSymbolic) {
+            names.add("use-symbolic");
+            values.add(org.gtk.gobject.Value.create(useSymbolic));
+            return this;
+        }
+    }
+    
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_volume_button_new = Interop.downcallHandle(
             "gtk_volume_button_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+            false
+        );
+        
+        private static final MethodHandle gtk_volume_button_get_type = Interop.downcallHandle(
+            "gtk_volume_button_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }

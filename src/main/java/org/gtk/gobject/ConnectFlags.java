@@ -14,13 +14,19 @@ public class ConnectFlags extends io.github.jwharm.javagi.Bitfield {
     private static final java.lang.String C_TYPE_NAME = "GConnectFlags";
     
     /**
-     * whether the handler should be called before or after the
-     *  default handler of the signal.
+     * Default behaviour (no special flags). Since: 2.74
+     */
+    public static final ConnectFlags DEFAULT = new ConnectFlags(0);
+    
+    /**
+     * If set, the handler should be called after the
+     *  default handler of the signal. Normally, the handler is called before
+     *  the default handler.
      */
     public static final ConnectFlags AFTER = new ConnectFlags(1);
     
     /**
-     * whether the instance and data should be swapped when
+     * If set, the instance and data should be swapped when
      *  calling the handler; see g_signal_connect_swapped() for an example.
      */
     public static final ConnectFlags SWAPPED = new ConnectFlags(2);

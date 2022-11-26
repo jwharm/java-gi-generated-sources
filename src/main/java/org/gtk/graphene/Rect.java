@@ -20,7 +20,7 @@ import org.jetbrains.annotations.*;
  * {@link Rect} will always return a normalized rectangle.
  * @version 1.0
  */
-public class Rect extends io.github.jwharm.javagi.ProxyBase {
+public class Rect extends Struct {
     
     static {
         Graphene.javagi$ensureInitialized();
@@ -28,7 +28,7 @@ public class Rect extends io.github.jwharm.javagi.ProxyBase {
     
     private static final java.lang.String C_TYPE_NAME = "graphene_rect_t";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.graphene.Point.getMemoryLayout().withName("origin"),
         org.gtk.graphene.Size.getMemoryLayout().withName("size")
     ).withName(C_TYPE_NAME);
@@ -44,6 +44,10 @@ public class Rect extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link Rect}
+     * @return A new, uninitialized @{link Rect}
+     */
     public static Rect allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         Rect newInstance = new Rect(segment.address(), Ownership.NONE);
@@ -276,7 +280,7 @@ public class Rect extends io.github.jwharm.javagi.ProxyBase {
      */
     public void getVertices(@NotNull Out<org.gtk.graphene.Vec2[]> vertices) {
         java.util.Objects.requireNonNull(vertices, "Parameter 'vertices' must not be null");
-        MemorySegment verticesPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment verticesPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         try {
             DowncallHandles.graphene_rect_get_vertices.invokeExact(
                     handle(),
@@ -286,7 +290,7 @@ public class Rect extends io.github.jwharm.javagi.ProxyBase {
         }
         org.gtk.graphene.Vec2[] verticesARRAY = new org.gtk.graphene.Vec2[4];
         for (int I = 0; I < 4; I++) {
-            var OBJ = verticesPOINTER.get(ValueLayout.ADDRESS, I);
+            var OBJ = verticesPOINTER.get(Interop.valueLayout.ADDRESS, I);
             verticesARRAY[I] = new org.gtk.graphene.Vec2(OBJ, Ownership.NONE);
         }
         vertices.set(verticesARRAY);
@@ -742,200 +746,252 @@ public class Rect extends io.github.jwharm.javagi.ProxyBase {
         
         private static final MethodHandle graphene_rect_contains_point = Interop.downcallHandle(
             "graphene_rect_contains_point",
-            FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_BOOLEAN, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle graphene_rect_contains_rect = Interop.downcallHandle(
             "graphene_rect_contains_rect",
-            FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_BOOLEAN, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle graphene_rect_equal = Interop.downcallHandle(
             "graphene_rect_equal",
-            FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_BOOLEAN, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle graphene_rect_expand = Interop.downcallHandle(
             "graphene_rect_expand",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle graphene_rect_free = Interop.downcallHandle(
             "graphene_rect_free",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle graphene_rect_get_area = Interop.downcallHandle(
             "graphene_rect_get_area",
-            FunctionDescriptor.of(ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_FLOAT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle graphene_rect_get_bottom_left = Interop.downcallHandle(
             "graphene_rect_get_bottom_left",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle graphene_rect_get_bottom_right = Interop.downcallHandle(
             "graphene_rect_get_bottom_right",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle graphene_rect_get_center = Interop.downcallHandle(
             "graphene_rect_get_center",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle graphene_rect_get_height = Interop.downcallHandle(
             "graphene_rect_get_height",
-            FunctionDescriptor.of(ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_FLOAT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle graphene_rect_get_top_left = Interop.downcallHandle(
             "graphene_rect_get_top_left",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle graphene_rect_get_top_right = Interop.downcallHandle(
             "graphene_rect_get_top_right",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle graphene_rect_get_vertices = Interop.downcallHandle(
             "graphene_rect_get_vertices",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle graphene_rect_get_width = Interop.downcallHandle(
             "graphene_rect_get_width",
-            FunctionDescriptor.of(ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_FLOAT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle graphene_rect_get_x = Interop.downcallHandle(
             "graphene_rect_get_x",
-            FunctionDescriptor.of(ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_FLOAT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle graphene_rect_get_y = Interop.downcallHandle(
             "graphene_rect_get_y",
-            FunctionDescriptor.of(ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_FLOAT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle graphene_rect_init = Interop.downcallHandle(
             "graphene_rect_init",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_FLOAT, Interop.valueLayout.C_FLOAT, Interop.valueLayout.C_FLOAT, Interop.valueLayout.C_FLOAT),
             false
         );
         
         private static final MethodHandle graphene_rect_init_from_rect = Interop.downcallHandle(
             "graphene_rect_init_from_rect",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle graphene_rect_inset = Interop.downcallHandle(
             "graphene_rect_inset",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_FLOAT, Interop.valueLayout.C_FLOAT),
             false
         );
         
         private static final MethodHandle graphene_rect_inset_r = Interop.downcallHandle(
             "graphene_rect_inset_r",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_FLOAT, Interop.valueLayout.C_FLOAT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle graphene_rect_interpolate = Interop.downcallHandle(
             "graphene_rect_interpolate",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle graphene_rect_intersection = Interop.downcallHandle(
             "graphene_rect_intersection",
-            FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_BOOLEAN, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle graphene_rect_normalize = Interop.downcallHandle(
             "graphene_rect_normalize",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle graphene_rect_normalize_r = Interop.downcallHandle(
             "graphene_rect_normalize_r",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle graphene_rect_offset = Interop.downcallHandle(
             "graphene_rect_offset",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_FLOAT, Interop.valueLayout.C_FLOAT),
             false
         );
         
         private static final MethodHandle graphene_rect_offset_r = Interop.downcallHandle(
             "graphene_rect_offset_r",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_FLOAT, Interop.valueLayout.C_FLOAT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle graphene_rect_round = Interop.downcallHandle(
             "graphene_rect_round",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle graphene_rect_round_extents = Interop.downcallHandle(
             "graphene_rect_round_extents",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle graphene_rect_round_to_pixel = Interop.downcallHandle(
             "graphene_rect_round_to_pixel",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle graphene_rect_scale = Interop.downcallHandle(
             "graphene_rect_scale",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_FLOAT, Interop.valueLayout.C_FLOAT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle graphene_rect_union = Interop.downcallHandle(
             "graphene_rect_union",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle graphene_rect_alloc = Interop.downcallHandle(
             "graphene_rect_alloc",
-            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle graphene_rect_zero = Interop.downcallHandle(
             "graphene_rect_zero",
-            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
             false
         );
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private Rect struct;
+        
+         /**
+         * A {@link Rect.Build} object constructs a {@link Rect} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = Rect.allocate();
+        }
+        
+         /**
+         * Finish building the {@link Rect} struct.
+         * @return A new instance of {@code Rect} with the fields 
+         *         that were set in the Build object.
+         */
+        public Rect construct() {
+            return struct;
+        }
+        
+        /**
+         * the coordinates of the origin of the rectangle
+         * @param origin The value for the {@code origin} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setOrigin(org.gtk.graphene.Point origin) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("origin"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (origin == null ? MemoryAddress.NULL : origin.handle()));
+            return this;
+        }
+        
+        /**
+         * the size of the rectangle
+         * @param size The value for the {@code size} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setSize(org.gtk.graphene.Size size) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("size"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (size == null ? MemoryAddress.NULL : size.handle()));
+            return this;
+        }
     }
 }

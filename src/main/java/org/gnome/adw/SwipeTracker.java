@@ -58,7 +58,7 @@ public class SwipeTracker extends org.gtk.gobject.Object implements org.gtk.gtk.
      * @throws ClassCastException If the GType is not derived from "AdwSwipeTracker", a ClassCastException will be thrown.
      */
     public static SwipeTracker castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("AdwSwipeTracker"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), SwipeTracker.getType())) {
             return new SwipeTracker(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of AdwSwipeTracker");
@@ -242,6 +242,20 @@ public class SwipeTracker extends org.gtk.gobject.Object implements org.gtk.gtk.
         }
     }
     
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.adw_swipe_tracker_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+    
     @FunctionalInterface
     public interface BeginSwipe {
         void signalReceived(SwipeTracker source);
@@ -261,7 +275,7 @@ public class SwipeTracker extends org.gtk.gobject.Object implements org.gtk.gtk.
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(SwipeTracker.Callbacks.class, "signalSwipeTrackerBeginSwipe",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                     Interop.getScope()),
                 Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
@@ -294,7 +308,7 @@ public class SwipeTracker extends org.gtk.gobject.Object implements org.gtk.gtk.
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(SwipeTracker.Callbacks.class, "signalSwipeTrackerEndSwipe",
                         MethodType.methodType(void.class, MemoryAddress.class, double.class, double.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS),
+                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.ADDRESS),
                     Interop.getScope()),
                 Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
@@ -325,7 +339,7 @@ public class SwipeTracker extends org.gtk.gobject.Object implements org.gtk.gtk.
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(SwipeTracker.Callbacks.class, "signalSwipeTrackerPrepare",
                         MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
                     Interop.getScope()),
                 Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
@@ -353,7 +367,7 @@ public class SwipeTracker extends org.gtk.gobject.Object implements org.gtk.gtk.
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(SwipeTracker.Callbacks.class, "signalSwipeTrackerUpdateSwipe",
                         MethodType.methodType(void.class, MemoryAddress.class, double.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS),
+                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.ADDRESS),
                     Interop.getScope()),
                 Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
@@ -362,72 +376,177 @@ public class SwipeTracker extends org.gtk.gobject.Object implements org.gtk.gtk.
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gobject.Object.Build {
+        
+         /**
+         * A {@link SwipeTracker.Build} object constructs a {@link SwipeTracker} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link SwipeTracker} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link SwipeTracker} using {@link SwipeTracker#castFrom}.
+         * @return A new instance of {@code SwipeTracker} with the properties 
+         *         that were set in the Build object.
+         */
+        public SwipeTracker construct() {
+            return SwipeTracker.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    SwipeTracker.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+        
+        /**
+         * Whether to allow swiping for more than one snap point at a time.
+         * <p>
+         * If the value is {@code FALSE}, each swipe can only move to the adjacent snap
+         * points.
+         * @param allowLongSwipes The value for the {@code allow-long-swipes} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setAllowLongSwipes(boolean allowLongSwipes) {
+            names.add("allow-long-swipes");
+            values.add(org.gtk.gobject.Value.create(allowLongSwipes));
+            return this;
+        }
+        
+        /**
+         * Whether to allow dragging with mouse pointer.
+         * @param allowMouseDrag The value for the {@code allow-mouse-drag} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setAllowMouseDrag(boolean allowMouseDrag) {
+            names.add("allow-mouse-drag");
+            values.add(org.gtk.gobject.Value.create(allowMouseDrag));
+            return this;
+        }
+        
+        /**
+         * Whether the swipe tracker is enabled.
+         * <p>
+         * When it's not enabled, no events will be processed. Usually widgets will
+         * want to expose this via a property.
+         * @param enabled The value for the {@code enabled} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setEnabled(boolean enabled) {
+            names.add("enabled");
+            values.add(org.gtk.gobject.Value.create(enabled));
+            return this;
+        }
+        
+        /**
+         * Whether to reverse the swipe direction.
+         * <p>
+         * If the swipe tracker is horizontal, it can be used for supporting RTL text
+         * direction.
+         * @param reversed The value for the {@code reversed} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setReversed(boolean reversed) {
+            names.add("reversed");
+            values.add(org.gtk.gobject.Value.create(reversed));
+            return this;
+        }
+        
+        /**
+         * The widget the swipe tracker is attached to.
+         * @param swipeable The value for the {@code swipeable} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setSwipeable(org.gnome.adw.Swipeable swipeable) {
+            names.add("swipeable");
+            values.add(org.gtk.gobject.Value.create(swipeable));
+            return this;
+        }
+    }
     
     private static class DowncallHandles {
         
         private static final MethodHandle adw_swipe_tracker_new = Interop.downcallHandle(
             "adw_swipe_tracker_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_swipe_tracker_get_allow_long_swipes = Interop.downcallHandle(
             "adw_swipe_tracker_get_allow_long_swipes",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_swipe_tracker_get_allow_mouse_drag = Interop.downcallHandle(
             "adw_swipe_tracker_get_allow_mouse_drag",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_swipe_tracker_get_enabled = Interop.downcallHandle(
             "adw_swipe_tracker_get_enabled",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_swipe_tracker_get_reversed = Interop.downcallHandle(
             "adw_swipe_tracker_get_reversed",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_swipe_tracker_get_swipeable = Interop.downcallHandle(
             "adw_swipe_tracker_get_swipeable",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_swipe_tracker_set_allow_long_swipes = Interop.downcallHandle(
             "adw_swipe_tracker_set_allow_long_swipes",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle adw_swipe_tracker_set_allow_mouse_drag = Interop.downcallHandle(
             "adw_swipe_tracker_set_allow_mouse_drag",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle adw_swipe_tracker_set_enabled = Interop.downcallHandle(
             "adw_swipe_tracker_set_enabled",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle adw_swipe_tracker_set_reversed = Interop.downcallHandle(
             "adw_swipe_tracker_set_reversed",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle adw_swipe_tracker_shift_position = Interop.downcallHandle(
             "adw_swipe_tracker_shift_position",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE),
+            false
+        );
+        
+        private static final MethodHandle adw_swipe_tracker_get_type = Interop.downcallHandle(
+            "adw_swipe_tracker_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }
@@ -435,27 +554,27 @@ public class SwipeTracker extends org.gtk.gobject.Object implements org.gtk.gtk.
     private static class Callbacks {
         
         public static void signalSwipeTrackerBeginSwipe(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (SwipeTracker.BeginSwipe) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new SwipeTracker(source, Ownership.UNKNOWN));
+            HANDLER.signalReceived(new SwipeTracker(source, Ownership.NONE));
         }
         
         public static void signalSwipeTrackerEndSwipe(MemoryAddress source, double velocity, double to, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (SwipeTracker.EndSwipe) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new SwipeTracker(source, Ownership.UNKNOWN), velocity, to);
+            HANDLER.signalReceived(new SwipeTracker(source, Ownership.NONE), velocity, to);
         }
         
         public static void signalSwipeTrackerPrepare(MemoryAddress source, int direction, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (SwipeTracker.Prepare) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new SwipeTracker(source, Ownership.UNKNOWN), new org.gnome.adw.NavigationDirection(direction));
+            HANDLER.signalReceived(new SwipeTracker(source, Ownership.NONE), new org.gnome.adw.NavigationDirection(direction));
         }
         
         public static void signalSwipeTrackerUpdateSwipe(MemoryAddress source, double progress, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (SwipeTracker.UpdateSwipe) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new SwipeTracker(source, Ownership.UNKNOWN), progress);
+            HANDLER.signalReceived(new SwipeTracker(source, Ownership.NONE), progress);
         }
     }
 }

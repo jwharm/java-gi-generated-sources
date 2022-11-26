@@ -59,7 +59,7 @@ public class ConstraintGuide extends org.gtk.gobject.Object implements org.gtk.g
      * @throws ClassCastException If the GType is not derived from "GtkConstraintGuide", a ClassCastException will be thrown.
      */
     public static ConstraintGuide castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkConstraintGuide"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), ConstraintGuide.getType())) {
             return new ConstraintGuide(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkConstraintGuide");
@@ -90,9 +90,9 @@ public class ConstraintGuide extends org.gtk.gobject.Object implements org.gtk.g
      */
     public void getMaxSize(Out<Integer> width, Out<Integer> height) {
         java.util.Objects.requireNonNull(width, "Parameter 'width' must not be null");
+        MemorySegment widthPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         java.util.Objects.requireNonNull(height, "Parameter 'height' must not be null");
-        MemorySegment widthPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
-        MemorySegment heightPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
+        MemorySegment heightPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         try {
             DowncallHandles.gtk_constraint_guide_get_max_size.invokeExact(
                     handle(),
@@ -101,8 +101,8 @@ public class ConstraintGuide extends org.gtk.gobject.Object implements org.gtk.g
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        width.set(widthPOINTER.get(ValueLayout.JAVA_INT, 0));
-        height.set(heightPOINTER.get(ValueLayout.JAVA_INT, 0));
+        width.set(widthPOINTER.get(Interop.valueLayout.C_INT, 0));
+        height.set(heightPOINTER.get(Interop.valueLayout.C_INT, 0));
     }
     
     /**
@@ -112,9 +112,9 @@ public class ConstraintGuide extends org.gtk.gobject.Object implements org.gtk.g
      */
     public void getMinSize(Out<Integer> width, Out<Integer> height) {
         java.util.Objects.requireNonNull(width, "Parameter 'width' must not be null");
+        MemorySegment widthPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         java.util.Objects.requireNonNull(height, "Parameter 'height' must not be null");
-        MemorySegment widthPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
-        MemorySegment heightPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
+        MemorySegment heightPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         try {
             DowncallHandles.gtk_constraint_guide_get_min_size.invokeExact(
                     handle(),
@@ -123,8 +123,8 @@ public class ConstraintGuide extends org.gtk.gobject.Object implements org.gtk.g
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        width.set(widthPOINTER.get(ValueLayout.JAVA_INT, 0));
-        height.set(heightPOINTER.get(ValueLayout.JAVA_INT, 0));
+        width.set(widthPOINTER.get(Interop.valueLayout.C_INT, 0));
+        height.set(heightPOINTER.get(Interop.valueLayout.C_INT, 0));
     }
     
     /**
@@ -149,9 +149,9 @@ public class ConstraintGuide extends org.gtk.gobject.Object implements org.gtk.g
      */
     public void getNatSize(Out<Integer> width, Out<Integer> height) {
         java.util.Objects.requireNonNull(width, "Parameter 'width' must not be null");
+        MemorySegment widthPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         java.util.Objects.requireNonNull(height, "Parameter 'height' must not be null");
-        MemorySegment widthPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
-        MemorySegment heightPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
+        MemorySegment heightPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         try {
             DowncallHandles.gtk_constraint_guide_get_nat_size.invokeExact(
                     handle(),
@@ -160,8 +160,8 @@ public class ConstraintGuide extends org.gtk.gobject.Object implements org.gtk.g
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        width.set(widthPOINTER.get(ValueLayout.JAVA_INT, 0));
-        height.set(heightPOINTER.get(ValueLayout.JAVA_INT, 0));
+        width.set(widthPOINTER.get(Interop.valueLayout.C_INT, 0));
+        height.set(heightPOINTER.get(Interop.valueLayout.C_INT, 0));
     }
     
     /**
@@ -268,71 +268,215 @@ public class ConstraintGuide extends org.gtk.gobject.Object implements org.gtk.g
         }
     }
     
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.gtk_constraint_guide_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gobject.Object.Build {
+        
+         /**
+         * A {@link ConstraintGuide.Build} object constructs a {@link ConstraintGuide} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link ConstraintGuide} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link ConstraintGuide} using {@link ConstraintGuide#castFrom}.
+         * @return A new instance of {@code ConstraintGuide} with the properties 
+         *         that were set in the Build object.
+         */
+        public ConstraintGuide construct() {
+            return ConstraintGuide.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    ConstraintGuide.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+        
+        /**
+         * The maximum height of the guide.
+         * @param maxHeight The value for the {@code max-height} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setMaxHeight(int maxHeight) {
+            names.add("max-height");
+            values.add(org.gtk.gobject.Value.create(maxHeight));
+            return this;
+        }
+        
+        /**
+         * The maximum width of the guide.
+         * @param maxWidth The value for the {@code max-width} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setMaxWidth(int maxWidth) {
+            names.add("max-width");
+            values.add(org.gtk.gobject.Value.create(maxWidth));
+            return this;
+        }
+        
+        /**
+         * The minimum height of the guide.
+         * @param minHeight The value for the {@code min-height} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setMinHeight(int minHeight) {
+            names.add("min-height");
+            values.add(org.gtk.gobject.Value.create(minHeight));
+            return this;
+        }
+        
+        /**
+         * The minimum width of the guide.
+         * @param minWidth The value for the {@code min-width} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setMinWidth(int minWidth) {
+            names.add("min-width");
+            values.add(org.gtk.gobject.Value.create(minWidth));
+            return this;
+        }
+        
+        /**
+         * A name that identifies the {@code GtkConstraintGuide}, for debugging.
+         * @param name The value for the {@code name} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setName(java.lang.String name) {
+            names.add("name");
+            values.add(org.gtk.gobject.Value.create(name));
+            return this;
+        }
+        
+        /**
+         * The preferred, or natural, height of the guide.
+         * @param natHeight The value for the {@code nat-height} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setNatHeight(int natHeight) {
+            names.add("nat-height");
+            values.add(org.gtk.gobject.Value.create(natHeight));
+            return this;
+        }
+        
+        /**
+         * The preferred, or natural, width of the guide.
+         * @param natWidth The value for the {@code nat-width} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setNatWidth(int natWidth) {
+            names.add("nat-width");
+            values.add(org.gtk.gobject.Value.create(natWidth));
+            return this;
+        }
+        
+        /**
+         * The {@code GtkConstraintStrength} to be used for the constraint on
+         * the natural size of the guide.
+         * @param strength The value for the {@code strength} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setStrength(org.gtk.gtk.ConstraintStrength strength) {
+            names.add("strength");
+            values.add(org.gtk.gobject.Value.create(strength));
+            return this;
+        }
+    }
+    
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_constraint_guide_new = Interop.downcallHandle(
             "gtk_constraint_guide_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_constraint_guide_get_max_size = Interop.downcallHandle(
             "gtk_constraint_guide_get_max_size",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_constraint_guide_get_min_size = Interop.downcallHandle(
             "gtk_constraint_guide_get_min_size",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_constraint_guide_get_name = Interop.downcallHandle(
             "gtk_constraint_guide_get_name",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_constraint_guide_get_nat_size = Interop.downcallHandle(
             "gtk_constraint_guide_get_nat_size",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_constraint_guide_get_strength = Interop.downcallHandle(
             "gtk_constraint_guide_get_strength",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_constraint_guide_set_max_size = Interop.downcallHandle(
             "gtk_constraint_guide_set_max_size",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_constraint_guide_set_min_size = Interop.downcallHandle(
             "gtk_constraint_guide_set_min_size",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_constraint_guide_set_name = Interop.downcallHandle(
             "gtk_constraint_guide_set_name",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_constraint_guide_set_nat_size = Interop.downcallHandle(
             "gtk_constraint_guide_set_nat_size",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_constraint_guide_set_strength = Interop.downcallHandle(
             "gtk_constraint_guide_set_strength",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+            false
+        );
+        
+        private static final MethodHandle gtk_constraint_guide_get_type = Interop.downcallHandle(
+            "gtk_constraint_guide_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }

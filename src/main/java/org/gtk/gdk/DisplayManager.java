@@ -87,7 +87,7 @@ public class DisplayManager extends org.gtk.gobject.Object {
      * @throws ClassCastException If the GType is not derived from "GdkDisplayManager", a ClassCastException will be thrown.
      */
     public static DisplayManager castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GdkDisplayManager"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), DisplayManager.getType())) {
             return new DisplayManager(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GdkDisplayManager");
@@ -160,6 +160,20 @@ public class DisplayManager extends org.gtk.gobject.Object {
     }
     
     /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.gdk_display_manager_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+    
+    /**
      * Gets the singleton {@code GdkDisplayManager} object.
      * <p>
      * When called for the first time, this function consults the
@@ -199,7 +213,7 @@ public class DisplayManager extends org.gtk.gobject.Object {
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(DisplayManager.Callbacks.class, "signalDisplayManagerDisplayOpened",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                     Interop.getScope()),
                 Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
@@ -208,36 +222,88 @@ public class DisplayManager extends org.gtk.gobject.Object {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gobject.Object.Build {
+        
+         /**
+         * A {@link DisplayManager.Build} object constructs a {@link DisplayManager} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link DisplayManager} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link DisplayManager} using {@link DisplayManager#castFrom}.
+         * @return A new instance of {@code DisplayManager} with the properties 
+         *         that were set in the Build object.
+         */
+        public DisplayManager construct() {
+            return DisplayManager.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    DisplayManager.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+        
+        /**
+         * The default display.
+         * @param defaultDisplay The value for the {@code default-display} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setDefaultDisplay(org.gtk.gdk.Display defaultDisplay) {
+            names.add("default-display");
+            values.add(org.gtk.gobject.Value.create(defaultDisplay));
+            return this;
+        }
+    }
     
     private static class DowncallHandles {
         
         private static final MethodHandle gdk_display_manager_get_default_display = Interop.downcallHandle(
             "gdk_display_manager_get_default_display",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_display_manager_list_displays = Interop.downcallHandle(
             "gdk_display_manager_list_displays",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_display_manager_open_display = Interop.downcallHandle(
             "gdk_display_manager_open_display",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_display_manager_set_default_display = Interop.downcallHandle(
             "gdk_display_manager_set_default_display",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+            false
+        );
+        
+        private static final MethodHandle gdk_display_manager_get_type = Interop.downcallHandle(
+            "gdk_display_manager_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
         
         private static final MethodHandle gdk_display_manager_get = Interop.downcallHandle(
             "gdk_display_manager_get",
-            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
             false
         );
     }
@@ -245,9 +311,9 @@ public class DisplayManager extends org.gtk.gobject.Object {
     private static class Callbacks {
         
         public static void signalDisplayManagerDisplayOpened(MemoryAddress source, MemoryAddress display, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (DisplayManager.DisplayOpened) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new DisplayManager(source, Ownership.UNKNOWN), new org.gtk.gdk.Display(display, Ownership.NONE));
+            HANDLER.signalReceived(new DisplayManager(source, Ownership.NONE), new org.gtk.gdk.Display(display, Ownership.NONE));
         }
     }
 }

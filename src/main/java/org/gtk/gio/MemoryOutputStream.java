@@ -20,7 +20,7 @@ public class MemoryOutputStream extends org.gtk.gio.OutputStream implements org.
     
     private static final java.lang.String C_TYPE_NAME = "GMemoryOutputStream";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gio.OutputStream.getMemoryLayout().withName("parent_instance"),
         Interop.valueLayout.ADDRESS.withName("priv")
     ).withName(C_TYPE_NAME);
@@ -66,7 +66,7 @@ public class MemoryOutputStream extends org.gtk.gio.OutputStream implements org.
      * @throws ClassCastException If the GType is not derived from "GMemoryOutputStream", a ClassCastException will be thrown.
      */
     public static MemoryOutputStream castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GMemoryOutputStream"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), MemoryOutputStream.getType())) {
             return new MemoryOutputStream(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GMemoryOutputStream");
@@ -82,7 +82,7 @@ public class MemoryOutputStream extends org.gtk.gio.OutputStream implements org.
                     (Addressable) (reallocFunction == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbReallocFunc",
                             MethodType.methodType(MemoryAddress.class, MemoryAddress.class, long.class)),
-                        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG),
+                        FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
                         Interop.getScope())),
                     Interop.cbDestroyNotifySymbol());
         } catch (Throwable ERR) {
@@ -259,47 +259,157 @@ public class MemoryOutputStream extends org.gtk.gio.OutputStream implements org.
         return RESULT;
     }
     
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.g_memory_output_stream_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gio.OutputStream.Build {
+        
+         /**
+         * A {@link MemoryOutputStream.Build} object constructs a {@link MemoryOutputStream} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link MemoryOutputStream} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link MemoryOutputStream} using {@link MemoryOutputStream#castFrom}.
+         * @return A new instance of {@code MemoryOutputStream} with the properties 
+         *         that were set in the Build object.
+         */
+        public MemoryOutputStream construct() {
+            return MemoryOutputStream.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    MemoryOutputStream.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+        
+        /**
+         * Pointer to buffer where data will be written.
+         * @param data The value for the {@code data} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setData(java.lang.foreign.MemoryAddress data) {
+            names.add("data");
+            values.add(org.gtk.gobject.Value.create(data));
+            return this;
+        }
+        
+        /**
+         * Size of data written to the buffer.
+         * @param dataSize The value for the {@code data-size} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setDataSize(long dataSize) {
+            names.add("data-size");
+            values.add(org.gtk.gobject.Value.create(dataSize));
+            return this;
+        }
+        
+        /**
+         * Function called with the buffer as argument when the stream is destroyed.
+         * @param destroyFunction The value for the {@code destroy-function} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setDestroyFunction(java.lang.foreign.MemoryAddress destroyFunction) {
+            names.add("destroy-function");
+            values.add(org.gtk.gobject.Value.create(destroyFunction));
+            return this;
+        }
+        
+        /**
+         * Function with realloc semantics called to enlarge the buffer.
+         * @param reallocFunction The value for the {@code realloc-function} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setReallocFunction(java.lang.foreign.MemoryAddress reallocFunction) {
+            names.add("realloc-function");
+            values.add(org.gtk.gobject.Value.create(reallocFunction));
+            return this;
+        }
+        
+        /**
+         * Current size of the data buffer.
+         * @param size The value for the {@code size} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setSize(long size) {
+            names.add("size");
+            values.add(org.gtk.gobject.Value.create(size));
+            return this;
+        }
+    }
+    
     private static class DowncallHandles {
         
         private static final MethodHandle g_memory_output_stream_new = Interop.downcallHandle(
             "g_memory_output_stream_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_memory_output_stream_new_resizable = Interop.downcallHandle(
             "g_memory_output_stream_new_resizable",
-            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_memory_output_stream_get_data = Interop.downcallHandle(
             "g_memory_output_stream_get_data",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_memory_output_stream_get_data_size = Interop.downcallHandle(
             "g_memory_output_stream_get_data_size",
-            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_memory_output_stream_get_size = Interop.downcallHandle(
             "g_memory_output_stream_get_size",
-            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_memory_output_stream_steal_as_bytes = Interop.downcallHandle(
             "g_memory_output_stream_steal_as_bytes",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_memory_output_stream_steal_data = Interop.downcallHandle(
             "g_memory_output_stream_steal_data",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+            false
+        );
+        
+        private static final MethodHandle g_memory_output_stream_get_type = Interop.downcallHandle(
+            "g_memory_output_stream_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }

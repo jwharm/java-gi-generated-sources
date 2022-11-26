@@ -5,7 +5,7 @@ import java.lang.foreign.*;
 import java.lang.invoke.*;
 import org.jetbrains.annotations.*;
 
-public class CallbackAnimationTargetClass extends io.github.jwharm.javagi.ProxyBase {
+public class CallbackAnimationTargetClass extends Struct {
     
     static {
         Adw.javagi$ensureInitialized();
@@ -24,6 +24,10 @@ public class CallbackAnimationTargetClass extends io.github.jwharm.javagi.ProxyB
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link CallbackAnimationTargetClass}
+     * @return A new, uninitialized @{link CallbackAnimationTargetClass}
+     */
     public static CallbackAnimationTargetClass allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         CallbackAnimationTargetClass newInstance = new CallbackAnimationTargetClass(segment.address(), Ownership.NONE);
@@ -39,5 +43,33 @@ public class CallbackAnimationTargetClass extends io.github.jwharm.javagi.ProxyB
     @ApiStatus.Internal
     public CallbackAnimationTargetClass(Addressable address, Ownership ownership) {
         super(address, ownership);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private CallbackAnimationTargetClass struct;
+        
+         /**
+         * A {@link CallbackAnimationTargetClass.Build} object constructs a {@link CallbackAnimationTargetClass} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = CallbackAnimationTargetClass.allocate();
+        }
+        
+         /**
+         * Finish building the {@link CallbackAnimationTargetClass} struct.
+         * @return A new instance of {@code CallbackAnimationTargetClass} with the fields 
+         *         that were set in the Build object.
+         */
+        public CallbackAnimationTargetClass construct() {
+            return struct;
+        }
     }
 }

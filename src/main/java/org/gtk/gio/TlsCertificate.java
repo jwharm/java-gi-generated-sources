@@ -21,7 +21,7 @@ public class TlsCertificate extends org.gtk.gobject.Object {
     
     private static final java.lang.String C_TYPE_NAME = "GTlsCertificate";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gobject.Object.getMemoryLayout().withName("parent_instance"),
         Interop.valueLayout.ADDRESS.withName("priv")
     ).withName(C_TYPE_NAME);
@@ -67,7 +67,7 @@ public class TlsCertificate extends org.gtk.gobject.Object {
      * @throws ClassCastException If the GType is not derived from "GTlsCertificate", a ClassCastException will be thrown.
      */
     public static TlsCertificate castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GTlsCertificate"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), TlsCertificate.getType())) {
             return new TlsCertificate(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GTlsCertificate");
@@ -76,7 +76,7 @@ public class TlsCertificate extends org.gtk.gobject.Object {
     
     private static Addressable constructNewFromFile(@NotNull java.lang.String file) throws GErrorException {
         java.util.Objects.requireNonNull(file, "Parameter 'file' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         Addressable RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_tls_certificate_new_from_file.invokeExact(
@@ -112,7 +112,7 @@ public class TlsCertificate extends org.gtk.gobject.Object {
     private static Addressable constructNewFromFileWithPassword(@NotNull java.lang.String file, @NotNull java.lang.String password) throws GErrorException {
         java.util.Objects.requireNonNull(file, "Parameter 'file' must not be null");
         java.util.Objects.requireNonNull(password, "Parameter 'password' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         Addressable RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_tls_certificate_new_from_file_with_password.invokeExact(
@@ -149,7 +149,7 @@ public class TlsCertificate extends org.gtk.gobject.Object {
     private static Addressable constructNewFromFiles(@NotNull java.lang.String certFile, @NotNull java.lang.String keyFile) throws GErrorException {
         java.util.Objects.requireNonNull(certFile, "Parameter 'certFile' must not be null");
         java.util.Objects.requireNonNull(keyFile, "Parameter 'keyFile' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         Addressable RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_tls_certificate_new_from_files.invokeExact(
@@ -193,7 +193,7 @@ public class TlsCertificate extends org.gtk.gobject.Object {
     
     private static Addressable constructNewFromPem(@NotNull java.lang.String data, long length) throws GErrorException {
         java.util.Objects.requireNonNull(data, "Parameter 'data' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         Addressable RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_tls_certificate_new_from_pem.invokeExact(
@@ -235,7 +235,7 @@ public class TlsCertificate extends org.gtk.gobject.Object {
     
     private static Addressable constructNewFromPkcs11Uris(@NotNull java.lang.String pkcs11Uri, @Nullable java.lang.String privateKeyPkcs11Uri) throws GErrorException {
         java.util.Objects.requireNonNull(pkcs11Uri, "Parameter 'pkcs11Uri' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         Addressable RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_tls_certificate_new_from_pkcs11_uris.invokeExact(
@@ -286,7 +286,7 @@ public class TlsCertificate extends org.gtk.gobject.Object {
     
     private static Addressable constructNewFromPkcs12(@NotNull byte[] data, long length, @Nullable java.lang.String password) throws GErrorException {
         java.util.Objects.requireNonNull(data, "Parameter 'data' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         Addressable RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_tls_certificate_new_from_pkcs12.invokeExact(
@@ -469,6 +469,8 @@ public class TlsCertificate extends org.gtk.gobject.Object {
      * check a certificate against a CA that is not part of the system
      * CA database.
      * <p>
+     * If {@code cert} is valid, {@link TlsCertificateFlags#NO_FLAGS} is returned.
+     * <p>
      * If {@code identity} is not {@code null}, {@code cert}'s name(s) will be compared against
      * it, and {@link TlsCertificateFlags#BAD_IDENTITY} will be set in the return
      * value if it does not match. If {@code identity} is {@code null}, that bit will
@@ -512,6 +514,20 @@ public class TlsCertificate extends org.gtk.gobject.Object {
     }
     
     /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.g_tls_certificate_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+    
+    /**
      * Creates one or more {@code GTlsCertificates} from the PEM-encoded
      * data in {@code file}. If {@code file} cannot be read or parsed, the function will
      * return {@code null} and set {@code error}. If {@code file} does not contain any
@@ -525,7 +541,7 @@ public class TlsCertificate extends org.gtk.gobject.Object {
      */
     public static @NotNull org.gtk.glib.List listNewFromFile(@NotNull java.lang.String file) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(file, "Parameter 'file' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_tls_certificate_list_new_from_file.invokeExact(
@@ -539,102 +555,296 @@ public class TlsCertificate extends org.gtk.gobject.Object {
         }
         return new org.gtk.glib.List(RESULT, Ownership.FULL);
     }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gobject.Object.Build {
+        
+         /**
+         * A {@link TlsCertificate.Build} object constructs a {@link TlsCertificate} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link TlsCertificate} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link TlsCertificate} using {@link TlsCertificate#castFrom}.
+         * @return A new instance of {@code TlsCertificate} with the properties 
+         *         that were set in the Build object.
+         */
+        public TlsCertificate construct() {
+            return TlsCertificate.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    TlsCertificate.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+        
+        /**
+         * The PEM (ASCII) encoded representation of the certificate.
+         * This property and the {@link TlsCertificate}:certificate
+         * property represent the same data, just in different forms.
+         * @param certificatePem The value for the {@code certificate-pem} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setCertificatePem(java.lang.String certificatePem) {
+            names.add("certificate-pem");
+            values.add(org.gtk.gobject.Value.create(certificatePem));
+            return this;
+        }
+        
+        /**
+         * A {@link TlsCertificate} representing the entity that issued this
+         * certificate. If {@code null}, this means that the certificate is either
+         * self-signed, or else the certificate of the issuer is not
+         * available.
+         * <p>
+         * Beware the issuer certificate may not be the same as the
+         * certificate that would actually be used to construct a valid
+         * certification path during certificate verification.
+         * <a href="https://datatracker.ietf.org/doc/html/rfc4158">RFC 4158</a> explains
+         * why an issuer certificate cannot be naively assumed to be part of the
+         * the certification path (though GLib's TLS backends may not follow the
+         * path building strategies outlined in this RFC). Due to the complexity
+         * of certification path building, GLib does not provide any way to know
+         * which certification path will actually be used. Accordingly, this
+         * property cannot be used to make security-related decisions. Only
+         * GLib itself should make security decisions about TLS certificates.
+         * @param issuer The value for the {@code issuer} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setIssuer(org.gtk.gio.TlsCertificate issuer) {
+            names.add("issuer");
+            values.add(org.gtk.gobject.Value.create(issuer));
+            return this;
+        }
+        
+        /**
+         * The issuer from the certificate,
+         * {@code null} if unavailable.
+         * @param issuerName The value for the {@code issuer-name} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setIssuerName(java.lang.String issuerName) {
+            names.add("issuer-name");
+            values.add(org.gtk.gobject.Value.create(issuerName));
+            return this;
+        }
+        
+        /**
+         * The time at which this cert is no longer valid,
+         * {@code null} if unavailable.
+         * @param notValidAfter The value for the {@code not-valid-after} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setNotValidAfter(org.gtk.glib.DateTime notValidAfter) {
+            names.add("not-valid-after");
+            values.add(org.gtk.gobject.Value.create(notValidAfter));
+            return this;
+        }
+        
+        /**
+         * The time at which this cert is considered to be valid,
+         * {@code null} if unavailable.
+         * @param notValidBefore The value for the {@code not-valid-before} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setNotValidBefore(org.gtk.glib.DateTime notValidBefore) {
+            names.add("not-valid-before");
+            values.add(org.gtk.gobject.Value.create(notValidBefore));
+            return this;
+        }
+        
+        /**
+         * An optional password used when constructed with GTlsCertificate:pkcs12-data.
+         * @param password The value for the {@code password} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setPassword(java.lang.String password) {
+            names.add("password");
+            values.add(org.gtk.gobject.Value.create(password));
+            return this;
+        }
+        
+        /**
+         * A URI referencing the <a href="https://docs.oasis-open.org/pkcs11/pkcs11-base/v3.0/os/pkcs11-base-v3.0-os.html">PKCS \\#11</a>
+         * objects containing an X.509 certificate and optionally a private key.
+         * <p>
+         * If {@code null}, the certificate is either not backed by PKCS \\{@code 11} or the
+         * {@link TlsBackend} does not support PKCS \\{@code 11}.
+         * @param pkcs11Uri The value for the {@code pkcs11-uri} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setPkcs11Uri(java.lang.String pkcs11Uri) {
+            names.add("pkcs11-uri");
+            values.add(org.gtk.gobject.Value.create(pkcs11Uri));
+            return this;
+        }
+        
+        /**
+         * The PEM (ASCII) encoded representation of the certificate's
+         * private key in either <a href="https://datatracker.ietf.org/doc/html/rfc8017">PKCS \\#1 format</a>
+         * ("{@code BEGIN RSA PRIVATE KEY}") or unencrypted
+         * <a href="https://datatracker.ietf.org/doc/html/rfc5208">PKCS \\#8 format</a>
+         * ("{@code BEGIN PRIVATE KEY}"). PKCS \\{@code 8} format is supported since 2.32;
+         * earlier releases only support PKCS \\{@code 1}. You can use the {@code openssl rsa}
+         * tool to convert PKCS \\{@code 8} keys to PKCS \\{@code 1}.
+         * <p>
+         * This property (or the {@link TlsCertificate}:private-key property)
+         * can be set when constructing a key (for example, from a file).
+         * Since GLib 2.70, it is now also readable; however, be aware that if
+         * the private key is backed by a PKCS \\{@code 11} URI - for example, if it
+         * is stored on a smartcard - then this property will be {@code null}. If so,
+         * the private key must be referenced via its PKCS \\{@code 11} URI,
+         * {@link TlsCertificate}:private-key-pkcs11-uri. You must check both
+         * properties to see if the certificate really has a private key.
+         * When this property is read, the output format will be unencrypted
+         * PKCS \\{@code 8}.
+         * @param privateKeyPem The value for the {@code private-key-pem} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setPrivateKeyPem(java.lang.String privateKeyPem) {
+            names.add("private-key-pem");
+            values.add(org.gtk.gobject.Value.create(privateKeyPem));
+            return this;
+        }
+        
+        /**
+         * A URI referencing a <a href="https://docs.oasis-open.org/pkcs11/pkcs11-base/v3.0/os/pkcs11-base-v3.0-os.html">PKCS \\#11</a>
+         * object containing a private key.
+         * @param privateKeyPkcs11Uri The value for the {@code private-key-pkcs11-uri} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setPrivateKeyPkcs11Uri(java.lang.String privateKeyPkcs11Uri) {
+            names.add("private-key-pkcs11-uri");
+            values.add(org.gtk.gobject.Value.create(privateKeyPkcs11Uri));
+            return this;
+        }
+        
+        /**
+         * The subject from the cert,
+         * {@code null} if unavailable.
+         * @param subjectName The value for the {@code subject-name} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setSubjectName(java.lang.String subjectName) {
+            names.add("subject-name");
+            values.add(org.gtk.gobject.Value.create(subjectName));
+            return this;
+        }
+    }
     
     private static class DowncallHandles {
         
         private static final MethodHandle g_tls_certificate_new_from_file = Interop.downcallHandle(
             "g_tls_certificate_new_from_file",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_tls_certificate_new_from_file_with_password = Interop.downcallHandle(
             "g_tls_certificate_new_from_file_with_password",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_tls_certificate_new_from_files = Interop.downcallHandle(
             "g_tls_certificate_new_from_files",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_tls_certificate_new_from_pem = Interop.downcallHandle(
             "g_tls_certificate_new_from_pem",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_tls_certificate_new_from_pkcs11_uris = Interop.downcallHandle(
             "g_tls_certificate_new_from_pkcs11_uris",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_tls_certificate_new_from_pkcs12 = Interop.downcallHandle(
             "g_tls_certificate_new_from_pkcs12",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_tls_certificate_get_dns_names = Interop.downcallHandle(
             "g_tls_certificate_get_dns_names",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_tls_certificate_get_ip_addresses = Interop.downcallHandle(
             "g_tls_certificate_get_ip_addresses",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_tls_certificate_get_issuer = Interop.downcallHandle(
             "g_tls_certificate_get_issuer",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_tls_certificate_get_issuer_name = Interop.downcallHandle(
             "g_tls_certificate_get_issuer_name",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_tls_certificate_get_not_valid_after = Interop.downcallHandle(
             "g_tls_certificate_get_not_valid_after",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_tls_certificate_get_not_valid_before = Interop.downcallHandle(
             "g_tls_certificate_get_not_valid_before",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_tls_certificate_get_subject_name = Interop.downcallHandle(
             "g_tls_certificate_get_subject_name",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_tls_certificate_is_same = Interop.downcallHandle(
             "g_tls_certificate_is_same",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_tls_certificate_verify = Interop.downcallHandle(
             "g_tls_certificate_verify",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+            false
+        );
+        
+        private static final MethodHandle g_tls_certificate_get_type = Interop.downcallHandle(
+            "g_tls_certificate_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
         
         private static final MethodHandle g_tls_certificate_list_new_from_file = Interop.downcallHandle(
             "g_tls_certificate_list_new_from_file",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
     }

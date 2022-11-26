@@ -53,6 +53,16 @@ public class DBusConnectionFlags extends io.github.jwharm.javagi.Bitfield {
      */
     public static final DBusConnectionFlags AUTHENTICATION_REQUIRE_SAME_USER = new DBusConnectionFlags(32);
     
+    /**
+     * When authenticating, try to use
+     *  protocols that work across a Linux user namespace boundary, even if this
+     *  reduces interoperability with older D-Bus implementations. This currently
+     *  affects client-side {@code EXTERNAL} authentication, for which this flag makes
+     *  connections to a server in another user namespace succeed, but causes
+     *  a deadlock when connecting to a GDBus server older than 2.73.3. Since: 2.74
+     */
+    public static final DBusConnectionFlags CROSS_NAMESPACE = new DBusConnectionFlags(64);
+    
     public DBusConnectionFlags(int value) {
         super(value);
     }

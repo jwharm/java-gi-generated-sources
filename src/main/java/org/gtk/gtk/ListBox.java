@@ -94,7 +94,7 @@ public class ListBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      * @throws ClassCastException If the GType is not derived from "GtkListBox", a ClassCastException will be thrown.
      */
     public static ListBox castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkListBox"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), ListBox.getType())) {
             return new ListBox(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkListBox");
@@ -164,7 +164,7 @@ public class ListBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
                     (Addressable) (createWidgetFunc == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gtk.Callbacks.class, "cbListBoxCreateWidgetFunc",
                             MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                         Interop.getScope())),
                     (Addressable) (createWidgetFunc == null ? MemoryAddress.NULL : Interop.registerCallback(createWidgetFunc)),
                     Interop.cbDestroyNotifySymbol());
@@ -489,7 +489,7 @@ public class ListBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gtk.Callbacks.class, "cbListBoxForeachFunc",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                         Interop.getScope()),
                     (Addressable) (Interop.registerCallback(func)));
         } catch (Throwable ERR) {
@@ -558,7 +558,7 @@ public class ListBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
                     (Addressable) (filterFunc == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gtk.Callbacks.class, "cbListBoxFilterFunc",
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                         Interop.getScope())),
                     (Addressable) (filterFunc == null ? MemoryAddress.NULL : Interop.registerCallback(filterFunc)),
                     Interop.cbDestroyNotifySymbol());
@@ -602,7 +602,7 @@ public class ListBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
                     (Addressable) (updateHeader == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gtk.Callbacks.class, "cbListBoxUpdateHeaderFunc",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                         Interop.getScope())),
                     (Addressable) (updateHeader == null ? MemoryAddress.NULL : Interop.registerCallback(updateHeader)),
                     Interop.cbDestroyNotifySymbol());
@@ -678,7 +678,7 @@ public class ListBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
                     (Addressable) (sortFunc == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gtk.Callbacks.class, "cbListBoxSortFunc",
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                         Interop.getScope())),
                     (Addressable) (sortFunc == null ? MemoryAddress.NULL : Interop.registerCallback(sortFunc)),
                     Interop.cbDestroyNotifySymbol());
@@ -714,6 +714,20 @@ public class ListBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
         }
     }
     
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.gtk_list_box_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+    
     @FunctionalInterface
     public interface ActivateCursorRow {
         void signalReceived(ListBox source);
@@ -727,7 +741,7 @@ public class ListBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(ListBox.Callbacks.class, "signalListBoxActivateCursorRow",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                     Interop.getScope()),
                 Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
@@ -750,7 +764,7 @@ public class ListBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(ListBox.Callbacks.class, "signalListBoxMoveCursor",
                         MethodType.methodType(void.class, MemoryAddress.class, int.class, int.class, int.class, int.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
                     Interop.getScope()),
                 Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
@@ -778,7 +792,7 @@ public class ListBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(ListBox.Callbacks.class, "signalListBoxRowActivated",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                     Interop.getScope()),
                 Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
@@ -811,7 +825,7 @@ public class ListBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(ListBox.Callbacks.class, "signalListBoxRowSelected",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                     Interop.getScope()),
                 Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
@@ -844,7 +858,7 @@ public class ListBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(ListBox.Callbacks.class, "signalListBoxSelectAll",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                     Interop.getScope()),
                 Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
@@ -872,7 +886,7 @@ public class ListBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(ListBox.Callbacks.class, "signalListBoxSelectedRowsChanged",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                     Interop.getScope()),
                 Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
@@ -895,7 +909,7 @@ public class ListBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(ListBox.Callbacks.class, "signalListBoxToggleCursorRow",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                     Interop.getScope()),
                 Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
@@ -929,7 +943,7 @@ public class ListBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(ListBox.Callbacks.class, "signalListBoxUnselectAll",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                     Interop.getScope()),
                 Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
@@ -938,198 +952,284 @@ public class ListBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gtk.Widget.Build {
+        
+         /**
+         * A {@link ListBox.Build} object constructs a {@link ListBox} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link ListBox} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link ListBox} using {@link ListBox#castFrom}.
+         * @return A new instance of {@code ListBox} with the properties 
+         *         that were set in the Build object.
+         */
+        public ListBox construct() {
+            return ListBox.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    ListBox.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+        
+        /**
+         * Whether to accept unpaired release events.
+         * @param acceptUnpairedRelease The value for the {@code accept-unpaired-release} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setAcceptUnpairedRelease(boolean acceptUnpairedRelease) {
+            names.add("accept-unpaired-release");
+            values.add(org.gtk.gobject.Value.create(acceptUnpairedRelease));
+            return this;
+        }
+        
+        /**
+         * Determines whether children can be activated with a single
+         * click, or require a double-click.
+         * @param activateOnSingleClick The value for the {@code activate-on-single-click} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setActivateOnSingleClick(boolean activateOnSingleClick) {
+            names.add("activate-on-single-click");
+            values.add(org.gtk.gobject.Value.create(activateOnSingleClick));
+            return this;
+        }
+        
+        /**
+         * The selection mode used by the list box.
+         * @param selectionMode The value for the {@code selection-mode} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setSelectionMode(org.gtk.gtk.SelectionMode selectionMode) {
+            names.add("selection-mode");
+            values.add(org.gtk.gobject.Value.create(selectionMode));
+            return this;
+        }
+        
+        /**
+         * Whether to show separators between rows.
+         * @param showSeparators The value for the {@code show-separators} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setShowSeparators(boolean showSeparators) {
+            names.add("show-separators");
+            values.add(org.gtk.gobject.Value.create(showSeparators));
+            return this;
+        }
+    }
     
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_list_box_new = Interop.downcallHandle(
             "gtk_list_box_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_list_box_append = Interop.downcallHandle(
             "gtk_list_box_append",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_list_box_bind_model = Interop.downcallHandle(
             "gtk_list_box_bind_model",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_list_box_drag_highlight_row = Interop.downcallHandle(
             "gtk_list_box_drag_highlight_row",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_list_box_drag_unhighlight_row = Interop.downcallHandle(
             "gtk_list_box_drag_unhighlight_row",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_list_box_get_activate_on_single_click = Interop.downcallHandle(
             "gtk_list_box_get_activate_on_single_click",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_list_box_get_adjustment = Interop.downcallHandle(
             "gtk_list_box_get_adjustment",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_list_box_get_row_at_index = Interop.downcallHandle(
             "gtk_list_box_get_row_at_index",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_list_box_get_row_at_y = Interop.downcallHandle(
             "gtk_list_box_get_row_at_y",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_list_box_get_selected_row = Interop.downcallHandle(
             "gtk_list_box_get_selected_row",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_list_box_get_selected_rows = Interop.downcallHandle(
             "gtk_list_box_get_selected_rows",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_list_box_get_selection_mode = Interop.downcallHandle(
             "gtk_list_box_get_selection_mode",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_list_box_get_show_separators = Interop.downcallHandle(
             "gtk_list_box_get_show_separators",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_list_box_insert = Interop.downcallHandle(
             "gtk_list_box_insert",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_list_box_invalidate_filter = Interop.downcallHandle(
             "gtk_list_box_invalidate_filter",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_list_box_invalidate_headers = Interop.downcallHandle(
             "gtk_list_box_invalidate_headers",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_list_box_invalidate_sort = Interop.downcallHandle(
             "gtk_list_box_invalidate_sort",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_list_box_prepend = Interop.downcallHandle(
             "gtk_list_box_prepend",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_list_box_remove = Interop.downcallHandle(
             "gtk_list_box_remove",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_list_box_select_all = Interop.downcallHandle(
             "gtk_list_box_select_all",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_list_box_select_row = Interop.downcallHandle(
             "gtk_list_box_select_row",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_list_box_selected_foreach = Interop.downcallHandle(
             "gtk_list_box_selected_foreach",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_list_box_set_activate_on_single_click = Interop.downcallHandle(
             "gtk_list_box_set_activate_on_single_click",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_list_box_set_adjustment = Interop.downcallHandle(
             "gtk_list_box_set_adjustment",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_list_box_set_filter_func = Interop.downcallHandle(
             "gtk_list_box_set_filter_func",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_list_box_set_header_func = Interop.downcallHandle(
             "gtk_list_box_set_header_func",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_list_box_set_placeholder = Interop.downcallHandle(
             "gtk_list_box_set_placeholder",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_list_box_set_selection_mode = Interop.downcallHandle(
             "gtk_list_box_set_selection_mode",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_list_box_set_show_separators = Interop.downcallHandle(
             "gtk_list_box_set_show_separators",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_list_box_set_sort_func = Interop.downcallHandle(
             "gtk_list_box_set_sort_func",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_list_box_unselect_all = Interop.downcallHandle(
             "gtk_list_box_unselect_all",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_list_box_unselect_row = Interop.downcallHandle(
             "gtk_list_box_unselect_row",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+            false
+        );
+        
+        private static final MethodHandle gtk_list_box_get_type = Interop.downcallHandle(
+            "gtk_list_box_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }
@@ -1137,51 +1237,51 @@ public class ListBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
     private static class Callbacks {
         
         public static void signalListBoxActivateCursorRow(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (ListBox.ActivateCursorRow) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new ListBox(source, Ownership.UNKNOWN));
+            HANDLER.signalReceived(new ListBox(source, Ownership.NONE));
         }
         
         public static void signalListBoxMoveCursor(MemoryAddress source, int object, int p0, int p1, int p2, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (ListBox.MoveCursor) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new ListBox(source, Ownership.UNKNOWN), new org.gtk.gtk.MovementStep(object), p0, p1 != 0, p2 != 0);
+            HANDLER.signalReceived(new ListBox(source, Ownership.NONE), new org.gtk.gtk.MovementStep(object), p0, p1 != 0, p2 != 0);
         }
         
         public static void signalListBoxRowActivated(MemoryAddress source, MemoryAddress row, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (ListBox.RowActivated) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new ListBox(source, Ownership.UNKNOWN), new org.gtk.gtk.ListBoxRow(row, Ownership.NONE));
+            HANDLER.signalReceived(new ListBox(source, Ownership.NONE), new org.gtk.gtk.ListBoxRow(row, Ownership.NONE));
         }
         
         public static void signalListBoxRowSelected(MemoryAddress source, MemoryAddress row, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (ListBox.RowSelected) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new ListBox(source, Ownership.UNKNOWN), new org.gtk.gtk.ListBoxRow(row, Ownership.NONE));
+            HANDLER.signalReceived(new ListBox(source, Ownership.NONE), new org.gtk.gtk.ListBoxRow(row, Ownership.NONE));
         }
         
         public static void signalListBoxSelectAll(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (ListBox.SelectAll) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new ListBox(source, Ownership.UNKNOWN));
+            HANDLER.signalReceived(new ListBox(source, Ownership.NONE));
         }
         
         public static void signalListBoxSelectedRowsChanged(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (ListBox.SelectedRowsChanged) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new ListBox(source, Ownership.UNKNOWN));
+            HANDLER.signalReceived(new ListBox(source, Ownership.NONE));
         }
         
         public static void signalListBoxToggleCursorRow(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (ListBox.ToggleCursorRow) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new ListBox(source, Ownership.UNKNOWN));
+            HANDLER.signalReceived(new ListBox(source, Ownership.NONE));
         }
         
         public static void signalListBoxUnselectAll(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (ListBox.UnselectAll) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new ListBox(source, Ownership.UNKNOWN));
+            HANDLER.signalReceived(new ListBox(source, Ownership.NONE));
         }
     }
 }

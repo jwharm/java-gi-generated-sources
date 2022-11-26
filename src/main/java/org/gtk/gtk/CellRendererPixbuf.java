@@ -61,7 +61,7 @@ public class CellRendererPixbuf extends org.gtk.gtk.CellRenderer {
      * @throws ClassCastException If the GType is not derived from "GtkCellRendererPixbuf", a ClassCastException will be thrown.
      */
     public static CellRendererPixbuf castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkCellRendererPixbuf"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), CellRendererPixbuf.getType())) {
             return new CellRendererPixbuf(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkCellRendererPixbuf");
@@ -91,11 +91,126 @@ public class CellRendererPixbuf extends org.gtk.gtk.CellRenderer {
         super(constructNew(), Ownership.NONE);
     }
     
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.gtk_cell_renderer_pixbuf_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gtk.CellRenderer.Build {
+        
+         /**
+         * A {@link CellRendererPixbuf.Build} object constructs a {@link CellRendererPixbuf} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link CellRendererPixbuf} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link CellRendererPixbuf} using {@link CellRendererPixbuf#castFrom}.
+         * @return A new instance of {@code CellRendererPixbuf} with the properties 
+         *         that were set in the Build object.
+         */
+        public CellRendererPixbuf construct() {
+            return CellRendererPixbuf.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    CellRendererPixbuf.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+        
+        /**
+         * The GIcon representing the icon to display.
+         * If the icon theme is changed, the image will be updated
+         * automatically.
+         * @param gicon The value for the {@code gicon} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setGicon(org.gtk.gio.Icon gicon) {
+            names.add("gicon");
+            values.add(org.gtk.gobject.Value.create(gicon));
+            return this;
+        }
+        
+        /**
+         * The name of the themed icon to display.
+         * This property only has an effect if not overridden by the "pixbuf" property.
+         * @param iconName The value for the {@code icon-name} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setIconName(java.lang.String iconName) {
+            names.add("icon-name");
+            values.add(org.gtk.gobject.Value.create(iconName));
+            return this;
+        }
+        
+        /**
+         * The {@code GtkIconSize} value that specifies the size of the rendered icon.
+         * @param iconSize The value for the {@code icon-size} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setIconSize(org.gtk.gtk.IconSize iconSize) {
+            names.add("icon-size");
+            values.add(org.gtk.gobject.Value.create(iconSize));
+            return this;
+        }
+        
+        public Build setPixbuf(org.gtk.gdkpixbuf.Pixbuf pixbuf) {
+            names.add("pixbuf");
+            values.add(org.gtk.gobject.Value.create(pixbuf));
+            return this;
+        }
+        
+        public Build setPixbufExpanderClosed(org.gtk.gdkpixbuf.Pixbuf pixbufExpanderClosed) {
+            names.add("pixbuf-expander-closed");
+            values.add(org.gtk.gobject.Value.create(pixbufExpanderClosed));
+            return this;
+        }
+        
+        public Build setPixbufExpanderOpen(org.gtk.gdkpixbuf.Pixbuf pixbufExpanderOpen) {
+            names.add("pixbuf-expander-open");
+            values.add(org.gtk.gobject.Value.create(pixbufExpanderOpen));
+            return this;
+        }
+        
+        public Build setTexture(org.gtk.gdk.Texture texture) {
+            names.add("texture");
+            values.add(org.gtk.gobject.Value.create(texture));
+            return this;
+        }
+    }
+    
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_cell_renderer_pixbuf_new = Interop.downcallHandle(
             "gtk_cell_renderer_pixbuf_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+            false
+        );
+        
+        private static final MethodHandle gtk_cell_renderer_pixbuf_get_type = Interop.downcallHandle(
+            "gtk_cell_renderer_pixbuf_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }

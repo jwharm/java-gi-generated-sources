@@ -5,7 +5,7 @@ import java.lang.foreign.*;
 import java.lang.invoke.*;
 import org.jetbrains.annotations.*;
 
-public class MenuAttributeIterClass extends io.github.jwharm.javagi.ProxyBase {
+public class MenuAttributeIterClass extends Struct {
     
     static {
         Gio.javagi$ensureInitialized();
@@ -13,7 +13,7 @@ public class MenuAttributeIterClass extends io.github.jwharm.javagi.ProxyBase {
     
     private static final java.lang.String C_TYPE_NAME = "GMenuAttributeIterClass";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gobject.ObjectClass.getMemoryLayout().withName("parent_class"),
         Interop.valueLayout.ADDRESS.withName("get_next")
     ).withName(C_TYPE_NAME);
@@ -29,6 +29,10 @@ public class MenuAttributeIterClass extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link MenuAttributeIterClass}
+     * @return A new, uninitialized @{link MenuAttributeIterClass}
+     */
     public static MenuAttributeIterClass allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         MenuAttributeIterClass newInstance = new MenuAttributeIterClass(segment.address(), Ownership.NONE);
@@ -53,5 +57,47 @@ public class MenuAttributeIterClass extends io.github.jwharm.javagi.ProxyBase {
     @ApiStatus.Internal
     public MenuAttributeIterClass(Addressable address, Ownership ownership) {
         super(address, ownership);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private MenuAttributeIterClass struct;
+        
+         /**
+         * A {@link MenuAttributeIterClass.Build} object constructs a {@link MenuAttributeIterClass} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = MenuAttributeIterClass.allocate();
+        }
+        
+         /**
+         * Finish building the {@link MenuAttributeIterClass} struct.
+         * @return A new instance of {@code MenuAttributeIterClass} with the fields 
+         *         that were set in the Build object.
+         */
+        public MenuAttributeIterClass construct() {
+            return struct;
+        }
+        
+        public Build setParentClass(org.gtk.gobject.ObjectClass parent_class) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parent_class == null ? MemoryAddress.NULL : parent_class.handle()));
+            return this;
+        }
+        
+        public Build setGetNext(java.lang.foreign.MemoryAddress get_next) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("get_next"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (get_next == null ? MemoryAddress.NULL : get_next));
+            return this;
+        }
     }
 }

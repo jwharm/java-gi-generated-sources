@@ -15,6 +15,11 @@ public class IOFlags extends io.github.jwharm.javagi.Bitfield {
     private static final java.lang.String C_TYPE_NAME = "GIOFlags";
     
     /**
+     * no special flags set. Since: 2.74
+     */
+    public static final IOFlags NONE = new IOFlags(0);
+    
+    /**
      * turns on append mode, corresponds to {@code O_APPEND}
      *     (see the documentation of the UNIX open() syscall)
      */

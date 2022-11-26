@@ -26,11 +26,25 @@ public interface TlsFileDatabase extends io.github.jwharm.javagi.Proxy {
      * @throws ClassCastException If the GType is not derived from "GTlsFileDatabase", a ClassCastException will be thrown.
      */
     public static TlsFileDatabase castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GTlsFileDatabase"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), TlsFileDatabase.getType())) {
             return new TlsFileDatabaseImpl(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GTlsFileDatabase");
         }
+    }
+    
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.g_tls_file_database_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
     }
     
     /**
@@ -45,7 +59,7 @@ public interface TlsFileDatabase extends io.github.jwharm.javagi.Proxy {
      */
     public static @NotNull org.gtk.gio.TlsFileDatabase new_(@NotNull java.lang.String anchors) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(anchors, "Parameter 'anchors' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_tls_file_database_new.invokeExact(
@@ -64,9 +78,16 @@ public interface TlsFileDatabase extends io.github.jwharm.javagi.Proxy {
     static class DowncallHandles {
         
         @ApiStatus.Internal
+        static final MethodHandle g_tls_file_database_get_type = Interop.downcallHandle(
+            "g_tls_file_database_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+            false
+        );
+        
+        @ApiStatus.Internal
         static final MethodHandle g_tls_file_database_new = Interop.downcallHandle(
             "g_tls_file_database_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
     }

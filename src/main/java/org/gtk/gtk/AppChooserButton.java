@@ -73,7 +73,7 @@ public class AppChooserButton extends org.gtk.gtk.Widget implements org.gtk.gtk.
      * @throws ClassCastException If the GType is not derived from "GtkAppChooserButton", a ClassCastException will be thrown.
      */
     public static AppChooserButton castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkAppChooserButton"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), AppChooserButton.getType())) {
             return new AppChooserButton(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkAppChooserButton");
@@ -287,6 +287,20 @@ public class AppChooserButton extends org.gtk.gtk.Widget implements org.gtk.gtk.
         }
     }
     
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.gtk_app_chooser_button_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+    
     @FunctionalInterface
     public interface Activate {
         void signalReceived(AppChooserButton source);
@@ -308,7 +322,7 @@ public class AppChooserButton extends org.gtk.gtk.Widget implements org.gtk.gtk.
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(AppChooserButton.Callbacks.class, "signalAppChooserButtonActivate",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                     Interop.getScope()),
                 Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
@@ -336,7 +350,7 @@ public class AppChooserButton extends org.gtk.gtk.Widget implements org.gtk.gtk.
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(AppChooserButton.Callbacks.class, "signalAppChooserButtonChanged",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                     Interop.getScope()),
                 Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
@@ -368,7 +382,7 @@ public class AppChooserButton extends org.gtk.gtk.Widget implements org.gtk.gtk.
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(AppChooserButton.Callbacks.class, "signalAppChooserButtonCustomItemActivated",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                     Interop.getScope()),
                 Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
@@ -377,78 +391,168 @@ public class AppChooserButton extends org.gtk.gtk.Widget implements org.gtk.gtk.
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gtk.Widget.Build {
+        
+         /**
+         * A {@link AppChooserButton.Build} object constructs a {@link AppChooserButton} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link AppChooserButton} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link AppChooserButton} using {@link AppChooserButton#castFrom}.
+         * @return A new instance of {@code AppChooserButton} with the properties 
+         *         that were set in the Build object.
+         */
+        public AppChooserButton construct() {
+            return AppChooserButton.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    AppChooserButton.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+        
+        /**
+         * The text to show at the top of the dialog that can be
+         * opened from the button.
+         * <p>
+         * The string may contain Pango markup.
+         * @param heading The value for the {@code heading} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setHeading(java.lang.String heading) {
+            names.add("heading");
+            values.add(org.gtk.gobject.Value.create(heading));
+            return this;
+        }
+        
+        /**
+         * Whether the app chooser dialog should be modal.
+         * @param modal The value for the {@code modal} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setModal(boolean modal) {
+            names.add("modal");
+            values.add(org.gtk.gobject.Value.create(modal));
+            return this;
+        }
+        
+        /**
+         * Determines whether the dropdown menu shows the default application
+         * on top for the provided content type.
+         * @param showDefaultItem The value for the {@code show-default-item} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setShowDefaultItem(boolean showDefaultItem) {
+            names.add("show-default-item");
+            values.add(org.gtk.gobject.Value.create(showDefaultItem));
+            return this;
+        }
+        
+        /**
+         * Determines whether the dropdown menu shows an item to open
+         * a {@code GtkAppChooserDialog}.
+         * @param showDialogItem The value for the {@code show-dialog-item} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setShowDialogItem(boolean showDialogItem) {
+            names.add("show-dialog-item");
+            values.add(org.gtk.gobject.Value.create(showDialogItem));
+            return this;
+        }
+    }
     
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_app_chooser_button_new = Interop.downcallHandle(
             "gtk_app_chooser_button_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_app_chooser_button_append_custom_item = Interop.downcallHandle(
             "gtk_app_chooser_button_append_custom_item",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_app_chooser_button_append_separator = Interop.downcallHandle(
             "gtk_app_chooser_button_append_separator",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_app_chooser_button_get_heading = Interop.downcallHandle(
             "gtk_app_chooser_button_get_heading",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_app_chooser_button_get_modal = Interop.downcallHandle(
             "gtk_app_chooser_button_get_modal",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_app_chooser_button_get_show_default_item = Interop.downcallHandle(
             "gtk_app_chooser_button_get_show_default_item",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_app_chooser_button_get_show_dialog_item = Interop.downcallHandle(
             "gtk_app_chooser_button_get_show_dialog_item",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_app_chooser_button_set_active_custom_item = Interop.downcallHandle(
             "gtk_app_chooser_button_set_active_custom_item",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_app_chooser_button_set_heading = Interop.downcallHandle(
             "gtk_app_chooser_button_set_heading",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_app_chooser_button_set_modal = Interop.downcallHandle(
             "gtk_app_chooser_button_set_modal",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_app_chooser_button_set_show_default_item = Interop.downcallHandle(
             "gtk_app_chooser_button_set_show_default_item",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_app_chooser_button_set_show_dialog_item = Interop.downcallHandle(
             "gtk_app_chooser_button_set_show_dialog_item",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+            false
+        );
+        
+        private static final MethodHandle gtk_app_chooser_button_get_type = Interop.downcallHandle(
+            "gtk_app_chooser_button_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }
@@ -456,21 +560,21 @@ public class AppChooserButton extends org.gtk.gtk.Widget implements org.gtk.gtk.
     private static class Callbacks {
         
         public static void signalAppChooserButtonActivate(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (AppChooserButton.Activate) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new AppChooserButton(source, Ownership.UNKNOWN));
+            HANDLER.signalReceived(new AppChooserButton(source, Ownership.NONE));
         }
         
         public static void signalAppChooserButtonChanged(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (AppChooserButton.Changed) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new AppChooserButton(source, Ownership.UNKNOWN));
+            HANDLER.signalReceived(new AppChooserButton(source, Ownership.NONE));
         }
         
         public static void signalAppChooserButtonCustomItemActivated(MemoryAddress source, MemoryAddress itemName, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (AppChooserButton.CustomItemActivated) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new AppChooserButton(source, Ownership.UNKNOWN), Interop.getStringFrom(itemName));
+            HANDLER.signalReceived(new AppChooserButton(source, Ownership.NONE), Interop.getStringFrom(itemName));
         }
     }
 }

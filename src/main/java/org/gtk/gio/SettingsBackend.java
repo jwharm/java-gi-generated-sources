@@ -39,7 +39,7 @@ public class SettingsBackend extends org.gtk.gobject.Object {
     
     private static final java.lang.String C_TYPE_NAME = "GSettingsBackend";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gobject.Object.getMemoryLayout().withName("parent_instance"),
         Interop.valueLayout.ADDRESS.withName("priv")
     ).withName(C_TYPE_NAME);
@@ -85,7 +85,7 @@ public class SettingsBackend extends org.gtk.gobject.Object {
      * @throws ClassCastException If the GType is not derived from "GSettingsBackend", a ClassCastException will be thrown.
      */
     public static SettingsBackend castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GSettingsBackend"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), SettingsBackend.getType())) {
             return new SettingsBackend(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GSettingsBackend");
@@ -124,7 +124,7 @@ public class SettingsBackend extends org.gtk.gobject.Object {
             DowncallHandles.g_settings_backend_changed.invokeExact(
                     handle(),
                     Interop.allocateNativeString(key),
-                    (Addressable) (originTag == null ? MemoryAddress.NULL : originTag));
+                    (Addressable) (originTag == null ? MemoryAddress.NULL : (Addressable) originTag));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -143,7 +143,7 @@ public class SettingsBackend extends org.gtk.gobject.Object {
             DowncallHandles.g_settings_backend_changed_tree.invokeExact(
                     handle(),
                     tree.handle(),
-                    (Addressable) (originTag == null ? MemoryAddress.NULL : originTag));
+                    (Addressable) (originTag == null ? MemoryAddress.NULL : (Addressable) originTag));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -183,7 +183,7 @@ public class SettingsBackend extends org.gtk.gobject.Object {
                     handle(),
                     Interop.allocateNativeString(path),
                     Interop.allocateNativeArray(items, false),
-                    (Addressable) (originTag == null ? MemoryAddress.NULL : originTag));
+                    (Addressable) (originTag == null ? MemoryAddress.NULL : (Addressable) originTag));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -220,7 +220,7 @@ public class SettingsBackend extends org.gtk.gobject.Object {
             DowncallHandles.g_settings_backend_path_changed.invokeExact(
                     handle(),
                     Interop.allocateNativeString(path),
-                    (Addressable) (originTag == null ? MemoryAddress.NULL : originTag));
+                    (Addressable) (originTag == null ? MemoryAddress.NULL : (Addressable) originTag));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -264,6 +264,20 @@ public class SettingsBackend extends org.gtk.gobject.Object {
     }
     
     /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.g_settings_backend_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+    
+    /**
      * Calculate the longest common prefix of all keys in a tree and write
      * out an array of the key names relative to that prefix and,
      * optionally, the value to store at each of those keys.
@@ -300,54 +314,95 @@ public class SettingsBackend extends org.gtk.gobject.Object {
         }
         return new org.gtk.gio.SettingsBackend(RESULT, Ownership.FULL);
     }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gobject.Object.Build {
+        
+         /**
+         * A {@link SettingsBackend.Build} object constructs a {@link SettingsBackend} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link SettingsBackend} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link SettingsBackend} using {@link SettingsBackend#castFrom}.
+         * @return A new instance of {@code SettingsBackend} with the properties 
+         *         that were set in the Build object.
+         */
+        public SettingsBackend construct() {
+            return SettingsBackend.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    SettingsBackend.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+    }
     
     private static class DowncallHandles {
         
         private static final MethodHandle g_settings_backend_changed = Interop.downcallHandle(
             "g_settings_backend_changed",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_settings_backend_changed_tree = Interop.downcallHandle(
             "g_settings_backend_changed_tree",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_settings_backend_keys_changed = Interop.downcallHandle(
             "g_settings_backend_keys_changed",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_settings_backend_path_changed = Interop.downcallHandle(
             "g_settings_backend_path_changed",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_settings_backend_path_writable_changed = Interop.downcallHandle(
             "g_settings_backend_path_writable_changed",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_settings_backend_writable_changed = Interop.downcallHandle(
             "g_settings_backend_writable_changed",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+            false
+        );
+        
+        private static final MethodHandle g_settings_backend_get_type = Interop.downcallHandle(
+            "g_settings_backend_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
         
         private static final MethodHandle g_settings_backend_flatten_tree = Interop.downcallHandle(
             "g_settings_backend_flatten_tree",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_settings_backend_get_default = Interop.downcallHandle(
             "g_settings_backend_get_default",
-            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
             false
         );
     }

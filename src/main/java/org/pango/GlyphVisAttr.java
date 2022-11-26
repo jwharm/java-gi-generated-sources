@@ -17,7 +17,7 @@ import org.jetbrains.annotations.*;
  * that is, in Arabic text, accent glyphs follow the glyphs for the
  * base character.
  */
-public class GlyphVisAttr extends io.github.jwharm.javagi.ProxyBase {
+public class GlyphVisAttr extends Struct {
     
     static {
         Pango.javagi$ensureInitialized();
@@ -25,9 +25,9 @@ public class GlyphVisAttr extends io.github.jwharm.javagi.ProxyBase {
     
     private static final java.lang.String C_TYPE_NAME = "PangoGlyphVisAttr";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
-        ValueLayout.JAVA_INT.withName("is_cluster_start"),
-        ValueLayout.JAVA_INT.withName("is_color")
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
+        Interop.valueLayout.C_INT.withName("is_cluster_start"),
+        Interop.valueLayout.C_INT.withName("is_color")
     ).withName(C_TYPE_NAME);
     
     /**
@@ -41,6 +41,10 @@ public class GlyphVisAttr extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link GlyphVisAttr}
+     * @return A new, uninitialized @{link GlyphVisAttr}
+     */
     public static GlyphVisAttr allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         GlyphVisAttr newInstance = new GlyphVisAttr(segment.address(), Ownership.NONE);
@@ -98,5 +102,57 @@ public class GlyphVisAttr extends io.github.jwharm.javagi.ProxyBase {
     @ApiStatus.Internal
     public GlyphVisAttr(Addressable address, Ownership ownership) {
         super(address, ownership);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private GlyphVisAttr struct;
+        
+         /**
+         * A {@link GlyphVisAttr.Build} object constructs a {@link GlyphVisAttr} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = GlyphVisAttr.allocate();
+        }
+        
+         /**
+         * Finish building the {@link GlyphVisAttr} struct.
+         * @return A new instance of {@code GlyphVisAttr} with the fields 
+         *         that were set in the Build object.
+         */
+        public GlyphVisAttr construct() {
+            return struct;
+        }
+        
+        /**
+         * set for the first logical glyph in each cluster.
+         * @param is_cluster_start The value for the {@code is_cluster_start} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setIsClusterStart(int is_cluster_start) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("is_cluster_start"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), is_cluster_start);
+            return this;
+        }
+        
+        /**
+         * set if the the font will render this glyph with color. Since 1.50
+         * @param is_color The value for the {@code is_color} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setIsColor(int is_color) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("is_color"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), is_color);
+            return this;
+        }
     }
 }

@@ -84,7 +84,7 @@ public class TreeExpander extends org.gtk.gtk.Widget implements org.gtk.gtk.Acce
      * @throws ClassCastException If the GType is not derived from "GtkTreeExpander", a ClassCastException will be thrown.
      */
     public static TreeExpander castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkTreeExpander"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), TreeExpander.getType())) {
             return new TreeExpander(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkTreeExpander");
@@ -215,53 +215,152 @@ public class TreeExpander extends org.gtk.gtk.Widget implements org.gtk.gtk.Acce
         }
     }
     
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.gtk_tree_expander_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gtk.Widget.Build {
+        
+         /**
+         * A {@link TreeExpander.Build} object constructs a {@link TreeExpander} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link TreeExpander} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link TreeExpander} using {@link TreeExpander#castFrom}.
+         * @return A new instance of {@code TreeExpander} with the properties 
+         *         that were set in the Build object.
+         */
+        public TreeExpander construct() {
+            return TreeExpander.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    TreeExpander.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+        
+        /**
+         * The child widget with the actual contents.
+         * @param child The value for the {@code child} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setChild(org.gtk.gtk.Widget child) {
+            names.add("child");
+            values.add(org.gtk.gobject.Value.create(child));
+            return this;
+        }
+        
+        /**
+         * TreeExpander indents the child by the width of an expander-icon if it is not expandable.
+         * @param indentForIcon The value for the {@code indent-for-icon} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setIndentForIcon(boolean indentForIcon) {
+            names.add("indent-for-icon");
+            values.add(org.gtk.gobject.Value.create(indentForIcon));
+            return this;
+        }
+        
+        /**
+         * The item held by this expander's row.
+         * @param item The value for the {@code item} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setItem(org.gtk.gobject.Object item) {
+            names.add("item");
+            values.add(org.gtk.gobject.Value.create(item));
+            return this;
+        }
+        
+        /**
+         * The list row to track for expander state.
+         * @param listRow The value for the {@code list-row} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setListRow(org.gtk.gtk.TreeListRow listRow) {
+            names.add("list-row");
+            values.add(org.gtk.gobject.Value.create(listRow));
+            return this;
+        }
+    }
+    
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_tree_expander_new = Interop.downcallHandle(
             "gtk_tree_expander_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_tree_expander_get_child = Interop.downcallHandle(
             "gtk_tree_expander_get_child",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_tree_expander_get_indent_for_icon = Interop.downcallHandle(
             "gtk_tree_expander_get_indent_for_icon",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_tree_expander_get_item = Interop.downcallHandle(
             "gtk_tree_expander_get_item",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_tree_expander_get_list_row = Interop.downcallHandle(
             "gtk_tree_expander_get_list_row",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_tree_expander_set_child = Interop.downcallHandle(
             "gtk_tree_expander_set_child",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_tree_expander_set_indent_for_icon = Interop.downcallHandle(
             "gtk_tree_expander_set_indent_for_icon",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_tree_expander_set_list_row = Interop.downcallHandle(
             "gtk_tree_expander_set_list_row",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+            false
+        );
+        
+        private static final MethodHandle gtk_tree_expander_get_type = Interop.downcallHandle(
+            "gtk_tree_expander_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }

@@ -5,7 +5,7 @@ import java.lang.foreign.*;
 import java.lang.invoke.*;
 import org.jetbrains.annotations.*;
 
-public class ViewStackPageClass extends io.github.jwharm.javagi.ProxyBase {
+public class ViewStackPageClass extends Struct {
     
     static {
         Adw.javagi$ensureInitialized();
@@ -13,7 +13,7 @@ public class ViewStackPageClass extends io.github.jwharm.javagi.ProxyBase {
     
     private static final java.lang.String C_TYPE_NAME = "AdwViewStackPageClass";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gobject.ObjectClass.getMemoryLayout().withName("parent_class")
     ).withName(C_TYPE_NAME);
     
@@ -28,6 +28,10 @@ public class ViewStackPageClass extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link ViewStackPageClass}
+     * @return A new, uninitialized @{link ViewStackPageClass}
+     */
     public static ViewStackPageClass allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         ViewStackPageClass newInstance = new ViewStackPageClass(segment.address(), Ownership.NONE);
@@ -52,5 +56,40 @@ public class ViewStackPageClass extends io.github.jwharm.javagi.ProxyBase {
     @ApiStatus.Internal
     public ViewStackPageClass(Addressable address, Ownership ownership) {
         super(address, ownership);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private ViewStackPageClass struct;
+        
+         /**
+         * A {@link ViewStackPageClass.Build} object constructs a {@link ViewStackPageClass} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = ViewStackPageClass.allocate();
+        }
+        
+         /**
+         * Finish building the {@link ViewStackPageClass} struct.
+         * @return A new instance of {@code ViewStackPageClass} with the fields 
+         *         that were set in the Build object.
+         */
+        public ViewStackPageClass construct() {
+            return struct;
+        }
+        
+        public Build setParentClass(org.gtk.gobject.ObjectClass parent_class) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parent_class == null ? MemoryAddress.NULL : parent_class.handle()));
+            return this;
+        }
     }
 }

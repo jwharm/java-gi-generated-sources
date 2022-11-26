@@ -48,7 +48,7 @@ public class ConstantExpression extends org.gtk.gtk.Expression {
      * @throws ClassCastException If the GType is not derived from "GtkConstantExpression", a ClassCastException will be thrown.
      */
     public static ConstantExpression castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkConstantExpression"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), ConstantExpression.getType())) {
             return new ConstantExpression(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkConstantExpression");
@@ -114,23 +114,78 @@ public class ConstantExpression extends org.gtk.gtk.Expression {
         return new org.gtk.gobject.Value(RESULT, Ownership.NONE);
     }
     
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.gtk_constant_expression_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gtk.Expression.Build {
+        
+         /**
+         * A {@link ConstantExpression.Build} object constructs a {@link ConstantExpression} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link ConstantExpression} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link ConstantExpression} using {@link ConstantExpression#castFrom}.
+         * @return A new instance of {@code ConstantExpression} with the properties 
+         *         that were set in the Build object.
+         */
+        public ConstantExpression construct() {
+            return ConstantExpression.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    ConstantExpression.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+    }
+    
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_constant_expression_new = Interop.downcallHandle(
             "gtk_constant_expression_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
             true
         );
         
         private static final MethodHandle gtk_constant_expression_new_for_value = Interop.downcallHandle(
             "gtk_constant_expression_new_for_value",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_constant_expression_get_value = Interop.downcallHandle(
             "gtk_constant_expression_get_value",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+            false
+        );
+        
+        private static final MethodHandle gtk_constant_expression_get_type = Interop.downcallHandle(
+            "gtk_constant_expression_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }

@@ -50,7 +50,7 @@ public class CallbackAnimationTarget extends org.gnome.adw.AnimationTarget {
      * @throws ClassCastException If the GType is not derived from "AdwCallbackAnimationTarget", a ClassCastException will be thrown.
      */
     public static CallbackAnimationTarget castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("AdwCallbackAnimationTarget"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), CallbackAnimationTarget.getType())) {
             return new CallbackAnimationTarget(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of AdwCallbackAnimationTarget");
@@ -65,7 +65,7 @@ public class CallbackAnimationTarget extends org.gnome.adw.AnimationTarget {
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Adw.Callbacks.class, "cbAnimationTargetFunc",
                             MethodType.methodType(void.class, double.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS),
+                        FunctionDescriptor.ofVoid(Interop.valueLayout.C_DOUBLE, Interop.valueLayout.ADDRESS),
                         Interop.getScope()),
                     (Addressable) (Interop.registerCallback(callback)),
                     Interop.cbDestroyNotifySymbol());
@@ -84,11 +84,66 @@ public class CallbackAnimationTarget extends org.gnome.adw.AnimationTarget {
         super(constructNew(callback), Ownership.FULL);
     }
     
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.adw_callback_animation_target_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gnome.adw.AnimationTarget.Build {
+        
+         /**
+         * A {@link CallbackAnimationTarget.Build} object constructs a {@link CallbackAnimationTarget} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link CallbackAnimationTarget} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link CallbackAnimationTarget} using {@link CallbackAnimationTarget#castFrom}.
+         * @return A new instance of {@code CallbackAnimationTarget} with the properties 
+         *         that were set in the Build object.
+         */
+        public CallbackAnimationTarget construct() {
+            return CallbackAnimationTarget.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    CallbackAnimationTarget.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+    }
+    
     private static class DowncallHandles {
         
         private static final MethodHandle adw_callback_animation_target_new = Interop.downcallHandle(
             "adw_callback_animation_target_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+            false
+        );
+        
+        private static final MethodHandle adw_callback_animation_target_get_type = Interop.downcallHandle(
+            "adw_callback_animation_target_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }

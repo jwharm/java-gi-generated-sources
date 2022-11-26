@@ -8,7 +8,7 @@ import org.jetbrains.annotations.*;
 /**
  * An opaque structure representing a path to a row in a model.
  */
-public class TreePath extends io.github.jwharm.javagi.ProxyBase {
+public class TreePath extends Struct {
     
     static {
         Gtk.javagi$ensureInitialized();
@@ -27,6 +27,10 @@ public class TreePath extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link TreePath}
+     * @return A new, uninitialized @{link TreePath}
+     */
     public static TreePath allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         TreePath newInstance = new TreePath(segment.address(), Ownership.NONE);
@@ -279,7 +283,7 @@ public class TreePath extends io.github.jwharm.javagi.ProxyBase {
      */
     public @Nullable int[] getIndicesWithDepth(Out<Integer> depth) {
         java.util.Objects.requireNonNull(depth, "Parameter 'depth' must not be null");
-        MemorySegment depthPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
+        MemorySegment depthPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_tree_path_get_indices_with_depth.invokeExact(
@@ -288,9 +292,9 @@ public class TreePath extends io.github.jwharm.javagi.ProxyBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        depth.set(depthPOINTER.get(ValueLayout.JAVA_INT, 0));
+        depth.set(depthPOINTER.get(Interop.valueLayout.C_INT, 0));
         if (RESULT.equals(MemoryAddress.NULL)) return null;
-        return MemorySegment.ofAddress(RESULT.get(ValueLayout.ADDRESS, 0), depth.get().intValue() * ValueLayout.JAVA_INT.byteSize(), Interop.getScope()).toArray(ValueLayout.JAVA_INT);
+        return MemorySegment.ofAddress(RESULT.get(Interop.valueLayout.ADDRESS, 0), depth.get().intValue() * Interop.valueLayout.C_INT.byteSize(), Interop.getScope()).toArray(Interop.valueLayout.C_INT);
     }
     
     /**
@@ -413,122 +417,150 @@ public class TreePath extends io.github.jwharm.javagi.ProxyBase {
         
         private static final MethodHandle gtk_tree_path_new = Interop.downcallHandle(
             "gtk_tree_path_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_tree_path_new_first = Interop.downcallHandle(
             "gtk_tree_path_new_first",
-            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_tree_path_new_from_indices = Interop.downcallHandle(
             "gtk_tree_path_new_from_indices",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             true
         );
         
         private static final MethodHandle gtk_tree_path_new_from_indicesv = Interop.downcallHandle(
             "gtk_tree_path_new_from_indicesv",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
             false
         );
         
         private static final MethodHandle gtk_tree_path_new_from_string = Interop.downcallHandle(
             "gtk_tree_path_new_from_string",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_tree_path_append_index = Interop.downcallHandle(
             "gtk_tree_path_append_index",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_tree_path_compare = Interop.downcallHandle(
             "gtk_tree_path_compare",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_tree_path_copy = Interop.downcallHandle(
             "gtk_tree_path_copy",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_tree_path_down = Interop.downcallHandle(
             "gtk_tree_path_down",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_tree_path_free = Interop.downcallHandle(
             "gtk_tree_path_free",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_tree_path_get_depth = Interop.downcallHandle(
             "gtk_tree_path_get_depth",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_tree_path_get_indices = Interop.downcallHandle(
             "gtk_tree_path_get_indices",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_tree_path_get_indices_with_depth = Interop.downcallHandle(
             "gtk_tree_path_get_indices_with_depth",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_tree_path_is_ancestor = Interop.downcallHandle(
             "gtk_tree_path_is_ancestor",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_tree_path_is_descendant = Interop.downcallHandle(
             "gtk_tree_path_is_descendant",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_tree_path_next = Interop.downcallHandle(
             "gtk_tree_path_next",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_tree_path_prepend_index = Interop.downcallHandle(
             "gtk_tree_path_prepend_index",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_tree_path_prev = Interop.downcallHandle(
             "gtk_tree_path_prev",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_tree_path_to_string = Interop.downcallHandle(
             "gtk_tree_path_to_string",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_tree_path_up = Interop.downcallHandle(
             "gtk_tree_path_up",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private TreePath struct;
+        
+         /**
+         * A {@link TreePath.Build} object constructs a {@link TreePath} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = TreePath.allocate();
+        }
+        
+         /**
+         * Finish building the {@link TreePath} struct.
+         * @return A new instance of {@code TreePath} with the fields 
+         *         that were set in the Build object.
+         */
+        public TreePath construct() {
+            return struct;
+        }
     }
 }

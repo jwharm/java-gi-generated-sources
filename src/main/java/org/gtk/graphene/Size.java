@@ -9,7 +9,7 @@ import org.jetbrains.annotations.*;
  * A size.
  * @version 1.0
  */
-public class Size extends io.github.jwharm.javagi.ProxyBase {
+public class Size extends Struct {
     
     static {
         Graphene.javagi$ensureInitialized();
@@ -17,9 +17,9 @@ public class Size extends io.github.jwharm.javagi.ProxyBase {
     
     private static final java.lang.String C_TYPE_NAME = "graphene_size_t";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
-        ValueLayout.JAVA_FLOAT.withName("width"),
-        ValueLayout.JAVA_FLOAT.withName("height")
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
+        Interop.valueLayout.C_FLOAT.withName("width"),
+        Interop.valueLayout.C_FLOAT.withName("height")
     ).withName(C_TYPE_NAME);
     
     /**
@@ -33,6 +33,10 @@ public class Size extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link Size}
+     * @return A new, uninitialized @{link Size}
+     */
     public static Size allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         Size newInstance = new Size(segment.address(), Ownership.NONE);
@@ -237,50 +241,102 @@ public class Size extends io.github.jwharm.javagi.ProxyBase {
         
         private static final MethodHandle graphene_size_alloc = Interop.downcallHandle(
             "graphene_size_alloc",
-            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle graphene_size_equal = Interop.downcallHandle(
             "graphene_size_equal",
-            FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_BOOLEAN, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle graphene_size_free = Interop.downcallHandle(
             "graphene_size_free",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle graphene_size_init = Interop.downcallHandle(
             "graphene_size_init",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_FLOAT, Interop.valueLayout.C_FLOAT),
             false
         );
         
         private static final MethodHandle graphene_size_init_from_size = Interop.downcallHandle(
             "graphene_size_init_from_size",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle graphene_size_interpolate = Interop.downcallHandle(
             "graphene_size_interpolate",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle graphene_size_scale = Interop.downcallHandle(
             "graphene_size_scale",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_FLOAT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle graphene_size_zero = Interop.downcallHandle(
             "graphene_size_zero",
-            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
             false
         );
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private Size struct;
+        
+         /**
+         * A {@link Size.Build} object constructs a {@link Size} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = Size.allocate();
+        }
+        
+         /**
+         * Finish building the {@link Size} struct.
+         * @return A new instance of {@code Size} with the fields 
+         *         that were set in the Build object.
+         */
+        public Size construct() {
+            return struct;
+        }
+        
+        /**
+         * the width
+         * @param width The value for the {@code width} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setWidth(float width) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("width"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), width);
+            return this;
+        }
+        
+        /**
+         * the height
+         * @param height The value for the {@code height} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setHeight(float height) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("height"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), height);
+            return this;
+        }
     }
 }

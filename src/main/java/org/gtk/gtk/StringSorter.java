@@ -55,7 +55,7 @@ public class StringSorter extends org.gtk.gtk.Sorter {
      * @throws ClassCastException If the GType is not derived from "GtkStringSorter", a ClassCastException will be thrown.
      */
     public static StringSorter castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkStringSorter"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), StringSorter.getType())) {
             return new StringSorter(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkStringSorter");
@@ -146,35 +146,112 @@ public class StringSorter extends org.gtk.gtk.Sorter {
         }
     }
     
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.gtk_string_sorter_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gtk.Sorter.Build {
+        
+         /**
+         * A {@link StringSorter.Build} object constructs a {@link StringSorter} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link StringSorter} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link StringSorter} using {@link StringSorter#castFrom}.
+         * @return A new instance of {@code StringSorter} with the properties 
+         *         that were set in the Build object.
+         */
+        public StringSorter construct() {
+            return StringSorter.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    StringSorter.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+        
+        /**
+         * The expression to evaluate on item to get a string to compare with.
+         * @param expression The value for the {@code expression} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setExpression(org.gtk.gtk.Expression expression) {
+            names.add("expression");
+            values.add(org.gtk.gobject.Value.create(expression));
+            return this;
+        }
+        
+        /**
+         * If matching is case sensitive.
+         * @param ignoreCase The value for the {@code ignore-case} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setIgnoreCase(boolean ignoreCase) {
+            names.add("ignore-case");
+            values.add(org.gtk.gobject.Value.create(ignoreCase));
+            return this;
+        }
+    }
+    
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_string_sorter_new = Interop.downcallHandle(
             "gtk_string_sorter_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_string_sorter_get_expression = Interop.downcallHandle(
             "gtk_string_sorter_get_expression",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_string_sorter_get_ignore_case = Interop.downcallHandle(
             "gtk_string_sorter_get_ignore_case",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_string_sorter_set_expression = Interop.downcallHandle(
             "gtk_string_sorter_set_expression",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_string_sorter_set_ignore_case = Interop.downcallHandle(
             "gtk_string_sorter_set_ignore_case",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+            false
+        );
+        
+        private static final MethodHandle gtk_string_sorter_get_type = Interop.downcallHandle(
+            "gtk_string_sorter_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }

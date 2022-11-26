@@ -76,7 +76,7 @@ public class FileInfo extends org.gtk.gobject.Object {
      * @throws ClassCastException If the GType is not derived from "GFileInfo", a ClassCastException will be thrown.
      */
     public static FileInfo castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GFileInfo"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), FileInfo.getType())) {
             return new FileInfo(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GFileInfo");
@@ -150,6 +150,9 @@ public class FileInfo extends org.gtk.gobject.Object {
      * This requires the {@code G_FILE_ATTRIBUTE_TIME_ACCESS} attribute. If
      * {@code G_FILE_ATTRIBUTE_TIME_ACCESS_USEC} is provided, the resulting {@link org.gtk.glib.DateTime}
      * will have microsecond precision.
+     * <p>
+     * If nanosecond precision is needed, {@code G_FILE_ATTRIBUTE_TIME_ACCESS_NSEC} must
+     * be queried separately using g_file_info_get_attribute_uint32().
      * @return access time, or {@code null} if unknown
      */
     public @Nullable org.gtk.glib.DateTime getAccessDateTime() {
@@ -237,11 +240,11 @@ public class FileInfo extends org.gtk.gobject.Object {
     public boolean getAttributeData(@NotNull java.lang.String attribute, @NotNull Out<org.gtk.gio.FileAttributeType> type, @NotNull Out<java.lang.foreign.MemoryAddress> valuePp, @NotNull Out<org.gtk.gio.FileAttributeStatus> status) {
         java.util.Objects.requireNonNull(attribute, "Parameter 'attribute' must not be null");
         java.util.Objects.requireNonNull(type, "Parameter 'type' must not be null");
+        MemorySegment typePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         java.util.Objects.requireNonNull(valuePp, "Parameter 'valuePp' must not be null");
+        MemorySegment valuePpPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         java.util.Objects.requireNonNull(status, "Parameter 'status' must not be null");
-        MemorySegment typePOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
-        MemorySegment valuePpPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        MemorySegment statusPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
+        MemorySegment statusPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_file_info_get_attribute_data.invokeExact(
@@ -253,9 +256,9 @@ public class FileInfo extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        type.set(new org.gtk.gio.FileAttributeType(typePOINTER.get(ValueLayout.JAVA_INT, 0)));
-        valuePp.set(valuePpPOINTER.get(ValueLayout.ADDRESS, 0));
-        status.set(new org.gtk.gio.FileAttributeStatus(statusPOINTER.get(ValueLayout.JAVA_INT, 0)));
+        type.set(new org.gtk.gio.FileAttributeType(typePOINTER.get(Interop.valueLayout.C_INT, 0)));
+        valuePp.set(valuePpPOINTER.get(Interop.valueLayout.ADDRESS, 0));
+        status.set(new org.gtk.gio.FileAttributeStatus(statusPOINTER.get(Interop.valueLayout.C_INT, 0)));
         return RESULT != 0;
     }
     
@@ -460,6 +463,9 @@ public class FileInfo extends org.gtk.gobject.Object {
      * This requires the {@code G_FILE_ATTRIBUTE_TIME_CREATED} attribute. If
      * {@code G_FILE_ATTRIBUTE_TIME_CREATED_USEC} is provided, the resulting {@link org.gtk.glib.DateTime}
      * will have microsecond precision.
+     * <p>
+     * If nanosecond precision is needed, {@code G_FILE_ATTRIBUTE_TIME_CREATED_NSEC} must
+     * be queried separately using g_file_info_get_attribute_uint32().
      * @return creation time, or {@code null} if unknown
      */
     public @Nullable org.gtk.glib.DateTime getCreationDateTime() {
@@ -619,6 +625,9 @@ public class FileInfo extends org.gtk.gobject.Object {
      * This requires the {@code G_FILE_ATTRIBUTE_TIME_MODIFIED} attribute. If
      * {@code G_FILE_ATTRIBUTE_TIME_MODIFIED_USEC} is provided, the resulting {@link org.gtk.glib.DateTime}
      * will have microsecond precision.
+     * <p>
+     * If nanosecond precision is needed, {@code G_FILE_ATTRIBUTE_TIME_MODIFIED_NSEC} must
+     * be queried separately using g_file_info_get_attribute_uint32().
      * @return modification time, or {@code null} if unknown
      */
     public @Nullable org.gtk.glib.DateTime getModificationDateTime() {
@@ -807,6 +816,8 @@ public class FileInfo extends org.gtk.gobject.Object {
      * Sets the {@code G_FILE_ATTRIBUTE_TIME_ACCESS} and
      * {@code G_FILE_ATTRIBUTE_TIME_ACCESS_USEC} attributes in the file info to the
      * given date/time value.
+     * <p>
+     * {@code G_FILE_ATTRIBUTE_TIME_ACCESS_NSEC} will be cleared.
      * @param atime a {@link org.gtk.glib.DateTime}.
      */
     public void setAccessDateTime(@NotNull org.gtk.glib.DateTime atime) {
@@ -836,7 +847,7 @@ public class FileInfo extends org.gtk.gobject.Object {
                     handle(),
                     Interop.allocateNativeString(attribute),
                     type.getValue(),
-                    valueP);
+                    (Addressable) valueP);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1072,6 +1083,8 @@ public class FileInfo extends org.gtk.gobject.Object {
      * Sets the {@code G_FILE_ATTRIBUTE_TIME_CREATED} and
      * {@code G_FILE_ATTRIBUTE_TIME_CREATED_USEC} attributes in the file info to the
      * given date/time value.
+     * <p>
+     * {@code G_FILE_ATTRIBUTE_TIME_CREATED_NSEC} will be cleared.
      * @param creationTime a {@link org.gtk.glib.DateTime}.
      */
     public void setCreationDateTime(@NotNull org.gtk.glib.DateTime creationTime) {
@@ -1183,6 +1196,8 @@ public class FileInfo extends org.gtk.gobject.Object {
      * Sets the {@code G_FILE_ATTRIBUTE_TIME_MODIFIED} and
      * {@code G_FILE_ATTRIBUTE_TIME_MODIFIED_USEC} attributes in the file info to the
      * given date/time value.
+     * <p>
+     * {@code G_FILE_ATTRIBUTE_TIME_MODIFIED_NSEC} will be cleared.
      * @param mtime a {@link org.gtk.glib.DateTime}.
      */
     public void setModificationDateTime(@NotNull org.gtk.glib.DateTime mtime) {
@@ -1200,6 +1215,8 @@ public class FileInfo extends org.gtk.gobject.Object {
      * Sets the {@code G_FILE_ATTRIBUTE_TIME_MODIFIED} and
      * {@code G_FILE_ATTRIBUTE_TIME_MODIFIED_USEC} attributes in the file info to the
      * given time value.
+     * <p>
+     * {@code G_FILE_ATTRIBUTE_TIME_MODIFIED_NSEC} will be cleared.
      * @param mtime a {@link org.gtk.glib.TimeVal}.
      * @deprecated Use g_file_info_set_modification_date_time() instead, as
      *    {@link org.gtk.glib.TimeVal} is deprecated due to the year 2038 problem.
@@ -1307,419 +1324,474 @@ public class FileInfo extends org.gtk.gobject.Object {
         }
     }
     
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.g_file_info_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gobject.Object.Build {
+        
+         /**
+         * A {@link FileInfo.Build} object constructs a {@link FileInfo} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link FileInfo} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link FileInfo} using {@link FileInfo#castFrom}.
+         * @return A new instance of {@code FileInfo} with the properties 
+         *         that were set in the Build object.
+         */
+        public FileInfo construct() {
+            return FileInfo.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    FileInfo.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+    }
+    
     private static class DowncallHandles {
         
         private static final MethodHandle g_file_info_new = Interop.downcallHandle(
             "g_file_info_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_file_info_clear_status = Interop.downcallHandle(
             "g_file_info_clear_status",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_file_info_copy_into = Interop.downcallHandle(
             "g_file_info_copy_into",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_file_info_dup = Interop.downcallHandle(
             "g_file_info_dup",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_file_info_get_access_date_time = Interop.downcallHandle(
             "g_file_info_get_access_date_time",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_file_info_get_attribute_as_string = Interop.downcallHandle(
             "g_file_info_get_attribute_as_string",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_file_info_get_attribute_boolean = Interop.downcallHandle(
             "g_file_info_get_attribute_boolean",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_file_info_get_attribute_byte_string = Interop.downcallHandle(
             "g_file_info_get_attribute_byte_string",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_file_info_get_attribute_data = Interop.downcallHandle(
             "g_file_info_get_attribute_data",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_file_info_get_attribute_int32 = Interop.downcallHandle(
             "g_file_info_get_attribute_int32",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_file_info_get_attribute_int64 = Interop.downcallHandle(
             "g_file_info_get_attribute_int64",
-            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_file_info_get_attribute_object = Interop.downcallHandle(
             "g_file_info_get_attribute_object",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_file_info_get_attribute_status = Interop.downcallHandle(
             "g_file_info_get_attribute_status",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_file_info_get_attribute_string = Interop.downcallHandle(
             "g_file_info_get_attribute_string",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_file_info_get_attribute_stringv = Interop.downcallHandle(
             "g_file_info_get_attribute_stringv",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_file_info_get_attribute_type = Interop.downcallHandle(
             "g_file_info_get_attribute_type",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_file_info_get_attribute_uint32 = Interop.downcallHandle(
             "g_file_info_get_attribute_uint32",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_file_info_get_attribute_uint64 = Interop.downcallHandle(
             "g_file_info_get_attribute_uint64",
-            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_file_info_get_content_type = Interop.downcallHandle(
             "g_file_info_get_content_type",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_file_info_get_creation_date_time = Interop.downcallHandle(
             "g_file_info_get_creation_date_time",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_file_info_get_deletion_date = Interop.downcallHandle(
             "g_file_info_get_deletion_date",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_file_info_get_display_name = Interop.downcallHandle(
             "g_file_info_get_display_name",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_file_info_get_edit_name = Interop.downcallHandle(
             "g_file_info_get_edit_name",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_file_info_get_etag = Interop.downcallHandle(
             "g_file_info_get_etag",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_file_info_get_file_type = Interop.downcallHandle(
             "g_file_info_get_file_type",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_file_info_get_icon = Interop.downcallHandle(
             "g_file_info_get_icon",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_file_info_get_is_backup = Interop.downcallHandle(
             "g_file_info_get_is_backup",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_file_info_get_is_hidden = Interop.downcallHandle(
             "g_file_info_get_is_hidden",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_file_info_get_is_symlink = Interop.downcallHandle(
             "g_file_info_get_is_symlink",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_file_info_get_modification_date_time = Interop.downcallHandle(
             "g_file_info_get_modification_date_time",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_file_info_get_modification_time = Interop.downcallHandle(
             "g_file_info_get_modification_time",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_file_info_get_name = Interop.downcallHandle(
             "g_file_info_get_name",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_file_info_get_size = Interop.downcallHandle(
             "g_file_info_get_size",
-            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_file_info_get_sort_order = Interop.downcallHandle(
             "g_file_info_get_sort_order",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_file_info_get_symbolic_icon = Interop.downcallHandle(
             "g_file_info_get_symbolic_icon",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_file_info_get_symlink_target = Interop.downcallHandle(
             "g_file_info_get_symlink_target",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_file_info_has_attribute = Interop.downcallHandle(
             "g_file_info_has_attribute",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_file_info_has_namespace = Interop.downcallHandle(
             "g_file_info_has_namespace",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_file_info_list_attributes = Interop.downcallHandle(
             "g_file_info_list_attributes",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_file_info_remove_attribute = Interop.downcallHandle(
             "g_file_info_remove_attribute",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_file_info_set_access_date_time = Interop.downcallHandle(
             "g_file_info_set_access_date_time",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_file_info_set_attribute = Interop.downcallHandle(
             "g_file_info_set_attribute",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_file_info_set_attribute_boolean = Interop.downcallHandle(
             "g_file_info_set_attribute_boolean",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_file_info_set_attribute_byte_string = Interop.downcallHandle(
             "g_file_info_set_attribute_byte_string",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_file_info_set_attribute_int32 = Interop.downcallHandle(
             "g_file_info_set_attribute_int32",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_file_info_set_attribute_int64 = Interop.downcallHandle(
             "g_file_info_set_attribute_int64",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
             false
         );
         
         private static final MethodHandle g_file_info_set_attribute_mask = Interop.downcallHandle(
             "g_file_info_set_attribute_mask",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_file_info_set_attribute_object = Interop.downcallHandle(
             "g_file_info_set_attribute_object",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_file_info_set_attribute_status = Interop.downcallHandle(
             "g_file_info_set_attribute_status",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_file_info_set_attribute_string = Interop.downcallHandle(
             "g_file_info_set_attribute_string",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_file_info_set_attribute_stringv = Interop.downcallHandle(
             "g_file_info_set_attribute_stringv",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_file_info_set_attribute_uint32 = Interop.downcallHandle(
             "g_file_info_set_attribute_uint32",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_file_info_set_attribute_uint64 = Interop.downcallHandle(
             "g_file_info_set_attribute_uint64",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
             false
         );
         
         private static final MethodHandle g_file_info_set_content_type = Interop.downcallHandle(
             "g_file_info_set_content_type",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_file_info_set_creation_date_time = Interop.downcallHandle(
             "g_file_info_set_creation_date_time",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_file_info_set_display_name = Interop.downcallHandle(
             "g_file_info_set_display_name",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_file_info_set_edit_name = Interop.downcallHandle(
             "g_file_info_set_edit_name",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_file_info_set_file_type = Interop.downcallHandle(
             "g_file_info_set_file_type",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_file_info_set_icon = Interop.downcallHandle(
             "g_file_info_set_icon",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_file_info_set_is_hidden = Interop.downcallHandle(
             "g_file_info_set_is_hidden",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_file_info_set_is_symlink = Interop.downcallHandle(
             "g_file_info_set_is_symlink",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_file_info_set_modification_date_time = Interop.downcallHandle(
             "g_file_info_set_modification_date_time",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_file_info_set_modification_time = Interop.downcallHandle(
             "g_file_info_set_modification_time",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_file_info_set_name = Interop.downcallHandle(
             "g_file_info_set_name",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_file_info_set_size = Interop.downcallHandle(
             "g_file_info_set_size",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
             false
         );
         
         private static final MethodHandle g_file_info_set_sort_order = Interop.downcallHandle(
             "g_file_info_set_sort_order",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_file_info_set_symbolic_icon = Interop.downcallHandle(
             "g_file_info_set_symbolic_icon",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_file_info_set_symlink_target = Interop.downcallHandle(
             "g_file_info_set_symlink_target",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_file_info_unset_attribute_mask = Interop.downcallHandle(
             "g_file_info_unset_attribute_mask",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+            false
+        );
+        
+        private static final MethodHandle g_file_info_get_type = Interop.downcallHandle(
+            "g_file_info_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }

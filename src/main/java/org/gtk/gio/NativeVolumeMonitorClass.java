@@ -5,7 +5,7 @@ import java.lang.foreign.*;
 import java.lang.invoke.*;
 import org.jetbrains.annotations.*;
 
-public class NativeVolumeMonitorClass extends io.github.jwharm.javagi.ProxyBase {
+public class NativeVolumeMonitorClass extends Struct {
     
     static {
         Gio.javagi$ensureInitialized();
@@ -13,7 +13,7 @@ public class NativeVolumeMonitorClass extends io.github.jwharm.javagi.ProxyBase 
     
     private static final java.lang.String C_TYPE_NAME = "GNativeVolumeMonitorClass";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gio.VolumeMonitorClass.getMemoryLayout().withName("parent_class"),
         Interop.valueLayout.ADDRESS.withName("get_mount_for_mount_path")
     ).withName(C_TYPE_NAME);
@@ -29,6 +29,10 @@ public class NativeVolumeMonitorClass extends io.github.jwharm.javagi.ProxyBase 
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link NativeVolumeMonitorClass}
+     * @return A new, uninitialized @{link NativeVolumeMonitorClass}
+     */
     public static NativeVolumeMonitorClass allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         NativeVolumeMonitorClass newInstance = new NativeVolumeMonitorClass(segment.address(), Ownership.NONE);
@@ -53,5 +57,47 @@ public class NativeVolumeMonitorClass extends io.github.jwharm.javagi.ProxyBase 
     @ApiStatus.Internal
     public NativeVolumeMonitorClass(Addressable address, Ownership ownership) {
         super(address, ownership);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private NativeVolumeMonitorClass struct;
+        
+         /**
+         * A {@link NativeVolumeMonitorClass.Build} object constructs a {@link NativeVolumeMonitorClass} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = NativeVolumeMonitorClass.allocate();
+        }
+        
+         /**
+         * Finish building the {@link NativeVolumeMonitorClass} struct.
+         * @return A new instance of {@code NativeVolumeMonitorClass} with the fields 
+         *         that were set in the Build object.
+         */
+        public NativeVolumeMonitorClass construct() {
+            return struct;
+        }
+        
+        public Build setParentClass(org.gtk.gio.VolumeMonitorClass parent_class) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parent_class == null ? MemoryAddress.NULL : parent_class.handle()));
+            return this;
+        }
+        
+        public Build setGetMountForMountPath(java.lang.foreign.MemoryAddress get_mount_for_mount_path) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("get_mount_for_mount_path"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (get_mount_for_mount_path == null ? MemoryAddress.NULL : get_mount_for_mount_path));
+            return this;
+        }
     }
 }

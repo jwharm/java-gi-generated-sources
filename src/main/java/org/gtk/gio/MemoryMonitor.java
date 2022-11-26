@@ -69,11 +69,25 @@ public interface MemoryMonitor extends io.github.jwharm.javagi.Proxy {
      * @throws ClassCastException If the GType is not derived from "GMemoryMonitor", a ClassCastException will be thrown.
      */
     public static MemoryMonitor castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GMemoryMonitor"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), MemoryMonitor.getType())) {
             return new MemoryMonitorImpl(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GMemoryMonitor");
         }
+    }
+    
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.g_memory_monitor_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
     }
     
     /**
@@ -111,7 +125,7 @@ public interface MemoryMonitor extends io.github.jwharm.javagi.Proxy {
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(MemoryMonitor.Callbacks.class, "signalMemoryMonitorLowMemoryWarning",
                         MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
                     Interop.getScope()),
                 Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
@@ -125,9 +139,16 @@ public interface MemoryMonitor extends io.github.jwharm.javagi.Proxy {
     static class DowncallHandles {
         
         @ApiStatus.Internal
+        static final MethodHandle g_memory_monitor_get_type = Interop.downcallHandle(
+            "g_memory_monitor_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+            false
+        );
+        
+        @ApiStatus.Internal
         static final MethodHandle g_memory_monitor_dup_default = Interop.downcallHandle(
             "g_memory_monitor_dup_default",
-            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
             false
         );
     }
@@ -136,9 +157,9 @@ public interface MemoryMonitor extends io.github.jwharm.javagi.Proxy {
     static class Callbacks {
         
         public static void signalMemoryMonitorLowMemoryWarning(MemoryAddress source, int level, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (MemoryMonitor.LowMemoryWarning) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new MemoryMonitor.MemoryMonitorImpl(source, Ownership.UNKNOWN), new org.gtk.gio.MemoryMonitorWarningLevel(level));
+            HANDLER.signalReceived(new MemoryMonitor.MemoryMonitorImpl(source, Ownership.NONE), new org.gtk.gio.MemoryMonitorWarningLevel(level));
         }
     }
     

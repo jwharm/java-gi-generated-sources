@@ -61,7 +61,7 @@ public class BoxLayout extends org.gtk.gtk.LayoutManager implements org.gtk.gtk.
      * @throws ClassCastException If the GType is not derived from "GtkBoxLayout", a ClassCastException will be thrown.
      */
     public static BoxLayout castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkBoxLayout"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), BoxLayout.getType())) {
             return new BoxLayout(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkBoxLayout");
@@ -183,47 +183,140 @@ public class BoxLayout extends org.gtk.gtk.LayoutManager implements org.gtk.gtk.
         }
     }
     
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.gtk_box_layout_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gtk.LayoutManager.Build {
+        
+         /**
+         * A {@link BoxLayout.Build} object constructs a {@link BoxLayout} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link BoxLayout} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link BoxLayout} using {@link BoxLayout#castFrom}.
+         * @return A new instance of {@code BoxLayout} with the properties 
+         *         that were set in the Build object.
+         */
+        public BoxLayout construct() {
+            return BoxLayout.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    BoxLayout.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+        
+        /**
+         * The position of the allocated baseline within the extra space
+         * allocated to each child.
+         * <p>
+         * This property is only relevant for horizontal layouts containing
+         * at least one child with a baseline alignment.
+         * @param baselinePosition The value for the {@code baseline-position} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setBaselinePosition(org.gtk.gtk.BaselinePosition baselinePosition) {
+            names.add("baseline-position");
+            values.add(org.gtk.gobject.Value.create(baselinePosition));
+            return this;
+        }
+        
+        /**
+         * Whether the box layout should distribute the available space
+         * equally among the children.
+         * @param homogeneous The value for the {@code homogeneous} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setHomogeneous(boolean homogeneous) {
+            names.add("homogeneous");
+            values.add(org.gtk.gobject.Value.create(homogeneous));
+            return this;
+        }
+        
+        /**
+         * The space to put between the children.
+         * @param spacing The value for the {@code spacing} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setSpacing(int spacing) {
+            names.add("spacing");
+            values.add(org.gtk.gobject.Value.create(spacing));
+            return this;
+        }
+    }
+    
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_box_layout_new = Interop.downcallHandle(
             "gtk_box_layout_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_box_layout_get_baseline_position = Interop.downcallHandle(
             "gtk_box_layout_get_baseline_position",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_box_layout_get_homogeneous = Interop.downcallHandle(
             "gtk_box_layout_get_homogeneous",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_box_layout_get_spacing = Interop.downcallHandle(
             "gtk_box_layout_get_spacing",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_box_layout_set_baseline_position = Interop.downcallHandle(
             "gtk_box_layout_set_baseline_position",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_box_layout_set_homogeneous = Interop.downcallHandle(
             "gtk_box_layout_set_homogeneous",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_box_layout_set_spacing = Interop.downcallHandle(
             "gtk_box_layout_set_spacing",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+            false
+        );
+        
+        private static final MethodHandle gtk_box_layout_get_type = Interop.downcallHandle(
+            "gtk_box_layout_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }

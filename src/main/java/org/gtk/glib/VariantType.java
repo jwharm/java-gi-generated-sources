@@ -162,7 +162,7 @@ import org.jetbrains.annotations.*;
  * that, due to the restriction that the key of a dictionary entry must
  * be a basic type, "{**}" is not a valid type string.
  */
-public class VariantType extends io.github.jwharm.javagi.ProxyBase {
+public class VariantType extends Struct {
     
     static {
         GLib.javagi$ensureInitialized();
@@ -181,6 +181,10 @@ public class VariantType extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link VariantType}
+     * @return A new, uninitialized @{link VariantType}
+     */
     public static VariantType allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         VariantType newInstance = new VariantType(segment.address(), Ownership.NONE);
@@ -892,7 +896,7 @@ public class VariantType extends io.github.jwharm.javagi.ProxyBase {
     public static boolean stringScan(@NotNull java.lang.String string, @Nullable java.lang.String limit, @NotNull Out<java.lang.String> endptr) {
         java.util.Objects.requireNonNull(string, "Parameter 'string' must not be null");
         java.util.Objects.requireNonNull(endptr, "Parameter 'endptr' must not be null");
-        MemorySegment endptrPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment endptrPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_variant_type_string_scan.invokeExact(
@@ -902,7 +906,7 @@ public class VariantType extends io.github.jwharm.javagi.ProxyBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        endptr.set(Interop.getStringFrom(endptrPOINTER.get(ValueLayout.ADDRESS, 0)));
+        endptr.set(Interop.getStringFrom(endptrPOINTER.get(Interop.valueLayout.ADDRESS, 0)));
         return RESULT != 0;
     }
     
@@ -910,188 +914,216 @@ public class VariantType extends io.github.jwharm.javagi.ProxyBase {
         
         private static final MethodHandle g_variant_type_new = Interop.downcallHandle(
             "g_variant_type_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_variant_type_new_array = Interop.downcallHandle(
             "g_variant_type_new_array",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_variant_type_new_dict_entry = Interop.downcallHandle(
             "g_variant_type_new_dict_entry",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_variant_type_new_maybe = Interop.downcallHandle(
             "g_variant_type_new_maybe",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_variant_type_new_tuple = Interop.downcallHandle(
             "g_variant_type_new_tuple",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_variant_type_copy = Interop.downcallHandle(
             "g_variant_type_copy",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_variant_type_dup_string = Interop.downcallHandle(
             "g_variant_type_dup_string",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_variant_type_element = Interop.downcallHandle(
             "g_variant_type_element",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_variant_type_equal = Interop.downcallHandle(
             "g_variant_type_equal",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_variant_type_first = Interop.downcallHandle(
             "g_variant_type_first",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_variant_type_free = Interop.downcallHandle(
             "g_variant_type_free",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_variant_type_get_string_length = Interop.downcallHandle(
             "g_variant_type_get_string_length",
-            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_variant_type_hash = Interop.downcallHandle(
             "g_variant_type_hash",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_variant_type_is_array = Interop.downcallHandle(
             "g_variant_type_is_array",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_variant_type_is_basic = Interop.downcallHandle(
             "g_variant_type_is_basic",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_variant_type_is_container = Interop.downcallHandle(
             "g_variant_type_is_container",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_variant_type_is_definite = Interop.downcallHandle(
             "g_variant_type_is_definite",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_variant_type_is_dict_entry = Interop.downcallHandle(
             "g_variant_type_is_dict_entry",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_variant_type_is_maybe = Interop.downcallHandle(
             "g_variant_type_is_maybe",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_variant_type_is_subtype_of = Interop.downcallHandle(
             "g_variant_type_is_subtype_of",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_variant_type_is_tuple = Interop.downcallHandle(
             "g_variant_type_is_tuple",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_variant_type_is_variant = Interop.downcallHandle(
             "g_variant_type_is_variant",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_variant_type_key = Interop.downcallHandle(
             "g_variant_type_key",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_variant_type_n_items = Interop.downcallHandle(
             "g_variant_type_n_items",
-            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_variant_type_next = Interop.downcallHandle(
             "g_variant_type_next",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_variant_type_peek_string = Interop.downcallHandle(
             "g_variant_type_peek_string",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_variant_type_value = Interop.downcallHandle(
             "g_variant_type_value",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_variant_type_checked_ = Interop.downcallHandle(
             "g_variant_type_checked_",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_variant_type_string_get_depth_ = Interop.downcallHandle(
             "g_variant_type_string_get_depth_",
-            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_variant_type_string_is_valid = Interop.downcallHandle(
             "g_variant_type_string_is_valid",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_variant_type_string_scan = Interop.downcallHandle(
             "g_variant_type_string_scan",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private VariantType struct;
+        
+         /**
+         * A {@link VariantType.Build} object constructs a {@link VariantType} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = VariantType.allocate();
+        }
+        
+         /**
+         * Finish building the {@link VariantType} struct.
+         * @return A new instance of {@code VariantType} with the fields 
+         *         that were set in the Build object.
+         */
+        public VariantType construct() {
+            return struct;
+        }
     }
 }

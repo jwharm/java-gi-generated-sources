@@ -91,7 +91,7 @@ public class ProgressBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
      * @throws ClassCastException If the GType is not derived from "GtkProgressBar", a ClassCastException will be thrown.
      */
     public static ProgressBar castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkProgressBar"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), ProgressBar.getType())) {
             return new ProgressBar(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkProgressBar");
@@ -347,89 +347,227 @@ public class ProgressBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
         }
     }
     
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.gtk_progress_bar_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gtk.Widget.Build {
+        
+         /**
+         * A {@link ProgressBar.Build} object constructs a {@link ProgressBar} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link ProgressBar} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link ProgressBar} using {@link ProgressBar#castFrom}.
+         * @return A new instance of {@code ProgressBar} with the properties 
+         *         that were set in the Build object.
+         */
+        public ProgressBar construct() {
+            return ProgressBar.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    ProgressBar.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+        
+        /**
+         * The preferred place to ellipsize the string.
+         * <p>
+         * The text will be ellipsized if the progress bar does not have enough room
+         * to display the entire string, specified as a {@code PangoEllipsizeMode}.
+         * <p>
+         * Note that setting this property to a value other than
+         * {@link org.pango.EllipsizeMode#NONE} has the side-effect that the progress bar requests
+         * only enough space to display the ellipsis ("..."). Another means to set a
+         * progress bar's width is {@link Widget#setSizeRequest}.
+         * @param ellipsize The value for the {@code ellipsize} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setEllipsize(org.pango.EllipsizeMode ellipsize) {
+            names.add("ellipsize");
+            values.add(org.gtk.gobject.Value.create(ellipsize));
+            return this;
+        }
+        
+        /**
+         * The fraction of total work that has been completed.
+         * @param fraction The value for the {@code fraction} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setFraction(double fraction) {
+            names.add("fraction");
+            values.add(org.gtk.gobject.Value.create(fraction));
+            return this;
+        }
+        
+        /**
+         * Invert the direction in which the progress bar grows.
+         * @param inverted The value for the {@code inverted} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setInverted(boolean inverted) {
+            names.add("inverted");
+            values.add(org.gtk.gobject.Value.create(inverted));
+            return this;
+        }
+        
+        /**
+         * The fraction of total progress to move the bounding block when pulsed.
+         * @param pulseStep The value for the {@code pulse-step} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setPulseStep(double pulseStep) {
+            names.add("pulse-step");
+            values.add(org.gtk.gobject.Value.create(pulseStep));
+            return this;
+        }
+        
+        /**
+         * Sets whether the progress bar will show a text in addition
+         * to the bar itself.
+         * <p>
+         * The shown text is either the value of the {@code Gtk.ProgressBar:text}
+         * property or, if that is {@code null}, the {@code Gtk.ProgressBar:fraction}
+         * value, as a percentage.
+         * <p>
+         * To make a progress bar that is styled and sized suitably for showing text
+         * (even if the actual text is blank), set {@code Gtk.ProgressBar:show-text}
+         * to {@code true} and {@code Gtk.ProgressBar:text} to the empty string (not {@code null}).
+         * @param showText The value for the {@code show-text} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setShowText(boolean showText) {
+            names.add("show-text");
+            values.add(org.gtk.gobject.Value.create(showText));
+            return this;
+        }
+        
+        /**
+         * Text to be displayed in the progress bar.
+         * @param text The value for the {@code text} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setText(java.lang.String text) {
+            names.add("text");
+            values.add(org.gtk.gobject.Value.create(text));
+            return this;
+        }
+    }
+    
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_progress_bar_new = Interop.downcallHandle(
             "gtk_progress_bar_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_progress_bar_get_ellipsize = Interop.downcallHandle(
             "gtk_progress_bar_get_ellipsize",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_progress_bar_get_fraction = Interop.downcallHandle(
             "gtk_progress_bar_get_fraction",
-            FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_DOUBLE, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_progress_bar_get_inverted = Interop.downcallHandle(
             "gtk_progress_bar_get_inverted",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_progress_bar_get_pulse_step = Interop.downcallHandle(
             "gtk_progress_bar_get_pulse_step",
-            FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_DOUBLE, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_progress_bar_get_show_text = Interop.downcallHandle(
             "gtk_progress_bar_get_show_text",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_progress_bar_get_text = Interop.downcallHandle(
             "gtk_progress_bar_get_text",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_progress_bar_pulse = Interop.downcallHandle(
             "gtk_progress_bar_pulse",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_progress_bar_set_ellipsize = Interop.downcallHandle(
             "gtk_progress_bar_set_ellipsize",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_progress_bar_set_fraction = Interop.downcallHandle(
             "gtk_progress_bar_set_fraction",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE),
             false
         );
         
         private static final MethodHandle gtk_progress_bar_set_inverted = Interop.downcallHandle(
             "gtk_progress_bar_set_inverted",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_progress_bar_set_pulse_step = Interop.downcallHandle(
             "gtk_progress_bar_set_pulse_step",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE),
             false
         );
         
         private static final MethodHandle gtk_progress_bar_set_show_text = Interop.downcallHandle(
             "gtk_progress_bar_set_show_text",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_progress_bar_set_text = Interop.downcallHandle(
             "gtk_progress_bar_set_text",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+            false
+        );
+        
+        private static final MethodHandle gtk_progress_bar_get_type = Interop.downcallHandle(
+            "gtk_progress_bar_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }

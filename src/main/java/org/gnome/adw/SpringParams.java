@@ -38,7 +38,7 @@ import org.jetbrains.annotations.*;
  * As such
  * @version 1.0
  */
-public class SpringParams extends io.github.jwharm.javagi.ProxyBase {
+public class SpringParams extends Struct {
     
     static {
         Adw.javagi$ensureInitialized();
@@ -57,6 +57,10 @@ public class SpringParams extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link SpringParams}
+     * @return A new, uninitialized @{link SpringParams}
+     */
     public static SpringParams allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         SpringParams newInstance = new SpringParams(segment.address(), Ownership.NONE);
@@ -231,50 +235,78 @@ public class SpringParams extends io.github.jwharm.javagi.ProxyBase {
         
         private static final MethodHandle adw_spring_params_new = Interop.downcallHandle(
             "adw_spring_params_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_DOUBLE),
             false
         );
         
         private static final MethodHandle adw_spring_params_new_full = Interop.downcallHandle(
             "adw_spring_params_new_full",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_DOUBLE),
             false
         );
         
         private static final MethodHandle adw_spring_params_get_damping = Interop.downcallHandle(
             "adw_spring_params_get_damping",
-            FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_DOUBLE, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_spring_params_get_damping_ratio = Interop.downcallHandle(
             "adw_spring_params_get_damping_ratio",
-            FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_DOUBLE, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_spring_params_get_mass = Interop.downcallHandle(
             "adw_spring_params_get_mass",
-            FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_DOUBLE, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_spring_params_get_stiffness = Interop.downcallHandle(
             "adw_spring_params_get_stiffness",
-            FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_DOUBLE, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_spring_params_ref = Interop.downcallHandle(
             "adw_spring_params_ref",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_spring_params_unref = Interop.downcallHandle(
             "adw_spring_params_unref",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private SpringParams struct;
+        
+         /**
+         * A {@link SpringParams.Build} object constructs a {@link SpringParams} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = SpringParams.allocate();
+        }
+        
+         /**
+         * Finish building the {@link SpringParams} struct.
+         * @return A new instance of {@code SpringParams} with the fields 
+         *         that were set in the Build object.
+         */
+        public SpringParams construct() {
+            return struct;
+        }
     }
 }

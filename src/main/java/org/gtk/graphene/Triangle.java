@@ -9,7 +9,7 @@ import org.jetbrains.annotations.*;
  * A triangle.
  * @version 1.2
  */
-public class Triangle extends io.github.jwharm.javagi.ProxyBase {
+public class Triangle extends Struct {
     
     static {
         Graphene.javagi$ensureInitialized();
@@ -17,7 +17,7 @@ public class Triangle extends io.github.jwharm.javagi.ProxyBase {
     
     private static final java.lang.String C_TYPE_NAME = "graphene_triangle_t";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.graphene.Vec3.getMemoryLayout().withName("a"),
         org.gtk.graphene.Vec3.getMemoryLayout().withName("b"),
         org.gtk.graphene.Vec3.getMemoryLayout().withName("c")
@@ -34,6 +34,10 @@ public class Triangle extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link Triangle}
+     * @return A new, uninitialized @{link Triangle}
+     */
     public static Triangle allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         Triangle newInstance = new Triangle(segment.address(), Ownership.NONE);
@@ -397,98 +401,147 @@ public class Triangle extends io.github.jwharm.javagi.ProxyBase {
         
         private static final MethodHandle graphene_triangle_alloc = Interop.downcallHandle(
             "graphene_triangle_alloc",
-            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle graphene_triangle_contains_point = Interop.downcallHandle(
             "graphene_triangle_contains_point",
-            FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_BOOLEAN, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle graphene_triangle_equal = Interop.downcallHandle(
             "graphene_triangle_equal",
-            FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_BOOLEAN, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle graphene_triangle_free = Interop.downcallHandle(
             "graphene_triangle_free",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle graphene_triangle_get_area = Interop.downcallHandle(
             "graphene_triangle_get_area",
-            FunctionDescriptor.of(ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_FLOAT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle graphene_triangle_get_barycoords = Interop.downcallHandle(
             "graphene_triangle_get_barycoords",
-            FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_BOOLEAN, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle graphene_triangle_get_bounding_box = Interop.downcallHandle(
             "graphene_triangle_get_bounding_box",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle graphene_triangle_get_midpoint = Interop.downcallHandle(
             "graphene_triangle_get_midpoint",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle graphene_triangle_get_normal = Interop.downcallHandle(
             "graphene_triangle_get_normal",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle graphene_triangle_get_plane = Interop.downcallHandle(
             "graphene_triangle_get_plane",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle graphene_triangle_get_points = Interop.downcallHandle(
             "graphene_triangle_get_points",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle graphene_triangle_get_uv = Interop.downcallHandle(
             "graphene_triangle_get_uv",
-            FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_BOOLEAN, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle graphene_triangle_get_vertices = Interop.downcallHandle(
             "graphene_triangle_get_vertices",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle graphene_triangle_init_from_float = Interop.downcallHandle(
             "graphene_triangle_init_from_float",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle graphene_triangle_init_from_point3d = Interop.downcallHandle(
             "graphene_triangle_init_from_point3d",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle graphene_triangle_init_from_vec3 = Interop.downcallHandle(
             "graphene_triangle_init_from_vec3",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private Triangle struct;
+        
+         /**
+         * A {@link Triangle.Build} object constructs a {@link Triangle} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = Triangle.allocate();
+        }
+        
+         /**
+         * Finish building the {@link Triangle} struct.
+         * @return A new instance of {@code Triangle} with the fields 
+         *         that were set in the Build object.
+         */
+        public Triangle construct() {
+            return struct;
+        }
+        
+        public Build setA(org.gtk.graphene.Vec3 a) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("a"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (a == null ? MemoryAddress.NULL : a.handle()));
+            return this;
+        }
+        
+        public Build setB(org.gtk.graphene.Vec3 b) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("b"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (b == null ? MemoryAddress.NULL : b.handle()));
+            return this;
+        }
+        
+        public Build setC(org.gtk.graphene.Vec3 c) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("c"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (c == null ? MemoryAddress.NULL : c.handle()));
+            return this;
+        }
     }
 }

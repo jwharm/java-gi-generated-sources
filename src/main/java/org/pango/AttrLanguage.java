@@ -9,7 +9,7 @@ import org.jetbrains.annotations.*;
  * The {@code PangoAttrLanguage} structure is used to represent attributes that
  * are languages.
  */
-public class AttrLanguage extends io.github.jwharm.javagi.ProxyBase {
+public class AttrLanguage extends Struct {
     
     static {
         Pango.javagi$ensureInitialized();
@@ -17,7 +17,7 @@ public class AttrLanguage extends io.github.jwharm.javagi.ProxyBase {
     
     private static final java.lang.String C_TYPE_NAME = "PangoAttrLanguage";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.pango.Attribute.getMemoryLayout().withName("attr"),
         Interop.valueLayout.ADDRESS.withName("value")
     ).withName(C_TYPE_NAME);
@@ -33,6 +33,10 @@ public class AttrLanguage extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link AttrLanguage}
+     * @return A new, uninitialized @{link AttrLanguage}
+     */
     public static AttrLanguage allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         AttrLanguage newInstance = new AttrLanguage(segment.address(), Ownership.NONE);
@@ -103,8 +107,60 @@ public class AttrLanguage extends io.github.jwharm.javagi.ProxyBase {
         
         private static final MethodHandle pango_attr_language_new = Interop.downcallHandle(
             "pango_attr_language_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private AttrLanguage struct;
+        
+         /**
+         * A {@link AttrLanguage.Build} object constructs a {@link AttrLanguage} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = AttrLanguage.allocate();
+        }
+        
+         /**
+         * Finish building the {@link AttrLanguage} struct.
+         * @return A new instance of {@code AttrLanguage} with the fields 
+         *         that were set in the Build object.
+         */
+        public AttrLanguage construct() {
+            return struct;
+        }
+        
+        /**
+         * the common portion of the attribute
+         * @param attr The value for the {@code attr} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setAttr(org.pango.Attribute attr) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("attr"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (attr == null ? MemoryAddress.NULL : attr.handle()));
+            return this;
+        }
+        
+        /**
+         * the {@code PangoLanguage} which is the value of the attribute
+         * @param value The value for the {@code value} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setValue(org.pango.Language value) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("value"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (value == null ? MemoryAddress.NULL : value.handle()));
+            return this;
+        }
     }
 }

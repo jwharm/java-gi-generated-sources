@@ -62,7 +62,7 @@ public class GestureLongPress extends org.gtk.gtk.GestureSingle {
      * @throws ClassCastException If the GType is not derived from "GtkGestureLongPress", a ClassCastException will be thrown.
      */
     public static GestureLongPress castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkGestureLongPress"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), GestureLongPress.getType())) {
             return new GestureLongPress(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkGestureLongPress");
@@ -118,6 +118,20 @@ public class GestureLongPress extends org.gtk.gtk.GestureSingle {
         }
     }
     
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.gtk_gesture_long_press_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+    
     @FunctionalInterface
     public interface Cancelled {
         void signalReceived(GestureLongPress source);
@@ -137,7 +151,7 @@ public class GestureLongPress extends org.gtk.gtk.GestureSingle {
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(GestureLongPress.Callbacks.class, "signalGestureLongPressCancelled",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                     Interop.getScope()),
                 Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
@@ -166,7 +180,7 @@ public class GestureLongPress extends org.gtk.gtk.GestureSingle {
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(GestureLongPress.Callbacks.class, "signalGestureLongPressPressed",
                         MethodType.methodType(void.class, MemoryAddress.class, double.class, double.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS),
+                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.ADDRESS),
                     Interop.getScope()),
                 Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
@@ -175,24 +189,76 @@ public class GestureLongPress extends org.gtk.gtk.GestureSingle {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gtk.GestureSingle.Build {
+        
+         /**
+         * A {@link GestureLongPress.Build} object constructs a {@link GestureLongPress} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link GestureLongPress} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link GestureLongPress} using {@link GestureLongPress#castFrom}.
+         * @return A new instance of {@code GestureLongPress} with the properties 
+         *         that were set in the Build object.
+         */
+        public GestureLongPress construct() {
+            return GestureLongPress.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    GestureLongPress.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+        
+        /**
+         * Factor by which to modify the default timeout.
+         * @param delayFactor The value for the {@code delay-factor} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setDelayFactor(double delayFactor) {
+            names.add("delay-factor");
+            values.add(org.gtk.gobject.Value.create(delayFactor));
+            return this;
+        }
+    }
     
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_gesture_long_press_new = Interop.downcallHandle(
             "gtk_gesture_long_press_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_gesture_long_press_get_delay_factor = Interop.downcallHandle(
             "gtk_gesture_long_press_get_delay_factor",
-            FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_DOUBLE, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_gesture_long_press_set_delay_factor = Interop.downcallHandle(
             "gtk_gesture_long_press_set_delay_factor",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE),
+            false
+        );
+        
+        private static final MethodHandle gtk_gesture_long_press_get_type = Interop.downcallHandle(
+            "gtk_gesture_long_press_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }
@@ -200,15 +266,15 @@ public class GestureLongPress extends org.gtk.gtk.GestureSingle {
     private static class Callbacks {
         
         public static void signalGestureLongPressCancelled(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (GestureLongPress.Cancelled) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new GestureLongPress(source, Ownership.UNKNOWN));
+            HANDLER.signalReceived(new GestureLongPress(source, Ownership.NONE));
         }
         
         public static void signalGestureLongPressPressed(MemoryAddress source, double x, double y, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (GestureLongPress.Pressed) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new GestureLongPress(source, Ownership.UNKNOWN), x, y);
+            HANDLER.signalReceived(new GestureLongPress(source, Ownership.NONE), x, y);
         }
     }
 }

@@ -25,6 +25,21 @@ import org.jetbrains.annotations.*;
  * useful if the list of options is long. To enable the search entry,
  * use {@link DropDown#setEnableSearch}.
  * <p>
+ * Here is a UI definition example for {@code GtkDropDown} with a simple model:
+ * <pre>{@code xml
+ * <object class="GtkDropDown">
+ *   <property name="model">
+ *     <object class="GtkStringList">
+ *       <items>
+ *         <item translatable="yes">Factory</item>
+ *         <item translatable="yes">Home</item>
+ *         <item translatable="yes">Subway</item>
+ *       </items>
+ *     </object>
+ *   </property>
+ * </object>
+ * }</pre>
+ * <p>
  * <strong>CSS nodes</strong><br/>
  * {@code GtkDropDown} has a single CSS node with name dropdown,
  * with the button and popover nodes as children.
@@ -72,7 +87,7 @@ public class DropDown extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * @throws ClassCastException If the GType is not derived from "GtkDropDown", a ClassCastException will be thrown.
      */
     public static DropDown castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkDropDown"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), DropDown.getType())) {
             return new DropDown(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkDropDown");
@@ -359,6 +374,20 @@ public class DropDown extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
         }
     }
     
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.gtk_drop_down_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+    
     @FunctionalInterface
     public interface Activate {
         void signalReceived(DropDown source);
@@ -380,7 +409,7 @@ public class DropDown extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(DropDown.Callbacks.class, "signalDropDownActivate",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                     Interop.getScope()),
                 Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
@@ -389,108 +418,250 @@ public class DropDown extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gtk.Widget.Build {
+        
+         /**
+         * A {@link DropDown.Build} object constructs a {@link DropDown} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link DropDown} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link DropDown} using {@link DropDown#castFrom}.
+         * @return A new instance of {@code DropDown} with the properties 
+         *         that were set in the Build object.
+         */
+        public DropDown construct() {
+            return DropDown.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    DropDown.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+        
+        /**
+         * Whether to show a search entry in the popup.
+         * <p>
+         * Note that search requires {@code Gtk.DropDown:expression}
+         * to be set.
+         * @param enableSearch The value for the {@code enable-search} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setEnableSearch(boolean enableSearch) {
+            names.add("enable-search");
+            values.add(org.gtk.gobject.Value.create(enableSearch));
+            return this;
+        }
+        
+        /**
+         * An expression to evaluate to obtain strings to match against the search
+         * term.
+         * <p>
+         * See {@code Gtk.DropDown:enable-search} for how to enable search.
+         * If {@code Gtk.DropDown:factory} is not set, the expression is also
+         * used to bind strings to labels produced by a default factory.
+         * @param expression The value for the {@code expression} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setExpression(org.gtk.gtk.Expression expression) {
+            names.add("expression");
+            values.add(org.gtk.gobject.Value.create(expression));
+            return this;
+        }
+        
+        /**
+         * Factory for populating list items.
+         * @param factory The value for the {@code factory} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setFactory(org.gtk.gtk.ListItemFactory factory) {
+            names.add("factory");
+            values.add(org.gtk.gobject.Value.create(factory));
+            return this;
+        }
+        
+        /**
+         * The factory for populating list items in the popup.
+         * <p>
+         * If this is not set, {@code Gtk.DropDown:factory} is used.
+         * @param listFactory The value for the {@code list-factory} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setListFactory(org.gtk.gtk.ListItemFactory listFactory) {
+            names.add("list-factory");
+            values.add(org.gtk.gobject.Value.create(listFactory));
+            return this;
+        }
+        
+        /**
+         * Model for the displayed items.
+         * @param model The value for the {@code model} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setModel(org.gtk.gio.ListModel model) {
+            names.add("model");
+            values.add(org.gtk.gobject.Value.create(model));
+            return this;
+        }
+        
+        /**
+         * The position of the selected item.
+         * <p>
+         * If no item is selected, the property has the value
+         * {@code GTK_INVALID_LIST_POSITION}.
+         * @param selected The value for the {@code selected} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setSelected(int selected) {
+            names.add("selected");
+            values.add(org.gtk.gobject.Value.create(selected));
+            return this;
+        }
+        
+        /**
+         * The selected item.
+         * @param selectedItem The value for the {@code selected-item} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setSelectedItem(org.gtk.gobject.Object selectedItem) {
+            names.add("selected-item");
+            values.add(org.gtk.gobject.Value.create(selectedItem));
+            return this;
+        }
+        
+        /**
+         * Whether to show an arrow within the GtkDropDown widget.
+         * @param showArrow The value for the {@code show-arrow} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setShowArrow(boolean showArrow) {
+            names.add("show-arrow");
+            values.add(org.gtk.gobject.Value.create(showArrow));
+            return this;
+        }
+    }
     
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_drop_down_new = Interop.downcallHandle(
             "gtk_drop_down_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_drop_down_new_from_strings = Interop.downcallHandle(
             "gtk_drop_down_new_from_strings",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_drop_down_get_enable_search = Interop.downcallHandle(
             "gtk_drop_down_get_enable_search",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_drop_down_get_expression = Interop.downcallHandle(
             "gtk_drop_down_get_expression",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_drop_down_get_factory = Interop.downcallHandle(
             "gtk_drop_down_get_factory",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_drop_down_get_list_factory = Interop.downcallHandle(
             "gtk_drop_down_get_list_factory",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_drop_down_get_model = Interop.downcallHandle(
             "gtk_drop_down_get_model",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_drop_down_get_selected = Interop.downcallHandle(
             "gtk_drop_down_get_selected",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_drop_down_get_selected_item = Interop.downcallHandle(
             "gtk_drop_down_get_selected_item",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_drop_down_get_show_arrow = Interop.downcallHandle(
             "gtk_drop_down_get_show_arrow",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_drop_down_set_enable_search = Interop.downcallHandle(
             "gtk_drop_down_set_enable_search",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_drop_down_set_expression = Interop.downcallHandle(
             "gtk_drop_down_set_expression",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_drop_down_set_factory = Interop.downcallHandle(
             "gtk_drop_down_set_factory",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_drop_down_set_list_factory = Interop.downcallHandle(
             "gtk_drop_down_set_list_factory",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_drop_down_set_model = Interop.downcallHandle(
             "gtk_drop_down_set_model",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_drop_down_set_selected = Interop.downcallHandle(
             "gtk_drop_down_set_selected",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_drop_down_set_show_arrow = Interop.downcallHandle(
             "gtk_drop_down_set_show_arrow",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+            false
+        );
+        
+        private static final MethodHandle gtk_drop_down_get_type = Interop.downcallHandle(
+            "gtk_drop_down_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }
@@ -498,9 +669,9 @@ public class DropDown extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     private static class Callbacks {
         
         public static void signalDropDownActivate(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (DropDown.Activate) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new DropDown(source, Ownership.UNKNOWN));
+            HANDLER.signalReceived(new DropDown(source, Ownership.NONE));
         }
     }
 }

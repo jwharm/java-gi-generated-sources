@@ -106,7 +106,7 @@ public class ViewSwitcherTitle extends org.gtk.gtk.Widget implements org.gtk.gtk
      * @throws ClassCastException If the GType is not derived from "AdwViewSwitcherTitle", a ClassCastException will be thrown.
      */
     public static ViewSwitcherTitle castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("AdwViewSwitcherTitle"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), ViewSwitcherTitle.getType())) {
             return new ViewSwitcherTitle(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of AdwViewSwitcherTitle");
@@ -278,65 +278,190 @@ public class ViewSwitcherTitle extends org.gtk.gtk.Widget implements org.gtk.gtk
         }
     }
     
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.adw_view_switcher_title_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gtk.Widget.Build {
+        
+         /**
+         * A {@link ViewSwitcherTitle.Build} object constructs a {@link ViewSwitcherTitle} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link ViewSwitcherTitle} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link ViewSwitcherTitle} using {@link ViewSwitcherTitle#castFrom}.
+         * @return A new instance of {@code ViewSwitcherTitle} with the properties 
+         *         that were set in the Build object.
+         */
+        public ViewSwitcherTitle construct() {
+            return ViewSwitcherTitle.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    ViewSwitcherTitle.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+        
+        /**
+         * The stack the view switcher controls.
+         * @param stack The value for the {@code stack} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setStack(org.gnome.adw.ViewStack stack) {
+            names.add("stack");
+            values.add(org.gtk.gobject.Value.create(stack));
+            return this;
+        }
+        
+        /**
+         * The subtitle to display.
+         * <p>
+         * The subtitle should give the user additional details.
+         * @param subtitle The value for the {@code subtitle} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setSubtitle(java.lang.String subtitle) {
+            names.add("subtitle");
+            values.add(org.gtk.gobject.Value.create(subtitle));
+            return this;
+        }
+        
+        /**
+         * The title to display.
+         * <p>
+         * The title typically identifies the current view or content item, and
+         * generally does not use the application name.
+         * @param title The value for the {@code title} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setTitle(java.lang.String title) {
+            names.add("title");
+            values.add(org.gtk.gobject.Value.create(title));
+            return this;
+        }
+        
+        /**
+         * Whether the title is currently visible.
+         * <p>
+         * If the title is visible, it means the view switcher is hidden an it may be
+         * wanted to show an alternative switcher, e.g. a {@link ViewSwitcherBar}.
+         * @param titleVisible The value for the {@code title-visible} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setTitleVisible(boolean titleVisible) {
+            names.add("title-visible");
+            values.add(org.gtk.gobject.Value.create(titleVisible));
+            return this;
+        }
+        
+        /**
+         * Whether the view switcher is enabled.
+         * <p>
+         * If it is disabled, the title will be displayed instead. This allows to
+         * programmatically hide the view switcher even if it fits in the available
+         * space.
+         * <p>
+         * This can be used e.g. to ensure the view switcher is hidden below a certain
+         * window width, or any other constraint you find suitable.
+         * @param viewSwitcherEnabled The value for the {@code view-switcher-enabled} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setViewSwitcherEnabled(boolean viewSwitcherEnabled) {
+            names.add("view-switcher-enabled");
+            values.add(org.gtk.gobject.Value.create(viewSwitcherEnabled));
+            return this;
+        }
+    }
+    
     private static class DowncallHandles {
         
         private static final MethodHandle adw_view_switcher_title_new = Interop.downcallHandle(
             "adw_view_switcher_title_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_view_switcher_title_get_stack = Interop.downcallHandle(
             "adw_view_switcher_title_get_stack",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_view_switcher_title_get_subtitle = Interop.downcallHandle(
             "adw_view_switcher_title_get_subtitle",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_view_switcher_title_get_title = Interop.downcallHandle(
             "adw_view_switcher_title_get_title",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_view_switcher_title_get_title_visible = Interop.downcallHandle(
             "adw_view_switcher_title_get_title_visible",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_view_switcher_title_get_view_switcher_enabled = Interop.downcallHandle(
             "adw_view_switcher_title_get_view_switcher_enabled",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_view_switcher_title_set_stack = Interop.downcallHandle(
             "adw_view_switcher_title_set_stack",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_view_switcher_title_set_subtitle = Interop.downcallHandle(
             "adw_view_switcher_title_set_subtitle",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_view_switcher_title_set_title = Interop.downcallHandle(
             "adw_view_switcher_title_set_title",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_view_switcher_title_set_view_switcher_enabled = Interop.downcallHandle(
             "adw_view_switcher_title_set_view_switcher_enabled",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+            false
+        );
+        
+        private static final MethodHandle adw_view_switcher_title_get_type = Interop.downcallHandle(
+            "adw_view_switcher_title_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }

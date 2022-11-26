@@ -60,11 +60,25 @@ public class ShortcutsSection extends org.gtk.gtk.Box implements org.gtk.gtk.Acc
      * @throws ClassCastException If the GType is not derived from "GtkShortcutsSection", a ClassCastException will be thrown.
      */
     public static ShortcutsSection castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkShortcutsSection"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), ShortcutsSection.getType())) {
             return new ShortcutsSection(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkShortcutsSection");
         }
+    }
+    
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.gtk_shortcuts_section_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
     }
     
     @FunctionalInterface
@@ -80,7 +94,7 @@ public class ShortcutsSection extends org.gtk.gtk.Box implements org.gtk.gtk.Acc
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(ShortcutsSection.Callbacks.class, "signalShortcutsSectionChangeCurrentPage",
                         MethodType.methodType(boolean.class, MemoryAddress.class, int.class, MemoryAddress.class)),
-                    FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+                    FunctionDescriptor.of(Interop.valueLayout.C_BOOLEAN, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
                     Interop.getScope()),
                 Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
@@ -89,13 +103,119 @@ public class ShortcutsSection extends org.gtk.gtk.Box implements org.gtk.gtk.Acc
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gtk.Box.Build {
+        
+         /**
+         * A {@link ShortcutsSection.Build} object constructs a {@link ShortcutsSection} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link ShortcutsSection} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link ShortcutsSection} using {@link ShortcutsSection#castFrom}.
+         * @return A new instance of {@code ShortcutsSection} with the properties 
+         *         that were set in the Build object.
+         */
+        public ShortcutsSection construct() {
+            return ShortcutsSection.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    ShortcutsSection.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+        
+        /**
+         * The maximum number of lines to allow per column.
+         * <p>
+         * This property can be used to influence how the groups in this
+         * section are distributed across pages and columns. The default
+         * value of 15 should work in most cases.
+         * @param maxHeight The value for the {@code max-height} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setMaxHeight(int maxHeight) {
+            names.add("max-height");
+            values.add(org.gtk.gobject.Value.create(maxHeight));
+            return this;
+        }
+        
+        /**
+         * A unique name to identify this section among the sections
+         * added to the {@code GtkShortcutsWindow}.
+         * <p>
+         * Setting the {@code Gtk.ShortcutsWindow:section-name} property
+         * to this string will make this section shown in the {@code GtkShortcutsWindow}.
+         * @param sectionName The value for the {@code section-name} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setSectionName(java.lang.String sectionName) {
+            names.add("section-name");
+            values.add(org.gtk.gobject.Value.create(sectionName));
+            return this;
+        }
+        
+        /**
+         * The string to show in the section selector of the {@code GtkShortcutsWindow}
+         * for this section.
+         * <p>
+         * If there is only one section, you don't need to set a title,
+         * since the section selector will not be shown in this case.
+         * @param title The value for the {@code title} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setTitle(java.lang.String title) {
+            names.add("title");
+            values.add(org.gtk.gobject.Value.create(title));
+            return this;
+        }
+        
+        /**
+         * A view name to filter the groups in this section by.
+         * <p>
+         * See {@code Gtk.ShortcutsGroup:view}.
+         * <p>
+         * Applications are expected to use the
+         * {@code Gtk.ShortcutsWindow:view-name} property
+         * for this purpose.
+         * @param viewName The value for the {@code view-name} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setViewName(java.lang.String viewName) {
+            names.add("view-name");
+            values.add(org.gtk.gobject.Value.create(viewName));
+            return this;
+        }
+    }
+    
+    private static class DowncallHandles {
+        
+        private static final MethodHandle gtk_shortcuts_section_get_type = Interop.downcallHandle(
+            "gtk_shortcuts_section_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+            false
+        );
+    }
     
     private static class Callbacks {
         
         public static boolean signalShortcutsSectionChangeCurrentPage(MemoryAddress source, int object, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (ShortcutsSection.ChangeCurrentPage) Interop.signalRegistry.get(HASH);
-            return HANDLER.signalReceived(new ShortcutsSection(source, Ownership.UNKNOWN), object);
+            return HANDLER.signalReceived(new ShortcutsSection(source, Ownership.NONE), object);
         }
     }
 }

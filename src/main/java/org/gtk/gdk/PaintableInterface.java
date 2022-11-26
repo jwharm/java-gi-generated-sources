@@ -16,7 +16,7 @@ import org.jetbrains.annotations.*;
  * image is not dynamic as the default implementation returns no flags and
  * that will make the implementation likely quite slow.
  */
-public class PaintableInterface extends io.github.jwharm.javagi.ProxyBase {
+public class PaintableInterface extends Struct {
     
     static {
         Gdk.javagi$ensureInitialized();
@@ -24,7 +24,7 @@ public class PaintableInterface extends io.github.jwharm.javagi.ProxyBase {
     
     private static final java.lang.String C_TYPE_NAME = "GdkPaintableInterface";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gobject.TypeInterface.getMemoryLayout().withName("g_iface"),
         Interop.valueLayout.ADDRESS.withName("snapshot"),
         Interop.valueLayout.ADDRESS.withName("get_current_image"),
@@ -45,6 +45,10 @@ public class PaintableInterface extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link PaintableInterface}
+     * @return A new, uninitialized @{link PaintableInterface}
+     */
     public static PaintableInterface allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         PaintableInterface newInstance = new PaintableInterface(segment.address(), Ownership.NONE);
@@ -60,5 +64,82 @@ public class PaintableInterface extends io.github.jwharm.javagi.ProxyBase {
     @ApiStatus.Internal
     public PaintableInterface(Addressable address, Ownership ownership) {
         super(address, ownership);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private PaintableInterface struct;
+        
+         /**
+         * A {@link PaintableInterface.Build} object constructs a {@link PaintableInterface} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = PaintableInterface.allocate();
+        }
+        
+         /**
+         * Finish building the {@link PaintableInterface} struct.
+         * @return A new instance of {@code PaintableInterface} with the fields 
+         *         that were set in the Build object.
+         */
+        public PaintableInterface construct() {
+            return struct;
+        }
+        
+        public Build setGIface(org.gtk.gobject.TypeInterface g_iface) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("g_iface"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (g_iface == null ? MemoryAddress.NULL : g_iface.handle()));
+            return this;
+        }
+        
+        public Build setSnapshot(java.lang.foreign.MemoryAddress snapshot) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("snapshot"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (snapshot == null ? MemoryAddress.NULL : snapshot));
+            return this;
+        }
+        
+        public Build setGetCurrentImage(java.lang.foreign.MemoryAddress get_current_image) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("get_current_image"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (get_current_image == null ? MemoryAddress.NULL : get_current_image));
+            return this;
+        }
+        
+        public Build setGetFlags(java.lang.foreign.MemoryAddress get_flags) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("get_flags"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (get_flags == null ? MemoryAddress.NULL : get_flags));
+            return this;
+        }
+        
+        public Build setGetIntrinsicWidth(java.lang.foreign.MemoryAddress get_intrinsic_width) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("get_intrinsic_width"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (get_intrinsic_width == null ? MemoryAddress.NULL : get_intrinsic_width));
+            return this;
+        }
+        
+        public Build setGetIntrinsicHeight(java.lang.foreign.MemoryAddress get_intrinsic_height) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("get_intrinsic_height"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (get_intrinsic_height == null ? MemoryAddress.NULL : get_intrinsic_height));
+            return this;
+        }
+        
+        public Build setGetIntrinsicAspectRatio(java.lang.foreign.MemoryAddress get_intrinsic_aspect_ratio) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("get_intrinsic_aspect_ratio"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (get_intrinsic_aspect_ratio == null ? MemoryAddress.NULL : get_intrinsic_aspect_ratio));
+            return this;
+        }
     }
 }

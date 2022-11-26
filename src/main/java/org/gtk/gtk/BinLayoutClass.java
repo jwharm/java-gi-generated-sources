@@ -5,7 +5,7 @@ import java.lang.foreign.*;
 import java.lang.invoke.*;
 import org.jetbrains.annotations.*;
 
-public class BinLayoutClass extends io.github.jwharm.javagi.ProxyBase {
+public class BinLayoutClass extends Struct {
     
     static {
         Gtk.javagi$ensureInitialized();
@@ -13,7 +13,7 @@ public class BinLayoutClass extends io.github.jwharm.javagi.ProxyBase {
     
     private static final java.lang.String C_TYPE_NAME = "GtkBinLayoutClass";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gtk.LayoutManagerClass.getMemoryLayout().withName("parent_class")
     ).withName(C_TYPE_NAME);
     
@@ -28,6 +28,10 @@ public class BinLayoutClass extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link BinLayoutClass}
+     * @return A new, uninitialized @{link BinLayoutClass}
+     */
     public static BinLayoutClass allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         BinLayoutClass newInstance = new BinLayoutClass(segment.address(), Ownership.NONE);
@@ -52,5 +56,40 @@ public class BinLayoutClass extends io.github.jwharm.javagi.ProxyBase {
     @ApiStatus.Internal
     public BinLayoutClass(Addressable address, Ownership ownership) {
         super(address, ownership);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private BinLayoutClass struct;
+        
+         /**
+         * A {@link BinLayoutClass.Build} object constructs a {@link BinLayoutClass} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = BinLayoutClass.allocate();
+        }
+        
+         /**
+         * Finish building the {@link BinLayoutClass} struct.
+         * @return A new instance of {@code BinLayoutClass} with the fields 
+         *         that were set in the Build object.
+         */
+        public BinLayoutClass construct() {
+            return struct;
+        }
+        
+        public Build setParentClass(org.gtk.gtk.LayoutManagerClass parent_class) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parent_class == null ? MemoryAddress.NULL : parent_class.handle()));
+            return this;
+        }
     }
 }

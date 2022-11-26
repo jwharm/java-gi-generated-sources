@@ -55,7 +55,7 @@ public class DropControllerMotion extends org.gtk.gtk.EventController {
      * @throws ClassCastException If the GType is not derived from "GtkDropControllerMotion", a ClassCastException will be thrown.
      */
     public static DropControllerMotion castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkDropControllerMotion"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), DropControllerMotion.getType())) {
             return new DropControllerMotion(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkDropControllerMotion");
@@ -130,6 +130,20 @@ public class DropControllerMotion extends org.gtk.gtk.EventController {
         return RESULT != 0;
     }
     
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.gtk_drop_controller_motion_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+    
     @FunctionalInterface
     public interface Enter {
         void signalReceived(DropControllerMotion source, double x, double y);
@@ -148,7 +162,7 @@ public class DropControllerMotion extends org.gtk.gtk.EventController {
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(DropControllerMotion.Callbacks.class, "signalDropControllerMotionEnter",
                         MethodType.methodType(void.class, MemoryAddress.class, double.class, double.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS),
+                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.ADDRESS),
                     Interop.getScope()),
                 Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
@@ -176,7 +190,7 @@ public class DropControllerMotion extends org.gtk.gtk.EventController {
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(DropControllerMotion.Callbacks.class, "signalDropControllerMotionLeave",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                     Interop.getScope()),
                 Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
@@ -204,7 +218,7 @@ public class DropControllerMotion extends org.gtk.gtk.EventController {
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(DropControllerMotion.Callbacks.class, "signalDropControllerMotionMotion",
                         MethodType.methodType(void.class, MemoryAddress.class, double.class, double.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS),
+                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.ADDRESS),
                     Interop.getScope()),
                 Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
@@ -213,30 +227,128 @@ public class DropControllerMotion extends org.gtk.gtk.EventController {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gtk.EventController.Build {
+        
+         /**
+         * A {@link DropControllerMotion.Build} object constructs a {@link DropControllerMotion} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link DropControllerMotion} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link DropControllerMotion} using {@link DropControllerMotion#castFrom}.
+         * @return A new instance of {@code DropControllerMotion} with the properties 
+         *         that were set in the Build object.
+         */
+        public DropControllerMotion construct() {
+            return DropControllerMotion.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    DropControllerMotion.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+        
+        /**
+         * Whether the pointer of a Drag-and-Drop operation is in
+         * the controller's widget or a descendant.
+         * <p>
+         * See also {@code Gtk.DropControllerMotion:is-pointer}.
+         * <p>
+         * When handling crossing events, this property is updated
+         * before {@code Gtk.DropControllerMotion::enter}, but after
+         * {@code Gtk.DropControllerMotion::leave} is emitted.
+         * @param containsPointer The value for the {@code contains-pointer} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setContainsPointer(boolean containsPointer) {
+            names.add("contains-pointer");
+            values.add(org.gtk.gobject.Value.create(containsPointer));
+            return this;
+        }
+        
+        /**
+         * The ongoing drop operation over the controller's widget or
+         * its descendant.
+         * <p>
+         * If no drop operation is going on, this property returns {@code null}.
+         * <p>
+         * The event controller should not modify the {@code drop}, but it might
+         * want to query its properties.
+         * <p>
+         * When handling crossing events, this property is updated
+         * before {@code Gtk.DropControllerMotion::enter}, but after
+         * {@code Gtk.DropControllerMotion::leave} is emitted.
+         * @param drop The value for the {@code drop} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setDrop(org.gtk.gdk.Drop drop) {
+            names.add("drop");
+            values.add(org.gtk.gobject.Value.create(drop));
+            return this;
+        }
+        
+        /**
+         * Whether the pointer is in the controllers widget itself,
+         * as opposed to in a descendent widget.
+         * <p>
+         * See also {@code Gtk.DropControllerMotion:contains-pointer}.
+         * <p>
+         * When handling crossing events, this property is updated
+         * before {@code Gtk.DropControllerMotion::enter}, but after
+         * {@code Gtk.DropControllerMotion::leave} is emitted.
+         * @param isPointer The value for the {@code is-pointer} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setIsPointer(boolean isPointer) {
+            names.add("is-pointer");
+            values.add(org.gtk.gobject.Value.create(isPointer));
+            return this;
+        }
+    }
     
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_drop_controller_motion_new = Interop.downcallHandle(
             "gtk_drop_controller_motion_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_drop_controller_motion_contains_pointer = Interop.downcallHandle(
             "gtk_drop_controller_motion_contains_pointer",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_drop_controller_motion_get_drop = Interop.downcallHandle(
             "gtk_drop_controller_motion_get_drop",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_drop_controller_motion_is_pointer = Interop.downcallHandle(
             "gtk_drop_controller_motion_is_pointer",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+            false
+        );
+        
+        private static final MethodHandle gtk_drop_controller_motion_get_type = Interop.downcallHandle(
+            "gtk_drop_controller_motion_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }
@@ -244,21 +356,21 @@ public class DropControllerMotion extends org.gtk.gtk.EventController {
     private static class Callbacks {
         
         public static void signalDropControllerMotionEnter(MemoryAddress source, double x, double y, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (DropControllerMotion.Enter) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new DropControllerMotion(source, Ownership.UNKNOWN), x, y);
+            HANDLER.signalReceived(new DropControllerMotion(source, Ownership.NONE), x, y);
         }
         
         public static void signalDropControllerMotionLeave(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (DropControllerMotion.Leave) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new DropControllerMotion(source, Ownership.UNKNOWN));
+            HANDLER.signalReceived(new DropControllerMotion(source, Ownership.NONE));
         }
         
         public static void signalDropControllerMotionMotion(MemoryAddress source, double x, double y, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (DropControllerMotion.Motion) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new DropControllerMotion(source, Ownership.UNKNOWN), x, y);
+            HANDLER.signalReceived(new DropControllerMotion(source, Ownership.NONE), x, y);
         }
     }
 }

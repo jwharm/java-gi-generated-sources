@@ -59,7 +59,7 @@ public class TreeListRowSorter extends org.gtk.gtk.Sorter {
      * @throws ClassCastException If the GType is not derived from "GtkTreeListRowSorter", a ClassCastException will be thrown.
      */
     public static TreeListRowSorter castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkTreeListRowSorter"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), TreeListRowSorter.getType())) {
             return new TreeListRowSorter(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkTreeListRowSorter");
@@ -122,23 +122,89 @@ public class TreeListRowSorter extends org.gtk.gtk.Sorter {
         }
     }
     
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.gtk_tree_list_row_sorter_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gtk.Sorter.Build {
+        
+         /**
+         * A {@link TreeListRowSorter.Build} object constructs a {@link TreeListRowSorter} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link TreeListRowSorter} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link TreeListRowSorter} using {@link TreeListRowSorter#castFrom}.
+         * @return A new instance of {@code TreeListRowSorter} with the properties 
+         *         that were set in the Build object.
+         */
+        public TreeListRowSorter construct() {
+            return TreeListRowSorter.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    TreeListRowSorter.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+        
+        /**
+         * The underlying sorter
+         * @param sorter The value for the {@code sorter} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setSorter(org.gtk.gtk.Sorter sorter) {
+            names.add("sorter");
+            values.add(org.gtk.gobject.Value.create(sorter));
+            return this;
+        }
+    }
+    
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_tree_list_row_sorter_new = Interop.downcallHandle(
             "gtk_tree_list_row_sorter_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_tree_list_row_sorter_get_sorter = Interop.downcallHandle(
             "gtk_tree_list_row_sorter_get_sorter",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_tree_list_row_sorter_set_sorter = Interop.downcallHandle(
             "gtk_tree_list_row_sorter_set_sorter",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+            false
+        );
+        
+        private static final MethodHandle gtk_tree_list_row_sorter_get_type = Interop.downcallHandle(
+            "gtk_tree_list_row_sorter_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }

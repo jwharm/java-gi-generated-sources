@@ -56,7 +56,7 @@ public class GestureDrag extends org.gtk.gtk.GestureSingle {
      * @throws ClassCastException If the GType is not derived from "GtkGestureDrag", a ClassCastException will be thrown.
      */
     public static GestureDrag castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkGestureDrag"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), GestureDrag.getType())) {
             return new GestureDrag(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkGestureDrag");
@@ -91,8 +91,8 @@ public class GestureDrag extends org.gtk.gtk.GestureSingle {
      * @return {@code true} if the gesture is active
      */
     public boolean getOffset(Out<Double> x, Out<Double> y) {
-        MemorySegment xPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_DOUBLE);
-        MemorySegment yPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_DOUBLE);
+        MemorySegment xPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_DOUBLE);
+        MemorySegment yPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_DOUBLE);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_gesture_drag_get_offset.invokeExact(
@@ -102,8 +102,8 @@ public class GestureDrag extends org.gtk.gtk.GestureSingle {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        if (x != null) x.set(xPOINTER.get(ValueLayout.JAVA_DOUBLE, 0));
-        if (y != null) y.set(yPOINTER.get(ValueLayout.JAVA_DOUBLE, 0));
+        if (x != null) x.set(xPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
+        if (y != null) y.set(yPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
         return RESULT != 0;
     }
     
@@ -112,14 +112,14 @@ public class GestureDrag extends org.gtk.gtk.GestureSingle {
      * <p>
      * If the {@code gesture} is active, this function returns {@code true}
      * and fills in {@code x} and {@code y} with the drag start coordinates,
-     * in surface-relative coordinates.
+     * in widget-relative coordinates.
      * @param x X coordinate for the drag start point
      * @param y Y coordinate for the drag start point
      * @return {@code true} if the gesture is active
      */
     public boolean getStartPoint(Out<Double> x, Out<Double> y) {
-        MemorySegment xPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_DOUBLE);
-        MemorySegment yPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_DOUBLE);
+        MemorySegment xPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_DOUBLE);
+        MemorySegment yPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_DOUBLE);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_gesture_drag_get_start_point.invokeExact(
@@ -129,9 +129,23 @@ public class GestureDrag extends org.gtk.gtk.GestureSingle {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        if (x != null) x.set(xPOINTER.get(ValueLayout.JAVA_DOUBLE, 0));
-        if (y != null) y.set(yPOINTER.get(ValueLayout.JAVA_DOUBLE, 0));
+        if (x != null) x.set(xPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
+        if (y != null) y.set(yPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
         return RESULT != 0;
+    }
+    
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.gtk_gesture_drag_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
     }
     
     @FunctionalInterface
@@ -152,7 +166,7 @@ public class GestureDrag extends org.gtk.gtk.GestureSingle {
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(GestureDrag.Callbacks.class, "signalGestureDragDragBegin",
                         MethodType.methodType(void.class, MemoryAddress.class, double.class, double.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS),
+                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.ADDRESS),
                     Interop.getScope()),
                 Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
@@ -180,7 +194,7 @@ public class GestureDrag extends org.gtk.gtk.GestureSingle {
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(GestureDrag.Callbacks.class, "signalGestureDragDragEnd",
                         MethodType.methodType(void.class, MemoryAddress.class, double.class, double.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS),
+                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.ADDRESS),
                     Interop.getScope()),
                 Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
@@ -208,7 +222,7 @@ public class GestureDrag extends org.gtk.gtk.GestureSingle {
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(GestureDrag.Callbacks.class, "signalGestureDragDragUpdate",
                         MethodType.methodType(void.class, MemoryAddress.class, double.class, double.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS),
+                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.ADDRESS),
                     Interop.getScope()),
                 Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
@@ -217,24 +231,65 @@ public class GestureDrag extends org.gtk.gtk.GestureSingle {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gtk.GestureSingle.Build {
+        
+         /**
+         * A {@link GestureDrag.Build} object constructs a {@link GestureDrag} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link GestureDrag} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link GestureDrag} using {@link GestureDrag#castFrom}.
+         * @return A new instance of {@code GestureDrag} with the properties 
+         *         that were set in the Build object.
+         */
+        public GestureDrag construct() {
+            return GestureDrag.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    GestureDrag.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+    }
     
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_gesture_drag_new = Interop.downcallHandle(
             "gtk_gesture_drag_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_gesture_drag_get_offset = Interop.downcallHandle(
             "gtk_gesture_drag_get_offset",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_gesture_drag_get_start_point = Interop.downcallHandle(
             "gtk_gesture_drag_get_start_point",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+            false
+        );
+        
+        private static final MethodHandle gtk_gesture_drag_get_type = Interop.downcallHandle(
+            "gtk_gesture_drag_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }
@@ -242,21 +297,21 @@ public class GestureDrag extends org.gtk.gtk.GestureSingle {
     private static class Callbacks {
         
         public static void signalGestureDragDragBegin(MemoryAddress source, double startX, double startY, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (GestureDrag.DragBegin) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new GestureDrag(source, Ownership.UNKNOWN), startX, startY);
+            HANDLER.signalReceived(new GestureDrag(source, Ownership.NONE), startX, startY);
         }
         
         public static void signalGestureDragDragEnd(MemoryAddress source, double offsetX, double offsetY, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (GestureDrag.DragEnd) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new GestureDrag(source, Ownership.UNKNOWN), offsetX, offsetY);
+            HANDLER.signalReceived(new GestureDrag(source, Ownership.NONE), offsetX, offsetY);
         }
         
         public static void signalGestureDragDragUpdate(MemoryAddress source, double offsetX, double offsetY, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (GestureDrag.DragUpdate) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new GestureDrag(source, Ownership.UNKNOWN), offsetX, offsetY);
+            HANDLER.signalReceived(new GestureDrag(source, Ownership.NONE), offsetX, offsetY);
         }
     }
 }

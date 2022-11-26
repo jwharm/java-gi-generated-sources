@@ -39,7 +39,7 @@ import org.jetbrains.annotations.*;
  * The {@code Gdk.ContentFormatsBuilder} structure is meant to help in this
  * endeavor.
  */
-public class ContentFormats extends io.github.jwharm.javagi.ProxyBase {
+public class ContentFormats extends Struct {
     
     static {
         Gdk.javagi$ensureInitialized();
@@ -58,6 +58,10 @@ public class ContentFormats extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link ContentFormats}
+     * @return A new, uninitialized @{link ContentFormats}
+     */
     public static ContentFormats allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         ContentFormats newInstance = new ContentFormats(segment.address(), Ownership.NONE);
@@ -169,7 +173,7 @@ public class ContentFormats extends io.github.jwharm.javagi.ProxyBase {
      */
     public @Nullable org.gtk.glib.Type[] getGtypes(Out<Long> nGtypes) {
         java.util.Objects.requireNonNull(nGtypes, "Parameter 'nGtypes' must not be null");
-        MemorySegment nGtypesPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_LONG);
+        MemorySegment nGtypesPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gdk_content_formats_get_gtypes.invokeExact(
@@ -178,11 +182,11 @@ public class ContentFormats extends io.github.jwharm.javagi.ProxyBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        nGtypes.set(nGtypesPOINTER.get(ValueLayout.JAVA_LONG, 0));
+        nGtypes.set(nGtypesPOINTER.get(Interop.valueLayout.C_LONG, 0));
         if (RESULT.equals(MemoryAddress.NULL)) return null;
         org.gtk.glib.Type[] resultARRAY = new org.gtk.glib.Type[nGtypes.get().intValue()];
         for (int I = 0; I < nGtypes.get().intValue(); I++) {
-            var OBJ = RESULT.get(ValueLayout.JAVA_LONG, I);
+            var OBJ = RESULT.get(Interop.valueLayout.C_LONG, I);
             resultARRAY[I] = new org.gtk.glib.Type(OBJ);
         }
         return resultARRAY;
@@ -200,7 +204,7 @@ public class ContentFormats extends io.github.jwharm.javagi.ProxyBase {
      */
     public @Nullable java.lang.String[] getMimeTypes(Out<Long> nMimeTypes) {
         java.util.Objects.requireNonNull(nMimeTypes, "Parameter 'nMimeTypes' must not be null");
-        MemorySegment nMimeTypesPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_LONG);
+        MemorySegment nMimeTypesPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gdk_content_formats_get_mime_types.invokeExact(
@@ -209,11 +213,11 @@ public class ContentFormats extends io.github.jwharm.javagi.ProxyBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        nMimeTypes.set(nMimeTypesPOINTER.get(ValueLayout.JAVA_LONG, 0));
+        nMimeTypes.set(nMimeTypesPOINTER.get(Interop.valueLayout.C_LONG, 0));
         if (RESULT.equals(MemoryAddress.NULL)) return null;
         java.lang.String[] resultARRAY = new java.lang.String[nMimeTypes.get().intValue()];
         for (int I = 0; I < nMimeTypes.get().intValue(); I++) {
-            var OBJ = RESULT.get(ValueLayout.ADDRESS, I);
+            var OBJ = RESULT.get(Interop.valueLayout.ADDRESS, I);
             resultARRAY[I] = Interop.getStringFrom(OBJ);
         }
         return resultARRAY;
@@ -462,116 +466,144 @@ public class ContentFormats extends io.github.jwharm.javagi.ProxyBase {
         
         private static final MethodHandle gdk_content_formats_new = Interop.downcallHandle(
             "gdk_content_formats_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gdk_content_formats_new_for_gtype = Interop.downcallHandle(
             "gdk_content_formats_new_for_gtype",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
             false
         );
         
         private static final MethodHandle gdk_content_formats_contain_gtype = Interop.downcallHandle(
             "gdk_content_formats_contain_gtype",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
             false
         );
         
         private static final MethodHandle gdk_content_formats_contain_mime_type = Interop.downcallHandle(
             "gdk_content_formats_contain_mime_type",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_content_formats_get_gtypes = Interop.downcallHandle(
             "gdk_content_formats_get_gtypes",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_content_formats_get_mime_types = Interop.downcallHandle(
             "gdk_content_formats_get_mime_types",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_content_formats_match = Interop.downcallHandle(
             "gdk_content_formats_match",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_content_formats_match_gtype = Interop.downcallHandle(
             "gdk_content_formats_match_gtype",
-            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_content_formats_match_mime_type = Interop.downcallHandle(
             "gdk_content_formats_match_mime_type",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_content_formats_print = Interop.downcallHandle(
             "gdk_content_formats_print",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_content_formats_ref = Interop.downcallHandle(
             "gdk_content_formats_ref",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_content_formats_to_string = Interop.downcallHandle(
             "gdk_content_formats_to_string",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_content_formats_union = Interop.downcallHandle(
             "gdk_content_formats_union",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_content_formats_union_deserialize_gtypes = Interop.downcallHandle(
             "gdk_content_formats_union_deserialize_gtypes",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_content_formats_union_deserialize_mime_types = Interop.downcallHandle(
             "gdk_content_formats_union_deserialize_mime_types",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_content_formats_union_serialize_gtypes = Interop.downcallHandle(
             "gdk_content_formats_union_serialize_gtypes",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_content_formats_union_serialize_mime_types = Interop.downcallHandle(
             "gdk_content_formats_union_serialize_mime_types",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_content_formats_unref = Interop.downcallHandle(
             "gdk_content_formats_unref",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_content_formats_parse = Interop.downcallHandle(
             "gdk_content_formats_parse",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private ContentFormats struct;
+        
+         /**
+         * A {@link ContentFormats.Build} object constructs a {@link ContentFormats} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = ContentFormats.allocate();
+        }
+        
+         /**
+         * Finish building the {@link ContentFormats} struct.
+         * @return A new instance of {@code ContentFormats} with the fields 
+         *         that were set in the Build object.
+         */
+        public ContentFormats construct() {
+            return struct;
+        }
     }
 }

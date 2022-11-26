@@ -56,11 +56,25 @@ public class VulkanContext extends org.gtk.gdk.DrawContext implements org.gtk.gi
      * @throws ClassCastException If the GType is not derived from "GdkVulkanContext", a ClassCastException will be thrown.
      */
     public static VulkanContext castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GdkVulkanContext"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), VulkanContext.getType())) {
             return new VulkanContext(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GdkVulkanContext");
         }
+    }
+    
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.gdk_vulkan_context_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
     }
     
     @FunctionalInterface
@@ -84,7 +98,7 @@ public class VulkanContext extends org.gtk.gdk.DrawContext implements org.gtk.gi
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(VulkanContext.Callbacks.class, "signalVulkanContextImagesUpdated",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                     Interop.getScope()),
                 Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
@@ -93,13 +107,57 @@ public class VulkanContext extends org.gtk.gdk.DrawContext implements org.gtk.gi
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gdk.DrawContext.Build {
+        
+         /**
+         * A {@link VulkanContext.Build} object constructs a {@link VulkanContext} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link VulkanContext} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link VulkanContext} using {@link VulkanContext#castFrom}.
+         * @return A new instance of {@code VulkanContext} with the properties 
+         *         that were set in the Build object.
+         */
+        public VulkanContext construct() {
+            return VulkanContext.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    VulkanContext.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+    }
+    
+    private static class DowncallHandles {
+        
+        private static final MethodHandle gdk_vulkan_context_get_type = Interop.downcallHandle(
+            "gdk_vulkan_context_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+            false
+        );
+    }
     
     private static class Callbacks {
         
         public static void signalVulkanContextImagesUpdated(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (VulkanContext.ImagesUpdated) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new VulkanContext(source, Ownership.UNKNOWN));
+            HANDLER.signalReceived(new VulkanContext(source, Ownership.NONE));
         }
     }
 }

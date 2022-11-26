@@ -5,7 +5,7 @@ import java.lang.foreign.*;
 import java.lang.invoke.*;
 import org.jetbrains.annotations.*;
 
-public class ExpanderRowClass extends io.github.jwharm.javagi.ProxyBase {
+public class ExpanderRowClass extends Struct {
     
     static {
         Adw.javagi$ensureInitialized();
@@ -13,10 +13,9 @@ public class ExpanderRowClass extends io.github.jwharm.javagi.ProxyBase {
     
     private static final java.lang.String C_TYPE_NAME = "AdwExpanderRowClass";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gnome.adw.PreferencesRowClass.getMemoryLayout().withName("parent_class"),
-        MemoryLayout.paddingLayout(192),
-        MemoryLayout.sequenceLayout(4, ValueLayout.ADDRESS).withName("padding")
+        MemoryLayout.sequenceLayout(4, Interop.valueLayout.ADDRESS).withName("padding")
     ).withName(C_TYPE_NAME);
     
     /**
@@ -30,6 +29,10 @@ public class ExpanderRowClass extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link ExpanderRowClass}
+     * @return A new, uninitialized @{link ExpanderRowClass}
+     */
     public static ExpanderRowClass allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         ExpanderRowClass newInstance = new ExpanderRowClass(segment.address(), Ownership.NONE);
@@ -54,5 +57,52 @@ public class ExpanderRowClass extends io.github.jwharm.javagi.ProxyBase {
     @ApiStatus.Internal
     public ExpanderRowClass(Addressable address, Ownership ownership) {
         super(address, ownership);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private ExpanderRowClass struct;
+        
+         /**
+         * A {@link ExpanderRowClass.Build} object constructs a {@link ExpanderRowClass} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = ExpanderRowClass.allocate();
+        }
+        
+         /**
+         * Finish building the {@link ExpanderRowClass} struct.
+         * @return A new instance of {@code ExpanderRowClass} with the fields 
+         *         that were set in the Build object.
+         */
+        public ExpanderRowClass construct() {
+            return struct;
+        }
+        
+        /**
+         * The parent class
+         * @param parent_class The value for the {@code parent_class} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setParentClass(org.gnome.adw.PreferencesRowClass parent_class) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parent_class == null ? MemoryAddress.NULL : parent_class.handle()));
+            return this;
+        }
+        
+        public Build setPadding(java.lang.foreign.MemoryAddress[] padding) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("padding"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (padding == null ? MemoryAddress.NULL : Interop.allocateNativeArray(padding, false)));
+            return this;
+        }
     }
 }

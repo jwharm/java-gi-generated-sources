@@ -49,7 +49,7 @@ public class ViewStackPage extends org.gtk.gobject.Object {
      * @throws ClassCastException If the GType is not derived from "AdwViewStackPage", a ClassCastException will be thrown.
      */
     public static ViewStackPage castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("AdwViewStackPage"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), ViewStackPage.getType())) {
             return new ViewStackPage(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of AdwViewStackPage");
@@ -287,95 +287,248 @@ public class ViewStackPage extends org.gtk.gobject.Object {
         }
     }
     
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.adw_view_stack_page_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gobject.Object.Build {
+        
+         /**
+         * A {@link ViewStackPage.Build} object constructs a {@link ViewStackPage} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link ViewStackPage} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link ViewStackPage} using {@link ViewStackPage#castFrom}.
+         * @return A new instance of {@code ViewStackPage} with the properties 
+         *         that were set in the Build object.
+         */
+        public ViewStackPage construct() {
+            return ViewStackPage.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    ViewStackPage.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+        
+        /**
+         * The badge number for this page.
+         * <p>
+         * {@link ViewSwitcher} can display it as a badge next to the page icon. It is
+         * commonly used to display a number of unread items within the page.
+         * <p>
+         * It can be used together with {@code ViewStack{age}:needs-attention}.
+         * @param badgeNumber The value for the {@code badge-number} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setBadgeNumber(int badgeNumber) {
+            names.add("badge-number");
+            values.add(org.gtk.gobject.Value.create(badgeNumber));
+            return this;
+        }
+        
+        /**
+         * The stack child to which the page belongs.
+         * @param child The value for the {@code child} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setChild(org.gtk.gtk.Widget child) {
+            names.add("child");
+            values.add(org.gtk.gobject.Value.create(child));
+            return this;
+        }
+        
+        /**
+         * The icon name of the child page.
+         * @param iconName The value for the {@code icon-name} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setIconName(java.lang.String iconName) {
+            names.add("icon-name");
+            values.add(org.gtk.gobject.Value.create(iconName));
+            return this;
+        }
+        
+        /**
+         * The name of the child page.
+         * @param name The value for the {@code name} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setName(java.lang.String name) {
+            names.add("name");
+            values.add(org.gtk.gobject.Value.create(name));
+            return this;
+        }
+        
+        /**
+         * Whether the page requires the user attention.
+         * <p>
+         * {@link ViewSwitcher} will display it as a dot next to the page icon.
+         * @param needsAttention The value for the {@code needs-attention} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setNeedsAttention(boolean needsAttention) {
+            names.add("needs-attention");
+            values.add(org.gtk.gobject.Value.create(needsAttention));
+            return this;
+        }
+        
+        /**
+         * The title of the child page.
+         * @param title The value for the {@code title} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setTitle(java.lang.String title) {
+            names.add("title");
+            values.add(org.gtk.gobject.Value.create(title));
+            return this;
+        }
+        
+        /**
+         * Whether an embedded underline in the title indicates a mnemonic.
+         * @param useUnderline The value for the {@code use-underline} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setUseUnderline(boolean useUnderline) {
+            names.add("use-underline");
+            values.add(org.gtk.gobject.Value.create(useUnderline));
+            return this;
+        }
+        
+        /**
+         * Whether this page is visible.
+         * <p>
+         * This is independent from the {@code Gtk.Widget:visible} property of
+         * {@code ViewStackPage:child}.
+         * @param visible The value for the {@code visible} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setVisible(boolean visible) {
+            names.add("visible");
+            values.add(org.gtk.gobject.Value.create(visible));
+            return this;
+        }
+    }
+    
     private static class DowncallHandles {
         
         private static final MethodHandle adw_view_stack_page_get_badge_number = Interop.downcallHandle(
             "adw_view_stack_page_get_badge_number",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_view_stack_page_get_child = Interop.downcallHandle(
             "adw_view_stack_page_get_child",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_view_stack_page_get_icon_name = Interop.downcallHandle(
             "adw_view_stack_page_get_icon_name",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_view_stack_page_get_name = Interop.downcallHandle(
             "adw_view_stack_page_get_name",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_view_stack_page_get_needs_attention = Interop.downcallHandle(
             "adw_view_stack_page_get_needs_attention",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_view_stack_page_get_title = Interop.downcallHandle(
             "adw_view_stack_page_get_title",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_view_stack_page_get_use_underline = Interop.downcallHandle(
             "adw_view_stack_page_get_use_underline",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_view_stack_page_get_visible = Interop.downcallHandle(
             "adw_view_stack_page_get_visible",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_view_stack_page_set_badge_number = Interop.downcallHandle(
             "adw_view_stack_page_set_badge_number",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle adw_view_stack_page_set_icon_name = Interop.downcallHandle(
             "adw_view_stack_page_set_icon_name",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_view_stack_page_set_name = Interop.downcallHandle(
             "adw_view_stack_page_set_name",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_view_stack_page_set_needs_attention = Interop.downcallHandle(
             "adw_view_stack_page_set_needs_attention",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle adw_view_stack_page_set_title = Interop.downcallHandle(
             "adw_view_stack_page_set_title",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_view_stack_page_set_use_underline = Interop.downcallHandle(
             "adw_view_stack_page_set_use_underline",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle adw_view_stack_page_set_visible = Interop.downcallHandle(
             "adw_view_stack_page_set_visible",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+            false
+        );
+        
+        private static final MethodHandle adw_view_stack_page_get_type = Interop.downcallHandle(
+            "adw_view_stack_page_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }

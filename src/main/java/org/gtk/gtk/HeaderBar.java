@@ -114,7 +114,7 @@ public class HeaderBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
      * @throws ClassCastException If the GType is not derived from "GtkHeaderBar", a ClassCastException will be thrown.
      */
     public static HeaderBar castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkHeaderBar"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), HeaderBar.getType())) {
             return new HeaderBar(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkHeaderBar");
@@ -307,65 +307,156 @@ public class HeaderBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
         }
     }
     
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.gtk_header_bar_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gtk.Widget.Build {
+        
+         /**
+         * A {@link HeaderBar.Build} object constructs a {@link HeaderBar} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link HeaderBar} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link HeaderBar} using {@link HeaderBar#castFrom}.
+         * @return A new instance of {@code HeaderBar} with the properties 
+         *         that were set in the Build object.
+         */
+        public HeaderBar construct() {
+            return HeaderBar.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    HeaderBar.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+        
+        /**
+         * The decoration layout for buttons.
+         * <p>
+         * If this property is not set, the
+         * {@code Gtk.Settings:gtk-decoration-layout} setting is used.
+         * @param decorationLayout The value for the {@code decoration-layout} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setDecorationLayout(java.lang.String decorationLayout) {
+            names.add("decoration-layout");
+            values.add(org.gtk.gobject.Value.create(decorationLayout));
+            return this;
+        }
+        
+        /**
+         * Whether to show title buttons like close, minimize, maximize.
+         * <p>
+         * Which buttons are actually shown and where is determined
+         * by the {@code Gtk.HeaderBar:decoration-layout} property,
+         * and by the state of the window (e.g. a close button will not
+         * be shown if the window can't be closed).
+         * @param showTitleButtons The value for the {@code show-title-buttons} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setShowTitleButtons(boolean showTitleButtons) {
+            names.add("show-title-buttons");
+            values.add(org.gtk.gobject.Value.create(showTitleButtons));
+            return this;
+        }
+        
+        public Build setTitleWidget(org.gtk.gtk.Widget titleWidget) {
+            names.add("title-widget");
+            values.add(org.gtk.gobject.Value.create(titleWidget));
+            return this;
+        }
+    }
+    
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_header_bar_new = Interop.downcallHandle(
             "gtk_header_bar_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_header_bar_get_decoration_layout = Interop.downcallHandle(
             "gtk_header_bar_get_decoration_layout",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_header_bar_get_show_title_buttons = Interop.downcallHandle(
             "gtk_header_bar_get_show_title_buttons",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_header_bar_get_title_widget = Interop.downcallHandle(
             "gtk_header_bar_get_title_widget",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_header_bar_pack_end = Interop.downcallHandle(
             "gtk_header_bar_pack_end",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_header_bar_pack_start = Interop.downcallHandle(
             "gtk_header_bar_pack_start",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_header_bar_remove = Interop.downcallHandle(
             "gtk_header_bar_remove",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_header_bar_set_decoration_layout = Interop.downcallHandle(
             "gtk_header_bar_set_decoration_layout",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_header_bar_set_show_title_buttons = Interop.downcallHandle(
             "gtk_header_bar_set_show_title_buttons",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_header_bar_set_title_widget = Interop.downcallHandle(
             "gtk_header_bar_set_title_widget",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+            false
+        );
+        
+        private static final MethodHandle gtk_header_bar_get_type = Interop.downcallHandle(
+            "gtk_header_bar_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }

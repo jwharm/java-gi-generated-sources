@@ -9,7 +9,7 @@ import org.jetbrains.annotations.*;
  * Defines a Unix mount entry (e.g. &lt;filename&gt;/media/cdrom&lt;/filename&gt;).
  * This corresponds roughly to a mtab entry.
  */
-public class UnixMountEntry extends io.github.jwharm.javagi.ProxyBase {
+public class UnixMountEntry extends Struct {
     
     static {
         Gio.javagi$ensureInitialized();
@@ -28,6 +28,10 @@ public class UnixMountEntry extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link UnixMountEntry}
+     * @return A new, uninitialized @{link UnixMountEntry}
+     */
     public static UnixMountEntry allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         UnixMountEntry newInstance = new UnixMountEntry(segment.address(), Ownership.NONE);
@@ -43,5 +47,33 @@ public class UnixMountEntry extends io.github.jwharm.javagi.ProxyBase {
     @ApiStatus.Internal
     public UnixMountEntry(Addressable address, Ownership ownership) {
         super(address, ownership);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private UnixMountEntry struct;
+        
+         /**
+         * A {@link UnixMountEntry.Build} object constructs a {@link UnixMountEntry} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = UnixMountEntry.allocate();
+        }
+        
+         /**
+         * Finish building the {@link UnixMountEntry} struct.
+         * @return A new instance of {@code UnixMountEntry} with the fields 
+         *         that were set in the Build object.
+         */
+        public UnixMountEntry construct() {
+            return struct;
+        }
     }
 }

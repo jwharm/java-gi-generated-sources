@@ -21,7 +21,7 @@ public class EmblemedIcon extends org.gtk.gobject.Object implements org.gtk.gio.
     
     private static final java.lang.String C_TYPE_NAME = "GEmblemedIcon";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gobject.Object.getMemoryLayout().withName("parent_instance"),
         Interop.valueLayout.ADDRESS.withName("priv")
     ).withName(C_TYPE_NAME);
@@ -67,7 +67,7 @@ public class EmblemedIcon extends org.gtk.gobject.Object implements org.gtk.gio.
      * @throws ClassCastException If the GType is not derived from "GEmblemedIcon", a ClassCastException will be thrown.
      */
     public static EmblemedIcon castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GEmblemedIcon"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), EmblemedIcon.getType())) {
             return new EmblemedIcon(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GEmblemedIcon");
@@ -154,35 +154,96 @@ public class EmblemedIcon extends org.gtk.gobject.Object implements org.gtk.gio.
         return new org.gtk.gio.Icon.IconImpl(RESULT, Ownership.NONE);
     }
     
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.g_emblemed_icon_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gobject.Object.Build {
+        
+         /**
+         * A {@link EmblemedIcon.Build} object constructs a {@link EmblemedIcon} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link EmblemedIcon} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link EmblemedIcon} using {@link EmblemedIcon#castFrom}.
+         * @return A new instance of {@code EmblemedIcon} with the properties 
+         *         that were set in the Build object.
+         */
+        public EmblemedIcon construct() {
+            return EmblemedIcon.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    EmblemedIcon.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+        
+        public Build setGicon(org.gtk.gio.Icon gicon) {
+            names.add("gicon");
+            values.add(org.gtk.gobject.Value.create(gicon));
+            return this;
+        }
+    }
+    
     private static class DowncallHandles {
         
         private static final MethodHandle g_emblemed_icon_new = Interop.downcallHandle(
             "g_emblemed_icon_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_emblemed_icon_add_emblem = Interop.downcallHandle(
             "g_emblemed_icon_add_emblem",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_emblemed_icon_clear_emblems = Interop.downcallHandle(
             "g_emblemed_icon_clear_emblems",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_emblemed_icon_get_emblems = Interop.downcallHandle(
             "g_emblemed_icon_get_emblems",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_emblemed_icon_get_icon = Interop.downcallHandle(
             "g_emblemed_icon_get_icon",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+            false
+        );
+        
+        private static final MethodHandle g_emblemed_icon_get_type = Interop.downcallHandle(
+            "g_emblemed_icon_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }

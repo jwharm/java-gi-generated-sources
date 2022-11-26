@@ -17,7 +17,7 @@ public class DBusInterfaceSkeleton extends org.gtk.gobject.Object implements org
     
     private static final java.lang.String C_TYPE_NAME = "GDBusInterfaceSkeleton";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gobject.Object.getMemoryLayout().withName("parent_instance"),
         Interop.valueLayout.ADDRESS.withName("priv")
     ).withName(C_TYPE_NAME);
@@ -54,7 +54,7 @@ public class DBusInterfaceSkeleton extends org.gtk.gobject.Object implements org
      * @throws ClassCastException If the GType is not derived from "GDBusInterfaceSkeleton", a ClassCastException will be thrown.
      */
     public static DBusInterfaceSkeleton castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GDBusInterfaceSkeleton"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), DBusInterfaceSkeleton.getType())) {
             return new DBusInterfaceSkeleton(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GDBusInterfaceSkeleton");
@@ -78,7 +78,7 @@ public class DBusInterfaceSkeleton extends org.gtk.gobject.Object implements org
     public boolean export(@NotNull org.gtk.gio.DBusConnection connection, @NotNull java.lang.String objectPath) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(connection, "Parameter 'connection' must not be null");
         java.util.Objects.requireNonNull(objectPath, "Parameter 'objectPath' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_dbus_interface_skeleton_export.invokeExact(
@@ -296,6 +296,20 @@ public class DBusInterfaceSkeleton extends org.gtk.gobject.Object implements org
         }
     }
     
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.g_dbus_interface_skeleton_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+    
     @FunctionalInterface
     public interface GAuthorizeMethod {
         boolean signalReceived(DBusInterfaceSkeleton source, @NotNull org.gtk.gio.DBusMethodInvocation invocation);
@@ -346,7 +360,7 @@ public class DBusInterfaceSkeleton extends org.gtk.gobject.Object implements org
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(DBusInterfaceSkeleton.Callbacks.class, "signalDBusInterfaceSkeletonGAuthorizeMethod",
                         MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                    FunctionDescriptor.of(Interop.valueLayout.C_BOOLEAN, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                     Interop.getScope()),
                 Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
@@ -355,84 +369,136 @@ public class DBusInterfaceSkeleton extends org.gtk.gobject.Object implements org
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gobject.Object.Build {
+        
+         /**
+         * A {@link DBusInterfaceSkeleton.Build} object constructs a {@link DBusInterfaceSkeleton} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link DBusInterfaceSkeleton} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link DBusInterfaceSkeleton} using {@link DBusInterfaceSkeleton#castFrom}.
+         * @return A new instance of {@code DBusInterfaceSkeleton} with the properties 
+         *         that were set in the Build object.
+         */
+        public DBusInterfaceSkeleton construct() {
+            return DBusInterfaceSkeleton.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    DBusInterfaceSkeleton.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+        
+        /**
+         * Flags from the {@link DBusInterfaceSkeletonFlags} enumeration.
+         * @param gFlags The value for the {@code g-flags} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setGFlags(org.gtk.gio.DBusInterfaceSkeletonFlags gFlags) {
+            names.add("g-flags");
+            values.add(org.gtk.gobject.Value.create(gFlags));
+            return this;
+        }
+    }
     
     private static class DowncallHandles {
         
         private static final MethodHandle g_dbus_interface_skeleton_export = Interop.downcallHandle(
             "g_dbus_interface_skeleton_export",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_dbus_interface_skeleton_flush = Interop.downcallHandle(
             "g_dbus_interface_skeleton_flush",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_dbus_interface_skeleton_get_connection = Interop.downcallHandle(
             "g_dbus_interface_skeleton_get_connection",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_dbus_interface_skeleton_get_connections = Interop.downcallHandle(
             "g_dbus_interface_skeleton_get_connections",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_dbus_interface_skeleton_get_flags = Interop.downcallHandle(
             "g_dbus_interface_skeleton_get_flags",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_dbus_interface_skeleton_get_info = Interop.downcallHandle(
             "g_dbus_interface_skeleton_get_info",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_dbus_interface_skeleton_get_object_path = Interop.downcallHandle(
             "g_dbus_interface_skeleton_get_object_path",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_dbus_interface_skeleton_get_properties = Interop.downcallHandle(
             "g_dbus_interface_skeleton_get_properties",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_dbus_interface_skeleton_get_vtable = Interop.downcallHandle(
             "g_dbus_interface_skeleton_get_vtable",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_dbus_interface_skeleton_has_connection = Interop.downcallHandle(
             "g_dbus_interface_skeleton_has_connection",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_dbus_interface_skeleton_set_flags = Interop.downcallHandle(
             "g_dbus_interface_skeleton_set_flags",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_dbus_interface_skeleton_unexport = Interop.downcallHandle(
             "g_dbus_interface_skeleton_unexport",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_dbus_interface_skeleton_unexport_from_connection = Interop.downcallHandle(
             "g_dbus_interface_skeleton_unexport_from_connection",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+            false
+        );
+        
+        private static final MethodHandle g_dbus_interface_skeleton_get_type = Interop.downcallHandle(
+            "g_dbus_interface_skeleton_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }
@@ -440,9 +506,9 @@ public class DBusInterfaceSkeleton extends org.gtk.gobject.Object implements org
     private static class Callbacks {
         
         public static boolean signalDBusInterfaceSkeletonGAuthorizeMethod(MemoryAddress source, MemoryAddress invocation, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (DBusInterfaceSkeleton.GAuthorizeMethod) Interop.signalRegistry.get(HASH);
-            return HANDLER.signalReceived(new DBusInterfaceSkeleton(source, Ownership.UNKNOWN), new org.gtk.gio.DBusMethodInvocation(invocation, Ownership.NONE));
+            return HANDLER.signalReceived(new DBusInterfaceSkeleton(source, Ownership.NONE), new org.gtk.gio.DBusMethodInvocation(invocation, Ownership.NONE));
         }
     }
 }

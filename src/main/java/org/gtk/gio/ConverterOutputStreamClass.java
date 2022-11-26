@@ -5,7 +5,7 @@ import java.lang.foreign.*;
 import java.lang.invoke.*;
 import org.jetbrains.annotations.*;
 
-public class ConverterOutputStreamClass extends io.github.jwharm.javagi.ProxyBase {
+public class ConverterOutputStreamClass extends Struct {
     
     static {
         Gio.javagi$ensureInitialized();
@@ -13,7 +13,7 @@ public class ConverterOutputStreamClass extends io.github.jwharm.javagi.ProxyBas
     
     private static final java.lang.String C_TYPE_NAME = "GConverterOutputStreamClass";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gio.FilterOutputStreamClass.getMemoryLayout().withName("parent_class"),
         Interop.valueLayout.ADDRESS.withName("_g_reserved1"),
         Interop.valueLayout.ADDRESS.withName("_g_reserved2"),
@@ -33,6 +33,10 @@ public class ConverterOutputStreamClass extends io.github.jwharm.javagi.ProxyBas
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link ConverterOutputStreamClass}
+     * @return A new, uninitialized @{link ConverterOutputStreamClass}
+     */
     public static ConverterOutputStreamClass allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         ConverterOutputStreamClass newInstance = new ConverterOutputStreamClass(segment.address(), Ownership.NONE);
@@ -57,5 +61,75 @@ public class ConverterOutputStreamClass extends io.github.jwharm.javagi.ProxyBas
     @ApiStatus.Internal
     public ConverterOutputStreamClass(Addressable address, Ownership ownership) {
         super(address, ownership);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private ConverterOutputStreamClass struct;
+        
+         /**
+         * A {@link ConverterOutputStreamClass.Build} object constructs a {@link ConverterOutputStreamClass} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = ConverterOutputStreamClass.allocate();
+        }
+        
+         /**
+         * Finish building the {@link ConverterOutputStreamClass} struct.
+         * @return A new instance of {@code ConverterOutputStreamClass} with the fields 
+         *         that were set in the Build object.
+         */
+        public ConverterOutputStreamClass construct() {
+            return struct;
+        }
+        
+        public Build setParentClass(org.gtk.gio.FilterOutputStreamClass parent_class) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parent_class == null ? MemoryAddress.NULL : parent_class.handle()));
+            return this;
+        }
+        
+        public Build setGReserved1(java.lang.foreign.MemoryAddress _g_reserved1) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("_g_reserved1"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (_g_reserved1 == null ? MemoryAddress.NULL : _g_reserved1));
+            return this;
+        }
+        
+        public Build setGReserved2(java.lang.foreign.MemoryAddress _g_reserved2) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("_g_reserved2"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (_g_reserved2 == null ? MemoryAddress.NULL : _g_reserved2));
+            return this;
+        }
+        
+        public Build setGReserved3(java.lang.foreign.MemoryAddress _g_reserved3) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("_g_reserved3"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (_g_reserved3 == null ? MemoryAddress.NULL : _g_reserved3));
+            return this;
+        }
+        
+        public Build setGReserved4(java.lang.foreign.MemoryAddress _g_reserved4) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("_g_reserved4"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (_g_reserved4 == null ? MemoryAddress.NULL : _g_reserved4));
+            return this;
+        }
+        
+        public Build setGReserved5(java.lang.foreign.MemoryAddress _g_reserved5) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("_g_reserved5"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (_g_reserved5 == null ? MemoryAddress.NULL : _g_reserved5));
+            return this;
+        }
     }
 }

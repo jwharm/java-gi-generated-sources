@@ -47,7 +47,7 @@ import org.jetbrains.annotations.*;
  * None of the members of a {@code PangoGlyphItemIter} should be modified manually.
  * @version 1.22
  */
-public class GlyphItemIter extends io.github.jwharm.javagi.ProxyBase {
+public class GlyphItemIter extends Struct {
     
     static {
         Pango.javagi$ensureInitialized();
@@ -55,15 +55,15 @@ public class GlyphItemIter extends io.github.jwharm.javagi.ProxyBase {
     
     private static final java.lang.String C_TYPE_NAME = "PangoGlyphItemIter";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
         Interop.valueLayout.ADDRESS.withName("glyph_item"),
         Interop.valueLayout.ADDRESS.withName("text"),
-        ValueLayout.JAVA_INT.withName("start_glyph"),
-        ValueLayout.JAVA_INT.withName("start_index"),
-        ValueLayout.JAVA_INT.withName("start_char"),
-        ValueLayout.JAVA_INT.withName("end_glyph"),
-        ValueLayout.JAVA_INT.withName("end_index"),
-        ValueLayout.JAVA_INT.withName("end_char")
+        Interop.valueLayout.C_INT.withName("start_glyph"),
+        Interop.valueLayout.C_INT.withName("start_index"),
+        Interop.valueLayout.C_INT.withName("start_char"),
+        Interop.valueLayout.C_INT.withName("end_glyph"),
+        Interop.valueLayout.C_INT.withName("end_index"),
+        Interop.valueLayout.C_INT.withName("end_char")
     ).withName(C_TYPE_NAME);
     
     /**
@@ -77,6 +77,10 @@ public class GlyphItemIter extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link GlyphItemIter}
+     * @return A new, uninitialized @{link GlyphItemIter}
+     */
     public static GlyphItemIter allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         GlyphItemIter newInstance = new GlyphItemIter(segment.address(), Ownership.NONE);
@@ -376,38 +380,122 @@ public class GlyphItemIter extends io.github.jwharm.javagi.ProxyBase {
         
         private static final MethodHandle pango_glyph_item_iter_copy = Interop.downcallHandle(
             "pango_glyph_item_iter_copy",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle pango_glyph_item_iter_free = Interop.downcallHandle(
             "pango_glyph_item_iter_free",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle pango_glyph_item_iter_init_end = Interop.downcallHandle(
             "pango_glyph_item_iter_init_end",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle pango_glyph_item_iter_init_start = Interop.downcallHandle(
             "pango_glyph_item_iter_init_start",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle pango_glyph_item_iter_next_cluster = Interop.downcallHandle(
             "pango_glyph_item_iter_next_cluster",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle pango_glyph_item_iter_prev_cluster = Interop.downcallHandle(
             "pango_glyph_item_iter_prev_cluster",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private GlyphItemIter struct;
+        
+         /**
+         * A {@link GlyphItemIter.Build} object constructs a {@link GlyphItemIter} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = GlyphItemIter.allocate();
+        }
+        
+         /**
+         * Finish building the {@link GlyphItemIter} struct.
+         * @return A new instance of {@code GlyphItemIter} with the fields 
+         *         that were set in the Build object.
+         */
+        public GlyphItemIter construct() {
+            return struct;
+        }
+        
+        public Build setGlyphItem(org.pango.GlyphItem glyph_item) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("glyph_item"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (glyph_item == null ? MemoryAddress.NULL : glyph_item.handle()));
+            return this;
+        }
+        
+        public Build setText(java.lang.String text) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("text"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (text == null ? MemoryAddress.NULL : Interop.allocateNativeString(text)));
+            return this;
+        }
+        
+        public Build setStartGlyph(int start_glyph) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("start_glyph"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), start_glyph);
+            return this;
+        }
+        
+        public Build setStartIndex(int start_index) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("start_index"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), start_index);
+            return this;
+        }
+        
+        public Build setStartChar(int start_char) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("start_char"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), start_char);
+            return this;
+        }
+        
+        public Build setEndGlyph(int end_glyph) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("end_glyph"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), end_glyph);
+            return this;
+        }
+        
+        public Build setEndIndex(int end_index) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("end_index"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), end_index);
+            return this;
+        }
+        
+        public Build setEndChar(int end_char) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("end_char"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), end_char);
+            return this;
+        }
     }
 }

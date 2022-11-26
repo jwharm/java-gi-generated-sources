@@ -5,7 +5,7 @@ import java.lang.foreign.*;
 import java.lang.invoke.*;
 import org.jetbrains.annotations.*;
 
-public class EntryRowClass extends io.github.jwharm.javagi.ProxyBase {
+public class EntryRowClass extends Struct {
     
     static {
         Adw.javagi$ensureInitialized();
@@ -13,7 +13,7 @@ public class EntryRowClass extends io.github.jwharm.javagi.ProxyBase {
     
     private static final java.lang.String C_TYPE_NAME = "AdwEntryRowClass";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gnome.adw.PreferencesRowClass.getMemoryLayout().withName("parent_class")
     ).withName(C_TYPE_NAME);
     
@@ -28,6 +28,10 @@ public class EntryRowClass extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link EntryRowClass}
+     * @return A new, uninitialized @{link EntryRowClass}
+     */
     public static EntryRowClass allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         EntryRowClass newInstance = new EntryRowClass(segment.address(), Ownership.NONE);
@@ -52,5 +56,45 @@ public class EntryRowClass extends io.github.jwharm.javagi.ProxyBase {
     @ApiStatus.Internal
     public EntryRowClass(Addressable address, Ownership ownership) {
         super(address, ownership);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private EntryRowClass struct;
+        
+         /**
+         * A {@link EntryRowClass.Build} object constructs a {@link EntryRowClass} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = EntryRowClass.allocate();
+        }
+        
+         /**
+         * Finish building the {@link EntryRowClass} struct.
+         * @return A new instance of {@code EntryRowClass} with the fields 
+         *         that were set in the Build object.
+         */
+        public EntryRowClass construct() {
+            return struct;
+        }
+        
+        /**
+         * The parent class
+         * @param parent_class The value for the {@code parent_class} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setParentClass(org.gnome.adw.PreferencesRowClass parent_class) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parent_class == null ? MemoryAddress.NULL : parent_class.handle()));
+            return this;
+        }
     }
 }

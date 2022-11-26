@@ -134,7 +134,7 @@ public class Application extends org.gtk.gobject.Object implements org.gtk.gio.A
     
     private static final java.lang.String C_TYPE_NAME = "GApplication";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gobject.Object.getMemoryLayout().withName("parent_instance"),
         Interop.valueLayout.ADDRESS.withName("priv")
     ).withName(C_TYPE_NAME);
@@ -171,7 +171,7 @@ public class Application extends org.gtk.gobject.Object implements org.gtk.gio.A
      * @throws ClassCastException If the GType is not derived from "GApplication", a ClassCastException will be thrown.
      */
     public static Application castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GApplication"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), Application.getType())) {
             return new Application(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GApplication");
@@ -329,7 +329,7 @@ public class Application extends org.gtk.gobject.Object implements org.gtk.gio.A
         try {
             DowncallHandles.g_application_add_main_option_entries.invokeExact(
                     handle(),
-                    Interop.allocateNativeArray(entries, false));
+                    Interop.allocateNativeArray(entries, org.gtk.glib.OptionEntry.getMemoryLayout(), false));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -712,7 +712,7 @@ public class Application extends org.gtk.gobject.Object implements org.gtk.gio.A
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public boolean register(@Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_application_register.invokeExact(
@@ -1145,6 +1145,20 @@ public class Application extends org.gtk.gobject.Object implements org.gtk.gio.A
     }
     
     /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.g_application_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+    
+    /**
      * Returns the default {@link Application} instance for this process.
      * <p>
      * Normally there is only one {@link Application} per process and it becomes
@@ -1249,7 +1263,7 @@ public class Application extends org.gtk.gobject.Object implements org.gtk.gio.A
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(Application.Callbacks.class, "signalApplicationActivate",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                     Interop.getScope()),
                 Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
@@ -1279,7 +1293,7 @@ public class Application extends org.gtk.gobject.Object implements org.gtk.gio.A
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(Application.Callbacks.class, "signalApplicationCommandLine",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                     Interop.getScope()),
                 Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
@@ -1347,7 +1361,7 @@ public class Application extends org.gtk.gobject.Object implements org.gtk.gio.A
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(Application.Callbacks.class, "signalApplicationHandleLocalOptions",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                     Interop.getScope()),
                 Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
@@ -1379,7 +1393,7 @@ public class Application extends org.gtk.gobject.Object implements org.gtk.gio.A
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(Application.Callbacks.class, "signalApplicationNameLost",
                         MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                    FunctionDescriptor.of(Interop.valueLayout.C_BOOLEAN, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                     Interop.getScope()),
                 Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
@@ -1423,7 +1437,7 @@ public class Application extends org.gtk.gobject.Object implements org.gtk.gio.A
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(Application.Callbacks.class, "signalApplicationShutdown",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                     Interop.getScope()),
                 Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
@@ -1452,7 +1466,7 @@ public class Application extends org.gtk.gobject.Object implements org.gtk.gio.A
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(Application.Callbacks.class, "signalApplicationStartup",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                     Interop.getScope()),
                 Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
@@ -1461,228 +1475,323 @@ public class Application extends org.gtk.gobject.Object implements org.gtk.gio.A
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gobject.Object.Build {
+        
+         /**
+         * A {@link Application.Build} object constructs a {@link Application} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link Application} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link Application} using {@link Application#castFrom}.
+         * @return A new instance of {@code Application} with the properties 
+         *         that were set in the Build object.
+         */
+        public Application construct() {
+            return Application.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    Application.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+        
+        public Build setActionGroup(org.gtk.gio.ActionGroup actionGroup) {
+            names.add("action-group");
+            values.add(org.gtk.gobject.Value.create(actionGroup));
+            return this;
+        }
+        
+        public Build setApplicationId(java.lang.String applicationId) {
+            names.add("application-id");
+            values.add(org.gtk.gobject.Value.create(applicationId));
+            return this;
+        }
+        
+        public Build setFlags(org.gtk.gio.ApplicationFlags flags) {
+            names.add("flags");
+            values.add(org.gtk.gobject.Value.create(flags));
+            return this;
+        }
+        
+        public Build setInactivityTimeout(int inactivityTimeout) {
+            names.add("inactivity-timeout");
+            values.add(org.gtk.gobject.Value.create(inactivityTimeout));
+            return this;
+        }
+        
+        /**
+         * Whether the application is currently marked as busy through
+         * g_application_mark_busy() or g_application_bind_busy_property().
+         * @param isBusy The value for the {@code is-busy} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setIsBusy(boolean isBusy) {
+            names.add("is-busy");
+            values.add(org.gtk.gobject.Value.create(isBusy));
+            return this;
+        }
+        
+        public Build setIsRegistered(boolean isRegistered) {
+            names.add("is-registered");
+            values.add(org.gtk.gobject.Value.create(isRegistered));
+            return this;
+        }
+        
+        public Build setIsRemote(boolean isRemote) {
+            names.add("is-remote");
+            values.add(org.gtk.gobject.Value.create(isRemote));
+            return this;
+        }
+        
+        public Build setResourceBasePath(java.lang.String resourceBasePath) {
+            names.add("resource-base-path");
+            values.add(org.gtk.gobject.Value.create(resourceBasePath));
+            return this;
+        }
+    }
     
     private static class DowncallHandles {
         
         private static final MethodHandle g_application_new = Interop.downcallHandle(
             "g_application_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_application_activate = Interop.downcallHandle(
             "g_application_activate",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_application_add_main_option = Interop.downcallHandle(
             "g_application_add_main_option",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_BYTE, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_BYTE, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_application_add_main_option_entries = Interop.downcallHandle(
             "g_application_add_main_option_entries",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_application_add_option_group = Interop.downcallHandle(
             "g_application_add_option_group",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_application_bind_busy_property = Interop.downcallHandle(
             "g_application_bind_busy_property",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_application_get_application_id = Interop.downcallHandle(
             "g_application_get_application_id",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_application_get_dbus_connection = Interop.downcallHandle(
             "g_application_get_dbus_connection",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_application_get_dbus_object_path = Interop.downcallHandle(
             "g_application_get_dbus_object_path",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_application_get_flags = Interop.downcallHandle(
             "g_application_get_flags",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_application_get_inactivity_timeout = Interop.downcallHandle(
             "g_application_get_inactivity_timeout",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_application_get_is_busy = Interop.downcallHandle(
             "g_application_get_is_busy",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_application_get_is_registered = Interop.downcallHandle(
             "g_application_get_is_registered",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_application_get_is_remote = Interop.downcallHandle(
             "g_application_get_is_remote",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_application_get_resource_base_path = Interop.downcallHandle(
             "g_application_get_resource_base_path",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_application_hold = Interop.downcallHandle(
             "g_application_hold",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_application_mark_busy = Interop.downcallHandle(
             "g_application_mark_busy",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_application_open = Interop.downcallHandle(
             "g_application_open",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_application_quit = Interop.downcallHandle(
             "g_application_quit",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_application_register = Interop.downcallHandle(
             "g_application_register",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_application_release = Interop.downcallHandle(
             "g_application_release",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_application_run = Interop.downcallHandle(
             "g_application_run",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_application_send_notification = Interop.downcallHandle(
             "g_application_send_notification",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_application_set_action_group = Interop.downcallHandle(
             "g_application_set_action_group",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_application_set_application_id = Interop.downcallHandle(
             "g_application_set_application_id",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_application_set_default = Interop.downcallHandle(
             "g_application_set_default",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_application_set_flags = Interop.downcallHandle(
             "g_application_set_flags",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_application_set_inactivity_timeout = Interop.downcallHandle(
             "g_application_set_inactivity_timeout",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_application_set_option_context_description = Interop.downcallHandle(
             "g_application_set_option_context_description",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_application_set_option_context_parameter_string = Interop.downcallHandle(
             "g_application_set_option_context_parameter_string",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_application_set_option_context_summary = Interop.downcallHandle(
             "g_application_set_option_context_summary",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_application_set_resource_base_path = Interop.downcallHandle(
             "g_application_set_resource_base_path",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_application_unbind_busy_property = Interop.downcallHandle(
             "g_application_unbind_busy_property",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_application_unmark_busy = Interop.downcallHandle(
             "g_application_unmark_busy",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_application_withdraw_notification = Interop.downcallHandle(
             "g_application_withdraw_notification",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+            false
+        );
+        
+        private static final MethodHandle g_application_get_type = Interop.downcallHandle(
+            "g_application_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
         
         private static final MethodHandle g_application_get_default = Interop.downcallHandle(
             "g_application_get_default",
-            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_application_id_is_valid = Interop.downcallHandle(
             "g_application_id_is_valid",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
     }
@@ -1690,27 +1799,27 @@ public class Application extends org.gtk.gobject.Object implements org.gtk.gio.A
     private static class Callbacks {
         
         public static void signalApplicationActivate(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (Application.Activate) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Application(source, Ownership.UNKNOWN));
+            HANDLER.signalReceived(new Application(source, Ownership.NONE));
         }
         
         public static void signalApplicationCommandLine(MemoryAddress source, MemoryAddress commandLine, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (Application.CommandLine) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Application(source, Ownership.UNKNOWN), new org.gtk.gio.ApplicationCommandLine(commandLine, Ownership.NONE));
+            HANDLER.signalReceived(new Application(source, Ownership.NONE), new org.gtk.gio.ApplicationCommandLine(commandLine, Ownership.NONE));
         }
         
         public static void signalApplicationHandleLocalOptions(MemoryAddress source, MemoryAddress options, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (Application.HandleLocalOptions) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Application(source, Ownership.UNKNOWN), new org.gtk.glib.VariantDict(options, Ownership.NONE));
+            HANDLER.signalReceived(new Application(source, Ownership.NONE), new org.gtk.glib.VariantDict(options, Ownership.NONE));
         }
         
         public static boolean signalApplicationNameLost(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (Application.NameLost) Interop.signalRegistry.get(HASH);
-            return HANDLER.signalReceived(new Application(source, Ownership.UNKNOWN));
+            return HANDLER.signalReceived(new Application(source, Ownership.NONE));
         }
         
         public static void signalApplicationOpen(MemoryAddress source, MemoryAddress files, int nFiles, MemoryAddress hint, MemoryAddress data) {
@@ -1718,15 +1827,15 @@ public class Application extends org.gtk.gobject.Object implements org.gtk.gio.A
     }
         
         public static void signalApplicationShutdown(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (Application.Shutdown) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Application(source, Ownership.UNKNOWN));
+            HANDLER.signalReceived(new Application(source, Ownership.NONE));
         }
         
         public static void signalApplicationStartup(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (Application.Startup) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Application(source, Ownership.UNKNOWN));
+            HANDLER.signalReceived(new Application(source, Ownership.NONE));
         }
     }
 }

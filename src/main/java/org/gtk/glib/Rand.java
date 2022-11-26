@@ -9,7 +9,7 @@ import org.jetbrains.annotations.*;
  * The GRand struct is an opaque data structure. It should only be
  * accessed through the g_rand_* functions.
  */
-public class Rand extends io.github.jwharm.javagi.ProxyBase {
+public class Rand extends Struct {
     
     static {
         GLib.javagi$ensureInitialized();
@@ -28,6 +28,10 @@ public class Rand extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link Rand}
+     * @return A new, uninitialized @{link Rand}
+     */
     public static Rand allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         Rand newInstance = new Rand(segment.address(), Ownership.NONE);
@@ -239,68 +243,96 @@ public class Rand extends io.github.jwharm.javagi.ProxyBase {
         
         private static final MethodHandle g_rand_copy = Interop.downcallHandle(
             "g_rand_copy",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_rand_double = Interop.downcallHandle(
             "g_rand_double",
-            FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_DOUBLE, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_rand_double_range = Interop.downcallHandle(
             "g_rand_double_range",
-            FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE),
+            FunctionDescriptor.of(Interop.valueLayout.C_DOUBLE, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_DOUBLE),
             false
         );
         
         private static final MethodHandle g_rand_free = Interop.downcallHandle(
             "g_rand_free",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_rand_int = Interop.downcallHandle(
             "g_rand_int",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_rand_int_range = Interop.downcallHandle(
             "g_rand_int_range",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_rand_set_seed = Interop.downcallHandle(
             "g_rand_set_seed",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_rand_set_seed_array = Interop.downcallHandle(
             "g_rand_set_seed_array",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_rand_new = Interop.downcallHandle(
             "g_rand_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_rand_new_with_seed = Interop.downcallHandle(
             "g_rand_new_with_seed",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_rand_new_with_seed_array = Interop.downcallHandle(
             "g_rand_new_with_seed_array",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private Rand struct;
+        
+         /**
+         * A {@link Rand.Build} object constructs a {@link Rand} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = Rand.allocate();
+        }
+        
+         /**
+         * Finish building the {@link Rand} struct.
+         * @return A new instance of {@code Rand} with the fields 
+         *         that were set in the Build object.
+         */
+        public Rand construct() {
+            return struct;
+        }
     }
 }

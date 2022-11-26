@@ -29,7 +29,7 @@ public class SocketAddressEnumerator extends org.gtk.gobject.Object {
     
     private static final java.lang.String C_TYPE_NAME = "GSocketAddressEnumerator";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gobject.Object.getMemoryLayout().withName("parent_instance")
     ).withName(C_TYPE_NAME);
     
@@ -65,7 +65,7 @@ public class SocketAddressEnumerator extends org.gtk.gobject.Object {
      * @throws ClassCastException If the GType is not derived from "GSocketAddressEnumerator", a ClassCastException will be thrown.
      */
     public static SocketAddressEnumerator castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GSocketAddressEnumerator"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), SocketAddressEnumerator.getType())) {
             return new SocketAddressEnumerator(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GSocketAddressEnumerator");
@@ -92,8 +92,8 @@ public class SocketAddressEnumerator extends org.gtk.gobject.Object {
      *     more addresses.
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public @NotNull org.gtk.gio.SocketAddress next(@Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+    public @Nullable org.gtk.gio.SocketAddress next(@Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_socket_address_enumerator_next.invokeExact(
@@ -127,7 +127,7 @@ public class SocketAddressEnumerator extends org.gtk.gobject.Object {
                     (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                         Interop.getScope())),
                     (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
         } catch (Throwable ERR) {
@@ -146,9 +146,9 @@ public class SocketAddressEnumerator extends org.gtk.gobject.Object {
      *     more addresses.
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public @NotNull org.gtk.gio.SocketAddress nextFinish(@NotNull org.gtk.gio.AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
+    public @Nullable org.gtk.gio.SocketAddress nextFinish(@NotNull org.gtk.gio.AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(result, "Parameter 'result' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_socket_address_enumerator_next_finish.invokeExact(
@@ -164,23 +164,78 @@ public class SocketAddressEnumerator extends org.gtk.gobject.Object {
         return new org.gtk.gio.SocketAddress(RESULT, Ownership.FULL);
     }
     
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.g_socket_address_enumerator_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gobject.Object.Build {
+        
+         /**
+         * A {@link SocketAddressEnumerator.Build} object constructs a {@link SocketAddressEnumerator} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link SocketAddressEnumerator} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link SocketAddressEnumerator} using {@link SocketAddressEnumerator#castFrom}.
+         * @return A new instance of {@code SocketAddressEnumerator} with the properties 
+         *         that were set in the Build object.
+         */
+        public SocketAddressEnumerator construct() {
+            return SocketAddressEnumerator.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    SocketAddressEnumerator.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+    }
+    
     private static class DowncallHandles {
         
         private static final MethodHandle g_socket_address_enumerator_next = Interop.downcallHandle(
             "g_socket_address_enumerator_next",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_socket_address_enumerator_next_async = Interop.downcallHandle(
             "g_socket_address_enumerator_next_async",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_socket_address_enumerator_next_finish = Interop.downcallHandle(
             "g_socket_address_enumerator_next_finish",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+            false
+        );
+        
+        private static final MethodHandle g_socket_address_enumerator_get_type = Interop.downcallHandle(
+            "g_socket_address_enumerator_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }

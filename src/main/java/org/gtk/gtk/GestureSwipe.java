@@ -59,7 +59,7 @@ public class GestureSwipe extends org.gtk.gtk.GestureSingle {
      * @throws ClassCastException If the GType is not derived from "GtkGestureSwipe", a ClassCastException will be thrown.
      */
     public static GestureSwipe castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkGestureSwipe"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), GestureSwipe.getType())) {
             return new GestureSwipe(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkGestureSwipe");
@@ -95,9 +95,9 @@ public class GestureSwipe extends org.gtk.gtk.GestureSingle {
      */
     public boolean getVelocity(Out<Double> velocityX, Out<Double> velocityY) {
         java.util.Objects.requireNonNull(velocityX, "Parameter 'velocityX' must not be null");
+        MemorySegment velocityXPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_DOUBLE);
         java.util.Objects.requireNonNull(velocityY, "Parameter 'velocityY' must not be null");
-        MemorySegment velocityXPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_DOUBLE);
-        MemorySegment velocityYPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_DOUBLE);
+        MemorySegment velocityYPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_DOUBLE);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_gesture_swipe_get_velocity.invokeExact(
@@ -107,9 +107,23 @@ public class GestureSwipe extends org.gtk.gtk.GestureSingle {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        velocityX.set(velocityXPOINTER.get(ValueLayout.JAVA_DOUBLE, 0));
-        velocityY.set(velocityYPOINTER.get(ValueLayout.JAVA_DOUBLE, 0));
+        velocityX.set(velocityXPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
+        velocityY.set(velocityYPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
         return RESULT != 0;
+    }
+    
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.gtk_gesture_swipe_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
     }
     
     @FunctionalInterface
@@ -132,7 +146,7 @@ public class GestureSwipe extends org.gtk.gtk.GestureSingle {
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(GestureSwipe.Callbacks.class, "signalGestureSwipeSwipe",
                         MethodType.methodType(void.class, MemoryAddress.class, double.class, double.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS),
+                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.ADDRESS),
                     Interop.getScope()),
                 Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
@@ -141,18 +155,59 @@ public class GestureSwipe extends org.gtk.gtk.GestureSingle {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gtk.GestureSingle.Build {
+        
+         /**
+         * A {@link GestureSwipe.Build} object constructs a {@link GestureSwipe} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link GestureSwipe} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link GestureSwipe} using {@link GestureSwipe#castFrom}.
+         * @return A new instance of {@code GestureSwipe} with the properties 
+         *         that were set in the Build object.
+         */
+        public GestureSwipe construct() {
+            return GestureSwipe.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    GestureSwipe.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+    }
     
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_gesture_swipe_new = Interop.downcallHandle(
             "gtk_gesture_swipe_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_gesture_swipe_get_velocity = Interop.downcallHandle(
             "gtk_gesture_swipe_get_velocity",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+            false
+        );
+        
+        private static final MethodHandle gtk_gesture_swipe_get_type = Interop.downcallHandle(
+            "gtk_gesture_swipe_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }
@@ -160,9 +215,9 @@ public class GestureSwipe extends org.gtk.gtk.GestureSingle {
     private static class Callbacks {
         
         public static void signalGestureSwipeSwipe(MemoryAddress source, double velocityX, double velocityY, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (GestureSwipe.Swipe) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new GestureSwipe(source, Ownership.UNKNOWN), velocityX, velocityY);
+            HANDLER.signalReceived(new GestureSwipe(source, Ownership.NONE), velocityX, velocityY);
         }
     }
 }

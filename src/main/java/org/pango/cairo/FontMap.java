@@ -28,7 +28,7 @@ public interface FontMap extends io.github.jwharm.javagi.Proxy {
      * @throws ClassCastException If the GType is not derived from "PangoCairoFontMap", a ClassCastException will be thrown.
      */
     public static FontMap castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("PangoCairoFontMap"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), FontMap.getType())) {
             return new FontMapImpl(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of PangoCairoFontMap");
@@ -131,6 +131,20 @@ public interface FontMap extends io.github.jwharm.javagi.Proxy {
     }
     
     /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.pango_cairo_font_map_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+    
+    /**
      * Gets a default {@code PangoCairoFontMap} to use with Cairo.
      * <p>
      * Note that the type of the returned object will depend on the
@@ -222,56 +236,63 @@ public interface FontMap extends io.github.jwharm.javagi.Proxy {
         @ApiStatus.Internal
         static final MethodHandle pango_cairo_font_map_create_context = Interop.downcallHandle(
             "pango_cairo_font_map_create_context",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         @ApiStatus.Internal
         static final MethodHandle pango_cairo_font_map_get_font_type = Interop.downcallHandle(
             "pango_cairo_font_map_get_font_type",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         @ApiStatus.Internal
         static final MethodHandle pango_cairo_font_map_get_resolution = Interop.downcallHandle(
             "pango_cairo_font_map_get_resolution",
-            FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_DOUBLE, Interop.valueLayout.ADDRESS),
             false
         );
         
         @ApiStatus.Internal
         static final MethodHandle pango_cairo_font_map_set_default = Interop.downcallHandle(
             "pango_cairo_font_map_set_default",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         @ApiStatus.Internal
         static final MethodHandle pango_cairo_font_map_set_resolution = Interop.downcallHandle(
             "pango_cairo_font_map_set_resolution",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE),
+            false
+        );
+        
+        @ApiStatus.Internal
+        static final MethodHandle pango_cairo_font_map_get_type = Interop.downcallHandle(
+            "pango_cairo_font_map_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
         
         @ApiStatus.Internal
         static final MethodHandle pango_cairo_font_map_get_default = Interop.downcallHandle(
             "pango_cairo_font_map_get_default",
-            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
             false
         );
         
         @ApiStatus.Internal
         static final MethodHandle pango_cairo_font_map_new = Interop.downcallHandle(
             "pango_cairo_font_map_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
             false
         );
         
         @ApiStatus.Internal
         static final MethodHandle pango_cairo_font_map_new_for_font_type = Interop.downcallHandle(
             "pango_cairo_font_map_new_for_font_type",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
     }

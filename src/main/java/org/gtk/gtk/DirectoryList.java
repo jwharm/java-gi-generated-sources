@@ -69,7 +69,7 @@ public class DirectoryList extends org.gtk.gobject.Object implements org.gtk.gio
      * @throws ClassCastException If the GType is not derived from "GtkDirectoryList", a ClassCastException will be thrown.
      */
     public static DirectoryList castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkDirectoryList"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), DirectoryList.getType())) {
             return new DirectoryList(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkDirectoryList");
@@ -282,71 +282,214 @@ public class DirectoryList extends org.gtk.gobject.Object implements org.gtk.gio
         }
     }
     
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.gtk_directory_list_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gobject.Object.Build {
+        
+         /**
+         * A {@link DirectoryList.Build} object constructs a {@link DirectoryList} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link DirectoryList} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link DirectoryList} using {@link DirectoryList#castFrom}.
+         * @return A new instance of {@code DirectoryList} with the properties 
+         *         that were set in the Build object.
+         */
+        public DirectoryList construct() {
+            return DirectoryList.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    DirectoryList.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+        
+        /**
+         * The attributes to query.
+         * @param attributes The value for the {@code attributes} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setAttributes(java.lang.String attributes) {
+            names.add("attributes");
+            values.add(org.gtk.gobject.Value.create(attributes));
+            return this;
+        }
+        
+        /**
+         * Error encountered while loading files.
+         * @param error The value for the {@code error} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setError(org.gtk.glib.Error error) {
+            names.add("error");
+            values.add(org.gtk.gobject.Value.create(error));
+            return this;
+        }
+        
+        /**
+         * File to query.
+         * @param file The value for the {@code file} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setFile(org.gtk.gio.File file) {
+            names.add("file");
+            values.add(org.gtk.gobject.Value.create(file));
+            return this;
+        }
+        
+        /**
+         * Priority used when loading.
+         * @param ioPriority The value for the {@code io-priority} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setIoPriority(int ioPriority) {
+            names.add("io-priority");
+            values.add(org.gtk.gobject.Value.create(ioPriority));
+            return this;
+        }
+        
+        /**
+         * The type of items. See {@link org.gtk.gio.ListModel#getItemType}.
+         * @param itemType The value for the {@code item-type} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setItemType(org.gtk.glib.Type itemType) {
+            names.add("item-type");
+            values.add(org.gtk.gobject.Value.create(itemType));
+            return this;
+        }
+        
+        /**
+         * {@code true} if files are being loaded.
+         * @param loading The value for the {@code loading} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setLoading(boolean loading) {
+            names.add("loading");
+            values.add(org.gtk.gobject.Value.create(loading));
+            return this;
+        }
+        
+        /**
+         * {@code true} if the directory is monitored for changed.
+         * @param monitored The value for the {@code monitored} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setMonitored(boolean monitored) {
+            names.add("monitored");
+            values.add(org.gtk.gobject.Value.create(monitored));
+            return this;
+        }
+        
+        /**
+         * The number of items. See {@link org.gtk.gio.ListModel#getNItems}.
+         * @param nItems The value for the {@code n-items} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setNItems(int nItems) {
+            names.add("n-items");
+            values.add(org.gtk.gobject.Value.create(nItems));
+            return this;
+        }
+    }
+    
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_directory_list_new = Interop.downcallHandle(
             "gtk_directory_list_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_directory_list_get_attributes = Interop.downcallHandle(
             "gtk_directory_list_get_attributes",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_directory_list_get_error = Interop.downcallHandle(
             "gtk_directory_list_get_error",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_directory_list_get_file = Interop.downcallHandle(
             "gtk_directory_list_get_file",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_directory_list_get_io_priority = Interop.downcallHandle(
             "gtk_directory_list_get_io_priority",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_directory_list_get_monitored = Interop.downcallHandle(
             "gtk_directory_list_get_monitored",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_directory_list_is_loading = Interop.downcallHandle(
             "gtk_directory_list_is_loading",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_directory_list_set_attributes = Interop.downcallHandle(
             "gtk_directory_list_set_attributes",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_directory_list_set_file = Interop.downcallHandle(
             "gtk_directory_list_set_file",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_directory_list_set_io_priority = Interop.downcallHandle(
             "gtk_directory_list_set_io_priority",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_directory_list_set_monitored = Interop.downcallHandle(
             "gtk_directory_list_set_monitored",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+            false
+        );
+        
+        private static final MethodHandle gtk_directory_list_get_type = Interop.downcallHandle(
+            "gtk_directory_list_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }

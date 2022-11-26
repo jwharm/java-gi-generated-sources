@@ -17,7 +17,7 @@ import org.jetbrains.annotations.*;
  * {@code tv_sec} is that on 32-bit systems {@code GTimeVal} is subject to the year 2038
  * problem.
  */
-public class TimeVal extends io.github.jwharm.javagi.ProxyBase {
+public class TimeVal extends Struct {
     
     static {
         GLib.javagi$ensureInitialized();
@@ -25,9 +25,9 @@ public class TimeVal extends io.github.jwharm.javagi.ProxyBase {
     
     private static final java.lang.String C_TYPE_NAME = "GTimeVal";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
-        ValueLayout.JAVA_LONG.withName("tv_sec"),
-        ValueLayout.JAVA_LONG.withName("tv_usec")
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
+        Interop.valueLayout.C_LONG.withName("tv_sec"),
+        Interop.valueLayout.C_LONG.withName("tv_usec")
     ).withName(C_TYPE_NAME);
     
     /**
@@ -41,6 +41,10 @@ public class TimeVal extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link TimeVal}
+     * @return A new, uninitialized @{link TimeVal}
+     */
     public static TimeVal allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         TimeVal newInstance = new TimeVal(segment.address(), Ownership.NONE);
@@ -213,20 +217,72 @@ public class TimeVal extends io.github.jwharm.javagi.ProxyBase {
         
         private static final MethodHandle g_time_val_add = Interop.downcallHandle(
             "g_time_val_add",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
             false
         );
         
         private static final MethodHandle g_time_val_to_iso8601 = Interop.downcallHandle(
             "g_time_val_to_iso8601",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_time_val_from_iso8601 = Interop.downcallHandle(
             "g_time_val_from_iso8601",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private TimeVal struct;
+        
+         /**
+         * A {@link TimeVal.Build} object constructs a {@link TimeVal} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = TimeVal.allocate();
+        }
+        
+         /**
+         * Finish building the {@link TimeVal} struct.
+         * @return A new instance of {@code TimeVal} with the fields 
+         *         that were set in the Build object.
+         */
+        public TimeVal construct() {
+            return struct;
+        }
+        
+        /**
+         * seconds
+         * @param tv_sec The value for the {@code tv_sec} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setTvSec(long tv_sec) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("tv_sec"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), tv_sec);
+            return this;
+        }
+        
+        /**
+         * microseconds
+         * @param tv_usec The value for the {@code tv_usec} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setTvUsec(long tv_usec) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("tv_usec"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), tv_usec);
+            return this;
+        }
     }
 }

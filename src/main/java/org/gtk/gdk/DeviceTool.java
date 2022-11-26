@@ -48,7 +48,7 @@ public class DeviceTool extends org.gtk.gobject.Object {
      * @throws ClassCastException If the GType is not derived from "GdkDeviceTool", a ClassCastException will be thrown.
      */
     public static DeviceTool castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GdkDeviceTool"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), DeviceTool.getType())) {
             return new DeviceTool(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GdkDeviceTool");
@@ -130,29 +130,128 @@ public class DeviceTool extends org.gtk.gobject.Object {
         return new org.gtk.gdk.DeviceToolType(RESULT);
     }
     
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.gdk_device_tool_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gobject.Object.Build {
+        
+         /**
+         * A {@link DeviceTool.Build} object constructs a {@link DeviceTool} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link DeviceTool} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link DeviceTool} using {@link DeviceTool#castFrom}.
+         * @return A new instance of {@code DeviceTool} with the properties 
+         *         that were set in the Build object.
+         */
+        public DeviceTool construct() {
+            return DeviceTool.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    DeviceTool.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+        
+        /**
+         * The axes of the tool.
+         * @param axes The value for the {@code axes} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setAxes(org.gtk.gdk.AxisFlags axes) {
+            names.add("axes");
+            values.add(org.gtk.gobject.Value.create(axes));
+            return this;
+        }
+        
+        /**
+         * The hardware ID of the tool.
+         * @param hardwareId The value for the {@code hardware-id} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setHardwareId(long hardwareId) {
+            names.add("hardware-id");
+            values.add(org.gtk.gobject.Value.create(hardwareId));
+            return this;
+        }
+        
+        /**
+         * The serial number of the tool.
+         * @param serial The value for the {@code serial} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setSerial(long serial) {
+            names.add("serial");
+            values.add(org.gtk.gobject.Value.create(serial));
+            return this;
+        }
+        
+        /**
+         * The type of the tool.
+         * @param toolType The value for the {@code tool-type} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setToolType(org.gtk.gdk.DeviceToolType toolType) {
+            names.add("tool-type");
+            values.add(org.gtk.gobject.Value.create(toolType));
+            return this;
+        }
+    }
+    
     private static class DowncallHandles {
         
         private static final MethodHandle gdk_device_tool_get_axes = Interop.downcallHandle(
             "gdk_device_tool_get_axes",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_device_tool_get_hardware_id = Interop.downcallHandle(
             "gdk_device_tool_get_hardware_id",
-            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_device_tool_get_serial = Interop.downcallHandle(
             "gdk_device_tool_get_serial",
-            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_device_tool_get_tool_type = Interop.downcallHandle(
             "gdk_device_tool_get_tool_type",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+            false
+        );
+        
+        private static final MethodHandle gdk_device_tool_get_type = Interop.downcallHandle(
+            "gdk_device_tool_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }

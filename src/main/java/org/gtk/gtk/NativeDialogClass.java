@@ -8,7 +8,7 @@ import org.jetbrains.annotations.*;
 /**
  * Class structure for {@code GtkNativeDialog}.
  */
-public class NativeDialogClass extends io.github.jwharm.javagi.ProxyBase {
+public class NativeDialogClass extends Struct {
     
     static {
         Gtk.javagi$ensureInitialized();
@@ -16,7 +16,7 @@ public class NativeDialogClass extends io.github.jwharm.javagi.ProxyBase {
     
     private static final java.lang.String C_TYPE_NAME = "GtkNativeDialogClass";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gobject.ObjectClass.getMemoryLayout().withName("parent_class"),
         Interop.valueLayout.ADDRESS.withName("response"),
         Interop.valueLayout.ADDRESS.withName("show"),
@@ -38,6 +38,10 @@ public class NativeDialogClass extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link NativeDialogClass}
+     * @return A new, uninitialized @{link NativeDialogClass}
+     */
     public static NativeDialogClass allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         NativeDialogClass newInstance = new NativeDialogClass(segment.address(), Ownership.NONE);
@@ -53,5 +57,89 @@ public class NativeDialogClass extends io.github.jwharm.javagi.ProxyBase {
     @ApiStatus.Internal
     public NativeDialogClass(Addressable address, Ownership ownership) {
         super(address, ownership);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private NativeDialogClass struct;
+        
+         /**
+         * A {@link NativeDialogClass.Build} object constructs a {@link NativeDialogClass} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = NativeDialogClass.allocate();
+        }
+        
+         /**
+         * Finish building the {@link NativeDialogClass} struct.
+         * @return A new instance of {@code NativeDialogClass} with the fields 
+         *         that were set in the Build object.
+         */
+        public NativeDialogClass construct() {
+            return struct;
+        }
+        
+        public Build setParentClass(org.gtk.gobject.ObjectClass parent_class) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parent_class == null ? MemoryAddress.NULL : parent_class.handle()));
+            return this;
+        }
+        
+        public Build setResponse(java.lang.foreign.MemoryAddress response) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("response"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (response == null ? MemoryAddress.NULL : response));
+            return this;
+        }
+        
+        public Build setShow(java.lang.foreign.MemoryAddress show) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("show"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (show == null ? MemoryAddress.NULL : show));
+            return this;
+        }
+        
+        public Build setHide(java.lang.foreign.MemoryAddress hide) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("hide"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (hide == null ? MemoryAddress.NULL : hide));
+            return this;
+        }
+        
+        public Build setGtkReserved1(java.lang.foreign.MemoryAddress _gtk_reserved1) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("_gtk_reserved1"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (_gtk_reserved1 == null ? MemoryAddress.NULL : _gtk_reserved1));
+            return this;
+        }
+        
+        public Build setGtkReserved2(java.lang.foreign.MemoryAddress _gtk_reserved2) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("_gtk_reserved2"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (_gtk_reserved2 == null ? MemoryAddress.NULL : _gtk_reserved2));
+            return this;
+        }
+        
+        public Build setGtkReserved3(java.lang.foreign.MemoryAddress _gtk_reserved3) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("_gtk_reserved3"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (_gtk_reserved3 == null ? MemoryAddress.NULL : _gtk_reserved3));
+            return this;
+        }
+        
+        public Build setGtkReserved4(java.lang.foreign.MemoryAddress _gtk_reserved4) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("_gtk_reserved4"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (_gtk_reserved4 == null ? MemoryAddress.NULL : _gtk_reserved4));
+            return this;
+        }
     }
 }

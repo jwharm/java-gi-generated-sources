@@ -25,7 +25,7 @@ public class PreferencesRow extends org.gtk.gtk.ListBoxRow implements org.gtk.gt
     
     private static final java.lang.String C_TYPE_NAME = "AdwPreferencesRow";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gtk.ListBoxRow.getMemoryLayout().withName("parent_instance")
     ).withName(C_TYPE_NAME);
     
@@ -70,7 +70,7 @@ public class PreferencesRow extends org.gtk.gtk.ListBoxRow implements org.gtk.gt
      * @throws ClassCastException If the GType is not derived from "AdwPreferencesRow", a ClassCastException will be thrown.
      */
     public static PreferencesRow castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("AdwPreferencesRow"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), PreferencesRow.getType())) {
             return new PreferencesRow(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of AdwPreferencesRow");
@@ -220,59 +220,167 @@ public class PreferencesRow extends org.gtk.gtk.ListBoxRow implements org.gtk.gt
         }
     }
     
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.adw_preferences_row_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gtk.ListBoxRow.Build {
+        
+         /**
+         * A {@link PreferencesRow.Build} object constructs a {@link PreferencesRow} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link PreferencesRow} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link PreferencesRow} using {@link PreferencesRow#castFrom}.
+         * @return A new instance of {@code PreferencesRow} with the properties 
+         *         that were set in the Build object.
+         */
+        public PreferencesRow construct() {
+            return PreferencesRow.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    PreferencesRow.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+        
+        /**
+         * The title of the preference represented by this row.
+         * <p>
+         * The title is interpreted as Pango markup unless
+         * {@code PreferencesRow:use-markup} is set to {@code FALSE}.
+         * @param title The value for the {@code title} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setTitle(java.lang.String title) {
+            names.add("title");
+            values.add(org.gtk.gobject.Value.create(title));
+            return this;
+        }
+        
+        /**
+         * Whether the user can copy the title from the label.
+         * <p>
+         * See also {@code Gtk.Label:selectable}.
+         * @param titleSelectable The value for the {@code title-selectable} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setTitleSelectable(boolean titleSelectable) {
+            names.add("title-selectable");
+            values.add(org.gtk.gobject.Value.create(titleSelectable));
+            return this;
+        }
+        
+        /**
+         * Whether to use Pango markup for the title label.
+         * <p>
+         * Subclasses may also use it for other labels, such as subtitle.
+         * <p>
+         * See also {@link org.pango.Pango#parseMarkup}.
+         * @param useMarkup The value for the {@code use-markup} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setUseMarkup(boolean useMarkup) {
+            names.add("use-markup");
+            values.add(org.gtk.gobject.Value.create(useMarkup));
+            return this;
+        }
+        
+        /**
+         * Whether an embedded underline in the title indicates a mnemonic.
+         * @param useUnderline The value for the {@code use-underline} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setUseUnderline(boolean useUnderline) {
+            names.add("use-underline");
+            values.add(org.gtk.gobject.Value.create(useUnderline));
+            return this;
+        }
+    }
+    
     private static class DowncallHandles {
         
         private static final MethodHandle adw_preferences_row_new = Interop.downcallHandle(
             "adw_preferences_row_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_preferences_row_get_title = Interop.downcallHandle(
             "adw_preferences_row_get_title",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_preferences_row_get_title_selectable = Interop.downcallHandle(
             "adw_preferences_row_get_title_selectable",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_preferences_row_get_use_markup = Interop.downcallHandle(
             "adw_preferences_row_get_use_markup",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_preferences_row_get_use_underline = Interop.downcallHandle(
             "adw_preferences_row_get_use_underline",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_preferences_row_set_title = Interop.downcallHandle(
             "adw_preferences_row_set_title",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_preferences_row_set_title_selectable = Interop.downcallHandle(
             "adw_preferences_row_set_title_selectable",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle adw_preferences_row_set_use_markup = Interop.downcallHandle(
             "adw_preferences_row_set_use_markup",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle adw_preferences_row_set_use_underline = Interop.downcallHandle(
             "adw_preferences_row_set_use_underline",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+            false
+        );
+        
+        private static final MethodHandle adw_preferences_row_get_type = Interop.downcallHandle(
+            "adw_preferences_row_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }

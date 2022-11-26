@@ -30,7 +30,7 @@ public interface ColorChooser extends io.github.jwharm.javagi.Proxy {
      * @throws ClassCastException If the GType is not derived from "GtkColorChooser", a ClassCastException will be thrown.
      */
     public static ColorChooser castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkColorChooser"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), ColorChooser.getType())) {
             return new ColorChooserImpl(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkColorChooser");
@@ -69,7 +69,7 @@ public interface ColorChooser extends io.github.jwharm.javagi.Proxy {
                     orientation.getValue(),
                     colorsPerLine,
                     nColors,
-                    (Addressable) (colors == null ? MemoryAddress.NULL : Interop.allocateNativeArray(colors, false)));
+                    (Addressable) (colors == null ? MemoryAddress.NULL : Interop.allocateNativeArray(colors, org.gtk.gdk.RGBA.getMemoryLayout(), false)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -135,6 +135,20 @@ public interface ColorChooser extends io.github.jwharm.javagi.Proxy {
         }
     }
     
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.gtk_color_chooser_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+    
     @FunctionalInterface
     public interface ColorActivated {
         void signalReceived(ColorChooser source, @NotNull org.gtk.gdk.RGBA color);
@@ -157,7 +171,7 @@ public interface ColorChooser extends io.github.jwharm.javagi.Proxy {
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(ColorChooser.Callbacks.class, "signalColorChooserColorActivated",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                     Interop.getScope()),
                 Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
@@ -173,35 +187,42 @@ public interface ColorChooser extends io.github.jwharm.javagi.Proxy {
         @ApiStatus.Internal
         static final MethodHandle gtk_color_chooser_add_palette = Interop.downcallHandle(
             "gtk_color_chooser_add_palette",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_color_chooser_get_rgba = Interop.downcallHandle(
             "gtk_color_chooser_get_rgba",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_color_chooser_get_use_alpha = Interop.downcallHandle(
             "gtk_color_chooser_get_use_alpha",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_color_chooser_set_rgba = Interop.downcallHandle(
             "gtk_color_chooser_set_rgba",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_color_chooser_set_use_alpha = Interop.downcallHandle(
             "gtk_color_chooser_set_use_alpha",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+            false
+        );
+        
+        @ApiStatus.Internal
+        static final MethodHandle gtk_color_chooser_get_type = Interop.downcallHandle(
+            "gtk_color_chooser_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }
@@ -210,9 +231,9 @@ public interface ColorChooser extends io.github.jwharm.javagi.Proxy {
     static class Callbacks {
         
         public static void signalColorChooserColorActivated(MemoryAddress source, MemoryAddress color, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (ColorChooser.ColorActivated) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new ColorChooser.ColorChooserImpl(source, Ownership.UNKNOWN), new org.gtk.gdk.RGBA(color, Ownership.NONE));
+            HANDLER.signalReceived(new ColorChooser.ColorChooserImpl(source, Ownership.NONE), new org.gtk.gdk.RGBA(color, Ownership.NONE));
         }
     }
     

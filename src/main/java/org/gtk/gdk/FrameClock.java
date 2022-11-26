@@ -80,7 +80,7 @@ public class FrameClock extends org.gtk.gobject.Object {
      * @throws ClassCastException If the GType is not derived from "GdkFrameClock", a ClassCastException will be thrown.
      */
     public static FrameClock castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GdkFrameClock"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), FrameClock.getType())) {
             return new FrameClock(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GdkFrameClock");
@@ -235,9 +235,9 @@ public class FrameClock extends org.gtk.gobject.Object {
      */
     public void getRefreshInfo(long baseTime, Out<Long> refreshIntervalReturn, Out<Long> presentationTimeReturn) {
         java.util.Objects.requireNonNull(refreshIntervalReturn, "Parameter 'refreshIntervalReturn' must not be null");
+        MemorySegment refreshIntervalReturnPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
         java.util.Objects.requireNonNull(presentationTimeReturn, "Parameter 'presentationTimeReturn' must not be null");
-        MemorySegment refreshIntervalReturnPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_LONG);
-        MemorySegment presentationTimeReturnPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_LONG);
+        MemorySegment presentationTimeReturnPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
         try {
             DowncallHandles.gdk_frame_clock_get_refresh_info.invokeExact(
                     handle(),
@@ -247,8 +247,8 @@ public class FrameClock extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        refreshIntervalReturn.set(refreshIntervalReturnPOINTER.get(ValueLayout.JAVA_LONG, 0));
-        presentationTimeReturn.set(presentationTimeReturnPOINTER.get(ValueLayout.JAVA_LONG, 0));
+        refreshIntervalReturn.set(refreshIntervalReturnPOINTER.get(Interop.valueLayout.C_LONG, 0));
+        presentationTimeReturn.set(presentationTimeReturnPOINTER.get(Interop.valueLayout.C_LONG, 0));
     }
     
     /**
@@ -300,6 +300,20 @@ public class FrameClock extends org.gtk.gobject.Object {
         }
     }
     
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.gdk_frame_clock_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+    
     @FunctionalInterface
     public interface AfterPaint {
         void signalReceived(FrameClock source);
@@ -320,7 +334,7 @@ public class FrameClock extends org.gtk.gobject.Object {
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(FrameClock.Callbacks.class, "signalFrameClockAfterPaint",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                     Interop.getScope()),
                 Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
@@ -350,7 +364,7 @@ public class FrameClock extends org.gtk.gobject.Object {
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(FrameClock.Callbacks.class, "signalFrameClockBeforePaint",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                     Interop.getScope()),
                 Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
@@ -381,7 +395,7 @@ public class FrameClock extends org.gtk.gobject.Object {
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(FrameClock.Callbacks.class, "signalFrameClockFlushEvents",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                     Interop.getScope()),
                 Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
@@ -413,7 +427,7 @@ public class FrameClock extends org.gtk.gobject.Object {
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(FrameClock.Callbacks.class, "signalFrameClockLayout",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                     Interop.getScope()),
                 Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
@@ -446,7 +460,7 @@ public class FrameClock extends org.gtk.gobject.Object {
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(FrameClock.Callbacks.class, "signalFrameClockPaint",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                     Interop.getScope()),
                 Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
@@ -477,7 +491,7 @@ public class FrameClock extends org.gtk.gobject.Object {
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(FrameClock.Callbacks.class, "signalFrameClockResumeEvents",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                     Interop.getScope()),
                 Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
@@ -510,7 +524,7 @@ public class FrameClock extends org.gtk.gobject.Object {
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(FrameClock.Callbacks.class, "signalFrameClockUpdate",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                     Interop.getScope()),
                 Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
@@ -519,66 +533,107 @@ public class FrameClock extends org.gtk.gobject.Object {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gobject.Object.Build {
+        
+         /**
+         * A {@link FrameClock.Build} object constructs a {@link FrameClock} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link FrameClock} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link FrameClock} using {@link FrameClock#castFrom}.
+         * @return A new instance of {@code FrameClock} with the properties 
+         *         that were set in the Build object.
+         */
+        public FrameClock construct() {
+            return FrameClock.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    FrameClock.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+    }
     
     private static class DowncallHandles {
         
         private static final MethodHandle gdk_frame_clock_begin_updating = Interop.downcallHandle(
             "gdk_frame_clock_begin_updating",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_frame_clock_end_updating = Interop.downcallHandle(
             "gdk_frame_clock_end_updating",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_frame_clock_get_current_timings = Interop.downcallHandle(
             "gdk_frame_clock_get_current_timings",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_frame_clock_get_fps = Interop.downcallHandle(
             "gdk_frame_clock_get_fps",
-            FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_DOUBLE, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_frame_clock_get_frame_counter = Interop.downcallHandle(
             "gdk_frame_clock_get_frame_counter",
-            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_frame_clock_get_frame_time = Interop.downcallHandle(
             "gdk_frame_clock_get_frame_time",
-            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_frame_clock_get_history_start = Interop.downcallHandle(
             "gdk_frame_clock_get_history_start",
-            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_frame_clock_get_refresh_info = Interop.downcallHandle(
             "gdk_frame_clock_get_refresh_info",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gdk_frame_clock_get_timings = Interop.downcallHandle(
             "gdk_frame_clock_get_timings",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
             false
         );
         
         private static final MethodHandle gdk_frame_clock_request_phase = Interop.downcallHandle(
             "gdk_frame_clock_request_phase",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+            false
+        );
+        
+        private static final MethodHandle gdk_frame_clock_get_type = Interop.downcallHandle(
+            "gdk_frame_clock_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }
@@ -586,45 +641,45 @@ public class FrameClock extends org.gtk.gobject.Object {
     private static class Callbacks {
         
         public static void signalFrameClockAfterPaint(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (FrameClock.AfterPaint) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new FrameClock(source, Ownership.UNKNOWN));
+            HANDLER.signalReceived(new FrameClock(source, Ownership.NONE));
         }
         
         public static void signalFrameClockBeforePaint(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (FrameClock.BeforePaint) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new FrameClock(source, Ownership.UNKNOWN));
+            HANDLER.signalReceived(new FrameClock(source, Ownership.NONE));
         }
         
         public static void signalFrameClockFlushEvents(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (FrameClock.FlushEvents) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new FrameClock(source, Ownership.UNKNOWN));
+            HANDLER.signalReceived(new FrameClock(source, Ownership.NONE));
         }
         
         public static void signalFrameClockLayout(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (FrameClock.Layout) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new FrameClock(source, Ownership.UNKNOWN));
+            HANDLER.signalReceived(new FrameClock(source, Ownership.NONE));
         }
         
         public static void signalFrameClockPaint(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (FrameClock.Paint) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new FrameClock(source, Ownership.UNKNOWN));
+            HANDLER.signalReceived(new FrameClock(source, Ownership.NONE));
         }
         
         public static void signalFrameClockResumeEvents(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (FrameClock.ResumeEvents) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new FrameClock(source, Ownership.UNKNOWN));
+            HANDLER.signalReceived(new FrameClock(source, Ownership.NONE));
         }
         
         public static void signalFrameClockUpdate(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (FrameClock.Update) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new FrameClock(source, Ownership.UNKNOWN));
+            HANDLER.signalReceived(new FrameClock(source, Ownership.NONE));
         }
     }
 }

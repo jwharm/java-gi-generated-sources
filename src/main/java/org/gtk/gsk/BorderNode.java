@@ -48,7 +48,7 @@ public class BorderNode extends org.gtk.gsk.RenderNode {
      * @throws ClassCastException If the GType is not derived from "GskBorderNode", a ClassCastException will be thrown.
      */
     public static BorderNode castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GskBorderNode"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), BorderNode.getType())) {
             return new BorderNode(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GskBorderNode");
@@ -64,7 +64,7 @@ public class BorderNode extends org.gtk.gsk.RenderNode {
             RESULT = (MemoryAddress) DowncallHandles.gsk_border_node_new.invokeExact(
                     outline.handle(),
                     Interop.allocateNativeArray(borderWidth, false),
-                    Interop.allocateNativeArray(borderColor, false));
+                    Interop.allocateNativeArray(borderColor, org.gtk.gdk.RGBA.getMemoryLayout(), false));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -131,32 +131,87 @@ public class BorderNode extends org.gtk.gsk.RenderNode {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return MemorySegment.ofAddress(RESULT.get(ValueLayout.ADDRESS, 0), 4 * ValueLayout.JAVA_FLOAT.byteSize(), Interop.getScope()).toArray(ValueLayout.JAVA_FLOAT);
+        return MemorySegment.ofAddress(RESULT.get(Interop.valueLayout.ADDRESS, 0), 4 * Interop.valueLayout.C_FLOAT.byteSize(), Interop.getScope()).toArray(Interop.valueLayout.C_FLOAT);
+    }
+    
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.gsk_border_node_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gsk.RenderNode.Build {
+        
+         /**
+         * A {@link BorderNode.Build} object constructs a {@link BorderNode} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link BorderNode} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link BorderNode} using {@link BorderNode#castFrom}.
+         * @return A new instance of {@code BorderNode} with the properties 
+         *         that were set in the Build object.
+         */
+        public BorderNode construct() {
+            return BorderNode.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    BorderNode.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle gsk_border_node_new = Interop.downcallHandle(
             "gsk_border_node_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gsk_border_node_get_colors = Interop.downcallHandle(
             "gsk_border_node_get_colors",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gsk_border_node_get_outline = Interop.downcallHandle(
             "gsk_border_node_get_outline",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gsk_border_node_get_widths = Interop.downcallHandle(
             "gsk_border_node_get_widths",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+            false
+        );
+        
+        private static final MethodHandle gsk_border_node_get_type = Interop.downcallHandle(
+            "gsk_border_node_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }

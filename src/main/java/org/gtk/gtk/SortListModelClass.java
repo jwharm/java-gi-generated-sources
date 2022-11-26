@@ -5,7 +5,7 @@ import java.lang.foreign.*;
 import java.lang.invoke.*;
 import org.jetbrains.annotations.*;
 
-public class SortListModelClass extends io.github.jwharm.javagi.ProxyBase {
+public class SortListModelClass extends Struct {
     
     static {
         Gtk.javagi$ensureInitialized();
@@ -13,7 +13,7 @@ public class SortListModelClass extends io.github.jwharm.javagi.ProxyBase {
     
     private static final java.lang.String C_TYPE_NAME = "GtkSortListModelClass";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gobject.ObjectClass.getMemoryLayout().withName("parent_class")
     ).withName(C_TYPE_NAME);
     
@@ -28,6 +28,10 @@ public class SortListModelClass extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link SortListModelClass}
+     * @return A new, uninitialized @{link SortListModelClass}
+     */
     public static SortListModelClass allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         SortListModelClass newInstance = new SortListModelClass(segment.address(), Ownership.NONE);
@@ -52,5 +56,40 @@ public class SortListModelClass extends io.github.jwharm.javagi.ProxyBase {
     @ApiStatus.Internal
     public SortListModelClass(Addressable address, Ownership ownership) {
         super(address, ownership);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private SortListModelClass struct;
+        
+         /**
+         * A {@link SortListModelClass.Build} object constructs a {@link SortListModelClass} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = SortListModelClass.allocate();
+        }
+        
+         /**
+         * Finish building the {@link SortListModelClass} struct.
+         * @return A new instance of {@code SortListModelClass} with the fields 
+         *         that were set in the Build object.
+         */
+        public SortListModelClass construct() {
+            return struct;
+        }
+        
+        public Build setParentClass(org.gtk.gobject.ObjectClass parent_class) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parent_class == null ? MemoryAddress.NULL : parent_class.handle()));
+            return this;
+        }
     }
 }

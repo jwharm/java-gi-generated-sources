@@ -5,7 +5,7 @@ import java.lang.foreign.*;
 import java.lang.invoke.*;
 import org.jetbrains.annotations.*;
 
-public class TreeModelFilterClass extends io.github.jwharm.javagi.ProxyBase {
+public class TreeModelFilterClass extends Struct {
     
     static {
         Gtk.javagi$ensureInitialized();
@@ -13,12 +13,11 @@ public class TreeModelFilterClass extends io.github.jwharm.javagi.ProxyBase {
     
     private static final java.lang.String C_TYPE_NAME = "GtkTreeModelFilterClass";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gobject.ObjectClass.getMemoryLayout().withName("parent_class"),
         Interop.valueLayout.ADDRESS.withName("visible"),
         Interop.valueLayout.ADDRESS.withName("modify"),
-        MemoryLayout.paddingLayout(320),
-        MemoryLayout.sequenceLayout(8, ValueLayout.ADDRESS).withName("padding")
+        MemoryLayout.sequenceLayout(8, Interop.valueLayout.ADDRESS).withName("padding")
     ).withName(C_TYPE_NAME);
     
     /**
@@ -32,6 +31,10 @@ public class TreeModelFilterClass extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link TreeModelFilterClass}
+     * @return A new, uninitialized @{link TreeModelFilterClass}
+     */
     public static TreeModelFilterClass allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         TreeModelFilterClass newInstance = new TreeModelFilterClass(segment.address(), Ownership.NONE);
@@ -56,5 +59,61 @@ public class TreeModelFilterClass extends io.github.jwharm.javagi.ProxyBase {
     @ApiStatus.Internal
     public TreeModelFilterClass(Addressable address, Ownership ownership) {
         super(address, ownership);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private TreeModelFilterClass struct;
+        
+         /**
+         * A {@link TreeModelFilterClass.Build} object constructs a {@link TreeModelFilterClass} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = TreeModelFilterClass.allocate();
+        }
+        
+         /**
+         * Finish building the {@link TreeModelFilterClass} struct.
+         * @return A new instance of {@code TreeModelFilterClass} with the fields 
+         *         that were set in the Build object.
+         */
+        public TreeModelFilterClass construct() {
+            return struct;
+        }
+        
+        public Build setParentClass(org.gtk.gobject.ObjectClass parent_class) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parent_class == null ? MemoryAddress.NULL : parent_class.handle()));
+            return this;
+        }
+        
+        public Build setVisible(java.lang.foreign.MemoryAddress visible) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("visible"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (visible == null ? MemoryAddress.NULL : visible));
+            return this;
+        }
+        
+        public Build setModify(java.lang.foreign.MemoryAddress modify) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("modify"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (modify == null ? MemoryAddress.NULL : modify));
+            return this;
+        }
+        
+        public Build setPadding(java.lang.foreign.MemoryAddress[] padding) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("padding"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (padding == null ? MemoryAddress.NULL : Interop.allocateNativeArray(padding, false)));
+            return this;
+        }
     }
 }

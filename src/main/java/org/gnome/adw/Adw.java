@@ -220,31 +220,31 @@ public final class Adw {
         
         private static final MethodHandle adw_easing_ease = Interop.downcallHandle(
             "adw_easing_ease",
-            FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_INT, ValueLayout.JAVA_DOUBLE),
+            FunctionDescriptor.of(Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_INT, Interop.valueLayout.C_DOUBLE),
             false
         );
         
         private static final MethodHandle adw_get_enable_animations = Interop.downcallHandle(
             "adw_get_enable_animations",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_get_major_version = Interop.downcallHandle(
             "adw_get_major_version",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle adw_get_micro_version = Interop.downcallHandle(
             "adw_get_micro_version",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle adw_get_minor_version = Interop.downcallHandle(
             "adw_get_minor_version",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT),
             false
         );
         
@@ -256,19 +256,19 @@ public final class Adw {
         
         private static final MethodHandle adw_is_initialized = Interop.downcallHandle(
             "adw_is_initialized",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle adw_lerp = Interop.downcallHandle(
             "adw_lerp",
-            FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE),
+            FunctionDescriptor.of(Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_DOUBLE),
             false
         );
         
         private static final MethodHandle adw_show_about_window = Interop.downcallHandle(
             "adw_show_about_window",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             true
         );
     }
@@ -277,7 +277,7 @@ public final class Adw {
     public static class Callbacks {
         
         public static void cbAnimationTargetFunc(double value, MemoryAddress userData) {
-            int HASH = userData.get(ValueLayout.JAVA_INT, 0);
+            int HASH = userData.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (AnimationTargetFunc) Interop.signalRegistry.get(HASH);
             HANDLER.onAnimationTargetFunc(value);
         }

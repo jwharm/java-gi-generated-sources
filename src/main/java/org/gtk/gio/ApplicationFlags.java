@@ -14,9 +14,15 @@ public class ApplicationFlags extends io.github.jwharm.javagi.Bitfield {
     private static final java.lang.String C_TYPE_NAME = "GApplicationFlags";
     
     /**
-     * Default
+     * Default. Deprecated in 2.74, use
+     *   {@link ApplicationFlags#DEFAULT_FLAGS} instead
      */
     public static final ApplicationFlags FLAGS_NONE = new ApplicationFlags(0);
+    
+    /**
+     * Default flags. Since: 2.74
+     */
+    public static final ApplicationFlags DEFAULT_FLAGS = new ApplicationFlags(0);
     
     /**
      * Run as a service. In this mode, registration

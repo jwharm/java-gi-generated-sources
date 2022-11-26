@@ -42,7 +42,7 @@ public class SocketService extends org.gtk.gio.SocketListener {
     
     private static final java.lang.String C_TYPE_NAME = "GSocketService";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gio.SocketListener.getMemoryLayout().withName("parent_instance"),
         Interop.valueLayout.ADDRESS.withName("priv")
     ).withName(C_TYPE_NAME);
@@ -88,7 +88,7 @@ public class SocketService extends org.gtk.gio.SocketListener {
      * @throws ClassCastException If the GType is not derived from "GSocketService", a ClassCastException will be thrown.
      */
     public static SocketService castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GSocketService"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), SocketService.getType())) {
             return new SocketService(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GSocketService");
@@ -180,6 +180,20 @@ public class SocketService extends org.gtk.gio.SocketListener {
         }
     }
     
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.g_socket_service_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+    
     @FunctionalInterface
     public interface Incoming {
         boolean signalReceived(SocketService source, @NotNull org.gtk.gio.SocketConnection connection, @Nullable org.gtk.gobject.Object sourceObject);
@@ -204,7 +218,7 @@ public class SocketService extends org.gtk.gio.SocketListener {
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(SocketService.Callbacks.class, "signalSocketServiceIncoming",
                         MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                    FunctionDescriptor.of(Interop.valueLayout.C_BOOLEAN, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                     Interop.getScope()),
                 Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
@@ -213,30 +227,82 @@ public class SocketService extends org.gtk.gio.SocketListener {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gio.SocketListener.Build {
+        
+         /**
+         * A {@link SocketService.Build} object constructs a {@link SocketService} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link SocketService} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link SocketService} using {@link SocketService#castFrom}.
+         * @return A new instance of {@code SocketService} with the properties 
+         *         that were set in the Build object.
+         */
+        public SocketService construct() {
+            return SocketService.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    SocketService.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+        
+        /**
+         * Whether the service is currently accepting connections.
+         * @param active The value for the {@code active} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setActive(boolean active) {
+            names.add("active");
+            values.add(org.gtk.gobject.Value.create(active));
+            return this;
+        }
+    }
     
     private static class DowncallHandles {
         
         private static final MethodHandle g_socket_service_new = Interop.downcallHandle(
             "g_socket_service_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_socket_service_is_active = Interop.downcallHandle(
             "g_socket_service_is_active",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_socket_service_start = Interop.downcallHandle(
             "g_socket_service_start",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_socket_service_stop = Interop.downcallHandle(
             "g_socket_service_stop",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+            false
+        );
+        
+        private static final MethodHandle g_socket_service_get_type = Interop.downcallHandle(
+            "g_socket_service_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }
@@ -244,9 +310,9 @@ public class SocketService extends org.gtk.gio.SocketListener {
     private static class Callbacks {
         
         public static boolean signalSocketServiceIncoming(MemoryAddress source, MemoryAddress connection, MemoryAddress sourceObject, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (SocketService.Incoming) Interop.signalRegistry.get(HASH);
-            return HANDLER.signalReceived(new SocketService(source, Ownership.UNKNOWN), new org.gtk.gio.SocketConnection(connection, Ownership.NONE), new org.gtk.gobject.Object(sourceObject, Ownership.NONE));
+            return HANDLER.signalReceived(new SocketService(source, Ownership.NONE), new org.gtk.gio.SocketConnection(connection, Ownership.NONE), new org.gtk.gobject.Object(sourceObject, Ownership.NONE));
         }
     }
 }

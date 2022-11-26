@@ -204,7 +204,7 @@ public class AboutWindow extends org.gnome.adw.Window implements org.gtk.gtk.Acc
      * @throws ClassCastException If the GType is not derived from "AdwAboutWindow", a ClassCastException will be thrown.
      */
     public static AboutWindow castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("AdwAboutWindow"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), AboutWindow.getType())) {
             return new AboutWindow(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of AdwAboutWindow");
@@ -1162,6 +1162,20 @@ public class AboutWindow extends org.gnome.adw.Window implements org.gtk.gtk.Acc
         }
     }
     
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.adw_about_window_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+    
     @FunctionalInterface
     public interface ActivateLink {
         boolean signalReceived(AboutWindow source, @NotNull java.lang.String uri);
@@ -1183,7 +1197,7 @@ public class AboutWindow extends org.gnome.adw.Window implements org.gtk.gtk.Acc
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(AboutWindow.Callbacks.class, "signalAboutWindowActivateLink",
                         MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                    FunctionDescriptor.of(Interop.valueLayout.C_BOOLEAN, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                     Interop.getScope()),
                 Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
@@ -1192,276 +1206,631 @@ public class AboutWindow extends org.gnome.adw.Window implements org.gtk.gtk.Acc
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gnome.adw.Window.Build {
+        
+         /**
+         * A {@link AboutWindow.Build} object constructs a {@link AboutWindow} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link AboutWindow} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link AboutWindow} using {@link AboutWindow#castFrom}.
+         * @return A new instance of {@code AboutWindow} with the properties 
+         *         that were set in the Build object.
+         */
+        public AboutWindow construct() {
+            return AboutWindow.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    AboutWindow.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+        
+        /**
+         * The name of the application icon.
+         * <p>
+         * The icon is displayed at the top of the main page.
+         * @param applicationIcon The value for the {@code application-icon} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setApplicationIcon(java.lang.String applicationIcon) {
+            names.add("application-icon");
+            values.add(org.gtk.gobject.Value.create(applicationIcon));
+            return this;
+        }
+        
+        /**
+         * The name of the application.
+         * <p>
+         * The name is displayed at the top of the main page.
+         * @param applicationName The value for the {@code application-name} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setApplicationName(java.lang.String applicationName) {
+            names.add("application-name");
+            values.add(org.gtk.gobject.Value.create(applicationName));
+            return this;
+        }
+        
+        /**
+         * The comments about the application.
+         * <p>
+         * Comments will be shown on the Details page, above links.
+         * <p>
+         * Unlike {@code Gtk.AboutDialog:comments}, this string can be long and
+         * detailed. It can also contain links and Pango markup.
+         * @param comments The value for the {@code comments} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setComments(java.lang.String comments) {
+            names.add("comments");
+            values.add(org.gtk.gobject.Value.create(comments));
+            return this;
+        }
+        
+        /**
+         * The copyright information.
+         * <p>
+         * This should be a short string of one or two lines, for example:
+         * {@code © 2022 Example}.
+         * <p>
+         * The copyright information will be displayed on the Legal page, above the
+         * application license.
+         * <p>
+         * {@code AboutWindow#addLegalSection} can be used to add copyright
+         * information for the application dependencies or other components.
+         * @param copyright The value for the {@code copyright} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setCopyright(java.lang.String copyright) {
+            names.add("copyright");
+            values.add(org.gtk.gobject.Value.create(copyright));
+            return this;
+        }
+        
+        /**
+         * The debug information.
+         * <p>
+         * Debug information will be shown on the Troubleshooting page. It's intended
+         * to be attached to issue reports when reporting issues against the
+         * application.
+         * <p>
+         * {@code AdwAboutWindow} provides a quick way to save debug information to a file.
+         * When saving, {@code AboutWindow:debug-info-filename} would be used as
+         * the suggested filename.
+         * <p>
+         * Debug information cannot contain markup or links.
+         * @param debugInfo The value for the {@code debug-info} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setDebugInfo(java.lang.String debugInfo) {
+            names.add("debug-info");
+            values.add(org.gtk.gobject.Value.create(debugInfo));
+            return this;
+        }
+        
+        /**
+         * The debug information filename.
+         * <p>
+         * It will be used as the suggested filename when saving debug information to
+         * a file.
+         * <p>
+         * See {@code AboutWindow:debug-info}.
+         * @param debugInfoFilename The value for the {@code debug-info-filename} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setDebugInfoFilename(java.lang.String debugInfoFilename) {
+            names.add("debug-info-filename");
+            values.add(org.gtk.gobject.Value.create(debugInfoFilename));
+            return this;
+        }
+        
+        /**
+         * The developer name.
+         * <p>
+         * The developer name is displayed on the main page, under the application
+         * name.
+         * <p>
+         * If the application is developed by multiple people, the developer name can
+         * be set to values like "AppName team", "AppName developers" or
+         * "The AppName project", and the individual contributors can be listed on the
+         * Credits page, with {@code AboutWindow:developers} and related
+         * properties.
+         * @param developerName The value for the {@code developer-name} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setDeveloperName(java.lang.String developerName) {
+            names.add("developer-name");
+            values.add(org.gtk.gobject.Value.create(developerName));
+            return this;
+        }
+        
+        /**
+         * The URL for the application's issue tracker.
+         * <p>
+         * The issue tracker link is displayed on the main page.
+         * @param issueUrl The value for the {@code issue-url} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setIssueUrl(java.lang.String issueUrl) {
+            names.add("issue-url");
+            values.add(org.gtk.gobject.Value.create(issueUrl));
+            return this;
+        }
+        
+        /**
+         * The license text.
+         * <p>
+         * This can be used to set a custom text for the license if it can't be set
+         * via {@code AboutWindow:license-type}.
+         * <p>
+         * When set, {@code AboutWindow:license-type} will be set to
+         * {@code GTK_LICENSE_CUSTOM}.
+         * <p>
+         * The license text will be displayed on the Legal page, below the copyright
+         * information.
+         * <p>
+         * License text can contain Pango markup and links.
+         * <p>
+         * {@code AboutWindow#addLegalSection} can be used to add license
+         * information for the application dependencies or other components.
+         * @param license The value for the {@code license} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setLicense(java.lang.String license) {
+            names.add("license");
+            values.add(org.gtk.gobject.Value.create(license));
+            return this;
+        }
+        
+        /**
+         * The license type.
+         * <p>
+         * Allows to set the application's license froma list of known licenses.
+         * <p>
+         * If the application's license is not in the list,
+         * {@code AboutWindow:license} can be used instead. The license type will
+         * be automatically set to {@code GTK_LICENSE_CUSTOM} in that case.
+         * <p>
+         * If set to {@code GTK_LICENSE_UNKNOWN}, no information will be displayed.
+         * <p>
+         * If the license type is different from {@code GTK_LICENSE_CUSTOM}.
+         * {@code AboutWindow:license} will be cleared out.
+         * <p>
+         * The license description will be displayed on the Legal page, below the
+         * copyright information.
+         * <p>
+         * {@code AboutWindow#addLegalSection} can be used to add license
+         * information for the application dependencies or other components.
+         * @param licenseType The value for the {@code license-type} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setLicenseType(org.gtk.gtk.License licenseType) {
+            names.add("license-type");
+            values.add(org.gtk.gobject.Value.create(licenseType));
+            return this;
+        }
+        
+        /**
+         * The release notes of the application.
+         * <p>
+         * Release notes are displayed on the the What's New page.
+         * <p>
+         * Release notes are formatted the same way as
+         * <a href="https://freedesktop.org/software/appstream/docs/chap-Metadata.html#tag-description">AppStream descriptions</a>.
+         * <p>
+         * The supported formatting options are:
+         * <p>
+         * * Paragraph ({@code <p>})
+         * * Ordered list ({@code <ol>}), with list items ({@code <li>})
+         * * Unordered list ({@code <ul>}), with list items ({@code <li>})
+         * <p>
+         * Within paragraphs and list items, emphasis ({@code <em>}) and inline code
+         * ({@code <code>}) text styles are supported. The emphasis is rendered in italic,
+         * while inline code is shown in a monospaced font.
+         * <p>
+         * Any text outside paragraphs or list items is ignored.
+         * <p>
+         * Nested lists are not supported.
+         * <p>
+         * {@code AdwAboutWindow} displays the version above the release notes. If set, the
+         * {@code AboutWindow:release-notes-version} of the property will be used
+         * as the version; otherwise, {@code AboutWindow:version} is used.
+         * @param releaseNotes The value for the {@code release-notes} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setReleaseNotes(java.lang.String releaseNotes) {
+            names.add("release-notes");
+            values.add(org.gtk.gobject.Value.create(releaseNotes));
+            return this;
+        }
+        
+        /**
+         * The version described by the application's release notes.
+         * <p>
+         * The release notes version is displayed on the What's New page, above the
+         * release notes.
+         * <p>
+         * If not set, {@code AboutWindow:version} will be used instead.
+         * <p>
+         * For example, an application with the current version 2.0.2 might want to
+         * keep the release notes from 2.0.0, and set the release notes version
+         * accordingly.
+         * <p>
+         * See {@code AboutWindow:release-notes}.
+         * @param releaseNotesVersion The value for the {@code release-notes-version} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setReleaseNotesVersion(java.lang.String releaseNotesVersion) {
+            names.add("release-notes-version");
+            values.add(org.gtk.gobject.Value.create(releaseNotesVersion));
+            return this;
+        }
+        
+        /**
+         * The URL of the application's support page.
+         * <p>
+         * The support page link is displayed on the main page.
+         * @param supportUrl The value for the {@code support-url} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setSupportUrl(java.lang.String supportUrl) {
+            names.add("support-url");
+            values.add(org.gtk.gobject.Value.create(supportUrl));
+            return this;
+        }
+        
+        /**
+         * The translator credits string.
+         * <p>
+         * It will be displayed on the Credits page.
+         * <p>
+         * This string should be {@code "translator-credits"} or {@code "translator_credits"} and
+         * should be marked as translatable.
+         * <p>
+         * The string may contain email addresses and URLs, see the introduction for
+         * more details.
+         * <p>
+         * See also:
+         * <p>
+         * * {@code AboutWindow:developers}
+         * * {@code AboutWindow:designers}
+         * * {@code AboutWindow:artists}
+         * * {@code AboutWindow:documenters}
+         * * {@code AboutWindow#addCreditSection}
+         * * {@code AboutWindow#addAcknowledgementSection}
+         * @param translatorCredits The value for the {@code translator-credits} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setTranslatorCredits(java.lang.String translatorCredits) {
+            names.add("translator-credits");
+            values.add(org.gtk.gobject.Value.create(translatorCredits));
+            return this;
+        }
+        
+        /**
+         * The version of the application.
+         * <p>
+         * The version is displayed on the main page.
+         * <p>
+         * If {@code AboutWindow:release-notes-version} is not set, the version
+         * will also be displayed above the release notes on the What's New page.
+         * @param version The value for the {@code version} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setVersion(java.lang.String version) {
+            names.add("version");
+            values.add(org.gtk.gobject.Value.create(version));
+            return this;
+        }
+        
+        /**
+         * The URL of the application's website.
+         * <p>
+         * Website is displayed on the Details page, below comments, or on the main
+         * page if the Details page doesn't have any other content.
+         * <p>
+         * Applications can add other links below, see {@code AboutWindow#addLink}.
+         * @param website The value for the {@code website} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setWebsite(java.lang.String website) {
+            names.add("website");
+            values.add(org.gtk.gobject.Value.create(website));
+            return this;
+        }
+    }
     
     private static class DowncallHandles {
         
         private static final MethodHandle adw_about_window_new = Interop.downcallHandle(
             "adw_about_window_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_about_window_add_acknowledgement_section = Interop.downcallHandle(
             "adw_about_window_add_acknowledgement_section",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_about_window_add_credit_section = Interop.downcallHandle(
             "adw_about_window_add_credit_section",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_about_window_add_legal_section = Interop.downcallHandle(
             "adw_about_window_add_legal_section",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_about_window_add_link = Interop.downcallHandle(
             "adw_about_window_add_link",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_about_window_get_application_icon = Interop.downcallHandle(
             "adw_about_window_get_application_icon",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_about_window_get_application_name = Interop.downcallHandle(
             "adw_about_window_get_application_name",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_about_window_get_artists = Interop.downcallHandle(
             "adw_about_window_get_artists",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_about_window_get_comments = Interop.downcallHandle(
             "adw_about_window_get_comments",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_about_window_get_copyright = Interop.downcallHandle(
             "adw_about_window_get_copyright",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_about_window_get_debug_info = Interop.downcallHandle(
             "adw_about_window_get_debug_info",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_about_window_get_debug_info_filename = Interop.downcallHandle(
             "adw_about_window_get_debug_info_filename",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_about_window_get_designers = Interop.downcallHandle(
             "adw_about_window_get_designers",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_about_window_get_developer_name = Interop.downcallHandle(
             "adw_about_window_get_developer_name",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_about_window_get_developers = Interop.downcallHandle(
             "adw_about_window_get_developers",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_about_window_get_documenters = Interop.downcallHandle(
             "adw_about_window_get_documenters",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_about_window_get_issue_url = Interop.downcallHandle(
             "adw_about_window_get_issue_url",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_about_window_get_license = Interop.downcallHandle(
             "adw_about_window_get_license",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_about_window_get_license_type = Interop.downcallHandle(
             "adw_about_window_get_license_type",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_about_window_get_release_notes = Interop.downcallHandle(
             "adw_about_window_get_release_notes",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_about_window_get_release_notes_version = Interop.downcallHandle(
             "adw_about_window_get_release_notes_version",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_about_window_get_support_url = Interop.downcallHandle(
             "adw_about_window_get_support_url",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_about_window_get_translator_credits = Interop.downcallHandle(
             "adw_about_window_get_translator_credits",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_about_window_get_version = Interop.downcallHandle(
             "adw_about_window_get_version",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_about_window_get_website = Interop.downcallHandle(
             "adw_about_window_get_website",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_about_window_set_application_icon = Interop.downcallHandle(
             "adw_about_window_set_application_icon",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_about_window_set_application_name = Interop.downcallHandle(
             "adw_about_window_set_application_name",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_about_window_set_artists = Interop.downcallHandle(
             "adw_about_window_set_artists",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_about_window_set_comments = Interop.downcallHandle(
             "adw_about_window_set_comments",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_about_window_set_copyright = Interop.downcallHandle(
             "adw_about_window_set_copyright",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_about_window_set_debug_info = Interop.downcallHandle(
             "adw_about_window_set_debug_info",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_about_window_set_debug_info_filename = Interop.downcallHandle(
             "adw_about_window_set_debug_info_filename",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_about_window_set_designers = Interop.downcallHandle(
             "adw_about_window_set_designers",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_about_window_set_developer_name = Interop.downcallHandle(
             "adw_about_window_set_developer_name",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_about_window_set_developers = Interop.downcallHandle(
             "adw_about_window_set_developers",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_about_window_set_documenters = Interop.downcallHandle(
             "adw_about_window_set_documenters",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_about_window_set_issue_url = Interop.downcallHandle(
             "adw_about_window_set_issue_url",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_about_window_set_license = Interop.downcallHandle(
             "adw_about_window_set_license",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_about_window_set_license_type = Interop.downcallHandle(
             "adw_about_window_set_license_type",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle adw_about_window_set_release_notes = Interop.downcallHandle(
             "adw_about_window_set_release_notes",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_about_window_set_release_notes_version = Interop.downcallHandle(
             "adw_about_window_set_release_notes_version",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_about_window_set_support_url = Interop.downcallHandle(
             "adw_about_window_set_support_url",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_about_window_set_translator_credits = Interop.downcallHandle(
             "adw_about_window_set_translator_credits",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_about_window_set_version = Interop.downcallHandle(
             "adw_about_window_set_version",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_about_window_set_website = Interop.downcallHandle(
             "adw_about_window_set_website",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+            false
+        );
+        
+        private static final MethodHandle adw_about_window_get_type = Interop.downcallHandle(
+            "adw_about_window_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }
@@ -1469,9 +1838,9 @@ public class AboutWindow extends org.gnome.adw.Window implements org.gtk.gtk.Acc
     private static class Callbacks {
         
         public static boolean signalAboutWindowActivateLink(MemoryAddress source, MemoryAddress uri, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (AboutWindow.ActivateLink) Interop.signalRegistry.get(HASH);
-            return HANDLER.signalReceived(new AboutWindow(source, Ownership.UNKNOWN), Interop.getStringFrom(uri));
+            return HANDLER.signalReceived(new AboutWindow(source, Ownership.NONE), Interop.getStringFrom(uri));
         }
     }
 }

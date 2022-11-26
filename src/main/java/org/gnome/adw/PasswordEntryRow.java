@@ -66,7 +66,7 @@ public class PasswordEntryRow extends org.gnome.adw.EntryRow implements org.gtk.
      * @throws ClassCastException If the GType is not derived from "AdwPasswordEntryRow", a ClassCastException will be thrown.
      */
     public static PasswordEntryRow castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("AdwPasswordEntryRow"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), PasswordEntryRow.getType())) {
             return new PasswordEntryRow(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of AdwPasswordEntryRow");
@@ -90,11 +90,66 @@ public class PasswordEntryRow extends org.gnome.adw.EntryRow implements org.gtk.
         super(constructNew(), Ownership.NONE);
     }
     
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.adw_password_entry_row_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gnome.adw.EntryRow.Build {
+        
+         /**
+         * A {@link PasswordEntryRow.Build} object constructs a {@link PasswordEntryRow} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link PasswordEntryRow} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link PasswordEntryRow} using {@link PasswordEntryRow#castFrom}.
+         * @return A new instance of {@code PasswordEntryRow} with the properties 
+         *         that were set in the Build object.
+         */
+        public PasswordEntryRow construct() {
+            return PasswordEntryRow.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    PasswordEntryRow.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+    }
+    
     private static class DowncallHandles {
         
         private static final MethodHandle adw_password_entry_row_new = Interop.downcallHandle(
             "adw_password_entry_row_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+            false
+        );
+        
+        private static final MethodHandle adw_password_entry_row_get_type = Interop.downcallHandle(
+            "adw_password_entry_row_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }

@@ -52,7 +52,7 @@ public class EventControllerLegacy extends org.gtk.gtk.EventController {
      * @throws ClassCastException If the GType is not derived from "GtkEventControllerLegacy", a ClassCastException will be thrown.
      */
     public static EventControllerLegacy castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkEventControllerLegacy"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), EventControllerLegacy.getType())) {
             return new EventControllerLegacy(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkEventControllerLegacy");
@@ -76,6 +76,20 @@ public class EventControllerLegacy extends org.gtk.gtk.EventController {
         super(constructNew(), Ownership.FULL);
     }
     
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.gtk_event_controller_legacy_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+    
     @FunctionalInterface
     public interface Event {
         boolean signalReceived(EventControllerLegacy source, @NotNull org.gtk.gdk.Event event);
@@ -94,7 +108,7 @@ public class EventControllerLegacy extends org.gtk.gtk.EventController {
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(EventControllerLegacy.Callbacks.class, "signalEventControllerLegacyEvent",
                         MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                    FunctionDescriptor.of(Interop.valueLayout.C_BOOLEAN, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                     Interop.getScope()),
                 Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
@@ -103,12 +117,53 @@ public class EventControllerLegacy extends org.gtk.gtk.EventController {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gtk.EventController.Build {
+        
+         /**
+         * A {@link EventControllerLegacy.Build} object constructs a {@link EventControllerLegacy} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link EventControllerLegacy} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link EventControllerLegacy} using {@link EventControllerLegacy#castFrom}.
+         * @return A new instance of {@code EventControllerLegacy} with the properties 
+         *         that were set in the Build object.
+         */
+        public EventControllerLegacy construct() {
+            return EventControllerLegacy.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    EventControllerLegacy.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+    }
     
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_event_controller_legacy_new = Interop.downcallHandle(
             "gtk_event_controller_legacy_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+            false
+        );
+        
+        private static final MethodHandle gtk_event_controller_legacy_get_type = Interop.downcallHandle(
+            "gtk_event_controller_legacy_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }
@@ -116,9 +171,9 @@ public class EventControllerLegacy extends org.gtk.gtk.EventController {
     private static class Callbacks {
         
         public static boolean signalEventControllerLegacyEvent(MemoryAddress source, MemoryAddress event, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (EventControllerLegacy.Event) Interop.signalRegistry.get(HASH);
-            return HANDLER.signalReceived(new EventControllerLegacy(source, Ownership.UNKNOWN), new org.gtk.gdk.Event(event, Ownership.NONE));
+            return HANDLER.signalReceived(new EventControllerLegacy(source, Ownership.NONE), new org.gtk.gdk.Event(event, Ownership.NONE));
         }
     }
 }

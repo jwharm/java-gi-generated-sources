@@ -52,7 +52,7 @@ public class FontsetSimple extends org.pango.Fontset {
      * @throws ClassCastException If the GType is not derived from "PangoFontsetSimple", a ClassCastException will be thrown.
      */
     public static FontsetSimple castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("PangoFontsetSimple"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), FontsetSimple.getType())) {
             return new FontsetSimple(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of PangoFontsetSimple");
@@ -112,23 +112,78 @@ public class FontsetSimple extends org.pango.Fontset {
         return RESULT;
     }
     
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.pango_fontset_simple_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.pango.Fontset.Build {
+        
+         /**
+         * A {@link FontsetSimple.Build} object constructs a {@link FontsetSimple} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link FontsetSimple} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link FontsetSimple} using {@link FontsetSimple#castFrom}.
+         * @return A new instance of {@code FontsetSimple} with the properties 
+         *         that were set in the Build object.
+         */
+        public FontsetSimple construct() {
+            return FontsetSimple.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    FontsetSimple.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+    }
+    
     private static class DowncallHandles {
         
         private static final MethodHandle pango_fontset_simple_new = Interop.downcallHandle(
             "pango_fontset_simple_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle pango_fontset_simple_append = Interop.downcallHandle(
             "pango_fontset_simple_append",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle pango_fontset_simple_size = Interop.downcallHandle(
             "pango_fontset_simple_size",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+            false
+        );
+        
+        private static final MethodHandle pango_fontset_simple_get_type = Interop.downcallHandle(
+            "pango_fontset_simple_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }

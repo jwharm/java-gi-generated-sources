@@ -10,7 +10,7 @@ import org.jetbrains.annotations.*;
  * font features as an attribute.
  * @version 1.38
  */
-public class AttrFontFeatures extends io.github.jwharm.javagi.ProxyBase {
+public class AttrFontFeatures extends Struct {
     
     static {
         Pango.javagi$ensureInitialized();
@@ -18,7 +18,7 @@ public class AttrFontFeatures extends io.github.jwharm.javagi.ProxyBase {
     
     private static final java.lang.String C_TYPE_NAME = "PangoAttrFontFeatures";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.pango.Attribute.getMemoryLayout().withName("attr"),
         Interop.valueLayout.ADDRESS.withName("features")
     ).withName(C_TYPE_NAME);
@@ -34,6 +34,10 @@ public class AttrFontFeatures extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link AttrFontFeatures}
+     * @return A new, uninitialized @{link AttrFontFeatures}
+     */
     public static AttrFontFeatures allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         AttrFontFeatures newInstance = new AttrFontFeatures(segment.address(), Ownership.NONE);
@@ -108,8 +112,60 @@ public class AttrFontFeatures extends io.github.jwharm.javagi.ProxyBase {
         
         private static final MethodHandle pango_attr_font_features_new = Interop.downcallHandle(
             "pango_attr_font_features_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private AttrFontFeatures struct;
+        
+         /**
+         * A {@link AttrFontFeatures.Build} object constructs a {@link AttrFontFeatures} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = AttrFontFeatures.allocate();
+        }
+        
+         /**
+         * Finish building the {@link AttrFontFeatures} struct.
+         * @return A new instance of {@code AttrFontFeatures} with the fields 
+         *         that were set in the Build object.
+         */
+        public AttrFontFeatures construct() {
+            return struct;
+        }
+        
+        /**
+         * the common portion of the attribute
+         * @param attr The value for the {@code attr} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setAttr(org.pango.Attribute attr) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("attr"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (attr == null ? MemoryAddress.NULL : attr.handle()));
+            return this;
+        }
+        
+        /**
+         * the features, as a string in CSS syntax
+         * @param features The value for the {@code features} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setFeatures(java.lang.String features) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("features"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (features == null ? MemoryAddress.NULL : Interop.allocateNativeString(features)));
+            return this;
+        }
     }
 }

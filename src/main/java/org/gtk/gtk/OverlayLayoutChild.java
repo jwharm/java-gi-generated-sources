@@ -48,7 +48,7 @@ public class OverlayLayoutChild extends org.gtk.gtk.LayoutChild {
      * @throws ClassCastException If the GType is not derived from "GtkOverlayLayoutChild", a ClassCastException will be thrown.
      */
     public static OverlayLayoutChild castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkOverlayLayoutChild"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), OverlayLayoutChild.getType())) {
             return new OverlayLayoutChild(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkOverlayLayoutChild");
@@ -113,29 +113,107 @@ public class OverlayLayoutChild extends org.gtk.gtk.LayoutChild {
         }
     }
     
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.gtk_overlay_layout_child_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gtk.LayoutChild.Build {
+        
+         /**
+         * A {@link OverlayLayoutChild.Build} object constructs a {@link OverlayLayoutChild} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link OverlayLayoutChild} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link OverlayLayoutChild} using {@link OverlayLayoutChild#castFrom}.
+         * @return A new instance of {@code OverlayLayoutChild} with the properties 
+         *         that were set in the Build object.
+         */
+        public OverlayLayoutChild construct() {
+            return OverlayLayoutChild.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    OverlayLayoutChild.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+        
+        /**
+         * Whether the child should be clipped to fit the parent's size.
+         * @param clipOverlay The value for the {@code clip-overlay} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setClipOverlay(boolean clipOverlay) {
+            names.add("clip-overlay");
+            values.add(org.gtk.gobject.Value.create(clipOverlay));
+            return this;
+        }
+        
+        /**
+         * Whether the child size should contribute to the {@code GtkOverlayLayout}'s
+         * measurement.
+         * @param measure The value for the {@code measure} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setMeasure(boolean measure) {
+            names.add("measure");
+            values.add(org.gtk.gobject.Value.create(measure));
+            return this;
+        }
+    }
+    
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_overlay_layout_child_get_clip_overlay = Interop.downcallHandle(
             "gtk_overlay_layout_child_get_clip_overlay",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_overlay_layout_child_get_measure = Interop.downcallHandle(
             "gtk_overlay_layout_child_get_measure",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_overlay_layout_child_set_clip_overlay = Interop.downcallHandle(
             "gtk_overlay_layout_child_set_clip_overlay",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_overlay_layout_child_set_measure = Interop.downcallHandle(
             "gtk_overlay_layout_child_set_measure",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+            false
+        );
+        
+        private static final MethodHandle gtk_overlay_layout_child_get_type = Interop.downcallHandle(
+            "gtk_overlay_layout_child_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }

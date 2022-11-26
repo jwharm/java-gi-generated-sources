@@ -19,9 +19,9 @@ public class InitiallyUnowned extends org.gtk.gobject.Object {
     
     private static final java.lang.String C_TYPE_NAME = "GInitiallyUnowned";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gobject.TypeInstance.getMemoryLayout().withName("g_type_instance"),
-        ValueLayout.JAVA_INT.withName("ref_count"),
+        Interop.valueLayout.C_INT.withName("ref_count"),
         MemoryLayout.paddingLayout(32),
         Interop.valueLayout.ADDRESS.withName("qdata")
     ).withName(C_TYPE_NAME);
@@ -67,10 +67,68 @@ public class InitiallyUnowned extends org.gtk.gobject.Object {
      * @throws ClassCastException If the GType is not derived from "GInitiallyUnowned", a ClassCastException will be thrown.
      */
     public static InitiallyUnowned castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GInitiallyUnowned"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), InitiallyUnowned.getType())) {
             return new InitiallyUnowned(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GInitiallyUnowned");
         }
+    }
+    
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.g_initially_unowned_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gobject.Object.Build {
+        
+         /**
+         * A {@link InitiallyUnowned.Build} object constructs a {@link InitiallyUnowned} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link InitiallyUnowned} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link InitiallyUnowned} using {@link InitiallyUnowned#castFrom}.
+         * @return A new instance of {@code InitiallyUnowned} with the properties 
+         *         that were set in the Build object.
+         */
+        public InitiallyUnowned construct() {
+            return InitiallyUnowned.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    InitiallyUnowned.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+    }
+    
+    private static class DowncallHandles {
+        
+        private static final MethodHandle g_initially_unowned_get_type = Interop.downcallHandle(
+            "g_initially_unowned_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+            false
+        );
     }
 }

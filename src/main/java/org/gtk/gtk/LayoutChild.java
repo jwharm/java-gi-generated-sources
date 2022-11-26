@@ -24,7 +24,7 @@ public class LayoutChild extends org.gtk.gobject.Object {
     
     private static final java.lang.String C_TYPE_NAME = "GtkLayoutChild";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gobject.Object.getMemoryLayout().withName("parent_instance")
     ).withName(C_TYPE_NAME);
     
@@ -69,7 +69,7 @@ public class LayoutChild extends org.gtk.gobject.Object {
      * @throws ClassCastException If the GType is not derived from "GtkLayoutChild", a ClassCastException will be thrown.
      */
     public static LayoutChild castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkLayoutChild"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), LayoutChild.getType())) {
             return new LayoutChild(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkLayoutChild");
@@ -107,17 +107,94 @@ public class LayoutChild extends org.gtk.gobject.Object {
         return new org.gtk.gtk.LayoutManager(RESULT, Ownership.NONE);
     }
     
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.gtk_layout_child_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gobject.Object.Build {
+        
+         /**
+         * A {@link LayoutChild.Build} object constructs a {@link LayoutChild} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link LayoutChild} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link LayoutChild} using {@link LayoutChild#castFrom}.
+         * @return A new instance of {@code LayoutChild} with the properties 
+         *         that were set in the Build object.
+         */
+        public LayoutChild construct() {
+            return LayoutChild.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    LayoutChild.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+        
+        /**
+         * The widget that is associated to the {@code GtkLayoutChild} instance.
+         * @param childWidget The value for the {@code child-widget} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setChildWidget(org.gtk.gtk.Widget childWidget) {
+            names.add("child-widget");
+            values.add(org.gtk.gobject.Value.create(childWidget));
+            return this;
+        }
+        
+        /**
+         * The layout manager that created the {@code GtkLayoutChild} instance.
+         * @param layoutManager The value for the {@code layout-manager} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setLayoutManager(org.gtk.gtk.LayoutManager layoutManager) {
+            names.add("layout-manager");
+            values.add(org.gtk.gobject.Value.create(layoutManager));
+            return this;
+        }
+    }
+    
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_layout_child_get_child_widget = Interop.downcallHandle(
             "gtk_layout_child_get_child_widget",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_layout_child_get_layout_manager = Interop.downcallHandle(
             "gtk_layout_child_get_layout_manager",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+            false
+        );
+        
+        private static final MethodHandle gtk_layout_child_get_type = Interop.downcallHandle(
+            "gtk_layout_child_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }

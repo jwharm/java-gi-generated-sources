@@ -14,7 +14,7 @@ import org.jetbrains.annotations.*;
  * callback isn't defined.
  * @version 4.0.0
  */
-public class DrawFuncsT extends io.github.jwharm.javagi.ProxyBase {
+public class DrawFuncsT extends Struct {
     
     static {
         HarfBuzz.javagi$ensureInitialized();
@@ -33,6 +33,10 @@ public class DrawFuncsT extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link DrawFuncsT}
+     * @return A new, uninitialized @{link DrawFuncsT}
+     */
     public static DrawFuncsT allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         DrawFuncsT newInstance = new DrawFuncsT(segment.address(), Ownership.NONE);
@@ -48,5 +52,33 @@ public class DrawFuncsT extends io.github.jwharm.javagi.ProxyBase {
     @ApiStatus.Internal
     public DrawFuncsT(Addressable address, Ownership ownership) {
         super(address, ownership);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private DrawFuncsT struct;
+        
+         /**
+         * A {@link DrawFuncsT.Build} object constructs a {@link DrawFuncsT} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = DrawFuncsT.allocate();
+        }
+        
+         /**
+         * Finish building the {@link DrawFuncsT} struct.
+         * @return A new instance of {@code DrawFuncsT} with the fields 
+         *         that were set in the Build object.
+         */
+        public DrawFuncsT construct() {
+            return struct;
+        }
     }
 }

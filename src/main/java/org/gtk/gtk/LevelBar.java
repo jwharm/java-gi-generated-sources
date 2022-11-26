@@ -140,7 +140,7 @@ public class LevelBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * @throws ClassCastException If the GType is not derived from "GtkLevelBar", a ClassCastException will be thrown.
      */
     public static LevelBar castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkLevelBar"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), LevelBar.getType())) {
             return new LevelBar(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkLevelBar");
@@ -279,7 +279,7 @@ public class LevelBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      */
     public boolean getOffsetValue(@Nullable java.lang.String name, Out<Double> value) {
         java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
-        MemorySegment valuePOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_DOUBLE);
+        MemorySegment valuePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_DOUBLE);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_level_bar_get_offset_value.invokeExact(
@@ -289,7 +289,7 @@ public class LevelBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        value.set(valuePOINTER.get(ValueLayout.JAVA_DOUBLE, 0));
+        value.set(valuePOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
         return RESULT != 0;
     }
     
@@ -404,6 +404,20 @@ public class LevelBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
         }
     }
     
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.gtk_level_bar_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+    
     @FunctionalInterface
     public interface OffsetChanged {
         void signalReceived(LevelBar source, @NotNull java.lang.String name);
@@ -430,7 +444,7 @@ public class LevelBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(LevelBar.Callbacks.class, "signalLevelBarOffsetChanged",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
                     Interop.getScope()),
                 Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
@@ -439,96 +453,204 @@ public class LevelBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gtk.Widget.Build {
+        
+         /**
+         * A {@link LevelBar.Build} object constructs a {@link LevelBar} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link LevelBar} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link LevelBar} using {@link LevelBar#castFrom}.
+         * @return A new instance of {@code LevelBar} with the properties 
+         *         that were set in the Build object.
+         */
+        public LevelBar construct() {
+            return LevelBar.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    LevelBar.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+        
+        /**
+         * Whether the {@code GtkLeveBar} is inverted.
+         * <p>
+         * Level bars normally grow from top to bottom or left to right.
+         * Inverted level bars grow in the opposite direction.
+         * @param inverted The value for the {@code inverted} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setInverted(boolean inverted) {
+            names.add("inverted");
+            values.add(org.gtk.gobject.Value.create(inverted));
+            return this;
+        }
+        
+        /**
+         * Determines the maximum value of the interval that can be displayed by the bar.
+         * @param maxValue The value for the {@code max-value} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setMaxValue(double maxValue) {
+            names.add("max-value");
+            values.add(org.gtk.gobject.Value.create(maxValue));
+            return this;
+        }
+        
+        /**
+         * Determines the minimum value of the interval that can be displayed by the bar.
+         * @param minValue The value for the {@code min-value} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setMinValue(double minValue) {
+            names.add("min-value");
+            values.add(org.gtk.gobject.Value.create(minValue));
+            return this;
+        }
+        
+        /**
+         * Determines the way {@code GtkLevelBar} interprets the value properties to draw the
+         * level fill area.
+         * <p>
+         * Specifically, when the value is {@link LevelBarMode#CONTINUOUS},
+         * {@code GtkLevelBar} will draw a single block representing the current value in
+         * that area; when the value is {@link LevelBarMode#DISCRETE},
+         * the widget will draw a succession of separate blocks filling the
+         * draw area, with the number of blocks being equal to the units separating
+         * the integral roundings of {@code Gtk.LevelBar:min-value} and
+         * {@code Gtk.LevelBar:max-value}.
+         * @param mode The value for the {@code mode} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setMode(org.gtk.gtk.LevelBarMode mode) {
+            names.add("mode");
+            values.add(org.gtk.gobject.Value.create(mode));
+            return this;
+        }
+        
+        /**
+         * Determines the currently filled value of the level bar.
+         * @param value The value for the {@code value} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setValue(double value) {
+            names.add("value");
+            values.add(org.gtk.gobject.Value.create(value));
+            return this;
+        }
+    }
     
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_level_bar_new = Interop.downcallHandle(
             "gtk_level_bar_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_level_bar_new_for_interval = Interop.downcallHandle(
             "gtk_level_bar_new_for_interval",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_DOUBLE),
             false
         );
         
         private static final MethodHandle gtk_level_bar_add_offset_value = Interop.downcallHandle(
             "gtk_level_bar_add_offset_value",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE),
             false
         );
         
         private static final MethodHandle gtk_level_bar_get_inverted = Interop.downcallHandle(
             "gtk_level_bar_get_inverted",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_level_bar_get_max_value = Interop.downcallHandle(
             "gtk_level_bar_get_max_value",
-            FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_DOUBLE, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_level_bar_get_min_value = Interop.downcallHandle(
             "gtk_level_bar_get_min_value",
-            FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_DOUBLE, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_level_bar_get_mode = Interop.downcallHandle(
             "gtk_level_bar_get_mode",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_level_bar_get_offset_value = Interop.downcallHandle(
             "gtk_level_bar_get_offset_value",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_level_bar_get_value = Interop.downcallHandle(
             "gtk_level_bar_get_value",
-            FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_DOUBLE, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_level_bar_remove_offset_value = Interop.downcallHandle(
             "gtk_level_bar_remove_offset_value",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_level_bar_set_inverted = Interop.downcallHandle(
             "gtk_level_bar_set_inverted",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_level_bar_set_max_value = Interop.downcallHandle(
             "gtk_level_bar_set_max_value",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE),
             false
         );
         
         private static final MethodHandle gtk_level_bar_set_min_value = Interop.downcallHandle(
             "gtk_level_bar_set_min_value",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE),
             false
         );
         
         private static final MethodHandle gtk_level_bar_set_mode = Interop.downcallHandle(
             "gtk_level_bar_set_mode",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_level_bar_set_value = Interop.downcallHandle(
             "gtk_level_bar_set_value",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE),
+            false
+        );
+        
+        private static final MethodHandle gtk_level_bar_get_type = Interop.downcallHandle(
+            "gtk_level_bar_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }
@@ -536,9 +658,9 @@ public class LevelBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     private static class Callbacks {
         
         public static void signalLevelBarOffsetChanged(MemoryAddress source, MemoryAddress name, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (LevelBar.OffsetChanged) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new LevelBar(source, Ownership.UNKNOWN), Interop.getStringFrom(name));
+            HANDLER.signalReceived(new LevelBar(source, Ownership.NONE), Interop.getStringFrom(name));
         }
     }
 }

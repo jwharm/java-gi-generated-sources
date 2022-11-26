@@ -25,7 +25,7 @@ public class EntryBuffer extends org.gtk.gobject.Object {
     
     private static final java.lang.String C_TYPE_NAME = "GtkEntryBuffer";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gobject.Object.getMemoryLayout().withName("parent_instance")
     ).withName(C_TYPE_NAME);
     
@@ -70,7 +70,7 @@ public class EntryBuffer extends org.gtk.gobject.Object {
      * @throws ClassCastException If the GType is not derived from "GtkEntryBuffer", a ClassCastException will be thrown.
      */
     public static EntryBuffer castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkEntryBuffer"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), EntryBuffer.getType())) {
             return new EntryBuffer(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkEntryBuffer");
@@ -304,6 +304,20 @@ public class EntryBuffer extends org.gtk.gobject.Object {
         }
     }
     
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.gtk_entry_buffer_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+    
     @FunctionalInterface
     public interface DeletedText {
         void signalReceived(EntryBuffer source, int position, int nChars);
@@ -325,7 +339,7 @@ public class EntryBuffer extends org.gtk.gobject.Object {
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(EntryBuffer.Callbacks.class, "signalEntryBufferDeletedText",
                         MethodType.methodType(void.class, MemoryAddress.class, int.class, int.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
                     Interop.getScope()),
                 Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
@@ -353,7 +367,7 @@ public class EntryBuffer extends org.gtk.gobject.Object {
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(EntryBuffer.Callbacks.class, "signalEntryBufferInsertedText",
                         MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class, int.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
                     Interop.getScope()),
                 Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
@@ -362,72 +376,146 @@ public class EntryBuffer extends org.gtk.gobject.Object {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gobject.Object.Build {
+        
+         /**
+         * A {@link EntryBuffer.Build} object constructs a {@link EntryBuffer} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link EntryBuffer} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link EntryBuffer} using {@link EntryBuffer#castFrom}.
+         * @return A new instance of {@code EntryBuffer} with the properties 
+         *         that were set in the Build object.
+         */
+        public EntryBuffer construct() {
+            return EntryBuffer.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    EntryBuffer.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+        
+        /**
+         * The length (in characters) of the text in buffer.
+         * @param length The value for the {@code length} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setLength(int length) {
+            names.add("length");
+            values.add(org.gtk.gobject.Value.create(length));
+            return this;
+        }
+        
+        /**
+         * The maximum length (in characters) of the text in the buffer.
+         * @param maxLength The value for the {@code max-length} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setMaxLength(int maxLength) {
+            names.add("max-length");
+            values.add(org.gtk.gobject.Value.create(maxLength));
+            return this;
+        }
+        
+        /**
+         * The contents of the buffer.
+         * @param text The value for the {@code text} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setText(java.lang.String text) {
+            names.add("text");
+            values.add(org.gtk.gobject.Value.create(text));
+            return this;
+        }
+    }
     
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_entry_buffer_new = Interop.downcallHandle(
             "gtk_entry_buffer_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_entry_buffer_delete_text = Interop.downcallHandle(
             "gtk_entry_buffer_delete_text",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_entry_buffer_emit_deleted_text = Interop.downcallHandle(
             "gtk_entry_buffer_emit_deleted_text",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_entry_buffer_emit_inserted_text = Interop.downcallHandle(
             "gtk_entry_buffer_emit_inserted_text",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_entry_buffer_get_bytes = Interop.downcallHandle(
             "gtk_entry_buffer_get_bytes",
-            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_entry_buffer_get_length = Interop.downcallHandle(
             "gtk_entry_buffer_get_length",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_entry_buffer_get_max_length = Interop.downcallHandle(
             "gtk_entry_buffer_get_max_length",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_entry_buffer_get_text = Interop.downcallHandle(
             "gtk_entry_buffer_get_text",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_entry_buffer_insert_text = Interop.downcallHandle(
             "gtk_entry_buffer_insert_text",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_entry_buffer_set_max_length = Interop.downcallHandle(
             "gtk_entry_buffer_set_max_length",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle gtk_entry_buffer_set_text = Interop.downcallHandle(
             "gtk_entry_buffer_set_text",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+            false
+        );
+        
+        private static final MethodHandle gtk_entry_buffer_get_type = Interop.downcallHandle(
+            "gtk_entry_buffer_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }
@@ -435,15 +523,15 @@ public class EntryBuffer extends org.gtk.gobject.Object {
     private static class Callbacks {
         
         public static void signalEntryBufferDeletedText(MemoryAddress source, int position, int nChars, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (EntryBuffer.DeletedText) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new EntryBuffer(source, Ownership.UNKNOWN), position, nChars);
+            HANDLER.signalReceived(new EntryBuffer(source, Ownership.NONE), position, nChars);
         }
         
         public static void signalEntryBufferInsertedText(MemoryAddress source, int position, MemoryAddress chars, int nChars, MemoryAddress data) {
-            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (EntryBuffer.InsertedText) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new EntryBuffer(source, Ownership.UNKNOWN), position, Interop.getStringFrom(chars), nChars);
+            HANDLER.signalReceived(new EntryBuffer(source, Ownership.NONE), position, Interop.getStringFrom(chars), nChars);
         }
     }
 }

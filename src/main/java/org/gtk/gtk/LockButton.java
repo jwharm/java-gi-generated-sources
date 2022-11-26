@@ -84,7 +84,7 @@ public class LockButton extends org.gtk.gtk.Button implements org.gtk.gtk.Access
      * @throws ClassCastException If the GType is not derived from "GtkLockButton", a ClassCastException will be thrown.
      */
     public static LockButton castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkLockButton"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), LockButton.getType())) {
             return new LockButton(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkLockButton");
@@ -139,23 +139,144 @@ public class LockButton extends org.gtk.gtk.Button implements org.gtk.gtk.Access
         }
     }
     
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.gtk_lock_button_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gtk.Button.Build {
+        
+         /**
+         * A {@link LockButton.Build} object constructs a {@link LockButton} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link LockButton} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link LockButton} using {@link LockButton#castFrom}.
+         * @return A new instance of {@code LockButton} with the properties 
+         *         that were set in the Build object.
+         */
+        public LockButton construct() {
+            return LockButton.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    LockButton.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+        
+        /**
+         * The `GPermission object controlling this button.
+         * @param permission The value for the {@code permission} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setPermission(org.gtk.gio.Permission permission) {
+            names.add("permission");
+            values.add(org.gtk.gobject.Value.create(permission));
+            return this;
+        }
+        
+        /**
+         * The text to display when prompting the user to lock.
+         * @param textLock The value for the {@code text-lock} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setTextLock(java.lang.String textLock) {
+            names.add("text-lock");
+            values.add(org.gtk.gobject.Value.create(textLock));
+            return this;
+        }
+        
+        /**
+         * The text to display when prompting the user to unlock.
+         * @param textUnlock The value for the {@code text-unlock} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setTextUnlock(java.lang.String textUnlock) {
+            names.add("text-unlock");
+            values.add(org.gtk.gobject.Value.create(textUnlock));
+            return this;
+        }
+        
+        /**
+         * The tooltip to display when prompting the user to lock.
+         * @param tooltipLock The value for the {@code tooltip-lock} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setTooltipLock(java.lang.String tooltipLock) {
+            names.add("tooltip-lock");
+            values.add(org.gtk.gobject.Value.create(tooltipLock));
+            return this;
+        }
+        
+        /**
+         * The tooltip to display when the user cannot obtain authorization.
+         * @param tooltipNotAuthorized The value for the {@code tooltip-not-authorized} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setTooltipNotAuthorized(java.lang.String tooltipNotAuthorized) {
+            names.add("tooltip-not-authorized");
+            values.add(org.gtk.gobject.Value.create(tooltipNotAuthorized));
+            return this;
+        }
+        
+        /**
+         * The tooltip to display when prompting the user to unlock.
+         * @param tooltipUnlock The value for the {@code tooltip-unlock} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setTooltipUnlock(java.lang.String tooltipUnlock) {
+            names.add("tooltip-unlock");
+            values.add(org.gtk.gobject.Value.create(tooltipUnlock));
+            return this;
+        }
+    }
+    
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_lock_button_new = Interop.downcallHandle(
             "gtk_lock_button_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_lock_button_get_permission = Interop.downcallHandle(
             "gtk_lock_button_get_permission",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_lock_button_set_permission = Interop.downcallHandle(
             "gtk_lock_button_set_permission",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+            false
+        );
+        
+        private static final MethodHandle gtk_lock_button_get_type = Interop.downcallHandle(
+            "gtk_lock_button_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }

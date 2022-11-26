@@ -54,7 +54,7 @@ public class ThemedIcon extends org.gtk.gobject.Object implements org.gtk.gio.Ic
      * @throws ClassCastException If the GType is not derived from "GThemedIcon", a ClassCastException will be thrown.
      */
     public static ThemedIcon castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GThemedIcon"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), ThemedIcon.getType())) {
             return new ThemedIcon(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GThemedIcon");
@@ -191,41 +191,132 @@ public class ThemedIcon extends org.gtk.gobject.Object implements org.gtk.gio.Ic
         }
     }
     
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.g_themed_icon_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gobject.Object.Build {
+        
+         /**
+         * A {@link ThemedIcon.Build} object constructs a {@link ThemedIcon} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link ThemedIcon} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link ThemedIcon} using {@link ThemedIcon#castFrom}.
+         * @return A new instance of {@code ThemedIcon} with the properties 
+         *         that were set in the Build object.
+         */
+        public ThemedIcon construct() {
+            return ThemedIcon.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    ThemedIcon.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+        
+        /**
+         * The icon name.
+         * @param name The value for the {@code name} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setName(java.lang.String name) {
+            names.add("name");
+            values.add(org.gtk.gobject.Value.create(name));
+            return this;
+        }
+        
+        /**
+         * Whether to use the default fallbacks found by shortening the icon name
+         * at '-' characters. If the "names" array has more than one element,
+         * ignores any past the first.
+         * <p>
+         * For example, if the icon name was "gnome-dev-cdrom-audio", the array
+         * would become
+         * <pre>{@code <!-- language="C" -->
+         * {
+         *   "gnome-dev-cdrom-audio",
+         *   "gnome-dev-cdrom",
+         *   "gnome-dev",
+         *   "gnome",
+         *   NULL
+         * };
+         * }</pre>
+         * @param useDefaultFallbacks The value for the {@code use-default-fallbacks} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setUseDefaultFallbacks(boolean useDefaultFallbacks) {
+            names.add("use-default-fallbacks");
+            values.add(org.gtk.gobject.Value.create(useDefaultFallbacks));
+            return this;
+        }
+    }
+    
     private static class DowncallHandles {
         
         private static final MethodHandle g_themed_icon_new = Interop.downcallHandle(
             "g_themed_icon_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_themed_icon_new_from_names = Interop.downcallHandle(
             "g_themed_icon_new_from_names",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle g_themed_icon_new_with_default_fallbacks = Interop.downcallHandle(
             "g_themed_icon_new_with_default_fallbacks",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_themed_icon_append_name = Interop.downcallHandle(
             "g_themed_icon_append_name",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_themed_icon_get_names = Interop.downcallHandle(
             "g_themed_icon_get_names",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_themed_icon_prepend_name = Interop.downcallHandle(
             "g_themed_icon_prepend_name",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+            false
+        );
+        
+        private static final MethodHandle g_themed_icon_get_type = Interop.downcallHandle(
+            "g_themed_icon_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }

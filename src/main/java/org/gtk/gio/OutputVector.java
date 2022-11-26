@@ -12,7 +12,7 @@ import org.jetbrains.annotations.*;
  * one buffer.
  * @version 2.22
  */
-public class OutputVector extends io.github.jwharm.javagi.ProxyBase {
+public class OutputVector extends Struct {
     
     static {
         Gio.javagi$ensureInitialized();
@@ -20,9 +20,9 @@ public class OutputVector extends io.github.jwharm.javagi.ProxyBase {
     
     private static final java.lang.String C_TYPE_NAME = "GOutputVector";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
         Interop.valueLayout.ADDRESS.withName("buffer"),
-        ValueLayout.JAVA_LONG.withName("size")
+        Interop.valueLayout.C_LONG.withName("size")
     ).withName(C_TYPE_NAME);
     
     /**
@@ -36,6 +36,10 @@ public class OutputVector extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link OutputVector}
+     * @return A new, uninitialized @{link OutputVector}
+     */
     public static OutputVector allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         OutputVector newInstance = new OutputVector(segment.address(), Ownership.NONE);
@@ -61,7 +65,7 @@ public class OutputVector extends io.github.jwharm.javagi.ProxyBase {
     public void buffer$set(java.lang.foreign.MemoryAddress buffer) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("buffer"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), buffer);
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) buffer);
     }
     
     /**
@@ -93,5 +97,57 @@ public class OutputVector extends io.github.jwharm.javagi.ProxyBase {
     @ApiStatus.Internal
     public OutputVector(Addressable address, Ownership ownership) {
         super(address, ownership);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private OutputVector struct;
+        
+         /**
+         * A {@link OutputVector.Build} object constructs a {@link OutputVector} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = OutputVector.allocate();
+        }
+        
+         /**
+         * Finish building the {@link OutputVector} struct.
+         * @return A new instance of {@code OutputVector} with the fields 
+         *         that were set in the Build object.
+         */
+        public OutputVector construct() {
+            return struct;
+        }
+        
+        /**
+         * Pointer to a buffer of data to read.
+         * @param buffer The value for the {@code buffer} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setBuffer(java.lang.foreign.MemoryAddress buffer) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("buffer"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (buffer == null ? MemoryAddress.NULL : (Addressable) buffer));
+            return this;
+        }
+        
+        /**
+         * the size of {@code buffer}.
+         * @param size The value for the {@code size} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setSize(long size) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("size"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), size);
+            return this;
+        }
     }
 }

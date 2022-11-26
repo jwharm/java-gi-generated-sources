@@ -13,7 +13,7 @@ import org.jetbrains.annotations.*;
  * {@link BitsetIter#initFirst}, {@link BitsetIter#initLast}
  * or {@link BitsetIter#initAt}.
  */
-public class BitsetIter extends io.github.jwharm.javagi.ProxyBase {
+public class BitsetIter extends Struct {
     
     static {
         Gtk.javagi$ensureInitialized();
@@ -21,8 +21,8 @@ public class BitsetIter extends io.github.jwharm.javagi.ProxyBase {
     
     private static final java.lang.String C_TYPE_NAME = "GtkBitsetIter";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
-        MemoryLayout.sequenceLayout(10, ValueLayout.ADDRESS).withName("private_data")
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
+        MemoryLayout.sequenceLayout(10, Interop.valueLayout.ADDRESS).withName("private_data")
     ).withName(C_TYPE_NAME);
     
     /**
@@ -36,6 +36,10 @@ public class BitsetIter extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link BitsetIter}
+     * @return A new, uninitialized @{link BitsetIter}
+     */
     public static BitsetIter allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         BitsetIter newInstance = new BitsetIter(segment.address(), Ownership.NONE);
@@ -96,7 +100,7 @@ public class BitsetIter extends io.github.jwharm.javagi.ProxyBase {
      */
     public boolean next(Out<Integer> value) {
         java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
-        MemorySegment valuePOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
+        MemorySegment valuePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_bitset_iter_next.invokeExact(
@@ -105,7 +109,7 @@ public class BitsetIter extends io.github.jwharm.javagi.ProxyBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        value.set(valuePOINTER.get(ValueLayout.JAVA_INT, 0));
+        value.set(valuePOINTER.get(Interop.valueLayout.C_INT, 0));
         return RESULT != 0;
     }
     
@@ -119,7 +123,7 @@ public class BitsetIter extends io.github.jwharm.javagi.ProxyBase {
      */
     public boolean previous(Out<Integer> value) {
         java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
-        MemorySegment valuePOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
+        MemorySegment valuePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_bitset_iter_previous.invokeExact(
@@ -128,7 +132,7 @@ public class BitsetIter extends io.github.jwharm.javagi.ProxyBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        value.set(valuePOINTER.get(ValueLayout.JAVA_INT, 0));
+        value.set(valuePOINTER.get(Interop.valueLayout.C_INT, 0));
         return RESULT != 0;
     }
     
@@ -147,7 +151,7 @@ public class BitsetIter extends io.github.jwharm.javagi.ProxyBase {
         java.util.Objects.requireNonNull(iter, "Parameter 'iter' must not be null");
         java.util.Objects.requireNonNull(set, "Parameter 'set' must not be null");
         java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
-        MemorySegment valuePOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
+        MemorySegment valuePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_bitset_iter_init_at.invokeExact(
@@ -158,7 +162,7 @@ public class BitsetIter extends io.github.jwharm.javagi.ProxyBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        value.set(valuePOINTER.get(ValueLayout.JAVA_INT, 0));
+        value.set(valuePOINTER.get(Interop.valueLayout.C_INT, 0));
         return RESULT != 0;
     }
     
@@ -176,7 +180,7 @@ public class BitsetIter extends io.github.jwharm.javagi.ProxyBase {
         java.util.Objects.requireNonNull(iter, "Parameter 'iter' must not be null");
         java.util.Objects.requireNonNull(set, "Parameter 'set' must not be null");
         java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
-        MemorySegment valuePOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
+        MemorySegment valuePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_bitset_iter_init_first.invokeExact(
@@ -186,7 +190,7 @@ public class BitsetIter extends io.github.jwharm.javagi.ProxyBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        value.set(valuePOINTER.get(ValueLayout.JAVA_INT, 0));
+        value.set(valuePOINTER.get(Interop.valueLayout.C_INT, 0));
         return RESULT != 0;
     }
     
@@ -204,7 +208,7 @@ public class BitsetIter extends io.github.jwharm.javagi.ProxyBase {
         java.util.Objects.requireNonNull(iter, "Parameter 'iter' must not be null");
         java.util.Objects.requireNonNull(set, "Parameter 'set' must not be null");
         java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
-        MemorySegment valuePOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
+        MemorySegment valuePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_bitset_iter_init_last.invokeExact(
@@ -214,7 +218,7 @@ public class BitsetIter extends io.github.jwharm.javagi.ProxyBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        value.set(valuePOINTER.get(ValueLayout.JAVA_INT, 0));
+        value.set(valuePOINTER.get(Interop.valueLayout.C_INT, 0));
         return RESULT != 0;
     }
     
@@ -222,44 +226,79 @@ public class BitsetIter extends io.github.jwharm.javagi.ProxyBase {
         
         private static final MethodHandle gtk_bitset_iter_get_value = Interop.downcallHandle(
             "gtk_bitset_iter_get_value",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_bitset_iter_is_valid = Interop.downcallHandle(
             "gtk_bitset_iter_is_valid",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_bitset_iter_next = Interop.downcallHandle(
             "gtk_bitset_iter_next",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_bitset_iter_previous = Interop.downcallHandle(
             "gtk_bitset_iter_previous",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_bitset_iter_init_at = Interop.downcallHandle(
             "gtk_bitset_iter_init_at",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_bitset_iter_init_first = Interop.downcallHandle(
             "gtk_bitset_iter_init_first",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_bitset_iter_init_last = Interop.downcallHandle(
             "gtk_bitset_iter_init_last",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private BitsetIter struct;
+        
+         /**
+         * A {@link BitsetIter.Build} object constructs a {@link BitsetIter} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = BitsetIter.allocate();
+        }
+        
+         /**
+         * Finish building the {@link BitsetIter} struct.
+         * @return A new instance of {@code BitsetIter} with the fields 
+         *         that were set in the Build object.
+         */
+        public BitsetIter construct() {
+            return struct;
+        }
+        
+        public Build setPrivateData(java.lang.foreign.MemoryAddress[] private_data) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("private_data"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (private_data == null ? MemoryAddress.NULL : Interop.allocateNativeArray(private_data, false)));
+            return this;
+        }
     }
 }

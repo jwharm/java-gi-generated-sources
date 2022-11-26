@@ -103,7 +103,7 @@ public class Flap extends org.gtk.gtk.Widget implements org.gnome.adw.Swipeable,
      * @throws ClassCastException If the GType is not derived from "AdwFlap", a ClassCastException will be thrown.
      */
     public static Flap castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("AdwFlap"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), Flap.getType())) {
             return new Flap(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of AdwFlap");
@@ -615,191 +615,470 @@ public class Flap extends org.gtk.gtk.Widget implements org.gnome.adw.Swipeable,
         }
     }
     
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.adw_flap_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gtk.Widget.Build {
+        
+         /**
+         * A {@link Flap.Build} object constructs a {@link Flap} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link Flap} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link Flap} using {@link Flap#castFrom}.
+         * @return A new instance of {@code Flap} with the properties 
+         *         that were set in the Build object.
+         */
+        public Flap construct() {
+            return Flap.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    Flap.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+        
+        /**
+         * The content widget.
+         * <p>
+         * It's always displayed when unfolded, and partially visible when folded.
+         * @param content The value for the {@code content} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setContent(org.gtk.gtk.Widget content) {
+            names.add("content");
+            values.add(org.gtk.gobject.Value.create(content));
+            return this;
+        }
+        
+        /**
+         * The flap widget.
+         * <p>
+         * It's only visible when {@code Flap:reveal-progress} is greater than 0.
+         * @param flap The value for the {@code flap} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setFlap(org.gtk.gtk.Widget flap) {
+            names.add("flap");
+            values.add(org.gtk.gobject.Value.create(flap));
+            return this;
+        }
+        
+        /**
+         * The flap position.
+         * <p>
+         * If it's set to {@code GTK_PACK_START}, the flap is displayed before the content,
+         * if {@code GTK_PACK_END}, it's displayed after the content.
+         * @param flapPosition The value for the {@code flap-position} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setFlapPosition(org.gtk.gtk.PackType flapPosition) {
+            names.add("flap-position");
+            values.add(org.gtk.gobject.Value.create(flapPosition));
+            return this;
+        }
+        
+        /**
+         * The fold transition animation duration, in milliseconds.
+         * @param foldDuration The value for the {@code fold-duration} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setFoldDuration(int foldDuration) {
+            names.add("fold-duration");
+            values.add(org.gtk.gobject.Value.create(foldDuration));
+            return this;
+        }
+        
+        /**
+         * The fold policy for the flap.
+         * @param foldPolicy The value for the {@code fold-policy} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setFoldPolicy(org.gnome.adw.FlapFoldPolicy foldPolicy) {
+            names.add("fold-policy");
+            values.add(org.gtk.gobject.Value.create(foldPolicy));
+            return this;
+        }
+        
+        /**
+         * Determines when the flap will fold.
+         * <p>
+         * If set to {@code ADW_FOLD_THRESHOLD_POLICY_MINIMUM}, flap will only fold when
+         * the children cannot fit anymore. With {@code ADW_FOLD_THRESHOLD_POLICY_NATURAL},
+         * it will fold as soon as children don't get their natural size.
+         * <p>
+         * This can be useful if you have a long ellipsizing label and want to let it
+         * ellipsize instead of immediately folding.
+         * @param foldThresholdPolicy The value for the {@code fold-threshold-policy} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setFoldThresholdPolicy(org.gnome.adw.FoldThresholdPolicy foldThresholdPolicy) {
+            names.add("fold-threshold-policy");
+            values.add(org.gtk.gobject.Value.create(foldThresholdPolicy));
+            return this;
+        }
+        
+        /**
+         * Whether the flap is currently folded.
+         * <p>
+         * See {@code Flap:fold-policy}.
+         * @param folded The value for the {@code folded} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setFolded(boolean folded) {
+            names.add("folded");
+            values.add(org.gtk.gobject.Value.create(folded));
+            return this;
+        }
+        
+        /**
+         * Whether the flap is locked.
+         * <p>
+         * If {@code FALSE}, folding when the flap is revealed automatically closes it, and
+         * unfolding it when the flap is not revealed opens it. If {@code TRUE},
+         * {@code Flap:reveal-flap} value never changes on its own.
+         * @param locked The value for the {@code locked} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setLocked(boolean locked) {
+            names.add("locked");
+            values.add(org.gtk.gobject.Value.create(locked));
+            return this;
+        }
+        
+        /**
+         * Whether the flap is modal.
+         * <p>
+         * If {@code TRUE}, clicking the content widget while flap is revealed, as well as
+         * pressing the &lt;kbd&gt;Esc&lt;/kbd&gt; key, will close the flap. If {@code FALSE}, clicks
+         * are passed through to the content widget.
+         * @param modal The value for the {@code modal} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setModal(boolean modal) {
+            names.add("modal");
+            values.add(org.gtk.gobject.Value.create(modal));
+            return this;
+        }
+        
+        /**
+         * Whether the flap widget is revealed.
+         * @param revealFlap The value for the {@code reveal-flap} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setRevealFlap(boolean revealFlap) {
+            names.add("reveal-flap");
+            values.add(org.gtk.gobject.Value.create(revealFlap));
+            return this;
+        }
+        
+        /**
+         * The reveal animation spring parameters.
+         * <p>
+         * The default value is equivalent to:
+         * <pre>{@code c
+         * adw_spring_params_new (1, 0.5, 500)
+         * }</pre>
+         * @param revealParams The value for the {@code reveal-params} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setRevealParams(org.gnome.adw.SpringParams revealParams) {
+            names.add("reveal-params");
+            values.add(org.gtk.gobject.Value.create(revealParams));
+            return this;
+        }
+        
+        /**
+         * The current reveal transition progress.
+         * <p>
+         * 0 means fully hidden, 1 means fully revealed.
+         * <p>
+         * See {@code Flap:reveal-flap}.
+         * @param revealProgress The value for the {@code reveal-progress} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setRevealProgress(double revealProgress) {
+            names.add("reveal-progress");
+            values.add(org.gtk.gobject.Value.create(revealProgress));
+            return this;
+        }
+        
+        /**
+         * The separator widget.
+         * <p>
+         * It's displayed between content and flap when there's no shadow to display.
+         * When exactly it's visible depends on the {@code Flap:transition-type}
+         * value.
+         * @param separator The value for the {@code separator} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setSeparator(org.gtk.gtk.Widget separator) {
+            names.add("separator");
+            values.add(org.gtk.gobject.Value.create(separator));
+            return this;
+        }
+        
+        /**
+         * Whether the flap can be closed with a swipe gesture.
+         * <p>
+         * The area that can be swiped depends on the {@code Flap:transition-type}
+         * value.
+         * @param swipeToClose The value for the {@code swipe-to-close} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setSwipeToClose(boolean swipeToClose) {
+            names.add("swipe-to-close");
+            values.add(org.gtk.gobject.Value.create(swipeToClose));
+            return this;
+        }
+        
+        /**
+         * Whether the flap can be opened with a swipe gesture.
+         * <p>
+         * The area that can be swiped depends on the {@code Flap:transition-type}
+         * value.
+         * @param swipeToOpen The value for the {@code swipe-to-open} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setSwipeToOpen(boolean swipeToOpen) {
+            names.add("swipe-to-open");
+            values.add(org.gtk.gobject.Value.create(swipeToOpen));
+            return this;
+        }
+        
+        /**
+         * the type of animation used for reveal and fold transitions.
+         * <p>
+         * {@code Flap:flap} is transparent by default, which means the content
+         * will be seen through it with {@code ADW_FLAP_TRANSITION_TYPE_OVER} transitions;
+         * add the <a href="style-classes.html#background">`.background`</a> style class to it if
+         * this is unwanted.
+         * @param transitionType The value for the {@code transition-type} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setTransitionType(org.gnome.adw.FlapTransitionType transitionType) {
+            names.add("transition-type");
+            values.add(org.gtk.gobject.Value.create(transitionType));
+            return this;
+        }
+    }
+    
     private static class DowncallHandles {
         
         private static final MethodHandle adw_flap_new = Interop.downcallHandle(
             "adw_flap_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_flap_get_content = Interop.downcallHandle(
             "adw_flap_get_content",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_flap_get_flap = Interop.downcallHandle(
             "adw_flap_get_flap",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_flap_get_flap_position = Interop.downcallHandle(
             "adw_flap_get_flap_position",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_flap_get_fold_duration = Interop.downcallHandle(
             "adw_flap_get_fold_duration",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_flap_get_fold_policy = Interop.downcallHandle(
             "adw_flap_get_fold_policy",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_flap_get_fold_threshold_policy = Interop.downcallHandle(
             "adw_flap_get_fold_threshold_policy",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_flap_get_folded = Interop.downcallHandle(
             "adw_flap_get_folded",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_flap_get_locked = Interop.downcallHandle(
             "adw_flap_get_locked",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_flap_get_modal = Interop.downcallHandle(
             "adw_flap_get_modal",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_flap_get_reveal_flap = Interop.downcallHandle(
             "adw_flap_get_reveal_flap",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_flap_get_reveal_params = Interop.downcallHandle(
             "adw_flap_get_reveal_params",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_flap_get_reveal_progress = Interop.downcallHandle(
             "adw_flap_get_reveal_progress",
-            FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_DOUBLE, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_flap_get_separator = Interop.downcallHandle(
             "adw_flap_get_separator",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_flap_get_swipe_to_close = Interop.downcallHandle(
             "adw_flap_get_swipe_to_close",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_flap_get_swipe_to_open = Interop.downcallHandle(
             "adw_flap_get_swipe_to_open",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_flap_get_transition_type = Interop.downcallHandle(
             "adw_flap_get_transition_type",
-            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_flap_set_content = Interop.downcallHandle(
             "adw_flap_set_content",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_flap_set_flap = Interop.downcallHandle(
             "adw_flap_set_flap",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_flap_set_flap_position = Interop.downcallHandle(
             "adw_flap_set_flap_position",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle adw_flap_set_fold_duration = Interop.downcallHandle(
             "adw_flap_set_fold_duration",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle adw_flap_set_fold_policy = Interop.downcallHandle(
             "adw_flap_set_fold_policy",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle adw_flap_set_fold_threshold_policy = Interop.downcallHandle(
             "adw_flap_set_fold_threshold_policy",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle adw_flap_set_locked = Interop.downcallHandle(
             "adw_flap_set_locked",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle adw_flap_set_modal = Interop.downcallHandle(
             "adw_flap_set_modal",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle adw_flap_set_reveal_flap = Interop.downcallHandle(
             "adw_flap_set_reveal_flap",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle adw_flap_set_reveal_params = Interop.downcallHandle(
             "adw_flap_set_reveal_params",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_flap_set_separator = Interop.downcallHandle(
             "adw_flap_set_separator",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_flap_set_swipe_to_close = Interop.downcallHandle(
             "adw_flap_set_swipe_to_close",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle adw_flap_set_swipe_to_open = Interop.downcallHandle(
             "adw_flap_set_swipe_to_open",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
         
         private static final MethodHandle adw_flap_set_transition_type = Interop.downcallHandle(
             "adw_flap_set_transition_type",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+            false
+        );
+        
+        private static final MethodHandle adw_flap_get_type = Interop.downcallHandle(
+            "adw_flap_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }

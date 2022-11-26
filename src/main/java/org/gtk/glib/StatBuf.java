@@ -11,7 +11,7 @@ import org.jetbrains.annotations.*;
  * <p>
  * See g_stat() for more information.
  */
-public class StatBuf extends io.github.jwharm.javagi.ProxyBase {
+public class StatBuf extends Struct {
     
     static {
         GLib.javagi$ensureInitialized();
@@ -30,6 +30,10 @@ public class StatBuf extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link StatBuf}
+     * @return A new, uninitialized @{link StatBuf}
+     */
     public static StatBuf allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         StatBuf newInstance = new StatBuf(segment.address(), Ownership.NONE);
@@ -45,5 +49,33 @@ public class StatBuf extends io.github.jwharm.javagi.ProxyBase {
     @ApiStatus.Internal
     public StatBuf(Addressable address, Ownership ownership) {
         super(address, ownership);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private StatBuf struct;
+        
+         /**
+         * A {@link StatBuf.Build} object constructs a {@link StatBuf} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = StatBuf.allocate();
+        }
+        
+         /**
+         * Finish building the {@link StatBuf} struct.
+         * @return A new instance of {@code StatBuf} with the fields 
+         *         that were set in the Build object.
+         */
+        public StatBuf construct() {
+            return struct;
+        }
     }
 }

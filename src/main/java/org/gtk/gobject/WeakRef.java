@@ -31,7 +31,7 @@ import org.jetbrains.annotations.*;
  * It is invalid to take a {@link WeakRef} on an object during {@link ObjectClass}.dispose
  * without first having or creating a strong reference to the object.
  */
-public class WeakRef extends io.github.jwharm.javagi.ProxyBase {
+public class WeakRef extends Struct {
     
     static {
         GObject.javagi$ensureInitialized();
@@ -50,6 +50,10 @@ public class WeakRef extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link WeakRef}
+     * @return A new, uninitialized @{link WeakRef}
+     */
     public static WeakRef allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         WeakRef newInstance = new WeakRef(segment.address(), Ownership.NONE);
@@ -154,26 +158,54 @@ public class WeakRef extends io.github.jwharm.javagi.ProxyBase {
         
         private static final MethodHandle g_weak_ref_clear = Interop.downcallHandle(
             "g_weak_ref_clear",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_weak_ref_get = Interop.downcallHandle(
             "g_weak_ref_get",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_weak_ref_init = Interop.downcallHandle(
             "g_weak_ref_init",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_weak_ref_set = Interop.downcallHandle(
             "g_weak_ref_set",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private WeakRef struct;
+        
+         /**
+         * A {@link WeakRef.Build} object constructs a {@link WeakRef} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = WeakRef.allocate();
+        }
+        
+         /**
+         * Finish building the {@link WeakRef} struct.
+         * @return A new instance of {@code WeakRef} with the fields 
+         *         that were set in the Build object.
+         */
+        public WeakRef construct() {
+            return struct;
+        }
     }
 }

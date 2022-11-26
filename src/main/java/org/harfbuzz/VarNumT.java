@@ -5,7 +5,7 @@ import java.lang.foreign.*;
 import java.lang.invoke.*;
 import org.jetbrains.annotations.*;
 
-public class VarNumT extends io.github.jwharm.javagi.ProxyBase {
+public class VarNumT extends io.github.jwharm.javagi.ObjectBase {
     
     static {
         HarfBuzz.javagi$ensureInitialized();
@@ -13,14 +13,14 @@ public class VarNumT extends io.github.jwharm.javagi.ProxyBase {
     
     private static final java.lang.String C_TYPE_NAME = "hb_var_num_t";
     
-    private static GroupLayout memoryLayout = MemoryLayout.unionLayout(
-        ValueLayout.JAVA_FLOAT.withName("f"),
-        ValueLayout.JAVA_INT.withName("u32"),
-        ValueLayout.JAVA_INT.withName("i32"),
-        MemoryLayout.sequenceLayout(2, ValueLayout.JAVA_SHORT).withName("u16"),
-        MemoryLayout.sequenceLayout(2, ValueLayout.JAVA_SHORT).withName("i16"),
-        MemoryLayout.sequenceLayout(4, ValueLayout.JAVA_BYTE).withName("u8"),
-        MemoryLayout.sequenceLayout(4, ValueLayout.JAVA_BYTE).withName("i8")
+    private static final GroupLayout memoryLayout = MemoryLayout.unionLayout(
+        Interop.valueLayout.C_FLOAT.withName("f"),
+        Interop.valueLayout.C_INT.withName("u32"),
+        Interop.valueLayout.C_INT.withName("i32"),
+        MemoryLayout.sequenceLayout(2, Interop.valueLayout.C_SHORT).withName("u16"),
+        MemoryLayout.sequenceLayout(2, Interop.valueLayout.C_SHORT).withName("i16"),
+        MemoryLayout.sequenceLayout(4, Interop.valueLayout.C_BYTE).withName("u8"),
+        MemoryLayout.sequenceLayout(4, Interop.valueLayout.C_BYTE).withName("i8")
     ).withName(C_TYPE_NAME);
     
     /**

@@ -50,7 +50,7 @@ public class IOModule extends org.gtk.gobject.TypeModule implements org.gtk.gobj
      * @throws ClassCastException If the GType is not derived from "GIOModule", a ClassCastException will be thrown.
      */
     public static IOModule castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GIOModule"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), IOModule.getType())) {
             return new IOModule(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GIOModule");
@@ -126,6 +126,20 @@ public class IOModule extends org.gtk.gobject.TypeModule implements org.gtk.gobj
     }
     
     /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.g_io_module_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+    
+    /**
      * Optional API for GIO modules to implement.
      * <p>
      * Should return a list of all the extension points that may be
@@ -170,24 +184,65 @@ public class IOModule extends org.gtk.gobject.TypeModule implements org.gtk.gobj
         }
         return new PointerString(RESULT);
     }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gobject.TypeModule.Build {
+        
+         /**
+         * A {@link IOModule.Build} object constructs a {@link IOModule} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link IOModule} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link IOModule} using {@link IOModule#castFrom}.
+         * @return A new instance of {@code IOModule} with the properties 
+         *         that were set in the Build object.
+         */
+        public IOModule construct() {
+            return IOModule.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    IOModule.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+    }
     
     private static class DowncallHandles {
         
         private static final MethodHandle g_io_module_new = Interop.downcallHandle(
             "g_io_module_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_io_module_load = Interop.downcallHandle(
             "g_io_module_load",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle g_io_module_unload = Interop.downcallHandle(
             "g_io_module_unload",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+            false
+        );
+        
+        private static final MethodHandle g_io_module_get_type = Interop.downcallHandle(
+            "g_io_module_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
         

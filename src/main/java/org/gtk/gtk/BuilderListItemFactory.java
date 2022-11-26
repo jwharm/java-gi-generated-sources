@@ -70,7 +70,7 @@ public class BuilderListItemFactory extends org.gtk.gtk.ListItemFactory {
      * @throws ClassCastException If the GType is not derived from "GtkBuilderListItemFactory", a ClassCastException will be thrown.
      */
     public static BuilderListItemFactory castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("GtkBuilderListItemFactory"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), BuilderListItemFactory.getType())) {
             return new BuilderListItemFactory(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of GtkBuilderListItemFactory");
@@ -171,35 +171,123 @@ public class BuilderListItemFactory extends org.gtk.gtk.ListItemFactory {
         return new org.gtk.gtk.BuilderScope.BuilderScopeImpl(RESULT, Ownership.NONE);
     }
     
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.gtk_builder_list_item_factory_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gtk.ListItemFactory.Build {
+        
+         /**
+         * A {@link BuilderListItemFactory.Build} object constructs a {@link BuilderListItemFactory} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link BuilderListItemFactory} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link BuilderListItemFactory} using {@link BuilderListItemFactory#castFrom}.
+         * @return A new instance of {@code BuilderListItemFactory} with the properties 
+         *         that were set in the Build object.
+         */
+        public BuilderListItemFactory construct() {
+            return BuilderListItemFactory.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    BuilderListItemFactory.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+        
+        /**
+         * {@code GBytes} containing the UI definition.
+         * @param bytes The value for the {@code bytes} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setBytes(org.gtk.glib.Bytes bytes) {
+            names.add("bytes");
+            values.add(org.gtk.gobject.Value.create(bytes));
+            return this;
+        }
+        
+        /**
+         * Path of the resource containing the UI definition.
+         * @param resource The value for the {@code resource} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setResource(java.lang.String resource) {
+            names.add("resource");
+            values.add(org.gtk.gobject.Value.create(resource));
+            return this;
+        }
+        
+        /**
+         * {@code GtkBuilderScope} to use when instantiating listitems
+         * @param scope The value for the {@code scope} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setScope(org.gtk.gtk.BuilderScope scope) {
+            names.add("scope");
+            values.add(org.gtk.gobject.Value.create(scope));
+            return this;
+        }
+    }
+    
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_builder_list_item_factory_new_from_bytes = Interop.downcallHandle(
             "gtk_builder_list_item_factory_new_from_bytes",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_builder_list_item_factory_new_from_resource = Interop.downcallHandle(
             "gtk_builder_list_item_factory_new_from_resource",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_builder_list_item_factory_get_bytes = Interop.downcallHandle(
             "gtk_builder_list_item_factory_get_bytes",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_builder_list_item_factory_get_resource = Interop.downcallHandle(
             "gtk_builder_list_item_factory_get_resource",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle gtk_builder_list_item_factory_get_scope = Interop.downcallHandle(
             "gtk_builder_list_item_factory_get_scope",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+            false
+        );
+        
+        private static final MethodHandle gtk_builder_list_item_factory_get_type = Interop.downcallHandle(
+            "gtk_builder_list_item_factory_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }

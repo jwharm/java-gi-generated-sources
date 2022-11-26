@@ -44,7 +44,7 @@ public class Window extends org.gtk.gtk.Window implements org.gtk.gtk.Accessible
     
     private static final java.lang.String C_TYPE_NAME = "AdwWindow";
     
-    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
         org.gtk.gtk.Window.getMemoryLayout().withName("parent_instance")
     ).withName(C_TYPE_NAME);
     
@@ -89,7 +89,7 @@ public class Window extends org.gtk.gtk.Window implements org.gtk.gtk.Accessible
      * @throws ClassCastException If the GType is not derived from "AdwWindow", a ClassCastException will be thrown.
      */
     public static Window castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), org.gtk.gobject.GObject.typeFromName("AdwWindow"))) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), Window.getType())) {
             return new Window(gobject.handle(), gobject.yieldOwnership());
         } else {
             throw new ClassCastException("Object type is not an instance of AdwWindow");
@@ -146,23 +146,91 @@ public class Window extends org.gtk.gtk.Window implements org.gtk.gtk.Accessible
         }
     }
     
+    /**
+     * Get the gtype
+     * @return The gtype
+     */
+    public static @NotNull org.gtk.glib.Type getType() {
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.adw_window_get_type.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Type(RESULT);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * GObjects with properties.
+     */
+    public static class Build extends org.gtk.gtk.Window.Build {
+        
+         /**
+         * A {@link Window.Build} object constructs a {@link Window} 
+         * using the <em>builder pattern</em> to set property values. 
+         * Use the various {@code set...()} methods to set properties, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+        }
+        
+         /**
+         * Finish building the {@link Window} object.
+         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * is executed to create a new GObject instance, which is then cast to 
+         * {@link Window} using {@link Window#castFrom}.
+         * @return A new instance of {@code Window} with the properties 
+         *         that were set in the Build object.
+         */
+        public Window construct() {
+            return Window.castFrom(
+                org.gtk.gobject.Object.newWithProperties(
+                    Window.getType(),
+                    names.size(),
+                    names.toArray(new String[0]),
+                    values.toArray(new org.gtk.gobject.Value[0])
+                )
+            );
+        }
+        
+        /**
+         * The content widget.
+         * <p>
+         * This property should always be used instead of {@code Gtk.Window:child}.
+         * @param content The value for the {@code content} property
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setContent(org.gtk.gtk.Widget content) {
+            names.add("content");
+            values.add(org.gtk.gobject.Value.create(content));
+            return this;
+        }
+    }
+    
     private static class DowncallHandles {
         
         private static final MethodHandle adw_window_new = Interop.downcallHandle(
             "adw_window_new",
-            FunctionDescriptor.of(ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_window_get_content = Interop.downcallHandle(
             "adw_window_get_content",
-            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
         private static final MethodHandle adw_window_set_content = Interop.downcallHandle(
             "adw_window_set_content",
-            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+            false
+        );
+        
+        private static final MethodHandle adw_window_get_type = Interop.downcallHandle(
+            "adw_window_get_type",
+            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
     }

@@ -5,7 +5,7 @@ import java.lang.foreign.*;
 import java.lang.invoke.*;
 import org.jetbrains.annotations.*;
 
-public class GestureClickClass extends io.github.jwharm.javagi.ProxyBase {
+public class GestureClickClass extends Struct {
     
     static {
         Gtk.javagi$ensureInitialized();
@@ -24,6 +24,10 @@ public class GestureClickClass extends io.github.jwharm.javagi.ProxyBase {
     
     private MemorySegment allocatedMemorySegment;
     
+    /**
+     * Allocate a new {@link GestureClickClass}
+     * @return A new, uninitialized @{link GestureClickClass}
+     */
     public static GestureClickClass allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
         GestureClickClass newInstance = new GestureClickClass(segment.address(), Ownership.NONE);
@@ -39,5 +43,33 @@ public class GestureClickClass extends io.github.jwharm.javagi.ProxyBase {
     @ApiStatus.Internal
     public GestureClickClass(Addressable address, Ownership ownership) {
         super(address, ownership);
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private GestureClickClass struct;
+        
+         /**
+         * A {@link GestureClickClass.Build} object constructs a {@link GestureClickClass} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = GestureClickClass.allocate();
+        }
+        
+         /**
+         * Finish building the {@link GestureClickClass} struct.
+         * @return A new instance of {@code GestureClickClass} with the fields 
+         *         that were set in the Build object.
+         */
+        public GestureClickClass construct() {
+            return struct;
+        }
     }
 }
