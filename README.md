@@ -1,4 +1,7 @@
 # java-gtk4
 Java language bindings for GTK4 and LibAdwaita
 
-These Java bindings for GTK4 and LibAdwaita are auto-generated using [java-gi](https://github.com/jwharm/java-gi). They are still under development and not meant to be used for anything.
+**Please refer to the [java-gi](https://github.com/jwharm/java-gi) repository for more information about these bindings, where to download them and how to use them.**
+
+The files in this repository are a copy of the generated Java source files. It is only used for reference purposes and not frequently updated.
+
