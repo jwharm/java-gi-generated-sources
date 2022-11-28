@@ -117,11 +117,7 @@ public class DropTarget extends org.gtk.gtk.EventController {
      * @throws ClassCastException If the GType is not derived from "GtkDropTarget", a ClassCastException will be thrown.
      */
     public static DropTarget castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), DropTarget.getType())) {
             return new DropTarget(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkDropTarget");
-        }
     }
     
     private static Addressable constructNew(@NotNull org.gtk.glib.Type type, @NotNull org.gtk.gdk.DragAction actions) {

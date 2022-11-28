@@ -96,150 +96,150 @@ public class TreeModelIface extends Struct {
             return struct;
         }
         
-        public Build setGIface(org.gtk.gobject.TypeInterface g_iface) {
+        public Build setGIface(org.gtk.gobject.TypeInterface gIface) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("g_iface"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (g_iface == null ? MemoryAddress.NULL : g_iface.handle()));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (gIface == null ? MemoryAddress.NULL : gIface.handle()));
             return this;
         }
         
-        public Build setRowChanged(java.lang.foreign.MemoryAddress row_changed) {
+        public Build setRowChanged(java.lang.foreign.MemoryAddress rowChanged) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("row_changed"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (row_changed == null ? MemoryAddress.NULL : row_changed));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (rowChanged == null ? MemoryAddress.NULL : rowChanged));
             return this;
         }
         
-        public Build setRowInserted(java.lang.foreign.MemoryAddress row_inserted) {
+        public Build setRowInserted(java.lang.foreign.MemoryAddress rowInserted) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("row_inserted"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (row_inserted == null ? MemoryAddress.NULL : row_inserted));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (rowInserted == null ? MemoryAddress.NULL : rowInserted));
             return this;
         }
         
-        public Build setRowHasChildToggled(java.lang.foreign.MemoryAddress row_has_child_toggled) {
+        public Build setRowHasChildToggled(java.lang.foreign.MemoryAddress rowHasChildToggled) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("row_has_child_toggled"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (row_has_child_toggled == null ? MemoryAddress.NULL : row_has_child_toggled));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (rowHasChildToggled == null ? MemoryAddress.NULL : rowHasChildToggled));
             return this;
         }
         
-        public Build setRowDeleted(java.lang.foreign.MemoryAddress row_deleted) {
+        public Build setRowDeleted(java.lang.foreign.MemoryAddress rowDeleted) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("row_deleted"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (row_deleted == null ? MemoryAddress.NULL : row_deleted));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (rowDeleted == null ? MemoryAddress.NULL : rowDeleted));
             return this;
         }
         
-        public Build setRowsReordered(java.lang.foreign.MemoryAddress rows_reordered) {
+        public Build setRowsReordered(java.lang.foreign.MemoryAddress rowsReordered) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("rows_reordered"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (rows_reordered == null ? MemoryAddress.NULL : rows_reordered));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (rowsReordered == null ? MemoryAddress.NULL : rowsReordered));
             return this;
         }
         
-        public Build setGetFlags(java.lang.foreign.MemoryAddress get_flags) {
+        public Build setGetFlags(java.lang.foreign.MemoryAddress getFlags) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("get_flags"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (get_flags == null ? MemoryAddress.NULL : get_flags));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getFlags == null ? MemoryAddress.NULL : getFlags));
             return this;
         }
         
-        public Build setGetNColumns(java.lang.foreign.MemoryAddress get_n_columns) {
+        public Build setGetNColumns(java.lang.foreign.MemoryAddress getNColumns) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("get_n_columns"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (get_n_columns == null ? MemoryAddress.NULL : get_n_columns));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getNColumns == null ? MemoryAddress.NULL : getNColumns));
             return this;
         }
         
-        public Build setGetColumnType(java.lang.foreign.MemoryAddress get_column_type) {
+        public Build setGetColumnType(java.lang.foreign.MemoryAddress getColumnType) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("get_column_type"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (get_column_type == null ? MemoryAddress.NULL : get_column_type));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getColumnType == null ? MemoryAddress.NULL : getColumnType));
             return this;
         }
         
-        public Build setGetIter(java.lang.foreign.MemoryAddress get_iter) {
+        public Build setGetIter(java.lang.foreign.MemoryAddress getIter) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("get_iter"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (get_iter == null ? MemoryAddress.NULL : get_iter));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getIter == null ? MemoryAddress.NULL : getIter));
             return this;
         }
         
-        public Build setGetPath(java.lang.foreign.MemoryAddress get_path) {
+        public Build setGetPath(java.lang.foreign.MemoryAddress getPath) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("get_path"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (get_path == null ? MemoryAddress.NULL : get_path));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getPath == null ? MemoryAddress.NULL : getPath));
             return this;
         }
         
-        public Build setGetValue(java.lang.foreign.MemoryAddress get_value) {
+        public Build setGetValue(java.lang.foreign.MemoryAddress getValue) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("get_value"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (get_value == null ? MemoryAddress.NULL : get_value));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getValue == null ? MemoryAddress.NULL : getValue));
             return this;
         }
         
-        public Build setIterNext(java.lang.foreign.MemoryAddress iter_next) {
+        public Build setIterNext(java.lang.foreign.MemoryAddress iterNext) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("iter_next"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (iter_next == null ? MemoryAddress.NULL : iter_next));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (iterNext == null ? MemoryAddress.NULL : iterNext));
             return this;
         }
         
-        public Build setIterPrevious(java.lang.foreign.MemoryAddress iter_previous) {
+        public Build setIterPrevious(java.lang.foreign.MemoryAddress iterPrevious) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("iter_previous"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (iter_previous == null ? MemoryAddress.NULL : iter_previous));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (iterPrevious == null ? MemoryAddress.NULL : iterPrevious));
             return this;
         }
         
-        public Build setIterChildren(java.lang.foreign.MemoryAddress iter_children) {
+        public Build setIterChildren(java.lang.foreign.MemoryAddress iterChildren) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("iter_children"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (iter_children == null ? MemoryAddress.NULL : iter_children));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (iterChildren == null ? MemoryAddress.NULL : iterChildren));
             return this;
         }
         
-        public Build setIterHasChild(java.lang.foreign.MemoryAddress iter_has_child) {
+        public Build setIterHasChild(java.lang.foreign.MemoryAddress iterHasChild) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("iter_has_child"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (iter_has_child == null ? MemoryAddress.NULL : iter_has_child));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (iterHasChild == null ? MemoryAddress.NULL : iterHasChild));
             return this;
         }
         
-        public Build setIterNChildren(java.lang.foreign.MemoryAddress iter_n_children) {
+        public Build setIterNChildren(java.lang.foreign.MemoryAddress iterNChildren) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("iter_n_children"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (iter_n_children == null ? MemoryAddress.NULL : iter_n_children));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (iterNChildren == null ? MemoryAddress.NULL : iterNChildren));
             return this;
         }
         
-        public Build setIterNthChild(java.lang.foreign.MemoryAddress iter_nth_child) {
+        public Build setIterNthChild(java.lang.foreign.MemoryAddress iterNthChild) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("iter_nth_child"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (iter_nth_child == null ? MemoryAddress.NULL : iter_nth_child));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (iterNthChild == null ? MemoryAddress.NULL : iterNthChild));
             return this;
         }
         
-        public Build setIterParent(java.lang.foreign.MemoryAddress iter_parent) {
+        public Build setIterParent(java.lang.foreign.MemoryAddress iterParent) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("iter_parent"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (iter_parent == null ? MemoryAddress.NULL : iter_parent));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (iterParent == null ? MemoryAddress.NULL : iterParent));
             return this;
         }
         
-        public Build setRefNode(java.lang.foreign.MemoryAddress ref_node) {
+        public Build setRefNode(java.lang.foreign.MemoryAddress refNode) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("ref_node"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (ref_node == null ? MemoryAddress.NULL : ref_node));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (refNode == null ? MemoryAddress.NULL : refNode));
             return this;
         }
         
-        public Build setUnrefNode(java.lang.foreign.MemoryAddress unref_node) {
+        public Build setUnrefNode(java.lang.foreign.MemoryAddress unrefNode) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("unref_node"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (unref_node == null ? MemoryAddress.NULL : unref_node));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (unrefNode == null ? MemoryAddress.NULL : unrefNode));
             return this;
         }
     }

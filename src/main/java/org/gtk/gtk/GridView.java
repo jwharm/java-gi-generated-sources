@@ -80,11 +80,7 @@ public class GridView extends org.gtk.gtk.ListBase implements org.gtk.gtk.Access
      * @throws ClassCastException If the GType is not derived from "GtkGridView", a ClassCastException will be thrown.
      */
     public static GridView castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), GridView.getType())) {
             return new GridView(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkGridView");
-        }
     }
     
     private static Addressable constructNew(@Nullable org.gtk.gtk.SelectionModel model, @Nullable org.gtk.gtk.ListItemFactory factory) {

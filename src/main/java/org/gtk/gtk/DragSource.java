@@ -120,11 +120,7 @@ public class DragSource extends org.gtk.gtk.GestureSingle {
      * @throws ClassCastException If the GType is not derived from "GtkDragSource", a ClassCastException will be thrown.
      */
     public static DragSource castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), DragSource.getType())) {
             return new DragSource(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkDragSource");
-        }
     }
     
     private static Addressable constructNew() {

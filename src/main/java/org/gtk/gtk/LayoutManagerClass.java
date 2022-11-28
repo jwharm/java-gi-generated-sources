@@ -56,7 +56,7 @@ public class LayoutManagerClass extends Struct {
      * Get the value of the field {@code layout_child_type}
      * @return The value of the field {@code layout_child_type}
      */
-    public org.gtk.glib.Type layout_child_type$get() {
+    public org.gtk.glib.Type layoutChildType$get() {
         var RESULT = (long) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("layout_child_type"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -65,12 +65,12 @@ public class LayoutManagerClass extends Struct {
     
     /**
      * Change the value of the field {@code layout_child_type}
-     * @param layout_child_type The new value of the field {@code layout_child_type}
+     * @param layoutChildType The new value of the field {@code layout_child_type}
      */
-    public void layout_child_type$set(org.gtk.glib.Type layout_child_type) {
+    public void layoutChildType$set(org.gtk.glib.Type layoutChildType) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("layout_child_type"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), layout_child_type.getValue().longValue());
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), layoutChildType.getValue().longValue());
     }
     
     /**
@@ -110,17 +110,17 @@ public class LayoutManagerClass extends Struct {
             return struct;
         }
         
-        public Build setParentClass(org.gtk.gobject.ObjectClass parent_class) {
+        public Build setParentClass(org.gtk.gobject.ObjectClass parentClass) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parent_class == null ? MemoryAddress.NULL : parent_class.handle()));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
             return this;
         }
         
-        public Build setGetRequestMode(java.lang.foreign.MemoryAddress get_request_mode) {
+        public Build setGetRequestMode(java.lang.foreign.MemoryAddress getRequestMode) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("get_request_mode"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (get_request_mode == null ? MemoryAddress.NULL : get_request_mode));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getRequestMode == null ? MemoryAddress.NULL : getRequestMode));
             return this;
         }
         
@@ -140,20 +140,20 @@ public class LayoutManagerClass extends Struct {
         
         /**
          * the type of {@code GtkLayoutChild} used by this layout manager
-         * @param layout_child_type The value for the {@code layout_child_type} field
+         * @param layoutChildType The value for the {@code layoutChildType} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setLayoutChildType(org.gtk.glib.Type layout_child_type) {
+        public Build setLayoutChildType(org.gtk.glib.Type layoutChildType) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("layout_child_type"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (layout_child_type == null ? MemoryAddress.NULL : layout_child_type.getValue().longValue()));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (layoutChildType == null ? MemoryAddress.NULL : layoutChildType.getValue().longValue()));
             return this;
         }
         
-        public Build setCreateLayoutChild(java.lang.foreign.MemoryAddress create_layout_child) {
+        public Build setCreateLayoutChild(java.lang.foreign.MemoryAddress createLayoutChild) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("create_layout_child"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (create_layout_child == null ? MemoryAddress.NULL : create_layout_child));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (createLayoutChild == null ? MemoryAddress.NULL : createLayoutChild));
             return this;
         }
         
@@ -171,10 +171,10 @@ public class LayoutManagerClass extends Struct {
             return this;
         }
         
-        public Build setPadding(java.lang.foreign.MemoryAddress[] _padding) {
+        public Build setPadding(java.lang.foreign.MemoryAddress[] Padding) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("_padding"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (_padding == null ? MemoryAddress.NULL : Interop.allocateNativeArray(_padding, false)));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (Padding == null ? MemoryAddress.NULL : Interop.allocateNativeArray(Padding, false)));
             return this;
         }
     }

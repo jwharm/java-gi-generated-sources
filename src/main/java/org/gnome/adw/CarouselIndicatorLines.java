@@ -64,11 +64,7 @@ public class CarouselIndicatorLines extends org.gtk.gtk.Widget implements org.gt
      * @throws ClassCastException If the GType is not derived from "AdwCarouselIndicatorLines", a ClassCastException will be thrown.
      */
     public static CarouselIndicatorLines castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), CarouselIndicatorLines.getType())) {
             return new CarouselIndicatorLines(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of AdwCarouselIndicatorLines");
-        }
     }
     
     private static Addressable constructNew() {

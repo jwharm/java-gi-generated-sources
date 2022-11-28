@@ -53,11 +53,7 @@ public class ATContext extends org.gtk.gobject.Object {
      * @throws ClassCastException If the GType is not derived from "GtkATContext", a ClassCastException will be thrown.
      */
     public static ATContext castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), ATContext.getType())) {
             return new ATContext(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkATContext");
-        }
     }
     
     private static Addressable constructCreate(@NotNull org.gtk.gtk.AccessibleRole accessibleRole, @NotNull org.gtk.gtk.Accessible accessible, @NotNull org.gtk.gdk.Display display) {

@@ -48,7 +48,7 @@ public class OtMathKernEntryT extends Struct {
      * Get the value of the field {@code max_correction_height}
      * @return The value of the field {@code max_correction_height}
      */
-    public org.harfbuzz.PositionT max_correction_height$get() {
+    public org.harfbuzz.PositionT maxCorrectionHeight$get() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("max_correction_height"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -57,19 +57,19 @@ public class OtMathKernEntryT extends Struct {
     
     /**
      * Change the value of the field {@code max_correction_height}
-     * @param max_correction_height The new value of the field {@code max_correction_height}
+     * @param maxCorrectionHeight The new value of the field {@code max_correction_height}
      */
-    public void max_correction_height$set(org.harfbuzz.PositionT max_correction_height) {
+    public void maxCorrectionHeight$set(org.harfbuzz.PositionT maxCorrectionHeight) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("max_correction_height"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), max_correction_height.getValue().intValue());
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), maxCorrectionHeight.getValue().intValue());
     }
     
     /**
      * Get the value of the field {@code kern_value}
      * @return The value of the field {@code kern_value}
      */
-    public org.harfbuzz.PositionT kern_value$get() {
+    public org.harfbuzz.PositionT kernValue$get() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("kern_value"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -78,12 +78,12 @@ public class OtMathKernEntryT extends Struct {
     
     /**
      * Change the value of the field {@code kern_value}
-     * @param kern_value The new value of the field {@code kern_value}
+     * @param kernValue The new value of the field {@code kern_value}
      */
-    public void kern_value$set(org.harfbuzz.PositionT kern_value) {
+    public void kernValue$set(org.harfbuzz.PositionT kernValue) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("kern_value"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), kern_value.getValue().intValue());
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), kernValue.getValue().intValue());
     }
     
     /**
@@ -125,25 +125,25 @@ public class OtMathKernEntryT extends Struct {
         
         /**
          * The maximum height at which this entry should be used
-         * @param max_correction_height The value for the {@code max_correction_height} field
+         * @param maxCorrectionHeight The value for the {@code maxCorrectionHeight} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setMaxCorrectionHeight(org.harfbuzz.PositionT max_correction_height) {
+        public Build setMaxCorrectionHeight(org.harfbuzz.PositionT maxCorrectionHeight) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("max_correction_height"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (max_correction_height == null ? MemoryAddress.NULL : max_correction_height.getValue().intValue()));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (maxCorrectionHeight == null ? MemoryAddress.NULL : maxCorrectionHeight.getValue().intValue()));
             return this;
         }
         
         /**
          * The kern value of the entry
-         * @param kern_value The value for the {@code kern_value} field
+         * @param kernValue The value for the {@code kernValue} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setKernValue(org.harfbuzz.PositionT kern_value) {
+        public Build setKernValue(org.harfbuzz.PositionT kernValue) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("kern_value"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (kern_value == null ? MemoryAddress.NULL : kern_value.getValue().intValue()));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (kernValue == null ? MemoryAddress.NULL : kernValue.getValue().intValue()));
             return this;
         }
     }

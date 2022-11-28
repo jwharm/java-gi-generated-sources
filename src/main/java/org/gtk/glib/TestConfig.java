@@ -48,7 +48,7 @@ public class TestConfig extends Struct {
      * Get the value of the field {@code test_initialized}
      * @return The value of the field {@code test_initialized}
      */
-    public boolean test_initialized$get() {
+    public boolean testInitialized$get() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("test_initialized"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -57,19 +57,19 @@ public class TestConfig extends Struct {
     
     /**
      * Change the value of the field {@code test_initialized}
-     * @param test_initialized The new value of the field {@code test_initialized}
+     * @param testInitialized The new value of the field {@code test_initialized}
      */
-    public void test_initialized$set(boolean test_initialized) {
+    public void testInitialized$set(boolean testInitialized) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("test_initialized"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), test_initialized ? 1 : 0);
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), testInitialized ? 1 : 0);
     }
     
     /**
      * Get the value of the field {@code test_quick}
      * @return The value of the field {@code test_quick}
      */
-    public boolean test_quick$get() {
+    public boolean testQuick$get() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("test_quick"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -78,19 +78,19 @@ public class TestConfig extends Struct {
     
     /**
      * Change the value of the field {@code test_quick}
-     * @param test_quick The new value of the field {@code test_quick}
+     * @param testQuick The new value of the field {@code test_quick}
      */
-    public void test_quick$set(boolean test_quick) {
+    public void testQuick$set(boolean testQuick) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("test_quick"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), test_quick ? 1 : 0);
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), testQuick ? 1 : 0);
     }
     
     /**
      * Get the value of the field {@code test_perf}
      * @return The value of the field {@code test_perf}
      */
-    public boolean test_perf$get() {
+    public boolean testPerf$get() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("test_perf"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -99,19 +99,19 @@ public class TestConfig extends Struct {
     
     /**
      * Change the value of the field {@code test_perf}
-     * @param test_perf The new value of the field {@code test_perf}
+     * @param testPerf The new value of the field {@code test_perf}
      */
-    public void test_perf$set(boolean test_perf) {
+    public void testPerf$set(boolean testPerf) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("test_perf"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), test_perf ? 1 : 0);
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), testPerf ? 1 : 0);
     }
     
     /**
      * Get the value of the field {@code test_verbose}
      * @return The value of the field {@code test_verbose}
      */
-    public boolean test_verbose$get() {
+    public boolean testVerbose$get() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("test_verbose"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -120,19 +120,19 @@ public class TestConfig extends Struct {
     
     /**
      * Change the value of the field {@code test_verbose}
-     * @param test_verbose The new value of the field {@code test_verbose}
+     * @param testVerbose The new value of the field {@code test_verbose}
      */
-    public void test_verbose$set(boolean test_verbose) {
+    public void testVerbose$set(boolean testVerbose) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("test_verbose"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), test_verbose ? 1 : 0);
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), testVerbose ? 1 : 0);
     }
     
     /**
      * Get the value of the field {@code test_quiet}
      * @return The value of the field {@code test_quiet}
      */
-    public boolean test_quiet$get() {
+    public boolean testQuiet$get() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("test_quiet"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -141,19 +141,19 @@ public class TestConfig extends Struct {
     
     /**
      * Change the value of the field {@code test_quiet}
-     * @param test_quiet The new value of the field {@code test_quiet}
+     * @param testQuiet The new value of the field {@code test_quiet}
      */
-    public void test_quiet$set(boolean test_quiet) {
+    public void testQuiet$set(boolean testQuiet) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("test_quiet"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), test_quiet ? 1 : 0);
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), testQuiet ? 1 : 0);
     }
     
     /**
      * Get the value of the field {@code test_undefined}
      * @return The value of the field {@code test_undefined}
      */
-    public boolean test_undefined$get() {
+    public boolean testUndefined$get() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("test_undefined"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -162,12 +162,12 @@ public class TestConfig extends Struct {
     
     /**
      * Change the value of the field {@code test_undefined}
-     * @param test_undefined The new value of the field {@code test_undefined}
+     * @param testUndefined The new value of the field {@code test_undefined}
      */
-    public void test_undefined$set(boolean test_undefined) {
+    public void testUndefined$set(boolean testUndefined) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("test_undefined"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), test_undefined ? 1 : 0);
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), testUndefined ? 1 : 0);
     }
     
     /**
@@ -207,45 +207,45 @@ public class TestConfig extends Struct {
             return struct;
         }
         
-        public Build setTestInitialized(boolean test_initialized) {
+        public Build setTestInitialized(boolean testInitialized) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("test_initialized"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), test_initialized ? 1 : 0);
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), testInitialized ? 1 : 0);
             return this;
         }
         
-        public Build setTestQuick(boolean test_quick) {
+        public Build setTestQuick(boolean testQuick) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("test_quick"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), test_quick ? 1 : 0);
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), testQuick ? 1 : 0);
             return this;
         }
         
-        public Build setTestPerf(boolean test_perf) {
+        public Build setTestPerf(boolean testPerf) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("test_perf"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), test_perf ? 1 : 0);
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), testPerf ? 1 : 0);
             return this;
         }
         
-        public Build setTestVerbose(boolean test_verbose) {
+        public Build setTestVerbose(boolean testVerbose) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("test_verbose"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), test_verbose ? 1 : 0);
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), testVerbose ? 1 : 0);
             return this;
         }
         
-        public Build setTestQuiet(boolean test_quiet) {
+        public Build setTestQuiet(boolean testQuiet) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("test_quiet"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), test_quiet ? 1 : 0);
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), testQuiet ? 1 : 0);
             return this;
         }
         
-        public Build setTestUndefined(boolean test_undefined) {
+        public Build setTestUndefined(boolean testUndefined) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("test_undefined"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), test_undefined ? 1 : 0);
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), testUndefined ? 1 : 0);
             return this;
         }
     }

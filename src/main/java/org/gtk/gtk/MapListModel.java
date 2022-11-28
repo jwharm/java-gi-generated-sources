@@ -74,11 +74,7 @@ public class MapListModel extends org.gtk.gobject.Object implements org.gtk.gio.
      * @throws ClassCastException If the GType is not derived from "GtkMapListModel", a ClassCastException will be thrown.
      */
     public static MapListModel castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), MapListModel.getType())) {
             return new MapListModel(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkMapListModel");
-        }
     }
     
     private static Addressable constructNew(@Nullable org.gtk.gio.ListModel model, @Nullable org.gtk.gtk.MapListModelMapFunc mapFunc) {

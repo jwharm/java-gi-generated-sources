@@ -93,10 +93,10 @@ public class PaintableInterface extends Struct {
             return struct;
         }
         
-        public Build setGIface(org.gtk.gobject.TypeInterface g_iface) {
+        public Build setGIface(org.gtk.gobject.TypeInterface gIface) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("g_iface"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (g_iface == null ? MemoryAddress.NULL : g_iface.handle()));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (gIface == null ? MemoryAddress.NULL : gIface.handle()));
             return this;
         }
         
@@ -107,38 +107,38 @@ public class PaintableInterface extends Struct {
             return this;
         }
         
-        public Build setGetCurrentImage(java.lang.foreign.MemoryAddress get_current_image) {
+        public Build setGetCurrentImage(java.lang.foreign.MemoryAddress getCurrentImage) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("get_current_image"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (get_current_image == null ? MemoryAddress.NULL : get_current_image));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getCurrentImage == null ? MemoryAddress.NULL : getCurrentImage));
             return this;
         }
         
-        public Build setGetFlags(java.lang.foreign.MemoryAddress get_flags) {
+        public Build setGetFlags(java.lang.foreign.MemoryAddress getFlags) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("get_flags"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (get_flags == null ? MemoryAddress.NULL : get_flags));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getFlags == null ? MemoryAddress.NULL : getFlags));
             return this;
         }
         
-        public Build setGetIntrinsicWidth(java.lang.foreign.MemoryAddress get_intrinsic_width) {
+        public Build setGetIntrinsicWidth(java.lang.foreign.MemoryAddress getIntrinsicWidth) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("get_intrinsic_width"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (get_intrinsic_width == null ? MemoryAddress.NULL : get_intrinsic_width));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getIntrinsicWidth == null ? MemoryAddress.NULL : getIntrinsicWidth));
             return this;
         }
         
-        public Build setGetIntrinsicHeight(java.lang.foreign.MemoryAddress get_intrinsic_height) {
+        public Build setGetIntrinsicHeight(java.lang.foreign.MemoryAddress getIntrinsicHeight) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("get_intrinsic_height"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (get_intrinsic_height == null ? MemoryAddress.NULL : get_intrinsic_height));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getIntrinsicHeight == null ? MemoryAddress.NULL : getIntrinsicHeight));
             return this;
         }
         
-        public Build setGetIntrinsicAspectRatio(java.lang.foreign.MemoryAddress get_intrinsic_aspect_ratio) {
+        public Build setGetIntrinsicAspectRatio(java.lang.foreign.MemoryAddress getIntrinsicAspectRatio) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("get_intrinsic_aspect_ratio"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (get_intrinsic_aspect_ratio == null ? MemoryAddress.NULL : get_intrinsic_aspect_ratio));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getIntrinsicAspectRatio == null ? MemoryAddress.NULL : getIntrinsicAspectRatio));
             return this;
         }
     }

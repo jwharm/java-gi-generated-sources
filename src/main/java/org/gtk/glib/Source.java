@@ -1195,31 +1195,31 @@ public class Source extends Struct {
             return struct;
         }
         
-        public Build setCallbackData(java.lang.foreign.MemoryAddress callback_data) {
+        public Build setCallbackData(java.lang.foreign.MemoryAddress callbackData) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("callback_data"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (callback_data == null ? MemoryAddress.NULL : (Addressable) callback_data));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (callbackData == null ? MemoryAddress.NULL : (Addressable) callbackData));
             return this;
         }
         
-        public Build setCallbackFuncs(org.gtk.glib.SourceCallbackFuncs callback_funcs) {
+        public Build setCallbackFuncs(org.gtk.glib.SourceCallbackFuncs callbackFuncs) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("callback_funcs"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (callback_funcs == null ? MemoryAddress.NULL : callback_funcs.handle()));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (callbackFuncs == null ? MemoryAddress.NULL : callbackFuncs.handle()));
             return this;
         }
         
-        public Build setSourceFuncs(org.gtk.glib.SourceFuncs source_funcs) {
+        public Build setSourceFuncs(org.gtk.glib.SourceFuncs sourceFuncs) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("source_funcs"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (source_funcs == null ? MemoryAddress.NULL : source_funcs.handle()));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (sourceFuncs == null ? MemoryAddress.NULL : sourceFuncs.handle()));
             return this;
         }
         
-        public Build setRefCount(int ref_count) {
+        public Build setRefCount(int refCount) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("ref_count"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), ref_count);
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), refCount);
             return this;
         }
         
@@ -1244,17 +1244,17 @@ public class Source extends Struct {
             return this;
         }
         
-        public Build setSourceId(int source_id) {
+        public Build setSourceId(int sourceId) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("source_id"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), source_id);
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), sourceId);
             return this;
         }
         
-        public Build setPollFds(org.gtk.glib.SList poll_fds) {
+        public Build setPollFds(org.gtk.glib.SList pollFds) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("poll_fds"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (poll_fds == null ? MemoryAddress.NULL : poll_fds.handle()));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (pollFds == null ? MemoryAddress.NULL : pollFds.handle()));
             return this;
         }
         

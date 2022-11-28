@@ -51,11 +51,7 @@ public class CellRendererProgress extends org.gtk.gtk.CellRenderer implements or
      * @throws ClassCastException If the GType is not derived from "GtkCellRendererProgress", a ClassCastException will be thrown.
      */
     public static CellRendererProgress castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), CellRendererProgress.getType())) {
             return new CellRendererProgress(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkCellRendererProgress");
-        }
     }
     
     private static Addressable constructNew() {

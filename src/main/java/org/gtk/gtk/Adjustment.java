@@ -40,15 +40,6 @@ public class Adjustment extends org.gtk.gobject.InitiallyUnowned {
     }
     
     /**
-     * Get the value of the field {@code parent_instance}
-     * @return The value of the field {@code parent_instance}
-     */
-    public org.gtk.gobject.InitiallyUnowned parent_instance$get() {
-        long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_instance"));
-        return new org.gtk.gobject.InitiallyUnowned(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
-    }
-    
-    /**
      * Create a Adjustment proxy instance for the provided memory address.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
@@ -71,11 +62,7 @@ public class Adjustment extends org.gtk.gobject.InitiallyUnowned {
      * @throws ClassCastException If the GType is not derived from "GtkAdjustment", a ClassCastException will be thrown.
      */
     public static Adjustment castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), Adjustment.getType())) {
             return new Adjustment(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkAdjustment");
-        }
     }
     
     private static Addressable constructNew(double value, double lower, double upper, double stepIncrement, double pageIncrement, double pageSize) {

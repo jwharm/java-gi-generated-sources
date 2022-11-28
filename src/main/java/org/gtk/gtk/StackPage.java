@@ -48,11 +48,7 @@ public class StackPage extends org.gtk.gobject.Object implements org.gtk.gtk.Acc
      * @throws ClassCastException If the GType is not derived from "GtkStackPage", a ClassCastException will be thrown.
      */
     public static StackPage castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), StackPage.getType())) {
             return new StackPage(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkStackPage");
-        }
     }
     
     /**

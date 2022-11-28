@@ -58,11 +58,7 @@ public class DBusObjectSkeleton extends org.gtk.gobject.Object implements org.gt
      * @throws ClassCastException If the GType is not derived from "GDBusObjectSkeleton", a ClassCastException will be thrown.
      */
     public static DBusObjectSkeleton castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), DBusObjectSkeleton.getType())) {
             return new DBusObjectSkeleton(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GDBusObjectSkeleton");
-        }
     }
     
     private static Addressable constructNew(@NotNull java.lang.String objectPath) {

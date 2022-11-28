@@ -56,7 +56,7 @@ public class OptionEntry extends Struct {
      * Get the value of the field {@code long_name}
      * @return The value of the field {@code long_name}
      */
-    public java.lang.String long_name$get() {
+    public java.lang.String longName$get() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("long_name"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -65,19 +65,19 @@ public class OptionEntry extends Struct {
     
     /**
      * Change the value of the field {@code long_name}
-     * @param long_name The new value of the field {@code long_name}
+     * @param longName The new value of the field {@code long_name}
      */
-    public void long_name$set(java.lang.String long_name) {
+    public void longName$set(java.lang.String longName) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("long_name"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Interop.allocateNativeString(long_name));
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Interop.allocateNativeString(longName));
     }
     
     /**
      * Get the value of the field {@code short_name}
      * @return The value of the field {@code short_name}
      */
-    public byte short_name$get() {
+    public byte shortName$get() {
         var RESULT = (byte) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("short_name"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -86,12 +86,12 @@ public class OptionEntry extends Struct {
     
     /**
      * Change the value of the field {@code short_name}
-     * @param short_name The new value of the field {@code short_name}
+     * @param shortName The new value of the field {@code short_name}
      */
-    public void short_name$set(byte short_name) {
+    public void shortName$set(byte shortName) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("short_name"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), short_name);
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), shortName);
     }
     
     /**
@@ -140,7 +140,7 @@ public class OptionEntry extends Struct {
      * Get the value of the field {@code arg_data}
      * @return The value of the field {@code arg_data}
      */
-    public java.lang.foreign.MemoryAddress arg_data$get() {
+    public java.lang.foreign.MemoryAddress argData$get() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("arg_data"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -149,12 +149,12 @@ public class OptionEntry extends Struct {
     
     /**
      * Change the value of the field {@code arg_data}
-     * @param arg_data The new value of the field {@code arg_data}
+     * @param argData The new value of the field {@code arg_data}
      */
-    public void arg_data$set(java.lang.foreign.MemoryAddress arg_data) {
+    public void argData$set(java.lang.foreign.MemoryAddress argData) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("arg_data"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) arg_data);
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) argData);
     }
     
     /**
@@ -182,7 +182,7 @@ public class OptionEntry extends Struct {
      * Get the value of the field {@code arg_description}
      * @return The value of the field {@code arg_description}
      */
-    public java.lang.String arg_description$get() {
+    public java.lang.String argDescription$get() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("arg_description"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -191,12 +191,12 @@ public class OptionEntry extends Struct {
     
     /**
      * Change the value of the field {@code arg_description}
-     * @param arg_description The new value of the field {@code arg_description}
+     * @param argDescription The new value of the field {@code arg_description}
      */
-    public void arg_description$set(java.lang.String arg_description) {
+    public void argDescription$set(java.lang.String argDescription) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("arg_description"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Interop.allocateNativeString(arg_description));
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Interop.allocateNativeString(argDescription));
     }
     
     /**
@@ -242,13 +242,13 @@ public class OptionEntry extends Struct {
          *     long name. To resolve conflicts if multiple option groups contain
          *     the same long name, it is also possible to specify the option as
          *     {@code --groupname-long_name}.
-         * @param long_name The value for the {@code long_name} field
+         * @param longName The value for the {@code longName} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setLongName(java.lang.String long_name) {
+        public Build setLongName(java.lang.String longName) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("long_name"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (long_name == null ? MemoryAddress.NULL : Interop.allocateNativeString(long_name)));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (longName == null ? MemoryAddress.NULL : Interop.allocateNativeString(longName)));
             return this;
         }
         
@@ -257,13 +257,13 @@ public class OptionEntry extends Struct {
          *     {@code -short_name} in a commandline. {@code short_name} must be  a printable
          *     ASCII character different from '-', or zero if the option has no
          *     short name.
-         * @param short_name The value for the {@code short_name} field
+         * @param shortName The value for the {@code shortName} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setShortName(byte short_name) {
+        public Build setShortName(byte shortName) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("short_name"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), short_name);
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), shortName);
             return this;
         }
         
@@ -311,13 +311,13 @@ public class OptionEntry extends Struct {
          *     Likewise if {@code arg} type is {@link OptionArg#STRING_ARRAY} or
          *     {@link OptionArg#FILENAME_ARRAY}, the data should be freed using g_strfreev().
          * </ul>
-         * @param arg_data The value for the {@code arg_data} field
+         * @param argData The value for the {@code argData} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setArgData(java.lang.foreign.MemoryAddress arg_data) {
+        public Build setArgData(java.lang.foreign.MemoryAddress argData) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("arg_data"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (arg_data == null ? MemoryAddress.NULL : (Addressable) arg_data));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (argData == null ? MemoryAddress.NULL : (Addressable) argData));
             return this;
         }
         
@@ -340,13 +340,13 @@ public class OptionEntry extends Struct {
          *     by the option in {@code --help} output. The {@code arg_description} is translated
          *     using the {@code translate_func} of the group, see
          *     g_option_group_set_translation_domain().
-         * @param arg_description The value for the {@code arg_description} field
+         * @param argDescription The value for the {@code argDescription} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setArgDescription(java.lang.String arg_description) {
+        public Build setArgDescription(java.lang.String argDescription) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("arg_description"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (arg_description == null ? MemoryAddress.NULL : Interop.allocateNativeString(arg_description)));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (argDescription == null ? MemoryAddress.NULL : Interop.allocateNativeString(argDescription)));
             return this;
         }
     }

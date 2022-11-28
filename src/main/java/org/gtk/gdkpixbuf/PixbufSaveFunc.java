@@ -18,5 +18,5 @@ import org.jetbrains.annotations.*;
  */
 @FunctionalInterface
 public interface PixbufSaveFunc {
-        boolean onPixbufSaveFunc(@NotNull PointerByte buf, long count, @NotNull PointerProxy<org.gtk.glib.Error> error);
+        boolean onPixbufSaveFunc(@NotNull PointerByte buf, long count, @NotNull Out<PointerProxy<org.gtk.glib.Error>> error);
 }

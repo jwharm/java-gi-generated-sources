@@ -51,7 +51,7 @@ public class MenuModelClass extends Struct {
      * Get the value of the field {@code parent_class}
      * @return The value of the field {@code parent_class}
      */
-    public org.gtk.gobject.ObjectClass parent_class$get() {
+    public org.gtk.gobject.ObjectClass parentClass$get() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_class"));
         return new org.gtk.gobject.ObjectClass(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
     }
@@ -93,66 +93,66 @@ public class MenuModelClass extends Struct {
             return struct;
         }
         
-        public Build setParentClass(org.gtk.gobject.ObjectClass parent_class) {
+        public Build setParentClass(org.gtk.gobject.ObjectClass parentClass) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parent_class == null ? MemoryAddress.NULL : parent_class.handle()));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
             return this;
         }
         
-        public Build setIsMutable(java.lang.foreign.MemoryAddress is_mutable) {
+        public Build setIsMutable(java.lang.foreign.MemoryAddress isMutable) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("is_mutable"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (is_mutable == null ? MemoryAddress.NULL : is_mutable));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (isMutable == null ? MemoryAddress.NULL : isMutable));
             return this;
         }
         
-        public Build setGetNItems(java.lang.foreign.MemoryAddress get_n_items) {
+        public Build setGetNItems(java.lang.foreign.MemoryAddress getNItems) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("get_n_items"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (get_n_items == null ? MemoryAddress.NULL : get_n_items));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getNItems == null ? MemoryAddress.NULL : getNItems));
             return this;
         }
         
-        public Build setGetItemAttributes(java.lang.foreign.MemoryAddress get_item_attributes) {
+        public Build setGetItemAttributes(java.lang.foreign.MemoryAddress getItemAttributes) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("get_item_attributes"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (get_item_attributes == null ? MemoryAddress.NULL : get_item_attributes));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getItemAttributes == null ? MemoryAddress.NULL : getItemAttributes));
             return this;
         }
         
-        public Build setIterateItemAttributes(java.lang.foreign.MemoryAddress iterate_item_attributes) {
+        public Build setIterateItemAttributes(java.lang.foreign.MemoryAddress iterateItemAttributes) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("iterate_item_attributes"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (iterate_item_attributes == null ? MemoryAddress.NULL : iterate_item_attributes));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (iterateItemAttributes == null ? MemoryAddress.NULL : iterateItemAttributes));
             return this;
         }
         
-        public Build setGetItemAttributeValue(java.lang.foreign.MemoryAddress get_item_attribute_value) {
+        public Build setGetItemAttributeValue(java.lang.foreign.MemoryAddress getItemAttributeValue) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("get_item_attribute_value"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (get_item_attribute_value == null ? MemoryAddress.NULL : get_item_attribute_value));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getItemAttributeValue == null ? MemoryAddress.NULL : getItemAttributeValue));
             return this;
         }
         
-        public Build setGetItemLinks(java.lang.foreign.MemoryAddress get_item_links) {
+        public Build setGetItemLinks(java.lang.foreign.MemoryAddress getItemLinks) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("get_item_links"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (get_item_links == null ? MemoryAddress.NULL : get_item_links));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getItemLinks == null ? MemoryAddress.NULL : getItemLinks));
             return this;
         }
         
-        public Build setIterateItemLinks(java.lang.foreign.MemoryAddress iterate_item_links) {
+        public Build setIterateItemLinks(java.lang.foreign.MemoryAddress iterateItemLinks) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("iterate_item_links"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (iterate_item_links == null ? MemoryAddress.NULL : iterate_item_links));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (iterateItemLinks == null ? MemoryAddress.NULL : iterateItemLinks));
             return this;
         }
         
-        public Build setGetItemLink(java.lang.foreign.MemoryAddress get_item_link) {
+        public Build setGetItemLink(java.lang.foreign.MemoryAddress getItemLink) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("get_item_link"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (get_item_link == null ? MemoryAddress.NULL : get_item_link));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getItemLink == null ? MemoryAddress.NULL : getItemLink));
             return this;
         }
     }

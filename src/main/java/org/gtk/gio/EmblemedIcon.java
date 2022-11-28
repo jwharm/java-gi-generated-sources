@@ -36,15 +36,6 @@ public class EmblemedIcon extends org.gtk.gobject.Object implements org.gtk.gio.
     }
     
     /**
-     * Get the value of the field {@code parent_instance}
-     * @return The value of the field {@code parent_instance}
-     */
-    public org.gtk.gobject.Object parent_instance$get() {
-        long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_instance"));
-        return new org.gtk.gobject.Object(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
-    }
-    
-    /**
      * Create a EmblemedIcon proxy instance for the provided memory address.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
@@ -67,11 +58,7 @@ public class EmblemedIcon extends org.gtk.gobject.Object implements org.gtk.gio.
      * @throws ClassCastException If the GType is not derived from "GEmblemedIcon", a ClassCastException will be thrown.
      */
     public static EmblemedIcon castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), EmblemedIcon.getType())) {
             return new EmblemedIcon(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GEmblemedIcon");
-        }
     }
     
     private static Addressable constructNew(@NotNull org.gtk.gio.Icon icon, @Nullable org.gtk.gio.Emblem emblem) {

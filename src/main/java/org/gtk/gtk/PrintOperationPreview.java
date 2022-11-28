@@ -28,11 +28,7 @@ public interface PrintOperationPreview extends io.github.jwharm.javagi.Proxy {
      * @throws ClassCastException If the GType is not derived from "GtkPrintOperationPreview", a ClassCastException will be thrown.
      */
     public static PrintOperationPreview castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), PrintOperationPreview.getType())) {
             return new PrintOperationPreviewImpl(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkPrintOperationPreview");
-        }
     }
     
     /**

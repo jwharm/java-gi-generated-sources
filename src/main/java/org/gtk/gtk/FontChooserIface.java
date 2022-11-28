@@ -51,7 +51,7 @@ public class FontChooserIface extends Struct {
      * Get the value of the field {@code base_iface}
      * @return The value of the field {@code base_iface}
      */
-    public org.gtk.gobject.TypeInterface base_iface$get() {
+    public org.gtk.gobject.TypeInterface baseIface$get() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("base_iface"));
         return new org.gtk.gobject.TypeInterface(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
     }
@@ -93,59 +93,59 @@ public class FontChooserIface extends Struct {
             return struct;
         }
         
-        public Build setBaseIface(org.gtk.gobject.TypeInterface base_iface) {
+        public Build setBaseIface(org.gtk.gobject.TypeInterface baseIface) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("base_iface"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (base_iface == null ? MemoryAddress.NULL : base_iface.handle()));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (baseIface == null ? MemoryAddress.NULL : baseIface.handle()));
             return this;
         }
         
-        public Build setGetFontFamily(java.lang.foreign.MemoryAddress get_font_family) {
+        public Build setGetFontFamily(java.lang.foreign.MemoryAddress getFontFamily) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("get_font_family"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (get_font_family == null ? MemoryAddress.NULL : get_font_family));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getFontFamily == null ? MemoryAddress.NULL : getFontFamily));
             return this;
         }
         
-        public Build setGetFontFace(java.lang.foreign.MemoryAddress get_font_face) {
+        public Build setGetFontFace(java.lang.foreign.MemoryAddress getFontFace) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("get_font_face"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (get_font_face == null ? MemoryAddress.NULL : get_font_face));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getFontFace == null ? MemoryAddress.NULL : getFontFace));
             return this;
         }
         
-        public Build setGetFontSize(java.lang.foreign.MemoryAddress get_font_size) {
+        public Build setGetFontSize(java.lang.foreign.MemoryAddress getFontSize) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("get_font_size"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (get_font_size == null ? MemoryAddress.NULL : get_font_size));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getFontSize == null ? MemoryAddress.NULL : getFontSize));
             return this;
         }
         
-        public Build setSetFilterFunc(java.lang.foreign.MemoryAddress set_filter_func) {
+        public Build setSetFilterFunc(java.lang.foreign.MemoryAddress setFilterFunc) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("set_filter_func"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (set_filter_func == null ? MemoryAddress.NULL : set_filter_func));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (setFilterFunc == null ? MemoryAddress.NULL : setFilterFunc));
             return this;
         }
         
-        public Build setFontActivated(java.lang.foreign.MemoryAddress font_activated) {
+        public Build setFontActivated(java.lang.foreign.MemoryAddress fontActivated) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("font_activated"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (font_activated == null ? MemoryAddress.NULL : font_activated));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (fontActivated == null ? MemoryAddress.NULL : fontActivated));
             return this;
         }
         
-        public Build setSetFontMap(java.lang.foreign.MemoryAddress set_font_map) {
+        public Build setSetFontMap(java.lang.foreign.MemoryAddress setFontMap) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("set_font_map"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (set_font_map == null ? MemoryAddress.NULL : set_font_map));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (setFontMap == null ? MemoryAddress.NULL : setFontMap));
             return this;
         }
         
-        public Build setGetFontMap(java.lang.foreign.MemoryAddress get_font_map) {
+        public Build setGetFontMap(java.lang.foreign.MemoryAddress getFontMap) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("get_font_map"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (get_font_map == null ? MemoryAddress.NULL : get_font_map));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getFontMap == null ? MemoryAddress.NULL : getFontMap));
             return this;
         }
         

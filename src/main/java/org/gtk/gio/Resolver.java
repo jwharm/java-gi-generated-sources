@@ -38,15 +38,6 @@ public class Resolver extends org.gtk.gobject.Object {
     }
     
     /**
-     * Get the value of the field {@code parent_instance}
-     * @return The value of the field {@code parent_instance}
-     */
-    public org.gtk.gobject.Object parent_instance$get() {
-        long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_instance"));
-        return new org.gtk.gobject.Object(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
-    }
-    
-    /**
      * Create a Resolver proxy instance for the provided memory address.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
@@ -69,11 +60,7 @@ public class Resolver extends org.gtk.gobject.Object {
      * @throws ClassCastException If the GType is not derived from "GResolver", a ClassCastException will be thrown.
      */
     public static Resolver castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), Resolver.getType())) {
             return new Resolver(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GResolver");
-        }
     }
     
     /**

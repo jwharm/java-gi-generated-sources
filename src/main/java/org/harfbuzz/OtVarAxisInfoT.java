@@ -59,7 +59,7 @@ public class OtVarAxisInfoT extends Struct {
      * Get the value of the field {@code axis_index}
      * @return The value of the field {@code axis_index}
      */
-    public int axis_index$get() {
+    public int axisIndex$get() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("axis_index"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -68,12 +68,12 @@ public class OtVarAxisInfoT extends Struct {
     
     /**
      * Change the value of the field {@code axis_index}
-     * @param axis_index The new value of the field {@code axis_index}
+     * @param axisIndex The new value of the field {@code axis_index}
      */
-    public void axis_index$set(int axis_index) {
+    public void axisIndex$set(int axisIndex) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("axis_index"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), axis_index);
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), axisIndex);
     }
     
     /**
@@ -101,7 +101,7 @@ public class OtVarAxisInfoT extends Struct {
      * Get the value of the field {@code name_id}
      * @return The value of the field {@code name_id}
      */
-    public org.harfbuzz.OtNameIdT name_id$get() {
+    public org.harfbuzz.OtNameIdT nameId$get() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("name_id"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -110,12 +110,12 @@ public class OtVarAxisInfoT extends Struct {
     
     /**
      * Change the value of the field {@code name_id}
-     * @param name_id The new value of the field {@code name_id}
+     * @param nameId The new value of the field {@code name_id}
      */
-    public void name_id$set(org.harfbuzz.OtNameIdT name_id) {
+    public void nameId$set(org.harfbuzz.OtNameIdT nameId) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("name_id"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), name_id.getValue().intValue());
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), nameId.getValue().intValue());
     }
     
     /**
@@ -143,7 +143,7 @@ public class OtVarAxisInfoT extends Struct {
      * Get the value of the field {@code min_value}
      * @return The value of the field {@code min_value}
      */
-    public float min_value$get() {
+    public float minValue$get() {
         var RESULT = (float) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("min_value"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -152,19 +152,19 @@ public class OtVarAxisInfoT extends Struct {
     
     /**
      * Change the value of the field {@code min_value}
-     * @param min_value The new value of the field {@code min_value}
+     * @param minValue The new value of the field {@code min_value}
      */
-    public void min_value$set(float min_value) {
+    public void minValue$set(float minValue) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("min_value"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), min_value);
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), minValue);
     }
     
     /**
      * Get the value of the field {@code default_value}
      * @return The value of the field {@code default_value}
      */
-    public float default_value$get() {
+    public float defaultValue$get() {
         var RESULT = (float) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("default_value"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -173,19 +173,19 @@ public class OtVarAxisInfoT extends Struct {
     
     /**
      * Change the value of the field {@code default_value}
-     * @param default_value The new value of the field {@code default_value}
+     * @param defaultValue The new value of the field {@code default_value}
      */
-    public void default_value$set(float default_value) {
+    public void defaultValue$set(float defaultValue) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("default_value"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), default_value);
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), defaultValue);
     }
     
     /**
      * Get the value of the field {@code max_value}
      * @return The value of the field {@code max_value}
      */
-    public float max_value$get() {
+    public float maxValue$get() {
         var RESULT = (float) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("max_value"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -194,12 +194,12 @@ public class OtVarAxisInfoT extends Struct {
     
     /**
      * Change the value of the field {@code max_value}
-     * @param max_value The new value of the field {@code max_value}
+     * @param maxValue The new value of the field {@code max_value}
      */
-    public void max_value$set(float max_value) {
+    public void maxValue$set(float maxValue) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("max_value"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), max_value);
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), maxValue);
     }
     
     /**
@@ -241,13 +241,13 @@ public class OtVarAxisInfoT extends Struct {
         
         /**
          * Index of the axis in the variation-axis array
-         * @param axis_index The value for the {@code axis_index} field
+         * @param axisIndex The value for the {@code axisIndex} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setAxisIndex(int axis_index) {
+        public Build setAxisIndex(int axisIndex) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("axis_index"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), axis_index);
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), axisIndex);
             return this;
         }
         
@@ -265,13 +265,13 @@ public class OtVarAxisInfoT extends Struct {
         
         /**
          * The {@code name} table Name ID that provides display names for the axis
-         * @param name_id The value for the {@code name_id} field
+         * @param nameId The value for the {@code nameId} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setNameId(org.harfbuzz.OtNameIdT name_id) {
+        public Build setNameId(org.harfbuzz.OtNameIdT nameId) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("name_id"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (name_id == null ? MemoryAddress.NULL : name_id.getValue().intValue()));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (nameId == null ? MemoryAddress.NULL : nameId.getValue().intValue()));
             return this;
         }
         
@@ -289,37 +289,37 @@ public class OtVarAxisInfoT extends Struct {
         
         /**
          * The minimum value on the variation axis that the font covers
-         * @param min_value The value for the {@code min_value} field
+         * @param minValue The value for the {@code minValue} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setMinValue(float min_value) {
+        public Build setMinValue(float minValue) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("min_value"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), min_value);
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), minValue);
             return this;
         }
         
         /**
          * The position on the variation axis corresponding to the font's defaults
-         * @param default_value The value for the {@code default_value} field
+         * @param defaultValue The value for the {@code defaultValue} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setDefaultValue(float default_value) {
+        public Build setDefaultValue(float defaultValue) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("default_value"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), default_value);
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), defaultValue);
             return this;
         }
         
         /**
          * The maximum value on the variation axis that the font covers
-         * @param max_value The value for the {@code max_value} field
+         * @param maxValue The value for the {@code maxValue} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setMaxValue(float max_value) {
+        public Build setMaxValue(float maxValue) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("max_value"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), max_value);
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), maxValue);
             return this;
         }
         

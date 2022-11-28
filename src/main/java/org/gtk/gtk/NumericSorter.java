@@ -51,11 +51,7 @@ public class NumericSorter extends org.gtk.gtk.Sorter {
      * @throws ClassCastException If the GType is not derived from "GtkNumericSorter", a ClassCastException will be thrown.
      */
     public static NumericSorter castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), NumericSorter.getType())) {
             return new NumericSorter(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkNumericSorter");
-        }
     }
     
     private static Addressable constructNew(@Nullable org.gtk.gtk.Expression expression) {

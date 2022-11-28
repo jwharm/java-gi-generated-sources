@@ -35,17 +35,19 @@ public final class Gsk {
      * @param outTransform The location to put the transform in
      * @return {@code true} if {@code string} described a valid transform.
      */
-    public static boolean transformParse(@NotNull java.lang.String string, @NotNull PointerProxy<org.gtk.gsk.Transform> outTransform) {
+    public static boolean transformParse(@NotNull java.lang.String string, @NotNull Out<org.gtk.gsk.Transform> outTransform) {
         java.util.Objects.requireNonNull(string, "Parameter 'string' must not be null");
         java.util.Objects.requireNonNull(outTransform, "Parameter 'outTransform' must not be null");
+        MemorySegment outTransformPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gsk_transform_parse.invokeExact(
                     Interop.allocateNativeString(string),
-                    outTransform.handle());
+                    (Addressable) outTransformPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        outTransform.set(new org.gtk.gsk.Transform(outTransformPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
         return RESULT != 0;
     }
     

@@ -28,11 +28,7 @@ public interface FontChooser extends io.github.jwharm.javagi.Proxy {
      * @throws ClassCastException If the GType is not derived from "GtkFontChooser", a ClassCastException will be thrown.
      */
     public static FontChooser castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), FontChooser.getType())) {
             return new FontChooserImpl(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkFontChooser");
-        }
     }
     
     /**

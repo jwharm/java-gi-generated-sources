@@ -1100,18 +1100,19 @@ public final class Gio {
      * @return {@code true} if successful, else {@code false} with {@code error} set
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public static boolean actionParseDetailedName(@NotNull java.lang.String detailedName, @NotNull Out<java.lang.String> actionName, @NotNull PointerProxy<org.gtk.glib.Variant> targetValue) throws io.github.jwharm.javagi.GErrorException {
+    public static boolean actionParseDetailedName(@NotNull java.lang.String detailedName, @NotNull Out<java.lang.String> actionName, @NotNull Out<org.gtk.glib.Variant> targetValue) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(detailedName, "Parameter 'detailedName' must not be null");
         java.util.Objects.requireNonNull(actionName, "Parameter 'actionName' must not be null");
         MemorySegment actionNamePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         java.util.Objects.requireNonNull(targetValue, "Parameter 'targetValue' must not be null");
+        MemorySegment targetValuePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_action_parse_detailed_name.invokeExact(
                     Interop.allocateNativeString(detailedName),
                     (Addressable) actionNamePOINTER.address(),
-                    targetValue.handle(),
+                    (Addressable) targetValuePOINTER.address(),
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -1120,6 +1121,7 @@ public final class Gio {
             throw new GErrorException(GERROR);
         }
         actionName.set(Interop.getStringFrom(actionNamePOINTER.get(Interop.valueLayout.ADDRESS, 0)));
+        targetValue.set(new org.gtk.glib.Variant(targetValuePOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
         return RESULT != 0;
     }
     
@@ -3330,14 +3332,15 @@ public final class Gio {
      *   Free the returned object with g_object_unref().
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public static @NotNull org.gtk.gio.File fileNewTmp(@Nullable java.lang.String tmpl, @NotNull PointerProxy<org.gtk.gio.FileIOStream> iostream) throws io.github.jwharm.javagi.GErrorException {
+    public static @NotNull org.gtk.gio.File fileNewTmp(@Nullable java.lang.String tmpl, @NotNull Out<org.gtk.gio.FileIOStream> iostream) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(iostream, "Parameter 'iostream' must not be null");
+        MemorySegment iostreamPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_file_new_tmp.invokeExact(
                     (Addressable) (tmpl == null ? MemoryAddress.NULL : Interop.allocateNativeString(tmpl)),
-                    iostream.handle(),
+                    (Addressable) iostreamPOINTER.address(),
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -3345,6 +3348,7 @@ public final class Gio {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
+        iostream.set(new org.gtk.gio.FileIOStream(iostreamPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
         return new org.gtk.gio.File.FileImpl(RESULT, Ownership.FULL);
     }
     
@@ -3441,15 +3445,16 @@ public final class Gio {
      *   Free the returned object with g_object_unref().
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public static @NotNull org.gtk.gio.File fileNewTmpFinish(@NotNull org.gtk.gio.AsyncResult result, @NotNull PointerProxy<org.gtk.gio.FileIOStream> iostream) throws io.github.jwharm.javagi.GErrorException {
+    public static @NotNull org.gtk.gio.File fileNewTmpFinish(@NotNull org.gtk.gio.AsyncResult result, @NotNull Out<org.gtk.gio.FileIOStream> iostream) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(result, "Parameter 'result' must not be null");
         java.util.Objects.requireNonNull(iostream, "Parameter 'iostream' must not be null");
+        MemorySegment iostreamPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_file_new_tmp_finish.invokeExact(
                     result.handle(),
-                    iostream.handle(),
+                    (Addressable) iostreamPOINTER.address(),
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -3457,6 +3462,7 @@ public final class Gio {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
+        iostream.set(new org.gtk.gio.FileIOStream(iostreamPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
         return new org.gtk.gio.File.FileImpl(RESULT, Ownership.FULL);
     }
     
@@ -6249,27 +6255,27 @@ public final class Gio {
             HANDLER.onFileMeasureProgressCallback(reporting != 0, currentSize, numDirs, numFiles);
         }
         
-        public static boolean cbDatagramBasedSourceFunc(MemoryAddress datagramBased, int condition, MemoryAddress userData) {
+        public static int cbDatagramBasedSourceFunc(MemoryAddress datagramBased, int condition, MemoryAddress userData) {
             int HASH = userData.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (DatagramBasedSourceFunc) Interop.signalRegistry.get(HASH);
             var RESULT = HANDLER.onDatagramBasedSourceFunc(new org.gtk.gio.DatagramBased.DatagramBasedImpl(datagramBased, Ownership.NONE), new org.gtk.glib.IOCondition(condition));
-            return RESULT;
+            return RESULT ? 1 : 0;
         }
         
-        public static boolean cbSettingsGetMapping(MemoryAddress value, MemoryAddress result, MemoryAddress userData) {
+        public static int cbSettingsGetMapping(MemoryAddress value, MemoryAddress result, MemoryAddress userData) {
             int HASH = userData.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (SettingsGetMapping) Interop.signalRegistry.get(HASH);
         var resultOUT = new Out<java.lang.foreign.MemoryAddress>(result);
             var RESULT = HANDLER.onSettingsGetMapping(new org.gtk.glib.Variant(value, Ownership.NONE), resultOUT);
             result.set(Interop.valueLayout.ADDRESS, 0, (Addressable) resultOUT.get());
-            return RESULT;
+            return RESULT ? 1 : 0;
         }
         
-        public static org.gtk.glib.Variant cbDBusInterfaceGetPropertyFunc(MemoryAddress connection, MemoryAddress sender, MemoryAddress objectPath, MemoryAddress interfaceName, MemoryAddress propertyName, MemoryAddress error, MemoryAddress userData) {
+        public static Addressable cbDBusInterfaceGetPropertyFunc(MemoryAddress connection, MemoryAddress sender, MemoryAddress objectPath, MemoryAddress interfaceName, MemoryAddress propertyName, MemoryAddress error, MemoryAddress userData) {
             int HASH = userData.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (DBusInterfaceGetPropertyFunc) Interop.signalRegistry.get(HASH);
             var RESULT = HANDLER.onDBusInterfaceGetPropertyFunc(new org.gtk.gio.DBusConnection(connection, Ownership.NONE), Interop.getStringFrom(sender), Interop.getStringFrom(objectPath), Interop.getStringFrom(interfaceName), Interop.getStringFrom(propertyName), new PointerProxy<org.gtk.glib.Error>(error, org.gtk.glib.Error.class));
-            return RESULT;
+            return RESULT.handle();
         }
         
         public static void cbBusAcquiredCallback(MemoryAddress connection, MemoryAddress name, MemoryAddress userData) {
@@ -6278,32 +6284,32 @@ public final class Gio {
             HANDLER.onBusAcquiredCallback(new org.gtk.gio.DBusConnection(connection, Ownership.NONE), Interop.getStringFrom(name));
         }
         
-        public static org.gtk.glib.Variant cbSettingsBindSetMapping(MemoryAddress value, MemoryAddress expectedType, MemoryAddress userData) {
+        public static Addressable cbSettingsBindSetMapping(MemoryAddress value, MemoryAddress expectedType, MemoryAddress userData) {
             int HASH = userData.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (SettingsBindSetMapping) Interop.signalRegistry.get(HASH);
             var RESULT = HANDLER.onSettingsBindSetMapping(new org.gtk.gobject.Value(value, Ownership.NONE), new org.gtk.glib.VariantType(expectedType, Ownership.NONE));
-            return RESULT;
+            return RESULT.handle();
         }
         
-        public static java.lang.foreign.MemoryAddress cbReallocFunc(MemoryAddress data, long size) {
+        public static Addressable cbReallocFunc(MemoryAddress data, long size) {
             int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (ReallocFunc) Interop.signalRegistry.get(HASH);
             var RESULT = HANDLER.onReallocFunc(size);
-            return RESULT;
+            return (Addressable) RESULT;
         }
         
-        public static boolean cbCancellableSourceFunc(MemoryAddress cancellable, MemoryAddress userData) {
+        public static int cbCancellableSourceFunc(MemoryAddress cancellable, MemoryAddress userData) {
             int HASH = userData.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (CancellableSourceFunc) Interop.signalRegistry.get(HASH);
             var RESULT = HANDLER.onCancellableSourceFunc(new org.gtk.gio.Cancellable(cancellable, Ownership.NONE));
-            return RESULT;
+            return RESULT ? 1 : 0;
         }
         
-        public static boolean cbDBusInterfaceSetPropertyFunc(MemoryAddress connection, MemoryAddress sender, MemoryAddress objectPath, MemoryAddress interfaceName, MemoryAddress propertyName, MemoryAddress value, MemoryAddress error, MemoryAddress userData) {
+        public static int cbDBusInterfaceSetPropertyFunc(MemoryAddress connection, MemoryAddress sender, MemoryAddress objectPath, MemoryAddress interfaceName, MemoryAddress propertyName, MemoryAddress value, MemoryAddress error, MemoryAddress userData) {
             int HASH = userData.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (DBusInterfaceSetPropertyFunc) Interop.signalRegistry.get(HASH);
             var RESULT = HANDLER.onDBusInterfaceSetPropertyFunc(new org.gtk.gio.DBusConnection(connection, Ownership.NONE), Interop.getStringFrom(sender), Interop.getStringFrom(objectPath), Interop.getStringFrom(interfaceName), Interop.getStringFrom(propertyName), new org.gtk.glib.Variant(value, Ownership.NONE), new PointerProxy<org.gtk.glib.Error>(error, org.gtk.glib.Error.class));
-            return RESULT;
+            return RESULT ? 1 : 0;
         }
         
         public static void cbBusNameLostCallback(MemoryAddress connection, MemoryAddress name, MemoryAddress userData) {
@@ -6312,18 +6318,18 @@ public final class Gio {
             HANDLER.onBusNameLostCallback(new org.gtk.gio.DBusConnection(connection, Ownership.NONE), Interop.getStringFrom(name));
         }
         
-        public static boolean cbFileReadMoreCallback(MemoryAddress fileContents, long fileSize, MemoryAddress userData) {
+        public static int cbFileReadMoreCallback(MemoryAddress fileContents, long fileSize, MemoryAddress userData) {
             int HASH = userData.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (FileReadMoreCallback) Interop.signalRegistry.get(HASH);
             var RESULT = HANDLER.onFileReadMoreCallback(Interop.getStringFrom(fileContents), fileSize);
-            return RESULT;
+            return RESULT ? 1 : 0;
         }
         
-        public static boolean cbSocketSourceFunc(MemoryAddress socket, int condition, MemoryAddress userData) {
+        public static int cbSocketSourceFunc(MemoryAddress socket, int condition, MemoryAddress userData) {
             int HASH = userData.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (SocketSourceFunc) Interop.signalRegistry.get(HASH);
             var RESULT = HANDLER.onSocketSourceFunc(new org.gtk.gio.Socket(socket, Ownership.NONE), new org.gtk.glib.IOCondition(condition));
-            return RESULT;
+            return RESULT ? 1 : 0;
         }
         
         public static void cbDesktopAppLaunchCallback(MemoryAddress appinfo, int pid, MemoryAddress userData) {
@@ -6332,11 +6338,11 @@ public final class Gio {
             HANDLER.onDesktopAppLaunchCallback(new org.gtk.gio.DesktopAppInfo(appinfo, Ownership.NONE), new org.gtk.glib.Pid(pid));
         }
         
-        public static boolean cbPollableSourceFunc(MemoryAddress pollableStream, MemoryAddress userData) {
+        public static int cbPollableSourceFunc(MemoryAddress pollableStream, MemoryAddress userData) {
             int HASH = userData.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (PollableSourceFunc) Interop.signalRegistry.get(HASH);
             var RESULT = HANDLER.onPollableSourceFunc(new org.gtk.gobject.Object(pollableStream, Ownership.NONE));
-            return RESULT;
+            return RESULT ? 1 : 0;
         }
         
         public static void cbAsyncReadyCallback(MemoryAddress sourceObject, MemoryAddress res, MemoryAddress userData) {
@@ -6345,18 +6351,18 @@ public final class Gio {
             HANDLER.onAsyncReadyCallback(new org.gtk.gobject.Object(sourceObject, Ownership.NONE), new org.gtk.gio.AsyncResult.AsyncResultImpl(res, Ownership.NONE));
         }
         
-        public static boolean cbSettingsBindGetMapping(MemoryAddress value, MemoryAddress variant, MemoryAddress userData) {
+        public static int cbSettingsBindGetMapping(MemoryAddress value, MemoryAddress variant, MemoryAddress userData) {
             int HASH = userData.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (SettingsBindGetMapping) Interop.signalRegistry.get(HASH);
             var RESULT = HANDLER.onSettingsBindGetMapping(new org.gtk.gobject.Value(value, Ownership.NONE), new org.gtk.glib.Variant(variant, Ownership.NONE));
-            return RESULT;
+            return RESULT ? 1 : 0;
         }
         
-        public static org.gtk.gio.DBusInterfaceVTable cbDBusSubtreeDispatchFunc(MemoryAddress connection, MemoryAddress sender, MemoryAddress objectPath, MemoryAddress interfaceName, MemoryAddress node, MemoryAddress outUserData, MemoryAddress userData) {
+        public static Addressable cbDBusSubtreeDispatchFunc(MemoryAddress connection, MemoryAddress sender, MemoryAddress objectPath, MemoryAddress interfaceName, MemoryAddress node, MemoryAddress outUserData, MemoryAddress userData) {
             int HASH = userData.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (DBusSubtreeDispatchFunc) Interop.signalRegistry.get(HASH);
             var RESULT = HANDLER.onDBusSubtreeDispatchFunc(new org.gtk.gio.DBusConnection(connection, Ownership.NONE), Interop.getStringFrom(sender), Interop.getStringFrom(objectPath), Interop.getStringFrom(interfaceName), Interop.getStringFrom(node), outUserData);
-            return RESULT;
+            return RESULT.handle();
         }
         
         public static void cbDBusSignalCallback(MemoryAddress connection, MemoryAddress senderName, MemoryAddress objectPath, MemoryAddress interfaceName, MemoryAddress signalName, MemoryAddress parameters, MemoryAddress userData) {
@@ -6371,11 +6377,11 @@ public final class Gio {
             HANDLER.onFileProgressCallback(currentNumBytes, totalNumBytes);
         }
         
-        public static org.gtk.gio.File cbVfsFileLookupFunc(MemoryAddress vfs, MemoryAddress identifier, MemoryAddress userData) {
+        public static Addressable cbVfsFileLookupFunc(MemoryAddress vfs, MemoryAddress identifier, MemoryAddress userData) {
             int HASH = userData.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (VfsFileLookupFunc) Interop.signalRegistry.get(HASH);
             var RESULT = HANDLER.onVfsFileLookupFunc(new org.gtk.gio.Vfs(vfs, Ownership.NONE), Interop.getStringFrom(identifier));
-            return RESULT;
+            return RESULT.handle();
         }
         
         public static void cbDBusInterfaceMethodCallFunc(MemoryAddress connection, MemoryAddress sender, MemoryAddress objectPath, MemoryAddress interfaceName, MemoryAddress methodName, MemoryAddress parameters, MemoryAddress invocation, MemoryAddress userData) {
@@ -6390,11 +6396,11 @@ public final class Gio {
             HANDLER.onDBusSubtreeEnumerateFunc(new org.gtk.gio.DBusConnection(connection, Ownership.NONE), Interop.getStringFrom(sender), Interop.getStringFrom(objectPath));
         }
         
-        public static org.gtk.gio.DBusMessage cbDBusMessageFilterFunction(MemoryAddress connection, MemoryAddress message, int incoming, MemoryAddress userData) {
+        public static Addressable cbDBusMessageFilterFunction(MemoryAddress connection, MemoryAddress message, int incoming, MemoryAddress userData) {
             int HASH = userData.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (DBusMessageFilterFunction) Interop.signalRegistry.get(HASH);
             var RESULT = HANDLER.onDBusMessageFilterFunction(new org.gtk.gio.DBusConnection(connection, Ownership.NONE), new org.gtk.gio.DBusMessage(message, Ownership.FULL), incoming != 0);
-            return RESULT;
+            return RESULT.handle();
         }
         
         public static void cbDBusSubtreeIntrospectFunc(MemoryAddress connection, MemoryAddress sender, MemoryAddress objectPath, MemoryAddress node, MemoryAddress userData) {
@@ -6403,11 +6409,11 @@ public final class Gio {
             HANDLER.onDBusSubtreeIntrospectFunc(new org.gtk.gio.DBusConnection(connection, Ownership.NONE), Interop.getStringFrom(sender), Interop.getStringFrom(objectPath), Interop.getStringFrom(node));
         }
         
-        public static org.gtk.glib.Type cbDBusProxyTypeFunc(MemoryAddress manager, MemoryAddress objectPath, MemoryAddress interfaceName, MemoryAddress userData) {
+        public static long cbDBusProxyTypeFunc(MemoryAddress manager, MemoryAddress objectPath, MemoryAddress interfaceName, MemoryAddress userData) {
             int HASH = userData.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (DBusProxyTypeFunc) Interop.signalRegistry.get(HASH);
             var RESULT = HANDLER.onDBusProxyTypeFunc(new org.gtk.gio.DBusObjectManagerClient(manager, Ownership.NONE), Interop.getStringFrom(objectPath), Interop.getStringFrom(interfaceName));
-            return RESULT;
+            return RESULT.getValue().longValue();
         }
         
         public static void cbTaskThreadFunc(MemoryAddress task, MemoryAddress sourceObject, MemoryAddress taskData, MemoryAddress cancellable) {
@@ -6422,11 +6428,11 @@ public final class Gio {
             HANDLER.onBusNameAcquiredCallback(new org.gtk.gio.DBusConnection(connection, Ownership.NONE), Interop.getStringFrom(name));
         }
         
-        public static boolean cbIOSchedulerJobFunc(MemoryAddress job, MemoryAddress cancellable, MemoryAddress userData) {
+        public static int cbIOSchedulerJobFunc(MemoryAddress job, MemoryAddress cancellable, MemoryAddress userData) {
             int HASH = userData.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (IOSchedulerJobFunc) Interop.signalRegistry.get(HASH);
             var RESULT = HANDLER.onIOSchedulerJobFunc(new org.gtk.gio.IOSchedulerJob(job, Ownership.NONE), new org.gtk.gio.Cancellable(cancellable, Ownership.NONE));
-            return RESULT;
+            return RESULT ? 1 : 0;
         }
     }
 }

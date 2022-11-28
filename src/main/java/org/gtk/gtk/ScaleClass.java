@@ -45,7 +45,7 @@ public class ScaleClass extends Struct {
      * Get the value of the field {@code parent_class}
      * @return The value of the field {@code parent_class}
      */
-    public org.gtk.gtk.RangeClass parent_class$get() {
+    public org.gtk.gtk.RangeClass parentClass$get() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_class"));
         return new org.gtk.gtk.RangeClass(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
     }
@@ -87,17 +87,17 @@ public class ScaleClass extends Struct {
             return struct;
         }
         
-        public Build setParentClass(org.gtk.gtk.RangeClass parent_class) {
+        public Build setParentClass(org.gtk.gtk.RangeClass parentClass) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parent_class == null ? MemoryAddress.NULL : parent_class.handle()));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
             return this;
         }
         
-        public Build setGetLayoutOffsets(java.lang.foreign.MemoryAddress get_layout_offsets) {
+        public Build setGetLayoutOffsets(java.lang.foreign.MemoryAddress getLayoutOffsets) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("get_layout_offsets"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (get_layout_offsets == null ? MemoryAddress.NULL : get_layout_offsets));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getLayoutOffsets == null ? MemoryAddress.NULL : getLayoutOffsets));
             return this;
         }
         

@@ -48,11 +48,7 @@ public class ActivateAction extends org.gtk.gtk.ShortcutAction {
      * @throws ClassCastException If the GType is not derived from "GtkActivateAction", a ClassCastException will be thrown.
      */
     public static ActivateAction castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), ActivateAction.getType())) {
             return new ActivateAction(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkActivateAction");
-        }
     }
     
     /**

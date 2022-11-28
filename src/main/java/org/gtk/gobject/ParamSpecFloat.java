@@ -34,99 +34,6 @@ public class ParamSpecFloat extends org.gtk.gobject.ParamSpec {
     }
     
     /**
-     * Get the value of the field {@code parent_instance}
-     * @return The value of the field {@code parent_instance}
-     */
-    public org.gtk.gobject.ParamSpec parent_instance$get() {
-        long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_instance"));
-        return new org.gtk.gobject.ParamSpec(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
-    }
-    
-    /**
-     * Get the value of the field {@code minimum}
-     * @return The value of the field {@code minimum}
-     */
-    public float minimum$get() {
-        var RESULT = (float) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("minimum"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
-    }
-    
-    /**
-     * Change the value of the field {@code minimum}
-     * @param minimum The new value of the field {@code minimum}
-     */
-    public void minimum$set(float minimum) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("minimum"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), minimum);
-    }
-    
-    /**
-     * Get the value of the field {@code maximum}
-     * @return The value of the field {@code maximum}
-     */
-    public float maximum$get() {
-        var RESULT = (float) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("maximum"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
-    }
-    
-    /**
-     * Change the value of the field {@code maximum}
-     * @param maximum The new value of the field {@code maximum}
-     */
-    public void maximum$set(float maximum) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("maximum"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), maximum);
-    }
-    
-    /**
-     * Get the value of the field {@code default_value}
-     * @return The value of the field {@code default_value}
-     */
-    public float default_value$get() {
-        var RESULT = (float) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("default_value"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
-    }
-    
-    /**
-     * Change the value of the field {@code default_value}
-     * @param default_value The new value of the field {@code default_value}
-     */
-    public void default_value$set(float default_value) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("default_value"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), default_value);
-    }
-    
-    /**
-     * Get the value of the field {@code epsilon}
-     * @return The value of the field {@code epsilon}
-     */
-    public float epsilon$get() {
-        var RESULT = (float) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("epsilon"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
-    }
-    
-    /**
-     * Change the value of the field {@code epsilon}
-     * @param epsilon The new value of the field {@code epsilon}
-     */
-    public void epsilon$set(float epsilon) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("epsilon"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), epsilon);
-    }
-    
-    /**
      * Create a ParamSpecFloat proxy instance for the provided memory address.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
@@ -149,11 +56,7 @@ public class ParamSpecFloat extends org.gtk.gobject.ParamSpec {
      * @throws ClassCastException If the GType is not derived from "GParamSpecFloat", a ClassCastException will be thrown.
      */
     public static ParamSpecFloat castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), ParamSpecFloat.getType())) {
             return new ParamSpecFloat(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GParamSpecFloat");
-        }
     }
     
     /**

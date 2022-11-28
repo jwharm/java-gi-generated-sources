@@ -52,11 +52,7 @@ public class ListStore extends org.gtk.gobject.Object implements org.gtk.gio.Lis
      * @throws ClassCastException If the GType is not derived from "GListStore", a ClassCastException will be thrown.
      */
     public static ListStore castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), ListStore.getType())) {
             return new ListStore(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GListStore");
-        }
     }
     
     private static Addressable constructNew(@NotNull org.gtk.glib.Type itemType) {

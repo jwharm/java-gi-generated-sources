@@ -83,15 +83,6 @@ public class MessageDialog extends org.gtk.gtk.Dialog implements org.gtk.gtk.Acc
     }
     
     /**
-     * Get the value of the field {@code parent_instance}
-     * @return The value of the field {@code parent_instance}
-     */
-    public org.gtk.gtk.Dialog parent_instance$get() {
-        long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_instance"));
-        return new org.gtk.gtk.Dialog(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
-    }
-    
-    /**
      * Create a MessageDialog proxy instance for the provided memory address.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
@@ -114,11 +105,7 @@ public class MessageDialog extends org.gtk.gtk.Dialog implements org.gtk.gtk.Acc
      * @throws ClassCastException If the GType is not derived from "GtkMessageDialog", a ClassCastException will be thrown.
      */
     public static MessageDialog castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), MessageDialog.getType())) {
             return new MessageDialog(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkMessageDialog");
-        }
     }
     
     private static Addressable constructNew(@Nullable org.gtk.gtk.Window parent, @NotNull org.gtk.gtk.DialogFlags flags, @NotNull org.gtk.gtk.MessageType type, @NotNull org.gtk.gtk.ButtonsType buttons, @Nullable java.lang.String messageFormat, java.lang.Object... varargs) {

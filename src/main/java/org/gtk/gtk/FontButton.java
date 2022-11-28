@@ -63,11 +63,7 @@ public class FontButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
      * @throws ClassCastException If the GType is not derived from "GtkFontButton", a ClassCastException will be thrown.
      */
     public static FontButton castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), FontButton.getType())) {
             return new FontButton(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkFontButton");
-        }
     }
     
     private static Addressable constructNew() {

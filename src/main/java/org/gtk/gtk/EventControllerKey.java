@@ -49,11 +49,7 @@ public class EventControllerKey extends org.gtk.gtk.EventController {
      * @throws ClassCastException If the GType is not derived from "GtkEventControllerKey", a ClassCastException will be thrown.
      */
     public static EventControllerKey castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), EventControllerKey.getType())) {
             return new EventControllerKey(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkEventControllerKey");
-        }
     }
     
     private static Addressable constructNew() {

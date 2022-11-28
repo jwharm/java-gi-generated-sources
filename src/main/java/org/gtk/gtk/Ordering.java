@@ -20,7 +20,7 @@ public class Ordering extends io.github.jwharm.javagi.Enumeration {
     /**
      * the first value is smaller than the second
      */
-    public static final Ordering SMALLER = new Ordering(-1);
+    public static final Ordering SMALLER = new Ordering(0);
     
     /**
      * the two values are equal

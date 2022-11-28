@@ -45,7 +45,7 @@ public class CellRendererTextClass extends Struct {
      * Get the value of the field {@code parent_class}
      * @return The value of the field {@code parent_class}
      */
-    public org.gtk.gtk.CellRendererClass parent_class$get() {
+    public org.gtk.gtk.CellRendererClass parentClass$get() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_class"));
         return new org.gtk.gtk.CellRendererClass(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
     }
@@ -87,10 +87,10 @@ public class CellRendererTextClass extends Struct {
             return struct;
         }
         
-        public Build setParentClass(org.gtk.gtk.CellRendererClass parent_class) {
+        public Build setParentClass(org.gtk.gtk.CellRendererClass parentClass) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parent_class == null ? MemoryAddress.NULL : parent_class.handle()));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
             return this;
         }
         

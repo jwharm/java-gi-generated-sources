@@ -83,7 +83,7 @@ public class GlyphGeometry extends Struct {
      * Get the value of the field {@code x_offset}
      * @return The value of the field {@code x_offset}
      */
-    public org.pango.GlyphUnit x_offset$get() {
+    public org.pango.GlyphUnit xOffset$get() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("x_offset"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -92,19 +92,19 @@ public class GlyphGeometry extends Struct {
     
     /**
      * Change the value of the field {@code x_offset}
-     * @param x_offset The new value of the field {@code x_offset}
+     * @param xOffset The new value of the field {@code x_offset}
      */
-    public void x_offset$set(org.pango.GlyphUnit x_offset) {
+    public void xOffset$set(org.pango.GlyphUnit xOffset) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("x_offset"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), x_offset.getValue().intValue());
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), xOffset.getValue().intValue());
     }
     
     /**
      * Get the value of the field {@code y_offset}
      * @return The value of the field {@code y_offset}
      */
-    public org.pango.GlyphUnit y_offset$get() {
+    public org.pango.GlyphUnit yOffset$get() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("y_offset"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -113,12 +113,12 @@ public class GlyphGeometry extends Struct {
     
     /**
      * Change the value of the field {@code y_offset}
-     * @param y_offset The new value of the field {@code y_offset}
+     * @param yOffset The new value of the field {@code y_offset}
      */
-    public void y_offset$set(org.pango.GlyphUnit y_offset) {
+    public void yOffset$set(org.pango.GlyphUnit yOffset) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("y_offset"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), y_offset.getValue().intValue());
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), yOffset.getValue().intValue());
     }
     
     /**
@@ -172,25 +172,25 @@ public class GlyphGeometry extends Struct {
         
         /**
          * horizontal offset from nominal character position.
-         * @param x_offset The value for the {@code x_offset} field
+         * @param xOffset The value for the {@code xOffset} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setXOffset(org.pango.GlyphUnit x_offset) {
+        public Build setXOffset(org.pango.GlyphUnit xOffset) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("x_offset"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (x_offset == null ? MemoryAddress.NULL : x_offset.getValue().intValue()));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (xOffset == null ? MemoryAddress.NULL : xOffset.getValue().intValue()));
             return this;
         }
         
         /**
          * vertical offset from nominal character position.
-         * @param y_offset The value for the {@code y_offset} field
+         * @param yOffset The value for the {@code yOffset} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setYOffset(org.pango.GlyphUnit y_offset) {
+        public Build setYOffset(org.pango.GlyphUnit yOffset) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("y_offset"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (y_offset == null ? MemoryAddress.NULL : y_offset.getValue().intValue()));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (yOffset == null ? MemoryAddress.NULL : yOffset.getValue().intValue()));
             return this;
         }
     }

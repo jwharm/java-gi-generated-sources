@@ -366,10 +366,10 @@ public class FontMetrics extends Struct {
             return struct;
         }
         
-        public Build setRefCount(int ref_count) {
+        public Build setRefCount(int refCount) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("ref_count"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), ref_count);
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), refCount);
             return this;
         }
         
@@ -394,45 +394,45 @@ public class FontMetrics extends Struct {
             return this;
         }
         
-        public Build setApproximateCharWidth(int approximate_char_width) {
+        public Build setApproximateCharWidth(int approximateCharWidth) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("approximate_char_width"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), approximate_char_width);
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), approximateCharWidth);
             return this;
         }
         
-        public Build setApproximateDigitWidth(int approximate_digit_width) {
+        public Build setApproximateDigitWidth(int approximateDigitWidth) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("approximate_digit_width"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), approximate_digit_width);
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), approximateDigitWidth);
             return this;
         }
         
-        public Build setUnderlinePosition(int underline_position) {
+        public Build setUnderlinePosition(int underlinePosition) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("underline_position"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), underline_position);
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), underlinePosition);
             return this;
         }
         
-        public Build setUnderlineThickness(int underline_thickness) {
+        public Build setUnderlineThickness(int underlineThickness) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("underline_thickness"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), underline_thickness);
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), underlineThickness);
             return this;
         }
         
-        public Build setStrikethroughPosition(int strikethrough_position) {
+        public Build setStrikethroughPosition(int strikethroughPosition) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("strikethrough_position"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), strikethrough_position);
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), strikethroughPosition);
             return this;
         }
         
-        public Build setStrikethroughThickness(int strikethrough_thickness) {
+        public Build setStrikethroughThickness(int strikethroughThickness) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("strikethrough_thickness"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), strikethrough_thickness);
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), strikethroughThickness);
             return this;
         }
     }

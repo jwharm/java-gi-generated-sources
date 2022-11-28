@@ -44,7 +44,7 @@ public class ApplicationWindowClass extends Struct {
      * Get the value of the field {@code parent_class}
      * @return The value of the field {@code parent_class}
      */
-    public org.gtk.gtk.WindowClass parent_class$get() {
+    public org.gtk.gtk.WindowClass parentClass$get() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_class"));
         return new org.gtk.gtk.WindowClass(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
     }
@@ -88,13 +88,13 @@ public class ApplicationWindowClass extends Struct {
         
         /**
          * The parent class.
-         * @param parent_class The value for the {@code parent_class} field
+         * @param parentClass The value for the {@code parentClass} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setParentClass(org.gtk.gtk.WindowClass parent_class) {
+        public Build setParentClass(org.gtk.gtk.WindowClass parentClass) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parent_class == null ? MemoryAddress.NULL : parent_class.handle()));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
             return this;
         }
         

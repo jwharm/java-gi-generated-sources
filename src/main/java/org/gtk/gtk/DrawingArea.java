@@ -112,15 +112,6 @@ public class DrawingArea extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
     }
     
     /**
-     * Get the value of the field {@code widget}
-     * @return The value of the field {@code widget}
-     */
-    public org.gtk.gtk.Widget widget$get() {
-        long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("widget"));
-        return new org.gtk.gtk.Widget(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
-    }
-    
-    /**
      * Create a DrawingArea proxy instance for the provided memory address.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
@@ -143,11 +134,7 @@ public class DrawingArea extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
      * @throws ClassCastException If the GType is not derived from "GtkDrawingArea", a ClassCastException will be thrown.
      */
     public static DrawingArea castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), DrawingArea.getType())) {
             return new DrawingArea(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkDrawingArea");
-        }
     }
     
     private static Addressable constructNew() {

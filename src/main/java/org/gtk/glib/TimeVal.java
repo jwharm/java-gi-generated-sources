@@ -56,7 +56,7 @@ public class TimeVal extends Struct {
      * Get the value of the field {@code tv_sec}
      * @return The value of the field {@code tv_sec}
      */
-    public long tv_sec$get() {
+    public long tvSec$get() {
         var RESULT = (long) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("tv_sec"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -65,19 +65,19 @@ public class TimeVal extends Struct {
     
     /**
      * Change the value of the field {@code tv_sec}
-     * @param tv_sec The new value of the field {@code tv_sec}
+     * @param tvSec The new value of the field {@code tv_sec}
      */
-    public void tv_sec$set(long tv_sec) {
+    public void tvSec$set(long tvSec) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("tv_sec"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), tv_sec);
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), tvSec);
     }
     
     /**
      * Get the value of the field {@code tv_usec}
      * @return The value of the field {@code tv_usec}
      */
-    public long tv_usec$get() {
+    public long tvUsec$get() {
         var RESULT = (long) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("tv_usec"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -86,12 +86,12 @@ public class TimeVal extends Struct {
     
     /**
      * Change the value of the field {@code tv_usec}
-     * @param tv_usec The new value of the field {@code tv_usec}
+     * @param tvUsec The new value of the field {@code tv_usec}
      */
-    public void tv_usec$set(long tv_usec) {
+    public void tvUsec$set(long tvUsec) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("tv_usec"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), tv_usec);
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), tvUsec);
     }
     
     /**
@@ -263,25 +263,25 @@ public class TimeVal extends Struct {
         
         /**
          * seconds
-         * @param tv_sec The value for the {@code tv_sec} field
+         * @param tvSec The value for the {@code tvSec} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setTvSec(long tv_sec) {
+        public Build setTvSec(long tvSec) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("tv_sec"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), tv_sec);
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), tvSec);
             return this;
         }
         
         /**
          * microseconds
-         * @param tv_usec The value for the {@code tv_usec} field
+         * @param tvUsec The value for the {@code tvUsec} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setTvUsec(long tv_usec) {
+        public Build setTvUsec(long tvUsec) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("tv_usec"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), tv_usec);
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), tvUsec);
             return this;
         }
     }

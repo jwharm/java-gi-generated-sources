@@ -59,7 +59,7 @@ public class ResolverClass extends Struct {
      * Get the value of the field {@code parent_class}
      * @return The value of the field {@code parent_class}
      */
-    public org.gtk.gobject.ObjectClass parent_class$get() {
+    public org.gtk.gobject.ObjectClass parentClass$get() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_class"));
         return new org.gtk.gobject.ObjectClass(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
     }
@@ -101,10 +101,10 @@ public class ResolverClass extends Struct {
             return struct;
         }
         
-        public Build setParentClass(org.gtk.gobject.ObjectClass parent_class) {
+        public Build setParentClass(org.gtk.gobject.ObjectClass parentClass) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parent_class == null ? MemoryAddress.NULL : parent_class.handle()));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
             return this;
         }
         
@@ -115,108 +115,108 @@ public class ResolverClass extends Struct {
             return this;
         }
         
-        public Build setLookupByName(java.lang.foreign.MemoryAddress lookup_by_name) {
+        public Build setLookupByName(java.lang.foreign.MemoryAddress lookupByName) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("lookup_by_name"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (lookup_by_name == null ? MemoryAddress.NULL : lookup_by_name));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (lookupByName == null ? MemoryAddress.NULL : lookupByName));
             return this;
         }
         
-        public Build setLookupByNameAsync(java.lang.foreign.MemoryAddress lookup_by_name_async) {
+        public Build setLookupByNameAsync(java.lang.foreign.MemoryAddress lookupByNameAsync) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("lookup_by_name_async"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (lookup_by_name_async == null ? MemoryAddress.NULL : lookup_by_name_async));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (lookupByNameAsync == null ? MemoryAddress.NULL : lookupByNameAsync));
             return this;
         }
         
-        public Build setLookupByNameFinish(java.lang.foreign.MemoryAddress lookup_by_name_finish) {
+        public Build setLookupByNameFinish(java.lang.foreign.MemoryAddress lookupByNameFinish) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("lookup_by_name_finish"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (lookup_by_name_finish == null ? MemoryAddress.NULL : lookup_by_name_finish));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (lookupByNameFinish == null ? MemoryAddress.NULL : lookupByNameFinish));
             return this;
         }
         
-        public Build setLookupByAddress(java.lang.foreign.MemoryAddress lookup_by_address) {
+        public Build setLookupByAddress(java.lang.foreign.MemoryAddress lookupByAddress) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("lookup_by_address"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (lookup_by_address == null ? MemoryAddress.NULL : lookup_by_address));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (lookupByAddress == null ? MemoryAddress.NULL : lookupByAddress));
             return this;
         }
         
-        public Build setLookupByAddressAsync(java.lang.foreign.MemoryAddress lookup_by_address_async) {
+        public Build setLookupByAddressAsync(java.lang.foreign.MemoryAddress lookupByAddressAsync) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("lookup_by_address_async"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (lookup_by_address_async == null ? MemoryAddress.NULL : lookup_by_address_async));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (lookupByAddressAsync == null ? MemoryAddress.NULL : lookupByAddressAsync));
             return this;
         }
         
-        public Build setLookupByAddressFinish(java.lang.foreign.MemoryAddress lookup_by_address_finish) {
+        public Build setLookupByAddressFinish(java.lang.foreign.MemoryAddress lookupByAddressFinish) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("lookup_by_address_finish"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (lookup_by_address_finish == null ? MemoryAddress.NULL : lookup_by_address_finish));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (lookupByAddressFinish == null ? MemoryAddress.NULL : lookupByAddressFinish));
             return this;
         }
         
-        public Build setLookupService(java.lang.foreign.MemoryAddress lookup_service) {
+        public Build setLookupService(java.lang.foreign.MemoryAddress lookupService) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("lookup_service"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (lookup_service == null ? MemoryAddress.NULL : lookup_service));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (lookupService == null ? MemoryAddress.NULL : lookupService));
             return this;
         }
         
-        public Build setLookupServiceAsync(java.lang.foreign.MemoryAddress lookup_service_async) {
+        public Build setLookupServiceAsync(java.lang.foreign.MemoryAddress lookupServiceAsync) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("lookup_service_async"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (lookup_service_async == null ? MemoryAddress.NULL : lookup_service_async));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (lookupServiceAsync == null ? MemoryAddress.NULL : lookupServiceAsync));
             return this;
         }
         
-        public Build setLookupServiceFinish(java.lang.foreign.MemoryAddress lookup_service_finish) {
+        public Build setLookupServiceFinish(java.lang.foreign.MemoryAddress lookupServiceFinish) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("lookup_service_finish"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (lookup_service_finish == null ? MemoryAddress.NULL : lookup_service_finish));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (lookupServiceFinish == null ? MemoryAddress.NULL : lookupServiceFinish));
             return this;
         }
         
-        public Build setLookupRecords(java.lang.foreign.MemoryAddress lookup_records) {
+        public Build setLookupRecords(java.lang.foreign.MemoryAddress lookupRecords) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("lookup_records"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (lookup_records == null ? MemoryAddress.NULL : lookup_records));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (lookupRecords == null ? MemoryAddress.NULL : lookupRecords));
             return this;
         }
         
-        public Build setLookupRecordsAsync(java.lang.foreign.MemoryAddress lookup_records_async) {
+        public Build setLookupRecordsAsync(java.lang.foreign.MemoryAddress lookupRecordsAsync) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("lookup_records_async"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (lookup_records_async == null ? MemoryAddress.NULL : lookup_records_async));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (lookupRecordsAsync == null ? MemoryAddress.NULL : lookupRecordsAsync));
             return this;
         }
         
-        public Build setLookupRecordsFinish(java.lang.foreign.MemoryAddress lookup_records_finish) {
+        public Build setLookupRecordsFinish(java.lang.foreign.MemoryAddress lookupRecordsFinish) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("lookup_records_finish"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (lookup_records_finish == null ? MemoryAddress.NULL : lookup_records_finish));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (lookupRecordsFinish == null ? MemoryAddress.NULL : lookupRecordsFinish));
             return this;
         }
         
-        public Build setLookupByNameWithFlagsAsync(java.lang.foreign.MemoryAddress lookup_by_name_with_flags_async) {
+        public Build setLookupByNameWithFlagsAsync(java.lang.foreign.MemoryAddress lookupByNameWithFlagsAsync) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("lookup_by_name_with_flags_async"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (lookup_by_name_with_flags_async == null ? MemoryAddress.NULL : lookup_by_name_with_flags_async));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (lookupByNameWithFlagsAsync == null ? MemoryAddress.NULL : lookupByNameWithFlagsAsync));
             return this;
         }
         
-        public Build setLookupByNameWithFlagsFinish(java.lang.foreign.MemoryAddress lookup_by_name_with_flags_finish) {
+        public Build setLookupByNameWithFlagsFinish(java.lang.foreign.MemoryAddress lookupByNameWithFlagsFinish) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("lookup_by_name_with_flags_finish"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (lookup_by_name_with_flags_finish == null ? MemoryAddress.NULL : lookup_by_name_with_flags_finish));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (lookupByNameWithFlagsFinish == null ? MemoryAddress.NULL : lookupByNameWithFlagsFinish));
             return this;
         }
         
-        public Build setLookupByNameWithFlags(java.lang.foreign.MemoryAddress lookup_by_name_with_flags) {
+        public Build setLookupByNameWithFlags(java.lang.foreign.MemoryAddress lookupByNameWithFlags) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("lookup_by_name_with_flags"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (lookup_by_name_with_flags == null ? MemoryAddress.NULL : lookup_by_name_with_flags));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (lookupByNameWithFlags == null ? MemoryAddress.NULL : lookupByNameWithFlags));
             return this;
         }
     }

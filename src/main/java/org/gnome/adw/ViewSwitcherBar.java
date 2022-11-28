@@ -100,11 +100,7 @@ public class ViewSwitcherBar extends org.gtk.gtk.Widget implements org.gtk.gtk.A
      * @throws ClassCastException If the GType is not derived from "AdwViewSwitcherBar", a ClassCastException will be thrown.
      */
     public static ViewSwitcherBar castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), ViewSwitcherBar.getType())) {
             return new ViewSwitcherBar(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of AdwViewSwitcherBar");
-        }
     }
     
     private static Addressable constructNew() {

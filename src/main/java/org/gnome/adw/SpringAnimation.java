@@ -79,11 +79,7 @@ public class SpringAnimation extends org.gnome.adw.Animation {
      * @throws ClassCastException If the GType is not derived from "AdwSpringAnimation", a ClassCastException will be thrown.
      */
     public static SpringAnimation castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), SpringAnimation.getType())) {
             return new SpringAnimation(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of AdwSpringAnimation");
-        }
     }
     
     private static Addressable constructNew(@NotNull org.gtk.gtk.Widget widget, double from, double to, @NotNull org.gnome.adw.SpringParams springParams, @NotNull org.gnome.adw.AnimationTarget target) {

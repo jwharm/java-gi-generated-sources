@@ -61,11 +61,7 @@ public class Constraint extends org.gtk.gobject.Object {
      * @throws ClassCastException If the GType is not derived from "GtkConstraint", a ClassCastException will be thrown.
      */
     public static Constraint castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), Constraint.getType())) {
             return new Constraint(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkConstraint");
-        }
     }
     
     private static Addressable constructNew(@Nullable org.gtk.gtk.ConstraintTarget target, @NotNull org.gtk.gtk.ConstraintAttribute targetAttribute, @NotNull org.gtk.gtk.ConstraintRelation relation, @Nullable org.gtk.gtk.ConstraintTarget source, @NotNull org.gtk.gtk.ConstraintAttribute sourceAttribute, double multiplier, double constant, int strength) {

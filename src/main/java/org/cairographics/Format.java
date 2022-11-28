@@ -9,7 +9,7 @@ public class Format extends io.github.jwharm.javagi.Enumeration {
     
     private static final java.lang.String C_TYPE_NAME = "cairo_format_t";
     
-    public static final Format INVALID = new Format(-1);
+    public static final Format INVALID = new Format(0);
     
     public static final Format ARGB32 = new Format(0);
     

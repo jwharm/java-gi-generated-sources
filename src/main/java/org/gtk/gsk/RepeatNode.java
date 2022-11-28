@@ -48,11 +48,7 @@ public class RepeatNode extends org.gtk.gsk.RenderNode {
      * @throws ClassCastException If the GType is not derived from "GskRepeatNode", a ClassCastException will be thrown.
      */
     public static RepeatNode castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), RepeatNode.getType())) {
             return new RepeatNode(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GskRepeatNode");
-        }
     }
     
     private static Addressable constructNew(@NotNull org.gtk.graphene.Rect bounds, @NotNull org.gtk.gsk.RenderNode child, @Nullable org.gtk.graphene.Rect childBounds) {

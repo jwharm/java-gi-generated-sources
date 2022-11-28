@@ -113,59 +113,59 @@ public class RendererClass extends Struct {
             return struct;
         }
         
-        public Build setParentClass(org.gtk.gobject.ObjectClass parent_class) {
+        public Build setParentClass(org.gtk.gobject.ObjectClass parentClass) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parent_class == null ? MemoryAddress.NULL : parent_class.handle()));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
             return this;
         }
         
-        public Build setDrawGlyphs(java.lang.foreign.MemoryAddress draw_glyphs) {
+        public Build setDrawGlyphs(java.lang.foreign.MemoryAddress drawGlyphs) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("draw_glyphs"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (draw_glyphs == null ? MemoryAddress.NULL : draw_glyphs));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (drawGlyphs == null ? MemoryAddress.NULL : drawGlyphs));
             return this;
         }
         
-        public Build setDrawRectangle(java.lang.foreign.MemoryAddress draw_rectangle) {
+        public Build setDrawRectangle(java.lang.foreign.MemoryAddress drawRectangle) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("draw_rectangle"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (draw_rectangle == null ? MemoryAddress.NULL : draw_rectangle));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (drawRectangle == null ? MemoryAddress.NULL : drawRectangle));
             return this;
         }
         
-        public Build setDrawErrorUnderline(java.lang.foreign.MemoryAddress draw_error_underline) {
+        public Build setDrawErrorUnderline(java.lang.foreign.MemoryAddress drawErrorUnderline) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("draw_error_underline"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (draw_error_underline == null ? MemoryAddress.NULL : draw_error_underline));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (drawErrorUnderline == null ? MemoryAddress.NULL : drawErrorUnderline));
             return this;
         }
         
-        public Build setDrawShape(java.lang.foreign.MemoryAddress draw_shape) {
+        public Build setDrawShape(java.lang.foreign.MemoryAddress drawShape) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("draw_shape"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (draw_shape == null ? MemoryAddress.NULL : draw_shape));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (drawShape == null ? MemoryAddress.NULL : drawShape));
             return this;
         }
         
-        public Build setDrawTrapezoid(java.lang.foreign.MemoryAddress draw_trapezoid) {
+        public Build setDrawTrapezoid(java.lang.foreign.MemoryAddress drawTrapezoid) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("draw_trapezoid"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (draw_trapezoid == null ? MemoryAddress.NULL : draw_trapezoid));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (drawTrapezoid == null ? MemoryAddress.NULL : drawTrapezoid));
             return this;
         }
         
-        public Build setDrawGlyph(java.lang.foreign.MemoryAddress draw_glyph) {
+        public Build setDrawGlyph(java.lang.foreign.MemoryAddress drawGlyph) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("draw_glyph"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (draw_glyph == null ? MemoryAddress.NULL : draw_glyph));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (drawGlyph == null ? MemoryAddress.NULL : drawGlyph));
             return this;
         }
         
-        public Build setPartChanged(java.lang.foreign.MemoryAddress part_changed) {
+        public Build setPartChanged(java.lang.foreign.MemoryAddress partChanged) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("part_changed"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (part_changed == null ? MemoryAddress.NULL : part_changed));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (partChanged == null ? MemoryAddress.NULL : partChanged));
             return this;
         }
         
@@ -183,38 +183,38 @@ public class RendererClass extends Struct {
             return this;
         }
         
-        public Build setPrepareRun(java.lang.foreign.MemoryAddress prepare_run) {
+        public Build setPrepareRun(java.lang.foreign.MemoryAddress prepareRun) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("prepare_run"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (prepare_run == null ? MemoryAddress.NULL : prepare_run));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (prepareRun == null ? MemoryAddress.NULL : prepareRun));
             return this;
         }
         
-        public Build setDrawGlyphItem(java.lang.foreign.MemoryAddress draw_glyph_item) {
+        public Build setDrawGlyphItem(java.lang.foreign.MemoryAddress drawGlyphItem) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("draw_glyph_item"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (draw_glyph_item == null ? MemoryAddress.NULL : draw_glyph_item));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (drawGlyphItem == null ? MemoryAddress.NULL : drawGlyphItem));
             return this;
         }
         
-        public Build setPangoReserved2(java.lang.foreign.MemoryAddress _pango_reserved2) {
+        public Build setPangoReserved2(java.lang.foreign.MemoryAddress PangoReserved2) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("_pango_reserved2"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (_pango_reserved2 == null ? MemoryAddress.NULL : _pango_reserved2));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (PangoReserved2 == null ? MemoryAddress.NULL : PangoReserved2));
             return this;
         }
         
-        public Build setPangoReserved3(java.lang.foreign.MemoryAddress _pango_reserved3) {
+        public Build setPangoReserved3(java.lang.foreign.MemoryAddress PangoReserved3) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("_pango_reserved3"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (_pango_reserved3 == null ? MemoryAddress.NULL : _pango_reserved3));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (PangoReserved3 == null ? MemoryAddress.NULL : PangoReserved3));
             return this;
         }
         
-        public Build setPangoReserved4(java.lang.foreign.MemoryAddress _pango_reserved4) {
+        public Build setPangoReserved4(java.lang.foreign.MemoryAddress PangoReserved4) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("_pango_reserved4"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (_pango_reserved4 == null ? MemoryAddress.NULL : _pango_reserved4));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (PangoReserved4 == null ? MemoryAddress.NULL : PangoReserved4));
             return this;
         }
     }

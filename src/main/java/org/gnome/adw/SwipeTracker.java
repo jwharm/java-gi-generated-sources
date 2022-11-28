@@ -58,11 +58,7 @@ public class SwipeTracker extends org.gtk.gobject.Object implements org.gtk.gtk.
      * @throws ClassCastException If the GType is not derived from "AdwSwipeTracker", a ClassCastException will be thrown.
      */
     public static SwipeTracker castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), SwipeTracker.getType())) {
             return new SwipeTracker(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of AdwSwipeTracker");
-        }
     }
     
     private static Addressable constructNew(@NotNull org.gnome.adw.Swipeable swipeable) {

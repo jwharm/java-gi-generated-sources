@@ -48,11 +48,7 @@ public class NeverTrigger extends org.gtk.gtk.ShortcutTrigger {
      * @throws ClassCastException If the GType is not derived from "GtkNeverTrigger", a ClassCastException will be thrown.
      */
     public static NeverTrigger castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), NeverTrigger.getType())) {
             return new NeverTrigger(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkNeverTrigger");
-        }
     }
     
     /**

@@ -70,7 +70,7 @@ public class WidgetClass extends Struct {
      * Get the value of the field {@code parent_class}
      * @return The value of the field {@code parent_class}
      */
-    public org.gtk.gobject.InitiallyUnownedClass parent_class$get() {
+    public org.gtk.gobject.InitiallyUnownedClass parentClass$get() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_class"));
         return new org.gtk.gobject.InitiallyUnownedClass(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
     }
@@ -402,11 +402,12 @@ public class WidgetClass extends Struct {
      * @return {@code true} if the action was found, {@code false} if {@code index_}
      *   is out of range
      */
-    public boolean queryAction(int index, @NotNull Out<org.gtk.glib.Type> owner, @NotNull Out<java.lang.String> actionName, @Nullable PointerProxy<org.gtk.glib.VariantType> parameterType, @Nullable Out<java.lang.String> propertyName) {
+    public boolean queryAction(int index, @NotNull Out<org.gtk.glib.Type> owner, @NotNull Out<java.lang.String> actionName, @Nullable Out<org.gtk.glib.VariantType> parameterType, @Nullable Out<java.lang.String> propertyName) {
         java.util.Objects.requireNonNull(owner, "Parameter 'owner' must not be null");
         MemorySegment ownerPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
         java.util.Objects.requireNonNull(actionName, "Parameter 'actionName' must not be null");
         MemorySegment actionNamePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
+        MemorySegment parameterTypePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemorySegment propertyNamePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
@@ -415,13 +416,14 @@ public class WidgetClass extends Struct {
                     index,
                     (Addressable) ownerPOINTER.address(),
                     (Addressable) actionNamePOINTER.address(),
-                    (Addressable) (parameterType == null ? MemoryAddress.NULL : parameterType.handle()),
+                    (Addressable) (parameterType == null ? MemoryAddress.NULL : (Addressable) parameterTypePOINTER.address()),
                     (Addressable) (propertyName == null ? MemoryAddress.NULL : (Addressable) propertyNamePOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         owner.set(new org.gtk.glib.Type(ownerPOINTER.get(Interop.valueLayout.C_LONG, 0)));
         actionName.set(Interop.getStringFrom(actionNamePOINTER.get(Interop.valueLayout.ADDRESS, 0)));
+        if (parameterType != null) parameterType.set(new org.gtk.glib.VariantType(parameterTypePOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.NONE));
         if (propertyName != null) propertyName.set(Interop.getStringFrom(propertyNamePOINTER.get(Interop.valueLayout.ADDRESS, 0)));
         return RESULT != 0;
     }
@@ -750,13 +752,13 @@ public class WidgetClass extends Struct {
          *   element in the widget class structure in order for the class mechanism
          *   to work correctly. This allows a GtkWidgetClass pointer to be cast to
          *   a GObjectClass pointer.
-         * @param parent_class The value for the {@code parent_class} field
+         * @param parentClass The value for the {@code parentClass} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setParentClass(org.gtk.gobject.InitiallyUnownedClass parent_class) {
+        public Build setParentClass(org.gtk.gobject.InitiallyUnownedClass parentClass) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parent_class == null ? MemoryAddress.NULL : parent_class.handle()));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
             return this;
         }
         
@@ -816,31 +818,31 @@ public class WidgetClass extends Struct {
             return this;
         }
         
-        public Build setSizeAllocate(java.lang.foreign.MemoryAddress size_allocate) {
+        public Build setSizeAllocate(java.lang.foreign.MemoryAddress sizeAllocate) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("size_allocate"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (size_allocate == null ? MemoryAddress.NULL : size_allocate));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (sizeAllocate == null ? MemoryAddress.NULL : sizeAllocate));
             return this;
         }
         
-        public Build setStateFlagsChanged(java.lang.foreign.MemoryAddress state_flags_changed) {
+        public Build setStateFlagsChanged(java.lang.foreign.MemoryAddress stateFlagsChanged) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("state_flags_changed"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (state_flags_changed == null ? MemoryAddress.NULL : state_flags_changed));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (stateFlagsChanged == null ? MemoryAddress.NULL : stateFlagsChanged));
             return this;
         }
         
-        public Build setDirectionChanged(java.lang.foreign.MemoryAddress direction_changed) {
+        public Build setDirectionChanged(java.lang.foreign.MemoryAddress directionChanged) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("direction_changed"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (direction_changed == null ? MemoryAddress.NULL : direction_changed));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (directionChanged == null ? MemoryAddress.NULL : directionChanged));
             return this;
         }
         
-        public Build setGetRequestMode(java.lang.foreign.MemoryAddress get_request_mode) {
+        public Build setGetRequestMode(java.lang.foreign.MemoryAddress getRequestMode) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("get_request_mode"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (get_request_mode == null ? MemoryAddress.NULL : get_request_mode));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getRequestMode == null ? MemoryAddress.NULL : getRequestMode));
             return this;
         }
         
@@ -851,17 +853,17 @@ public class WidgetClass extends Struct {
             return this;
         }
         
-        public Build setMnemonicActivate(java.lang.foreign.MemoryAddress mnemonic_activate) {
+        public Build setMnemonicActivate(java.lang.foreign.MemoryAddress mnemonicActivate) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("mnemonic_activate"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (mnemonic_activate == null ? MemoryAddress.NULL : mnemonic_activate));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (mnemonicActivate == null ? MemoryAddress.NULL : mnemonicActivate));
             return this;
         }
         
-        public Build setGrabFocus(java.lang.foreign.MemoryAddress grab_focus) {
+        public Build setGrabFocus(java.lang.foreign.MemoryAddress grabFocus) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("grab_focus"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (grab_focus == null ? MemoryAddress.NULL : grab_focus));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (grabFocus == null ? MemoryAddress.NULL : grabFocus));
             return this;
         }
         
@@ -872,52 +874,52 @@ public class WidgetClass extends Struct {
             return this;
         }
         
-        public Build setSetFocusChild(java.lang.foreign.MemoryAddress set_focus_child) {
+        public Build setSetFocusChild(java.lang.foreign.MemoryAddress setFocusChild) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("set_focus_child"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (set_focus_child == null ? MemoryAddress.NULL : set_focus_child));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (setFocusChild == null ? MemoryAddress.NULL : setFocusChild));
             return this;
         }
         
-        public Build setMoveFocus(java.lang.foreign.MemoryAddress move_focus) {
+        public Build setMoveFocus(java.lang.foreign.MemoryAddress moveFocus) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("move_focus"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (move_focus == null ? MemoryAddress.NULL : move_focus));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (moveFocus == null ? MemoryAddress.NULL : moveFocus));
             return this;
         }
         
-        public Build setKeynavFailed(java.lang.foreign.MemoryAddress keynav_failed) {
+        public Build setKeynavFailed(java.lang.foreign.MemoryAddress keynavFailed) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("keynav_failed"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (keynav_failed == null ? MemoryAddress.NULL : keynav_failed));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (keynavFailed == null ? MemoryAddress.NULL : keynavFailed));
             return this;
         }
         
-        public Build setQueryTooltip(java.lang.foreign.MemoryAddress query_tooltip) {
+        public Build setQueryTooltip(java.lang.foreign.MemoryAddress queryTooltip) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("query_tooltip"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (query_tooltip == null ? MemoryAddress.NULL : query_tooltip));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (queryTooltip == null ? MemoryAddress.NULL : queryTooltip));
             return this;
         }
         
-        public Build setComputeExpand(java.lang.foreign.MemoryAddress compute_expand) {
+        public Build setComputeExpand(java.lang.foreign.MemoryAddress computeExpand) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("compute_expand"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (compute_expand == null ? MemoryAddress.NULL : compute_expand));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (computeExpand == null ? MemoryAddress.NULL : computeExpand));
             return this;
         }
         
-        public Build setCssChanged(java.lang.foreign.MemoryAddress css_changed) {
+        public Build setCssChanged(java.lang.foreign.MemoryAddress cssChanged) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("css_changed"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (css_changed == null ? MemoryAddress.NULL : css_changed));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (cssChanged == null ? MemoryAddress.NULL : cssChanged));
             return this;
         }
         
-        public Build setSystemSettingChanged(java.lang.foreign.MemoryAddress system_setting_changed) {
+        public Build setSystemSettingChanged(java.lang.foreign.MemoryAddress systemSettingChanged) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("system_setting_changed"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (system_setting_changed == null ? MemoryAddress.NULL : system_setting_changed));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (systemSettingChanged == null ? MemoryAddress.NULL : systemSettingChanged));
             return this;
         }
         

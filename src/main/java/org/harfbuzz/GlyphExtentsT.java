@@ -51,7 +51,7 @@ public class GlyphExtentsT extends Struct {
      * Get the value of the field {@code x_bearing}
      * @return The value of the field {@code x_bearing}
      */
-    public org.harfbuzz.PositionT x_bearing$get() {
+    public org.harfbuzz.PositionT xBearing$get() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("x_bearing"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -60,19 +60,19 @@ public class GlyphExtentsT extends Struct {
     
     /**
      * Change the value of the field {@code x_bearing}
-     * @param x_bearing The new value of the field {@code x_bearing}
+     * @param xBearing The new value of the field {@code x_bearing}
      */
-    public void x_bearing$set(org.harfbuzz.PositionT x_bearing) {
+    public void xBearing$set(org.harfbuzz.PositionT xBearing) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("x_bearing"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), x_bearing.getValue().intValue());
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), xBearing.getValue().intValue());
     }
     
     /**
      * Get the value of the field {@code y_bearing}
      * @return The value of the field {@code y_bearing}
      */
-    public org.harfbuzz.PositionT y_bearing$get() {
+    public org.harfbuzz.PositionT yBearing$get() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("y_bearing"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -81,12 +81,12 @@ public class GlyphExtentsT extends Struct {
     
     /**
      * Change the value of the field {@code y_bearing}
-     * @param y_bearing The new value of the field {@code y_bearing}
+     * @param yBearing The new value of the field {@code y_bearing}
      */
-    public void y_bearing$set(org.harfbuzz.PositionT y_bearing) {
+    public void yBearing$set(org.harfbuzz.PositionT yBearing) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("y_bearing"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), y_bearing.getValue().intValue());
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), yBearing.getValue().intValue());
     }
     
     /**
@@ -170,25 +170,25 @@ public class GlyphExtentsT extends Struct {
         
         /**
          * Distance from the x-origin to the left extremum of the glyph.
-         * @param x_bearing The value for the {@code x_bearing} field
+         * @param xBearing The value for the {@code xBearing} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setXBearing(org.harfbuzz.PositionT x_bearing) {
+        public Build setXBearing(org.harfbuzz.PositionT xBearing) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("x_bearing"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (x_bearing == null ? MemoryAddress.NULL : x_bearing.getValue().intValue()));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (xBearing == null ? MemoryAddress.NULL : xBearing.getValue().intValue()));
             return this;
         }
         
         /**
          * Distance from the top extremum of the glyph to the y-origin.
-         * @param y_bearing The value for the {@code y_bearing} field
+         * @param yBearing The value for the {@code yBearing} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setYBearing(org.harfbuzz.PositionT y_bearing) {
+        public Build setYBearing(org.harfbuzz.PositionT yBearing) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("y_bearing"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (y_bearing == null ? MemoryAddress.NULL : y_bearing.getValue().intValue()));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (yBearing == null ? MemoryAddress.NULL : yBearing.getValue().intValue()));
             return this;
         }
         

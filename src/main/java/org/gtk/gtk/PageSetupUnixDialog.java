@@ -55,11 +55,7 @@ public class PageSetupUnixDialog extends org.gtk.gtk.Dialog implements org.gtk.g
      * @throws ClassCastException If the GType is not derived from "GtkPageSetupUnixDialog", a ClassCastException will be thrown.
      */
     public static PageSetupUnixDialog castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), PageSetupUnixDialog.getType())) {
             return new PageSetupUnixDialog(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkPageSetupUnixDialog");
-        }
     }
     
     private static Addressable constructNew(@Nullable java.lang.String title, @Nullable org.gtk.gtk.Window parent) {

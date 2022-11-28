@@ -84,31 +84,31 @@ public class BuilderScopeInterface extends Struct {
             return struct;
         }
         
-        public Build setGIface(org.gtk.gobject.TypeInterface g_iface) {
+        public Build setGIface(org.gtk.gobject.TypeInterface gIface) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("g_iface"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (g_iface == null ? MemoryAddress.NULL : g_iface.handle()));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (gIface == null ? MemoryAddress.NULL : gIface.handle()));
             return this;
         }
         
-        public Build setGetTypeFromName(java.lang.foreign.MemoryAddress get_type_from_name) {
+        public Build setGetTypeFromName(java.lang.foreign.MemoryAddress getTypeFromName) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("get_type_from_name"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (get_type_from_name == null ? MemoryAddress.NULL : get_type_from_name));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getTypeFromName == null ? MemoryAddress.NULL : getTypeFromName));
             return this;
         }
         
-        public Build setGetTypeFromFunction(java.lang.foreign.MemoryAddress get_type_from_function) {
+        public Build setGetTypeFromFunction(java.lang.foreign.MemoryAddress getTypeFromFunction) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("get_type_from_function"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (get_type_from_function == null ? MemoryAddress.NULL : get_type_from_function));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getTypeFromFunction == null ? MemoryAddress.NULL : getTypeFromFunction));
             return this;
         }
         
-        public Build setCreateClosure(java.lang.foreign.MemoryAddress create_closure) {
+        public Build setCreateClosure(java.lang.foreign.MemoryAddress createClosure) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("create_closure"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (create_closure == null ? MemoryAddress.NULL : create_closure));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (createClosure == null ? MemoryAddress.NULL : createClosure));
             return this;
         }
     }

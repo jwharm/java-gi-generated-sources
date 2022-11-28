@@ -51,7 +51,7 @@ public class DBusArgInfo extends Struct {
      * Get the value of the field {@code ref_count}
      * @return The value of the field {@code ref_count}
      */
-    public int ref_count$get() {
+    public int refCount$get() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("ref_count"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -60,12 +60,12 @@ public class DBusArgInfo extends Struct {
     
     /**
      * Change the value of the field {@code ref_count}
-     * @param ref_count The new value of the field {@code ref_count}
+     * @param refCount The new value of the field {@code ref_count}
      */
-    public void ref_count$set(int ref_count) {
+    public void refCount$set(int refCount) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("ref_count"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), ref_count);
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), refCount);
     }
     
     /**
@@ -194,13 +194,13 @@ public class DBusArgInfo extends Struct {
         
         /**
          * The reference count or -1 if statically allocated.
-         * @param ref_count The value for the {@code ref_count} field
+         * @param refCount The value for the {@code refCount} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setRefCount(int ref_count) {
+        public Build setRefCount(int refCount) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("ref_count"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), ref_count);
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), refCount);
             return this;
         }
         

@@ -52,7 +52,7 @@ public class DBusMethodInfo extends Struct {
      * Get the value of the field {@code ref_count}
      * @return The value of the field {@code ref_count}
      */
-    public int ref_count$get() {
+    public int refCount$get() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("ref_count"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -61,12 +61,12 @@ public class DBusMethodInfo extends Struct {
     
     /**
      * Change the value of the field {@code ref_count}
-     * @param ref_count The new value of the field {@code ref_count}
+     * @param refCount The new value of the field {@code ref_count}
      */
-    public void ref_count$set(int ref_count) {
+    public void refCount$set(int refCount) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("ref_count"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), ref_count);
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), refCount);
     }
     
     /**
@@ -174,13 +174,13 @@ public class DBusMethodInfo extends Struct {
         
         /**
          * The reference count or -1 if statically allocated.
-         * @param ref_count The value for the {@code ref_count} field
+         * @param refCount The value for the {@code refCount} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setRefCount(int ref_count) {
+        public Build setRefCount(int refCount) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("ref_count"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), ref_count);
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), refCount);
             return this;
         }
         
@@ -198,25 +198,25 @@ public class DBusMethodInfo extends Struct {
         
         /**
          * A pointer to a {@code null}-terminated array of pointers to {@link DBusArgInfo} structures or {@code null} if there are no in arguments.
-         * @param in_args The value for the {@code in_args} field
+         * @param inArgs The value for the {@code inArgs} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setInArgs(org.gtk.gio.DBusArgInfo[] in_args) {
+        public Build setInArgs(org.gtk.gio.DBusArgInfo[] inArgs) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("in_args"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (in_args == null ? MemoryAddress.NULL : Interop.allocateNativeArray(in_args, false)));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (inArgs == null ? MemoryAddress.NULL : Interop.allocateNativeArray(inArgs, false)));
             return this;
         }
         
         /**
          * A pointer to a {@code null}-terminated array of pointers to {@link DBusArgInfo} structures or {@code null} if there are no out arguments.
-         * @param out_args The value for the {@code out_args} field
+         * @param outArgs The value for the {@code outArgs} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setOutArgs(org.gtk.gio.DBusArgInfo[] out_args) {
+        public Build setOutArgs(org.gtk.gio.DBusArgInfo[] outArgs) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("out_args"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (out_args == null ? MemoryAddress.NULL : Interop.allocateNativeArray(out_args, false)));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (outArgs == null ? MemoryAddress.NULL : Interop.allocateNativeArray(outArgs, false)));
             return this;
         }
         

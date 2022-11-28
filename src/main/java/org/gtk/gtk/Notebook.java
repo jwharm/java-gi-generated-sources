@@ -136,11 +136,7 @@ public class Notebook extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * @throws ClassCastException If the GType is not derived from "GtkNotebook", a ClassCastException will be thrown.
      */
     public static Notebook castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), Notebook.getType())) {
             return new Notebook(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkNotebook");
-        }
     }
     
     private static Addressable constructNew() {

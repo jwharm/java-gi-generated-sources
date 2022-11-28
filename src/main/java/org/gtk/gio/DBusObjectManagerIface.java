@@ -55,7 +55,7 @@ public class DBusObjectManagerIface extends Struct {
      * Get the value of the field {@code parent_iface}
      * @return The value of the field {@code parent_iface}
      */
-    public org.gtk.gobject.TypeInterface parent_iface$get() {
+    public org.gtk.gobject.TypeInterface parentIface$get() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_iface"));
         return new org.gtk.gobject.TypeInterface(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
     }
@@ -99,69 +99,69 @@ public class DBusObjectManagerIface extends Struct {
         
         /**
          * The parent interface.
-         * @param parent_iface The value for the {@code parent_iface} field
+         * @param parentIface The value for the {@code parentIface} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setParentIface(org.gtk.gobject.TypeInterface parent_iface) {
+        public Build setParentIface(org.gtk.gobject.TypeInterface parentIface) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("parent_iface"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parent_iface == null ? MemoryAddress.NULL : parent_iface.handle()));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parentIface == null ? MemoryAddress.NULL : parentIface.handle()));
             return this;
         }
         
-        public Build setGetObjectPath(java.lang.foreign.MemoryAddress get_object_path) {
+        public Build setGetObjectPath(java.lang.foreign.MemoryAddress getObjectPath) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("get_object_path"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (get_object_path == null ? MemoryAddress.NULL : get_object_path));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getObjectPath == null ? MemoryAddress.NULL : getObjectPath));
             return this;
         }
         
-        public Build setGetObjects(java.lang.foreign.MemoryAddress get_objects) {
+        public Build setGetObjects(java.lang.foreign.MemoryAddress getObjects) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("get_objects"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (get_objects == null ? MemoryAddress.NULL : get_objects));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getObjects == null ? MemoryAddress.NULL : getObjects));
             return this;
         }
         
-        public Build setGetObject(java.lang.foreign.MemoryAddress get_object) {
+        public Build setGetObject(java.lang.foreign.MemoryAddress getObject) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("get_object"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (get_object == null ? MemoryAddress.NULL : get_object));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getObject == null ? MemoryAddress.NULL : getObject));
             return this;
         }
         
-        public Build setGetInterface(java.lang.foreign.MemoryAddress get_interface) {
+        public Build setGetInterface(java.lang.foreign.MemoryAddress getInterface) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("get_interface"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (get_interface == null ? MemoryAddress.NULL : get_interface));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getInterface == null ? MemoryAddress.NULL : getInterface));
             return this;
         }
         
-        public Build setObjectAdded(java.lang.foreign.MemoryAddress object_added) {
+        public Build setObjectAdded(java.lang.foreign.MemoryAddress objectAdded) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("object_added"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (object_added == null ? MemoryAddress.NULL : object_added));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (objectAdded == null ? MemoryAddress.NULL : objectAdded));
             return this;
         }
         
-        public Build setObjectRemoved(java.lang.foreign.MemoryAddress object_removed) {
+        public Build setObjectRemoved(java.lang.foreign.MemoryAddress objectRemoved) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("object_removed"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (object_removed == null ? MemoryAddress.NULL : object_removed));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (objectRemoved == null ? MemoryAddress.NULL : objectRemoved));
             return this;
         }
         
-        public Build setInterfaceAdded(java.lang.foreign.MemoryAddress interface_added) {
+        public Build setInterfaceAdded(java.lang.foreign.MemoryAddress interfaceAdded) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("interface_added"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (interface_added == null ? MemoryAddress.NULL : interface_added));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (interfaceAdded == null ? MemoryAddress.NULL : interfaceAdded));
             return this;
         }
         
-        public Build setInterfaceRemoved(java.lang.foreign.MemoryAddress interface_removed) {
+        public Build setInterfaceRemoved(java.lang.foreign.MemoryAddress interfaceRemoved) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("interface_removed"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (interface_removed == null ? MemoryAddress.NULL : interface_removed));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (interfaceRemoved == null ? MemoryAddress.NULL : interfaceRemoved));
             return this;
         }
     }

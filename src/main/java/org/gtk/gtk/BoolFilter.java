@@ -49,11 +49,7 @@ public class BoolFilter extends org.gtk.gtk.Filter {
      * @throws ClassCastException If the GType is not derived from "GtkBoolFilter", a ClassCastException will be thrown.
      */
     public static BoolFilter castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), BoolFilter.getType())) {
             return new BoolFilter(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkBoolFilter");
-        }
     }
     
     private static Addressable constructNew(@Nullable org.gtk.gtk.Expression expression) {

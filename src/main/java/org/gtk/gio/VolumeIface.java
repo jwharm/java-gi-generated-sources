@@ -67,7 +67,7 @@ public class VolumeIface extends Struct {
      * Get the value of the field {@code g_iface}
      * @return The value of the field {@code g_iface}
      */
-    public org.gtk.gobject.TypeInterface g_iface$get() {
+    public org.gtk.gobject.TypeInterface gIface$get() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("g_iface"));
         return new org.gtk.gobject.TypeInterface(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
     }
@@ -111,13 +111,13 @@ public class VolumeIface extends Struct {
         
         /**
          * The parent interface.
-         * @param g_iface The value for the {@code g_iface} field
+         * @param gIface The value for the {@code gIface} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setGIface(org.gtk.gobject.TypeInterface g_iface) {
+        public Build setGIface(org.gtk.gobject.TypeInterface gIface) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("g_iface"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (g_iface == null ? MemoryAddress.NULL : g_iface.handle()));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (gIface == null ? MemoryAddress.NULL : gIface.handle()));
             return this;
         }
         
@@ -135,66 +135,66 @@ public class VolumeIface extends Struct {
             return this;
         }
         
-        public Build setGetName(java.lang.foreign.MemoryAddress get_name) {
+        public Build setGetName(java.lang.foreign.MemoryAddress getName) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("get_name"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (get_name == null ? MemoryAddress.NULL : get_name));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getName == null ? MemoryAddress.NULL : getName));
             return this;
         }
         
-        public Build setGetIcon(java.lang.foreign.MemoryAddress get_icon) {
+        public Build setGetIcon(java.lang.foreign.MemoryAddress getIcon) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("get_icon"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (get_icon == null ? MemoryAddress.NULL : get_icon));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getIcon == null ? MemoryAddress.NULL : getIcon));
             return this;
         }
         
-        public Build setGetUuid(java.lang.foreign.MemoryAddress get_uuid) {
+        public Build setGetUuid(java.lang.foreign.MemoryAddress getUuid) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("get_uuid"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (get_uuid == null ? MemoryAddress.NULL : get_uuid));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getUuid == null ? MemoryAddress.NULL : getUuid));
             return this;
         }
         
-        public Build setGetDrive(java.lang.foreign.MemoryAddress get_drive) {
+        public Build setGetDrive(java.lang.foreign.MemoryAddress getDrive) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("get_drive"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (get_drive == null ? MemoryAddress.NULL : get_drive));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getDrive == null ? MemoryAddress.NULL : getDrive));
             return this;
         }
         
-        public Build setGetMount(java.lang.foreign.MemoryAddress get_mount) {
+        public Build setGetMount(java.lang.foreign.MemoryAddress getMount) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("get_mount"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (get_mount == null ? MemoryAddress.NULL : get_mount));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getMount == null ? MemoryAddress.NULL : getMount));
             return this;
         }
         
-        public Build setCanMount(java.lang.foreign.MemoryAddress can_mount) {
+        public Build setCanMount(java.lang.foreign.MemoryAddress canMount) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("can_mount"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (can_mount == null ? MemoryAddress.NULL : can_mount));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (canMount == null ? MemoryAddress.NULL : canMount));
             return this;
         }
         
-        public Build setCanEject(java.lang.foreign.MemoryAddress can_eject) {
+        public Build setCanEject(java.lang.foreign.MemoryAddress canEject) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("can_eject"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (can_eject == null ? MemoryAddress.NULL : can_eject));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (canEject == null ? MemoryAddress.NULL : canEject));
             return this;
         }
         
-        public Build setMountFn(java.lang.foreign.MemoryAddress mount_fn) {
+        public Build setMountFn(java.lang.foreign.MemoryAddress mountFn) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("mount_fn"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (mount_fn == null ? MemoryAddress.NULL : mount_fn));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (mountFn == null ? MemoryAddress.NULL : mountFn));
             return this;
         }
         
-        public Build setMountFinish(java.lang.foreign.MemoryAddress mount_finish) {
+        public Build setMountFinish(java.lang.foreign.MemoryAddress mountFinish) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("mount_finish"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (mount_finish == null ? MemoryAddress.NULL : mount_finish));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (mountFinish == null ? MemoryAddress.NULL : mountFinish));
             return this;
         }
         
@@ -205,66 +205,66 @@ public class VolumeIface extends Struct {
             return this;
         }
         
-        public Build setEjectFinish(java.lang.foreign.MemoryAddress eject_finish) {
+        public Build setEjectFinish(java.lang.foreign.MemoryAddress ejectFinish) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("eject_finish"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (eject_finish == null ? MemoryAddress.NULL : eject_finish));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (ejectFinish == null ? MemoryAddress.NULL : ejectFinish));
             return this;
         }
         
-        public Build setGetIdentifier(java.lang.foreign.MemoryAddress get_identifier) {
+        public Build setGetIdentifier(java.lang.foreign.MemoryAddress getIdentifier) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("get_identifier"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (get_identifier == null ? MemoryAddress.NULL : get_identifier));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getIdentifier == null ? MemoryAddress.NULL : getIdentifier));
             return this;
         }
         
-        public Build setEnumerateIdentifiers(java.lang.foreign.MemoryAddress enumerate_identifiers) {
+        public Build setEnumerateIdentifiers(java.lang.foreign.MemoryAddress enumerateIdentifiers) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("enumerate_identifiers"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (enumerate_identifiers == null ? MemoryAddress.NULL : enumerate_identifiers));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (enumerateIdentifiers == null ? MemoryAddress.NULL : enumerateIdentifiers));
             return this;
         }
         
-        public Build setShouldAutomount(java.lang.foreign.MemoryAddress should_automount) {
+        public Build setShouldAutomount(java.lang.foreign.MemoryAddress shouldAutomount) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("should_automount"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (should_automount == null ? MemoryAddress.NULL : should_automount));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (shouldAutomount == null ? MemoryAddress.NULL : shouldAutomount));
             return this;
         }
         
-        public Build setGetActivationRoot(java.lang.foreign.MemoryAddress get_activation_root) {
+        public Build setGetActivationRoot(java.lang.foreign.MemoryAddress getActivationRoot) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("get_activation_root"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (get_activation_root == null ? MemoryAddress.NULL : get_activation_root));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getActivationRoot == null ? MemoryAddress.NULL : getActivationRoot));
             return this;
         }
         
-        public Build setEjectWithOperation(java.lang.foreign.MemoryAddress eject_with_operation) {
+        public Build setEjectWithOperation(java.lang.foreign.MemoryAddress ejectWithOperation) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("eject_with_operation"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (eject_with_operation == null ? MemoryAddress.NULL : eject_with_operation));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (ejectWithOperation == null ? MemoryAddress.NULL : ejectWithOperation));
             return this;
         }
         
-        public Build setEjectWithOperationFinish(java.lang.foreign.MemoryAddress eject_with_operation_finish) {
+        public Build setEjectWithOperationFinish(java.lang.foreign.MemoryAddress ejectWithOperationFinish) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("eject_with_operation_finish"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (eject_with_operation_finish == null ? MemoryAddress.NULL : eject_with_operation_finish));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (ejectWithOperationFinish == null ? MemoryAddress.NULL : ejectWithOperationFinish));
             return this;
         }
         
-        public Build setGetSortKey(java.lang.foreign.MemoryAddress get_sort_key) {
+        public Build setGetSortKey(java.lang.foreign.MemoryAddress getSortKey) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("get_sort_key"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (get_sort_key == null ? MemoryAddress.NULL : get_sort_key));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getSortKey == null ? MemoryAddress.NULL : getSortKey));
             return this;
         }
         
-        public Build setGetSymbolicIcon(java.lang.foreign.MemoryAddress get_symbolic_icon) {
+        public Build setGetSymbolicIcon(java.lang.foreign.MemoryAddress getSymbolicIcon) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("get_symbolic_icon"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (get_symbolic_icon == null ? MemoryAddress.NULL : get_symbolic_icon));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getSymbolicIcon == null ? MemoryAddress.NULL : getSymbolicIcon));
             return this;
         }
     }

@@ -60,11 +60,7 @@ public class Inscription extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
      * @throws ClassCastException If the GType is not derived from "GtkInscription", a ClassCastException will be thrown.
      */
     public static Inscription castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), Inscription.getType())) {
             return new Inscription(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkInscription");
-        }
     }
     
     private static Addressable constructNew(@Nullable java.lang.String text) {

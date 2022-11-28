@@ -355,11 +355,7 @@ public class CellArea extends org.gtk.gobject.InitiallyUnowned implements org.gt
      * @throws ClassCastException If the GType is not derived from "GtkCellArea", a ClassCastException will be thrown.
      */
     public static CellArea castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), CellArea.getType())) {
             return new CellArea(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkCellArea");
-        }
     }
     
     /**

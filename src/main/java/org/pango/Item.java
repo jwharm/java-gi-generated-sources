@@ -95,7 +95,7 @@ public class Item extends Struct {
      * Get the value of the field {@code num_chars}
      * @return The value of the field {@code num_chars}
      */
-    public int num_chars$get() {
+    public int numChars$get() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("num_chars"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -104,12 +104,12 @@ public class Item extends Struct {
     
     /**
      * Change the value of the field {@code num_chars}
-     * @param num_chars The new value of the field {@code num_chars}
+     * @param numChars The new value of the field {@code num_chars}
      */
-    public void num_chars$set(int num_chars) {
+    public void numChars$set(int numChars) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("num_chars"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), num_chars);
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), numChars);
     }
     
     /**
@@ -318,13 +318,13 @@ public class Item extends Struct {
         
         /**
          * number of Unicode characters in the item.
-         * @param num_chars The value for the {@code num_chars} field
+         * @param numChars The value for the {@code numChars} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setNumChars(int num_chars) {
+        public Build setNumChars(int numChars) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("num_chars"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), num_chars);
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), numChars);
             return this;
         }
         

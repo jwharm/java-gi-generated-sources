@@ -35,15 +35,6 @@ public class ConverterInputStream extends org.gtk.gio.FilterInputStream implemen
     }
     
     /**
-     * Get the value of the field {@code parent_instance}
-     * @return The value of the field {@code parent_instance}
-     */
-    public org.gtk.gio.FilterInputStream parent_instance$get() {
-        long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_instance"));
-        return new org.gtk.gio.FilterInputStream(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
-    }
-    
-    /**
      * Create a ConverterInputStream proxy instance for the provided memory address.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
@@ -66,11 +57,7 @@ public class ConverterInputStream extends org.gtk.gio.FilterInputStream implemen
      * @throws ClassCastException If the GType is not derived from "GConverterInputStream", a ClassCastException will be thrown.
      */
     public static ConverterInputStream castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), ConverterInputStream.getType())) {
             return new ConverterInputStream(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GConverterInputStream");
-        }
     }
     
     private static Addressable constructNew(@NotNull org.gtk.gio.InputStream baseStream, @NotNull org.gtk.gio.Converter converter) {

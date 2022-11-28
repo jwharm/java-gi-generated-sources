@@ -47,7 +47,7 @@ public class PixbufLoaderClass extends Struct {
      * Get the value of the field {@code parent_class}
      * @return The value of the field {@code parent_class}
      */
-    public org.gtk.gobject.ObjectClass parent_class$get() {
+    public org.gtk.gobject.ObjectClass parentClass$get() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_class"));
         return new org.gtk.gobject.ObjectClass(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
     }
@@ -89,31 +89,31 @@ public class PixbufLoaderClass extends Struct {
             return struct;
         }
         
-        public Build setParentClass(org.gtk.gobject.ObjectClass parent_class) {
+        public Build setParentClass(org.gtk.gobject.ObjectClass parentClass) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parent_class == null ? MemoryAddress.NULL : parent_class.handle()));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
             return this;
         }
         
-        public Build setSizePrepared(java.lang.foreign.MemoryAddress size_prepared) {
+        public Build setSizePrepared(java.lang.foreign.MemoryAddress sizePrepared) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("size_prepared"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (size_prepared == null ? MemoryAddress.NULL : size_prepared));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (sizePrepared == null ? MemoryAddress.NULL : sizePrepared));
             return this;
         }
         
-        public Build setAreaPrepared(java.lang.foreign.MemoryAddress area_prepared) {
+        public Build setAreaPrepared(java.lang.foreign.MemoryAddress areaPrepared) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("area_prepared"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (area_prepared == null ? MemoryAddress.NULL : area_prepared));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (areaPrepared == null ? MemoryAddress.NULL : areaPrepared));
             return this;
         }
         
-        public Build setAreaUpdated(java.lang.foreign.MemoryAddress area_updated) {
+        public Build setAreaUpdated(java.lang.foreign.MemoryAddress areaUpdated) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("area_updated"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (area_updated == null ? MemoryAddress.NULL : area_updated));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (areaUpdated == null ? MemoryAddress.NULL : areaUpdated));
             return this;
         }
         

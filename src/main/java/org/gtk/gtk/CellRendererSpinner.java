@@ -59,11 +59,7 @@ public class CellRendererSpinner extends org.gtk.gtk.CellRenderer {
      * @throws ClassCastException If the GType is not derived from "GtkCellRendererSpinner", a ClassCastException will be thrown.
      */
     public static CellRendererSpinner castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), CellRendererSpinner.getType())) {
             return new CellRendererSpinner(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkCellRendererSpinner");
-        }
     }
     
     private static Addressable constructNew() {

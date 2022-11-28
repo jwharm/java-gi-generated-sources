@@ -85,11 +85,7 @@ public class Credentials extends org.gtk.gobject.Object {
      * @throws ClassCastException If the GType is not derived from "GCredentials", a ClassCastException will be thrown.
      */
     public static Credentials castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), Credentials.getType())) {
             return new Credentials(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GCredentials");
-        }
     }
     
     private static Addressable constructNew() {

@@ -53,11 +53,7 @@ public class CellRendererToggle extends org.gtk.gtk.CellRenderer {
      * @throws ClassCastException If the GType is not derived from "GtkCellRendererToggle", a ClassCastException will be thrown.
      */
     public static CellRendererToggle castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), CellRendererToggle.getType())) {
             return new CellRendererToggle(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkCellRendererToggle");
-        }
     }
     
     private static Addressable constructNew() {

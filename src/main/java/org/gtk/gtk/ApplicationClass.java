@@ -46,7 +46,7 @@ public class ApplicationClass extends Struct {
      * Get the value of the field {@code parent_class}
      * @return The value of the field {@code parent_class}
      */
-    public org.gtk.gio.ApplicationClass parent_class$get() {
+    public org.gtk.gio.ApplicationClass parentClass$get() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_class"));
         return new org.gtk.gio.ApplicationClass(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
     }
@@ -90,27 +90,27 @@ public class ApplicationClass extends Struct {
         
         /**
          * The parent class.
-         * @param parent_class The value for the {@code parent_class} field
+         * @param parentClass The value for the {@code parentClass} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setParentClass(org.gtk.gio.ApplicationClass parent_class) {
+        public Build setParentClass(org.gtk.gio.ApplicationClass parentClass) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parent_class == null ? MemoryAddress.NULL : parent_class.handle()));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
             return this;
         }
         
-        public Build setWindowAdded(java.lang.foreign.MemoryAddress window_added) {
+        public Build setWindowAdded(java.lang.foreign.MemoryAddress windowAdded) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("window_added"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (window_added == null ? MemoryAddress.NULL : window_added));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (windowAdded == null ? MemoryAddress.NULL : windowAdded));
             return this;
         }
         
-        public Build setWindowRemoved(java.lang.foreign.MemoryAddress window_removed) {
+        public Build setWindowRemoved(java.lang.foreign.MemoryAddress windowRemoved) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("window_removed"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (window_removed == null ? MemoryAddress.NULL : window_removed));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (windowRemoved == null ? MemoryAddress.NULL : windowRemoved));
             return this;
         }
         

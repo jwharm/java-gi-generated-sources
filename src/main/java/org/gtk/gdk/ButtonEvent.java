@@ -48,11 +48,7 @@ public class ButtonEvent extends org.gtk.gdk.Event {
      * @throws ClassCastException If the GType is not derived from "GdkButtonEvent", a ClassCastException will be thrown.
      */
     public static ButtonEvent castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), ButtonEvent.getType())) {
             return new ButtonEvent(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GdkButtonEvent");
-        }
     }
     
     /**

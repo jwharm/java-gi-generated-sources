@@ -60,11 +60,7 @@ public class ShortcutsSection extends org.gtk.gtk.Box implements org.gtk.gtk.Acc
      * @throws ClassCastException If the GType is not derived from "GtkShortcutsSection", a ClassCastException will be thrown.
      */
     public static ShortcutsSection castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), ShortcutsSection.getType())) {
             return new ShortcutsSection(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkShortcutsSection");
-        }
     }
     
     /**

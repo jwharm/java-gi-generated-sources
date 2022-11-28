@@ -1,0 +1,168 @@
+package org.gstreamer.gst;
+
+import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
+
+/**
+ * The {@link ParentBufferMeta} is a {@link Meta} which can be attached to a {@link Buffer}
+ * to hold a reference to another buffer that is only released when the child
+ * {@link Buffer} is released.
+ * <p>
+ * Typically, {@link ParentBufferMeta} is used when the child buffer is directly
+ * using the {@link Memory} of the parent buffer, and wants to prevent the parent
+ * buffer from being returned to a buffer pool until the {@link Memory} is available
+ * for re-use.
+ * @version 1.6
+ */
+public class ParentBufferMeta extends Struct {
+    
+    static {
+        Gst.javagi$ensureInitialized();
+    }
+    
+    private static final java.lang.String C_TYPE_NAME = "GstParentBufferMeta";
+    
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
+        org.gstreamer.gst.Meta.getMemoryLayout().withName("parent"),
+        Interop.valueLayout.ADDRESS.withName("buffer")
+    ).withName(C_TYPE_NAME);
+    
+    /**
+     * The memory layout of the native struct.
+     * @return the memory layout
+     */
+    @ApiStatus.Internal
+    public static MemoryLayout getMemoryLayout() {
+        return memoryLayout;
+    }
+    
+    private MemorySegment allocatedMemorySegment;
+    
+    /**
+     * Allocate a new {@link ParentBufferMeta}
+     * @return A new, uninitialized @{link ParentBufferMeta}
+     */
+    public static ParentBufferMeta allocate() {
+        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
+        ParentBufferMeta newInstance = new ParentBufferMeta(segment.address(), Ownership.NONE);
+        newInstance.allocatedMemorySegment = segment;
+        return newInstance;
+    }
+    
+    /**
+     * Get the value of the field {@code parent}
+     * @return The value of the field {@code parent}
+     */
+    public org.gstreamer.gst.Meta parent$get() {
+        long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent"));
+        return new org.gstreamer.gst.Meta(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+    }
+    
+    /**
+     * Get the value of the field {@code buffer}
+     * @return The value of the field {@code buffer}
+     */
+    public org.gstreamer.gst.Buffer buffer$get() {
+        var RESULT = (MemoryAddress) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("buffer"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return new org.gstreamer.gst.Buffer(RESULT, Ownership.UNKNOWN);
+    }
+    
+    /**
+     * Change the value of the field {@code buffer}
+     * @param buffer The new value of the field {@code buffer}
+     */
+    public void buffer$set(org.gstreamer.gst.Buffer buffer) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("buffer"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), buffer.handle());
+    }
+    
+    /**
+     * Create a ParentBufferMeta proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
+    @ApiStatus.Internal
+    public ParentBufferMeta(Addressable address, Ownership ownership) {
+        super(address, ownership);
+    }
+    
+    /**
+     * Gets the global {@link MetaInfo} describing  the {@link ParentBufferMeta} meta.
+     * @return The {@link MetaInfo}
+     */
+    public static @NotNull org.gstreamer.gst.MetaInfo getInfo() {
+        MemoryAddress RESULT;
+        try {
+            RESULT = (MemoryAddress) DowncallHandles.gst_parent_buffer_meta_get_info.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gstreamer.gst.MetaInfo(RESULT, Ownership.NONE);
+    }
+    
+    private static class DowncallHandles {
+        
+        private static final MethodHandle gst_parent_buffer_meta_get_info = Interop.downcallHandle(
+            "gst_parent_buffer_meta_get_info",
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+            false
+        );
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private ParentBufferMeta struct;
+        
+         /**
+         * A {@link ParentBufferMeta.Build} object constructs a {@link ParentBufferMeta} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = ParentBufferMeta.allocate();
+        }
+        
+         /**
+         * Finish building the {@link ParentBufferMeta} struct.
+         * @return A new instance of {@code ParentBufferMeta} with the fields 
+         *         that were set in the Build object.
+         */
+        public ParentBufferMeta construct() {
+            return struct;
+        }
+        
+        /**
+         * the parent {@link Meta} structure
+         * @param parent The value for the {@code parent} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setParent(org.gstreamer.gst.Meta parent) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("parent"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parent == null ? MemoryAddress.NULL : parent.handle()));
+            return this;
+        }
+        
+        /**
+         * the {@link Buffer} on which a reference is being held.
+         * @param buffer The value for the {@code buffer} field
+         * @return The {@code Build} instance is returned, to allow method chaining
+         */
+        public Build setBuffer(org.gstreamer.gst.Buffer buffer) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("buffer"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (buffer == null ? MemoryAddress.NULL : buffer.handle()));
+            return this;
+        }
+    }
+}

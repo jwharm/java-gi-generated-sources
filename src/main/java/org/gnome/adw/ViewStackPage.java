@@ -49,11 +49,7 @@ public class ViewStackPage extends org.gtk.gobject.Object {
      * @throws ClassCastException If the GType is not derived from "AdwViewStackPage", a ClassCastException will be thrown.
      */
     public static ViewStackPage castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), ViewStackPage.getType())) {
             return new ViewStackPage(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of AdwViewStackPage");
-        }
     }
     
     /**

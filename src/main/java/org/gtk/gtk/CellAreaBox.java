@@ -66,11 +66,7 @@ public class CellAreaBox extends org.gtk.gtk.CellArea implements org.gtk.gtk.Bui
      * @throws ClassCastException If the GType is not derived from "GtkCellAreaBox", a ClassCastException will be thrown.
      */
     public static CellAreaBox castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), CellAreaBox.getType())) {
             return new CellAreaBox(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkCellAreaBox");
-        }
     }
     
     private static Addressable constructNew() {

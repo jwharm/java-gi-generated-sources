@@ -53,11 +53,7 @@ public class CairoContext extends org.gtk.gdk.DrawContext {
      * @throws ClassCastException If the GType is not derived from "GdkCairoContext", a ClassCastException will be thrown.
      */
     public static CairoContext castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), CairoContext.getType())) {
             return new CairoContext(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GdkCairoContext");
-        }
     }
     
     /**

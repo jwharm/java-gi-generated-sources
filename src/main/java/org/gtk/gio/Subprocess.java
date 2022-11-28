@@ -105,11 +105,7 @@ public class Subprocess extends org.gtk.gobject.Object implements org.gtk.gio.In
      * @throws ClassCastException If the GType is not derived from "GSubprocess", a ClassCastException will be thrown.
      */
     public static Subprocess castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), Subprocess.getType())) {
             return new Subprocess(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GSubprocess");
-        }
     }
     
     private static Addressable constructNew(@NotNull org.gtk.gio.SubprocessFlags flags, @Nullable PointerProxy<org.gtk.glib.Error> error, @NotNull java.lang.String argv0, java.lang.Object... varargs) {
@@ -227,7 +223,9 @@ public class Subprocess extends org.gtk.gobject.Object implements org.gtk.gio.In
      * @return {@code true} if successful
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public boolean communicate(@Nullable org.gtk.glib.Bytes stdinBuf, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable PointerProxy<org.gtk.glib.Bytes> stdoutBuf, @Nullable PointerProxy<org.gtk.glib.Bytes> stderrBuf) throws io.github.jwharm.javagi.GErrorException {
+    public boolean communicate(@Nullable org.gtk.glib.Bytes stdinBuf, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable Out<org.gtk.glib.Bytes> stdoutBuf, @Nullable Out<org.gtk.glib.Bytes> stderrBuf) throws io.github.jwharm.javagi.GErrorException {
+        MemorySegment stdoutBufPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
+        MemorySegment stderrBufPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
@@ -235,8 +233,8 @@ public class Subprocess extends org.gtk.gobject.Object implements org.gtk.gio.In
                     handle(),
                     (Addressable) (stdinBuf == null ? MemoryAddress.NULL : stdinBuf.handle()),
                     (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
-                    (Addressable) (stdoutBuf == null ? MemoryAddress.NULL : stdoutBuf.handle()),
-                    (Addressable) (stderrBuf == null ? MemoryAddress.NULL : stderrBuf.handle()),
+                    (Addressable) (stdoutBuf == null ? MemoryAddress.NULL : (Addressable) stdoutBufPOINTER.address()),
+                    (Addressable) (stderrBuf == null ? MemoryAddress.NULL : (Addressable) stderrBufPOINTER.address()),
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -244,6 +242,8 @@ public class Subprocess extends org.gtk.gobject.Object implements org.gtk.gio.In
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
+        if (stdoutBuf != null) stdoutBuf.set(new org.gtk.glib.Bytes(stdoutBufPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
+        if (stderrBuf != null) stderrBuf.set(new org.gtk.glib.Bytes(stderrBufPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
         return RESULT != 0;
     }
     
@@ -278,16 +278,18 @@ public class Subprocess extends org.gtk.gobject.Object implements org.gtk.gio.In
      * @param stderrBuf Return location for stderr data
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public boolean communicateFinish(@NotNull org.gtk.gio.AsyncResult result, @Nullable PointerProxy<org.gtk.glib.Bytes> stdoutBuf, @Nullable PointerProxy<org.gtk.glib.Bytes> stderrBuf) throws io.github.jwharm.javagi.GErrorException {
+    public boolean communicateFinish(@NotNull org.gtk.gio.AsyncResult result, @Nullable Out<org.gtk.glib.Bytes> stdoutBuf, @Nullable Out<org.gtk.glib.Bytes> stderrBuf) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(result, "Parameter 'result' must not be null");
+        MemorySegment stdoutBufPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
+        MemorySegment stderrBufPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_subprocess_communicate_finish.invokeExact(
                     handle(),
                     result.handle(),
-                    (Addressable) (stdoutBuf == null ? MemoryAddress.NULL : stdoutBuf.handle()),
-                    (Addressable) (stderrBuf == null ? MemoryAddress.NULL : stderrBuf.handle()),
+                    (Addressable) (stdoutBuf == null ? MemoryAddress.NULL : (Addressable) stdoutBufPOINTER.address()),
+                    (Addressable) (stderrBuf == null ? MemoryAddress.NULL : (Addressable) stderrBufPOINTER.address()),
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -295,6 +297,8 @@ public class Subprocess extends org.gtk.gobject.Object implements org.gtk.gio.In
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
+        if (stdoutBuf != null) stdoutBuf.set(new org.gtk.glib.Bytes(stdoutBufPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
+        if (stderrBuf != null) stderrBuf.set(new org.gtk.glib.Bytes(stderrBufPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
         return RESULT != 0;
     }
     
@@ -647,7 +651,7 @@ public class Subprocess extends org.gtk.gobject.Object implements org.gtk.gio.In
      * @return {@code true} on success, {@code false} if {@code cancellable} was cancelled
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public boolean wait(@Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+    public boolean wait_(@Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {

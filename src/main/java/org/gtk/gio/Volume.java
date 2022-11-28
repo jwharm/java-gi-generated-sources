@@ -61,11 +61,7 @@ public interface Volume extends io.github.jwharm.javagi.Proxy {
      * @throws ClassCastException If the GType is not derived from "GVolume", a ClassCastException will be thrown.
      */
     public static Volume castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), Volume.getType())) {
             return new VolumeImpl(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GVolume");
-        }
     }
     
     /**

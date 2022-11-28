@@ -61,11 +61,7 @@ public class GesturePan extends org.gtk.gtk.GestureDrag {
      * @throws ClassCastException If the GType is not derived from "GtkGesturePan", a ClassCastException will be thrown.
      */
     public static GesturePan castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), GesturePan.getType())) {
             return new GesturePan(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkGesturePan");
-        }
     }
     
     private static Addressable constructNew(@NotNull org.gtk.gtk.Orientation orientation) {

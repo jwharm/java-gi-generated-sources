@@ -56,15 +56,6 @@ public class TreeStore extends org.gtk.gobject.Object implements org.gtk.gtk.Bui
     }
     
     /**
-     * Get the value of the field {@code parent}
-     * @return The value of the field {@code parent}
-     */
-    public org.gtk.gobject.Object parent$get() {
-        long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent"));
-        return new org.gtk.gobject.Object(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
-    }
-    
-    /**
      * Create a TreeStore proxy instance for the provided memory address.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
@@ -87,11 +78,7 @@ public class TreeStore extends org.gtk.gobject.Object implements org.gtk.gtk.Bui
      * @throws ClassCastException If the GType is not derived from "GtkTreeStore", a ClassCastException will be thrown.
      */
     public static TreeStore castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), TreeStore.getType())) {
             return new TreeStore(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkTreeStore");
-        }
     }
     
     private static Addressable constructNew(int nColumns, java.lang.Object... varargs) {

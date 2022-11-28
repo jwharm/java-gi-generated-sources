@@ -61,11 +61,7 @@ public class Video extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      * @throws ClassCastException If the GType is not derived from "GtkVideo", a ClassCastException will be thrown.
      */
     public static Video castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), Video.getType())) {
             return new Video(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkVideo");
-        }
     }
     
     private static Addressable constructNew() {

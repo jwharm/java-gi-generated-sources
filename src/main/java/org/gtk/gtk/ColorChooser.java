@@ -30,11 +30,7 @@ public interface ColorChooser extends io.github.jwharm.javagi.Proxy {
      * @throws ClassCastException If the GType is not derived from "GtkColorChooser", a ClassCastException will be thrown.
      */
     public static ColorChooser castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), ColorChooser.getType())) {
             return new ColorChooserImpl(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkColorChooser");
-        }
     }
     
     /**

@@ -89,17 +89,17 @@ public class MarkupParser extends Struct {
             return struct;
         }
         
-        public Build setStartElement(java.lang.foreign.MemoryAddress start_element) {
+        public Build setStartElement(java.lang.foreign.MemoryAddress startElement) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("start_element"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (start_element == null ? MemoryAddress.NULL : start_element));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (startElement == null ? MemoryAddress.NULL : startElement));
             return this;
         }
         
-        public Build setEndElement(java.lang.foreign.MemoryAddress end_element) {
+        public Build setEndElement(java.lang.foreign.MemoryAddress endElement) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("end_element"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (end_element == null ? MemoryAddress.NULL : end_element));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (endElement == null ? MemoryAddress.NULL : endElement));
             return this;
         }
         

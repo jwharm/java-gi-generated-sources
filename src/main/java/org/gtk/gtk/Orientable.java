@@ -27,11 +27,7 @@ public interface Orientable extends io.github.jwharm.javagi.Proxy {
      * @throws ClassCastException If the GType is not derived from "GtkOrientable", a ClassCastException will be thrown.
      */
     public static Orientable castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), Orientable.getType())) {
             return new OrientableImpl(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkOrientable");
-        }
     }
     
     /**

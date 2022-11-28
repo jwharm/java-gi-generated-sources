@@ -63,11 +63,7 @@ public class FontChooserWidget extends org.gtk.gtk.Widget implements org.gtk.gtk
      * @throws ClassCastException If the GType is not derived from "GtkFontChooserWidget", a ClassCastException will be thrown.
      */
     public static FontChooserWidget castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), FontChooserWidget.getType())) {
             return new FontChooserWidget(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkFontChooserWidget");
-        }
     }
     
     private static Addressable constructNew() {

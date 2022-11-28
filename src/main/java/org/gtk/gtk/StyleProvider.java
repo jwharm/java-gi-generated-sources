@@ -31,11 +31,7 @@ public interface StyleProvider extends io.github.jwharm.javagi.Proxy {
      * @throws ClassCastException If the GType is not derived from "GtkStyleProvider", a ClassCastException will be thrown.
      */
     public static StyleProvider castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), StyleProvider.getType())) {
             return new StyleProviderImpl(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkStyleProvider");
-        }
     }
     
     /**

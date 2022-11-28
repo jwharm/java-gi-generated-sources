@@ -79,11 +79,7 @@ public class Cursor extends org.gtk.gobject.Object {
      * @throws ClassCastException If the GType is not derived from "GdkCursor", a ClassCastException will be thrown.
      */
     public static Cursor castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), Cursor.getType())) {
             return new Cursor(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GdkCursor");
-        }
     }
     
     private static Addressable constructNewFromName(@NotNull java.lang.String name, @Nullable org.gtk.gdk.Cursor fallback) {

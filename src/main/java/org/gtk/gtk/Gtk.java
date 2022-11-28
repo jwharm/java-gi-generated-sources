@@ -847,10 +847,10 @@ public final class Gtk {
      * <p>
      * If {@code func} returns {@code true}, the enumeration is stopped.
      * @param func a function to call for each printer
-     * @param wait if {@code true}, wait in a recursive mainloop until
+     * @param wait_ if {@code true}, wait in a recursive mainloop until
      *    all printers are enumerated; otherwise return early
      */
-    public static void enumeratePrinters(@NotNull org.gtk.gtk.PrinterFunc func, boolean wait) {
+    public static void enumeratePrinters(@NotNull org.gtk.gtk.PrinterFunc func, boolean wait_) {
         java.util.Objects.requireNonNull(func, "Parameter 'func' must not be null");
         try {
             DowncallHandles.gtk_enumerate_printers.invokeExact(
@@ -861,7 +861,7 @@ public final class Gtk {
                         Interop.getScope()),
                     (Addressable) (Interop.registerCallback(func)),
                     Interop.cbDestroyNotifySymbol(),
-                    wait ? 1 : 0);
+                    wait_ ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -2150,17 +2150,21 @@ public final class Gtk {
      * @return {@code true} if {@code selection_data} had target type {@code GTK_TYPE_TREE_ROW_DATA}
      *  is otherwise valid
      */
-    public static boolean treeGetRowDragData(@NotNull org.gtk.gobject.Value value, @Nullable PointerProxy<org.gtk.gtk.TreeModel> treeModel, @Nullable PointerProxy<org.gtk.gtk.TreePath> path) {
+    public static boolean treeGetRowDragData(@NotNull org.gtk.gobject.Value value, @Nullable Out<org.gtk.gtk.TreeModel> treeModel, @Nullable Out<org.gtk.gtk.TreePath> path) {
         java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
+        MemorySegment treeModelPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
+        MemorySegment pathPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_tree_get_row_drag_data.invokeExact(
                     value.handle(),
-                    (Addressable) (treeModel == null ? MemoryAddress.NULL : treeModel.handle()),
-                    (Addressable) (path == null ? MemoryAddress.NULL : path.handle()));
+                    (Addressable) (treeModel == null ? MemoryAddress.NULL : (Addressable) treeModelPOINTER.address()),
+                    (Addressable) (path == null ? MemoryAddress.NULL : (Addressable) pathPOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (treeModel != null) treeModel.set(new org.gtk.gtk.TreeModel.TreeModelImpl(treeModelPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.NONE));
+        if (path != null) path.set(new org.gtk.gtk.TreePath(pathPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
         return RESULT != 0;
     }
     
@@ -2835,11 +2839,11 @@ public final class Gtk {
             return RESULT;
         }
         
-        public static boolean cbEntryCompletionMatchFunc(MemoryAddress completion, MemoryAddress key, MemoryAddress iter, MemoryAddress userData) {
+        public static int cbEntryCompletionMatchFunc(MemoryAddress completion, MemoryAddress key, MemoryAddress iter, MemoryAddress userData) {
             int HASH = userData.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (EntryCompletionMatchFunc) Interop.signalRegistry.get(HASH);
             var RESULT = HANDLER.onEntryCompletionMatchFunc(new org.gtk.gtk.EntryCompletion(completion, Ownership.NONE), Interop.getStringFrom(key), new org.gtk.gtk.TreeIter(iter, Ownership.NONE));
-            return RESULT;
+            return RESULT ? 1 : 0;
         }
         
         public static void cbMenuButtonCreatePopupFunc(MemoryAddress menuButton, MemoryAddress userData) {
@@ -2854,11 +2858,11 @@ public final class Gtk {
             HANDLER.onExpressionNotify();
         }
         
-        public static org.gtk.gtk.Widget cbFlowBoxCreateWidgetFunc(MemoryAddress item, MemoryAddress userData) {
+        public static Addressable cbFlowBoxCreateWidgetFunc(MemoryAddress item, MemoryAddress userData) {
             int HASH = userData.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (FlowBoxCreateWidgetFunc) Interop.signalRegistry.get(HASH);
             var RESULT = HANDLER.onFlowBoxCreateWidgetFunc(new org.gtk.gobject.Object(item, Ownership.NONE));
-            return RESULT;
+            return RESULT.handle();
         }
         
         public static void cbFlowBoxForeachFunc(MemoryAddress box, MemoryAddress child, MemoryAddress userData) {
@@ -2867,25 +2871,25 @@ public final class Gtk {
             HANDLER.onFlowBoxForeachFunc(new org.gtk.gtk.FlowBox(box, Ownership.NONE), new org.gtk.gtk.FlowBoxChild(child, Ownership.NONE));
         }
         
-        public static java.lang.String cbScaleFormatValueFunc(MemoryAddress scale, double value, MemoryAddress userData) {
+        public static Addressable cbScaleFormatValueFunc(MemoryAddress scale, double value, MemoryAddress userData) {
             int HASH = userData.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (ScaleFormatValueFunc) Interop.signalRegistry.get(HASH);
             var RESULT = HANDLER.onScaleFormatValueFunc(new org.gtk.gtk.Scale(scale, Ownership.NONE), value);
-            return RESULT;
+            return Interop.allocateNativeString(RESULT);
         }
         
-        public static boolean cbCellCallback(MemoryAddress renderer, MemoryAddress data) {
+        public static int cbCellCallback(MemoryAddress renderer, MemoryAddress data) {
             int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (CellCallback) Interop.signalRegistry.get(HASH);
             var RESULT = HANDLER.onCellCallback(new org.gtk.gtk.CellRenderer(renderer, Ownership.NONE));
-            return RESULT;
+            return RESULT ? 1 : 0;
         }
         
-        public static boolean cbListBoxFilterFunc(MemoryAddress row, MemoryAddress userData) {
+        public static int cbListBoxFilterFunc(MemoryAddress row, MemoryAddress userData) {
             int HASH = userData.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (ListBoxFilterFunc) Interop.signalRegistry.get(HASH);
             var RESULT = HANDLER.onListBoxFilterFunc(new org.gtk.gtk.ListBoxRow(row, Ownership.NONE));
-            return RESULT;
+            return RESULT ? 1 : 0;
         }
         
         public static int cbListBoxSortFunc(MemoryAddress row1, MemoryAddress row2, MemoryAddress userData) {
@@ -2907,11 +2911,11 @@ public final class Gtk {
             HANDLER.onListBoxForeachFunc(new org.gtk.gtk.ListBox(box, Ownership.NONE), new org.gtk.gtk.ListBoxRow(row, Ownership.NONE));
         }
         
-        public static org.gtk.gtk.Widget cbListBoxCreateWidgetFunc(MemoryAddress item, MemoryAddress userData) {
+        public static Addressable cbListBoxCreateWidgetFunc(MemoryAddress item, MemoryAddress userData) {
             int HASH = userData.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (ListBoxCreateWidgetFunc) Interop.signalRegistry.get(HASH);
             var RESULT = HANDLER.onListBoxCreateWidgetFunc(new org.gtk.gobject.Object(item, Ownership.NONE));
-            return RESULT;
+            return RESULT.handle();
         }
         
         public static void cbTreeViewMappingFunc(MemoryAddress treeView, MemoryAddress path, MemoryAddress userData) {
@@ -2920,11 +2924,11 @@ public final class Gtk {
             HANDLER.onTreeViewMappingFunc(new org.gtk.gtk.TreeView(treeView, Ownership.NONE), new org.gtk.gtk.TreePath(path, Ownership.NONE));
         }
         
-        public static boolean cbTreeViewColumnDropFunc(MemoryAddress treeView, MemoryAddress column, MemoryAddress prevColumn, MemoryAddress nextColumn, MemoryAddress data) {
+        public static int cbTreeViewColumnDropFunc(MemoryAddress treeView, MemoryAddress column, MemoryAddress prevColumn, MemoryAddress nextColumn, MemoryAddress data) {
             int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (TreeViewColumnDropFunc) Interop.signalRegistry.get(HASH);
             var RESULT = HANDLER.onTreeViewColumnDropFunc(new org.gtk.gtk.TreeView(treeView, Ownership.NONE), new org.gtk.gtk.TreeViewColumn(column, Ownership.NONE), new org.gtk.gtk.TreeViewColumn(prevColumn, Ownership.NONE), new org.gtk.gtk.TreeViewColumn(nextColumn, Ownership.NONE));
-            return RESULT;
+            return RESULT ? 1 : 0;
         }
         
         public static void cbTreeSelectionForeachFunc(MemoryAddress model, MemoryAddress path, MemoryAddress iter, MemoryAddress data) {
@@ -2940,18 +2944,18 @@ public final class Gtk {
             return RESULT;
         }
         
-        public static boolean cbFontFilterFunc(MemoryAddress family, MemoryAddress face, MemoryAddress data) {
+        public static int cbFontFilterFunc(MemoryAddress family, MemoryAddress face, MemoryAddress data) {
             int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (FontFilterFunc) Interop.signalRegistry.get(HASH);
             var RESULT = HANDLER.onFontFilterFunc(new org.pango.FontFamily(family, Ownership.NONE), new org.pango.FontFace(face, Ownership.NONE));
-            return RESULT;
+            return RESULT ? 1 : 0;
         }
         
-        public static boolean cbTreeModelForeachFunc(MemoryAddress model, MemoryAddress path, MemoryAddress iter, MemoryAddress data) {
+        public static int cbTreeModelForeachFunc(MemoryAddress model, MemoryAddress path, MemoryAddress iter, MemoryAddress data) {
             int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (TreeModelForeachFunc) Interop.signalRegistry.get(HASH);
             var RESULT = HANDLER.onTreeModelForeachFunc(new org.gtk.gtk.TreeModel.TreeModelImpl(model, Ownership.NONE), new org.gtk.gtk.TreePath(path, Ownership.NONE), new org.gtk.gtk.TreeIter(iter, Ownership.NONE));
-            return RESULT;
+            return RESULT ? 1 : 0;
         }
         
         public static void cbTextTagTableForeach(MemoryAddress tag, MemoryAddress data) {
@@ -2972,11 +2976,11 @@ public final class Gtk {
             HANDLER.onTreeModelFilterModifyFunc(new org.gtk.gtk.TreeModel.TreeModelImpl(model, Ownership.NONE), new org.gtk.gtk.TreeIter(iter, Ownership.NONE), new org.gtk.gobject.Value(value, Ownership.NONE), column);
         }
         
-        public static boolean cbTreeViewSearchEqualFunc(MemoryAddress model, int column, MemoryAddress key, MemoryAddress iter, MemoryAddress searchData) {
+        public static int cbTreeViewSearchEqualFunc(MemoryAddress model, int column, MemoryAddress key, MemoryAddress iter, MemoryAddress searchData) {
             int HASH = searchData.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (TreeViewSearchEqualFunc) Interop.signalRegistry.get(HASH);
             var RESULT = HANDLER.onTreeViewSearchEqualFunc(new org.gtk.gtk.TreeModel.TreeModelImpl(model, Ownership.NONE), column, Interop.getStringFrom(key), new org.gtk.gtk.TreeIter(iter, Ownership.NONE));
-            return RESULT;
+            return RESULT ? 1 : 0;
         }
         
         public static void cbTreeCellDataFunc(MemoryAddress treeColumn, MemoryAddress cell, MemoryAddress treeModel, MemoryAddress iter, MemoryAddress data) {
@@ -2985,18 +2989,18 @@ public final class Gtk {
             HANDLER.onTreeCellDataFunc(new org.gtk.gtk.TreeViewColumn(treeColumn, Ownership.NONE), new org.gtk.gtk.CellRenderer(cell, Ownership.NONE), new org.gtk.gtk.TreeModel.TreeModelImpl(treeModel, Ownership.NONE), new org.gtk.gtk.TreeIter(iter, Ownership.NONE));
         }
         
-        public static boolean cbTreeModelFilterVisibleFunc(MemoryAddress model, MemoryAddress iter, MemoryAddress data) {
+        public static int cbTreeModelFilterVisibleFunc(MemoryAddress model, MemoryAddress iter, MemoryAddress data) {
             int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (TreeModelFilterVisibleFunc) Interop.signalRegistry.get(HASH);
             var RESULT = HANDLER.onTreeModelFilterVisibleFunc(new org.gtk.gtk.TreeModel.TreeModelImpl(model, Ownership.NONE), new org.gtk.gtk.TreeIter(iter, Ownership.NONE));
-            return RESULT;
+            return RESULT ? 1 : 0;
         }
         
-        public static boolean cbTextCharPredicate(int ch, MemoryAddress userData) {
+        public static int cbTextCharPredicate(int ch, MemoryAddress userData) {
             int HASH = userData.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (TextCharPredicate) Interop.signalRegistry.get(HASH);
             var RESULT = HANDLER.onTextCharPredicate(ch);
-            return RESULT;
+            return RESULT ? 1 : 0;
         }
         
         public static void cbPageSetupDoneFunc(MemoryAddress pageSetup, MemoryAddress data) {
@@ -3011,25 +3015,25 @@ public final class Gtk {
             HANDLER.onIconViewForeachFunc(new org.gtk.gtk.IconView(iconView, Ownership.NONE), new org.gtk.gtk.TreePath(path, Ownership.NONE));
         }
         
-        public static org.gtk.gobject.Object cbMapListModelMapFunc(MemoryAddress item, MemoryAddress userData) {
+        public static Addressable cbMapListModelMapFunc(MemoryAddress item, MemoryAddress userData) {
             int HASH = userData.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (MapListModelMapFunc) Interop.signalRegistry.get(HASH);
             var RESULT = HANDLER.onMapListModelMapFunc(new org.gtk.gobject.Object(item, Ownership.FULL));
-            return RESULT;
+            return RESULT.handle();
         }
         
-        public static boolean cbFlowBoxFilterFunc(MemoryAddress child, MemoryAddress userData) {
+        public static int cbFlowBoxFilterFunc(MemoryAddress child, MemoryAddress userData) {
             int HASH = userData.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (FlowBoxFilterFunc) Interop.signalRegistry.get(HASH);
             var RESULT = HANDLER.onFlowBoxFilterFunc(new org.gtk.gtk.FlowBoxChild(child, Ownership.NONE));
-            return RESULT;
+            return RESULT ? 1 : 0;
         }
         
-        public static boolean cbCustomFilterFunc(MemoryAddress item, MemoryAddress userData) {
+        public static int cbCustomFilterFunc(MemoryAddress item, MemoryAddress userData) {
             int HASH = userData.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (CustomFilterFunc) Interop.signalRegistry.get(HASH);
             var RESULT = HANDLER.onCustomFilterFunc(new org.gtk.gobject.Object(item, Ownership.NONE));
-            return RESULT;
+            return RESULT ? 1 : 0;
         }
         
         public static void cbPrintJobCompleteFunc(MemoryAddress printJob, MemoryAddress userData, MemoryAddress error) {
@@ -3038,18 +3042,18 @@ public final class Gtk {
             HANDLER.onPrintJobCompleteFunc(new org.gtk.gtk.PrintJob(printJob, Ownership.NONE), new org.gtk.glib.Error(error, Ownership.NONE));
         }
         
-        public static org.gtk.gio.ListModel cbTreeListModelCreateModelFunc(MemoryAddress item, MemoryAddress userData) {
+        public static Addressable cbTreeListModelCreateModelFunc(MemoryAddress item, MemoryAddress userData) {
             int HASH = userData.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (TreeListModelCreateModelFunc) Interop.signalRegistry.get(HASH);
             var RESULT = HANDLER.onTreeListModelCreateModelFunc(new org.gtk.gobject.Object(item, Ownership.NONE));
-            return RESULT;
+            return RESULT.handle();
         }
         
-        public static boolean cbTreeSelectionFunc(MemoryAddress selection, MemoryAddress model, MemoryAddress path, int pathCurrentlySelected, MemoryAddress data) {
+        public static int cbTreeSelectionFunc(MemoryAddress selection, MemoryAddress model, MemoryAddress path, int pathCurrentlySelected, MemoryAddress data) {
             int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (TreeSelectionFunc) Interop.signalRegistry.get(HASH);
             var RESULT = HANDLER.onTreeSelectionFunc(new org.gtk.gtk.TreeSelection(selection, Ownership.NONE), new org.gtk.gtk.TreeModel.TreeModelImpl(model, Ownership.NONE), new org.gtk.gtk.TreePath(path, Ownership.NONE), pathCurrentlySelected != 0);
-            return RESULT;
+            return RESULT ? 1 : 0;
         }
         
         public static void cbDrawingAreaDrawFunc(MemoryAddress drawingArea, MemoryAddress cr, int width, int height, MemoryAddress userData) {
@@ -3058,11 +3062,11 @@ public final class Gtk {
             HANDLER.onDrawingAreaDrawFunc(new org.gtk.gtk.DrawingArea(drawingArea, Ownership.NONE), new org.cairographics.Context(cr, Ownership.NONE), width, height);
         }
         
-        public static boolean cbShortcutFunc(MemoryAddress widget, MemoryAddress args, MemoryAddress userData) {
+        public static int cbShortcutFunc(MemoryAddress widget, MemoryAddress args, MemoryAddress userData) {
             int HASH = userData.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (ShortcutFunc) Interop.signalRegistry.get(HASH);
             var RESULT = HANDLER.onShortcutFunc(new org.gtk.gtk.Widget(widget, Ownership.NONE), new org.gtk.glib.Variant(args, Ownership.NONE));
-            return RESULT;
+            return RESULT ? 1 : 0;
         }
         
         public static void cbListBoxUpdateHeaderFunc(MemoryAddress row, MemoryAddress before, MemoryAddress userData) {
@@ -3078,32 +3082,32 @@ public final class Gtk {
             return RESULT;
         }
         
-        public static boolean cbCellAllocCallback(MemoryAddress renderer, MemoryAddress cellArea, MemoryAddress cellBackground, MemoryAddress data) {
+        public static int cbCellAllocCallback(MemoryAddress renderer, MemoryAddress cellArea, MemoryAddress cellBackground, MemoryAddress data) {
             int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (CellAllocCallback) Interop.signalRegistry.get(HASH);
             var RESULT = HANDLER.onCellAllocCallback(new org.gtk.gtk.CellRenderer(renderer, Ownership.NONE), new org.gtk.gdk.Rectangle(cellArea, Ownership.NONE), new org.gtk.gdk.Rectangle(cellBackground, Ownership.NONE));
-            return RESULT;
+            return RESULT ? 1 : 0;
         }
         
-        public static boolean cbTickCallback(MemoryAddress widget, MemoryAddress frameClock, MemoryAddress userData) {
+        public static int cbTickCallback(MemoryAddress widget, MemoryAddress frameClock, MemoryAddress userData) {
             int HASH = userData.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (TickCallback) Interop.signalRegistry.get(HASH);
             var RESULT = HANDLER.onTickCallback(new org.gtk.gtk.Widget(widget, Ownership.NONE), new org.gtk.gdk.FrameClock(frameClock, Ownership.NONE));
-            return RESULT;
+            return RESULT ? 1 : 0;
         }
         
-        public static boolean cbPrinterFunc(MemoryAddress printer, MemoryAddress data) {
+        public static int cbPrinterFunc(MemoryAddress printer, MemoryAddress data) {
             int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (PrinterFunc) Interop.signalRegistry.get(HASH);
             var RESULT = HANDLER.onPrinterFunc(new org.gtk.gtk.Printer(printer, Ownership.NONE));
-            return RESULT;
+            return RESULT ? 1 : 0;
         }
         
-        public static boolean cbTreeViewRowSeparatorFunc(MemoryAddress model, MemoryAddress iter, MemoryAddress data) {
+        public static int cbTreeViewRowSeparatorFunc(MemoryAddress model, MemoryAddress iter, MemoryAddress data) {
             int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (TreeViewRowSeparatorFunc) Interop.signalRegistry.get(HASH);
             var RESULT = HANDLER.onTreeViewRowSeparatorFunc(new org.gtk.gtk.TreeModel.TreeModelImpl(model, Ownership.NONE), new org.gtk.gtk.TreeIter(iter, Ownership.NONE));
-            return RESULT;
+            return RESULT ? 1 : 0;
         }
     }
 }

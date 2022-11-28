@@ -33,15 +33,6 @@ public class VolumeButton extends org.gtk.gtk.ScaleButton implements org.gtk.gtk
     }
     
     /**
-     * Get the value of the field {@code parent}
-     * @return The value of the field {@code parent}
-     */
-    public org.gtk.gtk.ScaleButton parent$get() {
-        long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent"));
-        return new org.gtk.gtk.ScaleButton(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
-    }
-    
-    /**
      * Create a VolumeButton proxy instance for the provided memory address.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
@@ -64,11 +55,7 @@ public class VolumeButton extends org.gtk.gtk.ScaleButton implements org.gtk.gtk
      * @throws ClassCastException If the GType is not derived from "GtkVolumeButton", a ClassCastException will be thrown.
      */
     public static VolumeButton castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), VolumeButton.getType())) {
             return new VolumeButton(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkVolumeButton");
-        }
     }
     
     private static Addressable constructNew() {

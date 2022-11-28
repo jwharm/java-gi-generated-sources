@@ -61,7 +61,7 @@ public class AttrShape extends Struct {
      * Get the value of the field {@code ink_rect}
      * @return The value of the field {@code ink_rect}
      */
-    public org.pango.Rectangle ink_rect$get() {
+    public org.pango.Rectangle inkRect$get() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("ink_rect"));
         return new org.pango.Rectangle(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
     }
@@ -70,7 +70,7 @@ public class AttrShape extends Struct {
      * Get the value of the field {@code logical_rect}
      * @return The value of the field {@code logical_rect}
      */
-    public org.pango.Rectangle logical_rect$get() {
+    public org.pango.Rectangle logicalRect$get() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("logical_rect"));
         return new org.pango.Rectangle(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
     }
@@ -100,7 +100,7 @@ public class AttrShape extends Struct {
      * Get the value of the field {@code copy_func}
      * @return The value of the field {@code copy_func}
      */
-    public org.pango.AttrDataCopyFunc copy_func$get() {
+    public org.pango.AttrDataCopyFunc copyFunc$get() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("copy_func"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -111,7 +111,7 @@ public class AttrShape extends Struct {
      * Get the value of the field {@code destroy_func}
      * @return The value of the field {@code destroy_func}
      */
-    public org.gtk.glib.DestroyNotify destroy_func$get() {
+    public org.gtk.glib.DestroyNotify destroyFunc$get() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("destroy_func"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -247,25 +247,25 @@ public class AttrShape extends Struct {
         
         /**
          * the ink rectangle to restrict to
-         * @param ink_rect The value for the {@code ink_rect} field
+         * @param inkRect The value for the {@code inkRect} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setInkRect(org.pango.Rectangle ink_rect) {
+        public Build setInkRect(org.pango.Rectangle inkRect) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("ink_rect"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (ink_rect == null ? MemoryAddress.NULL : ink_rect.handle()));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (inkRect == null ? MemoryAddress.NULL : inkRect.handle()));
             return this;
         }
         
         /**
          * the logical rectangle to restrict to
-         * @param logical_rect The value for the {@code logical_rect} field
+         * @param logicalRect The value for the {@code logicalRect} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setLogicalRect(org.pango.Rectangle logical_rect) {
+        public Build setLogicalRect(org.pango.Rectangle logicalRect) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("logical_rect"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (logical_rect == null ? MemoryAddress.NULL : logical_rect.handle()));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (logicalRect == null ? MemoryAddress.NULL : logicalRect.handle()));
             return this;
         }
         
@@ -283,25 +283,25 @@ public class AttrShape extends Struct {
         
         /**
          * copy function for the user data
-         * @param copy_func The value for the {@code copy_func} field
+         * @param copyFunc The value for the {@code copyFunc} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setCopyFunc(java.lang.foreign.MemoryAddress copy_func) {
+        public Build setCopyFunc(java.lang.foreign.MemoryAddress copyFunc) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("copy_func"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (copy_func == null ? MemoryAddress.NULL : copy_func));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (copyFunc == null ? MemoryAddress.NULL : copyFunc));
             return this;
         }
         
         /**
          * destroy function for the user data
-         * @param destroy_func The value for the {@code destroy_func} field
+         * @param destroyFunc The value for the {@code destroyFunc} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setDestroyFunc(java.lang.foreign.MemoryAddress destroy_func) {
+        public Build setDestroyFunc(java.lang.foreign.MemoryAddress destroyFunc) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("destroy_func"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (destroy_func == null ? MemoryAddress.NULL : destroy_func));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (destroyFunc == null ? MemoryAddress.NULL : destroyFunc));
             return this;
         }
     }

@@ -92,11 +92,7 @@ public class AboutDialog extends org.gtk.gtk.Window implements org.gtk.gtk.Acces
      * @throws ClassCastException If the GType is not derived from "GtkAboutDialog", a ClassCastException will be thrown.
      */
     public static AboutDialog castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), AboutDialog.getType())) {
             return new AboutDialog(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkAboutDialog");
-        }
     }
     
     private static Addressable constructNew() {

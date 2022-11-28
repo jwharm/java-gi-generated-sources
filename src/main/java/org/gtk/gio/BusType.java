@@ -16,7 +16,7 @@ public class BusType extends io.github.jwharm.javagi.Enumeration {
     /**
      * An alias for the message bus that activated the process, if any.
      */
-    public static final BusType STARTER = new BusType(-1);
+    public static final BusType STARTER = new BusType(0);
     
     /**
      * Not a message bus.

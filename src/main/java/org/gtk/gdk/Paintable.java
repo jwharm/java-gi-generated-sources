@@ -67,11 +67,7 @@ public interface Paintable extends io.github.jwharm.javagi.Proxy {
      * @throws ClassCastException If the GType is not derived from "GdkPaintable", a ClassCastException will be thrown.
      */
     public static Paintable castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), Paintable.getType())) {
             return new PaintableImpl(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GdkPaintable");
-        }
     }
     
     /**

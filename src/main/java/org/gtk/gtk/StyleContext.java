@@ -64,15 +64,6 @@ public class StyleContext extends org.gtk.gobject.Object {
     }
     
     /**
-     * Get the value of the field {@code parent_object}
-     * @return The value of the field {@code parent_object}
-     */
-    public org.gtk.gobject.Object parent_object$get() {
-        long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_object"));
-        return new org.gtk.gobject.Object(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
-    }
-    
-    /**
      * Create a StyleContext proxy instance for the provided memory address.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
@@ -95,11 +86,7 @@ public class StyleContext extends org.gtk.gobject.Object {
      * @throws ClassCastException If the GType is not derived from "GtkStyleContext", a ClassCastException will be thrown.
      */
     public static StyleContext castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), StyleContext.getType())) {
             return new StyleContext(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkStyleContext");
-        }
     }
     
     /**

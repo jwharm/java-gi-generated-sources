@@ -48,11 +48,7 @@ public class BlendNode extends org.gtk.gsk.RenderNode {
      * @throws ClassCastException If the GType is not derived from "GskBlendNode", a ClassCastException will be thrown.
      */
     public static BlendNode castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), BlendNode.getType())) {
             return new BlendNode(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GskBlendNode");
-        }
     }
     
     private static Addressable constructNew(@NotNull org.gtk.gsk.RenderNode bottom, @NotNull org.gtk.gsk.RenderNode top, @NotNull org.gtk.gsk.BlendMode blendMode) {

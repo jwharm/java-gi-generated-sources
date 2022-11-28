@@ -58,7 +58,7 @@ public class IOStreamClass extends Struct {
      * Get the value of the field {@code parent_class}
      * @return The value of the field {@code parent_class}
      */
-    public org.gtk.gobject.ObjectClass parent_class$get() {
+    public org.gtk.gobject.ObjectClass parentClass$get() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_class"));
         return new org.gtk.gobject.ObjectClass(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
     }
@@ -100,115 +100,115 @@ public class IOStreamClass extends Struct {
             return struct;
         }
         
-        public Build setParentClass(org.gtk.gobject.ObjectClass parent_class) {
+        public Build setParentClass(org.gtk.gobject.ObjectClass parentClass) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parent_class == null ? MemoryAddress.NULL : parent_class.handle()));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
             return this;
         }
         
-        public Build setGetInputStream(java.lang.foreign.MemoryAddress get_input_stream) {
+        public Build setGetInputStream(java.lang.foreign.MemoryAddress getInputStream) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("get_input_stream"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (get_input_stream == null ? MemoryAddress.NULL : get_input_stream));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getInputStream == null ? MemoryAddress.NULL : getInputStream));
             return this;
         }
         
-        public Build setGetOutputStream(java.lang.foreign.MemoryAddress get_output_stream) {
+        public Build setGetOutputStream(java.lang.foreign.MemoryAddress getOutputStream) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("get_output_stream"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (get_output_stream == null ? MemoryAddress.NULL : get_output_stream));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getOutputStream == null ? MemoryAddress.NULL : getOutputStream));
             return this;
         }
         
-        public Build setCloseFn(java.lang.foreign.MemoryAddress close_fn) {
+        public Build setCloseFn(java.lang.foreign.MemoryAddress closeFn) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("close_fn"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (close_fn == null ? MemoryAddress.NULL : close_fn));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (closeFn == null ? MemoryAddress.NULL : closeFn));
             return this;
         }
         
-        public Build setCloseAsync(java.lang.foreign.MemoryAddress close_async) {
+        public Build setCloseAsync(java.lang.foreign.MemoryAddress closeAsync) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("close_async"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (close_async == null ? MemoryAddress.NULL : close_async));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (closeAsync == null ? MemoryAddress.NULL : closeAsync));
             return this;
         }
         
-        public Build setCloseFinish(java.lang.foreign.MemoryAddress close_finish) {
+        public Build setCloseFinish(java.lang.foreign.MemoryAddress closeFinish) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("close_finish"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (close_finish == null ? MemoryAddress.NULL : close_finish));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (closeFinish == null ? MemoryAddress.NULL : closeFinish));
             return this;
         }
         
-        public Build setGReserved1(java.lang.foreign.MemoryAddress _g_reserved1) {
+        public Build setGReserved1(java.lang.foreign.MemoryAddress GReserved1) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("_g_reserved1"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (_g_reserved1 == null ? MemoryAddress.NULL : _g_reserved1));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (GReserved1 == null ? MemoryAddress.NULL : GReserved1));
             return this;
         }
         
-        public Build setGReserved2(java.lang.foreign.MemoryAddress _g_reserved2) {
+        public Build setGReserved2(java.lang.foreign.MemoryAddress GReserved2) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("_g_reserved2"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (_g_reserved2 == null ? MemoryAddress.NULL : _g_reserved2));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (GReserved2 == null ? MemoryAddress.NULL : GReserved2));
             return this;
         }
         
-        public Build setGReserved3(java.lang.foreign.MemoryAddress _g_reserved3) {
+        public Build setGReserved3(java.lang.foreign.MemoryAddress GReserved3) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("_g_reserved3"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (_g_reserved3 == null ? MemoryAddress.NULL : _g_reserved3));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (GReserved3 == null ? MemoryAddress.NULL : GReserved3));
             return this;
         }
         
-        public Build setGReserved4(java.lang.foreign.MemoryAddress _g_reserved4) {
+        public Build setGReserved4(java.lang.foreign.MemoryAddress GReserved4) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("_g_reserved4"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (_g_reserved4 == null ? MemoryAddress.NULL : _g_reserved4));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (GReserved4 == null ? MemoryAddress.NULL : GReserved4));
             return this;
         }
         
-        public Build setGReserved5(java.lang.foreign.MemoryAddress _g_reserved5) {
+        public Build setGReserved5(java.lang.foreign.MemoryAddress GReserved5) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("_g_reserved5"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (_g_reserved5 == null ? MemoryAddress.NULL : _g_reserved5));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (GReserved5 == null ? MemoryAddress.NULL : GReserved5));
             return this;
         }
         
-        public Build setGReserved6(java.lang.foreign.MemoryAddress _g_reserved6) {
+        public Build setGReserved6(java.lang.foreign.MemoryAddress GReserved6) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("_g_reserved6"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (_g_reserved6 == null ? MemoryAddress.NULL : _g_reserved6));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (GReserved6 == null ? MemoryAddress.NULL : GReserved6));
             return this;
         }
         
-        public Build setGReserved7(java.lang.foreign.MemoryAddress _g_reserved7) {
+        public Build setGReserved7(java.lang.foreign.MemoryAddress GReserved7) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("_g_reserved7"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (_g_reserved7 == null ? MemoryAddress.NULL : _g_reserved7));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (GReserved7 == null ? MemoryAddress.NULL : GReserved7));
             return this;
         }
         
-        public Build setGReserved8(java.lang.foreign.MemoryAddress _g_reserved8) {
+        public Build setGReserved8(java.lang.foreign.MemoryAddress GReserved8) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("_g_reserved8"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (_g_reserved8 == null ? MemoryAddress.NULL : _g_reserved8));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (GReserved8 == null ? MemoryAddress.NULL : GReserved8));
             return this;
         }
         
-        public Build setGReserved9(java.lang.foreign.MemoryAddress _g_reserved9) {
+        public Build setGReserved9(java.lang.foreign.MemoryAddress GReserved9) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("_g_reserved9"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (_g_reserved9 == null ? MemoryAddress.NULL : _g_reserved9));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (GReserved9 == null ? MemoryAddress.NULL : GReserved9));
             return this;
         }
         
-        public Build setGReserved10(java.lang.foreign.MemoryAddress _g_reserved10) {
+        public Build setGReserved10(java.lang.foreign.MemoryAddress GReserved10) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("_g_reserved10"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (_g_reserved10 == null ? MemoryAddress.NULL : _g_reserved10));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (GReserved10 == null ? MemoryAddress.NULL : GReserved10));
             return this;
         }
     }

@@ -57,7 +57,7 @@ public class TextViewClass extends Struct {
      * Get the value of the field {@code parent_class}
      * @return The value of the field {@code parent_class}
      */
-    public org.gtk.gtk.WidgetClass parent_class$get() {
+    public org.gtk.gtk.WidgetClass parentClass$get() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_class"));
         return new org.gtk.gtk.WidgetClass(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
     }
@@ -101,41 +101,41 @@ public class TextViewClass extends Struct {
         
         /**
          * The object class structure needs to be the first
-         * @param parent_class The value for the {@code parent_class} field
+         * @param parentClass The value for the {@code parentClass} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setParentClass(org.gtk.gtk.WidgetClass parent_class) {
+        public Build setParentClass(org.gtk.gtk.WidgetClass parentClass) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parent_class == null ? MemoryAddress.NULL : parent_class.handle()));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
             return this;
         }
         
-        public Build setMoveCursor(java.lang.foreign.MemoryAddress move_cursor) {
+        public Build setMoveCursor(java.lang.foreign.MemoryAddress moveCursor) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("move_cursor"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (move_cursor == null ? MemoryAddress.NULL : move_cursor));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (moveCursor == null ? MemoryAddress.NULL : moveCursor));
             return this;
         }
         
-        public Build setSetAnchor(java.lang.foreign.MemoryAddress set_anchor) {
+        public Build setSetAnchor(java.lang.foreign.MemoryAddress setAnchor) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("set_anchor"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (set_anchor == null ? MemoryAddress.NULL : set_anchor));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (setAnchor == null ? MemoryAddress.NULL : setAnchor));
             return this;
         }
         
-        public Build setInsertAtCursor(java.lang.foreign.MemoryAddress insert_at_cursor) {
+        public Build setInsertAtCursor(java.lang.foreign.MemoryAddress insertAtCursor) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("insert_at_cursor"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (insert_at_cursor == null ? MemoryAddress.NULL : insert_at_cursor));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (insertAtCursor == null ? MemoryAddress.NULL : insertAtCursor));
             return this;
         }
         
-        public Build setDeleteFromCursor(java.lang.foreign.MemoryAddress delete_from_cursor) {
+        public Build setDeleteFromCursor(java.lang.foreign.MemoryAddress deleteFromCursor) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("delete_from_cursor"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (delete_from_cursor == null ? MemoryAddress.NULL : delete_from_cursor));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (deleteFromCursor == null ? MemoryAddress.NULL : deleteFromCursor));
             return this;
         }
         
@@ -146,59 +146,59 @@ public class TextViewClass extends Struct {
             return this;
         }
         
-        public Build setCutClipboard(java.lang.foreign.MemoryAddress cut_clipboard) {
+        public Build setCutClipboard(java.lang.foreign.MemoryAddress cutClipboard) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("cut_clipboard"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (cut_clipboard == null ? MemoryAddress.NULL : cut_clipboard));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (cutClipboard == null ? MemoryAddress.NULL : cutClipboard));
             return this;
         }
         
-        public Build setCopyClipboard(java.lang.foreign.MemoryAddress copy_clipboard) {
+        public Build setCopyClipboard(java.lang.foreign.MemoryAddress copyClipboard) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("copy_clipboard"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (copy_clipboard == null ? MemoryAddress.NULL : copy_clipboard));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (copyClipboard == null ? MemoryAddress.NULL : copyClipboard));
             return this;
         }
         
-        public Build setPasteClipboard(java.lang.foreign.MemoryAddress paste_clipboard) {
+        public Build setPasteClipboard(java.lang.foreign.MemoryAddress pasteClipboard) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("paste_clipboard"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (paste_clipboard == null ? MemoryAddress.NULL : paste_clipboard));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (pasteClipboard == null ? MemoryAddress.NULL : pasteClipboard));
             return this;
         }
         
-        public Build setToggleOverwrite(java.lang.foreign.MemoryAddress toggle_overwrite) {
+        public Build setToggleOverwrite(java.lang.foreign.MemoryAddress toggleOverwrite) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("toggle_overwrite"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (toggle_overwrite == null ? MemoryAddress.NULL : toggle_overwrite));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (toggleOverwrite == null ? MemoryAddress.NULL : toggleOverwrite));
             return this;
         }
         
-        public Build setCreateBuffer(java.lang.foreign.MemoryAddress create_buffer) {
+        public Build setCreateBuffer(java.lang.foreign.MemoryAddress createBuffer) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("create_buffer"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (create_buffer == null ? MemoryAddress.NULL : create_buffer));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (createBuffer == null ? MemoryAddress.NULL : createBuffer));
             return this;
         }
         
-        public Build setSnapshotLayer(java.lang.foreign.MemoryAddress snapshot_layer) {
+        public Build setSnapshotLayer(java.lang.foreign.MemoryAddress snapshotLayer) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("snapshot_layer"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (snapshot_layer == null ? MemoryAddress.NULL : snapshot_layer));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (snapshotLayer == null ? MemoryAddress.NULL : snapshotLayer));
             return this;
         }
         
-        public Build setExtendSelection(java.lang.foreign.MemoryAddress extend_selection) {
+        public Build setExtendSelection(java.lang.foreign.MemoryAddress extendSelection) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("extend_selection"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (extend_selection == null ? MemoryAddress.NULL : extend_selection));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (extendSelection == null ? MemoryAddress.NULL : extendSelection));
             return this;
         }
         
-        public Build setInsertEmoji(java.lang.foreign.MemoryAddress insert_emoji) {
+        public Build setInsertEmoji(java.lang.foreign.MemoryAddress insertEmoji) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("insert_emoji"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (insert_emoji == null ? MemoryAddress.NULL : insert_emoji));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (insertEmoji == null ? MemoryAddress.NULL : insertEmoji));
             return this;
         }
         

@@ -144,19 +144,23 @@ public class AttrIterator extends Struct {
      *   order to free this value, you must call
      *   {@link Attribute#destroy} on each member.
      */
-    public void getFont(@NotNull org.pango.FontDescription desc, @NotNull PointerProxy<org.pango.Language> language, @NotNull PointerProxy<org.gtk.glib.SList> extraAttrs) {
+    public void getFont(@NotNull org.pango.FontDescription desc, @NotNull Out<org.pango.Language> language, @NotNull Out<org.gtk.glib.SList> extraAttrs) {
         java.util.Objects.requireNonNull(desc, "Parameter 'desc' must not be null");
         java.util.Objects.requireNonNull(language, "Parameter 'language' must not be null");
+        MemorySegment languagePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         java.util.Objects.requireNonNull(extraAttrs, "Parameter 'extraAttrs' must not be null");
+        MemorySegment extraAttrsPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         try {
             DowncallHandles.pango_attr_iterator_get_font.invokeExact(
                     handle(),
                     desc.handle(),
-                    language.handle(),
-                    extraAttrs.handle());
+                    (Addressable) languagePOINTER.address(),
+                    (Addressable) extraAttrsPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        language.set(new org.pango.Language(languagePOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
+        extraAttrs.set(new org.gtk.glib.SList(extraAttrsPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
     }
     
     /**

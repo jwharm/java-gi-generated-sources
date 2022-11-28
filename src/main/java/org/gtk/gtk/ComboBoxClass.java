@@ -47,7 +47,7 @@ public class ComboBoxClass extends Struct {
      * Get the value of the field {@code parent_class}
      * @return The value of the field {@code parent_class}
      */
-    public org.gtk.gtk.WidgetClass parent_class$get() {
+    public org.gtk.gtk.WidgetClass parentClass$get() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_class"));
         return new org.gtk.gtk.WidgetClass(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
     }
@@ -91,13 +91,13 @@ public class ComboBoxClass extends Struct {
         
         /**
          * The parent class.
-         * @param parent_class The value for the {@code parent_class} field
+         * @param parentClass The value for the {@code parentClass} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setParentClass(org.gtk.gtk.WidgetClass parent_class) {
+        public Build setParentClass(org.gtk.gtk.WidgetClass parentClass) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parent_class == null ? MemoryAddress.NULL : parent_class.handle()));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
             return this;
         }
         
@@ -108,10 +108,10 @@ public class ComboBoxClass extends Struct {
             return this;
         }
         
-        public Build setFormatEntryText(java.lang.foreign.MemoryAddress format_entry_text) {
+        public Build setFormatEntryText(java.lang.foreign.MemoryAddress formatEntryText) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("format_entry_text"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (format_entry_text == null ? MemoryAddress.NULL : format_entry_text));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (formatEntryText == null ? MemoryAddress.NULL : formatEntryText));
             return this;
         }
         

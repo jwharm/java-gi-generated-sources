@@ -74,11 +74,7 @@ public class PopoverMenuBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Ac
      * @throws ClassCastException If the GType is not derived from "GtkPopoverMenuBar", a ClassCastException will be thrown.
      */
     public static PopoverMenuBar castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), PopoverMenuBar.getType())) {
             return new PopoverMenuBar(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkPopoverMenuBar");
-        }
     }
     
     private static Addressable constructNewFromModel(@Nullable org.gtk.gio.MenuModel model) {

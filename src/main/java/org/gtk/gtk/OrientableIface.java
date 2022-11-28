@@ -43,7 +43,7 @@ public class OrientableIface extends Struct {
      * Get the value of the field {@code base_iface}
      * @return The value of the field {@code base_iface}
      */
-    public org.gtk.gobject.TypeInterface base_iface$get() {
+    public org.gtk.gobject.TypeInterface baseIface$get() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("base_iface"));
         return new org.gtk.gobject.TypeInterface(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
     }
@@ -85,10 +85,10 @@ public class OrientableIface extends Struct {
             return struct;
         }
         
-        public Build setBaseIface(org.gtk.gobject.TypeInterface base_iface) {
+        public Build setBaseIface(org.gtk.gobject.TypeInterface baseIface) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("base_iface"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (base_iface == null ? MemoryAddress.NULL : base_iface.handle()));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (baseIface == null ? MemoryAddress.NULL : baseIface.handle()));
             return this;
         }
     }

@@ -84,11 +84,7 @@ public class LockButton extends org.gtk.gtk.Button implements org.gtk.gtk.Access
      * @throws ClassCastException If the GType is not derived from "GtkLockButton", a ClassCastException will be thrown.
      */
     public static LockButton castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), LockButton.getType())) {
             return new LockButton(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkLockButton");
-        }
     }
     
     private static Addressable constructNew(@Nullable org.gtk.gio.Permission permission) {

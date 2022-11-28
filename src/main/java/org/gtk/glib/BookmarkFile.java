@@ -258,7 +258,7 @@ public class BookmarkFile extends Struct {
      * @return {@code true} on success.
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public boolean getApplicationInfo(@NotNull java.lang.String uri, @NotNull java.lang.String name, @NotNull Out<java.lang.String> exec, Out<Integer> count, @NotNull PointerProxy<org.gtk.glib.DateTime> stamp) throws io.github.jwharm.javagi.GErrorException {
+    public boolean getApplicationInfo(@NotNull java.lang.String uri, @NotNull java.lang.String name, @NotNull Out<java.lang.String> exec, Out<Integer> count, @NotNull Out<org.gtk.glib.DateTime> stamp) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(uri, "Parameter 'uri' must not be null");
         java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
         java.util.Objects.requireNonNull(exec, "Parameter 'exec' must not be null");
@@ -266,6 +266,7 @@ public class BookmarkFile extends Struct {
         java.util.Objects.requireNonNull(count, "Parameter 'count' must not be null");
         MemorySegment countPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         java.util.Objects.requireNonNull(stamp, "Parameter 'stamp' must not be null");
+        MemorySegment stampPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
@@ -275,7 +276,7 @@ public class BookmarkFile extends Struct {
                     Interop.allocateNativeString(name),
                     (Addressable) execPOINTER.address(),
                     (Addressable) countPOINTER.address(),
-                    stamp.handle(),
+                    (Addressable) stampPOINTER.address(),
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -285,6 +286,7 @@ public class BookmarkFile extends Struct {
         }
         exec.set(Interop.getStringFrom(execPOINTER.get(Interop.valueLayout.ADDRESS, 0)));
         count.set(countPOINTER.get(Interop.valueLayout.C_INT, 0));
+        stamp.set(new org.gtk.glib.DateTime(stampPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.NONE));
         return RESULT != 0;
     }
     

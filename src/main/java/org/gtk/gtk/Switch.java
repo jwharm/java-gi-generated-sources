@@ -71,11 +71,7 @@ public class Switch extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
      * @throws ClassCastException If the GType is not derived from "GtkSwitch", a ClassCastException will be thrown.
      */
     public static Switch castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), Switch.getType())) {
             return new Switch(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkSwitch");
-        }
     }
     
     private static Addressable constructNew() {

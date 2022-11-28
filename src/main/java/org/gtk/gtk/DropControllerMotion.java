@@ -55,11 +55,7 @@ public class DropControllerMotion extends org.gtk.gtk.EventController {
      * @throws ClassCastException If the GType is not derived from "GtkDropControllerMotion", a ClassCastException will be thrown.
      */
     public static DropControllerMotion castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), DropControllerMotion.getType())) {
             return new DropControllerMotion(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkDropControllerMotion");
-        }
     }
     
     private static Addressable constructNew() {

@@ -48,11 +48,7 @@ public class ColorNode extends org.gtk.gsk.RenderNode {
      * @throws ClassCastException If the GType is not derived from "GskColorNode", a ClassCastException will be thrown.
      */
     public static ColorNode castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), ColorNode.getType())) {
             return new ColorNode(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GskColorNode");
-        }
     }
     
     private static Addressable constructNew(@NotNull org.gtk.gdk.RGBA rgba, @NotNull org.gtk.graphene.Rect bounds) {

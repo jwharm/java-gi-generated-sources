@@ -140,11 +140,7 @@ public class LevelBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * @throws ClassCastException If the GType is not derived from "GtkLevelBar", a ClassCastException will be thrown.
      */
     public static LevelBar castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), LevelBar.getType())) {
             return new LevelBar(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkLevelBar");
-        }
     }
     
     private static Addressable constructNew() {

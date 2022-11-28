@@ -86,11 +86,7 @@ public class ShortcutController extends org.gtk.gtk.EventController implements o
      * @throws ClassCastException If the GType is not derived from "GtkShortcutController", a ClassCastException will be thrown.
      */
     public static ShortcutController castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), ShortcutController.getType())) {
             return new ShortcutController(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkShortcutController");
-        }
     }
     
     private static Addressable constructNew() {

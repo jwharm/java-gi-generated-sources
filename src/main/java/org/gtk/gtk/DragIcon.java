@@ -58,11 +58,7 @@ public class DragIcon extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * @throws ClassCastException If the GType is not derived from "GtkDragIcon", a ClassCastException will be thrown.
      */
     public static DragIcon castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), DragIcon.getType())) {
             return new DragIcon(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkDragIcon");
-        }
     }
     
     /**

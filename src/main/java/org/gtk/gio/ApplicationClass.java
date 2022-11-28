@@ -96,10 +96,10 @@ public class ApplicationClass extends Struct {
             return struct;
         }
         
-        public Build setParentClass(org.gtk.gobject.ObjectClass parent_class) {
+        public Build setParentClass(org.gtk.gobject.ObjectClass parentClass) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parent_class == null ? MemoryAddress.NULL : parent_class.handle()));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
             return this;
         }
         
@@ -124,52 +124,52 @@ public class ApplicationClass extends Struct {
             return this;
         }
         
-        public Build setCommandLine(java.lang.foreign.MemoryAddress command_line) {
+        public Build setCommandLine(java.lang.foreign.MemoryAddress commandLine) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("command_line"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (command_line == null ? MemoryAddress.NULL : command_line));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (commandLine == null ? MemoryAddress.NULL : commandLine));
             return this;
         }
         
-        public Build setLocalCommandLine(java.lang.foreign.MemoryAddress local_command_line) {
+        public Build setLocalCommandLine(java.lang.foreign.MemoryAddress localCommandLine) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("local_command_line"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (local_command_line == null ? MemoryAddress.NULL : local_command_line));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (localCommandLine == null ? MemoryAddress.NULL : localCommandLine));
             return this;
         }
         
-        public Build setBeforeEmit(java.lang.foreign.MemoryAddress before_emit) {
+        public Build setBeforeEmit(java.lang.foreign.MemoryAddress beforeEmit) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("before_emit"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (before_emit == null ? MemoryAddress.NULL : before_emit));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (beforeEmit == null ? MemoryAddress.NULL : beforeEmit));
             return this;
         }
         
-        public Build setAfterEmit(java.lang.foreign.MemoryAddress after_emit) {
+        public Build setAfterEmit(java.lang.foreign.MemoryAddress afterEmit) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("after_emit"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (after_emit == null ? MemoryAddress.NULL : after_emit));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (afterEmit == null ? MemoryAddress.NULL : afterEmit));
             return this;
         }
         
-        public Build setAddPlatformData(java.lang.foreign.MemoryAddress add_platform_data) {
+        public Build setAddPlatformData(java.lang.foreign.MemoryAddress addPlatformData) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("add_platform_data"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (add_platform_data == null ? MemoryAddress.NULL : add_platform_data));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (addPlatformData == null ? MemoryAddress.NULL : addPlatformData));
             return this;
         }
         
-        public Build setQuitMainloop(java.lang.foreign.MemoryAddress quit_mainloop) {
+        public Build setQuitMainloop(java.lang.foreign.MemoryAddress quitMainloop) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("quit_mainloop"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (quit_mainloop == null ? MemoryAddress.NULL : quit_mainloop));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (quitMainloop == null ? MemoryAddress.NULL : quitMainloop));
             return this;
         }
         
-        public Build setRunMainloop(java.lang.foreign.MemoryAddress run_mainloop) {
+        public Build setRunMainloop(java.lang.foreign.MemoryAddress runMainloop) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("run_mainloop"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (run_mainloop == null ? MemoryAddress.NULL : run_mainloop));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (runMainloop == null ? MemoryAddress.NULL : runMainloop));
             return this;
         }
         
@@ -180,31 +180,31 @@ public class ApplicationClass extends Struct {
             return this;
         }
         
-        public Build setDbusRegister(java.lang.foreign.MemoryAddress dbus_register) {
+        public Build setDbusRegister(java.lang.foreign.MemoryAddress dbusRegister) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("dbus_register"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (dbus_register == null ? MemoryAddress.NULL : dbus_register));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (dbusRegister == null ? MemoryAddress.NULL : dbusRegister));
             return this;
         }
         
-        public Build setDbusUnregister(java.lang.foreign.MemoryAddress dbus_unregister) {
+        public Build setDbusUnregister(java.lang.foreign.MemoryAddress dbusUnregister) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("dbus_unregister"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (dbus_unregister == null ? MemoryAddress.NULL : dbus_unregister));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (dbusUnregister == null ? MemoryAddress.NULL : dbusUnregister));
             return this;
         }
         
-        public Build setHandleLocalOptions(java.lang.foreign.MemoryAddress handle_local_options) {
+        public Build setHandleLocalOptions(java.lang.foreign.MemoryAddress handleLocalOptions) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("handle_local_options"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (handle_local_options == null ? MemoryAddress.NULL : handle_local_options));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (handleLocalOptions == null ? MemoryAddress.NULL : handleLocalOptions));
             return this;
         }
         
-        public Build setNameLost(java.lang.foreign.MemoryAddress name_lost) {
+        public Build setNameLost(java.lang.foreign.MemoryAddress nameLost) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("name_lost"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (name_lost == null ? MemoryAddress.NULL : name_lost));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (nameLost == null ? MemoryAddress.NULL : nameLost));
             return this;
         }
         

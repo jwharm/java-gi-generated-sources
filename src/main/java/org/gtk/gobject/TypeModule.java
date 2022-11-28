@@ -64,99 +64,6 @@ public class TypeModule extends org.gtk.gobject.Object implements org.gtk.gobjec
     }
     
     /**
-     * Get the value of the field {@code parent_instance}
-     * @return The value of the field {@code parent_instance}
-     */
-    public org.gtk.gobject.Object parent_instance$get() {
-        long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_instance"));
-        return new org.gtk.gobject.Object(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
-    }
-    
-    /**
-     * Get the value of the field {@code use_count}
-     * @return The value of the field {@code use_count}
-     */
-    public int use_count$get() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("use_count"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
-    }
-    
-    /**
-     * Change the value of the field {@code use_count}
-     * @param use_count The new value of the field {@code use_count}
-     */
-    public void use_count$set(int use_count) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("use_count"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), use_count);
-    }
-    
-    /**
-     * Get the value of the field {@code type_infos}
-     * @return The value of the field {@code type_infos}
-     */
-    public org.gtk.glib.SList type_infos$get() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("type_infos"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new org.gtk.glib.SList(RESULT, Ownership.UNKNOWN);
-    }
-    
-    /**
-     * Change the value of the field {@code type_infos}
-     * @param type_infos The new value of the field {@code type_infos}
-     */
-    public void type_infos$set(org.gtk.glib.SList type_infos) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("type_infos"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), type_infos.handle());
-    }
-    
-    /**
-     * Get the value of the field {@code interface_infos}
-     * @return The value of the field {@code interface_infos}
-     */
-    public org.gtk.glib.SList interface_infos$get() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("interface_infos"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new org.gtk.glib.SList(RESULT, Ownership.UNKNOWN);
-    }
-    
-    /**
-     * Change the value of the field {@code interface_infos}
-     * @param interface_infos The new value of the field {@code interface_infos}
-     */
-    public void interface_infos$set(org.gtk.glib.SList interface_infos) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("interface_infos"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), interface_infos.handle());
-    }
-    
-    /**
-     * Get the value of the field {@code name}
-     * @return The value of the field {@code name}
-     */
-    public java.lang.String name$get() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("name"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return Interop.getStringFrom(RESULT);
-    }
-    
-    /**
-     * Change the value of the field {@code name}
-     * @param name The new value of the field {@code name}
-     */
-    public void name$set(java.lang.String name) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("name"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Interop.allocateNativeString(name));
-    }
-    
-    /**
      * Create a TypeModule proxy instance for the provided memory address.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
@@ -179,11 +86,7 @@ public class TypeModule extends org.gtk.gobject.Object implements org.gtk.gobjec
      * @throws ClassCastException If the GType is not derived from "GTypeModule", a ClassCastException will be thrown.
      */
     public static TypeModule castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), TypeModule.getType())) {
             return new TypeModule(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GTypeModule");
-        }
     }
     
     /**

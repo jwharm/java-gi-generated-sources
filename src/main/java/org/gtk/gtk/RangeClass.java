@@ -49,7 +49,7 @@ public class RangeClass extends Struct {
      * Get the value of the field {@code parent_class}
      * @return The value of the field {@code parent_class}
      */
-    public org.gtk.gtk.WidgetClass parent_class$get() {
+    public org.gtk.gtk.WidgetClass parentClass$get() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_class"));
         return new org.gtk.gtk.WidgetClass(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
     }
@@ -91,45 +91,45 @@ public class RangeClass extends Struct {
             return struct;
         }
         
-        public Build setParentClass(org.gtk.gtk.WidgetClass parent_class) {
+        public Build setParentClass(org.gtk.gtk.WidgetClass parentClass) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parent_class == null ? MemoryAddress.NULL : parent_class.handle()));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
             return this;
         }
         
-        public Build setValueChanged(java.lang.foreign.MemoryAddress value_changed) {
+        public Build setValueChanged(java.lang.foreign.MemoryAddress valueChanged) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("value_changed"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (value_changed == null ? MemoryAddress.NULL : value_changed));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (valueChanged == null ? MemoryAddress.NULL : valueChanged));
             return this;
         }
         
-        public Build setAdjustBounds(java.lang.foreign.MemoryAddress adjust_bounds) {
+        public Build setAdjustBounds(java.lang.foreign.MemoryAddress adjustBounds) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("adjust_bounds"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (adjust_bounds == null ? MemoryAddress.NULL : adjust_bounds));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (adjustBounds == null ? MemoryAddress.NULL : adjustBounds));
             return this;
         }
         
-        public Build setMoveSlider(java.lang.foreign.MemoryAddress move_slider) {
+        public Build setMoveSlider(java.lang.foreign.MemoryAddress moveSlider) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("move_slider"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (move_slider == null ? MemoryAddress.NULL : move_slider));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (moveSlider == null ? MemoryAddress.NULL : moveSlider));
             return this;
         }
         
-        public Build setGetRangeBorder(java.lang.foreign.MemoryAddress get_range_border) {
+        public Build setGetRangeBorder(java.lang.foreign.MemoryAddress getRangeBorder) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("get_range_border"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (get_range_border == null ? MemoryAddress.NULL : get_range_border));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getRangeBorder == null ? MemoryAddress.NULL : getRangeBorder));
             return this;
         }
         
-        public Build setChangeValue(java.lang.foreign.MemoryAddress change_value) {
+        public Build setChangeValue(java.lang.foreign.MemoryAddress changeValue) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("change_value"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (change_value == null ? MemoryAddress.NULL : change_value));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (changeValue == null ? MemoryAddress.NULL : changeValue));
             return this;
         }
         

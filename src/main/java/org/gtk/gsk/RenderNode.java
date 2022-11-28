@@ -20,7 +20,7 @@ import org.jetbrains.annotations.*;
  * them. All {@link RenderNode}s are immutable, you can only specify their
  * properties during construction.
  */
-public class RenderNode extends org.gtk.gobject.Object {
+public class RenderNode extends io.github.jwharm.javagi.ObjectBase {
     
     static {
         Gsk.javagi$ensureInitialized();
@@ -60,11 +60,7 @@ public class RenderNode extends org.gtk.gobject.Object {
      * @throws ClassCastException If the GType is not derived from "GskRenderNode", a ClassCastException will be thrown.
      */
     public static RenderNode castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), RenderNode.getType())) {
             return new RenderNode(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GskRenderNode");
-        }
     }
     
     /**

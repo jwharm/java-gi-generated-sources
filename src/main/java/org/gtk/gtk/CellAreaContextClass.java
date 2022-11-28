@@ -81,10 +81,10 @@ public class CellAreaContextClass extends Struct {
             return struct;
         }
         
-        public Build setParentClass(org.gtk.gobject.ObjectClass parent_class) {
+        public Build setParentClass(org.gtk.gobject.ObjectClass parentClass) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parent_class == null ? MemoryAddress.NULL : parent_class.handle()));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
             return this;
         }
         
@@ -102,17 +102,17 @@ public class CellAreaContextClass extends Struct {
             return this;
         }
         
-        public Build setGetPreferredHeightForWidth(java.lang.foreign.MemoryAddress get_preferred_height_for_width) {
+        public Build setGetPreferredHeightForWidth(java.lang.foreign.MemoryAddress getPreferredHeightForWidth) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("get_preferred_height_for_width"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (get_preferred_height_for_width == null ? MemoryAddress.NULL : get_preferred_height_for_width));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getPreferredHeightForWidth == null ? MemoryAddress.NULL : getPreferredHeightForWidth));
             return this;
         }
         
-        public Build setGetPreferredWidthForHeight(java.lang.foreign.MemoryAddress get_preferred_width_for_height) {
+        public Build setGetPreferredWidthForHeight(java.lang.foreign.MemoryAddress getPreferredWidthForHeight) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("get_preferred_width_for_height"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (get_preferred_width_for_height == null ? MemoryAddress.NULL : get_preferred_width_for_height));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getPreferredWidthForHeight == null ? MemoryAddress.NULL : getPreferredWidthForHeight));
             return this;
         }
         

@@ -90,11 +90,7 @@ public class Stack extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      * @throws ClassCastException If the GType is not derived from "GtkStack", a ClassCastException will be thrown.
      */
     public static Stack castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), Stack.getType())) {
             return new Stack(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkStack");
-        }
     }
     
     private static Addressable constructNew() {

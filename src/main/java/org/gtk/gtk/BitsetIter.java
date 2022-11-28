@@ -294,10 +294,10 @@ public class BitsetIter extends Struct {
             return struct;
         }
         
-        public Build setPrivateData(java.lang.foreign.MemoryAddress[] private_data) {
+        public Build setPrivateData(java.lang.foreign.MemoryAddress[] privateData) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("private_data"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (private_data == null ? MemoryAddress.NULL : Interop.allocateNativeArray(private_data, false)));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (privateData == null ? MemoryAddress.NULL : Interop.allocateNativeArray(privateData, false)));
             return this;
         }
     }

@@ -71,7 +71,7 @@ public class RequestedSize extends Struct {
      * Get the value of the field {@code minimum_size}
      * @return The value of the field {@code minimum_size}
      */
-    public int minimum_size$get() {
+    public int minimumSize$get() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("minimum_size"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -80,19 +80,19 @@ public class RequestedSize extends Struct {
     
     /**
      * Change the value of the field {@code minimum_size}
-     * @param minimum_size The new value of the field {@code minimum_size}
+     * @param minimumSize The new value of the field {@code minimum_size}
      */
-    public void minimum_size$set(int minimum_size) {
+    public void minimumSize$set(int minimumSize) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("minimum_size"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), minimum_size);
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), minimumSize);
     }
     
     /**
      * Get the value of the field {@code natural_size}
      * @return The value of the field {@code natural_size}
      */
-    public int natural_size$get() {
+    public int naturalSize$get() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("natural_size"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -101,12 +101,12 @@ public class RequestedSize extends Struct {
     
     /**
      * Change the value of the field {@code natural_size}
-     * @param natural_size The new value of the field {@code natural_size}
+     * @param naturalSize The new value of the field {@code natural_size}
      */
-    public void natural_size$set(int natural_size) {
+    public void naturalSize$set(int naturalSize) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("natural_size"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), natural_size);
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), naturalSize);
     }
     
     /**
@@ -160,25 +160,25 @@ public class RequestedSize extends Struct {
         
         /**
          * The minimum size needed for allocation in a given orientation
-         * @param minimum_size The value for the {@code minimum_size} field
+         * @param minimumSize The value for the {@code minimumSize} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setMinimumSize(int minimum_size) {
+        public Build setMinimumSize(int minimumSize) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("minimum_size"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), minimum_size);
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), minimumSize);
             return this;
         }
         
         /**
          * The natural size for allocation in a given orientation
-         * @param natural_size The value for the {@code natural_size} field
+         * @param naturalSize The value for the {@code naturalSize} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setNaturalSize(int natural_size) {
+        public Build setNaturalSize(int naturalSize) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("natural_size"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), natural_size);
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), naturalSize);
             return this;
         }
     }

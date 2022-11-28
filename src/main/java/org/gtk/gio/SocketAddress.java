@@ -32,15 +32,6 @@ public class SocketAddress extends org.gtk.gobject.Object implements org.gtk.gio
     }
     
     /**
-     * Get the value of the field {@code parent_instance}
-     * @return The value of the field {@code parent_instance}
-     */
-    public org.gtk.gobject.Object parent_instance$get() {
-        long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_instance"));
-        return new org.gtk.gobject.Object(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
-    }
-    
-    /**
      * Create a SocketAddress proxy instance for the provided memory address.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
@@ -63,11 +54,7 @@ public class SocketAddress extends org.gtk.gobject.Object implements org.gtk.gio
      * @throws ClassCastException If the GType is not derived from "GSocketAddress", a ClassCastException will be thrown.
      */
     public static SocketAddress castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), SocketAddress.getType())) {
             return new SocketAddress(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GSocketAddress");
-        }
     }
     
     private static Addressable constructNewFromNative(@NotNull java.lang.foreign.MemoryAddress native_, long len) {

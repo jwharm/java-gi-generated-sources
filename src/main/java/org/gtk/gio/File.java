@@ -108,11 +108,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      * @throws ClassCastException If the GType is not derived from "GFile", a ClassCastException will be thrown.
      */
     public static File castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), File.getType())) {
             return new FileImpl(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GFile");
-        }
     }
     
     /**
@@ -4052,16 +4048,17 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      * @return {@code true} if the attributes were set correctly, {@code false} otherwise.
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    default boolean setAttributesFinish(@NotNull org.gtk.gio.AsyncResult result, @NotNull PointerProxy<org.gtk.gio.FileInfo> info) throws io.github.jwharm.javagi.GErrorException {
+    default boolean setAttributesFinish(@NotNull org.gtk.gio.AsyncResult result, @NotNull Out<org.gtk.gio.FileInfo> info) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(result, "Parameter 'result' must not be null");
         java.util.Objects.requireNonNull(info, "Parameter 'info' must not be null");
+        MemorySegment infoPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_file_set_attributes_finish.invokeExact(
                     handle(),
                     result.handle(),
-                    info.handle(),
+                    (Addressable) infoPOINTER.address(),
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -4069,6 +4066,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
+        info.set(new org.gtk.gio.FileInfo(infoPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
         return RESULT != 0;
     }
     
@@ -4738,14 +4736,15 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      *   Free the returned object with g_object_unref().
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public static @NotNull org.gtk.gio.File newTmp(@Nullable java.lang.String tmpl, @NotNull PointerProxy<org.gtk.gio.FileIOStream> iostream) throws io.github.jwharm.javagi.GErrorException {
+    public static @NotNull org.gtk.gio.File newTmp(@Nullable java.lang.String tmpl, @NotNull Out<org.gtk.gio.FileIOStream> iostream) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(iostream, "Parameter 'iostream' must not be null");
+        MemorySegment iostreamPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_file_new_tmp.invokeExact(
                     (Addressable) (tmpl == null ? MemoryAddress.NULL : Interop.allocateNativeString(tmpl)),
-                    iostream.handle(),
+                    (Addressable) iostreamPOINTER.address(),
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -4753,6 +4752,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
+        iostream.set(new org.gtk.gio.FileIOStream(iostreamPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
         return new org.gtk.gio.File.FileImpl(RESULT, Ownership.FULL);
     }
     
@@ -4849,15 +4849,16 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      *   Free the returned object with g_object_unref().
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public static @NotNull org.gtk.gio.File newTmpFinish(@NotNull org.gtk.gio.AsyncResult result, @NotNull PointerProxy<org.gtk.gio.FileIOStream> iostream) throws io.github.jwharm.javagi.GErrorException {
+    public static @NotNull org.gtk.gio.File newTmpFinish(@NotNull org.gtk.gio.AsyncResult result, @NotNull Out<org.gtk.gio.FileIOStream> iostream) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(result, "Parameter 'result' must not be null");
         java.util.Objects.requireNonNull(iostream, "Parameter 'iostream' must not be null");
+        MemorySegment iostreamPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_file_new_tmp_finish.invokeExact(
                     result.handle(),
-                    iostream.handle(),
+                    (Addressable) iostreamPOINTER.address(),
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -4865,6 +4866,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
+        iostream.set(new org.gtk.gio.FileIOStream(iostreamPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
         return new org.gtk.gio.File.FileImpl(RESULT, Ownership.FULL);
     }
     

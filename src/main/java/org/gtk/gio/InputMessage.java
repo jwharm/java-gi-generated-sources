@@ -94,7 +94,7 @@ public class InputMessage extends Struct {
      * Get the value of the field {@code num_vectors}
      * @return The value of the field {@code num_vectors}
      */
-    public int num_vectors$get() {
+    public int numVectors$get() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("num_vectors"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -103,19 +103,19 @@ public class InputMessage extends Struct {
     
     /**
      * Change the value of the field {@code num_vectors}
-     * @param num_vectors The new value of the field {@code num_vectors}
+     * @param numVectors The new value of the field {@code num_vectors}
      */
-    public void num_vectors$set(int num_vectors) {
+    public void numVectors$set(int numVectors) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("num_vectors"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), num_vectors);
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), numVectors);
     }
     
     /**
      * Get the value of the field {@code bytes_received}
      * @return The value of the field {@code bytes_received}
      */
-    public long bytes_received$get() {
+    public long bytesReceived$get() {
         var RESULT = (long) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("bytes_received"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -124,12 +124,12 @@ public class InputMessage extends Struct {
     
     /**
      * Change the value of the field {@code bytes_received}
-     * @param bytes_received The new value of the field {@code bytes_received}
+     * @param bytesReceived The new value of the field {@code bytes_received}
      */
-    public void bytes_received$set(long bytes_received) {
+    public void bytesReceived$set(long bytesReceived) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("bytes_received"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), bytes_received);
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), bytesReceived);
     }
     
     /**
@@ -157,7 +157,7 @@ public class InputMessage extends Struct {
      * Get the value of the field {@code num_control_messages}
      * @return The value of the field {@code num_control_messages}
      */
-    public PointerInteger num_control_messages$get() {
+    public PointerInteger numControlMessages$get() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("num_control_messages"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -166,12 +166,12 @@ public class InputMessage extends Struct {
     
     /**
      * Change the value of the field {@code num_control_messages}
-     * @param num_control_messages The new value of the field {@code num_control_messages}
+     * @param numControlMessages The new value of the field {@code num_control_messages}
      */
-    public void num_control_messages$set(PointerInteger num_control_messages) {
+    public void numControlMessages$set(PointerInteger numControlMessages) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("num_control_messages"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), num_control_messages.handle());
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), numControlMessages.handle());
     }
     
     /**
@@ -239,26 +239,26 @@ public class InputMessage extends Struct {
         
         /**
          * the number of input vectors pointed to by {@code vectors}
-         * @param num_vectors The value for the {@code num_vectors} field
+         * @param numVectors The value for the {@code numVectors} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setNumVectors(int num_vectors) {
+        public Build setNumVectors(int numVectors) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("num_vectors"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), num_vectors);
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), numVectors);
             return this;
         }
         
         /**
          * will be set to the number of bytes that have been
          *   received
-         * @param bytes_received The value for the {@code bytes_received} field
+         * @param bytesReceived The value for the {@code bytesReceived} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setBytesReceived(long bytes_received) {
+        public Build setBytesReceived(long bytesReceived) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("bytes_received"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), bytes_received);
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), bytesReceived);
             return this;
         }
         
@@ -278,26 +278,26 @@ public class InputMessage extends Struct {
         /**
          * return location for a
          *   caller-allocated array of {@code GSocketControlMessages}, or {@code null}
-         * @param control_messages The value for the {@code control_messages} field
+         * @param controlMessages The value for the {@code controlMessages} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setControlMessages(org.gtk.gio.SocketControlMessage[] control_messages) {
+        public Build setControlMessages(org.gtk.gio.SocketControlMessage[] controlMessages) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("control_messages"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (control_messages == null ? MemoryAddress.NULL : Interop.allocateNativeArray(control_messages, false)));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (controlMessages == null ? MemoryAddress.NULL : Interop.allocateNativeArray(controlMessages, false)));
             return this;
         }
         
         /**
          * return location for the number of
          *   elements in {@code control_messages}
-         * @param num_control_messages The value for the {@code num_control_messages} field
+         * @param numControlMessages The value for the {@code numControlMessages} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setNumControlMessages(PointerInteger num_control_messages) {
+        public Build setNumControlMessages(PointerInteger numControlMessages) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("num_control_messages"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (num_control_messages == null ? MemoryAddress.NULL : num_control_messages.handle()));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (numControlMessages == null ? MemoryAddress.NULL : numControlMessages.handle()));
             return this;
         }
     }

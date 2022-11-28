@@ -56,7 +56,7 @@ public class Analysis extends Struct {
      * Get the value of the field {@code shape_engine}
      * @return The value of the field {@code shape_engine}
      */
-    public java.lang.foreign.MemoryAddress shape_engine$get() {
+    public java.lang.foreign.MemoryAddress shapeEngine$get() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("shape_engine"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -65,19 +65,19 @@ public class Analysis extends Struct {
     
     /**
      * Change the value of the field {@code shape_engine}
-     * @param shape_engine The new value of the field {@code shape_engine}
+     * @param shapeEngine The new value of the field {@code shape_engine}
      */
-    public void shape_engine$set(java.lang.foreign.MemoryAddress shape_engine) {
+    public void shapeEngine$set(java.lang.foreign.MemoryAddress shapeEngine) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("shape_engine"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) shape_engine);
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) shapeEngine);
     }
     
     /**
      * Get the value of the field {@code lang_engine}
      * @return The value of the field {@code lang_engine}
      */
-    public java.lang.foreign.MemoryAddress lang_engine$get() {
+    public java.lang.foreign.MemoryAddress langEngine$get() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("lang_engine"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -86,12 +86,12 @@ public class Analysis extends Struct {
     
     /**
      * Change the value of the field {@code lang_engine}
-     * @param lang_engine The new value of the field {@code lang_engine}
+     * @param langEngine The new value of the field {@code lang_engine}
      */
-    public void lang_engine$set(java.lang.foreign.MemoryAddress lang_engine) {
+    public void langEngine$set(java.lang.foreign.MemoryAddress langEngine) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("lang_engine"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) lang_engine);
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) langEngine);
     }
     
     /**
@@ -224,7 +224,7 @@ public class Analysis extends Struct {
      * Get the value of the field {@code extra_attrs}
      * @return The value of the field {@code extra_attrs}
      */
-    public org.gtk.glib.SList extra_attrs$get() {
+    public org.gtk.glib.SList extraAttrs$get() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("extra_attrs"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -233,12 +233,12 @@ public class Analysis extends Struct {
     
     /**
      * Change the value of the field {@code extra_attrs}
-     * @param extra_attrs The new value of the field {@code extra_attrs}
+     * @param extraAttrs The new value of the field {@code extra_attrs}
      */
-    public void extra_attrs$set(org.gtk.glib.SList extra_attrs) {
+    public void extraAttrs$set(org.gtk.glib.SList extraAttrs) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("extra_attrs"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), extra_attrs.handle());
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), extraAttrs.handle());
     }
     
     /**
@@ -280,25 +280,25 @@ public class Analysis extends Struct {
         
         /**
          * unused, reserved
-         * @param shape_engine The value for the {@code shape_engine} field
+         * @param shapeEngine The value for the {@code shapeEngine} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setShapeEngine(java.lang.foreign.MemoryAddress shape_engine) {
+        public Build setShapeEngine(java.lang.foreign.MemoryAddress shapeEngine) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("shape_engine"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (shape_engine == null ? MemoryAddress.NULL : (Addressable) shape_engine));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (shapeEngine == null ? MemoryAddress.NULL : (Addressable) shapeEngine));
             return this;
         }
         
         /**
          * unused, reserved
-         * @param lang_engine The value for the {@code lang_engine} field
+         * @param langEngine The value for the {@code langEngine} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setLangEngine(java.lang.foreign.MemoryAddress lang_engine) {
+        public Build setLangEngine(java.lang.foreign.MemoryAddress langEngine) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("lang_engine"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (lang_engine == null ? MemoryAddress.NULL : (Addressable) lang_engine));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (langEngine == null ? MemoryAddress.NULL : (Addressable) langEngine));
             return this;
         }
         
@@ -376,13 +376,13 @@ public class Analysis extends Struct {
         
         /**
          * extra attributes for this segment.
-         * @param extra_attrs The value for the {@code extra_attrs} field
+         * @param extraAttrs The value for the {@code extraAttrs} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setExtraAttrs(org.gtk.glib.SList extra_attrs) {
+        public Build setExtraAttrs(org.gtk.glib.SList extraAttrs) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("extra_attrs"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (extra_attrs == null ? MemoryAddress.NULL : extra_attrs.handle()));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (extraAttrs == null ? MemoryAddress.NULL : extraAttrs.handle()));
             return this;
         }
     }

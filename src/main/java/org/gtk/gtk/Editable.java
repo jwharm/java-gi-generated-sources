@@ -143,11 +143,7 @@ public interface Editable extends io.github.jwharm.javagi.Proxy {
      * @throws ClassCastException If the GType is not derived from "GtkEditable", a ClassCastException will be thrown.
      */
     public static Editable castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), Editable.getType())) {
             return new EditableImpl(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkEditable");
-        }
     }
     
     /**

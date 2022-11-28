@@ -1187,10 +1187,10 @@ public class IOChannel extends Struct {
             return struct;
         }
         
-        public Build setRefCount(int ref_count) {
+        public Build setRefCount(int refCount) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("ref_count"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), ref_count);
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), refCount);
             return this;
         }
         
@@ -1208,108 +1208,108 @@ public class IOChannel extends Struct {
             return this;
         }
         
-        public Build setReadCd(org.gtk.glib.IConv read_cd) {
+        public Build setReadCd(org.gtk.glib.IConv readCd) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("read_cd"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (read_cd == null ? MemoryAddress.NULL : read_cd.handle()));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (readCd == null ? MemoryAddress.NULL : readCd.handle()));
             return this;
         }
         
-        public Build setWriteCd(org.gtk.glib.IConv write_cd) {
+        public Build setWriteCd(org.gtk.glib.IConv writeCd) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("write_cd"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (write_cd == null ? MemoryAddress.NULL : write_cd.handle()));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (writeCd == null ? MemoryAddress.NULL : writeCd.handle()));
             return this;
         }
         
-        public Build setLineTerm(java.lang.String line_term) {
+        public Build setLineTerm(java.lang.String lineTerm) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("line_term"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (line_term == null ? MemoryAddress.NULL : Interop.allocateNativeString(line_term)));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (lineTerm == null ? MemoryAddress.NULL : Interop.allocateNativeString(lineTerm)));
             return this;
         }
         
-        public Build setLineTermLen(int line_term_len) {
+        public Build setLineTermLen(int lineTermLen) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("line_term_len"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), line_term_len);
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), lineTermLen);
             return this;
         }
         
-        public Build setBufSize(long buf_size) {
+        public Build setBufSize(long bufSize) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("buf_size"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), buf_size);
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), bufSize);
             return this;
         }
         
-        public Build setReadBuf(org.gtk.glib.String read_buf) {
+        public Build setReadBuf(org.gtk.glib.String readBuf) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("read_buf"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (read_buf == null ? MemoryAddress.NULL : read_buf.handle()));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (readBuf == null ? MemoryAddress.NULL : readBuf.handle()));
             return this;
         }
         
-        public Build setEncodedReadBuf(org.gtk.glib.String encoded_read_buf) {
+        public Build setEncodedReadBuf(org.gtk.glib.String encodedReadBuf) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("encoded_read_buf"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (encoded_read_buf == null ? MemoryAddress.NULL : encoded_read_buf.handle()));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (encodedReadBuf == null ? MemoryAddress.NULL : encodedReadBuf.handle()));
             return this;
         }
         
-        public Build setWriteBuf(org.gtk.glib.String write_buf) {
+        public Build setWriteBuf(org.gtk.glib.String writeBuf) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("write_buf"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (write_buf == null ? MemoryAddress.NULL : write_buf.handle()));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (writeBuf == null ? MemoryAddress.NULL : writeBuf.handle()));
             return this;
         }
         
-        public Build setPartialWriteBuf(byte[] partial_write_buf) {
+        public Build setPartialWriteBuf(byte[] partialWriteBuf) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("partial_write_buf"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (partial_write_buf == null ? MemoryAddress.NULL : Interop.allocateNativeArray(partial_write_buf, false)));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (partialWriteBuf == null ? MemoryAddress.NULL : Interop.allocateNativeArray(partialWriteBuf, false)));
             return this;
         }
         
-        public Build setUseBuffer(int use_buffer) {
+        public Build setUseBuffer(int useBuffer) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("use_buffer"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), use_buffer);
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), useBuffer);
             return this;
         }
         
-        public Build setDoEncode(int do_encode) {
+        public Build setDoEncode(int doEncode) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("do_encode"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), do_encode);
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), doEncode);
             return this;
         }
         
-        public Build setCloseOnUnref(int close_on_unref) {
+        public Build setCloseOnUnref(int closeOnUnref) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("close_on_unref"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), close_on_unref);
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), closeOnUnref);
             return this;
         }
         
-        public Build setIsReadable(int is_readable) {
+        public Build setIsReadable(int isReadable) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("is_readable"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), is_readable);
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), isReadable);
             return this;
         }
         
-        public Build setIsWriteable(int is_writeable) {
+        public Build setIsWriteable(int isWriteable) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("is_writeable"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), is_writeable);
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), isWriteable);
             return this;
         }
         
-        public Build setIsSeekable(int is_seekable) {
+        public Build setIsSeekable(int isSeekable) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("is_seekable"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), is_seekable);
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), isSeekable);
             return this;
         }
         

@@ -50,15 +50,6 @@ public class UnixCredentialsMessage extends org.gtk.gio.SocketControlMessage {
     }
     
     /**
-     * Get the value of the field {@code parent_instance}
-     * @return The value of the field {@code parent_instance}
-     */
-    public org.gtk.gio.SocketControlMessage parent_instance$get() {
-        long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_instance"));
-        return new org.gtk.gio.SocketControlMessage(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
-    }
-    
-    /**
      * Create a UnixCredentialsMessage proxy instance for the provided memory address.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
@@ -81,11 +72,7 @@ public class UnixCredentialsMessage extends org.gtk.gio.SocketControlMessage {
      * @throws ClassCastException If the GType is not derived from "GUnixCredentialsMessage", a ClassCastException will be thrown.
      */
     public static UnixCredentialsMessage castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), UnixCredentialsMessage.getType())) {
             return new UnixCredentialsMessage(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GUnixCredentialsMessage");
-        }
     }
     
     private static Addressable constructNew() {

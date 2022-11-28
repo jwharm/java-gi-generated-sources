@@ -48,11 +48,7 @@ public class ContainerNode extends org.gtk.gsk.RenderNode {
      * @throws ClassCastException If the GType is not derived from "GskContainerNode", a ClassCastException will be thrown.
      */
     public static ContainerNode castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), ContainerNode.getType())) {
             return new ContainerNode(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GskContainerNode");
-        }
     }
     
     private static Addressable constructNew(@NotNull org.gtk.gsk.RenderNode[] children, int nChildren) {

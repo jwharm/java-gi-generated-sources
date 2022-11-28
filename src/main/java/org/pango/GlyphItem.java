@@ -97,7 +97,7 @@ public class GlyphItem extends Struct {
      * Get the value of the field {@code y_offset}
      * @return The value of the field {@code y_offset}
      */
-    public int y_offset$get() {
+    public int yOffset$get() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("y_offset"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -106,19 +106,19 @@ public class GlyphItem extends Struct {
     
     /**
      * Change the value of the field {@code y_offset}
-     * @param y_offset The new value of the field {@code y_offset}
+     * @param yOffset The new value of the field {@code y_offset}
      */
-    public void y_offset$set(int y_offset) {
+    public void yOffset$set(int yOffset) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("y_offset"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), y_offset);
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), yOffset);
     }
     
     /**
      * Get the value of the field {@code start_x_offset}
      * @return The value of the field {@code start_x_offset}
      */
-    public int start_x_offset$get() {
+    public int startXOffset$get() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("start_x_offset"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -127,19 +127,19 @@ public class GlyphItem extends Struct {
     
     /**
      * Change the value of the field {@code start_x_offset}
-     * @param start_x_offset The new value of the field {@code start_x_offset}
+     * @param startXOffset The new value of the field {@code start_x_offset}
      */
-    public void start_x_offset$set(int start_x_offset) {
+    public void startXOffset$set(int startXOffset) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("start_x_offset"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), start_x_offset);
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), startXOffset);
     }
     
     /**
      * Get the value of the field {@code end_x_offset}
      * @return The value of the field {@code end_x_offset}
      */
-    public int end_x_offset$get() {
+    public int endXOffset$get() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("end_x_offset"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -148,12 +148,12 @@ public class GlyphItem extends Struct {
     
     /**
      * Change the value of the field {@code end_x_offset}
-     * @param end_x_offset The new value of the field {@code end_x_offset}
+     * @param endXOffset The new value of the field {@code end_x_offset}
      */
-    public void end_x_offset$set(int end_x_offset) {
+    public void endXOffset$set(int endXOffset) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("end_x_offset"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), end_x_offset);
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), endXOffset);
     }
     
     /**
@@ -414,39 +414,39 @@ public class GlyphItem extends Struct {
         /**
          * shift of the baseline, relative to the baseline
          *   of the containing line. Positive values shift upwards
-         * @param y_offset The value for the {@code y_offset} field
+         * @param yOffset The value for the {@code yOffset} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setYOffset(int y_offset) {
+        public Build setYOffset(int yOffset) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("y_offset"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), y_offset);
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), yOffset);
             return this;
         }
         
         /**
          * horizontal displacement to apply before the
          *   glyph item. Positive values shift right
-         * @param start_x_offset The value for the {@code start_x_offset} field
+         * @param startXOffset The value for the {@code startXOffset} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setStartXOffset(int start_x_offset) {
+        public Build setStartXOffset(int startXOffset) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("start_x_offset"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), start_x_offset);
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), startXOffset);
             return this;
         }
         
         /**
          * horizontal displacement to apply after th
          *   glyph item. Positive values shift right
-         * @param end_x_offset The value for the {@code end_x_offset} field
+         * @param endXOffset The value for the {@code endXOffset} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setEndXOffset(int end_x_offset) {
+        public Build setEndXOffset(int endXOffset) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("end_x_offset"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), end_x_offset);
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), endXOffset);
             return this;
         }
     }

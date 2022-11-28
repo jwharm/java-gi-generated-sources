@@ -42,15 +42,6 @@ public class Bin extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, o
     }
     
     /**
-     * Get the value of the field {@code parent_instance}
-     * @return The value of the field {@code parent_instance}
-     */
-    public org.gtk.gtk.Widget parent_instance$get() {
-        long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_instance"));
-        return new org.gtk.gtk.Widget(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
-    }
-    
-    /**
      * Create a Bin proxy instance for the provided memory address.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
@@ -73,11 +64,7 @@ public class Bin extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, o
      * @throws ClassCastException If the GType is not derived from "AdwBin", a ClassCastException will be thrown.
      */
     public static Bin castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), Bin.getType())) {
             return new Bin(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of AdwBin");
-        }
     }
     
     private static Addressable constructNew() {

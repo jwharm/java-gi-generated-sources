@@ -107,38 +107,38 @@ public class SwipeableInterface extends Struct {
             return this;
         }
         
-        public Build setGetDistance(java.lang.foreign.MemoryAddress get_distance) {
+        public Build setGetDistance(java.lang.foreign.MemoryAddress getDistance) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("get_distance"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (get_distance == null ? MemoryAddress.NULL : get_distance));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getDistance == null ? MemoryAddress.NULL : getDistance));
             return this;
         }
         
-        public Build setGetSnapPoints(java.lang.foreign.MemoryAddress get_snap_points) {
+        public Build setGetSnapPoints(java.lang.foreign.MemoryAddress getSnapPoints) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("get_snap_points"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (get_snap_points == null ? MemoryAddress.NULL : get_snap_points));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getSnapPoints == null ? MemoryAddress.NULL : getSnapPoints));
             return this;
         }
         
-        public Build setGetProgress(java.lang.foreign.MemoryAddress get_progress) {
+        public Build setGetProgress(java.lang.foreign.MemoryAddress getProgress) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("get_progress"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (get_progress == null ? MemoryAddress.NULL : get_progress));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getProgress == null ? MemoryAddress.NULL : getProgress));
             return this;
         }
         
-        public Build setGetCancelProgress(java.lang.foreign.MemoryAddress get_cancel_progress) {
+        public Build setGetCancelProgress(java.lang.foreign.MemoryAddress getCancelProgress) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("get_cancel_progress"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (get_cancel_progress == null ? MemoryAddress.NULL : get_cancel_progress));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getCancelProgress == null ? MemoryAddress.NULL : getCancelProgress));
             return this;
         }
         
-        public Build setGetSwipeArea(java.lang.foreign.MemoryAddress get_swipe_area) {
+        public Build setGetSwipeArea(java.lang.foreign.MemoryAddress getSwipeArea) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("get_swipe_area"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (get_swipe_area == null ? MemoryAddress.NULL : get_swipe_area));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getSwipeArea == null ? MemoryAddress.NULL : getSwipeArea));
             return this;
         }
         

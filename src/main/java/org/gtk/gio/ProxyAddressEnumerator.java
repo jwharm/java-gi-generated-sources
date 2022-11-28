@@ -61,11 +61,7 @@ public class ProxyAddressEnumerator extends org.gtk.gio.SocketAddressEnumerator 
      * @throws ClassCastException If the GType is not derived from "GProxyAddressEnumerator", a ClassCastException will be thrown.
      */
     public static ProxyAddressEnumerator castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), ProxyAddressEnumerator.getType())) {
             return new ProxyAddressEnumerator(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GProxyAddressEnumerator");
-        }
     }
     
     /**

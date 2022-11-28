@@ -219,11 +219,7 @@ public interface TreeModel extends io.github.jwharm.javagi.Proxy {
      * @throws ClassCastException If the GType is not derived from "GtkTreeModel", a ClassCastException will be thrown.
      */
     public static TreeModel castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), TreeModel.getType())) {
             return new TreeModelImpl(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkTreeModel");
-        }
     }
     
     /**

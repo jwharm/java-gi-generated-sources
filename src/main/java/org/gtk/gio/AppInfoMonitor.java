@@ -65,11 +65,7 @@ public class AppInfoMonitor extends org.gtk.gobject.Object {
      * @throws ClassCastException If the GType is not derived from "GAppInfoMonitor", a ClassCastException will be thrown.
      */
     public static AppInfoMonitor castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), AppInfoMonitor.getType())) {
             return new AppInfoMonitor(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GAppInfoMonitor");
-        }
     }
     
     /**

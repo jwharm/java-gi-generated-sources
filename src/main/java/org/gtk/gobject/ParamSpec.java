@@ -19,7 +19,7 @@ import org.jetbrains.annotations.*;
  * used, but they cannot be mixed. Using {@code -} is considerably more
  * efficient, and is the ‘canonical form’. Using {@code _} is discouraged.
  */
-public class ParamSpec extends org.gtk.gobject.Object {
+public class ParamSpec extends io.github.jwharm.javagi.ObjectBase {
     
     static {
         GObject.javagi$ensureInitialized();
@@ -51,99 +51,6 @@ public class ParamSpec extends org.gtk.gobject.Object {
     }
     
     /**
-     * Get the value of the field {@code g_type_instance}
-     * @return The value of the field {@code g_type_instance}
-     */
-    public org.gtk.gobject.TypeInstance g_type_instance$get() {
-        long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("g_type_instance"));
-        return new org.gtk.gobject.TypeInstance(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
-    }
-    
-    /**
-     * Get the value of the field {@code name}
-     * @return The value of the field {@code name}
-     */
-    public java.lang.String name$get() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("name"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return Interop.getStringFrom(RESULT);
-    }
-    
-    /**
-     * Change the value of the field {@code name}
-     * @param name The new value of the field {@code name}
-     */
-    public void name$set(java.lang.String name) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("name"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Interop.allocateNativeString(name));
-    }
-    
-    /**
-     * Get the value of the field {@code flags}
-     * @return The value of the field {@code flags}
-     */
-    public org.gtk.gobject.ParamFlags flags$get() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("flags"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new org.gtk.gobject.ParamFlags(RESULT);
-    }
-    
-    /**
-     * Change the value of the field {@code flags}
-     * @param flags The new value of the field {@code flags}
-     */
-    public void flags$set(org.gtk.gobject.ParamFlags flags) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("flags"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), flags.getValue());
-    }
-    
-    /**
-     * Get the value of the field {@code value_type}
-     * @return The value of the field {@code value_type}
-     */
-    public org.gtk.glib.Type value_type$get() {
-        var RESULT = (long) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("value_type"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new org.gtk.glib.Type(RESULT);
-    }
-    
-    /**
-     * Change the value of the field {@code value_type}
-     * @param value_type The new value of the field {@code value_type}
-     */
-    public void value_type$set(org.gtk.glib.Type value_type) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("value_type"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), value_type.getValue().longValue());
-    }
-    
-    /**
-     * Get the value of the field {@code owner_type}
-     * @return The value of the field {@code owner_type}
-     */
-    public org.gtk.glib.Type owner_type$get() {
-        var RESULT = (long) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("owner_type"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new org.gtk.glib.Type(RESULT);
-    }
-    
-    /**
-     * Change the value of the field {@code owner_type}
-     * @param owner_type The new value of the field {@code owner_type}
-     */
-    public void owner_type$set(org.gtk.glib.Type owner_type) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("owner_type"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), owner_type.getValue().longValue());
-    }
-    
-    /**
      * Create a ParamSpec proxy instance for the provided memory address.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
@@ -166,11 +73,7 @@ public class ParamSpec extends org.gtk.gobject.Object {
      * @throws ClassCastException If the GType is not derived from "GParamSpec", a ClassCastException will be thrown.
      */
     public static ParamSpec castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), ParamSpec.getType())) {
             return new ParamSpec(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GParamSpec");
-        }
     }
     
     /**

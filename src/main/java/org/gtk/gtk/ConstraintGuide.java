@@ -59,11 +59,7 @@ public class ConstraintGuide extends org.gtk.gobject.Object implements org.gtk.g
      * @throws ClassCastException If the GType is not derived from "GtkConstraintGuide", a ClassCastException will be thrown.
      */
     public static ConstraintGuide castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), ConstraintGuide.getType())) {
             return new ConstraintGuide(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkConstraintGuide");
-        }
     }
     
     private static Addressable constructNew() {

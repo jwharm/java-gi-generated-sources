@@ -57,7 +57,7 @@ public class SignalQuery extends Struct {
      * Get the value of the field {@code signal_id}
      * @return The value of the field {@code signal_id}
      */
-    public int signal_id$get() {
+    public int signalId$get() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("signal_id"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -66,19 +66,19 @@ public class SignalQuery extends Struct {
     
     /**
      * Change the value of the field {@code signal_id}
-     * @param signal_id The new value of the field {@code signal_id}
+     * @param signalId The new value of the field {@code signal_id}
      */
-    public void signal_id$set(int signal_id) {
+    public void signalId$set(int signalId) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("signal_id"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), signal_id);
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), signalId);
     }
     
     /**
      * Get the value of the field {@code signal_name}
      * @return The value of the field {@code signal_name}
      */
-    public java.lang.String signal_name$get() {
+    public java.lang.String signalName$get() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("signal_name"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -87,12 +87,12 @@ public class SignalQuery extends Struct {
     
     /**
      * Change the value of the field {@code signal_name}
-     * @param signal_name The new value of the field {@code signal_name}
+     * @param signalName The new value of the field {@code signal_name}
      */
-    public void signal_name$set(java.lang.String signal_name) {
+    public void signalName$set(java.lang.String signalName) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("signal_name"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Interop.allocateNativeString(signal_name));
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Interop.allocateNativeString(signalName));
     }
     
     /**
@@ -120,7 +120,7 @@ public class SignalQuery extends Struct {
      * Get the value of the field {@code signal_flags}
      * @return The value of the field {@code signal_flags}
      */
-    public org.gtk.gobject.SignalFlags signal_flags$get() {
+    public org.gtk.gobject.SignalFlags signalFlags$get() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("signal_flags"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -129,19 +129,19 @@ public class SignalQuery extends Struct {
     
     /**
      * Change the value of the field {@code signal_flags}
-     * @param signal_flags The new value of the field {@code signal_flags}
+     * @param signalFlags The new value of the field {@code signal_flags}
      */
-    public void signal_flags$set(org.gtk.gobject.SignalFlags signal_flags) {
+    public void signalFlags$set(org.gtk.gobject.SignalFlags signalFlags) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("signal_flags"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), signal_flags.getValue());
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), signalFlags.getValue());
     }
     
     /**
      * Get the value of the field {@code return_type}
      * @return The value of the field {@code return_type}
      */
-    public org.gtk.glib.Type return_type$get() {
+    public org.gtk.glib.Type returnType$get() {
         var RESULT = (long) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("return_type"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -150,19 +150,19 @@ public class SignalQuery extends Struct {
     
     /**
      * Change the value of the field {@code return_type}
-     * @param return_type The new value of the field {@code return_type}
+     * @param returnType The new value of the field {@code return_type}
      */
-    public void return_type$set(org.gtk.glib.Type return_type) {
+    public void returnType$set(org.gtk.glib.Type returnType) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("return_type"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), return_type.getValue().longValue());
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), returnType.getValue().longValue());
     }
     
     /**
      * Get the value of the field {@code n_params}
      * @return The value of the field {@code n_params}
      */
-    public int n_params$get() {
+    public int nParams$get() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("n_params"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -171,12 +171,12 @@ public class SignalQuery extends Struct {
     
     /**
      * Change the value of the field {@code n_params}
-     * @param n_params The new value of the field {@code n_params}
+     * @param nParams The new value of the field {@code n_params}
      */
-    public void n_params$set(int n_params) {
+    public void nParams$set(int nParams) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("n_params"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), n_params);
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), nParams);
     }
     
     /**
@@ -219,25 +219,25 @@ public class SignalQuery extends Struct {
         /**
          * The signal id of the signal being queried, or 0 if the
          *  signal to be queried was unknown.
-         * @param signal_id The value for the {@code signal_id} field
+         * @param signalId The value for the {@code signalId} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setSignalId(int signal_id) {
+        public Build setSignalId(int signalId) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("signal_id"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), signal_id);
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), signalId);
             return this;
         }
         
         /**
          * The signal name.
-         * @param signal_name The value for the {@code signal_name} field
+         * @param signalName The value for the {@code signalName} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setSignalName(java.lang.String signal_name) {
+        public Build setSignalName(java.lang.String signalName) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("signal_name"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (signal_name == null ? MemoryAddress.NULL : Interop.allocateNativeString(signal_name)));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (signalName == null ? MemoryAddress.NULL : Interop.allocateNativeString(signalName)));
             return this;
         }
         
@@ -255,37 +255,37 @@ public class SignalQuery extends Struct {
         
         /**
          * The signal flags as passed in to g_signal_new().
-         * @param signal_flags The value for the {@code signal_flags} field
+         * @param signalFlags The value for the {@code signalFlags} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setSignalFlags(org.gtk.gobject.SignalFlags signal_flags) {
+        public Build setSignalFlags(org.gtk.gobject.SignalFlags signalFlags) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("signal_flags"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (signal_flags == null ? MemoryAddress.NULL : signal_flags.getValue()));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (signalFlags == null ? MemoryAddress.NULL : signalFlags.getValue()));
             return this;
         }
         
         /**
          * The return type for user callbacks.
-         * @param return_type The value for the {@code return_type} field
+         * @param returnType The value for the {@code returnType} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setReturnType(org.gtk.glib.Type return_type) {
+        public Build setReturnType(org.gtk.glib.Type returnType) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("return_type"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (return_type == null ? MemoryAddress.NULL : return_type.getValue().longValue()));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (returnType == null ? MemoryAddress.NULL : returnType.getValue().longValue()));
             return this;
         }
         
         /**
          * The number of parameters that user callbacks take.
-         * @param n_params The value for the {@code n_params} field
+         * @param nParams The value for the {@code nParams} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setNParams(int n_params) {
+        public Build setNParams(int nParams) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("n_params"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), n_params);
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), nParams);
             return this;
         }
         
@@ -297,13 +297,13 @@ public class SignalQuery extends Struct {
          *  [param_types param_names,]
          *  gpointer     data2);
          *  }</pre>
-         * @param param_types The value for the {@code param_types} field
+         * @param paramTypes The value for the {@code paramTypes} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setParamTypes(org.gtk.glib.Type[] param_types) {
+        public Build setParamTypes(org.gtk.glib.Type[] paramTypes) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("param_types"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (param_types == null ? MemoryAddress.NULL : Interop.allocateNativeArray(org.gtk.glib.Type.getLongValues(param_types), false)));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (paramTypes == null ? MemoryAddress.NULL : Interop.allocateNativeArray(org.gtk.glib.Type.getLongValues(paramTypes), false)));
             return this;
         }
     }

@@ -185,11 +185,7 @@ public class FileChooserNative extends org.gtk.gtk.NativeDialog implements org.g
      * @throws ClassCastException If the GType is not derived from "GtkFileChooserNative", a ClassCastException will be thrown.
      */
     public static FileChooserNative castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), FileChooserNative.getType())) {
             return new FileChooserNative(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkFileChooserNative");
-        }
     }
     
     private static Addressable constructNew(@Nullable java.lang.String title, @Nullable org.gtk.gtk.Window parent, @NotNull org.gtk.gtk.FileChooserAction action, @Nullable java.lang.String acceptLabel, @Nullable java.lang.String cancelLabel) {

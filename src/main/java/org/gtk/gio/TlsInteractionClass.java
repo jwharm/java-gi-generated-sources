@@ -100,52 +100,52 @@ public class TlsInteractionClass extends Struct {
             return struct;
         }
         
-        public Build setParentClass(org.gtk.gobject.ObjectClass parent_class) {
+        public Build setParentClass(org.gtk.gobject.ObjectClass parentClass) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parent_class == null ? MemoryAddress.NULL : parent_class.handle()));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
             return this;
         }
         
-        public Build setAskPassword(java.lang.foreign.MemoryAddress ask_password) {
+        public Build setAskPassword(java.lang.foreign.MemoryAddress askPassword) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("ask_password"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (ask_password == null ? MemoryAddress.NULL : ask_password));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (askPassword == null ? MemoryAddress.NULL : askPassword));
             return this;
         }
         
-        public Build setAskPasswordAsync(java.lang.foreign.MemoryAddress ask_password_async) {
+        public Build setAskPasswordAsync(java.lang.foreign.MemoryAddress askPasswordAsync) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("ask_password_async"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (ask_password_async == null ? MemoryAddress.NULL : ask_password_async));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (askPasswordAsync == null ? MemoryAddress.NULL : askPasswordAsync));
             return this;
         }
         
-        public Build setAskPasswordFinish(java.lang.foreign.MemoryAddress ask_password_finish) {
+        public Build setAskPasswordFinish(java.lang.foreign.MemoryAddress askPasswordFinish) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("ask_password_finish"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (ask_password_finish == null ? MemoryAddress.NULL : ask_password_finish));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (askPasswordFinish == null ? MemoryAddress.NULL : askPasswordFinish));
             return this;
         }
         
-        public Build setRequestCertificate(java.lang.foreign.MemoryAddress request_certificate) {
+        public Build setRequestCertificate(java.lang.foreign.MemoryAddress requestCertificate) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("request_certificate"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (request_certificate == null ? MemoryAddress.NULL : request_certificate));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (requestCertificate == null ? MemoryAddress.NULL : requestCertificate));
             return this;
         }
         
-        public Build setRequestCertificateAsync(java.lang.foreign.MemoryAddress request_certificate_async) {
+        public Build setRequestCertificateAsync(java.lang.foreign.MemoryAddress requestCertificateAsync) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("request_certificate_async"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (request_certificate_async == null ? MemoryAddress.NULL : request_certificate_async));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (requestCertificateAsync == null ? MemoryAddress.NULL : requestCertificateAsync));
             return this;
         }
         
-        public Build setRequestCertificateFinish(java.lang.foreign.MemoryAddress request_certificate_finish) {
+        public Build setRequestCertificateFinish(java.lang.foreign.MemoryAddress requestCertificateFinish) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("request_certificate_finish"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (request_certificate_finish == null ? MemoryAddress.NULL : request_certificate_finish));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (requestCertificateFinish == null ? MemoryAddress.NULL : requestCertificateFinish));
             return this;
         }
         

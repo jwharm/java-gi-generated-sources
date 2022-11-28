@@ -156,11 +156,7 @@ public class GLShader extends org.gtk.gobject.Object {
      * @throws ClassCastException If the GType is not derived from "GskGLShader", a ClassCastException will be thrown.
      */
     public static GLShader castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), GLShader.getType())) {
             return new GLShader(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GskGLShader");
-        }
     }
     
     private static Addressable constructNewFromBytes(@NotNull org.gtk.glib.Bytes sourcecode) {

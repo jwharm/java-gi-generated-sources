@@ -63,7 +63,7 @@ public class TlsDatabaseClass extends Struct {
      * Get the value of the field {@code parent_class}
      * @return The value of the field {@code parent_class}
      */
-    public org.gtk.gobject.ObjectClass parent_class$get() {
+    public org.gtk.gobject.ObjectClass parentClass$get() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_class"));
         return new org.gtk.gobject.ObjectClass(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
     }
@@ -105,101 +105,101 @@ public class TlsDatabaseClass extends Struct {
             return struct;
         }
         
-        public Build setParentClass(org.gtk.gobject.ObjectClass parent_class) {
+        public Build setParentClass(org.gtk.gobject.ObjectClass parentClass) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parent_class == null ? MemoryAddress.NULL : parent_class.handle()));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
             return this;
         }
         
-        public Build setVerifyChain(java.lang.foreign.MemoryAddress verify_chain) {
+        public Build setVerifyChain(java.lang.foreign.MemoryAddress verifyChain) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("verify_chain"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (verify_chain == null ? MemoryAddress.NULL : verify_chain));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (verifyChain == null ? MemoryAddress.NULL : verifyChain));
             return this;
         }
         
-        public Build setVerifyChainAsync(java.lang.foreign.MemoryAddress verify_chain_async) {
+        public Build setVerifyChainAsync(java.lang.foreign.MemoryAddress verifyChainAsync) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("verify_chain_async"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (verify_chain_async == null ? MemoryAddress.NULL : verify_chain_async));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (verifyChainAsync == null ? MemoryAddress.NULL : verifyChainAsync));
             return this;
         }
         
-        public Build setVerifyChainFinish(java.lang.foreign.MemoryAddress verify_chain_finish) {
+        public Build setVerifyChainFinish(java.lang.foreign.MemoryAddress verifyChainFinish) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("verify_chain_finish"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (verify_chain_finish == null ? MemoryAddress.NULL : verify_chain_finish));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (verifyChainFinish == null ? MemoryAddress.NULL : verifyChainFinish));
             return this;
         }
         
-        public Build setCreateCertificateHandle(java.lang.foreign.MemoryAddress create_certificate_handle) {
+        public Build setCreateCertificateHandle(java.lang.foreign.MemoryAddress createCertificateHandle) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("create_certificate_handle"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (create_certificate_handle == null ? MemoryAddress.NULL : create_certificate_handle));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (createCertificateHandle == null ? MemoryAddress.NULL : createCertificateHandle));
             return this;
         }
         
-        public Build setLookupCertificateForHandle(java.lang.foreign.MemoryAddress lookup_certificate_for_handle) {
+        public Build setLookupCertificateForHandle(java.lang.foreign.MemoryAddress lookupCertificateForHandle) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("lookup_certificate_for_handle"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (lookup_certificate_for_handle == null ? MemoryAddress.NULL : lookup_certificate_for_handle));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (lookupCertificateForHandle == null ? MemoryAddress.NULL : lookupCertificateForHandle));
             return this;
         }
         
-        public Build setLookupCertificateForHandleAsync(java.lang.foreign.MemoryAddress lookup_certificate_for_handle_async) {
+        public Build setLookupCertificateForHandleAsync(java.lang.foreign.MemoryAddress lookupCertificateForHandleAsync) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("lookup_certificate_for_handle_async"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (lookup_certificate_for_handle_async == null ? MemoryAddress.NULL : lookup_certificate_for_handle_async));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (lookupCertificateForHandleAsync == null ? MemoryAddress.NULL : lookupCertificateForHandleAsync));
             return this;
         }
         
-        public Build setLookupCertificateForHandleFinish(java.lang.foreign.MemoryAddress lookup_certificate_for_handle_finish) {
+        public Build setLookupCertificateForHandleFinish(java.lang.foreign.MemoryAddress lookupCertificateForHandleFinish) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("lookup_certificate_for_handle_finish"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (lookup_certificate_for_handle_finish == null ? MemoryAddress.NULL : lookup_certificate_for_handle_finish));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (lookupCertificateForHandleFinish == null ? MemoryAddress.NULL : lookupCertificateForHandleFinish));
             return this;
         }
         
-        public Build setLookupCertificateIssuer(java.lang.foreign.MemoryAddress lookup_certificate_issuer) {
+        public Build setLookupCertificateIssuer(java.lang.foreign.MemoryAddress lookupCertificateIssuer) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("lookup_certificate_issuer"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (lookup_certificate_issuer == null ? MemoryAddress.NULL : lookup_certificate_issuer));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (lookupCertificateIssuer == null ? MemoryAddress.NULL : lookupCertificateIssuer));
             return this;
         }
         
-        public Build setLookupCertificateIssuerAsync(java.lang.foreign.MemoryAddress lookup_certificate_issuer_async) {
+        public Build setLookupCertificateIssuerAsync(java.lang.foreign.MemoryAddress lookupCertificateIssuerAsync) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("lookup_certificate_issuer_async"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (lookup_certificate_issuer_async == null ? MemoryAddress.NULL : lookup_certificate_issuer_async));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (lookupCertificateIssuerAsync == null ? MemoryAddress.NULL : lookupCertificateIssuerAsync));
             return this;
         }
         
-        public Build setLookupCertificateIssuerFinish(java.lang.foreign.MemoryAddress lookup_certificate_issuer_finish) {
+        public Build setLookupCertificateIssuerFinish(java.lang.foreign.MemoryAddress lookupCertificateIssuerFinish) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("lookup_certificate_issuer_finish"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (lookup_certificate_issuer_finish == null ? MemoryAddress.NULL : lookup_certificate_issuer_finish));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (lookupCertificateIssuerFinish == null ? MemoryAddress.NULL : lookupCertificateIssuerFinish));
             return this;
         }
         
-        public Build setLookupCertificatesIssuedBy(java.lang.foreign.MemoryAddress lookup_certificates_issued_by) {
+        public Build setLookupCertificatesIssuedBy(java.lang.foreign.MemoryAddress lookupCertificatesIssuedBy) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("lookup_certificates_issued_by"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (lookup_certificates_issued_by == null ? MemoryAddress.NULL : lookup_certificates_issued_by));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (lookupCertificatesIssuedBy == null ? MemoryAddress.NULL : lookupCertificatesIssuedBy));
             return this;
         }
         
-        public Build setLookupCertificatesIssuedByAsync(java.lang.foreign.MemoryAddress lookup_certificates_issued_by_async) {
+        public Build setLookupCertificatesIssuedByAsync(java.lang.foreign.MemoryAddress lookupCertificatesIssuedByAsync) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("lookup_certificates_issued_by_async"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (lookup_certificates_issued_by_async == null ? MemoryAddress.NULL : lookup_certificates_issued_by_async));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (lookupCertificatesIssuedByAsync == null ? MemoryAddress.NULL : lookupCertificatesIssuedByAsync));
             return this;
         }
         
-        public Build setLookupCertificatesIssuedByFinish(java.lang.foreign.MemoryAddress lookup_certificates_issued_by_finish) {
+        public Build setLookupCertificatesIssuedByFinish(java.lang.foreign.MemoryAddress lookupCertificatesIssuedByFinish) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("lookup_certificates_issued_by_finish"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (lookup_certificates_issued_by_finish == null ? MemoryAddress.NULL : lookup_certificates_issued_by_finish));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (lookupCertificatesIssuedByFinish == null ? MemoryAddress.NULL : lookupCertificatesIssuedByFinish));
             return this;
         }
         

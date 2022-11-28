@@ -58,15 +58,6 @@ public class IMContext extends org.gtk.gobject.Object {
     }
     
     /**
-     * Get the value of the field {@code parent_instance}
-     * @return The value of the field {@code parent_instance}
-     */
-    public org.gtk.gobject.Object parent_instance$get() {
-        long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_instance"));
-        return new org.gtk.gobject.Object(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
-    }
-    
-    /**
      * Create a IMContext proxy instance for the provided memory address.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
@@ -89,11 +80,7 @@ public class IMContext extends org.gtk.gobject.Object {
      * @throws ClassCastException If the GType is not derived from "GtkIMContext", a ClassCastException will be thrown.
      */
     public static IMContext castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), IMContext.getType())) {
             return new IMContext(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkIMContext");
-        }
     }
     
     /**
@@ -233,22 +220,24 @@ public class IMContext extends org.gtk.gobject.Object {
      * @param cursorPos location to store position of cursor
      *   (in characters) within the preedit string.
      */
-    public void getPreeditString(@NotNull Out<java.lang.String> str, @NotNull PointerProxy<org.pango.AttrList> attrs, Out<Integer> cursorPos) {
+    public void getPreeditString(@NotNull Out<java.lang.String> str, @NotNull Out<org.pango.AttrList> attrs, Out<Integer> cursorPos) {
         java.util.Objects.requireNonNull(str, "Parameter 'str' must not be null");
         MemorySegment strPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         java.util.Objects.requireNonNull(attrs, "Parameter 'attrs' must not be null");
+        MemorySegment attrsPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         java.util.Objects.requireNonNull(cursorPos, "Parameter 'cursorPos' must not be null");
         MemorySegment cursorPosPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         try {
             DowncallHandles.gtk_im_context_get_preedit_string.invokeExact(
                     handle(),
                     (Addressable) strPOINTER.address(),
-                    attrs.handle(),
+                    (Addressable) attrsPOINTER.address(),
                     (Addressable) cursorPosPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         str.set(Interop.getStringFrom(strPOINTER.get(Interop.valueLayout.ADDRESS, 0)));
+        attrs.set(new org.pango.AttrList(attrsPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
         cursorPos.set(cursorPosPOINTER.get(Interop.valueLayout.C_INT, 0));
     }
     

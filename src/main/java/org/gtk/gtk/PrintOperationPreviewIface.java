@@ -56,7 +56,7 @@ public class PrintOperationPreviewIface extends Struct {
      * Get the value of the field {@code g_iface}
      * @return The value of the field {@code g_iface}
      */
-    public org.gtk.gobject.TypeInterface g_iface$get() {
+    public org.gtk.gobject.TypeInterface gIface$get() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("g_iface"));
         return new org.gtk.gobject.TypeInterface(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
     }
@@ -98,10 +98,10 @@ public class PrintOperationPreviewIface extends Struct {
             return struct;
         }
         
-        public Build setGIface(org.gtk.gobject.TypeInterface g_iface) {
+        public Build setGIface(org.gtk.gobject.TypeInterface gIface) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("g_iface"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (g_iface == null ? MemoryAddress.NULL : g_iface.handle()));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (gIface == null ? MemoryAddress.NULL : gIface.handle()));
             return this;
         }
         
@@ -112,87 +112,87 @@ public class PrintOperationPreviewIface extends Struct {
             return this;
         }
         
-        public Build setGotPageSize(java.lang.foreign.MemoryAddress got_page_size) {
+        public Build setGotPageSize(java.lang.foreign.MemoryAddress gotPageSize) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("got_page_size"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (got_page_size == null ? MemoryAddress.NULL : got_page_size));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (gotPageSize == null ? MemoryAddress.NULL : gotPageSize));
             return this;
         }
         
-        public Build setRenderPage(java.lang.foreign.MemoryAddress render_page) {
+        public Build setRenderPage(java.lang.foreign.MemoryAddress renderPage) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("render_page"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (render_page == null ? MemoryAddress.NULL : render_page));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (renderPage == null ? MemoryAddress.NULL : renderPage));
             return this;
         }
         
-        public Build setIsSelected(java.lang.foreign.MemoryAddress is_selected) {
+        public Build setIsSelected(java.lang.foreign.MemoryAddress isSelected) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("is_selected"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (is_selected == null ? MemoryAddress.NULL : is_selected));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (isSelected == null ? MemoryAddress.NULL : isSelected));
             return this;
         }
         
-        public Build setEndPreview(java.lang.foreign.MemoryAddress end_preview) {
+        public Build setEndPreview(java.lang.foreign.MemoryAddress endPreview) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("end_preview"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (end_preview == null ? MemoryAddress.NULL : end_preview));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (endPreview == null ? MemoryAddress.NULL : endPreview));
             return this;
         }
         
-        public Build setGtkReserved1(java.lang.foreign.MemoryAddress _gtk_reserved1) {
+        public Build setGtkReserved1(java.lang.foreign.MemoryAddress GtkReserved1) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("_gtk_reserved1"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (_gtk_reserved1 == null ? MemoryAddress.NULL : _gtk_reserved1));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (GtkReserved1 == null ? MemoryAddress.NULL : GtkReserved1));
             return this;
         }
         
-        public Build setGtkReserved2(java.lang.foreign.MemoryAddress _gtk_reserved2) {
+        public Build setGtkReserved2(java.lang.foreign.MemoryAddress GtkReserved2) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("_gtk_reserved2"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (_gtk_reserved2 == null ? MemoryAddress.NULL : _gtk_reserved2));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (GtkReserved2 == null ? MemoryAddress.NULL : GtkReserved2));
             return this;
         }
         
-        public Build setGtkReserved3(java.lang.foreign.MemoryAddress _gtk_reserved3) {
+        public Build setGtkReserved3(java.lang.foreign.MemoryAddress GtkReserved3) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("_gtk_reserved3"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (_gtk_reserved3 == null ? MemoryAddress.NULL : _gtk_reserved3));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (GtkReserved3 == null ? MemoryAddress.NULL : GtkReserved3));
             return this;
         }
         
-        public Build setGtkReserved4(java.lang.foreign.MemoryAddress _gtk_reserved4) {
+        public Build setGtkReserved4(java.lang.foreign.MemoryAddress GtkReserved4) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("_gtk_reserved4"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (_gtk_reserved4 == null ? MemoryAddress.NULL : _gtk_reserved4));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (GtkReserved4 == null ? MemoryAddress.NULL : GtkReserved4));
             return this;
         }
         
-        public Build setGtkReserved5(java.lang.foreign.MemoryAddress _gtk_reserved5) {
+        public Build setGtkReserved5(java.lang.foreign.MemoryAddress GtkReserved5) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("_gtk_reserved5"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (_gtk_reserved5 == null ? MemoryAddress.NULL : _gtk_reserved5));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (GtkReserved5 == null ? MemoryAddress.NULL : GtkReserved5));
             return this;
         }
         
-        public Build setGtkReserved6(java.lang.foreign.MemoryAddress _gtk_reserved6) {
+        public Build setGtkReserved6(java.lang.foreign.MemoryAddress GtkReserved6) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("_gtk_reserved6"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (_gtk_reserved6 == null ? MemoryAddress.NULL : _gtk_reserved6));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (GtkReserved6 == null ? MemoryAddress.NULL : GtkReserved6));
             return this;
         }
         
-        public Build setGtkReserved7(java.lang.foreign.MemoryAddress _gtk_reserved7) {
+        public Build setGtkReserved7(java.lang.foreign.MemoryAddress GtkReserved7) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("_gtk_reserved7"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (_gtk_reserved7 == null ? MemoryAddress.NULL : _gtk_reserved7));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (GtkReserved7 == null ? MemoryAddress.NULL : GtkReserved7));
             return this;
         }
         
-        public Build setGtkReserved8(java.lang.foreign.MemoryAddress _gtk_reserved8) {
+        public Build setGtkReserved8(java.lang.foreign.MemoryAddress GtkReserved8) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("_gtk_reserved8"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (_gtk_reserved8 == null ? MemoryAddress.NULL : _gtk_reserved8));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (GtkReserved8 == null ? MemoryAddress.NULL : GtkReserved8));
             return this;
         }
     }

@@ -54,7 +54,7 @@ public class TlsConnectionClass extends Struct {
      * Get the value of the field {@code parent_class}
      * @return The value of the field {@code parent_class}
      */
-    public org.gtk.gio.IOStreamClass parent_class$get() {
+    public org.gtk.gio.IOStreamClass parentClass$get() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_class"));
         return new org.gtk.gio.IOStreamClass(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
     }
@@ -98,20 +98,20 @@ public class TlsConnectionClass extends Struct {
         
         /**
          * The parent class.
-         * @param parent_class The value for the {@code parent_class} field
+         * @param parentClass The value for the {@code parentClass} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setParentClass(org.gtk.gio.IOStreamClass parent_class) {
+        public Build setParentClass(org.gtk.gio.IOStreamClass parentClass) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parent_class == null ? MemoryAddress.NULL : parent_class.handle()));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
             return this;
         }
         
-        public Build setAcceptCertificate(java.lang.foreign.MemoryAddress accept_certificate) {
+        public Build setAcceptCertificate(java.lang.foreign.MemoryAddress acceptCertificate) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("accept_certificate"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (accept_certificate == null ? MemoryAddress.NULL : accept_certificate));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (acceptCertificate == null ? MemoryAddress.NULL : acceptCertificate));
             return this;
         }
         
@@ -122,31 +122,31 @@ public class TlsConnectionClass extends Struct {
             return this;
         }
         
-        public Build setHandshakeAsync(java.lang.foreign.MemoryAddress handshake_async) {
+        public Build setHandshakeAsync(java.lang.foreign.MemoryAddress handshakeAsync) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("handshake_async"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (handshake_async == null ? MemoryAddress.NULL : handshake_async));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (handshakeAsync == null ? MemoryAddress.NULL : handshakeAsync));
             return this;
         }
         
-        public Build setHandshakeFinish(java.lang.foreign.MemoryAddress handshake_finish) {
+        public Build setHandshakeFinish(java.lang.foreign.MemoryAddress handshakeFinish) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("handshake_finish"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (handshake_finish == null ? MemoryAddress.NULL : handshake_finish));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (handshakeFinish == null ? MemoryAddress.NULL : handshakeFinish));
             return this;
         }
         
-        public Build setGetBindingData(java.lang.foreign.MemoryAddress get_binding_data) {
+        public Build setGetBindingData(java.lang.foreign.MemoryAddress getBindingData) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("get_binding_data"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (get_binding_data == null ? MemoryAddress.NULL : get_binding_data));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getBindingData == null ? MemoryAddress.NULL : getBindingData));
             return this;
         }
         
-        public Build setGetNegotiatedProtocol(java.lang.foreign.MemoryAddress get_negotiated_protocol) {
+        public Build setGetNegotiatedProtocol(java.lang.foreign.MemoryAddress getNegotiatedProtocol) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("get_negotiated_protocol"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (get_negotiated_protocol == null ? MemoryAddress.NULL : get_negotiated_protocol));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getNegotiatedProtocol == null ? MemoryAddress.NULL : getNegotiatedProtocol));
             return this;
         }
         

@@ -55,7 +55,7 @@ public class FontMapClass extends Struct {
      * Get the value of the field {@code parent_class}
      * @return The value of the field {@code parent_class}
      */
-    public org.gtk.gobject.ObjectClass parent_class$get() {
+    public org.gtk.gobject.ObjectClass parentClass$get() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_class"));
         return new org.gtk.gobject.ObjectClass(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
     }
@@ -64,7 +64,7 @@ public class FontMapClass extends Struct {
      * Get the value of the field {@code shape_engine_type}
      * @return The value of the field {@code shape_engine_type}
      */
-    public java.lang.String shape_engine_type$get() {
+    public java.lang.String shapeEngineType$get() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("shape_engine_type"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -73,12 +73,12 @@ public class FontMapClass extends Struct {
     
     /**
      * Change the value of the field {@code shape_engine_type}
-     * @param shape_engine_type The new value of the field {@code shape_engine_type}
+     * @param shapeEngineType The new value of the field {@code shape_engine_type}
      */
-    public void shape_engine_type$set(java.lang.String shape_engine_type) {
+    public void shapeEngineType$set(java.lang.String shapeEngineType) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("shape_engine_type"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Interop.allocateNativeString(shape_engine_type));
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Interop.allocateNativeString(shapeEngineType));
     }
     
     /**
@@ -120,54 +120,54 @@ public class FontMapClass extends Struct {
         
         /**
          * parent {@code GObjectClass}
-         * @param parent_class The value for the {@code parent_class} field
+         * @param parentClass The value for the {@code parentClass} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setParentClass(org.gtk.gobject.ObjectClass parent_class) {
+        public Build setParentClass(org.gtk.gobject.ObjectClass parentClass) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parent_class == null ? MemoryAddress.NULL : parent_class.handle()));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
             return this;
         }
         
-        public Build setLoadFont(java.lang.foreign.MemoryAddress load_font) {
+        public Build setLoadFont(java.lang.foreign.MemoryAddress loadFont) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("load_font"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (load_font == null ? MemoryAddress.NULL : load_font));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (loadFont == null ? MemoryAddress.NULL : loadFont));
             return this;
         }
         
-        public Build setListFamilies(java.lang.foreign.MemoryAddress list_families) {
+        public Build setListFamilies(java.lang.foreign.MemoryAddress listFamilies) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("list_families"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (list_families == null ? MemoryAddress.NULL : list_families));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (listFamilies == null ? MemoryAddress.NULL : listFamilies));
             return this;
         }
         
-        public Build setLoadFontset(java.lang.foreign.MemoryAddress load_fontset) {
+        public Build setLoadFontset(java.lang.foreign.MemoryAddress loadFontset) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("load_fontset"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (load_fontset == null ? MemoryAddress.NULL : load_fontset));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (loadFontset == null ? MemoryAddress.NULL : loadFontset));
             return this;
         }
         
         /**
          * the type of rendering-system-dependent engines that
          * can handle fonts of this fonts loaded with this fontmap.
-         * @param shape_engine_type The value for the {@code shape_engine_type} field
+         * @param shapeEngineType The value for the {@code shapeEngineType} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setShapeEngineType(java.lang.String shape_engine_type) {
+        public Build setShapeEngineType(java.lang.String shapeEngineType) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("shape_engine_type"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (shape_engine_type == null ? MemoryAddress.NULL : Interop.allocateNativeString(shape_engine_type)));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (shapeEngineType == null ? MemoryAddress.NULL : Interop.allocateNativeString(shapeEngineType)));
             return this;
         }
         
-        public Build setGetSerial(java.lang.foreign.MemoryAddress get_serial) {
+        public Build setGetSerial(java.lang.foreign.MemoryAddress getSerial) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("get_serial"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (get_serial == null ? MemoryAddress.NULL : get_serial));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getSerial == null ? MemoryAddress.NULL : getSerial));
             return this;
         }
         
@@ -178,17 +178,17 @@ public class FontMapClass extends Struct {
             return this;
         }
         
-        public Build setGetFamily(java.lang.foreign.MemoryAddress get_family) {
+        public Build setGetFamily(java.lang.foreign.MemoryAddress getFamily) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("get_family"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (get_family == null ? MemoryAddress.NULL : get_family));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getFamily == null ? MemoryAddress.NULL : getFamily));
             return this;
         }
         
-        public Build setGetFace(java.lang.foreign.MemoryAddress get_face) {
+        public Build setGetFace(java.lang.foreign.MemoryAddress getFace) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("get_face"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (get_face == null ? MemoryAddress.NULL : get_face));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getFace == null ? MemoryAddress.NULL : getFace));
             return this;
         }
     }

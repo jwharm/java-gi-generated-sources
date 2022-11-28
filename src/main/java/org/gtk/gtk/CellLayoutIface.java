@@ -85,24 +85,24 @@ public class CellLayoutIface extends Struct {
             return struct;
         }
         
-        public Build setGIface(org.gtk.gobject.TypeInterface g_iface) {
+        public Build setGIface(org.gtk.gobject.TypeInterface gIface) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("g_iface"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (g_iface == null ? MemoryAddress.NULL : g_iface.handle()));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (gIface == null ? MemoryAddress.NULL : gIface.handle()));
             return this;
         }
         
-        public Build setPackStart(java.lang.foreign.MemoryAddress pack_start) {
+        public Build setPackStart(java.lang.foreign.MemoryAddress packStart) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("pack_start"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (pack_start == null ? MemoryAddress.NULL : pack_start));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (packStart == null ? MemoryAddress.NULL : packStart));
             return this;
         }
         
-        public Build setPackEnd(java.lang.foreign.MemoryAddress pack_end) {
+        public Build setPackEnd(java.lang.foreign.MemoryAddress packEnd) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("pack_end"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (pack_end == null ? MemoryAddress.NULL : pack_end));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (packEnd == null ? MemoryAddress.NULL : packEnd));
             return this;
         }
         
@@ -113,24 +113,24 @@ public class CellLayoutIface extends Struct {
             return this;
         }
         
-        public Build setAddAttribute(java.lang.foreign.MemoryAddress add_attribute) {
+        public Build setAddAttribute(java.lang.foreign.MemoryAddress addAttribute) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("add_attribute"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (add_attribute == null ? MemoryAddress.NULL : add_attribute));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (addAttribute == null ? MemoryAddress.NULL : addAttribute));
             return this;
         }
         
-        public Build setSetCellDataFunc(java.lang.foreign.MemoryAddress set_cell_data_func) {
+        public Build setSetCellDataFunc(java.lang.foreign.MemoryAddress setCellDataFunc) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("set_cell_data_func"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (set_cell_data_func == null ? MemoryAddress.NULL : set_cell_data_func));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (setCellDataFunc == null ? MemoryAddress.NULL : setCellDataFunc));
             return this;
         }
         
-        public Build setClearAttributes(java.lang.foreign.MemoryAddress clear_attributes) {
+        public Build setClearAttributes(java.lang.foreign.MemoryAddress clearAttributes) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("clear_attributes"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (clear_attributes == null ? MemoryAddress.NULL : clear_attributes));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (clearAttributes == null ? MemoryAddress.NULL : clearAttributes));
             return this;
         }
         
@@ -141,17 +141,17 @@ public class CellLayoutIface extends Struct {
             return this;
         }
         
-        public Build setGetCells(java.lang.foreign.MemoryAddress get_cells) {
+        public Build setGetCells(java.lang.foreign.MemoryAddress getCells) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("get_cells"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (get_cells == null ? MemoryAddress.NULL : get_cells));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getCells == null ? MemoryAddress.NULL : getCells));
             return this;
         }
         
-        public Build setGetArea(java.lang.foreign.MemoryAddress get_area) {
+        public Build setGetArea(java.lang.foreign.MemoryAddress getArea) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("get_area"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (get_area == null ? MemoryAddress.NULL : get_area));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getArea == null ? MemoryAddress.NULL : getArea));
             return this;
         }
     }

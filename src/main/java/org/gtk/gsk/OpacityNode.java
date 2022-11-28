@@ -48,11 +48,7 @@ public class OpacityNode extends org.gtk.gsk.RenderNode {
      * @throws ClassCastException If the GType is not derived from "GskOpacityNode", a ClassCastException will be thrown.
      */
     public static OpacityNode castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), OpacityNode.getType())) {
             return new OpacityNode(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GskOpacityNode");
-        }
     }
     
     private static Addressable constructNew(@NotNull org.gtk.gsk.RenderNode child, float opacity) {

@@ -46,7 +46,7 @@ public class SocketAddressClass extends Struct {
      * Get the value of the field {@code parent_class}
      * @return The value of the field {@code parent_class}
      */
-    public org.gtk.gobject.ObjectClass parent_class$get() {
+    public org.gtk.gobject.ObjectClass parentClass$get() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_class"));
         return new org.gtk.gobject.ObjectClass(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
     }
@@ -88,31 +88,31 @@ public class SocketAddressClass extends Struct {
             return struct;
         }
         
-        public Build setParentClass(org.gtk.gobject.ObjectClass parent_class) {
+        public Build setParentClass(org.gtk.gobject.ObjectClass parentClass) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parent_class == null ? MemoryAddress.NULL : parent_class.handle()));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
             return this;
         }
         
-        public Build setGetFamily(java.lang.foreign.MemoryAddress get_family) {
+        public Build setGetFamily(java.lang.foreign.MemoryAddress getFamily) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("get_family"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (get_family == null ? MemoryAddress.NULL : get_family));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getFamily == null ? MemoryAddress.NULL : getFamily));
             return this;
         }
         
-        public Build setGetNativeSize(java.lang.foreign.MemoryAddress get_native_size) {
+        public Build setGetNativeSize(java.lang.foreign.MemoryAddress getNativeSize) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("get_native_size"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (get_native_size == null ? MemoryAddress.NULL : get_native_size));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getNativeSize == null ? MemoryAddress.NULL : getNativeSize));
             return this;
         }
         
-        public Build setToNative(java.lang.foreign.MemoryAddress to_native) {
+        public Build setToNative(java.lang.foreign.MemoryAddress toNative) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("to_native"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (to_native == null ? MemoryAddress.NULL : to_native));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (toNative == null ? MemoryAddress.NULL : toNative));
             return this;
         }
     }

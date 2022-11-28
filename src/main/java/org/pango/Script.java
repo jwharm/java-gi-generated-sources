@@ -24,7 +24,7 @@ public class Script extends io.github.jwharm.javagi.Enumeration {
     /**
      * a value never returned from pango_script_for_unichar()
      */
-    public static final Script INVALID_CODE = new Script(-1);
+    public static final Script INVALID_CODE = new Script(0);
     
     /**
      * a character used by multiple different scripts

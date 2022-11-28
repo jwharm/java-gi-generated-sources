@@ -81,7 +81,7 @@ public class ActionEntry extends Struct {
      * Get the value of the field {@code parameter_type}
      * @return The value of the field {@code parameter_type}
      */
-    public java.lang.String parameter_type$get() {
+    public java.lang.String parameterType$get() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("parameter_type"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -90,12 +90,12 @@ public class ActionEntry extends Struct {
     
     /**
      * Change the value of the field {@code parameter_type}
-     * @param parameter_type The new value of the field {@code parameter_type}
+     * @param parameterType The new value of the field {@code parameter_type}
      */
-    public void parameter_type$set(java.lang.String parameter_type) {
+    public void parameterType$set(java.lang.String parameterType) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("parameter_type"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Interop.allocateNativeString(parameter_type));
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Interop.allocateNativeString(parameterType));
     }
     
     /**
@@ -179,13 +179,13 @@ public class ActionEntry extends Struct {
          * the type of the parameter that must be passed to the
          *                  activate function for this action, given as a single
          *                  GVariant type string (or {@code null} for no parameter)
-         * @param parameter_type The value for the {@code parameter_type} field
+         * @param parameterType The value for the {@code parameterType} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setParameterType(java.lang.String parameter_type) {
+        public Build setParameterType(java.lang.String parameterType) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("parameter_type"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parameter_type == null ? MemoryAddress.NULL : Interop.allocateNativeString(parameter_type)));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parameterType == null ? MemoryAddress.NULL : Interop.allocateNativeString(parameterType)));
             return this;
         }
         
@@ -205,10 +205,10 @@ public class ActionEntry extends Struct {
             return this;
         }
         
-        public Build setChangeState(java.lang.foreign.MemoryAddress change_state) {
+        public Build setChangeState(java.lang.foreign.MemoryAddress changeState) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("change_state"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (change_state == null ? MemoryAddress.NULL : change_state));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (changeState == null ? MemoryAddress.NULL : changeState));
             return this;
         }
         

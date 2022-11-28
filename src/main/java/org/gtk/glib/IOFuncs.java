@@ -87,59 +87,59 @@ public class IOFuncs extends Struct {
             return struct;
         }
         
-        public Build setIoRead(java.lang.foreign.MemoryAddress io_read) {
+        public Build setIoRead(java.lang.foreign.MemoryAddress ioRead) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("io_read"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (io_read == null ? MemoryAddress.NULL : io_read));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (ioRead == null ? MemoryAddress.NULL : ioRead));
             return this;
         }
         
-        public Build setIoWrite(java.lang.foreign.MemoryAddress io_write) {
+        public Build setIoWrite(java.lang.foreign.MemoryAddress ioWrite) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("io_write"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (io_write == null ? MemoryAddress.NULL : io_write));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (ioWrite == null ? MemoryAddress.NULL : ioWrite));
             return this;
         }
         
-        public Build setIoSeek(java.lang.foreign.MemoryAddress io_seek) {
+        public Build setIoSeek(java.lang.foreign.MemoryAddress ioSeek) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("io_seek"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (io_seek == null ? MemoryAddress.NULL : io_seek));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (ioSeek == null ? MemoryAddress.NULL : ioSeek));
             return this;
         }
         
-        public Build setIoClose(java.lang.foreign.MemoryAddress io_close) {
+        public Build setIoClose(java.lang.foreign.MemoryAddress ioClose) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("io_close"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (io_close == null ? MemoryAddress.NULL : io_close));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (ioClose == null ? MemoryAddress.NULL : ioClose));
             return this;
         }
         
-        public Build setIoCreateWatch(java.lang.foreign.MemoryAddress io_create_watch) {
+        public Build setIoCreateWatch(java.lang.foreign.MemoryAddress ioCreateWatch) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("io_create_watch"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (io_create_watch == null ? MemoryAddress.NULL : io_create_watch));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (ioCreateWatch == null ? MemoryAddress.NULL : ioCreateWatch));
             return this;
         }
         
-        public Build setIoFree(java.lang.foreign.MemoryAddress io_free) {
+        public Build setIoFree(java.lang.foreign.MemoryAddress ioFree) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("io_free"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (io_free == null ? MemoryAddress.NULL : io_free));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (ioFree == null ? MemoryAddress.NULL : ioFree));
             return this;
         }
         
-        public Build setIoSetFlags(java.lang.foreign.MemoryAddress io_set_flags) {
+        public Build setIoSetFlags(java.lang.foreign.MemoryAddress ioSetFlags) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("io_set_flags"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (io_set_flags == null ? MemoryAddress.NULL : io_set_flags));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (ioSetFlags == null ? MemoryAddress.NULL : ioSetFlags));
             return this;
         }
         
-        public Build setIoGetFlags(java.lang.foreign.MemoryAddress io_get_flags) {
+        public Build setIoGetFlags(java.lang.foreign.MemoryAddress ioGetFlags) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("io_get_flags"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (io_get_flags == null ? MemoryAddress.NULL : io_get_flags));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (ioGetFlags == null ? MemoryAddress.NULL : ioGetFlags));
             return this;
         }
     }

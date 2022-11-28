@@ -79,31 +79,31 @@ public class CellEditableIface extends Struct {
             return struct;
         }
         
-        public Build setGIface(org.gtk.gobject.TypeInterface g_iface) {
+        public Build setGIface(org.gtk.gobject.TypeInterface gIface) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("g_iface"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (g_iface == null ? MemoryAddress.NULL : g_iface.handle()));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (gIface == null ? MemoryAddress.NULL : gIface.handle()));
             return this;
         }
         
-        public Build setEditingDone(java.lang.foreign.MemoryAddress editing_done) {
+        public Build setEditingDone(java.lang.foreign.MemoryAddress editingDone) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("editing_done"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (editing_done == null ? MemoryAddress.NULL : editing_done));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (editingDone == null ? MemoryAddress.NULL : editingDone));
             return this;
         }
         
-        public Build setRemoveWidget(java.lang.foreign.MemoryAddress remove_widget) {
+        public Build setRemoveWidget(java.lang.foreign.MemoryAddress removeWidget) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("remove_widget"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (remove_widget == null ? MemoryAddress.NULL : remove_widget));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (removeWidget == null ? MemoryAddress.NULL : removeWidget));
             return this;
         }
         
-        public Build setStartEditing(java.lang.foreign.MemoryAddress start_editing) {
+        public Build setStartEditing(java.lang.foreign.MemoryAddress startEditing) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("start_editing"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (start_editing == null ? MemoryAddress.NULL : start_editing));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (startEditing == null ? MemoryAddress.NULL : startEditing));
             return this;
         }
     }

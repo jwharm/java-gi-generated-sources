@@ -64,11 +64,7 @@ public class ParamSpecOverride extends org.gtk.gobject.ParamSpec {
      * @throws ClassCastException If the GType is not derived from "GParamSpecOverride", a ClassCastException will be thrown.
      */
     public static ParamSpecOverride castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), ParamSpecOverride.getType())) {
             return new ParamSpecOverride(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GParamSpecOverride");
-        }
     }
     
     /**

@@ -45,11 +45,7 @@ public class NglRenderer extends org.gtk.gsk.Renderer {
      * @throws ClassCastException If the GType is not derived from "NglRenderer", a ClassCastException will be thrown.
      */
     public static NglRenderer castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), NglRenderer.getType())) {
             return new NglRenderer(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of NglRenderer");
-        }
     }
     
     /**

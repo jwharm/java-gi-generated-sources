@@ -39,15 +39,6 @@ public class FileInputStream extends org.gtk.gio.InputStream implements org.gtk.
     }
     
     /**
-     * Get the value of the field {@code parent_instance}
-     * @return The value of the field {@code parent_instance}
-     */
-    public org.gtk.gio.InputStream parent_instance$get() {
-        long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_instance"));
-        return new org.gtk.gio.InputStream(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
-    }
-    
-    /**
      * Create a FileInputStream proxy instance for the provided memory address.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
@@ -70,11 +61,7 @@ public class FileInputStream extends org.gtk.gio.InputStream implements org.gtk.
      * @throws ClassCastException If the GType is not derived from "GFileInputStream", a ClassCastException will be thrown.
      */
     public static FileInputStream castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), FileInputStream.getType())) {
             return new FileInputStream(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GFileInputStream");
-        }
     }
     
     /**

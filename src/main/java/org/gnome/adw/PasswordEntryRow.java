@@ -66,11 +66,7 @@ public class PasswordEntryRow extends org.gnome.adw.EntryRow implements org.gtk.
      * @throws ClassCastException If the GType is not derived from "AdwPasswordEntryRow", a ClassCastException will be thrown.
      */
     public static PasswordEntryRow castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), PasswordEntryRow.getType())) {
             return new PasswordEntryRow(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of AdwPasswordEntryRow");
-        }
     }
     
     private static Addressable constructNew() {

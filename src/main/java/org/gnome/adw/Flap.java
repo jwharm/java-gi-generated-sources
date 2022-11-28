@@ -103,11 +103,7 @@ public class Flap extends org.gtk.gtk.Widget implements org.gnome.adw.Swipeable,
      * @throws ClassCastException If the GType is not derived from "AdwFlap", a ClassCastException will be thrown.
      */
     public static Flap castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), Flap.getType())) {
             return new Flap(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of AdwFlap");
-        }
     }
     
     private static Addressable constructNew() {

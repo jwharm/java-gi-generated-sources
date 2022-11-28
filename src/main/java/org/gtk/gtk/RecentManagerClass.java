@@ -84,10 +84,10 @@ public class RecentManagerClass extends Struct {
             return struct;
         }
         
-        public Build setParentClass(org.gtk.gobject.ObjectClass parent_class) {
+        public Build setParentClass(org.gtk.gobject.ObjectClass parentClass) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parent_class == null ? MemoryAddress.NULL : parent_class.handle()));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
             return this;
         }
         
@@ -98,31 +98,31 @@ public class RecentManagerClass extends Struct {
             return this;
         }
         
-        public Build setGtkRecent1(java.lang.foreign.MemoryAddress _gtk_recent1) {
+        public Build setGtkRecent1(java.lang.foreign.MemoryAddress GtkRecent1) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("_gtk_recent1"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (_gtk_recent1 == null ? MemoryAddress.NULL : _gtk_recent1));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (GtkRecent1 == null ? MemoryAddress.NULL : GtkRecent1));
             return this;
         }
         
-        public Build setGtkRecent2(java.lang.foreign.MemoryAddress _gtk_recent2) {
+        public Build setGtkRecent2(java.lang.foreign.MemoryAddress GtkRecent2) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("_gtk_recent2"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (_gtk_recent2 == null ? MemoryAddress.NULL : _gtk_recent2));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (GtkRecent2 == null ? MemoryAddress.NULL : GtkRecent2));
             return this;
         }
         
-        public Build setGtkRecent3(java.lang.foreign.MemoryAddress _gtk_recent3) {
+        public Build setGtkRecent3(java.lang.foreign.MemoryAddress GtkRecent3) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("_gtk_recent3"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (_gtk_recent3 == null ? MemoryAddress.NULL : _gtk_recent3));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (GtkRecent3 == null ? MemoryAddress.NULL : GtkRecent3));
             return this;
         }
         
-        public Build setGtkRecent4(java.lang.foreign.MemoryAddress _gtk_recent4) {
+        public Build setGtkRecent4(java.lang.foreign.MemoryAddress GtkRecent4) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("_gtk_recent4"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (_gtk_recent4 == null ? MemoryAddress.NULL : _gtk_recent4));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (GtkRecent4 == null ? MemoryAddress.NULL : GtkRecent4));
             return this;
         }
     }

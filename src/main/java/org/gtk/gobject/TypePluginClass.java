@@ -51,7 +51,7 @@ public class TypePluginClass extends Struct {
      * Get the value of the field {@code use_plugin}
      * @return The value of the field {@code use_plugin}
      */
-    public org.gtk.gobject.TypePluginUse use_plugin$get() {
+    public org.gtk.gobject.TypePluginUse usePlugin$get() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("use_plugin"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -62,7 +62,7 @@ public class TypePluginClass extends Struct {
      * Get the value of the field {@code unuse_plugin}
      * @return The value of the field {@code unuse_plugin}
      */
-    public org.gtk.gobject.TypePluginUnuse unuse_plugin$get() {
+    public org.gtk.gobject.TypePluginUnuse unusePlugin$get() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("unuse_plugin"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -73,7 +73,7 @@ public class TypePluginClass extends Struct {
      * Get the value of the field {@code complete_type_info}
      * @return The value of the field {@code complete_type_info}
      */
-    public org.gtk.gobject.TypePluginCompleteTypeInfo complete_type_info$get() {
+    public org.gtk.gobject.TypePluginCompleteTypeInfo completeTypeInfo$get() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("complete_type_info"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -84,7 +84,7 @@ public class TypePluginClass extends Struct {
      * Get the value of the field {@code complete_interface_info}
      * @return The value of the field {@code complete_interface_info}
      */
-    public org.gtk.gobject.TypePluginCompleteInterfaceInfo complete_interface_info$get() {
+    public org.gtk.gobject.TypePluginCompleteInterfaceInfo completeInterfaceInfo$get() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("complete_interface_info"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -128,34 +128,34 @@ public class TypePluginClass extends Struct {
             return struct;
         }
         
-        public Build setBaseIface(org.gtk.gobject.TypeInterface base_iface) {
+        public Build setBaseIface(org.gtk.gobject.TypeInterface baseIface) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("base_iface"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (base_iface == null ? MemoryAddress.NULL : base_iface.handle()));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (baseIface == null ? MemoryAddress.NULL : baseIface.handle()));
             return this;
         }
         
         /**
          * Increases the use count of the plugin.
-         * @param use_plugin The value for the {@code use_plugin} field
+         * @param usePlugin The value for the {@code usePlugin} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setUsePlugin(java.lang.foreign.MemoryAddress use_plugin) {
+        public Build setUsePlugin(java.lang.foreign.MemoryAddress usePlugin) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("use_plugin"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (use_plugin == null ? MemoryAddress.NULL : use_plugin));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (usePlugin == null ? MemoryAddress.NULL : usePlugin));
             return this;
         }
         
         /**
          * Decreases the use count of the plugin.
-         * @param unuse_plugin The value for the {@code unuse_plugin} field
+         * @param unusePlugin The value for the {@code unusePlugin} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setUnusePlugin(java.lang.foreign.MemoryAddress unuse_plugin) {
+        public Build setUnusePlugin(java.lang.foreign.MemoryAddress unusePlugin) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("unuse_plugin"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (unuse_plugin == null ? MemoryAddress.NULL : unuse_plugin));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (unusePlugin == null ? MemoryAddress.NULL : unusePlugin));
             return this;
         }
         
@@ -163,13 +163,13 @@ public class TypePluginClass extends Struct {
          * Fills in the {@link TypeInfo} and
          *  {@link TypeValueTable} structs for the type. The structs are initialized
          *  with {@code memset(s, 0, sizeof (s))} before calling this function.
-         * @param complete_type_info The value for the {@code complete_type_info} field
+         * @param completeTypeInfo The value for the {@code completeTypeInfo} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setCompleteTypeInfo(java.lang.foreign.MemoryAddress complete_type_info) {
+        public Build setCompleteTypeInfo(java.lang.foreign.MemoryAddress completeTypeInfo) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("complete_type_info"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (complete_type_info == null ? MemoryAddress.NULL : complete_type_info));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (completeTypeInfo == null ? MemoryAddress.NULL : completeTypeInfo));
             return this;
         }
         
@@ -177,13 +177,13 @@ public class TypePluginClass extends Struct {
          * Fills in missing parts of the {@link InterfaceInfo}
          *  for the interface. The structs is initialized with
          *  {@code memset(s, 0, sizeof (s))} before calling this function.
-         * @param complete_interface_info The value for the {@code complete_interface_info} field
+         * @param completeInterfaceInfo The value for the {@code completeInterfaceInfo} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setCompleteInterfaceInfo(java.lang.foreign.MemoryAddress complete_interface_info) {
+        public Build setCompleteInterfaceInfo(java.lang.foreign.MemoryAddress completeInterfaceInfo) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("complete_interface_info"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (complete_interface_info == null ? MemoryAddress.NULL : complete_interface_info));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (completeInterfaceInfo == null ? MemoryAddress.NULL : completeInterfaceInfo));
             return this;
         }
     }

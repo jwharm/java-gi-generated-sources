@@ -36,11 +36,7 @@ public interface BuilderScope extends io.github.jwharm.javagi.Proxy {
      * @throws ClassCastException If the GType is not derived from "GtkBuilderScope", a ClassCastException will be thrown.
      */
     public static BuilderScope castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), BuilderScope.getType())) {
             return new BuilderScopeImpl(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkBuilderScope");
-        }
     }
     
     /**

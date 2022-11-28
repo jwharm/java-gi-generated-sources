@@ -61,11 +61,7 @@ public class GestureSingle extends org.gtk.gtk.Gesture {
      * @throws ClassCastException If the GType is not derived from "GtkGestureSingle", a ClassCastException will be thrown.
      */
     public static GestureSingle castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), GestureSingle.getType())) {
             return new GestureSingle(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkGestureSingle");
-        }
     }
     
     /**

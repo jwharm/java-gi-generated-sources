@@ -83,11 +83,7 @@ public class ToastOverlay extends org.gtk.gtk.Widget implements org.gtk.gtk.Acce
      * @throws ClassCastException If the GType is not derived from "AdwToastOverlay", a ClassCastException will be thrown.
      */
     public static ToastOverlay castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), ToastOverlay.getType())) {
             return new ToastOverlay(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of AdwToastOverlay");
-        }
     }
     
     private static Addressable constructNew() {

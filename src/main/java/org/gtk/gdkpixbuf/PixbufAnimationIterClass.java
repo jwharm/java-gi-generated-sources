@@ -52,7 +52,7 @@ public class PixbufAnimationIterClass extends Struct {
      * Get the value of the field {@code parent_class}
      * @return The value of the field {@code parent_class}
      */
-    public org.gtk.gobject.ObjectClass parent_class$get() {
+    public org.gtk.gobject.ObjectClass parentClass$get() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_class"));
         return new org.gtk.gobject.ObjectClass(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
     }
@@ -96,34 +96,34 @@ public class PixbufAnimationIterClass extends Struct {
         
         /**
          * the parent class
-         * @param parent_class The value for the {@code parent_class} field
+         * @param parentClass The value for the {@code parentClass} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setParentClass(org.gtk.gobject.ObjectClass parent_class) {
+        public Build setParentClass(org.gtk.gobject.ObjectClass parentClass) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parent_class == null ? MemoryAddress.NULL : parent_class.handle()));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
             return this;
         }
         
-        public Build setGetDelayTime(java.lang.foreign.MemoryAddress get_delay_time) {
+        public Build setGetDelayTime(java.lang.foreign.MemoryAddress getDelayTime) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("get_delay_time"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (get_delay_time == null ? MemoryAddress.NULL : get_delay_time));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getDelayTime == null ? MemoryAddress.NULL : getDelayTime));
             return this;
         }
         
-        public Build setGetPixbuf(java.lang.foreign.MemoryAddress get_pixbuf) {
+        public Build setGetPixbuf(java.lang.foreign.MemoryAddress getPixbuf) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("get_pixbuf"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (get_pixbuf == null ? MemoryAddress.NULL : get_pixbuf));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getPixbuf == null ? MemoryAddress.NULL : getPixbuf));
             return this;
         }
         
-        public Build setOnCurrentlyLoadingFrame(java.lang.foreign.MemoryAddress on_currently_loading_frame) {
+        public Build setOnCurrentlyLoadingFrame(java.lang.foreign.MemoryAddress onCurrentlyLoadingFrame) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("on_currently_loading_frame"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (on_currently_loading_frame == null ? MemoryAddress.NULL : on_currently_loading_frame));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (onCurrentlyLoadingFrame == null ? MemoryAddress.NULL : onCurrentlyLoadingFrame));
             return this;
         }
         

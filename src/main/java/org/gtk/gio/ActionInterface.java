@@ -55,7 +55,7 @@ public class ActionInterface extends Struct {
      * Get the value of the field {@code g_iface}
      * @return The value of the field {@code g_iface}
      */
-    public org.gtk.gobject.TypeInterface g_iface$get() {
+    public org.gtk.gobject.TypeInterface gIface$get() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("g_iface"));
         return new org.gtk.gobject.TypeInterface(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
     }
@@ -97,59 +97,59 @@ public class ActionInterface extends Struct {
             return struct;
         }
         
-        public Build setGIface(org.gtk.gobject.TypeInterface g_iface) {
+        public Build setGIface(org.gtk.gobject.TypeInterface gIface) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("g_iface"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (g_iface == null ? MemoryAddress.NULL : g_iface.handle()));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (gIface == null ? MemoryAddress.NULL : gIface.handle()));
             return this;
         }
         
-        public Build setGetName(java.lang.foreign.MemoryAddress get_name) {
+        public Build setGetName(java.lang.foreign.MemoryAddress getName) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("get_name"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (get_name == null ? MemoryAddress.NULL : get_name));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getName == null ? MemoryAddress.NULL : getName));
             return this;
         }
         
-        public Build setGetParameterType(java.lang.foreign.MemoryAddress get_parameter_type) {
+        public Build setGetParameterType(java.lang.foreign.MemoryAddress getParameterType) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("get_parameter_type"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (get_parameter_type == null ? MemoryAddress.NULL : get_parameter_type));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getParameterType == null ? MemoryAddress.NULL : getParameterType));
             return this;
         }
         
-        public Build setGetStateType(java.lang.foreign.MemoryAddress get_state_type) {
+        public Build setGetStateType(java.lang.foreign.MemoryAddress getStateType) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("get_state_type"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (get_state_type == null ? MemoryAddress.NULL : get_state_type));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getStateType == null ? MemoryAddress.NULL : getStateType));
             return this;
         }
         
-        public Build setGetStateHint(java.lang.foreign.MemoryAddress get_state_hint) {
+        public Build setGetStateHint(java.lang.foreign.MemoryAddress getStateHint) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("get_state_hint"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (get_state_hint == null ? MemoryAddress.NULL : get_state_hint));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getStateHint == null ? MemoryAddress.NULL : getStateHint));
             return this;
         }
         
-        public Build setGetEnabled(java.lang.foreign.MemoryAddress get_enabled) {
+        public Build setGetEnabled(java.lang.foreign.MemoryAddress getEnabled) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("get_enabled"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (get_enabled == null ? MemoryAddress.NULL : get_enabled));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getEnabled == null ? MemoryAddress.NULL : getEnabled));
             return this;
         }
         
-        public Build setGetState(java.lang.foreign.MemoryAddress get_state) {
+        public Build setGetState(java.lang.foreign.MemoryAddress getState) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("get_state"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (get_state == null ? MemoryAddress.NULL : get_state));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getState == null ? MemoryAddress.NULL : getState));
             return this;
         }
         
-        public Build setChangeState(java.lang.foreign.MemoryAddress change_state) {
+        public Build setChangeState(java.lang.foreign.MemoryAddress changeState) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("change_state"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (change_state == null ? MemoryAddress.NULL : change_state));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (changeState == null ? MemoryAddress.NULL : changeState));
             return this;
         }
         

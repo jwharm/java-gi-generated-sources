@@ -48,7 +48,7 @@ public class SettingsClass extends Struct {
      * Get the value of the field {@code parent_class}
      * @return The value of the field {@code parent_class}
      */
-    public org.gtk.gobject.ObjectClass parent_class$get() {
+    public org.gtk.gobject.ObjectClass parentClass$get() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_class"));
         return new org.gtk.gobject.ObjectClass(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
     }
@@ -90,17 +90,17 @@ public class SettingsClass extends Struct {
             return struct;
         }
         
-        public Build setParentClass(org.gtk.gobject.ObjectClass parent_class) {
+        public Build setParentClass(org.gtk.gobject.ObjectClass parentClass) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parent_class == null ? MemoryAddress.NULL : parent_class.handle()));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
             return this;
         }
         
-        public Build setWritableChanged(java.lang.foreign.MemoryAddress writable_changed) {
+        public Build setWritableChanged(java.lang.foreign.MemoryAddress writableChanged) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("writable_changed"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (writable_changed == null ? MemoryAddress.NULL : writable_changed));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (writableChanged == null ? MemoryAddress.NULL : writableChanged));
             return this;
         }
         
@@ -111,17 +111,17 @@ public class SettingsClass extends Struct {
             return this;
         }
         
-        public Build setWritableChangeEvent(java.lang.foreign.MemoryAddress writable_change_event) {
+        public Build setWritableChangeEvent(java.lang.foreign.MemoryAddress writableChangeEvent) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("writable_change_event"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (writable_change_event == null ? MemoryAddress.NULL : writable_change_event));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (writableChangeEvent == null ? MemoryAddress.NULL : writableChangeEvent));
             return this;
         }
         
-        public Build setChangeEvent(java.lang.foreign.MemoryAddress change_event) {
+        public Build setChangeEvent(java.lang.foreign.MemoryAddress changeEvent) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("change_event"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (change_event == null ? MemoryAddress.NULL : change_event));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (changeEvent == null ? MemoryAddress.NULL : changeEvent));
             return this;
         }
         

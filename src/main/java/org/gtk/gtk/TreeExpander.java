@@ -84,11 +84,7 @@ public class TreeExpander extends org.gtk.gtk.Widget implements org.gtk.gtk.Acce
      * @throws ClassCastException If the GType is not derived from "GtkTreeExpander", a ClassCastException will be thrown.
      */
     public static TreeExpander castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), TreeExpander.getType())) {
             return new TreeExpander(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkTreeExpander");
-        }
     }
     
     private static Addressable constructNew() {

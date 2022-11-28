@@ -55,7 +55,7 @@ public class PrintOperationClass extends Struct {
      * Get the value of the field {@code parent_class}
      * @return The value of the field {@code parent_class}
      */
-    public org.gtk.gobject.ObjectClass parent_class$get() {
+    public org.gtk.gobject.ObjectClass parentClass$get() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_class"));
         return new org.gtk.gobject.ObjectClass(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
     }
@@ -99,13 +99,13 @@ public class PrintOperationClass extends Struct {
         
         /**
          * The parent class.
-         * @param parent_class The value for the {@code parent_class} field
+         * @param parentClass The value for the {@code parentClass} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setParentClass(org.gtk.gobject.ObjectClass parent_class) {
+        public Build setParentClass(org.gtk.gobject.ObjectClass parentClass) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parent_class == null ? MemoryAddress.NULL : parent_class.handle()));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
             return this;
         }
         
@@ -116,10 +116,10 @@ public class PrintOperationClass extends Struct {
             return this;
         }
         
-        public Build setBeginPrint(java.lang.foreign.MemoryAddress begin_print) {
+        public Build setBeginPrint(java.lang.foreign.MemoryAddress beginPrint) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("begin_print"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (begin_print == null ? MemoryAddress.NULL : begin_print));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (beginPrint == null ? MemoryAddress.NULL : beginPrint));
             return this;
         }
         
@@ -130,45 +130,45 @@ public class PrintOperationClass extends Struct {
             return this;
         }
         
-        public Build setRequestPageSetup(java.lang.foreign.MemoryAddress request_page_setup) {
+        public Build setRequestPageSetup(java.lang.foreign.MemoryAddress requestPageSetup) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("request_page_setup"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (request_page_setup == null ? MemoryAddress.NULL : request_page_setup));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (requestPageSetup == null ? MemoryAddress.NULL : requestPageSetup));
             return this;
         }
         
-        public Build setDrawPage(java.lang.foreign.MemoryAddress draw_page) {
+        public Build setDrawPage(java.lang.foreign.MemoryAddress drawPage) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("draw_page"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (draw_page == null ? MemoryAddress.NULL : draw_page));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (drawPage == null ? MemoryAddress.NULL : drawPage));
             return this;
         }
         
-        public Build setEndPrint(java.lang.foreign.MemoryAddress end_print) {
+        public Build setEndPrint(java.lang.foreign.MemoryAddress endPrint) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("end_print"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (end_print == null ? MemoryAddress.NULL : end_print));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (endPrint == null ? MemoryAddress.NULL : endPrint));
             return this;
         }
         
-        public Build setStatusChanged(java.lang.foreign.MemoryAddress status_changed) {
+        public Build setStatusChanged(java.lang.foreign.MemoryAddress statusChanged) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("status_changed"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (status_changed == null ? MemoryAddress.NULL : status_changed));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (statusChanged == null ? MemoryAddress.NULL : statusChanged));
             return this;
         }
         
-        public Build setCreateCustomWidget(java.lang.foreign.MemoryAddress create_custom_widget) {
+        public Build setCreateCustomWidget(java.lang.foreign.MemoryAddress createCustomWidget) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("create_custom_widget"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (create_custom_widget == null ? MemoryAddress.NULL : create_custom_widget));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (createCustomWidget == null ? MemoryAddress.NULL : createCustomWidget));
             return this;
         }
         
-        public Build setCustomWidgetApply(java.lang.foreign.MemoryAddress custom_widget_apply) {
+        public Build setCustomWidgetApply(java.lang.foreign.MemoryAddress customWidgetApply) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("custom_widget_apply"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (custom_widget_apply == null ? MemoryAddress.NULL : custom_widget_apply));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (customWidgetApply == null ? MemoryAddress.NULL : customWidgetApply));
             return this;
         }
         
@@ -179,10 +179,10 @@ public class PrintOperationClass extends Struct {
             return this;
         }
         
-        public Build setUpdateCustomWidget(java.lang.foreign.MemoryAddress update_custom_widget) {
+        public Build setUpdateCustomWidget(java.lang.foreign.MemoryAddress updateCustomWidget) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("update_custom_widget"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (update_custom_widget == null ? MemoryAddress.NULL : update_custom_widget));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (updateCustomWidget == null ? MemoryAddress.NULL : updateCustomWidget));
             return this;
         }
         

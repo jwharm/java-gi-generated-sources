@@ -48,11 +48,7 @@ public class LeafletPage extends org.gtk.gobject.Object {
      * @throws ClassCastException If the GType is not derived from "AdwLeafletPage", a ClassCastException will be thrown.
      */
     public static LeafletPage castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), LeafletPage.getType())) {
             return new LeafletPage(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of AdwLeafletPage");
-        }
     }
     
     /**

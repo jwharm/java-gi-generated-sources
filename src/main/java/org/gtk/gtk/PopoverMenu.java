@@ -148,11 +148,7 @@ public class PopoverMenu extends org.gtk.gtk.Popover implements org.gtk.gtk.Acce
      * @throws ClassCastException If the GType is not derived from "GtkPopoverMenu", a ClassCastException will be thrown.
      */
     public static PopoverMenu castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), PopoverMenu.getType())) {
             return new PopoverMenu(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkPopoverMenu");
-        }
     }
     
     private static Addressable constructNewFromModel(@Nullable org.gtk.gio.MenuModel model) {

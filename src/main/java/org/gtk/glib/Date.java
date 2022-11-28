@@ -61,7 +61,7 @@ public class Date extends Struct {
      * Get the value of the field {@code julian_days}
      * @return The value of the field {@code julian_days}
      */
-    public int julian_days$get() {
+    public int julianDays$get() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("julian_days"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -70,12 +70,12 @@ public class Date extends Struct {
     
     /**
      * Change the value of the field {@code julian_days}
-     * @param julian_days The new value of the field {@code julian_days}
+     * @param julianDays The new value of the field {@code julian_days}
      */
-    public void julian_days$set(int julian_days) {
+    public void julianDays$set(int julianDays) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("julian_days"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), julian_days);
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), julianDays);
     }
     
     /**
@@ -1446,13 +1446,13 @@ public class Date extends Struct {
         
         /**
          * the Julian representation of the date
-         * @param julian_days The value for the {@code julian_days} field
+         * @param julianDays The value for the {@code julianDays} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setJulianDays(int julian_days) {
+        public Build setJulianDays(int julianDays) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("julian_days"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), julian_days);
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), julianDays);
             return this;
         }
         

@@ -78,24 +78,24 @@ public class TreeDragDestIface extends Struct {
             return struct;
         }
         
-        public Build setGIface(org.gtk.gobject.TypeInterface g_iface) {
+        public Build setGIface(org.gtk.gobject.TypeInterface gIface) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("g_iface"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (g_iface == null ? MemoryAddress.NULL : g_iface.handle()));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (gIface == null ? MemoryAddress.NULL : gIface.handle()));
             return this;
         }
         
-        public Build setDragDataReceived(java.lang.foreign.MemoryAddress drag_data_received) {
+        public Build setDragDataReceived(java.lang.foreign.MemoryAddress dragDataReceived) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("drag_data_received"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (drag_data_received == null ? MemoryAddress.NULL : drag_data_received));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (dragDataReceived == null ? MemoryAddress.NULL : dragDataReceived));
             return this;
         }
         
-        public Build setRowDropPossible(java.lang.foreign.MemoryAddress row_drop_possible) {
+        public Build setRowDropPossible(java.lang.foreign.MemoryAddress rowDropPossible) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("row_drop_possible"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (row_drop_possible == null ? MemoryAddress.NULL : row_drop_possible));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (rowDropPossible == null ? MemoryAddress.NULL : rowDropPossible));
             return this;
         }
     }

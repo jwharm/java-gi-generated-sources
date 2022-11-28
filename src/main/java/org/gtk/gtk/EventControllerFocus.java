@@ -56,11 +56,7 @@ public class EventControllerFocus extends org.gtk.gtk.EventController {
      * @throws ClassCastException If the GType is not derived from "GtkEventControllerFocus", a ClassCastException will be thrown.
      */
     public static EventControllerFocus castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), EventControllerFocus.getType())) {
             return new EventControllerFocus(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkEventControllerFocus");
-        }
     }
     
     private static Addressable constructNew() {

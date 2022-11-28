@@ -67,11 +67,7 @@ public interface ActionGroup extends io.github.jwharm.javagi.Proxy {
      * @throws ClassCastException If the GType is not derived from "GActionGroup", a ClassCastException will be thrown.
      */
     public static ActionGroup castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), ActionGroup.getType())) {
             return new ActionGroupImpl(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GActionGroup");
-        }
     }
     
     /**
@@ -440,28 +436,36 @@ public interface ActionGroup extends io.github.jwharm.javagi.Proxy {
      * @param state the current state, or {@code null} if stateless
      * @return {@code true} if the action exists, else {@code false}
      */
-    default boolean queryAction(@NotNull java.lang.String actionName, Out<Boolean> enabled, @NotNull PointerProxy<org.gtk.glib.VariantType> parameterType, @NotNull PointerProxy<org.gtk.glib.VariantType> stateType, @NotNull PointerProxy<org.gtk.glib.Variant> stateHint, @NotNull PointerProxy<org.gtk.glib.Variant> state) {
+    default boolean queryAction(@NotNull java.lang.String actionName, Out<Boolean> enabled, @NotNull Out<org.gtk.glib.VariantType> parameterType, @NotNull Out<org.gtk.glib.VariantType> stateType, @NotNull Out<org.gtk.glib.Variant> stateHint, @NotNull Out<org.gtk.glib.Variant> state) {
         java.util.Objects.requireNonNull(actionName, "Parameter 'actionName' must not be null");
         java.util.Objects.requireNonNull(enabled, "Parameter 'enabled' must not be null");
         MemorySegment enabledPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         java.util.Objects.requireNonNull(parameterType, "Parameter 'parameterType' must not be null");
+        MemorySegment parameterTypePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         java.util.Objects.requireNonNull(stateType, "Parameter 'stateType' must not be null");
+        MemorySegment stateTypePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         java.util.Objects.requireNonNull(stateHint, "Parameter 'stateHint' must not be null");
+        MemorySegment stateHintPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         java.util.Objects.requireNonNull(state, "Parameter 'state' must not be null");
+        MemorySegment statePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_action_group_query_action.invokeExact(
                     handle(),
                     Interop.allocateNativeString(actionName),
                     (Addressable) enabledPOINTER.address(),
-                    parameterType.handle(),
-                    stateType.handle(),
-                    stateHint.handle(),
-                    state.handle());
+                    (Addressable) parameterTypePOINTER.address(),
+                    (Addressable) stateTypePOINTER.address(),
+                    (Addressable) stateHintPOINTER.address(),
+                    (Addressable) statePOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         enabled.set(enabledPOINTER.get(Interop.valueLayout.C_INT, 0) != 0);
+        parameterType.set(new org.gtk.glib.VariantType(parameterTypePOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.NONE));
+        stateType.set(new org.gtk.glib.VariantType(stateTypePOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.NONE));
+        stateHint.set(new org.gtk.glib.Variant(stateHintPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
+        state.set(new org.gtk.glib.Variant(statePOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
         return RESULT != 0;
     }
     

@@ -131,17 +131,17 @@ public class SourceFuncs extends Struct {
             return this;
         }
         
-        public Build setClosureCallback(java.lang.foreign.MemoryAddress closure_callback) {
+        public Build setClosureCallback(java.lang.foreign.MemoryAddress closureCallback) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("closure_callback"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (closure_callback == null ? MemoryAddress.NULL : closure_callback));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (closureCallback == null ? MemoryAddress.NULL : closureCallback));
             return this;
         }
         
-        public Build setClosureMarshal(java.lang.foreign.MemoryAddress closure_marshal) {
+        public Build setClosureMarshal(java.lang.foreign.MemoryAddress closureMarshal) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("closure_marshal"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (closure_marshal == null ? MemoryAddress.NULL : closure_marshal));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (closureMarshal == null ? MemoryAddress.NULL : closureMarshal));
             return this;
         }
     }

@@ -56,7 +56,7 @@ public class GlyphVisAttr extends Struct {
      * Get the value of the field {@code is_cluster_start}
      * @return The value of the field {@code is_cluster_start}
      */
-    public int is_cluster_start$get() {
+    public int isClusterStart$get() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("is_cluster_start"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -65,19 +65,19 @@ public class GlyphVisAttr extends Struct {
     
     /**
      * Change the value of the field {@code is_cluster_start}
-     * @param is_cluster_start The new value of the field {@code is_cluster_start}
+     * @param isClusterStart The new value of the field {@code is_cluster_start}
      */
-    public void is_cluster_start$set(int is_cluster_start) {
+    public void isClusterStart$set(int isClusterStart) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("is_cluster_start"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), is_cluster_start);
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), isClusterStart);
     }
     
     /**
      * Get the value of the field {@code is_color}
      * @return The value of the field {@code is_color}
      */
-    public int is_color$get() {
+    public int isColor$get() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("is_color"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -86,12 +86,12 @@ public class GlyphVisAttr extends Struct {
     
     /**
      * Change the value of the field {@code is_color}
-     * @param is_color The new value of the field {@code is_color}
+     * @param isColor The new value of the field {@code is_color}
      */
-    public void is_color$set(int is_color) {
+    public void isColor$set(int isColor) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("is_color"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), is_color);
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), isColor);
     }
     
     /**
@@ -133,25 +133,25 @@ public class GlyphVisAttr extends Struct {
         
         /**
          * set for the first logical glyph in each cluster.
-         * @param is_cluster_start The value for the {@code is_cluster_start} field
+         * @param isClusterStart The value for the {@code isClusterStart} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setIsClusterStart(int is_cluster_start) {
+        public Build setIsClusterStart(int isClusterStart) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("is_cluster_start"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), is_cluster_start);
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), isClusterStart);
             return this;
         }
         
         /**
          * set if the the font will render this glyph with color. Since 1.50
-         * @param is_color The value for the {@code is_color} field
+         * @param isColor The value for the {@code isColor} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setIsColor(int is_color) {
+        public Build setIsColor(int isColor) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("is_color"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), is_color);
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), isColor);
             return this;
         }
     }

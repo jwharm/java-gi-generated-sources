@@ -93,11 +93,7 @@ public class PadController extends org.gtk.gtk.EventController {
      * @throws ClassCastException If the GType is not derived from "GtkPadController", a ClassCastException will be thrown.
      */
     public static PadController castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), PadController.getType())) {
             return new PadController(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkPadController");
-        }
     }
     
     private static Addressable constructNew(@NotNull org.gtk.gio.ActionGroup group, @Nullable org.gtk.gdk.Device pad) {

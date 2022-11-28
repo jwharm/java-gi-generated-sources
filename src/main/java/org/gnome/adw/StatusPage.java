@@ -64,11 +64,7 @@ public class StatusPage extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
      * @throws ClassCastException If the GType is not derived from "AdwStatusPage", a ClassCastException will be thrown.
      */
     public static StatusPage castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), StatusPage.getType())) {
             return new StatusPage(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of AdwStatusPage");
-        }
     }
     
     private static Addressable constructNew() {

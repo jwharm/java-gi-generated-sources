@@ -50,11 +50,7 @@ public class ShortcutLabel extends org.gtk.gtk.Widget implements org.gtk.gtk.Acc
      * @throws ClassCastException If the GType is not derived from "GtkShortcutLabel", a ClassCastException will be thrown.
      */
     public static ShortcutLabel castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), ShortcutLabel.getType())) {
             return new ShortcutLabel(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkShortcutLabel");
-        }
     }
     
     private static Addressable constructNew(@NotNull java.lang.String accelerator) {

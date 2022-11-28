@@ -36,11 +36,7 @@ public interface Seekable extends io.github.jwharm.javagi.Proxy {
      * @throws ClassCastException If the GType is not derived from "GSeekable", a ClassCastException will be thrown.
      */
     public static Seekable castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), Seekable.getType())) {
             return new SeekableImpl(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GSeekable");
-        }
     }
     
     /**

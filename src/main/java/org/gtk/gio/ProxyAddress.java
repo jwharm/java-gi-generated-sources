@@ -32,15 +32,6 @@ public class ProxyAddress extends org.gtk.gio.InetSocketAddress implements org.g
     }
     
     /**
-     * Get the value of the field {@code parent_instance}
-     * @return The value of the field {@code parent_instance}
-     */
-    public org.gtk.gio.InetSocketAddress parent_instance$get() {
-        long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_instance"));
-        return new org.gtk.gio.InetSocketAddress(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
-    }
-    
-    /**
      * Create a ProxyAddress proxy instance for the provided memory address.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
@@ -63,11 +54,7 @@ public class ProxyAddress extends org.gtk.gio.InetSocketAddress implements org.g
      * @throws ClassCastException If the GType is not derived from "GProxyAddress", a ClassCastException will be thrown.
      */
     public static ProxyAddress castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), ProxyAddress.getType())) {
             return new ProxyAddress(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GProxyAddress");
-        }
     }
     
     private static Addressable constructNew(@NotNull org.gtk.gio.InetAddress inetaddr, short port, @NotNull java.lang.String protocol, @NotNull java.lang.String destHostname, short destPort, @Nullable java.lang.String username, @Nullable java.lang.String password) {

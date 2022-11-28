@@ -1644,9 +1644,10 @@ public final class Pango {
      * @return {@code false} if {@code error} is set, otherwise {@code true}
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public static boolean markupParserFinish(@NotNull org.gtk.glib.MarkupParseContext context, @NotNull PointerProxy<org.pango.AttrList> attrList, @NotNull Out<java.lang.String> text, Out<Integer> accelChar) throws io.github.jwharm.javagi.GErrorException {
+    public static boolean markupParserFinish(@NotNull org.gtk.glib.MarkupParseContext context, @NotNull Out<org.pango.AttrList> attrList, @NotNull Out<java.lang.String> text, Out<Integer> accelChar) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(context, "Parameter 'context' must not be null");
         java.util.Objects.requireNonNull(attrList, "Parameter 'attrList' must not be null");
+        MemorySegment attrListPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         java.util.Objects.requireNonNull(text, "Parameter 'text' must not be null");
         MemorySegment textPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         java.util.Objects.requireNonNull(accelChar, "Parameter 'accelChar' must not be null");
@@ -1656,7 +1657,7 @@ public final class Pango {
         try {
             RESULT = (int) DowncallHandles.pango_markup_parser_finish.invokeExact(
                     context.handle(),
-                    attrList.handle(),
+                    (Addressable) attrListPOINTER.address(),
                     (Addressable) textPOINTER.address(),
                     (Addressable) accelCharPOINTER.address(),
                     (Addressable) GERROR);
@@ -1666,6 +1667,7 @@ public final class Pango {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
+        attrList.set(new org.pango.AttrList(attrListPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
         text.set(Interop.getStringFrom(textPOINTER.get(Interop.valueLayout.ADDRESS, 0)));
         accelChar.set(accelCharPOINTER.get(Interop.valueLayout.C_INT, 0));
         return RESULT != 0;
@@ -1778,9 +1780,10 @@ public final class Pango {
      * @return {@code false} if {@code error} is set, otherwise {@code true}
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public static boolean parseMarkup(@NotNull java.lang.String markupText, int length, int accelMarker, @NotNull PointerProxy<org.pango.AttrList> attrList, @NotNull Out<java.lang.String> text, Out<Integer> accelChar) throws io.github.jwharm.javagi.GErrorException {
+    public static boolean parseMarkup(@NotNull java.lang.String markupText, int length, int accelMarker, @NotNull Out<org.pango.AttrList> attrList, @NotNull Out<java.lang.String> text, Out<Integer> accelChar) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(markupText, "Parameter 'markupText' must not be null");
         java.util.Objects.requireNonNull(attrList, "Parameter 'attrList' must not be null");
+        MemorySegment attrListPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         java.util.Objects.requireNonNull(text, "Parameter 'text' must not be null");
         MemorySegment textPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         java.util.Objects.requireNonNull(accelChar, "Parameter 'accelChar' must not be null");
@@ -1792,7 +1795,7 @@ public final class Pango {
                     Interop.allocateNativeString(markupText),
                     length,
                     accelMarker,
-                    attrList.handle(),
+                    (Addressable) attrListPOINTER.address(),
                     (Addressable) textPOINTER.address(),
                     (Addressable) accelCharPOINTER.address(),
                     (Addressable) GERROR);
@@ -1802,6 +1805,7 @@ public final class Pango {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
+        attrList.set(new org.pango.AttrList(attrListPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
         text.set(Interop.getStringFrom(textPOINTER.get(Interop.valueLayout.ADDRESS, 0)));
         accelChar.set(accelCharPOINTER.get(Interop.valueLayout.C_INT, 0));
         return RESULT != 0;
@@ -3153,25 +3157,25 @@ public final class Pango {
     @ApiStatus.Internal
     public static class Callbacks {
         
-        public static boolean cbFontsetForeachFunc(MemoryAddress fontset, MemoryAddress font, MemoryAddress userData) {
+        public static int cbFontsetForeachFunc(MemoryAddress fontset, MemoryAddress font, MemoryAddress userData) {
             int HASH = userData.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (FontsetForeachFunc) Interop.signalRegistry.get(HASH);
             var RESULT = HANDLER.onFontsetForeachFunc(new org.pango.Fontset(fontset, Ownership.NONE), new org.pango.Font(font, Ownership.NONE));
-            return RESULT;
+            return RESULT ? 1 : 0;
         }
         
-        public static java.lang.foreign.MemoryAddress cbAttrDataCopyFunc(MemoryAddress userData) {
+        public static Addressable cbAttrDataCopyFunc(MemoryAddress userData) {
             int HASH = userData.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (AttrDataCopyFunc) Interop.signalRegistry.get(HASH);
             var RESULT = HANDLER.onAttrDataCopyFunc();
-            return RESULT;
+            return (Addressable) RESULT;
         }
         
-        public static boolean cbAttrFilterFunc(MemoryAddress attribute, MemoryAddress userData) {
+        public static int cbAttrFilterFunc(MemoryAddress attribute, MemoryAddress userData) {
             int HASH = userData.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (AttrFilterFunc) Interop.signalRegistry.get(HASH);
             var RESULT = HANDLER.onAttrFilterFunc(new org.pango.Attribute(attribute, Ownership.NONE));
-            return RESULT;
+            return RESULT ? 1 : 0;
         }
     }
 }

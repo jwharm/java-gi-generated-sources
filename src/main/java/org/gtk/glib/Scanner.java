@@ -83,7 +83,7 @@ public class Scanner extends Struct {
      * Get the value of the field {@code user_data}
      * @return The value of the field {@code user_data}
      */
-    public java.lang.foreign.MemoryAddress user_data$get() {
+    public java.lang.foreign.MemoryAddress userData$get() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("user_data"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -92,19 +92,19 @@ public class Scanner extends Struct {
     
     /**
      * Change the value of the field {@code user_data}
-     * @param user_data The new value of the field {@code user_data}
+     * @param userData The new value of the field {@code user_data}
      */
-    public void user_data$set(java.lang.foreign.MemoryAddress user_data) {
+    public void userData$set(java.lang.foreign.MemoryAddress userData) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("user_data"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) user_data);
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) userData);
     }
     
     /**
      * Get the value of the field {@code max_parse_errors}
      * @return The value of the field {@code max_parse_errors}
      */
-    public int max_parse_errors$get() {
+    public int maxParseErrors$get() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("max_parse_errors"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -113,19 +113,19 @@ public class Scanner extends Struct {
     
     /**
      * Change the value of the field {@code max_parse_errors}
-     * @param max_parse_errors The new value of the field {@code max_parse_errors}
+     * @param maxParseErrors The new value of the field {@code max_parse_errors}
      */
-    public void max_parse_errors$set(int max_parse_errors) {
+    public void maxParseErrors$set(int maxParseErrors) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("max_parse_errors"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), max_parse_errors);
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), maxParseErrors);
     }
     
     /**
      * Get the value of the field {@code parse_errors}
      * @return The value of the field {@code parse_errors}
      */
-    public int parse_errors$get() {
+    public int parseErrors$get() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("parse_errors"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -134,19 +134,19 @@ public class Scanner extends Struct {
     
     /**
      * Change the value of the field {@code parse_errors}
-     * @param parse_errors The new value of the field {@code parse_errors}
+     * @param parseErrors The new value of the field {@code parse_errors}
      */
-    public void parse_errors$set(int parse_errors) {
+    public void parseErrors$set(int parseErrors) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("parse_errors"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), parse_errors);
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), parseErrors);
     }
     
     /**
      * Get the value of the field {@code input_name}
      * @return The value of the field {@code input_name}
      */
-    public java.lang.String input_name$get() {
+    public java.lang.String inputName$get() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("input_name"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -155,12 +155,12 @@ public class Scanner extends Struct {
     
     /**
      * Change the value of the field {@code input_name}
-     * @param input_name The new value of the field {@code input_name}
+     * @param inputName The new value of the field {@code input_name}
      */
-    public void input_name$set(java.lang.String input_name) {
+    public void inputName$set(java.lang.String inputName) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("input_name"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Interop.allocateNativeString(input_name));
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Interop.allocateNativeString(inputName));
     }
     
     /**
@@ -272,7 +272,7 @@ public class Scanner extends Struct {
      * Get the value of the field {@code next_token}
      * @return The value of the field {@code next_token}
      */
-    public org.gtk.glib.TokenType next_token$get() {
+    public org.gtk.glib.TokenType nextToken$get() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("next_token"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -281,19 +281,19 @@ public class Scanner extends Struct {
     
     /**
      * Change the value of the field {@code next_token}
-     * @param next_token The new value of the field {@code next_token}
+     * @param nextToken The new value of the field {@code next_token}
      */
-    public void next_token$set(org.gtk.glib.TokenType next_token) {
+    public void nextToken$set(org.gtk.glib.TokenType nextToken) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("next_token"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), next_token.getValue());
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), nextToken.getValue());
     }
     
     /**
      * Get the value of the field {@code next_value}
      * @return The value of the field {@code next_value}
      */
-    public org.gtk.glib.TokenValue next_value$get() {
+    public org.gtk.glib.TokenValue nextValue$get() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("next_value"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -302,19 +302,19 @@ public class Scanner extends Struct {
     
     /**
      * Change the value of the field {@code next_value}
-     * @param next_value The new value of the field {@code next_value}
+     * @param nextValue The new value of the field {@code next_value}
      */
-    public void next_value$set(org.gtk.glib.TokenValue next_value) {
+    public void nextValue$set(org.gtk.glib.TokenValue nextValue) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("next_value"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), next_value.handle());
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), nextValue.handle());
     }
     
     /**
      * Get the value of the field {@code next_line}
      * @return The value of the field {@code next_line}
      */
-    public int next_line$get() {
+    public int nextLine$get() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("next_line"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -323,19 +323,19 @@ public class Scanner extends Struct {
     
     /**
      * Change the value of the field {@code next_line}
-     * @param next_line The new value of the field {@code next_line}
+     * @param nextLine The new value of the field {@code next_line}
      */
-    public void next_line$set(int next_line) {
+    public void nextLine$set(int nextLine) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("next_line"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), next_line);
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), nextLine);
     }
     
     /**
      * Get the value of the field {@code next_position}
      * @return The value of the field {@code next_position}
      */
-    public int next_position$get() {
+    public int nextPosition$get() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("next_position"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -344,19 +344,19 @@ public class Scanner extends Struct {
     
     /**
      * Change the value of the field {@code next_position}
-     * @param next_position The new value of the field {@code next_position}
+     * @param nextPosition The new value of the field {@code next_position}
      */
-    public void next_position$set(int next_position) {
+    public void nextPosition$set(int nextPosition) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("next_position"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), next_position);
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), nextPosition);
     }
     
     /**
      * Get the value of the field {@code msg_handler}
      * @return The value of the field {@code msg_handler}
      */
-    public org.gtk.glib.ScannerMsgFunc msg_handler$get() {
+    public org.gtk.glib.ScannerMsgFunc msgHandler$get() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("msg_handler"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -936,49 +936,49 @@ public class Scanner extends Struct {
         
         /**
          * unused
-         * @param user_data The value for the {@code user_data} field
+         * @param userData The value for the {@code userData} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setUserData(java.lang.foreign.MemoryAddress user_data) {
+        public Build setUserData(java.lang.foreign.MemoryAddress userData) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("user_data"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (user_data == null ? MemoryAddress.NULL : (Addressable) user_data));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (userData == null ? MemoryAddress.NULL : (Addressable) userData));
             return this;
         }
         
         /**
          * unused
-         * @param max_parse_errors The value for the {@code max_parse_errors} field
+         * @param maxParseErrors The value for the {@code maxParseErrors} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setMaxParseErrors(int max_parse_errors) {
+        public Build setMaxParseErrors(int maxParseErrors) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("max_parse_errors"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), max_parse_errors);
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), maxParseErrors);
             return this;
         }
         
         /**
          * g_scanner_error() increments this field
-         * @param parse_errors The value for the {@code parse_errors} field
+         * @param parseErrors The value for the {@code parseErrors} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setParseErrors(int parse_errors) {
+        public Build setParseErrors(int parseErrors) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("parse_errors"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), parse_errors);
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), parseErrors);
             return this;
         }
         
         /**
          * name of input stream, featured by the default message handler
-         * @param input_name The value for the {@code input_name} field
+         * @param inputName The value for the {@code inputName} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setInputName(java.lang.String input_name) {
+        public Build setInputName(java.lang.String inputName) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("input_name"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (input_name == null ? MemoryAddress.NULL : Interop.allocateNativeString(input_name)));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (inputName == null ? MemoryAddress.NULL : Interop.allocateNativeString(inputName)));
             return this;
         }
         
@@ -1056,63 +1056,63 @@ public class Scanner extends Struct {
         
         /**
          * token parsed by the last g_scanner_peek_next_token()
-         * @param next_token The value for the {@code next_token} field
+         * @param nextToken The value for the {@code nextToken} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setNextToken(org.gtk.glib.TokenType next_token) {
+        public Build setNextToken(org.gtk.glib.TokenType nextToken) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("next_token"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (next_token == null ? MemoryAddress.NULL : next_token.getValue()));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (nextToken == null ? MemoryAddress.NULL : nextToken.getValue()));
             return this;
         }
         
         /**
          * value of the last token from g_scanner_peek_next_token()
-         * @param next_value The value for the {@code next_value} field
+         * @param nextValue The value for the {@code nextValue} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setNextValue(org.gtk.glib.TokenValue next_value) {
+        public Build setNextValue(org.gtk.glib.TokenValue nextValue) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("next_value"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (next_value == null ? MemoryAddress.NULL : next_value.handle()));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (nextValue == null ? MemoryAddress.NULL : nextValue.handle()));
             return this;
         }
         
         /**
          * line number of the last token from g_scanner_peek_next_token()
-         * @param next_line The value for the {@code next_line} field
+         * @param nextLine The value for the {@code nextLine} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setNextLine(int next_line) {
+        public Build setNextLine(int nextLine) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("next_line"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), next_line);
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), nextLine);
             return this;
         }
         
         /**
          * char number of the last token from g_scanner_peek_next_token()
-         * @param next_position The value for the {@code next_position} field
+         * @param nextPosition The value for the {@code nextPosition} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setNextPosition(int next_position) {
+        public Build setNextPosition(int nextPosition) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("next_position"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), next_position);
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), nextPosition);
             return this;
         }
         
-        public Build setSymbolTable(org.gtk.glib.HashTable symbol_table) {
+        public Build setSymbolTable(org.gtk.glib.HashTable symbolTable) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("symbol_table"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (symbol_table == null ? MemoryAddress.NULL : symbol_table.handle()));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (symbolTable == null ? MemoryAddress.NULL : symbolTable.handle()));
             return this;
         }
         
-        public Build setInputFd(int input_fd) {
+        public Build setInputFd(int inputFd) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("input_fd"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), input_fd);
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), inputFd);
             return this;
         }
         
@@ -1123,10 +1123,10 @@ public class Scanner extends Struct {
             return this;
         }
         
-        public Build setTextEnd(java.lang.String text_end) {
+        public Build setTextEnd(java.lang.String textEnd) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("text_end"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (text_end == null ? MemoryAddress.NULL : Interop.allocateNativeString(text_end)));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (textEnd == null ? MemoryAddress.NULL : Interop.allocateNativeString(textEnd)));
             return this;
         }
         
@@ -1137,22 +1137,22 @@ public class Scanner extends Struct {
             return this;
         }
         
-        public Build setScopeId(int scope_id) {
+        public Build setScopeId(int scopeId) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("scope_id"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), scope_id);
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), scopeId);
             return this;
         }
         
         /**
          * handler function for _warn and _error
-         * @param msg_handler The value for the {@code msg_handler} field
+         * @param msgHandler The value for the {@code msgHandler} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setMsgHandler(java.lang.foreign.MemoryAddress msg_handler) {
+        public Build setMsgHandler(java.lang.foreign.MemoryAddress msgHandler) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("msg_handler"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (msg_handler == null ? MemoryAddress.NULL : msg_handler));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (msgHandler == null ? MemoryAddress.NULL : msgHandler));
             return this;
         }
     }

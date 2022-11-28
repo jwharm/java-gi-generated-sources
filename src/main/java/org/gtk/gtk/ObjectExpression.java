@@ -48,11 +48,7 @@ public class ObjectExpression extends org.gtk.gtk.Expression {
      * @throws ClassCastException If the GType is not derived from "GtkObjectExpression", a ClassCastException will be thrown.
      */
     public static ObjectExpression castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), ObjectExpression.getType())) {
             return new ObjectExpression(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkObjectExpression");
-        }
     }
     
     private static Addressable constructNew(@NotNull org.gtk.gobject.Object object) {

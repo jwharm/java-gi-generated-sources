@@ -48,11 +48,7 @@ public class PixbufSimpleAnim extends org.gtk.gdkpixbuf.PixbufAnimation {
      * @throws ClassCastException If the GType is not derived from "GdkPixbufSimpleAnim", a ClassCastException will be thrown.
      */
     public static PixbufSimpleAnim castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), PixbufSimpleAnim.getType())) {
             return new PixbufSimpleAnim(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GdkPixbufSimpleAnim");
-        }
     }
     
     private static Addressable constructNew(int width, int height, float rate) {

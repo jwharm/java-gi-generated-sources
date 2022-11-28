@@ -52,11 +52,7 @@ public class CellRendererAccel extends org.gtk.gtk.CellRendererText {
      * @throws ClassCastException If the GType is not derived from "GtkCellRendererAccel", a ClassCastException will be thrown.
      */
     public static CellRendererAccel castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), CellRendererAccel.getType())) {
             return new CellRendererAccel(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkCellRendererAccel");
-        }
     }
     
     private static Addressable constructNew() {

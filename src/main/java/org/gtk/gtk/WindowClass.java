@@ -49,7 +49,7 @@ public class WindowClass extends Struct {
      * Get the value of the field {@code parent_class}
      * @return The value of the field {@code parent_class}
      */
-    public org.gtk.gtk.WidgetClass parent_class$get() {
+    public org.gtk.gtk.WidgetClass parentClass$get() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_class"));
         return new org.gtk.gtk.WidgetClass(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
     }
@@ -93,48 +93,48 @@ public class WindowClass extends Struct {
         
         /**
          * The parent class.
-         * @param parent_class The value for the {@code parent_class} field
+         * @param parentClass The value for the {@code parentClass} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setParentClass(org.gtk.gtk.WidgetClass parent_class) {
+        public Build setParentClass(org.gtk.gtk.WidgetClass parentClass) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parent_class == null ? MemoryAddress.NULL : parent_class.handle()));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
             return this;
         }
         
-        public Build setActivateFocus(java.lang.foreign.MemoryAddress activate_focus) {
+        public Build setActivateFocus(java.lang.foreign.MemoryAddress activateFocus) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("activate_focus"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (activate_focus == null ? MemoryAddress.NULL : activate_focus));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (activateFocus == null ? MemoryAddress.NULL : activateFocus));
             return this;
         }
         
-        public Build setActivateDefault(java.lang.foreign.MemoryAddress activate_default) {
+        public Build setActivateDefault(java.lang.foreign.MemoryAddress activateDefault) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("activate_default"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (activate_default == null ? MemoryAddress.NULL : activate_default));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (activateDefault == null ? MemoryAddress.NULL : activateDefault));
             return this;
         }
         
-        public Build setKeysChanged(java.lang.foreign.MemoryAddress keys_changed) {
+        public Build setKeysChanged(java.lang.foreign.MemoryAddress keysChanged) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("keys_changed"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (keys_changed == null ? MemoryAddress.NULL : keys_changed));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (keysChanged == null ? MemoryAddress.NULL : keysChanged));
             return this;
         }
         
-        public Build setEnableDebugging(java.lang.foreign.MemoryAddress enable_debugging) {
+        public Build setEnableDebugging(java.lang.foreign.MemoryAddress enableDebugging) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("enable_debugging"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (enable_debugging == null ? MemoryAddress.NULL : enable_debugging));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (enableDebugging == null ? MemoryAddress.NULL : enableDebugging));
             return this;
         }
         
-        public Build setCloseRequest(java.lang.foreign.MemoryAddress close_request) {
+        public Build setCloseRequest(java.lang.foreign.MemoryAddress closeRequest) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("close_request"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (close_request == null ? MemoryAddress.NULL : close_request));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (closeRequest == null ? MemoryAddress.NULL : closeRequest));
             return this;
         }
         

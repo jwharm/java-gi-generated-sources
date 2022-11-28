@@ -13,7 +13,7 @@ import org.jetbrains.annotations.*;
  * widgets and passed on to the event controllers of appropriate widgets,
  * so using {@code GdkEvent} and its related API is rarely needed.
  */
-public class Event extends org.gtk.gobject.Object {
+public class Event extends io.github.jwharm.javagi.ObjectBase {
     
     static {
         Gdk.javagi$ensureInitialized();
@@ -53,11 +53,7 @@ public class Event extends org.gtk.gobject.Object {
      * @throws ClassCastException If the GType is not derived from "GdkEvent", a ClassCastException will be thrown.
      */
     public static Event castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), Event.getType())) {
             return new Event(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GdkEvent");
-        }
     }
     
     /**

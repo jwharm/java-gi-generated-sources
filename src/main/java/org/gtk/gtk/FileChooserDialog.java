@@ -213,11 +213,7 @@ public class FileChooserDialog extends org.gtk.gtk.Dialog implements org.gtk.gtk
      * @throws ClassCastException If the GType is not derived from "GtkFileChooserDialog", a ClassCastException will be thrown.
      */
     public static FileChooserDialog castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), FileChooserDialog.getType())) {
             return new FileChooserDialog(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkFileChooserDialog");
-        }
     }
     
     private static Addressable constructNew(@Nullable java.lang.String title, @Nullable org.gtk.gtk.Window parent, @NotNull org.gtk.gtk.FileChooserAction action, @Nullable java.lang.String firstButtonText, java.lang.Object... varargs) {

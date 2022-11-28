@@ -26,11 +26,7 @@ public interface DBusObject extends io.github.jwharm.javagi.Proxy {
      * @throws ClassCastException If the GType is not derived from "GDBusObject", a ClassCastException will be thrown.
      */
     public static DBusObject castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), DBusObject.getType())) {
             return new DBusObjectImpl(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GDBusObject");
-        }
     }
     
     /**

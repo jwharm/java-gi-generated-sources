@@ -59,11 +59,7 @@ public class ContentSerializer extends org.gtk.gobject.Object implements org.gtk
      * @throws ClassCastException If the GType is not derived from "GdkContentSerializer", a ClassCastException will be thrown.
      */
     public static ContentSerializer castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), ContentSerializer.getType())) {
             return new ContentSerializer(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GdkContentSerializer");
-        }
     }
     
     /**

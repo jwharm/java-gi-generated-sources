@@ -77,7 +77,7 @@ public class LayoutLine extends Struct {
      * Get the value of the field {@code start_index}
      * @return The value of the field {@code start_index}
      */
-    public int start_index$get() {
+    public int startIndex$get() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("start_index"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -86,12 +86,12 @@ public class LayoutLine extends Struct {
     
     /**
      * Change the value of the field {@code start_index}
-     * @param start_index The new value of the field {@code start_index}
+     * @param startIndex The new value of the field {@code start_index}
      */
-    public void start_index$set(int start_index) {
+    public void startIndex$set(int startIndex) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("start_index"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), start_index);
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), startIndex);
     }
     
     /**
@@ -140,7 +140,7 @@ public class LayoutLine extends Struct {
      * Get the value of the field {@code is_paragraph_start}
      * @return The value of the field {@code is_paragraph_start}
      */
-    public int is_paragraph_start$get() {
+    public int isParagraphStart$get() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("is_paragraph_start"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -149,19 +149,19 @@ public class LayoutLine extends Struct {
     
     /**
      * Change the value of the field {@code is_paragraph_start}
-     * @param is_paragraph_start The new value of the field {@code is_paragraph_start}
+     * @param isParagraphStart The new value of the field {@code is_paragraph_start}
      */
-    public void is_paragraph_start$set(int is_paragraph_start) {
+    public void isParagraphStart$set(int isParagraphStart) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("is_paragraph_start"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), is_paragraph_start);
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), isParagraphStart);
     }
     
     /**
      * Get the value of the field {@code resolved_dir}
      * @return The value of the field {@code resolved_dir}
      */
-    public int resolved_dir$get() {
+    public int resolvedDir$get() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("resolved_dir"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -170,12 +170,12 @@ public class LayoutLine extends Struct {
     
     /**
      * Change the value of the field {@code resolved_dir}
-     * @param resolved_dir The new value of the field {@code resolved_dir}
+     * @param resolvedDir The new value of the field {@code resolved_dir}
      */
-    public void resolved_dir$set(int resolved_dir) {
+    public void resolvedDir$set(int resolvedDir) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("resolved_dir"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), resolved_dir);
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), resolvedDir);
     }
     
     /**
@@ -571,13 +571,13 @@ public class LayoutLine extends Struct {
         
         /**
          * start of line as byte index into layout-&gt;text
-         * @param start_index The value for the {@code start_index} field
+         * @param startIndex The value for the {@code startIndex} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setStartIndex(int start_index) {
+        public Build setStartIndex(int startIndex) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("start_index"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), start_index);
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), startIndex);
             return this;
         }
         
@@ -608,25 +608,25 @@ public class LayoutLine extends Struct {
         
         /**
          * {@code TRUE} if this is the first line of the paragraph
-         * @param is_paragraph_start The value for the {@code is_paragraph_start} field
+         * @param isParagraphStart The value for the {@code isParagraphStart} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setIsParagraphStart(int is_paragraph_start) {
+        public Build setIsParagraphStart(int isParagraphStart) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("is_paragraph_start"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), is_paragraph_start);
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), isParagraphStart);
             return this;
         }
         
         /**
          * {@code Resolved} PangoDirection of line
-         * @param resolved_dir The value for the {@code resolved_dir} field
+         * @param resolvedDir The value for the {@code resolvedDir} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setResolvedDir(int resolved_dir) {
+        public Build setResolvedDir(int resolvedDir) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("resolved_dir"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), resolved_dir);
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), resolvedDir);
             return this;
         }
     }

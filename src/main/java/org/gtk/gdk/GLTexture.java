@@ -48,11 +48,7 @@ public class GLTexture extends org.gtk.gdk.Texture implements org.gtk.gdk.Painta
      * @throws ClassCastException If the GType is not derived from "GdkGLTexture", a ClassCastException will be thrown.
      */
     public static GLTexture castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), GLTexture.getType())) {
             return new GLTexture(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GdkGLTexture");
-        }
     }
     
     private static Addressable constructNew(@NotNull org.gtk.gdk.GLContext context, int id, int width, int height, @NotNull org.gtk.glib.DestroyNotify destroy, @Nullable java.lang.foreign.MemoryAddress data) {

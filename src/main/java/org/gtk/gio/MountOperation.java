@@ -18,7 +18,7 @@ import org.jetbrains.annotations.*;
  * <p>
  * Users should instantiate a subclass of this that implements all the
  * various callbacks to show the required dialogs, such as
- * {@link org.gtk.gtk.MountOperation}. If no user interaction is desired (for example
+ * {@code GtkMountOperation}. If no user interaction is desired (for example
  * when automounting filesystems at login time), usually {@code null} can be
  * passed, see each method taking a {@link MountOperation} for details.
  * <p>
@@ -51,15 +51,6 @@ public class MountOperation extends org.gtk.gobject.Object {
     }
     
     /**
-     * Get the value of the field {@code parent_instance}
-     * @return The value of the field {@code parent_instance}
-     */
-    public org.gtk.gobject.Object parent_instance$get() {
-        long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_instance"));
-        return new org.gtk.gobject.Object(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
-    }
-    
-    /**
      * Create a MountOperation proxy instance for the provided memory address.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
@@ -82,11 +73,7 @@ public class MountOperation extends org.gtk.gobject.Object {
      * @throws ClassCastException If the GType is not derived from "GMountOperation", a ClassCastException will be thrown.
      */
     public static MountOperation castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), MountOperation.getType())) {
             return new MountOperation(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GMountOperation");
-        }
     }
     
     private static Addressable constructNew() {
@@ -443,7 +430,7 @@ public class MountOperation extends org.gtk.gobject.Object {
      * <p>
      * If the message contains a line break, the first line should be
      * presented as a heading. For example, it may be used as the
-     * primary text in a {@link org.gtk.gtk.MessageDialog}.
+     * primary text in a {@code GtkMessageDialog}.
      * @param handler The signal handler
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
@@ -476,7 +463,7 @@ public class MountOperation extends org.gtk.gobject.Object {
      * <p>
      * If the message contains a line break, the first line should be
      * presented as a heading. For example, it may be used as the
-     * primary text in a {@link org.gtk.gtk.MessageDialog}.
+     * primary text in a {@code GtkMessageDialog}.
      * @param handler The signal handler
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
@@ -529,7 +516,7 @@ public class MountOperation extends org.gtk.gobject.Object {
      * <p>
      * If the message contains a line break, the first line should be
      * presented as a heading. For example, it may be used as the
-     * primary text in a {@link org.gtk.gtk.MessageDialog}.
+     * primary text in a {@code GtkMessageDialog}.
      * @param handler The signal handler
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
@@ -558,7 +545,7 @@ public class MountOperation extends org.gtk.gobject.Object {
      * <p>
      * If the message contains a line break, the first line should be
      * presented as a heading. For example, it may be used as the
-     * primary text in a {@link org.gtk.gtk.MessageDialog}.
+     * primary text in a {@code GtkMessageDialog}.
      * @param handler The signal handler
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */

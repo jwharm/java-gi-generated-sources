@@ -71,7 +71,7 @@ public class FlagsValue extends Struct {
      * Get the value of the field {@code value_name}
      * @return The value of the field {@code value_name}
      */
-    public java.lang.String value_name$get() {
+    public java.lang.String valueName$get() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("value_name"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -80,19 +80,19 @@ public class FlagsValue extends Struct {
     
     /**
      * Change the value of the field {@code value_name}
-     * @param value_name The new value of the field {@code value_name}
+     * @param valueName The new value of the field {@code value_name}
      */
-    public void value_name$set(java.lang.String value_name) {
+    public void valueName$set(java.lang.String valueName) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("value_name"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Interop.allocateNativeString(value_name));
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Interop.allocateNativeString(valueName));
     }
     
     /**
      * Get the value of the field {@code value_nick}
      * @return The value of the field {@code value_nick}
      */
-    public java.lang.String value_nick$get() {
+    public java.lang.String valueNick$get() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("value_nick"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -101,12 +101,12 @@ public class FlagsValue extends Struct {
     
     /**
      * Change the value of the field {@code value_nick}
-     * @param value_nick The new value of the field {@code value_nick}
+     * @param valueNick The new value of the field {@code value_nick}
      */
-    public void value_nick$set(java.lang.String value_nick) {
+    public void valueNick$set(java.lang.String valueNick) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("value_nick"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Interop.allocateNativeString(value_nick));
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Interop.allocateNativeString(valueNick));
     }
     
     /**
@@ -160,25 +160,25 @@ public class FlagsValue extends Struct {
         
         /**
          * the name of the value
-         * @param value_name The value for the {@code value_name} field
+         * @param valueName The value for the {@code valueName} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setValueName(java.lang.String value_name) {
+        public Build setValueName(java.lang.String valueName) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("value_name"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (value_name == null ? MemoryAddress.NULL : Interop.allocateNativeString(value_name)));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (valueName == null ? MemoryAddress.NULL : Interop.allocateNativeString(valueName)));
             return this;
         }
         
         /**
          * the nickname of the value
-         * @param value_nick The value for the {@code value_nick} field
+         * @param valueNick The value for the {@code valueNick} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setValueNick(java.lang.String value_nick) {
+        public Build setValueNick(java.lang.String valueNick) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("value_nick"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (value_nick == null ? MemoryAddress.NULL : Interop.allocateNativeString(value_nick)));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (valueNick == null ? MemoryAddress.NULL : Interop.allocateNativeString(valueNick)));
             return this;
         }
     }

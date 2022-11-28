@@ -52,11 +52,7 @@ public class SliceListModel extends org.gtk.gobject.Object implements org.gtk.gi
      * @throws ClassCastException If the GType is not derived from "GtkSliceListModel", a ClassCastException will be thrown.
      */
     public static SliceListModel castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), SliceListModel.getType())) {
             return new SliceListModel(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkSliceListModel");
-        }
     }
     
     private static Addressable constructNew(@Nullable org.gtk.gio.ListModel model, int offset, int size) {

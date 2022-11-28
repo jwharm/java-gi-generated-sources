@@ -55,11 +55,7 @@ public class ShortcutsGroup extends org.gtk.gtk.Box implements org.gtk.gtk.Acces
      * @throws ClassCastException If the GType is not derived from "GtkShortcutsGroup", a ClassCastException will be thrown.
      */
     public static ShortcutsGroup castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), ShortcutsGroup.getType())) {
             return new ShortcutsGroup(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkShortcutsGroup");
-        }
     }
     
     /**

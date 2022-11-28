@@ -38,15 +38,6 @@ public class ContentProvider extends org.gtk.gobject.Object {
     }
     
     /**
-     * Get the value of the field {@code parent}
-     * @return The value of the field {@code parent}
-     */
-    public org.gtk.gobject.Object parent$get() {
-        long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent"));
-        return new org.gtk.gobject.Object(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
-    }
-    
-    /**
      * Create a ContentProvider proxy instance for the provided memory address.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
@@ -69,11 +60,7 @@ public class ContentProvider extends org.gtk.gobject.Object {
      * @throws ClassCastException If the GType is not derived from "GdkContentProvider", a ClassCastException will be thrown.
      */
     public static ContentProvider castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), ContentProvider.getType())) {
             return new ContentProvider(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GdkContentProvider");
-        }
     }
     
     private static Addressable constructNewForBytes(@NotNull java.lang.String mimeType, @NotNull org.gtk.glib.Bytes bytes) {

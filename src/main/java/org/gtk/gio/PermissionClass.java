@@ -50,7 +50,7 @@ public class PermissionClass extends Struct {
      * Get the value of the field {@code parent_class}
      * @return The value of the field {@code parent_class}
      */
-    public org.gtk.gobject.ObjectClass parent_class$get() {
+    public org.gtk.gobject.ObjectClass parentClass$get() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_class"));
         return new org.gtk.gobject.ObjectClass(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
     }
@@ -92,10 +92,10 @@ public class PermissionClass extends Struct {
             return struct;
         }
         
-        public Build setParentClass(org.gtk.gobject.ObjectClass parent_class) {
+        public Build setParentClass(org.gtk.gobject.ObjectClass parentClass) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parent_class == null ? MemoryAddress.NULL : parent_class.handle()));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
             return this;
         }
         
@@ -106,17 +106,17 @@ public class PermissionClass extends Struct {
             return this;
         }
         
-        public Build setAcquireAsync(java.lang.foreign.MemoryAddress acquire_async) {
+        public Build setAcquireAsync(java.lang.foreign.MemoryAddress acquireAsync) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("acquire_async"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (acquire_async == null ? MemoryAddress.NULL : acquire_async));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (acquireAsync == null ? MemoryAddress.NULL : acquireAsync));
             return this;
         }
         
-        public Build setAcquireFinish(java.lang.foreign.MemoryAddress acquire_finish) {
+        public Build setAcquireFinish(java.lang.foreign.MemoryAddress acquireFinish) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("acquire_finish"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (acquire_finish == null ? MemoryAddress.NULL : acquire_finish));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (acquireFinish == null ? MemoryAddress.NULL : acquireFinish));
             return this;
         }
         
@@ -127,17 +127,17 @@ public class PermissionClass extends Struct {
             return this;
         }
         
-        public Build setReleaseAsync(java.lang.foreign.MemoryAddress release_async) {
+        public Build setReleaseAsync(java.lang.foreign.MemoryAddress releaseAsync) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("release_async"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (release_async == null ? MemoryAddress.NULL : release_async));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (releaseAsync == null ? MemoryAddress.NULL : releaseAsync));
             return this;
         }
         
-        public Build setReleaseFinish(java.lang.foreign.MemoryAddress release_finish) {
+        public Build setReleaseFinish(java.lang.foreign.MemoryAddress releaseFinish) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("release_finish"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (release_finish == null ? MemoryAddress.NULL : release_finish));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (releaseFinish == null ? MemoryAddress.NULL : releaseFinish));
             return this;
         }
         

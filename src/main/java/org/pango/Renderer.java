@@ -42,27 +42,6 @@ public class Renderer extends org.gtk.gobject.Object {
     }
     
     /**
-     * Get the value of the field {@code matrix}
-     * @return The value of the field {@code matrix}
-     */
-    public org.pango.Matrix matrix$get() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("matrix"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new org.pango.Matrix(RESULT, Ownership.UNKNOWN);
-    }
-    
-    /**
-     * Change the value of the field {@code matrix}
-     * @param matrix The new value of the field {@code matrix}
-     */
-    public void matrix$set(org.pango.Matrix matrix) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("matrix"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), matrix.handle());
-    }
-    
-    /**
      * Create a Renderer proxy instance for the provided memory address.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
@@ -85,11 +64,7 @@ public class Renderer extends org.gtk.gobject.Object {
      * @throws ClassCastException If the GType is not derived from "PangoRenderer", a ClassCastException will be thrown.
      */
     public static Renderer castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), Renderer.getType())) {
             return new Renderer(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of PangoRenderer");
-        }
     }
     
     /**

@@ -48,11 +48,7 @@ public class GLShaderNode extends org.gtk.gsk.RenderNode {
      * @throws ClassCastException If the GType is not derived from "GskGLShaderNode", a ClassCastException will be thrown.
      */
     public static GLShaderNode castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), GLShaderNode.getType())) {
             return new GLShaderNode(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GskGLShaderNode");
-        }
     }
     
     private static Addressable constructNew(@NotNull org.gtk.gsk.GLShader shader, @NotNull org.gtk.graphene.Rect bounds, @NotNull org.gtk.glib.Bytes args, @Nullable org.gtk.gsk.RenderNode[] children, int nChildren) {

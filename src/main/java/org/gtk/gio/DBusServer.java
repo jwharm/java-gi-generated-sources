@@ -66,11 +66,7 @@ public class DBusServer extends org.gtk.gobject.Object implements org.gtk.gio.In
      * @throws ClassCastException If the GType is not derived from "GDBusServer", a ClassCastException will be thrown.
      */
     public static DBusServer castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), DBusServer.getType())) {
             return new DBusServer(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GDBusServer");
-        }
     }
     
     private static Addressable constructNewSync(@NotNull java.lang.String address, @NotNull org.gtk.gio.DBusServerFlags flags, @NotNull java.lang.String guid, @Nullable org.gtk.gio.DBusAuthObserver observer, @Nullable org.gtk.gio.Cancellable cancellable) throws GErrorException {

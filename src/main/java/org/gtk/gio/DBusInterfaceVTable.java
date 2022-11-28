@@ -90,7 +90,7 @@ public class DBusInterfaceVTable extends Struct {
      * Get the value of the field {@code method_call}
      * @return The value of the field {@code method_call}
      */
-    public org.gtk.gio.DBusInterfaceMethodCallFunc method_call$get() {
+    public org.gtk.gio.DBusInterfaceMethodCallFunc methodCall$get() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("method_call"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -101,7 +101,7 @@ public class DBusInterfaceVTable extends Struct {
      * Get the value of the field {@code get_property}
      * @return The value of the field {@code get_property}
      */
-    public org.gtk.gio.DBusInterfaceGetPropertyFunc get_property$get() {
+    public org.gtk.gio.DBusInterfaceGetPropertyFunc getProperty$get() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("get_property"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -112,7 +112,7 @@ public class DBusInterfaceVTable extends Struct {
      * Get the value of the field {@code set_property}
      * @return The value of the field {@code set_property}
      */
-    public org.gtk.gio.DBusInterfaceSetPropertyFunc set_property$get() {
+    public org.gtk.gio.DBusInterfaceSetPropertyFunc setProperty$get() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("set_property"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -158,37 +158,37 @@ public class DBusInterfaceVTable extends Struct {
         
         /**
          * Function for handling incoming method calls.
-         * @param method_call The value for the {@code method_call} field
+         * @param methodCall The value for the {@code methodCall} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setMethodCall(java.lang.foreign.MemoryAddress method_call) {
+        public Build setMethodCall(java.lang.foreign.MemoryAddress methodCall) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("method_call"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (method_call == null ? MemoryAddress.NULL : method_call));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (methodCall == null ? MemoryAddress.NULL : methodCall));
             return this;
         }
         
         /**
          * Function for getting a property.
-         * @param get_property The value for the {@code get_property} field
+         * @param getProperty The value for the {@code getProperty} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setGetProperty(java.lang.foreign.MemoryAddress get_property) {
+        public Build setGetProperty(java.lang.foreign.MemoryAddress getProperty) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("get_property"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (get_property == null ? MemoryAddress.NULL : get_property));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getProperty == null ? MemoryAddress.NULL : getProperty));
             return this;
         }
         
         /**
          * Function for setting a property.
-         * @param set_property The value for the {@code set_property} field
+         * @param setProperty The value for the {@code setProperty} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setSetProperty(java.lang.foreign.MemoryAddress set_property) {
+        public Build setSetProperty(java.lang.foreign.MemoryAddress setProperty) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("set_property"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (set_property == null ? MemoryAddress.NULL : set_property));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (setProperty == null ? MemoryAddress.NULL : setProperty));
             return this;
         }
         

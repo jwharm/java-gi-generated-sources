@@ -19,57 +19,57 @@ public class ResponseType extends io.github.jwharm.javagi.Enumeration {
      * Returned if an action widget has no response id,
      *   or if the dialog gets programmatically hidden or destroyed
      */
-    public static final ResponseType NONE = new ResponseType(-1);
+    public static final ResponseType NONE = new ResponseType(0);
     
     /**
      * Generic response id, not used by GTK dialogs
      */
-    public static final ResponseType REJECT = new ResponseType(-2);
+    public static final ResponseType REJECT = new ResponseType(0);
     
     /**
      * Generic response id, not used by GTK dialogs
      */
-    public static final ResponseType ACCEPT = new ResponseType(-3);
+    public static final ResponseType ACCEPT = new ResponseType(0);
     
     /**
      * Returned if the dialog is deleted
      */
-    public static final ResponseType DELETE_EVENT = new ResponseType(-4);
+    public static final ResponseType DELETE_EVENT = new ResponseType(0);
     
     /**
      * Returned by OK buttons in GTK dialogs
      */
-    public static final ResponseType OK = new ResponseType(-5);
+    public static final ResponseType OK = new ResponseType(0);
     
     /**
      * Returned by Cancel buttons in GTK dialogs
      */
-    public static final ResponseType CANCEL = new ResponseType(-6);
+    public static final ResponseType CANCEL = new ResponseType(0);
     
     /**
      * Returned by Close buttons in GTK dialogs
      */
-    public static final ResponseType CLOSE = new ResponseType(-7);
+    public static final ResponseType CLOSE = new ResponseType(0);
     
     /**
      * Returned by Yes buttons in GTK dialogs
      */
-    public static final ResponseType YES = new ResponseType(-8);
+    public static final ResponseType YES = new ResponseType(0);
     
     /**
      * Returned by No buttons in GTK dialogs
      */
-    public static final ResponseType NO = new ResponseType(-9);
+    public static final ResponseType NO = new ResponseType(0);
     
     /**
      * Returned by Apply buttons in GTK dialogs
      */
-    public static final ResponseType APPLY = new ResponseType(-10);
+    public static final ResponseType APPLY = new ResponseType(0);
     
     /**
      * Returned by Help buttons in GTK dialogs
      */
-    public static final ResponseType HELP = new ResponseType(-11);
+    public static final ResponseType HELP = new ResponseType(0);
     
     public ResponseType(int value) {
         super(value);

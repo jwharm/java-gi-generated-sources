@@ -204,11 +204,7 @@ public class AboutWindow extends org.gnome.adw.Window implements org.gtk.gtk.Acc
      * @throws ClassCastException If the GType is not derived from "AdwAboutWindow", a ClassCastException will be thrown.
      */
     public static AboutWindow castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), AboutWindow.getType())) {
             return new AboutWindow(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of AdwAboutWindow");
-        }
     }
     
     private static Addressable constructNew() {

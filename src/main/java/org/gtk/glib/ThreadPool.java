@@ -61,7 +61,7 @@ public class ThreadPool extends Struct {
      * Get the value of the field {@code user_data}
      * @return The value of the field {@code user_data}
      */
-    public java.lang.foreign.MemoryAddress user_data$get() {
+    public java.lang.foreign.MemoryAddress userData$get() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("user_data"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -70,12 +70,12 @@ public class ThreadPool extends Struct {
     
     /**
      * Change the value of the field {@code user_data}
-     * @param user_data The new value of the field {@code user_data}
+     * @param userData The new value of the field {@code user_data}
      */
-    public void user_data$set(java.lang.foreign.MemoryAddress user_data) {
+    public void userData$set(java.lang.foreign.MemoryAddress userData) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("user_data"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) user_data);
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) userData);
     }
     
     /**
@@ -125,14 +125,14 @@ public class ThreadPool extends Struct {
      * <p>
      * After calling this function {@code pool} must not be used anymore.
      * @param immediate should {@code pool} shut down immediately?
-     * @param wait should the function wait for all tasks to be finished?
+     * @param wait_ should the function wait for all tasks to be finished?
      */
-    public void free(boolean immediate, boolean wait) {
+    public void free(boolean immediate, boolean wait_) {
         try {
             DowncallHandles.g_thread_pool_free.invokeExact(
                     handle(),
                     immediate ? 1 : 0,
-                    wait ? 1 : 0);
+                    wait_ ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -654,13 +654,13 @@ public class ThreadPool extends Struct {
         
         /**
          * the user data for the threads of this pool
-         * @param user_data The value for the {@code user_data} field
+         * @param userData The value for the {@code userData} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setUserData(java.lang.foreign.MemoryAddress user_data) {
+        public Build setUserData(java.lang.foreign.MemoryAddress userData) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("user_data"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (user_data == null ? MemoryAddress.NULL : (Addressable) user_data));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (userData == null ? MemoryAddress.NULL : (Addressable) userData));
             return this;
         }
         

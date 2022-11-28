@@ -53,11 +53,7 @@ public class Emblem extends org.gtk.gobject.Object implements org.gtk.gio.Icon {
      * @throws ClassCastException If the GType is not derived from "GEmblem", a ClassCastException will be thrown.
      */
     public static Emblem castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), Emblem.getType())) {
             return new Emblem(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GEmblem");
-        }
     }
     
     private static Addressable constructNew(@NotNull org.gtk.gio.Icon icon) {

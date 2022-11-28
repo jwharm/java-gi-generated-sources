@@ -33,15 +33,6 @@ public class Cancellable extends org.gtk.gobject.Object {
     }
     
     /**
-     * Get the value of the field {@code parent_instance}
-     * @return The value of the field {@code parent_instance}
-     */
-    public org.gtk.gobject.Object parent_instance$get() {
-        long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_instance"));
-        return new org.gtk.gobject.Object(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
-    }
-    
-    /**
      * Create a Cancellable proxy instance for the provided memory address.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
@@ -64,11 +55,7 @@ public class Cancellable extends org.gtk.gobject.Object {
      * @throws ClassCastException If the GType is not derived from "GCancellable", a ClassCastException will be thrown.
      */
     public static Cancellable castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), Cancellable.getType())) {
             return new Cancellable(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GCancellable");
-        }
     }
     
     private static Addressable constructNew() {

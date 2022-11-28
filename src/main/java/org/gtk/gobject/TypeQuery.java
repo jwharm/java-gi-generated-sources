@@ -72,7 +72,7 @@ public class TypeQuery extends Struct {
      * Get the value of the field {@code type_name}
      * @return The value of the field {@code type_name}
      */
-    public java.lang.String type_name$get() {
+    public java.lang.String typeName$get() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("type_name"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -81,19 +81,19 @@ public class TypeQuery extends Struct {
     
     /**
      * Change the value of the field {@code type_name}
-     * @param type_name The new value of the field {@code type_name}
+     * @param typeName The new value of the field {@code type_name}
      */
-    public void type_name$set(java.lang.String type_name) {
+    public void typeName$set(java.lang.String typeName) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("type_name"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Interop.allocateNativeString(type_name));
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Interop.allocateNativeString(typeName));
     }
     
     /**
      * Get the value of the field {@code class_size}
      * @return The value of the field {@code class_size}
      */
-    public int class_size$get() {
+    public int classSize$get() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("class_size"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -102,19 +102,19 @@ public class TypeQuery extends Struct {
     
     /**
      * Change the value of the field {@code class_size}
-     * @param class_size The new value of the field {@code class_size}
+     * @param classSize The new value of the field {@code class_size}
      */
-    public void class_size$set(int class_size) {
+    public void classSize$set(int classSize) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("class_size"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), class_size);
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), classSize);
     }
     
     /**
      * Get the value of the field {@code instance_size}
      * @return The value of the field {@code instance_size}
      */
-    public int instance_size$get() {
+    public int instanceSize$get() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("instance_size"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -123,12 +123,12 @@ public class TypeQuery extends Struct {
     
     /**
      * Change the value of the field {@code instance_size}
-     * @param instance_size The new value of the field {@code instance_size}
+     * @param instanceSize The new value of the field {@code instance_size}
      */
-    public void instance_size$set(int instance_size) {
+    public void instanceSize$set(int instanceSize) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("instance_size"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), instance_size);
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), instanceSize);
     }
     
     /**
@@ -182,37 +182,37 @@ public class TypeQuery extends Struct {
         
         /**
          * the name of the type
-         * @param type_name The value for the {@code type_name} field
+         * @param typeName The value for the {@code typeName} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setTypeName(java.lang.String type_name) {
+        public Build setTypeName(java.lang.String typeName) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("type_name"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (type_name == null ? MemoryAddress.NULL : Interop.allocateNativeString(type_name)));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (typeName == null ? MemoryAddress.NULL : Interop.allocateNativeString(typeName)));
             return this;
         }
         
         /**
          * the size of the class structure
-         * @param class_size The value for the {@code class_size} field
+         * @param classSize The value for the {@code classSize} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setClassSize(int class_size) {
+        public Build setClassSize(int classSize) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("class_size"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), class_size);
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), classSize);
             return this;
         }
         
         /**
          * the size of the instance structure
-         * @param instance_size The value for the {@code instance_size} field
+         * @param instanceSize The value for the {@code instanceSize} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setInstanceSize(int instance_size) {
+        public Build setInstanceSize(int instanceSize) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("instance_size"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), instance_size);
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), instanceSize);
             return this;
         }
     }

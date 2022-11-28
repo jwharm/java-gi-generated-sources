@@ -52,7 +52,7 @@ public class EditableInterface extends Struct {
      * Get the value of the field {@code base_iface}
      * @return The value of the field {@code base_iface}
      */
-    public org.gtk.gobject.TypeInterface base_iface$get() {
+    public org.gtk.gobject.TypeInterface baseIface$get() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("base_iface"));
         return new org.gtk.gobject.TypeInterface(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
     }
@@ -94,24 +94,24 @@ public class EditableInterface extends Struct {
             return struct;
         }
         
-        public Build setBaseIface(org.gtk.gobject.TypeInterface base_iface) {
+        public Build setBaseIface(org.gtk.gobject.TypeInterface baseIface) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("base_iface"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (base_iface == null ? MemoryAddress.NULL : base_iface.handle()));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (baseIface == null ? MemoryAddress.NULL : baseIface.handle()));
             return this;
         }
         
-        public Build setInsertText(java.lang.foreign.MemoryAddress insert_text) {
+        public Build setInsertText(java.lang.foreign.MemoryAddress insertText) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("insert_text"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (insert_text == null ? MemoryAddress.NULL : insert_text));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (insertText == null ? MemoryAddress.NULL : insertText));
             return this;
         }
         
-        public Build setDeleteText(java.lang.foreign.MemoryAddress delete_text) {
+        public Build setDeleteText(java.lang.foreign.MemoryAddress deleteText) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("delete_text"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (delete_text == null ? MemoryAddress.NULL : delete_text));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (deleteText == null ? MemoryAddress.NULL : deleteText));
             return this;
         }
         
@@ -122,45 +122,45 @@ public class EditableInterface extends Struct {
             return this;
         }
         
-        public Build setGetText(java.lang.foreign.MemoryAddress get_text) {
+        public Build setGetText(java.lang.foreign.MemoryAddress getText) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("get_text"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (get_text == null ? MemoryAddress.NULL : get_text));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getText == null ? MemoryAddress.NULL : getText));
             return this;
         }
         
-        public Build setDoInsertText(java.lang.foreign.MemoryAddress do_insert_text) {
+        public Build setDoInsertText(java.lang.foreign.MemoryAddress doInsertText) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("do_insert_text"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (do_insert_text == null ? MemoryAddress.NULL : do_insert_text));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (doInsertText == null ? MemoryAddress.NULL : doInsertText));
             return this;
         }
         
-        public Build setDoDeleteText(java.lang.foreign.MemoryAddress do_delete_text) {
+        public Build setDoDeleteText(java.lang.foreign.MemoryAddress doDeleteText) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("do_delete_text"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (do_delete_text == null ? MemoryAddress.NULL : do_delete_text));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (doDeleteText == null ? MemoryAddress.NULL : doDeleteText));
             return this;
         }
         
-        public Build setGetSelectionBounds(java.lang.foreign.MemoryAddress get_selection_bounds) {
+        public Build setGetSelectionBounds(java.lang.foreign.MemoryAddress getSelectionBounds) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("get_selection_bounds"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (get_selection_bounds == null ? MemoryAddress.NULL : get_selection_bounds));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getSelectionBounds == null ? MemoryAddress.NULL : getSelectionBounds));
             return this;
         }
         
-        public Build setSetSelectionBounds(java.lang.foreign.MemoryAddress set_selection_bounds) {
+        public Build setSetSelectionBounds(java.lang.foreign.MemoryAddress setSelectionBounds) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("set_selection_bounds"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (set_selection_bounds == null ? MemoryAddress.NULL : set_selection_bounds));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (setSelectionBounds == null ? MemoryAddress.NULL : setSelectionBounds));
             return this;
         }
         
-        public Build setGetDelegate(java.lang.foreign.MemoryAddress get_delegate) {
+        public Build setGetDelegate(java.lang.foreign.MemoryAddress getDelegate) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("get_delegate"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (get_delegate == null ? MemoryAddress.NULL : get_delegate));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getDelegate == null ? MemoryAddress.NULL : getDelegate));
             return this;
         }
     }

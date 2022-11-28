@@ -56,7 +56,7 @@ public class TlsBackendInterface extends Struct {
      * Get the value of the field {@code g_iface}
      * @return The value of the field {@code g_iface}
      */
-    public org.gtk.gobject.TypeInterface g_iface$get() {
+    public org.gtk.gobject.TypeInterface gIface$get() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("g_iface"));
         return new org.gtk.gobject.TypeInterface(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
     }
@@ -100,76 +100,76 @@ public class TlsBackendInterface extends Struct {
         
         /**
          * The parent interface.
-         * @param g_iface The value for the {@code g_iface} field
+         * @param gIface The value for the {@code gIface} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setGIface(org.gtk.gobject.TypeInterface g_iface) {
+        public Build setGIface(org.gtk.gobject.TypeInterface gIface) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("g_iface"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (g_iface == null ? MemoryAddress.NULL : g_iface.handle()));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (gIface == null ? MemoryAddress.NULL : gIface.handle()));
             return this;
         }
         
-        public Build setSupportsTls(java.lang.foreign.MemoryAddress supports_tls) {
+        public Build setSupportsTls(java.lang.foreign.MemoryAddress supportsTls) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("supports_tls"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (supports_tls == null ? MemoryAddress.NULL : supports_tls));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (supportsTls == null ? MemoryAddress.NULL : supportsTls));
             return this;
         }
         
-        public Build setGetCertificateType(java.lang.foreign.MemoryAddress get_certificate_type) {
+        public Build setGetCertificateType(java.lang.foreign.MemoryAddress getCertificateType) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("get_certificate_type"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (get_certificate_type == null ? MemoryAddress.NULL : get_certificate_type));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getCertificateType == null ? MemoryAddress.NULL : getCertificateType));
             return this;
         }
         
-        public Build setGetClientConnectionType(java.lang.foreign.MemoryAddress get_client_connection_type) {
+        public Build setGetClientConnectionType(java.lang.foreign.MemoryAddress getClientConnectionType) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("get_client_connection_type"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (get_client_connection_type == null ? MemoryAddress.NULL : get_client_connection_type));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getClientConnectionType == null ? MemoryAddress.NULL : getClientConnectionType));
             return this;
         }
         
-        public Build setGetServerConnectionType(java.lang.foreign.MemoryAddress get_server_connection_type) {
+        public Build setGetServerConnectionType(java.lang.foreign.MemoryAddress getServerConnectionType) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("get_server_connection_type"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (get_server_connection_type == null ? MemoryAddress.NULL : get_server_connection_type));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getServerConnectionType == null ? MemoryAddress.NULL : getServerConnectionType));
             return this;
         }
         
-        public Build setGetFileDatabaseType(java.lang.foreign.MemoryAddress get_file_database_type) {
+        public Build setGetFileDatabaseType(java.lang.foreign.MemoryAddress getFileDatabaseType) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("get_file_database_type"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (get_file_database_type == null ? MemoryAddress.NULL : get_file_database_type));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getFileDatabaseType == null ? MemoryAddress.NULL : getFileDatabaseType));
             return this;
         }
         
-        public Build setGetDefaultDatabase(java.lang.foreign.MemoryAddress get_default_database) {
+        public Build setGetDefaultDatabase(java.lang.foreign.MemoryAddress getDefaultDatabase) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("get_default_database"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (get_default_database == null ? MemoryAddress.NULL : get_default_database));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getDefaultDatabase == null ? MemoryAddress.NULL : getDefaultDatabase));
             return this;
         }
         
-        public Build setSupportsDtls(java.lang.foreign.MemoryAddress supports_dtls) {
+        public Build setSupportsDtls(java.lang.foreign.MemoryAddress supportsDtls) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("supports_dtls"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (supports_dtls == null ? MemoryAddress.NULL : supports_dtls));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (supportsDtls == null ? MemoryAddress.NULL : supportsDtls));
             return this;
         }
         
-        public Build setGetDtlsClientConnectionType(java.lang.foreign.MemoryAddress get_dtls_client_connection_type) {
+        public Build setGetDtlsClientConnectionType(java.lang.foreign.MemoryAddress getDtlsClientConnectionType) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("get_dtls_client_connection_type"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (get_dtls_client_connection_type == null ? MemoryAddress.NULL : get_dtls_client_connection_type));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getDtlsClientConnectionType == null ? MemoryAddress.NULL : getDtlsClientConnectionType));
             return this;
         }
         
-        public Build setGetDtlsServerConnectionType(java.lang.foreign.MemoryAddress get_dtls_server_connection_type) {
+        public Build setGetDtlsServerConnectionType(java.lang.foreign.MemoryAddress getDtlsServerConnectionType) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("get_dtls_server_connection_type"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (get_dtls_server_connection_type == null ? MemoryAddress.NULL : get_dtls_server_connection_type));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getDtlsServerConnectionType == null ? MemoryAddress.NULL : getDtlsServerConnectionType));
             return this;
         }
     }

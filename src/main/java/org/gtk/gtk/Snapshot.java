@@ -59,11 +59,7 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
      * @throws ClassCastException If the GType is not derived from "Snapshot", a ClassCastException will be thrown.
      */
     public static Snapshot castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), Snapshot.getType())) {
             return new Snapshot(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of Snapshot");
-        }
     }
     
     private static Addressable constructNew() {
@@ -866,7 +862,7 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
     }
     
     /**
-     * Rotates @{@code snapshot}'s coordinate system by {@code angle} degrees in 2D space -
+     * Rotates {@code snapshot}'s coordinate system by {@code angle} degrees in 2D space -
      * or in 3D speak, rotates around the Z axis.
      * <p>
      * To rotate around other axes, use {@link org.gtk.gsk.Transform#rotate3d}.

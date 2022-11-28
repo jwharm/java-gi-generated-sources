@@ -100,11 +100,7 @@ public class ComboBoxText extends org.gtk.gtk.ComboBox implements org.gtk.gtk.Ac
      * @throws ClassCastException If the GType is not derived from "GtkComboBoxText", a ClassCastException will be thrown.
      */
     public static ComboBoxText castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), ComboBoxText.getType())) {
             return new ComboBoxText(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkComboBoxText");
-        }
     }
     
     private static Addressable constructNew() {

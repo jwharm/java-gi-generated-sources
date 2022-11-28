@@ -50,7 +50,7 @@ public class ProxyResolverInterface extends Struct {
      * Get the value of the field {@code g_iface}
      * @return The value of the field {@code g_iface}
      */
-    public org.gtk.gobject.TypeInterface g_iface$get() {
+    public org.gtk.gobject.TypeInterface gIface$get() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("g_iface"));
         return new org.gtk.gobject.TypeInterface(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
     }
@@ -94,20 +94,20 @@ public class ProxyResolverInterface extends Struct {
         
         /**
          * The parent interface.
-         * @param g_iface The value for the {@code g_iface} field
+         * @param gIface The value for the {@code gIface} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setGIface(org.gtk.gobject.TypeInterface g_iface) {
+        public Build setGIface(org.gtk.gobject.TypeInterface gIface) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("g_iface"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (g_iface == null ? MemoryAddress.NULL : g_iface.handle()));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (gIface == null ? MemoryAddress.NULL : gIface.handle()));
             return this;
         }
         
-        public Build setIsSupported(java.lang.foreign.MemoryAddress is_supported) {
+        public Build setIsSupported(java.lang.foreign.MemoryAddress isSupported) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("is_supported"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (is_supported == null ? MemoryAddress.NULL : is_supported));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (isSupported == null ? MemoryAddress.NULL : isSupported));
             return this;
         }
         
@@ -118,17 +118,17 @@ public class ProxyResolverInterface extends Struct {
             return this;
         }
         
-        public Build setLookupAsync(java.lang.foreign.MemoryAddress lookup_async) {
+        public Build setLookupAsync(java.lang.foreign.MemoryAddress lookupAsync) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("lookup_async"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (lookup_async == null ? MemoryAddress.NULL : lookup_async));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (lookupAsync == null ? MemoryAddress.NULL : lookupAsync));
             return this;
         }
         
-        public Build setLookupFinish(java.lang.foreign.MemoryAddress lookup_finish) {
+        public Build setLookupFinish(java.lang.foreign.MemoryAddress lookupFinish) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("lookup_finish"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (lookup_finish == null ? MemoryAddress.NULL : lookup_finish));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (lookupFinish == null ? MemoryAddress.NULL : lookupFinish));
             return this;
         }
     }

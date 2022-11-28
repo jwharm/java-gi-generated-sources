@@ -49,7 +49,7 @@ public class FontFamilyClass extends Struct {
      * Get the value of the field {@code parent_class}
      * @return The value of the field {@code parent_class}
      */
-    public org.gtk.gobject.ObjectClass parent_class$get() {
+    public org.gtk.gobject.ObjectClass parentClass$get() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_class"));
         return new org.gtk.gobject.ObjectClass(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
     }
@@ -91,52 +91,52 @@ public class FontFamilyClass extends Struct {
             return struct;
         }
         
-        public Build setParentClass(org.gtk.gobject.ObjectClass parent_class) {
+        public Build setParentClass(org.gtk.gobject.ObjectClass parentClass) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parent_class == null ? MemoryAddress.NULL : parent_class.handle()));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
             return this;
         }
         
-        public Build setListFaces(java.lang.foreign.MemoryAddress list_faces) {
+        public Build setListFaces(java.lang.foreign.MemoryAddress listFaces) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("list_faces"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (list_faces == null ? MemoryAddress.NULL : list_faces));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (listFaces == null ? MemoryAddress.NULL : listFaces));
             return this;
         }
         
-        public Build setGetName(java.lang.foreign.MemoryAddress get_name) {
+        public Build setGetName(java.lang.foreign.MemoryAddress getName) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("get_name"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (get_name == null ? MemoryAddress.NULL : get_name));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getName == null ? MemoryAddress.NULL : getName));
             return this;
         }
         
-        public Build setIsMonospace(java.lang.foreign.MemoryAddress is_monospace) {
+        public Build setIsMonospace(java.lang.foreign.MemoryAddress isMonospace) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("is_monospace"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (is_monospace == null ? MemoryAddress.NULL : is_monospace));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (isMonospace == null ? MemoryAddress.NULL : isMonospace));
             return this;
         }
         
-        public Build setIsVariable(java.lang.foreign.MemoryAddress is_variable) {
+        public Build setIsVariable(java.lang.foreign.MemoryAddress isVariable) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("is_variable"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (is_variable == null ? MemoryAddress.NULL : is_variable));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (isVariable == null ? MemoryAddress.NULL : isVariable));
             return this;
         }
         
-        public Build setGetFace(java.lang.foreign.MemoryAddress get_face) {
+        public Build setGetFace(java.lang.foreign.MemoryAddress getFace) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("get_face"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (get_face == null ? MemoryAddress.NULL : get_face));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getFace == null ? MemoryAddress.NULL : getFace));
             return this;
         }
         
-        public Build setPangoReserved2(java.lang.foreign.MemoryAddress _pango_reserved2) {
+        public Build setPangoReserved2(java.lang.foreign.MemoryAddress PangoReserved2) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("_pango_reserved2"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (_pango_reserved2 == null ? MemoryAddress.NULL : _pango_reserved2));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (PangoReserved2 == null ? MemoryAddress.NULL : PangoReserved2));
             return this;
         }
     }

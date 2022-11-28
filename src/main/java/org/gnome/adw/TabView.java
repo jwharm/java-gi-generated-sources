@@ -82,11 +82,7 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      * @throws ClassCastException If the GType is not derived from "AdwTabView", a ClassCastException will be thrown.
      */
     public static TabView castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), TabView.getType())) {
             return new TabView(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of AdwTabView");
-        }
     }
     
     private static Addressable constructNew() {

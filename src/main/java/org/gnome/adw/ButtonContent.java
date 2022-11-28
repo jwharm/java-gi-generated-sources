@@ -91,11 +91,7 @@ public class ButtonContent extends org.gtk.gtk.Widget implements org.gtk.gtk.Acc
      * @throws ClassCastException If the GType is not derived from "AdwButtonContent", a ClassCastException will be thrown.
      */
     public static ButtonContent castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), ButtonContent.getType())) {
             return new ButtonContent(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of AdwButtonContent");
-        }
     }
     
     private static Addressable constructNew() {

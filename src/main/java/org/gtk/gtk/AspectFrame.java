@@ -54,11 +54,7 @@ public class AspectFrame extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
      * @throws ClassCastException If the GType is not derived from "GtkAspectFrame", a ClassCastException will be thrown.
      */
     public static AspectFrame castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), AspectFrame.getType())) {
             return new AspectFrame(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkAspectFrame");
-        }
     }
     
     private static Addressable constructNew(float xalign, float yalign, float ratio, boolean obeyChild) {

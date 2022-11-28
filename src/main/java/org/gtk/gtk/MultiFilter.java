@@ -48,11 +48,7 @@ public class MultiFilter extends org.gtk.gtk.Filter implements org.gtk.gio.ListM
      * @throws ClassCastException If the GType is not derived from "GtkMultiFilter", a ClassCastException will be thrown.
      */
     public static MultiFilter castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), MultiFilter.getType())) {
             return new MultiFilter(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkMultiFilter");
-        }
     }
     
     /**

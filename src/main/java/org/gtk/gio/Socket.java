@@ -82,15 +82,6 @@ public class Socket extends org.gtk.gobject.Object implements org.gtk.gio.Datagr
     }
     
     /**
-     * Get the value of the field {@code parent_instance}
-     * @return The value of the field {@code parent_instance}
-     */
-    public org.gtk.gobject.Object parent_instance$get() {
-        long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_instance"));
-        return new org.gtk.gobject.Object(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
-    }
-    
-    /**
      * Create a Socket proxy instance for the provided memory address.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
@@ -113,11 +104,7 @@ public class Socket extends org.gtk.gobject.Object implements org.gtk.gio.Datagr
      * @throws ClassCastException If the GType is not derived from "GSocket", a ClassCastException will be thrown.
      */
     public static Socket castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), Socket.getType())) {
             return new Socket(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GSocket");
-        }
     }
     
     private static Addressable constructNew(@NotNull org.gtk.gio.SocketFamily family, @NotNull org.gtk.gio.SocketType type, @NotNull org.gtk.gio.SocketProtocol protocol) throws GErrorException {
@@ -1209,8 +1196,9 @@ public class Socket extends org.gtk.gobject.Object implements org.gtk.gio.Datagr
      * the peer, or -1 on error
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public long receiveFrom(@NotNull PointerProxy<org.gtk.gio.SocketAddress> address, @NotNull Out<byte[]> buffer, Out<Long> size, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+    public long receiveFrom(@NotNull Out<org.gtk.gio.SocketAddress> address, @NotNull Out<byte[]> buffer, Out<Long> size, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(address, "Parameter 'address' must not be null");
+        MemorySegment addressPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
         MemorySegment bufferPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemorySegment sizePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
@@ -1219,7 +1207,7 @@ public class Socket extends org.gtk.gobject.Object implements org.gtk.gio.Datagr
         try {
             RESULT = (long) DowncallHandles.g_socket_receive_from.invokeExact(
                     handle(),
-                    address.handle(),
+                    (Addressable) addressPOINTER.address(),
                     (Addressable) bufferPOINTER.address(),
                     (Addressable) sizePOINTER.address(),
                     (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
@@ -1230,6 +1218,7 @@ public class Socket extends org.gtk.gobject.Object implements org.gtk.gio.Datagr
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
+        address.set(new org.gtk.gio.SocketAddress(addressPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
         size.set(sizePOINTER.get(Interop.valueLayout.C_LONG, 0));
         buffer.set(MemorySegment.ofAddress(bufferPOINTER.get(Interop.valueLayout.ADDRESS, 0), size.get().intValue() * Interop.valueLayout.C_BYTE.byteSize(), Interop.getScope()).toArray(Interop.valueLayout.C_BYTE));
         return RESULT;
@@ -1311,8 +1300,9 @@ public class Socket extends org.gtk.gobject.Object implements org.gtk.gio.Datagr
      * the peer, or -1 on error
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public long receiveMessage(@NotNull PointerProxy<org.gtk.gio.SocketAddress> address, @NotNull org.gtk.gio.InputVector[] vectors, int numVectors, @Nullable Out<org.gtk.gio.SocketControlMessage[]> messages, Out<Integer> numMessages, Out<Integer> flags, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+    public long receiveMessage(@NotNull Out<org.gtk.gio.SocketAddress> address, @NotNull org.gtk.gio.InputVector[] vectors, int numVectors, @Nullable Out<org.gtk.gio.SocketControlMessage[]> messages, Out<Integer> numMessages, Out<Integer> flags, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(address, "Parameter 'address' must not be null");
+        MemorySegment addressPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         java.util.Objects.requireNonNull(vectors, "Parameter 'vectors' must not be null");
         MemorySegment messagesPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         java.util.Objects.requireNonNull(numMessages, "Parameter 'numMessages' must not be null");
@@ -1324,7 +1314,7 @@ public class Socket extends org.gtk.gobject.Object implements org.gtk.gio.Datagr
         try {
             RESULT = (long) DowncallHandles.g_socket_receive_message.invokeExact(
                     handle(),
-                    address.handle(),
+                    (Addressable) addressPOINTER.address(),
                     Interop.allocateNativeArray(vectors, org.gtk.gio.InputVector.getMemoryLayout(), false),
                     numVectors,
                     (Addressable) (messages == null ? MemoryAddress.NULL : (Addressable) messagesPOINTER.address()),
@@ -1338,6 +1328,7 @@ public class Socket extends org.gtk.gobject.Object implements org.gtk.gio.Datagr
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
+        address.set(new org.gtk.gio.SocketAddress(addressPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
         numMessages.set(numMessagesPOINTER.get(Interop.valueLayout.C_INT, 0));
         flags.set(flagsPOINTER.get(Interop.valueLayout.C_INT, 0));
         org.gtk.gio.SocketControlMessage[] messagesARRAY = new org.gtk.gio.SocketControlMessage[numMessages.get().intValue()];

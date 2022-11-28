@@ -114,15 +114,6 @@ public class TreeView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     }
     
     /**
-     * Get the value of the field {@code parent_instance}
-     * @return The value of the field {@code parent_instance}
-     */
-    public org.gtk.gtk.Widget parent_instance$get() {
-        long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_instance"));
-        return new org.gtk.gtk.Widget(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
-    }
-    
-    /**
      * Create a TreeView proxy instance for the provided memory address.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
@@ -145,11 +136,7 @@ public class TreeView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * @throws ClassCastException If the GType is not derived from "GtkTreeView", a ClassCastException will be thrown.
      */
     public static TreeView castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), TreeView.getType())) {
             return new TreeView(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkTreeView");
-        }
     }
     
     private static Addressable constructNew() {
@@ -638,15 +625,19 @@ public class TreeView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * @param focusColumn A
      *   pointer to be filled with the current focus column
      */
-    public void getCursor(@Nullable PointerProxy<org.gtk.gtk.TreePath> path, @Nullable PointerProxy<org.gtk.gtk.TreeViewColumn> focusColumn) {
+    public void getCursor(@Nullable Out<org.gtk.gtk.TreePath> path, @Nullable Out<org.gtk.gtk.TreeViewColumn> focusColumn) {
+        MemorySegment pathPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
+        MemorySegment focusColumnPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         try {
             DowncallHandles.gtk_tree_view_get_cursor.invokeExact(
                     handle(),
-                    (Addressable) (path == null ? MemoryAddress.NULL : path.handle()),
-                    (Addressable) (focusColumn == null ? MemoryAddress.NULL : focusColumn.handle()));
+                    (Addressable) (path == null ? MemoryAddress.NULL : (Addressable) pathPOINTER.address()),
+                    (Addressable) (focusColumn == null ? MemoryAddress.NULL : (Addressable) focusColumnPOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (path != null) path.set(new org.gtk.gtk.TreePath(pathPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
+        if (focusColumn != null) focusColumn.set(new org.gtk.gtk.TreeViewColumn(focusColumnPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.NONE));
     }
     
     /**
@@ -663,7 +654,8 @@ public class TreeView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * @return whether there is a row at the given position, {@code true} if this
      * is indeed the case.
      */
-    public boolean getDestRowAtPos(int dragX, int dragY, @Nullable PointerProxy<org.gtk.gtk.TreePath> path, @NotNull Out<org.gtk.gtk.TreeViewDropPosition> pos) {
+    public boolean getDestRowAtPos(int dragX, int dragY, @Nullable Out<org.gtk.gtk.TreePath> path, @NotNull Out<org.gtk.gtk.TreeViewDropPosition> pos) {
+        MemorySegment pathPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         java.util.Objects.requireNonNull(pos, "Parameter 'pos' must not be null");
         MemorySegment posPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         int RESULT;
@@ -672,11 +664,12 @@ public class TreeView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
                     handle(),
                     dragX,
                     dragY,
-                    (Addressable) (path == null ? MemoryAddress.NULL : path.handle()),
+                    (Addressable) (path == null ? MemoryAddress.NULL : (Addressable) pathPOINTER.address()),
                     (Addressable) posPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (path != null) path.set(new org.gtk.gtk.TreePath(pathPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
         pos.set(new org.gtk.gtk.TreeViewDropPosition(posPOINTER.get(Interop.valueLayout.C_INT, 0)));
         return RESULT != 0;
     }
@@ -686,17 +679,19 @@ public class TreeView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * @param path Return location for the path of the highlighted row
      * @param pos Return location for the drop position
      */
-    public void getDragDestRow(@Nullable PointerProxy<org.gtk.gtk.TreePath> path, @NotNull Out<org.gtk.gtk.TreeViewDropPosition> pos) {
+    public void getDragDestRow(@Nullable Out<org.gtk.gtk.TreePath> path, @NotNull Out<org.gtk.gtk.TreeViewDropPosition> pos) {
+        MemorySegment pathPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         java.util.Objects.requireNonNull(pos, "Parameter 'pos' must not be null");
         MemorySegment posPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         try {
             DowncallHandles.gtk_tree_view_get_drag_dest_row.invokeExact(
                     handle(),
-                    (Addressable) (path == null ? MemoryAddress.NULL : path.handle()),
+                    (Addressable) (path == null ? MemoryAddress.NULL : (Addressable) pathPOINTER.address()),
                     (Addressable) posPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (path != null) path.set(new org.gtk.gtk.TreePath(pathPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
         pos.set(new org.gtk.gtk.TreeViewDropPosition(posPOINTER.get(Interop.valueLayout.C_INT, 0)));
     }
     
@@ -917,7 +912,9 @@ public class TreeView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      *   relative to the cell can be placed
      * @return {@code true} if a row exists at that coordinate.
      */
-    public boolean getPathAtPos(int x, int y, @Nullable PointerProxy<org.gtk.gtk.TreePath> path, @Nullable PointerProxy<org.gtk.gtk.TreeViewColumn> column, Out<Integer> cellX, Out<Integer> cellY) {
+    public boolean getPathAtPos(int x, int y, @Nullable Out<org.gtk.gtk.TreePath> path, @Nullable Out<org.gtk.gtk.TreeViewColumn> column, Out<Integer> cellX, Out<Integer> cellY) {
+        MemorySegment pathPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
+        MemorySegment columnPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         java.util.Objects.requireNonNull(cellX, "Parameter 'cellX' must not be null");
         MemorySegment cellXPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         java.util.Objects.requireNonNull(cellY, "Parameter 'cellY' must not be null");
@@ -928,13 +925,15 @@ public class TreeView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
                     handle(),
                     x,
                     y,
-                    (Addressable) (path == null ? MemoryAddress.NULL : path.handle()),
-                    (Addressable) (column == null ? MemoryAddress.NULL : column.handle()),
+                    (Addressable) (path == null ? MemoryAddress.NULL : (Addressable) pathPOINTER.address()),
+                    (Addressable) (column == null ? MemoryAddress.NULL : (Addressable) columnPOINTER.address()),
                     (Addressable) cellXPOINTER.address(),
                     (Addressable) cellYPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (path != null) path.set(new org.gtk.gtk.TreePath(pathPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
+        if (column != null) column.set(new org.gtk.gtk.TreeViewColumn(columnPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.NONE));
         cellX.set(cellXPOINTER.get(Interop.valueLayout.C_INT, 0));
         cellY.set(cellYPOINTER.get(Interop.valueLayout.C_INT, 0));
         return RESULT != 0;
@@ -1090,8 +1089,10 @@ public class TreeView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * @param iter a pointer to receive a {@code GtkTreeIter}
      * @return whether or not the given tooltip context points to a row
      */
-    public boolean getTooltipContext(int x, int y, boolean keyboardTip, @Nullable PointerProxy<org.gtk.gtk.TreeModel> model, @NotNull PointerProxy<org.gtk.gtk.TreePath> path, @NotNull org.gtk.gtk.TreeIter iter) {
+    public boolean getTooltipContext(int x, int y, boolean keyboardTip, @Nullable Out<org.gtk.gtk.TreeModel> model, @NotNull Out<org.gtk.gtk.TreePath> path, @NotNull org.gtk.gtk.TreeIter iter) {
+        MemorySegment modelPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         java.util.Objects.requireNonNull(path, "Parameter 'path' must not be null");
+        MemorySegment pathPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         java.util.Objects.requireNonNull(iter, "Parameter 'iter' must not be null");
         int RESULT;
         try {
@@ -1100,12 +1101,14 @@ public class TreeView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
                     x,
                     y,
                     keyboardTip ? 1 : 0,
-                    (Addressable) (model == null ? MemoryAddress.NULL : model.handle()),
-                    path.handle(),
+                    (Addressable) (model == null ? MemoryAddress.NULL : (Addressable) modelPOINTER.address()),
+                    (Addressable) pathPOINTER.address(),
                     iter.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (model != null) model.set(new org.gtk.gtk.TreeModel.TreeModelImpl(modelPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.NONE));
+        path.set(new org.gtk.gtk.TreePath(pathPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
         return RESULT != 0;
     }
     
@@ -1118,18 +1121,22 @@ public class TreeView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * @param endPath Return location for end of region
      * @return {@code true}, if valid paths were placed in {@code start_path} and {@code end_path}.
      */
-    public boolean getVisibleRange(@NotNull PointerProxy<org.gtk.gtk.TreePath> startPath, @NotNull PointerProxy<org.gtk.gtk.TreePath> endPath) {
+    public boolean getVisibleRange(@NotNull Out<org.gtk.gtk.TreePath> startPath, @NotNull Out<org.gtk.gtk.TreePath> endPath) {
         java.util.Objects.requireNonNull(startPath, "Parameter 'startPath' must not be null");
+        MemorySegment startPathPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         java.util.Objects.requireNonNull(endPath, "Parameter 'endPath' must not be null");
+        MemorySegment endPathPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_tree_view_get_visible_range.invokeExact(
                     handle(),
-                    startPath.handle(),
-                    endPath.handle());
+                    (Addressable) startPathPOINTER.address(),
+                    (Addressable) endPathPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        startPath.set(new org.gtk.gtk.TreePath(startPathPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
+        endPath.set(new org.gtk.gtk.TreePath(endPathPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
         return RESULT != 0;
     }
     
@@ -1272,7 +1279,9 @@ public class TreeView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * @return {@code true} if the area at the given coordinates is blank,
      * {@code false} otherwise.
      */
-    public boolean isBlankAtPos(int x, int y, @Nullable PointerProxy<org.gtk.gtk.TreePath> path, @Nullable PointerProxy<org.gtk.gtk.TreeViewColumn> column, Out<Integer> cellX, Out<Integer> cellY) {
+    public boolean isBlankAtPos(int x, int y, @Nullable Out<org.gtk.gtk.TreePath> path, @Nullable Out<org.gtk.gtk.TreeViewColumn> column, Out<Integer> cellX, Out<Integer> cellY) {
+        MemorySegment pathPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
+        MemorySegment columnPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         java.util.Objects.requireNonNull(cellX, "Parameter 'cellX' must not be null");
         MemorySegment cellXPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         java.util.Objects.requireNonNull(cellY, "Parameter 'cellY' must not be null");
@@ -1283,13 +1292,15 @@ public class TreeView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
                     handle(),
                     x,
                     y,
-                    (Addressable) (path == null ? MemoryAddress.NULL : path.handle()),
-                    (Addressable) (column == null ? MemoryAddress.NULL : column.handle()),
+                    (Addressable) (path == null ? MemoryAddress.NULL : (Addressable) pathPOINTER.address()),
+                    (Addressable) (column == null ? MemoryAddress.NULL : (Addressable) columnPOINTER.address()),
                     (Addressable) cellXPOINTER.address(),
                     (Addressable) cellYPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (path != null) path.set(new org.gtk.gtk.TreePath(pathPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
+        if (column != null) column.set(new org.gtk.gtk.TreeViewColumn(columnPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.NONE));
         cellX.set(cellXPOINTER.get(Interop.valueLayout.C_INT, 0));
         cellY.set(cellYPOINTER.get(Interop.valueLayout.C_INT, 0));
         return RESULT != 0;

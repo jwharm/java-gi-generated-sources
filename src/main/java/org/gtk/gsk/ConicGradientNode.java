@@ -48,11 +48,7 @@ public class ConicGradientNode extends org.gtk.gsk.RenderNode {
      * @throws ClassCastException If the GType is not derived from "GskConicGradientNode", a ClassCastException will be thrown.
      */
     public static ConicGradientNode castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), ConicGradientNode.getType())) {
             return new ConicGradientNode(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GskConicGradientNode");
-        }
     }
     
     private static Addressable constructNew(@NotNull org.gtk.graphene.Rect bounds, @NotNull org.gtk.graphene.Point center, float rotation, @NotNull org.gtk.gsk.ColorStop[] colorStops, long nColorStops) {

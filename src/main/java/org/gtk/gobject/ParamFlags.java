@@ -89,7 +89,7 @@ public class ParamFlags extends io.github.jwharm.javagi.Bitfield {
      *  while running with G_ENABLE_DIAGNOSTIC=1.
      *  Since 2.26
      */
-    public static final ParamFlags DEPRECATED = new ParamFlags(0);
+    public static final ParamFlags DEPRECATED = new ParamFlags(-2147483648);
     
     public ParamFlags(int value) {
         super(value);

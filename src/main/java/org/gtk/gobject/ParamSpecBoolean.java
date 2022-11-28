@@ -31,36 +31,6 @@ public class ParamSpecBoolean extends org.gtk.gobject.ParamSpec {
     }
     
     /**
-     * Get the value of the field {@code parent_instance}
-     * @return The value of the field {@code parent_instance}
-     */
-    public org.gtk.gobject.ParamSpec parent_instance$get() {
-        long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_instance"));
-        return new org.gtk.gobject.ParamSpec(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
-    }
-    
-    /**
-     * Get the value of the field {@code default_value}
-     * @return The value of the field {@code default_value}
-     */
-    public boolean default_value$get() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("default_value"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT != 0;
-    }
-    
-    /**
-     * Change the value of the field {@code default_value}
-     * @param default_value The new value of the field {@code default_value}
-     */
-    public void default_value$set(boolean default_value) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("default_value"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), default_value ? 1 : 0);
-    }
-    
-    /**
      * Create a ParamSpecBoolean proxy instance for the provided memory address.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
@@ -83,11 +53,7 @@ public class ParamSpecBoolean extends org.gtk.gobject.ParamSpec {
      * @throws ClassCastException If the GType is not derived from "GParamSpecBoolean", a ClassCastException will be thrown.
      */
     public static ParamSpecBoolean castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), ParamSpecBoolean.getType())) {
             return new ParamSpecBoolean(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GParamSpecBoolean");
-        }
     }
     
     /**

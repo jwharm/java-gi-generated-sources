@@ -5540,11 +5540,11 @@ public final class GObject {
             HANDLER.onInterfaceInitFunc(new org.gtk.gobject.TypeInterface(gIface, Ownership.NONE));
         }
         
-        public static boolean cbSignalAccumulator(MemoryAddress ihint, MemoryAddress returnAccu, MemoryAddress handlerReturn, MemoryAddress userData) {
+        public static int cbSignalAccumulator(MemoryAddress ihint, MemoryAddress returnAccu, MemoryAddress handlerReturn, MemoryAddress userData) {
             int HASH = userData.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (SignalAccumulator) Interop.signalRegistry.get(HASH);
             var RESULT = HANDLER.onSignalAccumulator(new org.gtk.gobject.SignalInvocationHint(ihint, Ownership.NONE), new org.gtk.gobject.Value(returnAccu, Ownership.NONE), new org.gtk.gobject.Value(handlerReturn, Ownership.NONE));
-            return RESULT;
+            return RESULT ? 1 : 0;
         }
         
         public static void cbClosureMarshal(MemoryAddress closure, MemoryAddress returnValue, int nParamValues, MemoryAddress paramValues, MemoryAddress invocationHint, MemoryAddress userData) {
@@ -5559,18 +5559,18 @@ public final class GObject {
             HANDLER.onClosureNotify(new org.gtk.gobject.Closure(closure, Ownership.NONE));
         }
         
-        public static boolean cbTypeClassCacheFunc(MemoryAddress cacheData, MemoryAddress gClass) {
+        public static int cbTypeClassCacheFunc(MemoryAddress cacheData, MemoryAddress gClass) {
             int HASH = cacheData.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (TypeClassCacheFunc) Interop.signalRegistry.get(HASH);
             var RESULT = HANDLER.onTypeClassCacheFunc(new org.gtk.gobject.TypeClass(gClass, Ownership.NONE));
-            return RESULT;
+            return RESULT ? 1 : 0;
         }
         
-        public static boolean cbBindingTransformFunc(MemoryAddress binding, MemoryAddress fromValue, MemoryAddress toValue, MemoryAddress userData) {
+        public static int cbBindingTransformFunc(MemoryAddress binding, MemoryAddress fromValue, MemoryAddress toValue, MemoryAddress userData) {
             int HASH = userData.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (BindingTransformFunc) Interop.signalRegistry.get(HASH);
             var RESULT = HANDLER.onBindingTransformFunc(new org.gtk.gobject.Binding(binding, Ownership.NONE), new org.gtk.gobject.Value(fromValue, Ownership.NONE), new org.gtk.gobject.Value(toValue, Ownership.NONE));
-            return RESULT;
+            return RESULT ? 1 : 0;
         }
         
         public static void cbClassFinalizeFunc(MemoryAddress gClass, MemoryAddress classData) {
@@ -5579,11 +5579,11 @@ public final class GObject {
             HANDLER.onClassFinalizeFunc(new org.gtk.gobject.TypeClass(gClass, Ownership.NONE));
         }
         
-        public static boolean cbSignalEmissionHook(MemoryAddress ihint, int nParamValues, MemoryAddress paramValues, MemoryAddress userData) {
+        public static int cbSignalEmissionHook(MemoryAddress ihint, int nParamValues, MemoryAddress paramValues, MemoryAddress userData) {
             int HASH = userData.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (SignalEmissionHook) Interop.signalRegistry.get(HASH);
             var RESULT = HANDLER.onSignalEmissionHook(new org.gtk.gobject.SignalInvocationHint(ihint, Ownership.NONE), nParamValues, new PointerProxy<org.gtk.gobject.Value>(paramValues, org.gtk.gobject.Value.class));
-            return RESULT;
+            return RESULT ? 1 : 0;
         }
         
         public static void cbInterfaceFinalizeFunc(MemoryAddress gIface, MemoryAddress ifaceData) {

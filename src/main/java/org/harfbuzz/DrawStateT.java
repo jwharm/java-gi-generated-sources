@@ -59,7 +59,7 @@ public class DrawStateT extends Struct {
      * Get the value of the field {@code path_open}
      * @return The value of the field {@code path_open}
      */
-    public org.harfbuzz.BoolT path_open$get() {
+    public org.harfbuzz.BoolT pathOpen$get() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("path_open"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -68,19 +68,19 @@ public class DrawStateT extends Struct {
     
     /**
      * Change the value of the field {@code path_open}
-     * @param path_open The new value of the field {@code path_open}
+     * @param pathOpen The new value of the field {@code path_open}
      */
-    public void path_open$set(org.harfbuzz.BoolT path_open) {
+    public void pathOpen$set(org.harfbuzz.BoolT pathOpen) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("path_open"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), path_open.getValue().intValue());
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), pathOpen.getValue().intValue());
     }
     
     /**
      * Get the value of the field {@code path_start_x}
      * @return The value of the field {@code path_start_x}
      */
-    public float path_start_x$get() {
+    public float pathStartX$get() {
         var RESULT = (float) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("path_start_x"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -89,19 +89,19 @@ public class DrawStateT extends Struct {
     
     /**
      * Change the value of the field {@code path_start_x}
-     * @param path_start_x The new value of the field {@code path_start_x}
+     * @param pathStartX The new value of the field {@code path_start_x}
      */
-    public void path_start_x$set(float path_start_x) {
+    public void pathStartX$set(float pathStartX) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("path_start_x"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), path_start_x);
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), pathStartX);
     }
     
     /**
      * Get the value of the field {@code path_start_y}
      * @return The value of the field {@code path_start_y}
      */
-    public float path_start_y$get() {
+    public float pathStartY$get() {
         var RESULT = (float) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("path_start_y"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -110,19 +110,19 @@ public class DrawStateT extends Struct {
     
     /**
      * Change the value of the field {@code path_start_y}
-     * @param path_start_y The new value of the field {@code path_start_y}
+     * @param pathStartY The new value of the field {@code path_start_y}
      */
-    public void path_start_y$set(float path_start_y) {
+    public void pathStartY$set(float pathStartY) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("path_start_y"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), path_start_y);
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), pathStartY);
     }
     
     /**
      * Get the value of the field {@code current_x}
      * @return The value of the field {@code current_x}
      */
-    public float current_x$get() {
+    public float currentX$get() {
         var RESULT = (float) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("current_x"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -131,19 +131,19 @@ public class DrawStateT extends Struct {
     
     /**
      * Change the value of the field {@code current_x}
-     * @param current_x The new value of the field {@code current_x}
+     * @param currentX The new value of the field {@code current_x}
      */
-    public void current_x$set(float current_x) {
+    public void currentX$set(float currentX) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("current_x"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), current_x);
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), currentX);
     }
     
     /**
      * Get the value of the field {@code current_y}
      * @return The value of the field {@code current_y}
      */
-    public float current_y$get() {
+    public float currentY$get() {
         var RESULT = (float) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("current_y"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -152,12 +152,12 @@ public class DrawStateT extends Struct {
     
     /**
      * Change the value of the field {@code current_y}
-     * @param current_y The new value of the field {@code current_y}
+     * @param currentY The new value of the field {@code current_y}
      */
-    public void current_y$set(float current_y) {
+    public void currentY$set(float currentY) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("current_y"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), current_y);
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), currentY);
     }
     
     /**
@@ -199,61 +199,61 @@ public class DrawStateT extends Struct {
         
         /**
          * Whether there is an open path
-         * @param path_open The value for the {@code path_open} field
+         * @param pathOpen The value for the {@code pathOpen} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setPathOpen(org.harfbuzz.BoolT path_open) {
+        public Build setPathOpen(org.harfbuzz.BoolT pathOpen) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("path_open"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (path_open == null ? MemoryAddress.NULL : path_open.getValue().intValue()));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (pathOpen == null ? MemoryAddress.NULL : pathOpen.getValue().intValue()));
             return this;
         }
         
         /**
          * X component of the start of current path
-         * @param path_start_x The value for the {@code path_start_x} field
+         * @param pathStartX The value for the {@code pathStartX} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setPathStartX(float path_start_x) {
+        public Build setPathStartX(float pathStartX) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("path_start_x"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), path_start_x);
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), pathStartX);
             return this;
         }
         
         /**
          * Y component of the start of current path
-         * @param path_start_y The value for the {@code path_start_y} field
+         * @param pathStartY The value for the {@code pathStartY} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setPathStartY(float path_start_y) {
+        public Build setPathStartY(float pathStartY) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("path_start_y"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), path_start_y);
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), pathStartY);
             return this;
         }
         
         /**
          * X component of current point
-         * @param current_x The value for the {@code current_x} field
+         * @param currentX The value for the {@code currentX} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setCurrentX(float current_x) {
+        public Build setCurrentX(float currentX) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("current_x"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), current_x);
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), currentX);
             return this;
         }
         
         /**
          * Y component of current point
-         * @param current_y The value for the {@code current_y} field
+         * @param currentY The value for the {@code currentY} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setCurrentY(float current_y) {
+        public Build setCurrentY(float currentY) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("current_y"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), current_y);
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), currentY);
             return this;
         }
         

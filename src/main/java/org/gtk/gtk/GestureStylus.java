@@ -51,11 +51,7 @@ public class GestureStylus extends org.gtk.gtk.GestureSingle {
      * @throws ClassCastException If the GType is not derived from "GtkGestureStylus", a ClassCastException will be thrown.
      */
     public static GestureStylus castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), GestureStylus.getType())) {
             return new GestureStylus(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkGestureStylus");
-        }
     }
     
     private static Addressable constructNew() {

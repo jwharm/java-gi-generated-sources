@@ -34,36 +34,6 @@ public class FilterOutputStream extends org.gtk.gio.OutputStream {
     }
     
     /**
-     * Get the value of the field {@code parent_instance}
-     * @return The value of the field {@code parent_instance}
-     */
-    public org.gtk.gio.OutputStream parent_instance$get() {
-        long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_instance"));
-        return new org.gtk.gio.OutputStream(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
-    }
-    
-    /**
-     * Get the value of the field {@code base_stream}
-     * @return The value of the field {@code base_stream}
-     */
-    public org.gtk.gio.OutputStream base_stream$get() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("base_stream"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new org.gtk.gio.OutputStream(RESULT, Ownership.UNKNOWN);
-    }
-    
-    /**
-     * Change the value of the field {@code base_stream}
-     * @param base_stream The new value of the field {@code base_stream}
-     */
-    public void base_stream$set(org.gtk.gio.OutputStream base_stream) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("base_stream"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), base_stream.handle());
-    }
-    
-    /**
      * Create a FilterOutputStream proxy instance for the provided memory address.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
@@ -86,11 +56,7 @@ public class FilterOutputStream extends org.gtk.gio.OutputStream {
      * @throws ClassCastException If the GType is not derived from "GFilterOutputStream", a ClassCastException will be thrown.
      */
     public static FilterOutputStream castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), FilterOutputStream.getType())) {
             return new FilterOutputStream(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GFilterOutputStream");
-        }
     }
     
     /**

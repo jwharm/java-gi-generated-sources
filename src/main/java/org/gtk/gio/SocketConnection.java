@@ -47,15 +47,6 @@ public class SocketConnection extends org.gtk.gio.IOStream {
     }
     
     /**
-     * Get the value of the field {@code parent_instance}
-     * @return The value of the field {@code parent_instance}
-     */
-    public org.gtk.gio.IOStream parent_instance$get() {
-        long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_instance"));
-        return new org.gtk.gio.IOStream(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
-    }
-    
-    /**
      * Create a SocketConnection proxy instance for the provided memory address.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
@@ -78,11 +69,7 @@ public class SocketConnection extends org.gtk.gio.IOStream {
      * @throws ClassCastException If the GType is not derived from "GSocketConnection", a ClassCastException will be thrown.
      */
     public static SocketConnection castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), SocketConnection.getType())) {
             return new SocketConnection(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GSocketConnection");
-        }
     }
     
     /**

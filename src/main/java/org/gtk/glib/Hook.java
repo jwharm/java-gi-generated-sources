@@ -118,7 +118,7 @@ public class Hook extends Struct {
      * Get the value of the field {@code ref_count}
      * @return The value of the field {@code ref_count}
      */
-    public int ref_count$get() {
+    public int refCount$get() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("ref_count"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -127,19 +127,19 @@ public class Hook extends Struct {
     
     /**
      * Change the value of the field {@code ref_count}
-     * @param ref_count The new value of the field {@code ref_count}
+     * @param refCount The new value of the field {@code ref_count}
      */
-    public void ref_count$set(int ref_count) {
+    public void refCount$set(int refCount) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("ref_count"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), ref_count);
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), refCount);
     }
     
     /**
      * Get the value of the field {@code hook_id}
      * @return The value of the field {@code hook_id}
      */
-    public long hook_id$get() {
+    public long hookId$get() {
         var RESULT = (long) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("hook_id"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -148,12 +148,12 @@ public class Hook extends Struct {
     
     /**
      * Change the value of the field {@code hook_id}
-     * @param hook_id The new value of the field {@code hook_id}
+     * @param hookId The new value of the field {@code hook_id}
      */
-    public void hook_id$set(long hook_id) {
+    public void hookId$set(long hookId) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("hook_id"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), hook_id);
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), hookId);
     }
     
     /**
@@ -737,25 +737,25 @@ public class Hook extends Struct {
         
         /**
          * the reference count of this hook
-         * @param ref_count The value for the {@code ref_count} field
+         * @param refCount The value for the {@code refCount} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setRefCount(int ref_count) {
+        public Build setRefCount(int refCount) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("ref_count"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), ref_count);
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), refCount);
             return this;
         }
         
         /**
          * the id of this hook, which is unique within its list
-         * @param hook_id The value for the {@code hook_id} field
+         * @param hookId The value for the {@code hookId} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setHookId(long hook_id) {
+        public Build setHookId(long hookId) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("hook_id"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), hook_id);
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), hookId);
             return this;
         }
         

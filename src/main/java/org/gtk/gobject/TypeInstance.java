@@ -101,10 +101,10 @@ public class TypeInstance extends Struct {
             return struct;
         }
         
-        public Build setGClass(org.gtk.gobject.TypeClass g_class) {
+        public Build setGClass(org.gtk.gobject.TypeClass gClass) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("g_class"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (g_class == null ? MemoryAddress.NULL : g_class.handle()));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (gClass == null ? MemoryAddress.NULL : gClass.handle()));
             return this;
         }
     }

@@ -59,11 +59,7 @@ public class CellRendererCombo extends org.gtk.gtk.CellRendererText {
      * @throws ClassCastException If the GType is not derived from "GtkCellRendererCombo", a ClassCastException will be thrown.
      */
     public static CellRendererCombo castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), CellRendererCombo.getType())) {
             return new CellRendererCombo(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkCellRendererCombo");
-        }
     }
     
     private static Addressable constructNew() {

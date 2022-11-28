@@ -9,14 +9,14 @@ import org.jetbrains.annotations.*;
  * A {@link Application} is the foundation of an application.  It wraps some
  * low-level platform-specific services and is intended to act as the
  * foundation for higher-level application classes such as
- * {@link org.gtk.gtk.Application} or {@code MxApplication}.  In general, you should not use
+ * {@code GtkApplication} or {@code MxApplication}.  In general, you should not use
  * this class outside of a higher level framework.
  * <p>
  * GApplication provides convenient life cycle management by maintaining
  * a "use count" for the primary application instance. The use count can
  * be changed using g_application_hold() and g_application_release(). If
  * it drops to zero, the application exits. Higher-level classes such as
- * {@link org.gtk.gtk.Application} employ the use count to ensure that the application
+ * {@code GtkApplication} employ the use count to ensure that the application
  * stays alive as long as it has any opened windows.
  * <p>
  * Another feature that GApplication (optionally) provides is process
@@ -108,7 +108,7 @@ import org.jetbrains.annotations.*;
  * The environment is only added to the platform data if the
  * {@link ApplicationFlags#SEND_ENVIRONMENT} flag is set. {@link Application} subclasses
  * can add their own platform data by overriding the {@code add_platform_data}
- * virtual function. For instance, {@link org.gtk.gtk.Application} adds startup notification
+ * virtual function. For instance, {@code GtkApplication} adds startup notification
  * data in this way.
  * <p>
  * To parse commandline arguments you may handle the
@@ -171,11 +171,7 @@ public class Application extends org.gtk.gobject.Object implements org.gtk.gio.A
      * @throws ClassCastException If the GType is not derived from "GApplication", a ClassCastException will be thrown.
      */
     public static Application castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), Application.getType())) {
             return new Application(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GApplication");
-        }
     }
     
     private static Addressable constructNew(@Nullable java.lang.String applicationId, @NotNull org.gtk.gio.ApplicationFlags flags) {
@@ -1049,7 +1045,7 @@ public class Application extends org.gtk.gobject.Object implements org.gtk.gio.A
      * <p>
      * As an example, if the application has an ID of "org.example.app" then
      * the default resource base path will be "/org/example/app".  If this
-     * is a {@link org.gtk.gtk.Application} (and you have not manually changed the path)
+     * is a {@code GtkApplication} (and you have not manually changed the path)
      * then Gtk will then search for the menus of the application at
      * "/org/example/app/gtk/menus.ui".
      * <p>

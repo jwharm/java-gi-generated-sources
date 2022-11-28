@@ -119,11 +119,7 @@ public class ToggleButton extends org.gtk.gtk.Button implements org.gtk.gtk.Acce
      * @throws ClassCastException If the GType is not derived from "GtkToggleButton", a ClassCastException will be thrown.
      */
     public static ToggleButton castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), ToggleButton.getType())) {
             return new ToggleButton(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkToggleButton");
-        }
     }
     
     private static Addressable constructNew() {

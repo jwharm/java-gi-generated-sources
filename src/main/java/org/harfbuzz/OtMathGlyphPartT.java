@@ -74,7 +74,7 @@ public class OtMathGlyphPartT extends Struct {
      * Get the value of the field {@code start_connector_length}
      * @return The value of the field {@code start_connector_length}
      */
-    public org.harfbuzz.PositionT start_connector_length$get() {
+    public org.harfbuzz.PositionT startConnectorLength$get() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("start_connector_length"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -83,19 +83,19 @@ public class OtMathGlyphPartT extends Struct {
     
     /**
      * Change the value of the field {@code start_connector_length}
-     * @param start_connector_length The new value of the field {@code start_connector_length}
+     * @param startConnectorLength The new value of the field {@code start_connector_length}
      */
-    public void start_connector_length$set(org.harfbuzz.PositionT start_connector_length) {
+    public void startConnectorLength$set(org.harfbuzz.PositionT startConnectorLength) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("start_connector_length"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), start_connector_length.getValue().intValue());
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), startConnectorLength.getValue().intValue());
     }
     
     /**
      * Get the value of the field {@code end_connector_length}
      * @return The value of the field {@code end_connector_length}
      */
-    public org.harfbuzz.PositionT end_connector_length$get() {
+    public org.harfbuzz.PositionT endConnectorLength$get() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("end_connector_length"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -104,19 +104,19 @@ public class OtMathGlyphPartT extends Struct {
     
     /**
      * Change the value of the field {@code end_connector_length}
-     * @param end_connector_length The new value of the field {@code end_connector_length}
+     * @param endConnectorLength The new value of the field {@code end_connector_length}
      */
-    public void end_connector_length$set(org.harfbuzz.PositionT end_connector_length) {
+    public void endConnectorLength$set(org.harfbuzz.PositionT endConnectorLength) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("end_connector_length"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), end_connector_length.getValue().intValue());
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), endConnectorLength.getValue().intValue());
     }
     
     /**
      * Get the value of the field {@code full_advance}
      * @return The value of the field {@code full_advance}
      */
-    public org.harfbuzz.PositionT full_advance$get() {
+    public org.harfbuzz.PositionT fullAdvance$get() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("full_advance"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -125,12 +125,12 @@ public class OtMathGlyphPartT extends Struct {
     
     /**
      * Change the value of the field {@code full_advance}
-     * @param full_advance The new value of the field {@code full_advance}
+     * @param fullAdvance The new value of the field {@code full_advance}
      */
-    public void full_advance$set(org.harfbuzz.PositionT full_advance) {
+    public void fullAdvance$set(org.harfbuzz.PositionT fullAdvance) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("full_advance"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), full_advance.getValue().intValue());
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), fullAdvance.getValue().intValue());
     }
     
     /**
@@ -205,37 +205,37 @@ public class OtMathGlyphPartT extends Struct {
         
         /**
          * The length of the connector on the starting side of the variant part
-         * @param start_connector_length The value for the {@code start_connector_length} field
+         * @param startConnectorLength The value for the {@code startConnectorLength} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setStartConnectorLength(org.harfbuzz.PositionT start_connector_length) {
+        public Build setStartConnectorLength(org.harfbuzz.PositionT startConnectorLength) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("start_connector_length"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (start_connector_length == null ? MemoryAddress.NULL : start_connector_length.getValue().intValue()));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (startConnectorLength == null ? MemoryAddress.NULL : startConnectorLength.getValue().intValue()));
             return this;
         }
         
         /**
          * The length of the connector on the ending side of the variant part
-         * @param end_connector_length The value for the {@code end_connector_length} field
+         * @param endConnectorLength The value for the {@code endConnectorLength} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setEndConnectorLength(org.harfbuzz.PositionT end_connector_length) {
+        public Build setEndConnectorLength(org.harfbuzz.PositionT endConnectorLength) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("end_connector_length"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (end_connector_length == null ? MemoryAddress.NULL : end_connector_length.getValue().intValue()));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (endConnectorLength == null ? MemoryAddress.NULL : endConnectorLength.getValue().intValue()));
             return this;
         }
         
         /**
          * The total advance of the part
-         * @param full_advance The value for the {@code full_advance} field
+         * @param fullAdvance The value for the {@code fullAdvance} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setFullAdvance(org.harfbuzz.PositionT full_advance) {
+        public Build setFullAdvance(org.harfbuzz.PositionT fullAdvance) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("full_advance"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (full_advance == null ? MemoryAddress.NULL : full_advance.getValue().intValue()));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (fullAdvance == null ? MemoryAddress.NULL : fullAdvance.getValue().intValue()));
             return this;
         }
         

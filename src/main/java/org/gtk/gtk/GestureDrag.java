@@ -56,11 +56,7 @@ public class GestureDrag extends org.gtk.gtk.GestureSingle {
      * @throws ClassCastException If the GType is not derived from "GtkGestureDrag", a ClassCastException will be thrown.
      */
     public static GestureDrag castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), GestureDrag.getType())) {
             return new GestureDrag(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkGestureDrag");
-        }
     }
     
     private static Addressable constructNew() {

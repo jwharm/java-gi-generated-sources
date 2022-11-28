@@ -82,10 +82,10 @@ public class SocketAddressEnumeratorClass extends Struct {
             return struct;
         }
         
-        public Build setParentClass(org.gtk.gobject.ObjectClass parent_class) {
+        public Build setParentClass(org.gtk.gobject.ObjectClass parentClass) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parent_class == null ? MemoryAddress.NULL : parent_class.handle()));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
             return this;
         }
         
@@ -96,17 +96,17 @@ public class SocketAddressEnumeratorClass extends Struct {
             return this;
         }
         
-        public Build setNextAsync(java.lang.foreign.MemoryAddress next_async) {
+        public Build setNextAsync(java.lang.foreign.MemoryAddress nextAsync) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("next_async"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (next_async == null ? MemoryAddress.NULL : next_async));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (nextAsync == null ? MemoryAddress.NULL : nextAsync));
             return this;
         }
         
-        public Build setNextFinish(java.lang.foreign.MemoryAddress next_finish) {
+        public Build setNextFinish(java.lang.foreign.MemoryAddress nextFinish) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("next_finish"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (next_finish == null ? MemoryAddress.NULL : next_finish));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (nextFinish == null ? MemoryAddress.NULL : nextFinish));
             return this;
         }
     }

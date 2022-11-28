@@ -67,15 +67,6 @@ public class CellRenderer extends org.gtk.gobject.InitiallyUnowned {
     }
     
     /**
-     * Get the value of the field {@code parent_instance}
-     * @return The value of the field {@code parent_instance}
-     */
-    public org.gtk.gobject.InitiallyUnowned parent_instance$get() {
-        long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_instance"));
-        return new org.gtk.gobject.InitiallyUnowned(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
-    }
-    
-    /**
      * Create a CellRenderer proxy instance for the provided memory address.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
@@ -98,11 +89,7 @@ public class CellRenderer extends org.gtk.gobject.InitiallyUnowned {
      * @throws ClassCastException If the GType is not derived from "GtkCellRenderer", a ClassCastException will be thrown.
      */
     public static CellRenderer castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), CellRenderer.getType())) {
             return new CellRenderer(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkCellRenderer");
-        }
     }
     
     /**

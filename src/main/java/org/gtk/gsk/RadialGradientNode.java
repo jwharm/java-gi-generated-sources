@@ -48,11 +48,7 @@ public class RadialGradientNode extends org.gtk.gsk.RenderNode {
      * @throws ClassCastException If the GType is not derived from "GskRadialGradientNode", a ClassCastException will be thrown.
      */
     public static RadialGradientNode castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), RadialGradientNode.getType())) {
             return new RadialGradientNode(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GskRadialGradientNode");
-        }
     }
     
     private static Addressable constructNew(@NotNull org.gtk.graphene.Rect bounds, @NotNull org.gtk.graphene.Point center, float hradius, float vradius, float start, float end, @NotNull org.gtk.gsk.ColorStop[] colorStops, long nColorStops) {

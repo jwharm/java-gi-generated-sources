@@ -32,15 +32,6 @@ public class DataOutputStream extends org.gtk.gio.FilterOutputStream implements 
     }
     
     /**
-     * Get the value of the field {@code parent_instance}
-     * @return The value of the field {@code parent_instance}
-     */
-    public org.gtk.gio.FilterOutputStream parent_instance$get() {
-        long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_instance"));
-        return new org.gtk.gio.FilterOutputStream(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
-    }
-    
-    /**
      * Create a DataOutputStream proxy instance for the provided memory address.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
@@ -63,11 +54,7 @@ public class DataOutputStream extends org.gtk.gio.FilterOutputStream implements 
      * @throws ClassCastException If the GType is not derived from "GDataOutputStream", a ClassCastException will be thrown.
      */
     public static DataOutputStream castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), DataOutputStream.getType())) {
             return new DataOutputStream(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GDataOutputStream");
-        }
     }
     
     private static Addressable constructNew(@NotNull org.gtk.gio.OutputStream baseStream) {

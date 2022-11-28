@@ -47,7 +47,7 @@ public class TypeFundamentalInfo extends Struct {
      * Get the value of the field {@code type_flags}
      * @return The value of the field {@code type_flags}
      */
-    public org.gtk.gobject.TypeFundamentalFlags type_flags$get() {
+    public org.gtk.gobject.TypeFundamentalFlags typeFlags$get() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("type_flags"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -56,12 +56,12 @@ public class TypeFundamentalInfo extends Struct {
     
     /**
      * Change the value of the field {@code type_flags}
-     * @param type_flags The new value of the field {@code type_flags}
+     * @param typeFlags The new value of the field {@code type_flags}
      */
-    public void type_flags$set(org.gtk.gobject.TypeFundamentalFlags type_flags) {
+    public void typeFlags$set(org.gtk.gobject.TypeFundamentalFlags typeFlags) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("type_flags"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), type_flags.getValue());
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), typeFlags.getValue());
     }
     
     /**
@@ -103,13 +103,13 @@ public class TypeFundamentalInfo extends Struct {
         
         /**
          * {@link TypeFundamentalFlags} describing the characteristics of the fundamental type
-         * @param type_flags The value for the {@code type_flags} field
+         * @param typeFlags The value for the {@code typeFlags} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setTypeFlags(org.gtk.gobject.TypeFundamentalFlags type_flags) {
+        public Build setTypeFlags(org.gtk.gobject.TypeFundamentalFlags typeFlags) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("type_flags"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (type_flags == null ? MemoryAddress.NULL : type_flags.getValue()));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (typeFlags == null ? MemoryAddress.NULL : typeFlags.getValue()));
             return this;
         }
     }

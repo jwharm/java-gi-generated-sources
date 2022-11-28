@@ -99,31 +99,31 @@ public class IMContextClass extends Struct {
             return struct;
         }
         
-        public Build setParentClass(org.gtk.gobject.ObjectClass parent_class) {
+        public Build setParentClass(org.gtk.gobject.ObjectClass parentClass) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parent_class == null ? MemoryAddress.NULL : parent_class.handle()));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
             return this;
         }
         
-        public Build setPreeditStart(java.lang.foreign.MemoryAddress preedit_start) {
+        public Build setPreeditStart(java.lang.foreign.MemoryAddress preeditStart) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("preedit_start"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (preedit_start == null ? MemoryAddress.NULL : preedit_start));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (preeditStart == null ? MemoryAddress.NULL : preeditStart));
             return this;
         }
         
-        public Build setPreeditEnd(java.lang.foreign.MemoryAddress preedit_end) {
+        public Build setPreeditEnd(java.lang.foreign.MemoryAddress preeditEnd) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("preedit_end"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (preedit_end == null ? MemoryAddress.NULL : preedit_end));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (preeditEnd == null ? MemoryAddress.NULL : preeditEnd));
             return this;
         }
         
-        public Build setPreeditChanged(java.lang.foreign.MemoryAddress preedit_changed) {
+        public Build setPreeditChanged(java.lang.foreign.MemoryAddress preeditChanged) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("preedit_changed"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (preedit_changed == null ? MemoryAddress.NULL : preedit_changed));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (preeditChanged == null ? MemoryAddress.NULL : preeditChanged));
             return this;
         }
         
@@ -134,52 +134,52 @@ public class IMContextClass extends Struct {
             return this;
         }
         
-        public Build setRetrieveSurrounding(java.lang.foreign.MemoryAddress retrieve_surrounding) {
+        public Build setRetrieveSurrounding(java.lang.foreign.MemoryAddress retrieveSurrounding) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("retrieve_surrounding"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (retrieve_surrounding == null ? MemoryAddress.NULL : retrieve_surrounding));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (retrieveSurrounding == null ? MemoryAddress.NULL : retrieveSurrounding));
             return this;
         }
         
-        public Build setDeleteSurrounding(java.lang.foreign.MemoryAddress delete_surrounding) {
+        public Build setDeleteSurrounding(java.lang.foreign.MemoryAddress deleteSurrounding) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("delete_surrounding"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (delete_surrounding == null ? MemoryAddress.NULL : delete_surrounding));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (deleteSurrounding == null ? MemoryAddress.NULL : deleteSurrounding));
             return this;
         }
         
-        public Build setSetClientWidget(java.lang.foreign.MemoryAddress set_client_widget) {
+        public Build setSetClientWidget(java.lang.foreign.MemoryAddress setClientWidget) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("set_client_widget"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (set_client_widget == null ? MemoryAddress.NULL : set_client_widget));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (setClientWidget == null ? MemoryAddress.NULL : setClientWidget));
             return this;
         }
         
-        public Build setGetPreeditString(java.lang.foreign.MemoryAddress get_preedit_string) {
+        public Build setGetPreeditString(java.lang.foreign.MemoryAddress getPreeditString) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("get_preedit_string"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (get_preedit_string == null ? MemoryAddress.NULL : get_preedit_string));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getPreeditString == null ? MemoryAddress.NULL : getPreeditString));
             return this;
         }
         
-        public Build setFilterKeypress(java.lang.foreign.MemoryAddress filter_keypress) {
+        public Build setFilterKeypress(java.lang.foreign.MemoryAddress filterKeypress) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("filter_keypress"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (filter_keypress == null ? MemoryAddress.NULL : filter_keypress));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (filterKeypress == null ? MemoryAddress.NULL : filterKeypress));
             return this;
         }
         
-        public Build setFocusIn(java.lang.foreign.MemoryAddress focus_in) {
+        public Build setFocusIn(java.lang.foreign.MemoryAddress focusIn) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("focus_in"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (focus_in == null ? MemoryAddress.NULL : focus_in));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (focusIn == null ? MemoryAddress.NULL : focusIn));
             return this;
         }
         
-        public Build setFocusOut(java.lang.foreign.MemoryAddress focus_out) {
+        public Build setFocusOut(java.lang.foreign.MemoryAddress focusOut) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("focus_out"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (focus_out == null ? MemoryAddress.NULL : focus_out));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (focusOut == null ? MemoryAddress.NULL : focusOut));
             return this;
         }
         
@@ -190,80 +190,80 @@ public class IMContextClass extends Struct {
             return this;
         }
         
-        public Build setSetCursorLocation(java.lang.foreign.MemoryAddress set_cursor_location) {
+        public Build setSetCursorLocation(java.lang.foreign.MemoryAddress setCursorLocation) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("set_cursor_location"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (set_cursor_location == null ? MemoryAddress.NULL : set_cursor_location));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (setCursorLocation == null ? MemoryAddress.NULL : setCursorLocation));
             return this;
         }
         
-        public Build setSetUsePreedit(java.lang.foreign.MemoryAddress set_use_preedit) {
+        public Build setSetUsePreedit(java.lang.foreign.MemoryAddress setUsePreedit) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("set_use_preedit"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (set_use_preedit == null ? MemoryAddress.NULL : set_use_preedit));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (setUsePreedit == null ? MemoryAddress.NULL : setUsePreedit));
             return this;
         }
         
-        public Build setSetSurrounding(java.lang.foreign.MemoryAddress set_surrounding) {
+        public Build setSetSurrounding(java.lang.foreign.MemoryAddress setSurrounding) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("set_surrounding"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (set_surrounding == null ? MemoryAddress.NULL : set_surrounding));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (setSurrounding == null ? MemoryAddress.NULL : setSurrounding));
             return this;
         }
         
-        public Build setGetSurrounding(java.lang.foreign.MemoryAddress get_surrounding) {
+        public Build setGetSurrounding(java.lang.foreign.MemoryAddress getSurrounding) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("get_surrounding"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (get_surrounding == null ? MemoryAddress.NULL : get_surrounding));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getSurrounding == null ? MemoryAddress.NULL : getSurrounding));
             return this;
         }
         
-        public Build setSetSurroundingWithSelection(java.lang.foreign.MemoryAddress set_surrounding_with_selection) {
+        public Build setSetSurroundingWithSelection(java.lang.foreign.MemoryAddress setSurroundingWithSelection) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("set_surrounding_with_selection"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (set_surrounding_with_selection == null ? MemoryAddress.NULL : set_surrounding_with_selection));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (setSurroundingWithSelection == null ? MemoryAddress.NULL : setSurroundingWithSelection));
             return this;
         }
         
-        public Build setGetSurroundingWithSelection(java.lang.foreign.MemoryAddress get_surrounding_with_selection) {
+        public Build setGetSurroundingWithSelection(java.lang.foreign.MemoryAddress getSurroundingWithSelection) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("get_surrounding_with_selection"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (get_surrounding_with_selection == null ? MemoryAddress.NULL : get_surrounding_with_selection));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getSurroundingWithSelection == null ? MemoryAddress.NULL : getSurroundingWithSelection));
             return this;
         }
         
-        public Build setGtkReserved1(java.lang.foreign.MemoryAddress _gtk_reserved1) {
+        public Build setGtkReserved1(java.lang.foreign.MemoryAddress GtkReserved1) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("_gtk_reserved1"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (_gtk_reserved1 == null ? MemoryAddress.NULL : _gtk_reserved1));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (GtkReserved1 == null ? MemoryAddress.NULL : GtkReserved1));
             return this;
         }
         
-        public Build setGtkReserved2(java.lang.foreign.MemoryAddress _gtk_reserved2) {
+        public Build setGtkReserved2(java.lang.foreign.MemoryAddress GtkReserved2) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("_gtk_reserved2"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (_gtk_reserved2 == null ? MemoryAddress.NULL : _gtk_reserved2));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (GtkReserved2 == null ? MemoryAddress.NULL : GtkReserved2));
             return this;
         }
         
-        public Build setGtkReserved3(java.lang.foreign.MemoryAddress _gtk_reserved3) {
+        public Build setGtkReserved3(java.lang.foreign.MemoryAddress GtkReserved3) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("_gtk_reserved3"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (_gtk_reserved3 == null ? MemoryAddress.NULL : _gtk_reserved3));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (GtkReserved3 == null ? MemoryAddress.NULL : GtkReserved3));
             return this;
         }
         
-        public Build setGtkReserved4(java.lang.foreign.MemoryAddress _gtk_reserved4) {
+        public Build setGtkReserved4(java.lang.foreign.MemoryAddress GtkReserved4) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("_gtk_reserved4"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (_gtk_reserved4 == null ? MemoryAddress.NULL : _gtk_reserved4));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (GtkReserved4 == null ? MemoryAddress.NULL : GtkReserved4));
             return this;
         }
         
-        public Build setGtkReserved5(java.lang.foreign.MemoryAddress _gtk_reserved5) {
+        public Build setGtkReserved5(java.lang.foreign.MemoryAddress GtkReserved5) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("_gtk_reserved5"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (_gtk_reserved5 == null ? MemoryAddress.NULL : _gtk_reserved5));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (GtkReserved5 == null ? MemoryAddress.NULL : GtkReserved5));
             return this;
         }
     }

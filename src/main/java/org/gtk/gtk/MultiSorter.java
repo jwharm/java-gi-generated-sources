@@ -52,11 +52,7 @@ public class MultiSorter extends org.gtk.gtk.Sorter implements org.gtk.gio.ListM
      * @throws ClassCastException If the GType is not derived from "GtkMultiSorter", a ClassCastException will be thrown.
      */
     public static MultiSorter castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), MultiSorter.getType())) {
             return new MultiSorter(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkMultiSorter");
-        }
     }
     
     private static Addressable constructNew() {

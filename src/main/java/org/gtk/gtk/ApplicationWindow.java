@@ -98,15 +98,6 @@ public class ApplicationWindow extends org.gtk.gtk.Window implements org.gtk.gio
     }
     
     /**
-     * Get the value of the field {@code parent_instance}
-     * @return The value of the field {@code parent_instance}
-     */
-    public org.gtk.gtk.Window parent_instance$get() {
-        long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_instance"));
-        return new org.gtk.gtk.Window(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
-    }
-    
-    /**
      * Create a ApplicationWindow proxy instance for the provided memory address.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
@@ -129,11 +120,7 @@ public class ApplicationWindow extends org.gtk.gtk.Window implements org.gtk.gio
      * @throws ClassCastException If the GType is not derived from "GtkApplicationWindow", a ClassCastException will be thrown.
      */
     public static ApplicationWindow castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), ApplicationWindow.getType())) {
             return new ApplicationWindow(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkApplicationWindow");
-        }
     }
     
     private static Addressable constructNew(@NotNull org.gtk.gtk.Application application) {

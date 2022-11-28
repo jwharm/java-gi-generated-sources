@@ -79,7 +79,7 @@ import org.jetbrains.annotations.*;
  * identifies an action in an action group. Which action group(s) provide
  * actions depends on the context in which the menu model is used.
  * E.g. when the model is exported as the application menu of a
- * {@link org.gtk.gtk.Application}, actions can be application-wide or window-specific
+ * {@code GtkApplication}, actions can be application-wide or window-specific
  * (and thus come from two different action groups). By convention, the
  * application-wide actions have names that start with "app.", while the
  * names of window-specific actions start with "win.".
@@ -142,15 +142,6 @@ public class MenuModel extends org.gtk.gobject.Object {
     }
     
     /**
-     * Get the value of the field {@code parent_instance}
-     * @return The value of the field {@code parent_instance}
-     */
-    public org.gtk.gobject.Object parent_instance$get() {
-        long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_instance"));
-        return new org.gtk.gobject.Object(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
-    }
-    
-    /**
      * Create a MenuModel proxy instance for the provided memory address.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
@@ -173,11 +164,7 @@ public class MenuModel extends org.gtk.gobject.Object {
      * @throws ClassCastException If the GType is not derived from "GMenuModel", a ClassCastException will be thrown.
      */
     public static MenuModel castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), MenuModel.getType())) {
             return new MenuModel(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GMenuModel");
-        }
     }
     
     /**

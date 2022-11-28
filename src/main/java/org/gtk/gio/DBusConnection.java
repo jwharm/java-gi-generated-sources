@@ -93,11 +93,7 @@ public class DBusConnection extends org.gtk.gobject.Object implements org.gtk.gi
      * @throws ClassCastException If the GType is not derived from "GDBusConnection", a ClassCastException will be thrown.
      */
     public static DBusConnection castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), DBusConnection.getType())) {
             return new DBusConnection(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GDBusConnection");
-        }
     }
     
     private static Addressable constructNewFinish(@NotNull org.gtk.gio.AsyncResult res) throws GErrorException {
@@ -591,15 +587,16 @@ public class DBusConnection extends org.gtk.gobject.Object implements org.gtk.gi
      *     {@link org.gtk.glib.Variant} tuple with return values. Free with g_variant_unref().
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public @NotNull org.gtk.glib.Variant callWithUnixFdListFinish(@NotNull PointerProxy<org.gtk.gio.UnixFDList> outFdList, @NotNull org.gtk.gio.AsyncResult res) throws io.github.jwharm.javagi.GErrorException {
+    public @NotNull org.gtk.glib.Variant callWithUnixFdListFinish(@NotNull Out<org.gtk.gio.UnixFDList> outFdList, @NotNull org.gtk.gio.AsyncResult res) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(outFdList, "Parameter 'outFdList' must not be null");
+        MemorySegment outFdListPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_dbus_connection_call_with_unix_fd_list_finish.invokeExact(
                     handle(),
-                    outFdList.handle(),
+                    (Addressable) outFdListPOINTER.address(),
                     res.handle(),
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
@@ -608,6 +605,7 @@ public class DBusConnection extends org.gtk.gobject.Object implements org.gtk.gi
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
+        outFdList.set(new org.gtk.gio.UnixFDList(outFdListPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
         return new org.gtk.glib.Variant(RESULT, Ownership.FULL);
     }
     
@@ -635,12 +633,13 @@ public class DBusConnection extends org.gtk.gobject.Object implements org.gtk.gi
      *     {@link org.gtk.glib.Variant} tuple with return values. Free with g_variant_unref().
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public @NotNull org.gtk.glib.Variant callWithUnixFdListSync(@Nullable java.lang.String busName, @NotNull java.lang.String objectPath, @NotNull java.lang.String interfaceName, @NotNull java.lang.String methodName, @Nullable org.gtk.glib.Variant parameters, @Nullable org.gtk.glib.VariantType replyType, @NotNull org.gtk.gio.DBusCallFlags flags, int timeoutMsec, @Nullable org.gtk.gio.UnixFDList fdList, @NotNull PointerProxy<org.gtk.gio.UnixFDList> outFdList, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+    public @NotNull org.gtk.glib.Variant callWithUnixFdListSync(@Nullable java.lang.String busName, @NotNull java.lang.String objectPath, @NotNull java.lang.String interfaceName, @NotNull java.lang.String methodName, @Nullable org.gtk.glib.Variant parameters, @Nullable org.gtk.glib.VariantType replyType, @NotNull org.gtk.gio.DBusCallFlags flags, int timeoutMsec, @Nullable org.gtk.gio.UnixFDList fdList, @NotNull Out<org.gtk.gio.UnixFDList> outFdList, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(objectPath, "Parameter 'objectPath' must not be null");
         java.util.Objects.requireNonNull(interfaceName, "Parameter 'interfaceName' must not be null");
         java.util.Objects.requireNonNull(methodName, "Parameter 'methodName' must not be null");
         java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
         java.util.Objects.requireNonNull(outFdList, "Parameter 'outFdList' must not be null");
+        MemorySegment outFdListPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
@@ -655,7 +654,7 @@ public class DBusConnection extends org.gtk.gobject.Object implements org.gtk.gi
                     flags.getValue(),
                     timeoutMsec,
                     (Addressable) (fdList == null ? MemoryAddress.NULL : fdList.handle()),
-                    outFdList.handle(),
+                    (Addressable) outFdListPOINTER.address(),
                     (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
@@ -664,6 +663,7 @@ public class DBusConnection extends org.gtk.gobject.Object implements org.gtk.gi
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
+        outFdList.set(new org.gtk.gio.UnixFDList(outFdListPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
         return new org.gtk.glib.Variant(RESULT, Ownership.FULL);
     }
     

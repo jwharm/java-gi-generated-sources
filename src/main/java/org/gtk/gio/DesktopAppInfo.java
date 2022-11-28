@@ -53,11 +53,7 @@ public class DesktopAppInfo extends org.gtk.gobject.Object implements org.gtk.gi
      * @throws ClassCastException If the GType is not derived from "GDesktopAppInfo", a ClassCastException will be thrown.
      */
     public static DesktopAppInfo castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), DesktopAppInfo.getType())) {
             return new DesktopAppInfo(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GDesktopAppInfo");
-        }
     }
     
     private static Addressable constructNew(@NotNull java.lang.String desktopId) {

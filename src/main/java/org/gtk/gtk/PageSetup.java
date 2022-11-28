@@ -87,11 +87,7 @@ public class PageSetup extends org.gtk.gobject.Object {
      * @throws ClassCastException If the GType is not derived from "GtkPageSetup", a ClassCastException will be thrown.
      */
     public static PageSetup castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), PageSetup.getType())) {
             return new PageSetup(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkPageSetup");
-        }
     }
     
     private static Addressable constructNew() {

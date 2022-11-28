@@ -32,57 +32,6 @@ public class ParamSpecValueArray extends org.gtk.gobject.ParamSpec {
     }
     
     /**
-     * Get the value of the field {@code parent_instance}
-     * @return The value of the field {@code parent_instance}
-     */
-    public org.gtk.gobject.ParamSpec parent_instance$get() {
-        long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_instance"));
-        return new org.gtk.gobject.ParamSpec(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
-    }
-    
-    /**
-     * Get the value of the field {@code element_spec}
-     * @return The value of the field {@code element_spec}
-     */
-    public org.gtk.gobject.ParamSpec element_spec$get() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("element_spec"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new org.gtk.gobject.ParamSpec(RESULT, Ownership.UNKNOWN);
-    }
-    
-    /**
-     * Change the value of the field {@code element_spec}
-     * @param element_spec The new value of the field {@code element_spec}
-     */
-    public void element_spec$set(org.gtk.gobject.ParamSpec element_spec) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("element_spec"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), element_spec.handle());
-    }
-    
-    /**
-     * Get the value of the field {@code fixed_n_elements}
-     * @return The value of the field {@code fixed_n_elements}
-     */
-    public int fixed_n_elements$get() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("fixed_n_elements"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
-    }
-    
-    /**
-     * Change the value of the field {@code fixed_n_elements}
-     * @param fixed_n_elements The new value of the field {@code fixed_n_elements}
-     */
-    public void fixed_n_elements$set(int fixed_n_elements) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("fixed_n_elements"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), fixed_n_elements);
-    }
-    
-    /**
      * Create a ParamSpecValueArray proxy instance for the provided memory address.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
@@ -105,11 +54,7 @@ public class ParamSpecValueArray extends org.gtk.gobject.ParamSpec {
      * @throws ClassCastException If the GType is not derived from "GParamSpecValueArray", a ClassCastException will be thrown.
      */
     public static ParamSpecValueArray castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), ParamSpecValueArray.getType())) {
             return new ParamSpecValueArray(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GParamSpecValueArray");
-        }
     }
     
     /**

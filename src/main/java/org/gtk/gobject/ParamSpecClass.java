@@ -55,7 +55,7 @@ public class ParamSpecClass extends Struct {
      * Get the value of the field {@code g_type_class}
      * @return The value of the field {@code g_type_class}
      */
-    public org.gtk.gobject.TypeClass g_type_class$get() {
+    public org.gtk.gobject.TypeClass gTypeClass$get() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("g_type_class"));
         return new org.gtk.gobject.TypeClass(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
     }
@@ -64,7 +64,7 @@ public class ParamSpecClass extends Struct {
      * Get the value of the field {@code value_type}
      * @return The value of the field {@code value_type}
      */
-    public org.gtk.glib.Type value_type$get() {
+    public org.gtk.glib.Type valueType$get() {
         var RESULT = (long) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("value_type"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -73,12 +73,12 @@ public class ParamSpecClass extends Struct {
     
     /**
      * Change the value of the field {@code value_type}
-     * @param value_type The new value of the field {@code value_type}
+     * @param valueType The new value of the field {@code value_type}
      */
-    public void value_type$set(org.gtk.glib.Type value_type) {
+    public void valueType$set(org.gtk.glib.Type valueType) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("value_type"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), value_type.getValue().longValue());
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), valueType.getValue().longValue());
     }
     
     /**
@@ -120,25 +120,25 @@ public class ParamSpecClass extends Struct {
         
         /**
          * the parent class
-         * @param g_type_class The value for the {@code g_type_class} field
+         * @param gTypeClass The value for the {@code gTypeClass} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setGTypeClass(org.gtk.gobject.TypeClass g_type_class) {
+        public Build setGTypeClass(org.gtk.gobject.TypeClass gTypeClass) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("g_type_class"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (g_type_class == null ? MemoryAddress.NULL : g_type_class.handle()));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (gTypeClass == null ? MemoryAddress.NULL : gTypeClass.handle()));
             return this;
         }
         
         /**
          * the {@link Value} type for this parameter
-         * @param value_type The value for the {@code value_type} field
+         * @param valueType The value for the {@code valueType} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setValueType(org.gtk.glib.Type value_type) {
+        public Build setValueType(org.gtk.glib.Type valueType) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("value_type"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (value_type == null ? MemoryAddress.NULL : value_type.getValue().longValue()));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (valueType == null ? MemoryAddress.NULL : valueType.getValue().longValue()));
             return this;
         }
         
@@ -149,31 +149,31 @@ public class ParamSpecClass extends Struct {
             return this;
         }
         
-        public Build setValueSetDefault(java.lang.foreign.MemoryAddress value_set_default) {
+        public Build setValueSetDefault(java.lang.foreign.MemoryAddress valueSetDefault) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("value_set_default"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (value_set_default == null ? MemoryAddress.NULL : value_set_default));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (valueSetDefault == null ? MemoryAddress.NULL : valueSetDefault));
             return this;
         }
         
-        public Build setValueValidate(java.lang.foreign.MemoryAddress value_validate) {
+        public Build setValueValidate(java.lang.foreign.MemoryAddress valueValidate) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("value_validate"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (value_validate == null ? MemoryAddress.NULL : value_validate));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (valueValidate == null ? MemoryAddress.NULL : valueValidate));
             return this;
         }
         
-        public Build setValuesCmp(java.lang.foreign.MemoryAddress values_cmp) {
+        public Build setValuesCmp(java.lang.foreign.MemoryAddress valuesCmp) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("values_cmp"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (values_cmp == null ? MemoryAddress.NULL : values_cmp));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (valuesCmp == null ? MemoryAddress.NULL : valuesCmp));
             return this;
         }
         
-        public Build setValueIsValid(java.lang.foreign.MemoryAddress value_is_valid) {
+        public Build setValueIsValid(java.lang.foreign.MemoryAddress valueIsValid) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("value_is_valid"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (value_is_valid == null ? MemoryAddress.NULL : value_is_valid));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (valueIsValid == null ? MemoryAddress.NULL : valueIsValid));
             return this;
         }
         

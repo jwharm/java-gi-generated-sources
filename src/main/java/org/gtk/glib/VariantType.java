@@ -59,8 +59,8 @@ import org.jetbrains.annotations.*;
  * directly exist in other type systems, but instances of their
  * non-abstract subtypes may.  For example, in GTK, no object that has
  * the type of {@code GtkBin} can exist (since {@code GtkBin} is an abstract class),
- * but a {@link org.gtk.gtk.Window} can certainly be instantiated, and you would say
- * that the {@link org.gtk.gtk.Window} is a {@code GtkBin} (since {@link org.gtk.gtk.Window} is a subclass of
+ * but a {@code GtkWindow} can certainly be instantiated, and you would say
+ * that the {@code GtkWindow} is a {@code GtkBin} (since {@code GtkWindow} is a subclass of
  * {@code GtkBin}).
  * <p>
  * <strong>GVariant Type Strings</strong><br/>

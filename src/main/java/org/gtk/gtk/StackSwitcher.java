@@ -77,11 +77,7 @@ public class StackSwitcher extends org.gtk.gtk.Widget implements org.gtk.gtk.Acc
      * @throws ClassCastException If the GType is not derived from "GtkStackSwitcher", a ClassCastException will be thrown.
      */
     public static StackSwitcher castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), StackSwitcher.getType())) {
             return new StackSwitcher(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkStackSwitcher");
-        }
     }
     
     private static Addressable constructNew() {

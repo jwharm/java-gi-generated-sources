@@ -51,11 +51,7 @@ public class MnemonicTrigger extends org.gtk.gtk.ShortcutTrigger {
      * @throws ClassCastException If the GType is not derived from "GtkMnemonicTrigger", a ClassCastException will be thrown.
      */
     public static MnemonicTrigger castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), MnemonicTrigger.getType())) {
             return new MnemonicTrigger(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkMnemonicTrigger");
-        }
     }
     
     private static Addressable constructNew(int keyval) {

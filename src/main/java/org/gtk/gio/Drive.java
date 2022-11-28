@@ -48,11 +48,7 @@ public interface Drive extends io.github.jwharm.javagi.Proxy {
      * @throws ClassCastException If the GType is not derived from "GDrive", a ClassCastException will be thrown.
      */
     public static Drive castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), Drive.getType())) {
             return new DriveImpl(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GDrive");
-        }
     }
     
     /**

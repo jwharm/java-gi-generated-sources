@@ -84,11 +84,7 @@ public class Layout extends org.gtk.gobject.Object {
      * @throws ClassCastException If the GType is not derived from "PangoLayout", a ClassCastException will be thrown.
      */
     public static Layout castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), Layout.getType())) {
             return new Layout(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of PangoLayout");
-        }
     }
     
     private static Addressable constructNew(@NotNull org.pango.Context context) {

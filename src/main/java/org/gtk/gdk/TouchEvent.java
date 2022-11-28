@@ -48,11 +48,7 @@ public class TouchEvent extends org.gtk.gdk.Event {
      * @throws ClassCastException If the GType is not derived from "GdkTouchEvent", a ClassCastException will be thrown.
      */
     public static TouchEvent castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), TouchEvent.getType())) {
             return new TouchEvent(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GdkTouchEvent");
-        }
     }
     
     /**

@@ -39,15 +39,6 @@ public class PreferencesRow extends org.gtk.gtk.ListBoxRow implements org.gtk.gt
     }
     
     /**
-     * Get the value of the field {@code parent_instance}
-     * @return The value of the field {@code parent_instance}
-     */
-    public org.gtk.gtk.ListBoxRow parent_instance$get() {
-        long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_instance"));
-        return new org.gtk.gtk.ListBoxRow(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
-    }
-    
-    /**
      * Create a PreferencesRow proxy instance for the provided memory address.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
@@ -70,11 +61,7 @@ public class PreferencesRow extends org.gtk.gtk.ListBoxRow implements org.gtk.gt
      * @throws ClassCastException If the GType is not derived from "AdwPreferencesRow", a ClassCastException will be thrown.
      */
     public static PreferencesRow castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), PreferencesRow.getType())) {
             return new PreferencesRow(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of AdwPreferencesRow");
-        }
     }
     
     private static Addressable constructNew() {

@@ -49,7 +49,7 @@ public class SignalInvocationHint extends Struct {
      * Get the value of the field {@code signal_id}
      * @return The value of the field {@code signal_id}
      */
-    public int signal_id$get() {
+    public int signalId$get() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("signal_id"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -58,12 +58,12 @@ public class SignalInvocationHint extends Struct {
     
     /**
      * Change the value of the field {@code signal_id}
-     * @param signal_id The new value of the field {@code signal_id}
+     * @param signalId The new value of the field {@code signal_id}
      */
-    public void signal_id$set(int signal_id) {
+    public void signalId$set(int signalId) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("signal_id"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), signal_id);
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), signalId);
     }
     
     /**
@@ -91,7 +91,7 @@ public class SignalInvocationHint extends Struct {
      * Get the value of the field {@code run_type}
      * @return The value of the field {@code run_type}
      */
-    public org.gtk.gobject.SignalFlags run_type$get() {
+    public org.gtk.gobject.SignalFlags runType$get() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("run_type"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -100,12 +100,12 @@ public class SignalInvocationHint extends Struct {
     
     /**
      * Change the value of the field {@code run_type}
-     * @param run_type The new value of the field {@code run_type}
+     * @param runType The new value of the field {@code run_type}
      */
-    public void run_type$set(org.gtk.gobject.SignalFlags run_type) {
+    public void runType$set(org.gtk.gobject.SignalFlags runType) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("run_type"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), run_type.getValue());
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), runType.getValue());
     }
     
     /**
@@ -147,13 +147,13 @@ public class SignalInvocationHint extends Struct {
         
         /**
          * The signal id of the signal invoking the callback
-         * @param signal_id The value for the {@code signal_id} field
+         * @param signalId The value for the {@code signalId} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setSignalId(int signal_id) {
+        public Build setSignalId(int signalId) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("signal_id"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), signal_id);
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), signalId);
             return this;
         }
         
@@ -175,13 +175,13 @@ public class SignalInvocationHint extends Struct {
          *  {@link SignalFlags#RUN_LAST} or {@link SignalFlags#RUN_CLEANUP} and {@link SignalFlags#ACCUMULATOR_FIRST_RUN}.
          *  {@link SignalFlags#ACCUMULATOR_FIRST_RUN} is only set for the first run of the accumulator
          *  function for a signal emission.
-         * @param run_type The value for the {@code run_type} field
+         * @param runType The value for the {@code runType} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setRunType(org.gtk.gobject.SignalFlags run_type) {
+        public Build setRunType(org.gtk.gobject.SignalFlags runType) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("run_type"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (run_type == null ? MemoryAddress.NULL : run_type.getValue()));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (runType == null ? MemoryAddress.NULL : runType.getValue()));
             return this;
         }
     }

@@ -60,11 +60,7 @@ public class FontChooserDialog extends org.gtk.gtk.Dialog implements org.gtk.gtk
      * @throws ClassCastException If the GType is not derived from "GtkFontChooserDialog", a ClassCastException will be thrown.
      */
     public static FontChooserDialog castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), FontChooserDialog.getType())) {
             return new FontChooserDialog(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkFontChooserDialog");
-        }
     }
     
     private static Addressable constructNew(@Nullable java.lang.String title, @Nullable org.gtk.gtk.Window parent) {

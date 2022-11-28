@@ -85,31 +85,31 @@ public class ApplicationCommandLineClass extends Struct {
             return struct;
         }
         
-        public Build setParentClass(org.gtk.gobject.ObjectClass parent_class) {
+        public Build setParentClass(org.gtk.gobject.ObjectClass parentClass) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parent_class == null ? MemoryAddress.NULL : parent_class.handle()));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
             return this;
         }
         
-        public Build setPrintLiteral(java.lang.foreign.MemoryAddress print_literal) {
+        public Build setPrintLiteral(java.lang.foreign.MemoryAddress printLiteral) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("print_literal"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (print_literal == null ? MemoryAddress.NULL : print_literal));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (printLiteral == null ? MemoryAddress.NULL : printLiteral));
             return this;
         }
         
-        public Build setPrinterrLiteral(java.lang.foreign.MemoryAddress printerr_literal) {
+        public Build setPrinterrLiteral(java.lang.foreign.MemoryAddress printerrLiteral) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("printerr_literal"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (printerr_literal == null ? MemoryAddress.NULL : printerr_literal));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (printerrLiteral == null ? MemoryAddress.NULL : printerrLiteral));
             return this;
         }
         
-        public Build setGetStdin(java.lang.foreign.MemoryAddress get_stdin) {
+        public Build setGetStdin(java.lang.foreign.MemoryAddress getStdin) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("get_stdin"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (get_stdin == null ? MemoryAddress.NULL : get_stdin));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getStdin == null ? MemoryAddress.NULL : getStdin));
             return this;
         }
         

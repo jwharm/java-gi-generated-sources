@@ -88,11 +88,7 @@ public class SearchBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
      * @throws ClassCastException If the GType is not derived from "GtkSearchBar", a ClassCastException will be thrown.
      */
     public static SearchBar castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), SearchBar.getType())) {
             return new SearchBar(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkSearchBar");
-        }
     }
     
     private static Addressable constructNew() {

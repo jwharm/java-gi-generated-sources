@@ -83,10 +83,10 @@ public class GLAreaClass extends Struct {
             return struct;
         }
         
-        public Build setParentClass(org.gtk.gtk.WidgetClass parent_class) {
+        public Build setParentClass(org.gtk.gtk.WidgetClass parentClass) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parent_class == null ? MemoryAddress.NULL : parent_class.handle()));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
             return this;
         }
         
@@ -104,17 +104,17 @@ public class GLAreaClass extends Struct {
             return this;
         }
         
-        public Build setCreateContext(java.lang.foreign.MemoryAddress create_context) {
+        public Build setCreateContext(java.lang.foreign.MemoryAddress createContext) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("create_context"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (create_context == null ? MemoryAddress.NULL : create_context));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (createContext == null ? MemoryAddress.NULL : createContext));
             return this;
         }
         
-        public Build setPadding(java.lang.foreign.MemoryAddress[] _padding) {
+        public Build setPadding(java.lang.foreign.MemoryAddress[] Padding) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("_padding"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (_padding == null ? MemoryAddress.NULL : Interop.allocateNativeArray(_padding, false)));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (Padding == null ? MemoryAddress.NULL : Interop.allocateNativeArray(Padding, false)));
             return this;
         }
     }

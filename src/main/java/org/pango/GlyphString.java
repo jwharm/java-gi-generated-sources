@@ -54,7 +54,7 @@ public class GlyphString extends Struct {
      * Get the value of the field {@code num_glyphs}
      * @return The value of the field {@code num_glyphs}
      */
-    public int num_glyphs$get() {
+    public int numGlyphs$get() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("num_glyphs"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -63,19 +63,19 @@ public class GlyphString extends Struct {
     
     /**
      * Change the value of the field {@code num_glyphs}
-     * @param num_glyphs The new value of the field {@code num_glyphs}
+     * @param numGlyphs The new value of the field {@code num_glyphs}
      */
-    public void num_glyphs$set(int num_glyphs) {
+    public void numGlyphs$set(int numGlyphs) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("num_glyphs"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), num_glyphs);
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), numGlyphs);
     }
     
     /**
      * Get the value of the field {@code log_clusters}
      * @return The value of the field {@code log_clusters}
      */
-    public PointerInteger log_clusters$get() {
+    public PointerInteger logClusters$get() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("log_clusters"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -84,12 +84,12 @@ public class GlyphString extends Struct {
     
     /**
      * Change the value of the field {@code log_clusters}
-     * @param log_clusters The new value of the field {@code log_clusters}
+     * @param logClusters The new value of the field {@code log_clusters}
      */
-    public void log_clusters$set(PointerInteger log_clusters) {
+    public void logClusters$set(PointerInteger logClusters) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("log_clusters"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), log_clusters.handle());
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), logClusters.handle());
     }
     
     /**
@@ -484,13 +484,13 @@ public class GlyphString extends Struct {
         
         /**
          * number of glyphs in this glyph string
-         * @param num_glyphs The value for the {@code num_glyphs} field
+         * @param numGlyphs The value for the {@code numGlyphs} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setNumGlyphs(int num_glyphs) {
+        public Build setNumGlyphs(int numGlyphs) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("num_glyphs"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), num_glyphs);
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), numGlyphs);
             return this;
         }
         
@@ -509,13 +509,13 @@ public class GlyphString extends Struct {
         /**
          * logical cluster info, indexed by the byte index
          *   within the text corresponding to the glyph string
-         * @param log_clusters The value for the {@code log_clusters} field
+         * @param logClusters The value for the {@code logClusters} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setLogClusters(PointerInteger log_clusters) {
+        public Build setLogClusters(PointerInteger logClusters) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("log_clusters"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (log_clusters == null ? MemoryAddress.NULL : log_clusters.handle()));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (logClusters == null ? MemoryAddress.NULL : logClusters.handle()));
             return this;
         }
         

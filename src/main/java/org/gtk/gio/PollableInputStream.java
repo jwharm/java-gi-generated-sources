@@ -27,11 +27,7 @@ public interface PollableInputStream extends io.github.jwharm.javagi.Proxy {
      * @throws ClassCastException If the GType is not derived from "GPollableInputStream", a ClassCastException will be thrown.
      */
     public static PollableInputStream castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), PollableInputStream.getType())) {
             return new PollableInputStreamImpl(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GPollableInputStream");
-        }
     }
     
     /**

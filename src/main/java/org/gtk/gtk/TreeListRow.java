@@ -58,11 +58,7 @@ public class TreeListRow extends org.gtk.gobject.Object {
      * @throws ClassCastException If the GType is not derived from "GtkTreeListRow", a ClassCastException will be thrown.
      */
     public static TreeListRow castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), TreeListRow.getType())) {
             return new TreeListRow(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkTreeListRow");
-        }
     }
     
     /**

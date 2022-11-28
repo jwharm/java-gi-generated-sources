@@ -60,11 +60,7 @@ public class WindowTitle extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
      * @throws ClassCastException If the GType is not derived from "AdwWindowTitle", a ClassCastException will be thrown.
      */
     public static WindowTitle castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), WindowTitle.getType())) {
             return new WindowTitle(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of AdwWindowTitle");
-        }
     }
     
     private static Addressable constructNew(@NotNull java.lang.String title, @NotNull java.lang.String subtitle) {

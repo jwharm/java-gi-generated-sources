@@ -54,7 +54,7 @@ public class TypeValueTable extends Struct {
      * Get the value of the field {@code collect_format}
      * @return The value of the field {@code collect_format}
      */
-    public java.lang.String collect_format$get() {
+    public java.lang.String collectFormat$get() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("collect_format"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -63,19 +63,19 @@ public class TypeValueTable extends Struct {
     
     /**
      * Change the value of the field {@code collect_format}
-     * @param collect_format The new value of the field {@code collect_format}
+     * @param collectFormat The new value of the field {@code collect_format}
      */
-    public void collect_format$set(java.lang.String collect_format) {
+    public void collectFormat$set(java.lang.String collectFormat) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("collect_format"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Interop.allocateNativeString(collect_format));
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Interop.allocateNativeString(collectFormat));
     }
     
     /**
      * Get the value of the field {@code lcopy_format}
      * @return The value of the field {@code lcopy_format}
      */
-    public java.lang.String lcopy_format$get() {
+    public java.lang.String lcopyFormat$get() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("lcopy_format"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -84,12 +84,12 @@ public class TypeValueTable extends Struct {
     
     /**
      * Change the value of the field {@code lcopy_format}
-     * @param lcopy_format The new value of the field {@code lcopy_format}
+     * @param lcopyFormat The new value of the field {@code lcopy_format}
      */
-    public void lcopy_format$set(java.lang.String lcopy_format) {
+    public void lcopyFormat$set(java.lang.String lcopyFormat) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("lcopy_format"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Interop.allocateNativeString(lcopy_format));
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Interop.allocateNativeString(lcopyFormat));
     }
     
     /**
@@ -160,31 +160,31 @@ public class TypeValueTable extends Struct {
             return struct;
         }
         
-        public Build setValueInit(java.lang.foreign.MemoryAddress value_init) {
+        public Build setValueInit(java.lang.foreign.MemoryAddress valueInit) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("value_init"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (value_init == null ? MemoryAddress.NULL : value_init));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (valueInit == null ? MemoryAddress.NULL : valueInit));
             return this;
         }
         
-        public Build setValueFree(java.lang.foreign.MemoryAddress value_free) {
+        public Build setValueFree(java.lang.foreign.MemoryAddress valueFree) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("value_free"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (value_free == null ? MemoryAddress.NULL : value_free));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (valueFree == null ? MemoryAddress.NULL : valueFree));
             return this;
         }
         
-        public Build setValueCopy(java.lang.foreign.MemoryAddress value_copy) {
+        public Build setValueCopy(java.lang.foreign.MemoryAddress valueCopy) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("value_copy"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (value_copy == null ? MemoryAddress.NULL : value_copy));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (valueCopy == null ? MemoryAddress.NULL : valueCopy));
             return this;
         }
         
-        public Build setValuePeekPointer(java.lang.foreign.MemoryAddress value_peek_pointer) {
+        public Build setValuePeekPointer(java.lang.foreign.MemoryAddress valuePeekPointer) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("value_peek_pointer"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (value_peek_pointer == null ? MemoryAddress.NULL : value_peek_pointer));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (valuePeekPointer == null ? MemoryAddress.NULL : valuePeekPointer));
             return this;
         }
         
@@ -203,20 +203,20 @@ public class TypeValueTable extends Struct {
          *  floats to doubles. So for collection of short int or char, 'i'
          *  needs to be used, and for collection of floats 'd'.
          * </ul>
-         * @param collect_format The value for the {@code collect_format} field
+         * @param collectFormat The value for the {@code collectFormat} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setCollectFormat(java.lang.String collect_format) {
+        public Build setCollectFormat(java.lang.String collectFormat) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("collect_format"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (collect_format == null ? MemoryAddress.NULL : Interop.allocateNativeString(collect_format)));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (collectFormat == null ? MemoryAddress.NULL : Interop.allocateNativeString(collectFormat)));
             return this;
         }
         
-        public Build setCollectValue(java.lang.foreign.MemoryAddress collect_value) {
+        public Build setCollectValue(java.lang.foreign.MemoryAddress collectValue) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("collect_value"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (collect_value == null ? MemoryAddress.NULL : collect_value));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (collectValue == null ? MemoryAddress.NULL : collectValue));
             return this;
         }
         
@@ -224,20 +224,20 @@ public class TypeValueTable extends Struct {
          * Format description of the arguments to collect for {@code lcopy_value},
          *  analogous to {@code collect_format}. Usually, {@code lcopy_format} string consists
          *  only of 'p's to provide lcopy_value() with pointers to storage locations.
-         * @param lcopy_format The value for the {@code lcopy_format} field
+         * @param lcopyFormat The value for the {@code lcopyFormat} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setLcopyFormat(java.lang.String lcopy_format) {
+        public Build setLcopyFormat(java.lang.String lcopyFormat) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("lcopy_format"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (lcopy_format == null ? MemoryAddress.NULL : Interop.allocateNativeString(lcopy_format)));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (lcopyFormat == null ? MemoryAddress.NULL : Interop.allocateNativeString(lcopyFormat)));
             return this;
         }
         
-        public Build setLcopyValue(java.lang.foreign.MemoryAddress lcopy_value) {
+        public Build setLcopyValue(java.lang.foreign.MemoryAddress lcopyValue) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("lcopy_value"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (lcopy_value == null ? MemoryAddress.NULL : lcopy_value));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (lcopyValue == null ? MemoryAddress.NULL : lcopyValue));
             return this;
         }
     }

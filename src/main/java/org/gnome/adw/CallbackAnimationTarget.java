@@ -50,11 +50,7 @@ public class CallbackAnimationTarget extends org.gnome.adw.AnimationTarget {
      * @throws ClassCastException If the GType is not derived from "AdwCallbackAnimationTarget", a ClassCastException will be thrown.
      */
     public static CallbackAnimationTarget castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), CallbackAnimationTarget.getType())) {
             return new CallbackAnimationTarget(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of AdwCallbackAnimationTarget");
-        }
     }
     
     private static Addressable constructNew(@NotNull org.gnome.adw.AnimationTargetFunc callback) {

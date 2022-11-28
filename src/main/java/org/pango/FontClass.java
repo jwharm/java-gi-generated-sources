@@ -51,7 +51,7 @@ public class FontClass extends Struct {
      * Get the value of the field {@code parent_class}
      * @return The value of the field {@code parent_class}
      */
-    public org.gtk.gobject.ObjectClass parent_class$get() {
+    public org.gtk.gobject.ObjectClass parentClass$get() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_class"));
         return new org.gtk.gobject.ObjectClass(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
     }
@@ -93,10 +93,10 @@ public class FontClass extends Struct {
             return struct;
         }
         
-        public Build setParentClass(org.gtk.gobject.ObjectClass parent_class) {
+        public Build setParentClass(org.gtk.gobject.ObjectClass parentClass) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parent_class == null ? MemoryAddress.NULL : parent_class.handle()));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
             return this;
         }
         
@@ -107,52 +107,52 @@ public class FontClass extends Struct {
             return this;
         }
         
-        public Build setGetCoverage(java.lang.foreign.MemoryAddress get_coverage) {
+        public Build setGetCoverage(java.lang.foreign.MemoryAddress getCoverage) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("get_coverage"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (get_coverage == null ? MemoryAddress.NULL : get_coverage));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getCoverage == null ? MemoryAddress.NULL : getCoverage));
             return this;
         }
         
-        public Build setGetGlyphExtents(java.lang.foreign.MemoryAddress get_glyph_extents) {
+        public Build setGetGlyphExtents(java.lang.foreign.MemoryAddress getGlyphExtents) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("get_glyph_extents"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (get_glyph_extents == null ? MemoryAddress.NULL : get_glyph_extents));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getGlyphExtents == null ? MemoryAddress.NULL : getGlyphExtents));
             return this;
         }
         
-        public Build setGetMetrics(java.lang.foreign.MemoryAddress get_metrics) {
+        public Build setGetMetrics(java.lang.foreign.MemoryAddress getMetrics) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("get_metrics"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (get_metrics == null ? MemoryAddress.NULL : get_metrics));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getMetrics == null ? MemoryAddress.NULL : getMetrics));
             return this;
         }
         
-        public Build setGetFontMap(java.lang.foreign.MemoryAddress get_font_map) {
+        public Build setGetFontMap(java.lang.foreign.MemoryAddress getFontMap) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("get_font_map"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (get_font_map == null ? MemoryAddress.NULL : get_font_map));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getFontMap == null ? MemoryAddress.NULL : getFontMap));
             return this;
         }
         
-        public Build setDescribeAbsolute(java.lang.foreign.MemoryAddress describe_absolute) {
+        public Build setDescribeAbsolute(java.lang.foreign.MemoryAddress describeAbsolute) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("describe_absolute"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (describe_absolute == null ? MemoryAddress.NULL : describe_absolute));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (describeAbsolute == null ? MemoryAddress.NULL : describeAbsolute));
             return this;
         }
         
-        public Build setGetFeatures(java.lang.foreign.MemoryAddress get_features) {
+        public Build setGetFeatures(java.lang.foreign.MemoryAddress getFeatures) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("get_features"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (get_features == null ? MemoryAddress.NULL : get_features));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getFeatures == null ? MemoryAddress.NULL : getFeatures));
             return this;
         }
         
-        public Build setCreateHbFont(java.lang.foreign.MemoryAddress create_hb_font) {
+        public Build setCreateHbFont(java.lang.foreign.MemoryAddress createHbFont) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("create_hb_font"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (create_hb_font == null ? MemoryAddress.NULL : create_hb_font));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (createHbFont == null ? MemoryAddress.NULL : createHbFont));
             return this;
         }
     }

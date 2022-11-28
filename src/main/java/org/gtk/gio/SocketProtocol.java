@@ -22,7 +22,7 @@ public class SocketProtocol extends io.github.jwharm.javagi.Enumeration {
     /**
      * The protocol type is unknown
      */
-    public static final SocketProtocol UNKNOWN = new SocketProtocol(-1);
+    public static final SocketProtocol UNKNOWN = new SocketProtocol(0);
     
     /**
      * The default protocol for the family/type

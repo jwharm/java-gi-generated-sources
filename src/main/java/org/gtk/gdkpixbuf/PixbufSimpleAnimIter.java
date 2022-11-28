@@ -45,11 +45,7 @@ public class PixbufSimpleAnimIter extends org.gtk.gdkpixbuf.PixbufAnimationIter 
      * @throws ClassCastException If the GType is not derived from "PixbufSimpleAnimIter", a ClassCastException will be thrown.
      */
     public static PixbufSimpleAnimIter castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), PixbufSimpleAnimIter.getType())) {
             return new PixbufSimpleAnimIter(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of PixbufSimpleAnimIter");
-        }
     }
     
     /**

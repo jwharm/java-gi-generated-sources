@@ -77,11 +77,7 @@ public class Overlay extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      * @throws ClassCastException If the GType is not derived from "GtkOverlay", a ClassCastException will be thrown.
      */
     public static Overlay castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), Overlay.getType())) {
             return new Overlay(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkOverlay");
-        }
     }
     
     private static Addressable constructNew() {

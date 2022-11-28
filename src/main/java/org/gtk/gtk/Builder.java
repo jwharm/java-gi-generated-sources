@@ -224,11 +224,7 @@ public class Builder extends org.gtk.gobject.Object {
      * @throws ClassCastException If the GType is not derived from "GtkBuilder", a ClassCastException will be thrown.
      */
     public static Builder castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), Builder.getType())) {
             return new Builder(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkBuilder");
-        }
     }
     
     private static Addressable constructNew() {

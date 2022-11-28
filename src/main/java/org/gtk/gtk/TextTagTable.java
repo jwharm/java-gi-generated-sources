@@ -67,11 +67,7 @@ public class TextTagTable extends org.gtk.gobject.Object implements org.gtk.gtk.
      * @throws ClassCastException If the GType is not derived from "GtkTextTagTable", a ClassCastException will be thrown.
      */
     public static TextTagTable castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), TextTagTable.getType())) {
             return new TextTagTable(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkTextTagTable");
-        }
     }
     
     private static Addressable constructNew() {

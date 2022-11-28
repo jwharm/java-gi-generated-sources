@@ -62,7 +62,7 @@ public class LogAttr extends Struct {
      * Get the value of the field {@code is_line_break}
      * @return The value of the field {@code is_line_break}
      */
-    public int is_line_break$get() {
+    public int isLineBreak$get() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("is_line_break"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -71,19 +71,19 @@ public class LogAttr extends Struct {
     
     /**
      * Change the value of the field {@code is_line_break}
-     * @param is_line_break The new value of the field {@code is_line_break}
+     * @param isLineBreak The new value of the field {@code is_line_break}
      */
-    public void is_line_break$set(int is_line_break) {
+    public void isLineBreak$set(int isLineBreak) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("is_line_break"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), is_line_break);
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), isLineBreak);
     }
     
     /**
      * Get the value of the field {@code is_mandatory_break}
      * @return The value of the field {@code is_mandatory_break}
      */
-    public int is_mandatory_break$get() {
+    public int isMandatoryBreak$get() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("is_mandatory_break"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -92,19 +92,19 @@ public class LogAttr extends Struct {
     
     /**
      * Change the value of the field {@code is_mandatory_break}
-     * @param is_mandatory_break The new value of the field {@code is_mandatory_break}
+     * @param isMandatoryBreak The new value of the field {@code is_mandatory_break}
      */
-    public void is_mandatory_break$set(int is_mandatory_break) {
+    public void isMandatoryBreak$set(int isMandatoryBreak) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("is_mandatory_break"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), is_mandatory_break);
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), isMandatoryBreak);
     }
     
     /**
      * Get the value of the field {@code is_char_break}
      * @return The value of the field {@code is_char_break}
      */
-    public int is_char_break$get() {
+    public int isCharBreak$get() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("is_char_break"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -113,19 +113,19 @@ public class LogAttr extends Struct {
     
     /**
      * Change the value of the field {@code is_char_break}
-     * @param is_char_break The new value of the field {@code is_char_break}
+     * @param isCharBreak The new value of the field {@code is_char_break}
      */
-    public void is_char_break$set(int is_char_break) {
+    public void isCharBreak$set(int isCharBreak) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("is_char_break"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), is_char_break);
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), isCharBreak);
     }
     
     /**
      * Get the value of the field {@code is_white}
      * @return The value of the field {@code is_white}
      */
-    public int is_white$get() {
+    public int isWhite$get() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("is_white"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -134,19 +134,19 @@ public class LogAttr extends Struct {
     
     /**
      * Change the value of the field {@code is_white}
-     * @param is_white The new value of the field {@code is_white}
+     * @param isWhite The new value of the field {@code is_white}
      */
-    public void is_white$set(int is_white) {
+    public void isWhite$set(int isWhite) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("is_white"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), is_white);
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), isWhite);
     }
     
     /**
      * Get the value of the field {@code is_cursor_position}
      * @return The value of the field {@code is_cursor_position}
      */
-    public int is_cursor_position$get() {
+    public int isCursorPosition$get() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("is_cursor_position"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -155,19 +155,19 @@ public class LogAttr extends Struct {
     
     /**
      * Change the value of the field {@code is_cursor_position}
-     * @param is_cursor_position The new value of the field {@code is_cursor_position}
+     * @param isCursorPosition The new value of the field {@code is_cursor_position}
      */
-    public void is_cursor_position$set(int is_cursor_position) {
+    public void isCursorPosition$set(int isCursorPosition) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("is_cursor_position"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), is_cursor_position);
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), isCursorPosition);
     }
     
     /**
      * Get the value of the field {@code is_word_start}
      * @return The value of the field {@code is_word_start}
      */
-    public int is_word_start$get() {
+    public int isWordStart$get() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("is_word_start"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -176,19 +176,19 @@ public class LogAttr extends Struct {
     
     /**
      * Change the value of the field {@code is_word_start}
-     * @param is_word_start The new value of the field {@code is_word_start}
+     * @param isWordStart The new value of the field {@code is_word_start}
      */
-    public void is_word_start$set(int is_word_start) {
+    public void isWordStart$set(int isWordStart) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("is_word_start"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), is_word_start);
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), isWordStart);
     }
     
     /**
      * Get the value of the field {@code is_word_end}
      * @return The value of the field {@code is_word_end}
      */
-    public int is_word_end$get() {
+    public int isWordEnd$get() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("is_word_end"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -197,19 +197,19 @@ public class LogAttr extends Struct {
     
     /**
      * Change the value of the field {@code is_word_end}
-     * @param is_word_end The new value of the field {@code is_word_end}
+     * @param isWordEnd The new value of the field {@code is_word_end}
      */
-    public void is_word_end$set(int is_word_end) {
+    public void isWordEnd$set(int isWordEnd) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("is_word_end"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), is_word_end);
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), isWordEnd);
     }
     
     /**
      * Get the value of the field {@code is_sentence_boundary}
      * @return The value of the field {@code is_sentence_boundary}
      */
-    public int is_sentence_boundary$get() {
+    public int isSentenceBoundary$get() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("is_sentence_boundary"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -218,19 +218,19 @@ public class LogAttr extends Struct {
     
     /**
      * Change the value of the field {@code is_sentence_boundary}
-     * @param is_sentence_boundary The new value of the field {@code is_sentence_boundary}
+     * @param isSentenceBoundary The new value of the field {@code is_sentence_boundary}
      */
-    public void is_sentence_boundary$set(int is_sentence_boundary) {
+    public void isSentenceBoundary$set(int isSentenceBoundary) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("is_sentence_boundary"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), is_sentence_boundary);
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), isSentenceBoundary);
     }
     
     /**
      * Get the value of the field {@code is_sentence_start}
      * @return The value of the field {@code is_sentence_start}
      */
-    public int is_sentence_start$get() {
+    public int isSentenceStart$get() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("is_sentence_start"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -239,19 +239,19 @@ public class LogAttr extends Struct {
     
     /**
      * Change the value of the field {@code is_sentence_start}
-     * @param is_sentence_start The new value of the field {@code is_sentence_start}
+     * @param isSentenceStart The new value of the field {@code is_sentence_start}
      */
-    public void is_sentence_start$set(int is_sentence_start) {
+    public void isSentenceStart$set(int isSentenceStart) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("is_sentence_start"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), is_sentence_start);
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), isSentenceStart);
     }
     
     /**
      * Get the value of the field {@code is_sentence_end}
      * @return The value of the field {@code is_sentence_end}
      */
-    public int is_sentence_end$get() {
+    public int isSentenceEnd$get() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("is_sentence_end"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -260,19 +260,19 @@ public class LogAttr extends Struct {
     
     /**
      * Change the value of the field {@code is_sentence_end}
-     * @param is_sentence_end The new value of the field {@code is_sentence_end}
+     * @param isSentenceEnd The new value of the field {@code is_sentence_end}
      */
-    public void is_sentence_end$set(int is_sentence_end) {
+    public void isSentenceEnd$set(int isSentenceEnd) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("is_sentence_end"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), is_sentence_end);
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), isSentenceEnd);
     }
     
     /**
      * Get the value of the field {@code backspace_deletes_character}
      * @return The value of the field {@code backspace_deletes_character}
      */
-    public int backspace_deletes_character$get() {
+    public int backspaceDeletesCharacter$get() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("backspace_deletes_character"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -281,19 +281,19 @@ public class LogAttr extends Struct {
     
     /**
      * Change the value of the field {@code backspace_deletes_character}
-     * @param backspace_deletes_character The new value of the field {@code backspace_deletes_character}
+     * @param backspaceDeletesCharacter The new value of the field {@code backspace_deletes_character}
      */
-    public void backspace_deletes_character$set(int backspace_deletes_character) {
+    public void backspaceDeletesCharacter$set(int backspaceDeletesCharacter) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("backspace_deletes_character"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), backspace_deletes_character);
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), backspaceDeletesCharacter);
     }
     
     /**
      * Get the value of the field {@code is_expandable_space}
      * @return The value of the field {@code is_expandable_space}
      */
-    public int is_expandable_space$get() {
+    public int isExpandableSpace$get() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("is_expandable_space"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -302,19 +302,19 @@ public class LogAttr extends Struct {
     
     /**
      * Change the value of the field {@code is_expandable_space}
-     * @param is_expandable_space The new value of the field {@code is_expandable_space}
+     * @param isExpandableSpace The new value of the field {@code is_expandable_space}
      */
-    public void is_expandable_space$set(int is_expandable_space) {
+    public void isExpandableSpace$set(int isExpandableSpace) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("is_expandable_space"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), is_expandable_space);
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), isExpandableSpace);
     }
     
     /**
      * Get the value of the field {@code is_word_boundary}
      * @return The value of the field {@code is_word_boundary}
      */
-    public int is_word_boundary$get() {
+    public int isWordBoundary$get() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("is_word_boundary"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -323,19 +323,19 @@ public class LogAttr extends Struct {
     
     /**
      * Change the value of the field {@code is_word_boundary}
-     * @param is_word_boundary The new value of the field {@code is_word_boundary}
+     * @param isWordBoundary The new value of the field {@code is_word_boundary}
      */
-    public void is_word_boundary$set(int is_word_boundary) {
+    public void isWordBoundary$set(int isWordBoundary) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("is_word_boundary"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), is_word_boundary);
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), isWordBoundary);
     }
     
     /**
      * Get the value of the field {@code break_inserts_hyphen}
      * @return The value of the field {@code break_inserts_hyphen}
      */
-    public int break_inserts_hyphen$get() {
+    public int breakInsertsHyphen$get() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("break_inserts_hyphen"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -344,19 +344,19 @@ public class LogAttr extends Struct {
     
     /**
      * Change the value of the field {@code break_inserts_hyphen}
-     * @param break_inserts_hyphen The new value of the field {@code break_inserts_hyphen}
+     * @param breakInsertsHyphen The new value of the field {@code break_inserts_hyphen}
      */
-    public void break_inserts_hyphen$set(int break_inserts_hyphen) {
+    public void breakInsertsHyphen$set(int breakInsertsHyphen) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("break_inserts_hyphen"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), break_inserts_hyphen);
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), breakInsertsHyphen);
     }
     
     /**
      * Get the value of the field {@code break_removes_preceding}
      * @return The value of the field {@code break_removes_preceding}
      */
-    public int break_removes_preceding$get() {
+    public int breakRemovesPreceding$get() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("break_removes_preceding"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -365,12 +365,12 @@ public class LogAttr extends Struct {
     
     /**
      * Change the value of the field {@code break_removes_preceding}
-     * @param break_removes_preceding The new value of the field {@code break_removes_preceding}
+     * @param breakRemovesPreceding The new value of the field {@code break_removes_preceding}
      */
-    public void break_removes_preceding$set(int break_removes_preceding) {
+    public void breakRemovesPreceding$set(int breakRemovesPreceding) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("break_removes_preceding"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), break_removes_preceding);
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), breakRemovesPreceding);
     }
     
     /**
@@ -433,49 +433,49 @@ public class LogAttr extends Struct {
         
         /**
          * if set, can break line in front of character
-         * @param is_line_break The value for the {@code is_line_break} field
+         * @param isLineBreak The value for the {@code isLineBreak} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setIsLineBreak(int is_line_break) {
+        public Build setIsLineBreak(int isLineBreak) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("is_line_break"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), is_line_break);
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), isLineBreak);
             return this;
         }
         
         /**
          * if set, must break line in front of character
-         * @param is_mandatory_break The value for the {@code is_mandatory_break} field
+         * @param isMandatoryBreak The value for the {@code isMandatoryBreak} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setIsMandatoryBreak(int is_mandatory_break) {
+        public Build setIsMandatoryBreak(int isMandatoryBreak) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("is_mandatory_break"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), is_mandatory_break);
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), isMandatoryBreak);
             return this;
         }
         
         /**
          * if set, can break here when doing character wrapping
-         * @param is_char_break The value for the {@code is_char_break} field
+         * @param isCharBreak The value for the {@code isCharBreak} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setIsCharBreak(int is_char_break) {
+        public Build setIsCharBreak(int isCharBreak) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("is_char_break"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), is_char_break);
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), isCharBreak);
             return this;
         }
         
         /**
          * is whitespace character
-         * @param is_white The value for the {@code is_white} field
+         * @param isWhite The value for the {@code isWhite} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setIsWhite(int is_white) {
+        public Build setIsWhite(int isWhite) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("is_white"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), is_white);
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), isWhite);
             return this;
         }
         
@@ -485,25 +485,25 @@ public class LogAttr extends Struct {
          *   This flag implements Unicode's
          *   <a href="http://www.unicode.org/reports/tr29/">Grapheme Cluster Boundaries</a>
          *   semantics.
-         * @param is_cursor_position The value for the {@code is_cursor_position} field
+         * @param isCursorPosition The value for the {@code isCursorPosition} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setIsCursorPosition(int is_cursor_position) {
+        public Build setIsCursorPosition(int isCursorPosition) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("is_cursor_position"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), is_cursor_position);
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), isCursorPosition);
             return this;
         }
         
         /**
          * is first character in a word
-         * @param is_word_start The value for the {@code is_word_start} field
+         * @param isWordStart The value for the {@code isWordStart} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setIsWordStart(int is_word_start) {
+        public Build setIsWordStart(int isWordStart) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("is_word_start"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), is_word_start);
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), isWordStart);
             return this;
         }
         
@@ -511,13 +511,13 @@ public class LogAttr extends Struct {
          * is first non-word char after a word
          *   Note that in degenerate cases, you could have both {@code is_word_start}
          *   and {@code is_word_end} set for some character.
-         * @param is_word_end The value for the {@code is_word_end} field
+         * @param isWordEnd The value for the {@code isWordEnd} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setIsWordEnd(int is_word_end) {
+        public Build setIsWordEnd(int isWordEnd) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("is_word_end"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), is_word_end);
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), isWordEnd);
             return this;
         }
         
@@ -529,25 +529,25 @@ public class LogAttr extends Struct {
          *   the boundaries there. The second way doesn't assign
          *   between-sentence spaces, etc. to any sentence, so
          *   {@code is_sentence_start}/{@code is_sentence_end} mark the boundaries of those sentences.
-         * @param is_sentence_boundary The value for the {@code is_sentence_boundary} field
+         * @param isSentenceBoundary The value for the {@code isSentenceBoundary} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setIsSentenceBoundary(int is_sentence_boundary) {
+        public Build setIsSentenceBoundary(int isSentenceBoundary) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("is_sentence_boundary"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), is_sentence_boundary);
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), isSentenceBoundary);
             return this;
         }
         
         /**
          * is first character in a sentence
-         * @param is_sentence_start The value for the {@code is_sentence_start} field
+         * @param isSentenceStart The value for the {@code isSentenceStart} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setIsSentenceStart(int is_sentence_start) {
+        public Build setIsSentenceStart(int isSentenceStart) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("is_sentence_start"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), is_sentence_start);
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), isSentenceStart);
             return this;
         }
         
@@ -556,13 +556,13 @@ public class LogAttr extends Struct {
          *   Note that in degenerate cases, you could have both {@code is_sentence_start}
          *   and {@code is_sentence_end} set for some character. (e.g. no space after a
          *   period, so the next sentence starts right away)
-         * @param is_sentence_end The value for the {@code is_sentence_end} field
+         * @param isSentenceEnd The value for the {@code isSentenceEnd} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setIsSentenceEnd(int is_sentence_end) {
+        public Build setIsSentenceEnd(int isSentenceEnd) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("is_sentence_end"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), is_sentence_end);
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), isSentenceEnd);
             return this;
         }
         
@@ -574,26 +574,26 @@ public class LogAttr extends Struct {
          *   others, each decomposed character in the grapheme is a unit. In the default
          *   implementation of {@link Pango#break_}, this bit is set on all grapheme boundaries
          *   except those following Latin, Cyrillic or Greek base characters.
-         * @param backspace_deletes_character The value for the {@code backspace_deletes_character} field
+         * @param backspaceDeletesCharacter The value for the {@code backspaceDeletesCharacter} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setBackspaceDeletesCharacter(int backspace_deletes_character) {
+        public Build setBackspaceDeletesCharacter(int backspaceDeletesCharacter) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("backspace_deletes_character"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), backspace_deletes_character);
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), backspaceDeletesCharacter);
             return this;
         }
         
         /**
          * is a whitespace character that can possibly be
          *   expanded for justification purposes. (Since: 1.18)
-         * @param is_expandable_space The value for the {@code is_expandable_space} field
+         * @param isExpandableSpace The value for the {@code isExpandableSpace} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setIsExpandableSpace(int is_expandable_space) {
+        public Build setIsExpandableSpace(int isExpandableSpace) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("is_expandable_space"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), is_expandable_space);
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), isExpandableSpace);
             return this;
         }
         
@@ -604,39 +604,39 @@ public class LogAttr extends Struct {
          *   This flag is particularly useful when selecting text word-by-word. This flag
          *   implements Unicode's <a href="http://www.unicode.org/reports/tr29/">Word Boundaries</a>
          *   semantics. (Since: 1.22)
-         * @param is_word_boundary The value for the {@code is_word_boundary} field
+         * @param isWordBoundary The value for the {@code isWordBoundary} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setIsWordBoundary(int is_word_boundary) {
+        public Build setIsWordBoundary(int isWordBoundary) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("is_word_boundary"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), is_word_boundary);
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), isWordBoundary);
             return this;
         }
         
         /**
          * when breaking lines before this char, insert a hyphen.
          *   Since: 1.50
-         * @param break_inserts_hyphen The value for the {@code break_inserts_hyphen} field
+         * @param breakInsertsHyphen The value for the {@code breakInsertsHyphen} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setBreakInsertsHyphen(int break_inserts_hyphen) {
+        public Build setBreakInsertsHyphen(int breakInsertsHyphen) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("break_inserts_hyphen"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), break_inserts_hyphen);
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), breakInsertsHyphen);
             return this;
         }
         
         /**
          * when breaking lines before this char, remove the
          *   preceding char. Since 1.50
-         * @param break_removes_preceding The value for the {@code break_removes_preceding} field
+         * @param breakRemovesPreceding The value for the {@code breakRemovesPreceding} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setBreakRemovesPreceding(int break_removes_preceding) {
+        public Build setBreakRemovesPreceding(int breakRemovesPreceding) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("break_removes_preceding"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), break_removes_preceding);
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), breakRemovesPreceding);
             return this;
         }
         

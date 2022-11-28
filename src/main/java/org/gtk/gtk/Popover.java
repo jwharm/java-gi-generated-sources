@@ -102,15 +102,6 @@ public class Popover extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
     }
     
     /**
-     * Get the value of the field {@code parent}
-     * @return The value of the field {@code parent}
-     */
-    public org.gtk.gtk.Widget parent$get() {
-        long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent"));
-        return new org.gtk.gtk.Widget(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
-    }
-    
-    /**
      * Create a Popover proxy instance for the provided memory address.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
@@ -133,11 +124,7 @@ public class Popover extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      * @throws ClassCastException If the GType is not derived from "GtkPopover", a ClassCastException will be thrown.
      */
     public static Popover castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), Popover.getType())) {
             return new Popover(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkPopover");
-        }
     }
     
     private static Addressable constructNew() {

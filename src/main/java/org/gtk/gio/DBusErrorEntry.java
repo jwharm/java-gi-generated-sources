@@ -49,7 +49,7 @@ public class DBusErrorEntry extends Struct {
      * Get the value of the field {@code error_code}
      * @return The value of the field {@code error_code}
      */
-    public int error_code$get() {
+    public int errorCode$get() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("error_code"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -58,19 +58,19 @@ public class DBusErrorEntry extends Struct {
     
     /**
      * Change the value of the field {@code error_code}
-     * @param error_code The new value of the field {@code error_code}
+     * @param errorCode The new value of the field {@code error_code}
      */
-    public void error_code$set(int error_code) {
+    public void errorCode$set(int errorCode) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("error_code"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), error_code);
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), errorCode);
     }
     
     /**
      * Get the value of the field {@code dbus_error_name}
      * @return The value of the field {@code dbus_error_name}
      */
-    public java.lang.String dbus_error_name$get() {
+    public java.lang.String dbusErrorName$get() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("dbus_error_name"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -79,12 +79,12 @@ public class DBusErrorEntry extends Struct {
     
     /**
      * Change the value of the field {@code dbus_error_name}
-     * @param dbus_error_name The new value of the field {@code dbus_error_name}
+     * @param dbusErrorName The new value of the field {@code dbus_error_name}
      */
-    public void dbus_error_name$set(java.lang.String dbus_error_name) {
+    public void dbusErrorName$set(java.lang.String dbusErrorName) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("dbus_error_name"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Interop.allocateNativeString(dbus_error_name));
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Interop.allocateNativeString(dbusErrorName));
     }
     
     /**
@@ -126,25 +126,25 @@ public class DBusErrorEntry extends Struct {
         
         /**
          * An error code.
-         * @param error_code The value for the {@code error_code} field
+         * @param errorCode The value for the {@code errorCode} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setErrorCode(int error_code) {
+        public Build setErrorCode(int errorCode) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("error_code"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), error_code);
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), errorCode);
             return this;
         }
         
         /**
          * The D-Bus error name to associate with {@code error_code}.
-         * @param dbus_error_name The value for the {@code dbus_error_name} field
+         * @param dbusErrorName The value for the {@code dbusErrorName} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setDbusErrorName(java.lang.String dbus_error_name) {
+        public Build setDbusErrorName(java.lang.String dbusErrorName) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("dbus_error_name"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (dbus_error_name == null ? MemoryAddress.NULL : Interop.allocateNativeString(dbus_error_name)));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (dbusErrorName == null ? MemoryAddress.NULL : Interop.allocateNativeString(dbusErrorName)));
             return this;
         }
     }

@@ -59,7 +59,7 @@ public class TreeViewClass extends Struct {
      * Get the value of the field {@code parent_class}
      * @return The value of the field {@code parent_class}
      */
-    public org.gtk.gtk.WidgetClass parent_class$get() {
+    public org.gtk.gtk.WidgetClass parentClass$get() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_class"));
         return new org.gtk.gtk.WidgetClass(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
     }
@@ -101,122 +101,122 @@ public class TreeViewClass extends Struct {
             return struct;
         }
         
-        public Build setParentClass(org.gtk.gtk.WidgetClass parent_class) {
+        public Build setParentClass(org.gtk.gtk.WidgetClass parentClass) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parent_class == null ? MemoryAddress.NULL : parent_class.handle()));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
             return this;
         }
         
-        public Build setRowActivated(java.lang.foreign.MemoryAddress row_activated) {
+        public Build setRowActivated(java.lang.foreign.MemoryAddress rowActivated) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("row_activated"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (row_activated == null ? MemoryAddress.NULL : row_activated));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (rowActivated == null ? MemoryAddress.NULL : rowActivated));
             return this;
         }
         
-        public Build setTestExpandRow(java.lang.foreign.MemoryAddress test_expand_row) {
+        public Build setTestExpandRow(java.lang.foreign.MemoryAddress testExpandRow) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("test_expand_row"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (test_expand_row == null ? MemoryAddress.NULL : test_expand_row));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (testExpandRow == null ? MemoryAddress.NULL : testExpandRow));
             return this;
         }
         
-        public Build setTestCollapseRow(java.lang.foreign.MemoryAddress test_collapse_row) {
+        public Build setTestCollapseRow(java.lang.foreign.MemoryAddress testCollapseRow) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("test_collapse_row"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (test_collapse_row == null ? MemoryAddress.NULL : test_collapse_row));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (testCollapseRow == null ? MemoryAddress.NULL : testCollapseRow));
             return this;
         }
         
-        public Build setRowExpanded(java.lang.foreign.MemoryAddress row_expanded) {
+        public Build setRowExpanded(java.lang.foreign.MemoryAddress rowExpanded) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("row_expanded"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (row_expanded == null ? MemoryAddress.NULL : row_expanded));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (rowExpanded == null ? MemoryAddress.NULL : rowExpanded));
             return this;
         }
         
-        public Build setRowCollapsed(java.lang.foreign.MemoryAddress row_collapsed) {
+        public Build setRowCollapsed(java.lang.foreign.MemoryAddress rowCollapsed) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("row_collapsed"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (row_collapsed == null ? MemoryAddress.NULL : row_collapsed));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (rowCollapsed == null ? MemoryAddress.NULL : rowCollapsed));
             return this;
         }
         
-        public Build setColumnsChanged(java.lang.foreign.MemoryAddress columns_changed) {
+        public Build setColumnsChanged(java.lang.foreign.MemoryAddress columnsChanged) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("columns_changed"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (columns_changed == null ? MemoryAddress.NULL : columns_changed));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (columnsChanged == null ? MemoryAddress.NULL : columnsChanged));
             return this;
         }
         
-        public Build setCursorChanged(java.lang.foreign.MemoryAddress cursor_changed) {
+        public Build setCursorChanged(java.lang.foreign.MemoryAddress cursorChanged) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("cursor_changed"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (cursor_changed == null ? MemoryAddress.NULL : cursor_changed));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (cursorChanged == null ? MemoryAddress.NULL : cursorChanged));
             return this;
         }
         
-        public Build setMoveCursor(java.lang.foreign.MemoryAddress move_cursor) {
+        public Build setMoveCursor(java.lang.foreign.MemoryAddress moveCursor) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("move_cursor"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (move_cursor == null ? MemoryAddress.NULL : move_cursor));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (moveCursor == null ? MemoryAddress.NULL : moveCursor));
             return this;
         }
         
-        public Build setSelectAll(java.lang.foreign.MemoryAddress select_all) {
+        public Build setSelectAll(java.lang.foreign.MemoryAddress selectAll) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("select_all"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (select_all == null ? MemoryAddress.NULL : select_all));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (selectAll == null ? MemoryAddress.NULL : selectAll));
             return this;
         }
         
-        public Build setUnselectAll(java.lang.foreign.MemoryAddress unselect_all) {
+        public Build setUnselectAll(java.lang.foreign.MemoryAddress unselectAll) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("unselect_all"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (unselect_all == null ? MemoryAddress.NULL : unselect_all));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (unselectAll == null ? MemoryAddress.NULL : unselectAll));
             return this;
         }
         
-        public Build setSelectCursorRow(java.lang.foreign.MemoryAddress select_cursor_row) {
+        public Build setSelectCursorRow(java.lang.foreign.MemoryAddress selectCursorRow) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("select_cursor_row"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (select_cursor_row == null ? MemoryAddress.NULL : select_cursor_row));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (selectCursorRow == null ? MemoryAddress.NULL : selectCursorRow));
             return this;
         }
         
-        public Build setToggleCursorRow(java.lang.foreign.MemoryAddress toggle_cursor_row) {
+        public Build setToggleCursorRow(java.lang.foreign.MemoryAddress toggleCursorRow) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("toggle_cursor_row"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (toggle_cursor_row == null ? MemoryAddress.NULL : toggle_cursor_row));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (toggleCursorRow == null ? MemoryAddress.NULL : toggleCursorRow));
             return this;
         }
         
-        public Build setExpandCollapseCursorRow(java.lang.foreign.MemoryAddress expand_collapse_cursor_row) {
+        public Build setExpandCollapseCursorRow(java.lang.foreign.MemoryAddress expandCollapseCursorRow) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("expand_collapse_cursor_row"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (expand_collapse_cursor_row == null ? MemoryAddress.NULL : expand_collapse_cursor_row));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (expandCollapseCursorRow == null ? MemoryAddress.NULL : expandCollapseCursorRow));
             return this;
         }
         
-        public Build setSelectCursorParent(java.lang.foreign.MemoryAddress select_cursor_parent) {
+        public Build setSelectCursorParent(java.lang.foreign.MemoryAddress selectCursorParent) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("select_cursor_parent"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (select_cursor_parent == null ? MemoryAddress.NULL : select_cursor_parent));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (selectCursorParent == null ? MemoryAddress.NULL : selectCursorParent));
             return this;
         }
         
-        public Build setStartInteractiveSearch(java.lang.foreign.MemoryAddress start_interactive_search) {
+        public Build setStartInteractiveSearch(java.lang.foreign.MemoryAddress startInteractiveSearch) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("start_interactive_search"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (start_interactive_search == null ? MemoryAddress.NULL : start_interactive_search));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (startInteractiveSearch == null ? MemoryAddress.NULL : startInteractiveSearch));
             return this;
         }
         
-        public Build setReserved(java.lang.foreign.MemoryAddress[] _reserved) {
+        public Build setReserved(java.lang.foreign.MemoryAddress[] Reserved) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("_reserved"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (_reserved == null ? MemoryAddress.NULL : Interop.allocateNativeArray(_reserved, false)));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (Reserved == null ? MemoryAddress.NULL : Interop.allocateNativeArray(Reserved, false)));
             return this;
         }
     }

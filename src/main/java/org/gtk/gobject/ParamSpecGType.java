@@ -32,36 +32,6 @@ public class ParamSpecGType extends org.gtk.gobject.ParamSpec {
     }
     
     /**
-     * Get the value of the field {@code parent_instance}
-     * @return The value of the field {@code parent_instance}
-     */
-    public org.gtk.gobject.ParamSpec parent_instance$get() {
-        long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_instance"));
-        return new org.gtk.gobject.ParamSpec(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
-    }
-    
-    /**
-     * Get the value of the field {@code is_a_type}
-     * @return The value of the field {@code is_a_type}
-     */
-    public org.gtk.glib.Type is_a_type$get() {
-        var RESULT = (long) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("is_a_type"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new org.gtk.glib.Type(RESULT);
-    }
-    
-    /**
-     * Change the value of the field {@code is_a_type}
-     * @param is_a_type The new value of the field {@code is_a_type}
-     */
-    public void is_a_type$set(org.gtk.glib.Type is_a_type) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("is_a_type"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), is_a_type.getValue().longValue());
-    }
-    
-    /**
      * Create a ParamSpecGType proxy instance for the provided memory address.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
@@ -84,11 +54,7 @@ public class ParamSpecGType extends org.gtk.gobject.ParamSpec {
      * @throws ClassCastException If the GType is not derived from "GParamSpecGType", a ClassCastException will be thrown.
      */
     public static ParamSpecGType castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), ParamSpecGType.getType())) {
             return new ParamSpecGType(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GParamSpecGType");
-        }
     }
     
     /**

@@ -112,11 +112,7 @@ public class Paned extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      * @throws ClassCastException If the GType is not derived from "GtkPaned", a ClassCastException will be thrown.
      */
     public static Paned castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), Paned.getType())) {
             return new Paned(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkPaned");
-        }
     }
     
     private static Addressable constructNew(@NotNull org.gtk.gtk.Orientation orientation) {

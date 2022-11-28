@@ -62,11 +62,7 @@ public class GestureLongPress extends org.gtk.gtk.GestureSingle {
      * @throws ClassCastException If the GType is not derived from "GtkGestureLongPress", a ClassCastException will be thrown.
      */
     public static GestureLongPress castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), GestureLongPress.getType())) {
             return new GestureLongPress(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkGestureLongPress");
-        }
     }
     
     private static Addressable constructNew() {

@@ -82,11 +82,7 @@ public class SplitButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
      * @throws ClassCastException If the GType is not derived from "AdwSplitButton", a ClassCastException will be thrown.
      */
     public static SplitButton castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), SplitButton.getType())) {
             return new SplitButton(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of AdwSplitButton");
-        }
     }
     
     private static Addressable constructNew() {

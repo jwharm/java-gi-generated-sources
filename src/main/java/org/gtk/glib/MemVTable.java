@@ -116,17 +116,17 @@ public class MemVTable extends Struct {
             return this;
         }
         
-        public Build setTryMalloc(java.lang.foreign.MemoryAddress try_malloc) {
+        public Build setTryMalloc(java.lang.foreign.MemoryAddress tryMalloc) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("try_malloc"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (try_malloc == null ? MemoryAddress.NULL : try_malloc));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (tryMalloc == null ? MemoryAddress.NULL : tryMalloc));
             return this;
         }
         
-        public Build setTryRealloc(java.lang.foreign.MemoryAddress try_realloc) {
+        public Build setTryRealloc(java.lang.foreign.MemoryAddress tryRealloc) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("try_realloc"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (try_realloc == null ? MemoryAddress.NULL : try_realloc));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (tryRealloc == null ? MemoryAddress.NULL : tryRealloc));
             return this;
         }
     }

@@ -48,11 +48,7 @@ public class DeviceTool extends org.gtk.gobject.Object {
      * @throws ClassCastException If the GType is not derived from "GdkDeviceTool", a ClassCastException will be thrown.
      */
     public static DeviceTool castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), DeviceTool.getType())) {
             return new DeviceTool(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GdkDeviceTool");
-        }
     }
     
     /**

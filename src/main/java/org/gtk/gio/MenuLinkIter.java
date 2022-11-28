@@ -33,15 +33,6 @@ public class MenuLinkIter extends org.gtk.gobject.Object {
     }
     
     /**
-     * Get the value of the field {@code parent_instance}
-     * @return The value of the field {@code parent_instance}
-     */
-    public org.gtk.gobject.Object parent_instance$get() {
-        long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_instance"));
-        return new org.gtk.gobject.Object(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
-    }
-    
-    /**
      * Create a MenuLinkIter proxy instance for the provided memory address.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
@@ -64,11 +55,7 @@ public class MenuLinkIter extends org.gtk.gobject.Object {
      * @throws ClassCastException If the GType is not derived from "GMenuLinkIter", a ClassCastException will be thrown.
      */
     public static MenuLinkIter castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), MenuLinkIter.getType())) {
             return new MenuLinkIter(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GMenuLinkIter");
-        }
     }
     
     /**
@@ -107,20 +94,22 @@ public class MenuLinkIter extends org.gtk.gobject.Object {
      * @param value the linked {@link MenuModel}
      * @return {@code true} on success, or {@code false} if there is no additional link
      */
-    public boolean getNext(@NotNull Out<java.lang.String> outLink, @NotNull PointerProxy<org.gtk.gio.MenuModel> value) {
+    public boolean getNext(@NotNull Out<java.lang.String> outLink, @NotNull Out<org.gtk.gio.MenuModel> value) {
         java.util.Objects.requireNonNull(outLink, "Parameter 'outLink' must not be null");
         MemorySegment outLinkPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
+        MemorySegment valuePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_menu_link_iter_get_next.invokeExact(
                     handle(),
                     (Addressable) outLinkPOINTER.address(),
-                    value.handle());
+                    (Addressable) valuePOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         outLink.set(Interop.getStringFrom(outLinkPOINTER.get(Interop.valueLayout.ADDRESS, 0)));
+        value.set(new org.gtk.gio.MenuModel(valuePOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
         return RESULT != 0;
     }
     

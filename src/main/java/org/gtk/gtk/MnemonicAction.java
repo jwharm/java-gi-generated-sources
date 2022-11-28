@@ -48,11 +48,7 @@ public class MnemonicAction extends org.gtk.gtk.ShortcutAction {
      * @throws ClassCastException If the GType is not derived from "GtkMnemonicAction", a ClassCastException will be thrown.
      */
     public static MnemonicAction castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), MnemonicAction.getType())) {
             return new MnemonicAction(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkMnemonicAction");
-        }
     }
     
     /**

@@ -543,11 +543,7 @@ public class Task extends org.gtk.gobject.Object implements org.gtk.gio.AsyncRes
      * @throws ClassCastException If the GType is not derived from "GTask", a ClassCastException will be thrown.
      */
     public static Task castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), Task.getType())) {
             return new Task(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GTask");
-        }
     }
     
     private static Addressable constructNew(@Nullable org.gtk.gobject.Object sourceObject, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback) {

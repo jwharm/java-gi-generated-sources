@@ -49,7 +49,7 @@ public class AatLayoutFeatureSelectorInfoT extends Struct {
      * Get the value of the field {@code name_id}
      * @return The value of the field {@code name_id}
      */
-    public org.harfbuzz.OtNameIdT name_id$get() {
+    public org.harfbuzz.OtNameIdT nameId$get() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("name_id"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -58,12 +58,12 @@ public class AatLayoutFeatureSelectorInfoT extends Struct {
     
     /**
      * Change the value of the field {@code name_id}
-     * @param name_id The new value of the field {@code name_id}
+     * @param nameId The new value of the field {@code name_id}
      */
-    public void name_id$set(org.harfbuzz.OtNameIdT name_id) {
+    public void nameId$set(org.harfbuzz.OtNameIdT nameId) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("name_id"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), name_id.getValue().intValue());
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), nameId.getValue().intValue());
     }
     
     /**
@@ -147,13 +147,13 @@ public class AatLayoutFeatureSelectorInfoT extends Struct {
         
         /**
          * The selector's name identifier
-         * @param name_id The value for the {@code name_id} field
+         * @param nameId The value for the {@code nameId} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setNameId(org.harfbuzz.OtNameIdT name_id) {
+        public Build setNameId(org.harfbuzz.OtNameIdT nameId) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("name_id"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (name_id == null ? MemoryAddress.NULL : name_id.getValue().intValue()));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (nameId == null ? MemoryAddress.NULL : nameId.getValue().intValue()));
             return this;
         }
         

@@ -128,11 +128,7 @@ public class DBusObjectManagerClient extends org.gtk.gobject.Object implements o
      * @throws ClassCastException If the GType is not derived from "GDBusObjectManagerClient", a ClassCastException will be thrown.
      */
     public static DBusObjectManagerClient castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), DBusObjectManagerClient.getType())) {
             return new DBusObjectManagerClient(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GDBusObjectManagerClient");
-        }
     }
     
     private static Addressable constructNewFinish(@NotNull org.gtk.gio.AsyncResult res) throws GErrorException {

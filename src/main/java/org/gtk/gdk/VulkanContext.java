@@ -56,11 +56,7 @@ public class VulkanContext extends org.gtk.gdk.DrawContext implements org.gtk.gi
      * @throws ClassCastException If the GType is not derived from "GdkVulkanContext", a ClassCastException will be thrown.
      */
     public static VulkanContext castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), VulkanContext.getType())) {
             return new VulkanContext(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GdkVulkanContext");
-        }
     }
     
     /**

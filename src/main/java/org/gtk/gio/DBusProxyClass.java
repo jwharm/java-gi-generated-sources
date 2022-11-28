@@ -83,24 +83,24 @@ public class DBusProxyClass extends Struct {
             return struct;
         }
         
-        public Build setParentClass(org.gtk.gobject.ObjectClass parent_class) {
+        public Build setParentClass(org.gtk.gobject.ObjectClass parentClass) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parent_class == null ? MemoryAddress.NULL : parent_class.handle()));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
             return this;
         }
         
-        public Build setGPropertiesChanged(java.lang.foreign.MemoryAddress g_properties_changed) {
+        public Build setGPropertiesChanged(java.lang.foreign.MemoryAddress gPropertiesChanged) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("g_properties_changed"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (g_properties_changed == null ? MemoryAddress.NULL : g_properties_changed));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (gPropertiesChanged == null ? MemoryAddress.NULL : gPropertiesChanged));
             return this;
         }
         
-        public Build setGSignal(java.lang.foreign.MemoryAddress g_signal) {
+        public Build setGSignal(java.lang.foreign.MemoryAddress gSignal) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("g_signal"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (g_signal == null ? MemoryAddress.NULL : g_signal));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (gSignal == null ? MemoryAddress.NULL : gSignal));
             return this;
         }
         

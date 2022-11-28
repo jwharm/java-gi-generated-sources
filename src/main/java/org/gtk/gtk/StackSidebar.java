@@ -61,11 +61,7 @@ public class StackSidebar extends org.gtk.gtk.Widget implements org.gtk.gtk.Acce
      * @throws ClassCastException If the GType is not derived from "GtkStackSidebar", a ClassCastException will be thrown.
      */
     public static StackSidebar castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), StackSidebar.getType())) {
             return new StackSidebar(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkStackSidebar");
-        }
     }
     
     private static Addressable constructNew() {

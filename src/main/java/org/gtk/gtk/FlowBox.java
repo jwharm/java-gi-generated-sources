@@ -91,11 +91,7 @@ public class FlowBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      * @throws ClassCastException If the GType is not derived from "GtkFlowBox", a ClassCastException will be thrown.
      */
     public static FlowBox castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), FlowBox.getType())) {
             return new FlowBox(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkFlowBox");
-        }
     }
     
     private static Addressable constructNew() {

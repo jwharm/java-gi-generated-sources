@@ -57,7 +57,7 @@ public class SettingsBackendClass extends Struct {
      * Get the value of the field {@code parent_class}
      * @return The value of the field {@code parent_class}
      */
-    public org.gtk.gobject.ObjectClass parent_class$get() {
+    public org.gtk.gobject.ObjectClass parentClass$get() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_class"));
         return new org.gtk.gobject.ObjectClass(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
     }
@@ -99,10 +99,10 @@ public class SettingsBackendClass extends Struct {
             return struct;
         }
         
-        public Build setParentClass(org.gtk.gobject.ObjectClass parent_class) {
+        public Build setParentClass(org.gtk.gobject.ObjectClass parentClass) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parent_class == null ? MemoryAddress.NULL : parent_class.handle()));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
             return this;
         }
         
@@ -113,10 +113,10 @@ public class SettingsBackendClass extends Struct {
             return this;
         }
         
-        public Build setGetWritable(java.lang.foreign.MemoryAddress get_writable) {
+        public Build setGetWritable(java.lang.foreign.MemoryAddress getWritable) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("get_writable"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (get_writable == null ? MemoryAddress.NULL : get_writable));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getWritable == null ? MemoryAddress.NULL : getWritable));
             return this;
         }
         
@@ -127,10 +127,10 @@ public class SettingsBackendClass extends Struct {
             return this;
         }
         
-        public Build setWriteTree(java.lang.foreign.MemoryAddress write_tree) {
+        public Build setWriteTree(java.lang.foreign.MemoryAddress writeTree) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("write_tree"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (write_tree == null ? MemoryAddress.NULL : write_tree));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (writeTree == null ? MemoryAddress.NULL : writeTree));
             return this;
         }
         
@@ -162,17 +162,17 @@ public class SettingsBackendClass extends Struct {
             return this;
         }
         
-        public Build setGetPermission(java.lang.foreign.MemoryAddress get_permission) {
+        public Build setGetPermission(java.lang.foreign.MemoryAddress getPermission) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("get_permission"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (get_permission == null ? MemoryAddress.NULL : get_permission));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getPermission == null ? MemoryAddress.NULL : getPermission));
             return this;
         }
         
-        public Build setReadUserValue(java.lang.foreign.MemoryAddress read_user_value) {
+        public Build setReadUserValue(java.lang.foreign.MemoryAddress readUserValue) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("read_user_value"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (read_user_value == null ? MemoryAddress.NULL : read_user_value));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (readUserValue == null ? MemoryAddress.NULL : readUserValue));
             return this;
         }
         

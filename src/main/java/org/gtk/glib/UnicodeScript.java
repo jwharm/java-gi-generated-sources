@@ -9,7 +9,7 @@ import org.jetbrains.annotations.*;
  * The {@link UnicodeScript} enumeration identifies different writing
  * systems. The values correspond to the names as defined in the
  * Unicode standard. The enumeration has been added in GLib 2.14,
- * and is interchangeable with {@link org.pango.Script}.
+ * and is interchangeable with {@code PangoScript}.
  * <p>
  * Note that new types may be added in the future. Applications
  * should be ready to handle unknown values.
@@ -22,7 +22,7 @@ public class UnicodeScript extends io.github.jwharm.javagi.Enumeration {
     /**
      * a value never returned from g_unichar_get_script()
      */
-    public static final UnicodeScript INVALID_CODE = new UnicodeScript(-1);
+    public static final UnicodeScript INVALID_CODE = new UnicodeScript(0);
     
     /**
      * a character used by multiple different scripts

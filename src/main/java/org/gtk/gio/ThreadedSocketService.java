@@ -46,15 +46,6 @@ public class ThreadedSocketService extends org.gtk.gio.SocketService {
     }
     
     /**
-     * Get the value of the field {@code parent_instance}
-     * @return The value of the field {@code parent_instance}
-     */
-    public org.gtk.gio.SocketService parent_instance$get() {
-        long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_instance"));
-        return new org.gtk.gio.SocketService(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
-    }
-    
-    /**
      * Create a ThreadedSocketService proxy instance for the provided memory address.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
@@ -77,11 +68,7 @@ public class ThreadedSocketService extends org.gtk.gio.SocketService {
      * @throws ClassCastException If the GType is not derived from "GThreadedSocketService", a ClassCastException will be thrown.
      */
     public static ThreadedSocketService castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), ThreadedSocketService.getType())) {
             return new ThreadedSocketService(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GThreadedSocketService");
-        }
     }
     
     private static Addressable constructNew(int maxThreads) {

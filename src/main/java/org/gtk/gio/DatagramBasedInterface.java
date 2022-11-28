@@ -56,7 +56,7 @@ public class DatagramBasedInterface extends Struct {
      * Get the value of the field {@code g_iface}
      * @return The value of the field {@code g_iface}
      */
-    public org.gtk.gobject.TypeInterface g_iface$get() {
+    public org.gtk.gobject.TypeInterface gIface$get() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("g_iface"));
         return new org.gtk.gobject.TypeInterface(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
     }
@@ -100,48 +100,48 @@ public class DatagramBasedInterface extends Struct {
         
         /**
          * The parent interface.
-         * @param g_iface The value for the {@code g_iface} field
+         * @param gIface The value for the {@code gIface} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setGIface(org.gtk.gobject.TypeInterface g_iface) {
+        public Build setGIface(org.gtk.gobject.TypeInterface gIface) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("g_iface"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (g_iface == null ? MemoryAddress.NULL : g_iface.handle()));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (gIface == null ? MemoryAddress.NULL : gIface.handle()));
             return this;
         }
         
-        public Build setReceiveMessages(java.lang.foreign.MemoryAddress receive_messages) {
+        public Build setReceiveMessages(java.lang.foreign.MemoryAddress receiveMessages) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("receive_messages"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (receive_messages == null ? MemoryAddress.NULL : receive_messages));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (receiveMessages == null ? MemoryAddress.NULL : receiveMessages));
             return this;
         }
         
-        public Build setSendMessages(java.lang.foreign.MemoryAddress send_messages) {
+        public Build setSendMessages(java.lang.foreign.MemoryAddress sendMessages) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("send_messages"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (send_messages == null ? MemoryAddress.NULL : send_messages));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (sendMessages == null ? MemoryAddress.NULL : sendMessages));
             return this;
         }
         
-        public Build setCreateSource(java.lang.foreign.MemoryAddress create_source) {
+        public Build setCreateSource(java.lang.foreign.MemoryAddress createSource) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("create_source"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (create_source == null ? MemoryAddress.NULL : create_source));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (createSource == null ? MemoryAddress.NULL : createSource));
             return this;
         }
         
-        public Build setConditionCheck(java.lang.foreign.MemoryAddress condition_check) {
+        public Build setConditionCheck(java.lang.foreign.MemoryAddress conditionCheck) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("condition_check"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (condition_check == null ? MemoryAddress.NULL : condition_check));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (conditionCheck == null ? MemoryAddress.NULL : conditionCheck));
             return this;
         }
         
-        public Build setConditionWait(java.lang.foreign.MemoryAddress condition_wait) {
+        public Build setConditionWait(java.lang.foreign.MemoryAddress conditionWait) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("condition_wait"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (condition_wait == null ? MemoryAddress.NULL : condition_wait));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (conditionWait == null ? MemoryAddress.NULL : conditionWait));
             return this;
         }
     }

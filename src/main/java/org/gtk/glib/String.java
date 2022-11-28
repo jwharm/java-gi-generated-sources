@@ -90,7 +90,7 @@ public class String extends Struct {
      * Get the value of the field {@code allocated_len}
      * @return The value of the field {@code allocated_len}
      */
-    public long allocated_len$get() {
+    public long allocatedLen$get() {
         var RESULT = (long) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("allocated_len"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -99,12 +99,12 @@ public class String extends Struct {
     
     /**
      * Change the value of the field {@code allocated_len}
-     * @param allocated_len The new value of the field {@code allocated_len}
+     * @param allocatedLen The new value of the field {@code allocated_len}
      */
-    public void allocated_len$set(long allocated_len) {
+    public void allocatedLen$set(long allocatedLen) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("allocated_len"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), allocated_len);
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), allocatedLen);
     }
     
     /**
@@ -1131,13 +1131,13 @@ public class String extends Struct {
         /**
          * the number of bytes that can be stored in the
          *   string before it needs to be reallocated. May be larger than {@code len}.
-         * @param allocated_len The value for the {@code allocated_len} field
+         * @param allocatedLen The value for the {@code allocatedLen} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setAllocatedLen(long allocated_len) {
+        public Build setAllocatedLen(long allocatedLen) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("allocated_len"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), allocated_len);
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), allocatedLen);
             return this;
         }
     }

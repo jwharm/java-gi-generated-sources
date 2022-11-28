@@ -81,11 +81,7 @@ public class DropTargetAsync extends org.gtk.gtk.EventController {
      * @throws ClassCastException If the GType is not derived from "GtkDropTargetAsync", a ClassCastException will be thrown.
      */
     public static DropTargetAsync castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), DropTargetAsync.getType())) {
             return new DropTargetAsync(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkDropTargetAsync");
-        }
     }
     
     private static Addressable constructNew(@Nullable org.gtk.gdk.ContentFormats formats, @NotNull org.gtk.gdk.DragAction actions) {

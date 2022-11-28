@@ -260,17 +260,17 @@ public class TypeInterface extends Struct {
             return struct;
         }
         
-        public Build setGType(org.gtk.glib.Type g_type) {
+        public Build setGType(org.gtk.glib.Type gType) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("g_type"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (g_type == null ? MemoryAddress.NULL : g_type.getValue().longValue()));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (gType == null ? MemoryAddress.NULL : gType.getValue().longValue()));
             return this;
         }
         
-        public Build setGInstanceType(org.gtk.glib.Type g_instance_type) {
+        public Build setGInstanceType(org.gtk.glib.Type gInstanceType) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("g_instance_type"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (g_instance_type == null ? MemoryAddress.NULL : g_instance_type.getValue().longValue()));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (gInstanceType == null ? MemoryAddress.NULL : gInstanceType.getValue().longValue()));
             return this;
         }
     }

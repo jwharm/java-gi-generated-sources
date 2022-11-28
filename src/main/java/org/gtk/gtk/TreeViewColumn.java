@@ -57,11 +57,7 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
      * @throws ClassCastException If the GType is not derived from "GtkTreeViewColumn", a ClassCastException will be thrown.
      */
     public static TreeViewColumn castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), TreeViewColumn.getType())) {
             return new TreeViewColumn(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkTreeViewColumn");
-        }
     }
     
     private static Addressable constructNew() {

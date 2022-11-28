@@ -40,57 +40,6 @@ public class ParamSpecVariant extends org.gtk.gobject.ParamSpec {
     }
     
     /**
-     * Get the value of the field {@code parent_instance}
-     * @return The value of the field {@code parent_instance}
-     */
-    public org.gtk.gobject.ParamSpec parent_instance$get() {
-        long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_instance"));
-        return new org.gtk.gobject.ParamSpec(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
-    }
-    
-    /**
-     * Get the value of the field {@code type}
-     * @return The value of the field {@code type}
-     */
-    public org.gtk.glib.VariantType type$get() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("type"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new org.gtk.glib.VariantType(RESULT, Ownership.UNKNOWN);
-    }
-    
-    /**
-     * Change the value of the field {@code type}
-     * @param type The new value of the field {@code type}
-     */
-    public void type$set(org.gtk.glib.VariantType type) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("type"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), type.handle());
-    }
-    
-    /**
-     * Get the value of the field {@code default_value}
-     * @return The value of the field {@code default_value}
-     */
-    public org.gtk.glib.Variant default_value$get() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("default_value"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new org.gtk.glib.Variant(RESULT, Ownership.UNKNOWN);
-    }
-    
-    /**
-     * Change the value of the field {@code default_value}
-     * @param default_value The new value of the field {@code default_value}
-     */
-    public void default_value$set(org.gtk.glib.Variant default_value) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("default_value"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), default_value.handle());
-    }
-    
-    /**
      * Create a ParamSpecVariant proxy instance for the provided memory address.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
@@ -113,11 +62,7 @@ public class ParamSpecVariant extends org.gtk.gobject.ParamSpec {
      * @throws ClassCastException If the GType is not derived from "GParamSpecVariant", a ClassCastException will be thrown.
      */
     public static ParamSpecVariant castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), ParamSpecVariant.getType())) {
             return new ParamSpecVariant(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GParamSpecVariant");
-        }
     }
     
     /**

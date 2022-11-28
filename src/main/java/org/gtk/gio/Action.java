@@ -51,11 +51,7 @@ public interface Action extends io.github.jwharm.javagi.Proxy {
      * @throws ClassCastException If the GType is not derived from "GAction", a ClassCastException will be thrown.
      */
     public static Action castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), Action.getType())) {
             return new ActionImpl(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GAction");
-        }
     }
     
     /**
@@ -305,18 +301,19 @@ public interface Action extends io.github.jwharm.javagi.Proxy {
      * @return {@code true} if successful, else {@code false} with {@code error} set
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public static boolean parseDetailedName(@NotNull java.lang.String detailedName, @NotNull Out<java.lang.String> actionName, @NotNull PointerProxy<org.gtk.glib.Variant> targetValue) throws io.github.jwharm.javagi.GErrorException {
+    public static boolean parseDetailedName(@NotNull java.lang.String detailedName, @NotNull Out<java.lang.String> actionName, @NotNull Out<org.gtk.glib.Variant> targetValue) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(detailedName, "Parameter 'detailedName' must not be null");
         java.util.Objects.requireNonNull(actionName, "Parameter 'actionName' must not be null");
         MemorySegment actionNamePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         java.util.Objects.requireNonNull(targetValue, "Parameter 'targetValue' must not be null");
+        MemorySegment targetValuePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_action_parse_detailed_name.invokeExact(
                     Interop.allocateNativeString(detailedName),
                     (Addressable) actionNamePOINTER.address(),
-                    targetValue.handle(),
+                    (Addressable) targetValuePOINTER.address(),
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -325,6 +322,7 @@ public interface Action extends io.github.jwharm.javagi.Proxy {
             throw new GErrorException(GERROR);
         }
         actionName.set(Interop.getStringFrom(actionNamePOINTER.get(Interop.valueLayout.ADDRESS, 0)));
+        targetValue.set(new org.gtk.glib.Variant(targetValuePOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
         return RESULT != 0;
     }
     

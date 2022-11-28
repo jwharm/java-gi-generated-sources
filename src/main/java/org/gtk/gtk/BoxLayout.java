@@ -61,11 +61,7 @@ public class BoxLayout extends org.gtk.gtk.LayoutManager implements org.gtk.gtk.
      * @throws ClassCastException If the GType is not derived from "GtkBoxLayout", a ClassCastException will be thrown.
      */
     public static BoxLayout castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), BoxLayout.getType())) {
             return new BoxLayout(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkBoxLayout");
-        }
     }
     
     private static Addressable constructNew(@NotNull org.gtk.gtk.Orientation orientation) {

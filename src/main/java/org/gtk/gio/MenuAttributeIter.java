@@ -33,15 +33,6 @@ public class MenuAttributeIter extends org.gtk.gobject.Object {
     }
     
     /**
-     * Get the value of the field {@code parent_instance}
-     * @return The value of the field {@code parent_instance}
-     */
-    public org.gtk.gobject.Object parent_instance$get() {
-        long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_instance"));
-        return new org.gtk.gobject.Object(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
-    }
-    
-    /**
      * Create a MenuAttributeIter proxy instance for the provided memory address.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
@@ -64,11 +55,7 @@ public class MenuAttributeIter extends org.gtk.gobject.Object {
      * @throws ClassCastException If the GType is not derived from "GMenuAttributeIter", a ClassCastException will be thrown.
      */
     public static MenuAttributeIter castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), MenuAttributeIter.getType())) {
             return new MenuAttributeIter(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GMenuAttributeIter");
-        }
     }
     
     /**
@@ -110,20 +97,22 @@ public class MenuAttributeIter extends org.gtk.gobject.Object {
      * @return {@code true} on success, or {@code false} if there is no additional
      *     attribute
      */
-    public boolean getNext(@NotNull Out<java.lang.String> outName, @NotNull PointerProxy<org.gtk.glib.Variant> value) {
+    public boolean getNext(@NotNull Out<java.lang.String> outName, @NotNull Out<org.gtk.glib.Variant> value) {
         java.util.Objects.requireNonNull(outName, "Parameter 'outName' must not be null");
         MemorySegment outNamePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
+        MemorySegment valuePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_menu_attribute_iter_get_next.invokeExact(
                     handle(),
                     (Addressable) outNamePOINTER.address(),
-                    value.handle());
+                    (Addressable) valuePOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         outName.set(Interop.getStringFrom(outNamePOINTER.get(Interop.valueLayout.ADDRESS, 0)));
+        value.set(new org.gtk.glib.Variant(valuePOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
         return RESULT != 0;
     }
     

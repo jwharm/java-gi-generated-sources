@@ -55,11 +55,7 @@ public class FileChooserWidget extends org.gtk.gtk.Widget implements org.gtk.gtk
      * @throws ClassCastException If the GType is not derived from "GtkFileChooserWidget", a ClassCastException will be thrown.
      */
     public static FileChooserWidget castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), FileChooserWidget.getType())) {
             return new FileChooserWidget(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkFileChooserWidget");
-        }
     }
     
     private static Addressable constructNew(@NotNull org.gtk.gtk.FileChooserAction action) {

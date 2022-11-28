@@ -5906,7 +5906,7 @@ public final class GLib {
      * If you are using {@link org.gtk.gio.Application} the program name is set in
      * g_application_run(). In case of GDK or GTK+ it is set in
      * gdk_init(), which is called by gtk_init() and the
-     * {@link org.gtk.gtk.Application}::startup handler. The program name is found by
+     * {@code GtkApplication}::startup handler. The program name is found by
      * taking the last component of {@code argv}[0].
      * @return the name of the program,
      *   or {@code null} if it has not been set yet. The returned string belongs
@@ -9562,16 +9562,18 @@ public final class GLib {
      * @param format printf()-style format string
      * @param varargs arguments to {@code format}
      */
-    public static void prefixError(@Nullable PointerProxy<org.gtk.glib.Error> err, @NotNull java.lang.String format, java.lang.Object... varargs) {
+    public static void prefixError(@Nullable Out<org.gtk.glib.Error> err, @NotNull java.lang.String format, java.lang.Object... varargs) {
+        MemorySegment errPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
         try {
             DowncallHandles.g_prefix_error.invokeExact(
-                    err.handle(),
+                    (Addressable) errPOINTER.address(),
                     Interop.allocateNativeString(format),
                     varargs);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        err.set(new org.gtk.glib.Error(errPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
     }
     
     /**
@@ -9699,15 +9701,17 @@ public final class GLib {
      * @param dest error return location
      * @param src error to move into the return location
      */
-    public static void propagateError(@Nullable PointerProxy<org.gtk.glib.Error> dest, @NotNull org.gtk.glib.Error src) {
+    public static void propagateError(@Nullable Out<org.gtk.glib.Error> dest, @NotNull org.gtk.glib.Error src) {
+        MemorySegment destPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         java.util.Objects.requireNonNull(src, "Parameter 'src' must not be null");
         try {
             DowncallHandles.g_propagate_error.invokeExact(
-                    dest.handle(),
+                    (Addressable) destPOINTER.address(),
                     src.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        dest.set(new org.gtk.glib.Error(destPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
         src.yieldOwnership();
     }
     
@@ -10818,12 +10822,13 @@ public final class GLib {
      * @param format printf()-style format
      * @param varargs args for {@code format}
      */
-    public static void setError(@NotNull PointerProxy<org.gtk.glib.Error> err, @NotNull org.gtk.glib.Quark domain, int code, @NotNull java.lang.String format, java.lang.Object... varargs) {
+    public static void setError(@NotNull Out<org.gtk.glib.Error> err, @NotNull org.gtk.glib.Quark domain, int code, @NotNull java.lang.String format, java.lang.Object... varargs) {
+        MemorySegment errPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         java.util.Objects.requireNonNull(domain, "Parameter 'domain' must not be null");
         java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
         try {
             DowncallHandles.g_set_error.invokeExact(
-                    err.handle(),
+                    (Addressable) errPOINTER.address(),
                     domain.getValue().intValue(),
                     code,
                     Interop.allocateNativeString(format),
@@ -10831,6 +10836,7 @@ public final class GLib {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        err.set(new org.gtk.glib.Error(errPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
     }
     
     /**
@@ -10844,18 +10850,20 @@ public final class GLib {
      * @param code error code
      * @param message error message
      */
-    public static void setErrorLiteral(@NotNull PointerProxy<org.gtk.glib.Error> err, @NotNull org.gtk.glib.Quark domain, int code, @NotNull java.lang.String message) {
+    public static void setErrorLiteral(@NotNull Out<org.gtk.glib.Error> err, @NotNull org.gtk.glib.Quark domain, int code, @NotNull java.lang.String message) {
+        MemorySegment errPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         java.util.Objects.requireNonNull(domain, "Parameter 'domain' must not be null");
         java.util.Objects.requireNonNull(message, "Parameter 'message' must not be null");
         try {
             DowncallHandles.g_set_error_literal.invokeExact(
-                    err.handle(),
+                    (Addressable) errPOINTER.address(),
                     domain.getValue().intValue(),
                     code,
                     Interop.allocateNativeString(message));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        err.set(new org.gtk.glib.Error(errPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
     }
     
     /**
@@ -10865,7 +10873,7 @@ public final class GLib {
      * If you are using {@link org.gtk.gio.Application} the program name is set in
      * g_application_run(). In case of GDK or GTK+ it is set in
      * gdk_init(), which is called by gtk_init() and the
-     * {@link org.gtk.gtk.Application}::startup handler. The program name is found by
+     * {@code GtkApplication}::startup handler. The program name is found by
      * taking the last component of {@code argv}[0].
      * <p>
      * Since GLib 2.72, this function can be called multiple times
@@ -11431,7 +11439,7 @@ public final class GLib {
      * <p>
      * If you are writing a GTK application, and the program you are spawning is a
      * graphical application too, then to ensure that the spawned program opens its
-     * windows on the right screen, you may want to use {@link org.gtk.gdk.AppLaunchContext},
+     * windows on the right screen, you may want to use {@code GdkAppLaunchContext},
      * {@link org.gtk.gio.AppLaunchContext}, or set the {@code DISPLAY} environment variable.
      * <p>
      * Note that the returned {@code child_pid} on Windows is a handle to the child
@@ -11784,7 +11792,7 @@ public final class GLib {
      * <p>
      * If you are writing a GTK application, and the program you are spawning is a
      * graphical application too, then to ensure that the spawned program opens its
-     * windows on the right screen, you may want to use {@link org.gtk.gdk.AppLaunchContext},
+     * windows on the right screen, you may want to use {@code GdkAppLaunchContext},
      * {@link org.gtk.gio.AppLaunchContext}, or set the {@code DISPLAY} environment variable.
      * @param workingDirectory child's current working
      *     directory, or {@code null} to inherit parent's, in the GLib file name encoding
@@ -22542,39 +22550,39 @@ public final class GLib {
     @ApiStatus.Internal
     public static class Callbacks {
         
-        public static boolean cbHookCheckFunc(MemoryAddress data) {
+        public static int cbHookCheckFunc(MemoryAddress data) {
             int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (HookCheckFunc) Interop.signalRegistry.get(HASH);
             var RESULT = HANDLER.onHookCheckFunc();
-            return RESULT;
+            return RESULT ? 1 : 0;
         }
         
-        public static boolean cbIOFunc(MemoryAddress source, int condition, MemoryAddress userData) {
+        public static int cbIOFunc(MemoryAddress source, int condition, MemoryAddress userData) {
             int HASH = userData.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (IOFunc) Interop.signalRegistry.get(HASH);
             var RESULT = HANDLER.onIOFunc(new org.gtk.glib.IOChannel(source, Ownership.NONE), new org.gtk.glib.IOCondition(condition));
-            return RESULT;
+            return RESULT ? 1 : 0;
         }
         
-        public static java.lang.foreign.MemoryAddress cbThreadFunc(MemoryAddress userData) {
+        public static Addressable cbThreadFunc(MemoryAddress userData) {
             int HASH = userData.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (ThreadFunc) Interop.signalRegistry.get(HASH);
             var RESULT = HANDLER.onThreadFunc();
-            return RESULT;
+            return (Addressable) RESULT;
         }
         
-        public static boolean cbHookCheckMarshaller(MemoryAddress hook, MemoryAddress userData) {
+        public static int cbHookCheckMarshaller(MemoryAddress hook, MemoryAddress userData) {
             int HASH = userData.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (HookCheckMarshaller) Interop.signalRegistry.get(HASH);
             var RESULT = HANDLER.onHookCheckMarshaller(new org.gtk.glib.Hook(hook, Ownership.NONE));
-            return RESULT;
+            return RESULT ? 1 : 0;
         }
         
-        public static boolean cbNodeTraverseFunc(MemoryAddress node, MemoryAddress userData) {
+        public static int cbNodeTraverseFunc(MemoryAddress node, MemoryAddress userData) {
             int HASH = userData.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (NodeTraverseFunc) Interop.signalRegistry.get(HASH);
             var RESULT = HANDLER.onNodeTraverseFunc(new org.gtk.glib.Node(node, Ownership.NONE));
-            return RESULT;
+            return RESULT ? 1 : 0;
         }
         
         public static void cbHookFunc(MemoryAddress data) {
@@ -22589,32 +22597,32 @@ public final class GLib {
             HANDLER.onTestFixtureFunc(fixture);
         }
         
-        public static java.lang.foreign.MemoryAddress cbCopyFunc(MemoryAddress src, MemoryAddress userData) {
+        public static Addressable cbCopyFunc(MemoryAddress src, MemoryAddress userData) {
             int HASH = userData.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (CopyFunc) Interop.signalRegistry.get(HASH);
             var RESULT = HANDLER.onCopyFunc(src);
-            return RESULT;
+            return (Addressable) RESULT;
         }
         
-        public static boolean cbHookFindFunc(MemoryAddress hook, MemoryAddress userData) {
+        public static int cbHookFindFunc(MemoryAddress hook, MemoryAddress userData) {
             int HASH = userData.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (HookFindFunc) Interop.signalRegistry.get(HASH);
             var RESULT = HANDLER.onHookFindFunc(new org.gtk.glib.Hook(hook, Ownership.NONE));
-            return RESULT;
+            return RESULT ? 1 : 0;
         }
         
-        public static boolean cbRegexEvalCallback(MemoryAddress matchInfo, MemoryAddress result, MemoryAddress userData) {
+        public static int cbRegexEvalCallback(MemoryAddress matchInfo, MemoryAddress result, MemoryAddress userData) {
             int HASH = userData.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (RegexEvalCallback) Interop.signalRegistry.get(HASH);
             var RESULT = HANDLER.onRegexEvalCallback(new org.gtk.glib.MatchInfo(matchInfo, Ownership.NONE), new org.gtk.glib.String(result, Ownership.NONE));
-            return RESULT;
+            return RESULT ? 1 : 0;
         }
         
-        public static boolean cbUnixFDSourceFunc(int fd, int condition, MemoryAddress userData) {
+        public static int cbUnixFDSourceFunc(int fd, int condition, MemoryAddress userData) {
             int HASH = userData.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (UnixFDSourceFunc) Interop.signalRegistry.get(HASH);
             var RESULT = HANDLER.onUnixFDSourceFunc(fd, new org.gtk.glib.IOCondition(condition));
-            return RESULT;
+            return RESULT ? 1 : 0;
         }
         
         public static void cbSpawnChildSetupFunc(MemoryAddress userData) {
@@ -22648,18 +22656,18 @@ public final class GLib {
             return RESULT;
         }
         
-        public static boolean cbEqualFuncFull(MemoryAddress a, MemoryAddress b, MemoryAddress userData) {
+        public static int cbEqualFuncFull(MemoryAddress a, MemoryAddress b, MemoryAddress userData) {
             int HASH = userData.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (EqualFuncFull) Interop.signalRegistry.get(HASH);
             var RESULT = HANDLER.onEqualFuncFull(a, b);
-            return RESULT;
+            return RESULT ? 1 : 0;
         }
         
-        public static boolean cbTraverseFunc(MemoryAddress key, MemoryAddress value, MemoryAddress userData) {
+        public static int cbTraverseFunc(MemoryAddress key, MemoryAddress value, MemoryAddress userData) {
             int HASH = userData.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (TraverseFunc) Interop.signalRegistry.get(HASH);
             var RESULT = HANDLER.onTraverseFunc(key, value);
-            return RESULT;
+            return RESULT ? 1 : 0;
         }
         
         public static void cbFunc(MemoryAddress data, MemoryAddress userData) {
@@ -22668,11 +22676,11 @@ public final class GLib {
             HANDLER.onFunc();
         }
         
-        public static org.gtk.glib.LogWriterOutput cbLogWriterFunc(int logLevel, MemoryAddress fields, long nFields, MemoryAddress userData) {
+        public static int cbLogWriterFunc(int logLevel, MemoryAddress fields, long nFields, MemoryAddress userData) {
             int HASH = userData.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (LogWriterFunc) Interop.signalRegistry.get(HASH);
             var RESULT = HANDLER.onLogWriterFunc(new org.gtk.glib.LogLevelFlags(logLevel), new PointerProxy<org.gtk.glib.LogField>(fields, org.gtk.glib.LogField.class), nFields);
-            return RESULT;
+            return RESULT.getValue();
         }
         
         public static int cbSequenceIterCompareFunc(MemoryAddress a, MemoryAddress b, MemoryAddress userData) {
@@ -22688,32 +22696,32 @@ public final class GLib {
             HANDLER.onHookMarshaller(new org.gtk.glib.Hook(hook, Ownership.NONE));
         }
         
-        public static boolean cbOptionParseFunc(MemoryAddress context, MemoryAddress group, MemoryAddress userData) {
+        public static int cbOptionParseFunc(MemoryAddress context, MemoryAddress group, MemoryAddress userData) {
             int HASH = userData.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (OptionParseFunc) Interop.signalRegistry.get(HASH);
             var RESULT = HANDLER.onOptionParseFunc(new org.gtk.glib.OptionContext(context, Ownership.NONE), new org.gtk.glib.OptionGroup(group, Ownership.NONE));
-            return RESULT;
+            return RESULT ? 1 : 0;
         }
         
-        public static boolean cbOptionArgFunc(MemoryAddress optionName, MemoryAddress value, MemoryAddress userData) {
+        public static int cbOptionArgFunc(MemoryAddress optionName, MemoryAddress value, MemoryAddress userData) {
             int HASH = userData.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (OptionArgFunc) Interop.signalRegistry.get(HASH);
             var RESULT = HANDLER.onOptionArgFunc(Interop.getStringFrom(optionName), Interop.getStringFrom(value));
-            return RESULT;
+            return RESULT ? 1 : 0;
         }
         
-        public static boolean cbTestLogFatalFunc(MemoryAddress logDomain, int logLevel, MemoryAddress message, MemoryAddress userData) {
+        public static int cbTestLogFatalFunc(MemoryAddress logDomain, int logLevel, MemoryAddress message, MemoryAddress userData) {
             int HASH = userData.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (TestLogFatalFunc) Interop.signalRegistry.get(HASH);
             var RESULT = HANDLER.onTestLogFatalFunc(Interop.getStringFrom(logDomain), new org.gtk.glib.LogLevelFlags(logLevel), Interop.getStringFrom(message));
-            return RESULT;
+            return RESULT ? 1 : 0;
         }
         
-        public static boolean cbSourceFunc(MemoryAddress userData) {
+        public static int cbSourceFunc(MemoryAddress userData) {
             int HASH = userData.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (SourceFunc) Interop.signalRegistry.get(HASH);
             var RESULT = HANDLER.onSourceFunc();
-            return RESULT;
+            return RESULT ? 1 : 0;
         }
         
         public static void cbOptionErrorFunc(MemoryAddress context, MemoryAddress group, MemoryAddress userData) {
@@ -22722,11 +22730,11 @@ public final class GLib {
             HANDLER.onOptionErrorFunc(new org.gtk.glib.OptionContext(context, Ownership.NONE), new org.gtk.glib.OptionGroup(group, Ownership.NONE));
         }
         
-        public static boolean cbTraverseNodeFunc(MemoryAddress node, MemoryAddress userData) {
+        public static int cbTraverseNodeFunc(MemoryAddress node, MemoryAddress userData) {
             int HASH = userData.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (TraverseNodeFunc) Interop.signalRegistry.get(HASH);
             var RESULT = HANDLER.onTraverseNodeFunc(new org.gtk.glib.TreeNode(node, Ownership.NONE));
-            return RESULT;
+            return RESULT ? 1 : 0;
         }
         
         public static void cbHFunc(MemoryAddress key, MemoryAddress value, MemoryAddress userData) {
@@ -22735,11 +22743,11 @@ public final class GLib {
             HANDLER.onHFunc(key, value);
         }
         
-        public static java.lang.foreign.MemoryAddress cbDuplicateFunc(MemoryAddress data, MemoryAddress userData) {
+        public static Addressable cbDuplicateFunc(MemoryAddress data, MemoryAddress userData) {
             int HASH = userData.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (DuplicateFunc) Interop.signalRegistry.get(HASH);
             var RESULT = HANDLER.onDuplicateFunc();
-            return RESULT;
+            return (Addressable) RESULT;
         }
         
         public static void cbFreeFunc(MemoryAddress data) {
@@ -22748,11 +22756,11 @@ public final class GLib {
             HANDLER.onFreeFunc();
         }
         
-        public static boolean cbHRFunc(MemoryAddress key, MemoryAddress value, MemoryAddress userData) {
+        public static int cbHRFunc(MemoryAddress key, MemoryAddress value, MemoryAddress userData) {
             int HASH = userData.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (HRFunc) Interop.signalRegistry.get(HASH);
             var RESULT = HANDLER.onHRFunc(key, value);
-            return RESULT;
+            return RESULT ? 1 : 0;
         }
         
         public static void cbSourceOnceFunc(MemoryAddress userData) {
@@ -22779,11 +22787,11 @@ public final class GLib {
             HANDLER.onDataForeachFunc(new org.gtk.glib.Quark(keyId));
         }
         
-        public static java.lang.String cbTranslateFunc(MemoryAddress str, MemoryAddress userData) {
+        public static Addressable cbTranslateFunc(MemoryAddress str, MemoryAddress userData) {
             int HASH = userData.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (TranslateFunc) Interop.signalRegistry.get(HASH);
             var RESULT = HANDLER.onTranslateFunc(Interop.getStringFrom(str));
-            return RESULT;
+            return Interop.allocateNativeString(RESULT);
         }
     }
 }

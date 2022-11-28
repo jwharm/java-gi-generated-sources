@@ -52,11 +52,7 @@ public class AlternativeTrigger extends org.gtk.gtk.ShortcutTrigger {
      * @throws ClassCastException If the GType is not derived from "GtkAlternativeTrigger", a ClassCastException will be thrown.
      */
     public static AlternativeTrigger castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), AlternativeTrigger.getType())) {
             return new AlternativeTrigger(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkAlternativeTrigger");
-        }
     }
     
     private static Addressable constructNew(@NotNull org.gtk.gtk.ShortcutTrigger first, @NotNull org.gtk.gtk.ShortcutTrigger second) {

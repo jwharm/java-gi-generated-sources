@@ -49,11 +49,7 @@ public class ZlibCompressor extends org.gtk.gobject.Object implements org.gtk.gi
      * @throws ClassCastException If the GType is not derived from "GZlibCompressor", a ClassCastException will be thrown.
      */
     public static ZlibCompressor castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), ZlibCompressor.getType())) {
             return new ZlibCompressor(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GZlibCompressor");
-        }
     }
     
     private static Addressable constructNew(@NotNull org.gtk.gio.ZlibCompressorFormat format, int level) {

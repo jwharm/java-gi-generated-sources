@@ -204,7 +204,7 @@ public class Cond extends Struct {
      * the documentation for {@link Cond} for a complete example.
      * @param mutex a {@link Mutex} that is currently locked
      */
-    public void wait(@NotNull org.gtk.glib.Mutex mutex) {
+    public void wait_(@NotNull org.gtk.glib.Mutex mutex) {
         java.util.Objects.requireNonNull(mutex, "Parameter 'mutex' must not be null");
         try {
             DowncallHandles.g_cond_wait.invokeExact(

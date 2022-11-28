@@ -48,11 +48,7 @@ public class BorderNode extends org.gtk.gsk.RenderNode {
      * @throws ClassCastException If the GType is not derived from "GskBorderNode", a ClassCastException will be thrown.
      */
     public static BorderNode castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), BorderNode.getType())) {
             return new BorderNode(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GskBorderNode");
-        }
     }
     
     private static Addressable constructNew(@NotNull org.gtk.gsk.RoundedRect outline, @NotNull float[] borderWidth, @NotNull org.gtk.gdk.RGBA[] borderColor) {

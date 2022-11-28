@@ -51,7 +51,7 @@ public class NetworkMonitorInterface extends Struct {
      * Get the value of the field {@code g_iface}
      * @return The value of the field {@code g_iface}
      */
-    public org.gtk.gobject.TypeInterface g_iface$get() {
+    public org.gtk.gobject.TypeInterface gIface$get() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("g_iface"));
         return new org.gtk.gobject.TypeInterface(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
     }
@@ -95,41 +95,41 @@ public class NetworkMonitorInterface extends Struct {
         
         /**
          * The parent interface.
-         * @param g_iface The value for the {@code g_iface} field
+         * @param gIface The value for the {@code gIface} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setGIface(org.gtk.gobject.TypeInterface g_iface) {
+        public Build setGIface(org.gtk.gobject.TypeInterface gIface) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("g_iface"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (g_iface == null ? MemoryAddress.NULL : g_iface.handle()));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (gIface == null ? MemoryAddress.NULL : gIface.handle()));
             return this;
         }
         
-        public Build setNetworkChanged(java.lang.foreign.MemoryAddress network_changed) {
+        public Build setNetworkChanged(java.lang.foreign.MemoryAddress networkChanged) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("network_changed"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (network_changed == null ? MemoryAddress.NULL : network_changed));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (networkChanged == null ? MemoryAddress.NULL : networkChanged));
             return this;
         }
         
-        public Build setCanReach(java.lang.foreign.MemoryAddress can_reach) {
+        public Build setCanReach(java.lang.foreign.MemoryAddress canReach) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("can_reach"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (can_reach == null ? MemoryAddress.NULL : can_reach));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (canReach == null ? MemoryAddress.NULL : canReach));
             return this;
         }
         
-        public Build setCanReachAsync(java.lang.foreign.MemoryAddress can_reach_async) {
+        public Build setCanReachAsync(java.lang.foreign.MemoryAddress canReachAsync) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("can_reach_async"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (can_reach_async == null ? MemoryAddress.NULL : can_reach_async));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (canReachAsync == null ? MemoryAddress.NULL : canReachAsync));
             return this;
         }
         
-        public Build setCanReachFinish(java.lang.foreign.MemoryAddress can_reach_finish) {
+        public Build setCanReachFinish(java.lang.foreign.MemoryAddress canReachFinish) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("can_reach_finish"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (can_reach_finish == null ? MemoryAddress.NULL : can_reach_finish));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (canReachFinish == null ? MemoryAddress.NULL : canReachFinish));
             return this;
         }
     }

@@ -25,7 +25,7 @@ public class DeviceType extends io.github.jwharm.javagi.Enumeration {
     
     public static final DeviceType WIN32 = new DeviceType(7);
     
-    public static final DeviceType INVALID = new DeviceType(-1);
+    public static final DeviceType INVALID = new DeviceType(0);
     
     public DeviceType(int value) {
         super(value);

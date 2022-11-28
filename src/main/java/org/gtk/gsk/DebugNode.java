@@ -49,11 +49,7 @@ public class DebugNode extends org.gtk.gsk.RenderNode {
      * @throws ClassCastException If the GType is not derived from "GskDebugNode", a ClassCastException will be thrown.
      */
     public static DebugNode castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), DebugNode.getType())) {
             return new DebugNode(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GskDebugNode");
-        }
     }
     
     private static Addressable constructNew(@NotNull org.gtk.gsk.RenderNode child, @NotNull java.lang.String message) {

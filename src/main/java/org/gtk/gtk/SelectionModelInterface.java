@@ -99,73 +99,73 @@ public class SelectionModelInterface extends Struct {
             return struct;
         }
         
-        public Build setGIface(org.gtk.gobject.TypeInterface g_iface) {
+        public Build setGIface(org.gtk.gobject.TypeInterface gIface) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("g_iface"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (g_iface == null ? MemoryAddress.NULL : g_iface.handle()));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (gIface == null ? MemoryAddress.NULL : gIface.handle()));
             return this;
         }
         
-        public Build setIsSelected(java.lang.foreign.MemoryAddress is_selected) {
+        public Build setIsSelected(java.lang.foreign.MemoryAddress isSelected) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("is_selected"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (is_selected == null ? MemoryAddress.NULL : is_selected));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (isSelected == null ? MemoryAddress.NULL : isSelected));
             return this;
         }
         
-        public Build setGetSelectionInRange(java.lang.foreign.MemoryAddress get_selection_in_range) {
+        public Build setGetSelectionInRange(java.lang.foreign.MemoryAddress getSelectionInRange) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("get_selection_in_range"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (get_selection_in_range == null ? MemoryAddress.NULL : get_selection_in_range));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getSelectionInRange == null ? MemoryAddress.NULL : getSelectionInRange));
             return this;
         }
         
-        public Build setSelectItem(java.lang.foreign.MemoryAddress select_item) {
+        public Build setSelectItem(java.lang.foreign.MemoryAddress selectItem) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("select_item"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (select_item == null ? MemoryAddress.NULL : select_item));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (selectItem == null ? MemoryAddress.NULL : selectItem));
             return this;
         }
         
-        public Build setUnselectItem(java.lang.foreign.MemoryAddress unselect_item) {
+        public Build setUnselectItem(java.lang.foreign.MemoryAddress unselectItem) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("unselect_item"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (unselect_item == null ? MemoryAddress.NULL : unselect_item));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (unselectItem == null ? MemoryAddress.NULL : unselectItem));
             return this;
         }
         
-        public Build setSelectRange(java.lang.foreign.MemoryAddress select_range) {
+        public Build setSelectRange(java.lang.foreign.MemoryAddress selectRange) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("select_range"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (select_range == null ? MemoryAddress.NULL : select_range));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (selectRange == null ? MemoryAddress.NULL : selectRange));
             return this;
         }
         
-        public Build setUnselectRange(java.lang.foreign.MemoryAddress unselect_range) {
+        public Build setUnselectRange(java.lang.foreign.MemoryAddress unselectRange) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("unselect_range"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (unselect_range == null ? MemoryAddress.NULL : unselect_range));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (unselectRange == null ? MemoryAddress.NULL : unselectRange));
             return this;
         }
         
-        public Build setSelectAll(java.lang.foreign.MemoryAddress select_all) {
+        public Build setSelectAll(java.lang.foreign.MemoryAddress selectAll) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("select_all"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (select_all == null ? MemoryAddress.NULL : select_all));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (selectAll == null ? MemoryAddress.NULL : selectAll));
             return this;
         }
         
-        public Build setUnselectAll(java.lang.foreign.MemoryAddress unselect_all) {
+        public Build setUnselectAll(java.lang.foreign.MemoryAddress unselectAll) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("unselect_all"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (unselect_all == null ? MemoryAddress.NULL : unselect_all));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (unselectAll == null ? MemoryAddress.NULL : unselectAll));
             return this;
         }
         
-        public Build setSetSelection(java.lang.foreign.MemoryAddress set_selection) {
+        public Build setSetSelection(java.lang.foreign.MemoryAddress setSelection) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("set_selection"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (set_selection == null ? MemoryAddress.NULL : set_selection));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (setSelection == null ? MemoryAddress.NULL : setSelection));
             return this;
         }
     }

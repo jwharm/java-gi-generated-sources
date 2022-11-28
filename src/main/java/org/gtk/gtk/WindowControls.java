@@ -94,11 +94,7 @@ public class WindowControls extends org.gtk.gtk.Widget implements org.gtk.gtk.Ac
      * @throws ClassCastException If the GType is not derived from "GtkWindowControls", a ClassCastException will be thrown.
      */
     public static WindowControls castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), WindowControls.getType())) {
             return new WindowControls(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkWindowControls");
-        }
     }
     
     private static Addressable constructNew(@NotNull org.gtk.gtk.PackType side) {

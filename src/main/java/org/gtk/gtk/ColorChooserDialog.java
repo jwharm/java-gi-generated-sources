@@ -59,11 +59,7 @@ public class ColorChooserDialog extends org.gtk.gtk.Dialog implements org.gtk.gt
      * @throws ClassCastException If the GType is not derived from "GtkColorChooserDialog", a ClassCastException will be thrown.
      */
     public static ColorChooserDialog castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), ColorChooserDialog.getType())) {
             return new ColorChooserDialog(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkColorChooserDialog");
-        }
     }
     
     private static Addressable constructNew(@Nullable java.lang.String title, @Nullable org.gtk.gtk.Window parent) {

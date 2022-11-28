@@ -58,7 +58,7 @@ public class BuildableIface extends Struct {
      * Get the value of the field {@code g_iface}
      * @return The value of the field {@code g_iface}
      */
-    public org.gtk.gobject.TypeInterface g_iface$get() {
+    public org.gtk.gobject.TypeInterface gIface$get() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("g_iface"));
         return new org.gtk.gobject.TypeInterface(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
     }
@@ -102,83 +102,83 @@ public class BuildableIface extends Struct {
         
         /**
          * the parent class
-         * @param g_iface The value for the {@code g_iface} field
+         * @param gIface The value for the {@code gIface} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setGIface(org.gtk.gobject.TypeInterface g_iface) {
+        public Build setGIface(org.gtk.gobject.TypeInterface gIface) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("g_iface"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (g_iface == null ? MemoryAddress.NULL : g_iface.handle()));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (gIface == null ? MemoryAddress.NULL : gIface.handle()));
             return this;
         }
         
-        public Build setSetId(java.lang.foreign.MemoryAddress set_id) {
+        public Build setSetId(java.lang.foreign.MemoryAddress setId) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("set_id"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (set_id == null ? MemoryAddress.NULL : set_id));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (setId == null ? MemoryAddress.NULL : setId));
             return this;
         }
         
-        public Build setGetId(java.lang.foreign.MemoryAddress get_id) {
+        public Build setGetId(java.lang.foreign.MemoryAddress getId) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("get_id"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (get_id == null ? MemoryAddress.NULL : get_id));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getId == null ? MemoryAddress.NULL : getId));
             return this;
         }
         
-        public Build setAddChild(java.lang.foreign.MemoryAddress add_child) {
+        public Build setAddChild(java.lang.foreign.MemoryAddress addChild) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("add_child"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (add_child == null ? MemoryAddress.NULL : add_child));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (addChild == null ? MemoryAddress.NULL : addChild));
             return this;
         }
         
-        public Build setSetBuildableProperty(java.lang.foreign.MemoryAddress set_buildable_property) {
+        public Build setSetBuildableProperty(java.lang.foreign.MemoryAddress setBuildableProperty) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("set_buildable_property"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (set_buildable_property == null ? MemoryAddress.NULL : set_buildable_property));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (setBuildableProperty == null ? MemoryAddress.NULL : setBuildableProperty));
             return this;
         }
         
-        public Build setConstructChild(java.lang.foreign.MemoryAddress construct_child) {
+        public Build setConstructChild(java.lang.foreign.MemoryAddress constructChild) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("construct_child"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (construct_child == null ? MemoryAddress.NULL : construct_child));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (constructChild == null ? MemoryAddress.NULL : constructChild));
             return this;
         }
         
-        public Build setCustomTagStart(java.lang.foreign.MemoryAddress custom_tag_start) {
+        public Build setCustomTagStart(java.lang.foreign.MemoryAddress customTagStart) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("custom_tag_start"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (custom_tag_start == null ? MemoryAddress.NULL : custom_tag_start));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (customTagStart == null ? MemoryAddress.NULL : customTagStart));
             return this;
         }
         
-        public Build setCustomTagEnd(java.lang.foreign.MemoryAddress custom_tag_end) {
+        public Build setCustomTagEnd(java.lang.foreign.MemoryAddress customTagEnd) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("custom_tag_end"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (custom_tag_end == null ? MemoryAddress.NULL : custom_tag_end));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (customTagEnd == null ? MemoryAddress.NULL : customTagEnd));
             return this;
         }
         
-        public Build setCustomFinished(java.lang.foreign.MemoryAddress custom_finished) {
+        public Build setCustomFinished(java.lang.foreign.MemoryAddress customFinished) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("custom_finished"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (custom_finished == null ? MemoryAddress.NULL : custom_finished));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (customFinished == null ? MemoryAddress.NULL : customFinished));
             return this;
         }
         
-        public Build setParserFinished(java.lang.foreign.MemoryAddress parser_finished) {
+        public Build setParserFinished(java.lang.foreign.MemoryAddress parserFinished) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("parser_finished"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parser_finished == null ? MemoryAddress.NULL : parser_finished));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parserFinished == null ? MemoryAddress.NULL : parserFinished));
             return this;
         }
         
-        public Build setGetInternalChild(java.lang.foreign.MemoryAddress get_internal_child) {
+        public Build setGetInternalChild(java.lang.foreign.MemoryAddress getInternalChild) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("get_internal_child"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (get_internal_child == null ? MemoryAddress.NULL : get_internal_child));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getInternalChild == null ? MemoryAddress.NULL : getInternalChild));
             return this;
         }
     }

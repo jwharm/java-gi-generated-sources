@@ -48,11 +48,7 @@ public class OutsetShadowNode extends org.gtk.gsk.RenderNode {
      * @throws ClassCastException If the GType is not derived from "GskOutsetShadowNode", a ClassCastException will be thrown.
      */
     public static OutsetShadowNode castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), OutsetShadowNode.getType())) {
             return new OutsetShadowNode(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GskOutsetShadowNode");
-        }
     }
     
     private static Addressable constructNew(@NotNull org.gtk.gsk.RoundedRect outline, @NotNull org.gtk.gdk.RGBA color, float dx, float dy, float spread, float blurRadius) {

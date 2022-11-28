@@ -29,11 +29,7 @@ public interface NetworkMonitor extends io.github.jwharm.javagi.Proxy {
      * @throws ClassCastException If the GType is not derived from "GNetworkMonitor", a ClassCastException will be thrown.
      */
     public static NetworkMonitor castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), NetworkMonitor.getType())) {
             return new NetworkMonitorImpl(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GNetworkMonitor");
-        }
     }
     
     /**

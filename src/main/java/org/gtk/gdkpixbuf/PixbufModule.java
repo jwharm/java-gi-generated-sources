@@ -105,7 +105,7 @@ public class PixbufModule extends Struct {
      * Get the value of the field {@code module_name}
      * @return The value of the field {@code module_name}
      */
-    public java.lang.String module_name$get() {
+    public java.lang.String moduleName$get() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("module_name"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -114,19 +114,19 @@ public class PixbufModule extends Struct {
     
     /**
      * Change the value of the field {@code module_name}
-     * @param module_name The new value of the field {@code module_name}
+     * @param moduleName The new value of the field {@code module_name}
      */
-    public void module_name$set(java.lang.String module_name) {
+    public void moduleName$set(java.lang.String moduleName) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("module_name"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Interop.allocateNativeString(module_name));
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Interop.allocateNativeString(moduleName));
     }
     
     /**
      * Get the value of the field {@code module_path}
      * @return The value of the field {@code module_path}
      */
-    public java.lang.String module_path$get() {
+    public java.lang.String modulePath$get() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("module_path"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -135,12 +135,12 @@ public class PixbufModule extends Struct {
     
     /**
      * Change the value of the field {@code module_path}
-     * @param module_path The new value of the field {@code module_path}
+     * @param modulePath The new value of the field {@code module_path}
      */
-    public void module_path$set(java.lang.String module_path) {
+    public void modulePath$set(java.lang.String modulePath) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("module_path"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Interop.allocateNativeString(module_path));
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Interop.allocateNativeString(modulePath));
     }
     
     /**
@@ -179,7 +179,7 @@ public class PixbufModule extends Struct {
      * Get the value of the field {@code load_xpm_data}
      * @return The value of the field {@code load_xpm_data}
      */
-    public org.gtk.gdkpixbuf.PixbufModuleLoadXpmDataFunc load_xpm_data$get() {
+    public org.gtk.gdkpixbuf.PixbufModuleLoadXpmDataFunc loadXpmData$get() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("load_xpm_data"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -190,7 +190,7 @@ public class PixbufModule extends Struct {
      * Get the value of the field {@code begin_load}
      * @return The value of the field {@code begin_load}
      */
-    public org.gtk.gdkpixbuf.PixbufModuleBeginLoadFunc begin_load$get() {
+    public org.gtk.gdkpixbuf.PixbufModuleBeginLoadFunc beginLoad$get() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("begin_load"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -201,7 +201,7 @@ public class PixbufModule extends Struct {
      * Get the value of the field {@code stop_load}
      * @return The value of the field {@code stop_load}
      */
-    public org.gtk.gdkpixbuf.PixbufModuleStopLoadFunc stop_load$get() {
+    public org.gtk.gdkpixbuf.PixbufModuleStopLoadFunc stopLoad$get() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("stop_load"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -212,7 +212,7 @@ public class PixbufModule extends Struct {
      * Get the value of the field {@code load_increment}
      * @return The value of the field {@code load_increment}
      */
-    public org.gtk.gdkpixbuf.PixbufModuleIncrementLoadFunc load_increment$get() {
+    public org.gtk.gdkpixbuf.PixbufModuleIncrementLoadFunc loadIncrement$get() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("load_increment"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -223,7 +223,7 @@ public class PixbufModule extends Struct {
      * Get the value of the field {@code load_animation}
      * @return The value of the field {@code load_animation}
      */
-    public org.gtk.gdkpixbuf.PixbufModuleLoadAnimationFunc load_animation$get() {
+    public org.gtk.gdkpixbuf.PixbufModuleLoadAnimationFunc loadAnimation$get() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("load_animation"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -245,7 +245,7 @@ public class PixbufModule extends Struct {
      * Get the value of the field {@code save_to_callback}
      * @return The value of the field {@code save_to_callback}
      */
-    public org.gtk.gdkpixbuf.PixbufModuleSaveCallbackFunc save_to_callback$get() {
+    public org.gtk.gdkpixbuf.PixbufModuleSaveCallbackFunc saveToCallback$get() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("save_to_callback"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -256,7 +256,7 @@ public class PixbufModule extends Struct {
      * Get the value of the field {@code is_save_option_supported}
      * @return The value of the field {@code is_save_option_supported}
      */
-    public org.gtk.gdkpixbuf.PixbufModuleSaveOptionSupportedFunc is_save_option_supported$get() {
+    public org.gtk.gdkpixbuf.PixbufModuleSaveOptionSupportedFunc isSaveOptionSupported$get() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("is_save_option_supported"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -303,25 +303,25 @@ public class PixbufModule extends Struct {
         /**
          * the name of the module, usually the same as the
          *  usual file extension for images of this type, eg. "xpm", "jpeg" or "png".
-         * @param module_name The value for the {@code module_name} field
+         * @param moduleName The value for the {@code moduleName} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setModuleName(java.lang.String module_name) {
+        public Build setModuleName(java.lang.String moduleName) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("module_name"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (module_name == null ? MemoryAddress.NULL : Interop.allocateNativeString(module_name)));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (moduleName == null ? MemoryAddress.NULL : Interop.allocateNativeString(moduleName)));
             return this;
         }
         
         /**
          * the path from which the module is loaded.
-         * @param module_path The value for the {@code module_path} field
+         * @param modulePath The value for the {@code modulePath} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setModulePath(java.lang.String module_path) {
+        public Build setModulePath(java.lang.String modulePath) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("module_path"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (module_path == null ? MemoryAddress.NULL : Interop.allocateNativeString(module_path)));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (modulePath == null ? MemoryAddress.NULL : Interop.allocateNativeString(modulePath)));
             return this;
         }
         
@@ -363,61 +363,61 @@ public class PixbufModule extends Struct {
         
         /**
          * loads an image from data in memory.
-         * @param load_xpm_data The value for the {@code load_xpm_data} field
+         * @param loadXpmData The value for the {@code loadXpmData} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setLoadXpmData(java.lang.foreign.MemoryAddress load_xpm_data) {
+        public Build setLoadXpmData(java.lang.foreign.MemoryAddress loadXpmData) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("load_xpm_data"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (load_xpm_data == null ? MemoryAddress.NULL : load_xpm_data));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (loadXpmData == null ? MemoryAddress.NULL : loadXpmData));
             return this;
         }
         
         /**
          * begins an incremental load.
-         * @param begin_load The value for the {@code begin_load} field
+         * @param beginLoad The value for the {@code beginLoad} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setBeginLoad(java.lang.foreign.MemoryAddress begin_load) {
+        public Build setBeginLoad(java.lang.foreign.MemoryAddress beginLoad) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("begin_load"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (begin_load == null ? MemoryAddress.NULL : begin_load));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (beginLoad == null ? MemoryAddress.NULL : beginLoad));
             return this;
         }
         
         /**
          * stops an incremental load.
-         * @param stop_load The value for the {@code stop_load} field
+         * @param stopLoad The value for the {@code stopLoad} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setStopLoad(java.lang.foreign.MemoryAddress stop_load) {
+        public Build setStopLoad(java.lang.foreign.MemoryAddress stopLoad) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("stop_load"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (stop_load == null ? MemoryAddress.NULL : stop_load));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (stopLoad == null ? MemoryAddress.NULL : stopLoad));
             return this;
         }
         
         /**
          * continues an incremental load.
-         * @param load_increment The value for the {@code load_increment} field
+         * @param loadIncrement The value for the {@code loadIncrement} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setLoadIncrement(java.lang.foreign.MemoryAddress load_increment) {
+        public Build setLoadIncrement(java.lang.foreign.MemoryAddress loadIncrement) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("load_increment"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (load_increment == null ? MemoryAddress.NULL : load_increment));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (loadIncrement == null ? MemoryAddress.NULL : loadIncrement));
             return this;
         }
         
         /**
          * loads an animation from a file.
-         * @param load_animation The value for the {@code load_animation} field
+         * @param loadAnimation The value for the {@code loadAnimation} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setLoadAnimation(java.lang.foreign.MemoryAddress load_animation) {
+        public Build setLoadAnimation(java.lang.foreign.MemoryAddress loadAnimation) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("load_animation"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (load_animation == null ? MemoryAddress.NULL : load_animation));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (loadAnimation == null ? MemoryAddress.NULL : loadAnimation));
             return this;
         }
         
@@ -435,53 +435,53 @@ public class PixbufModule extends Struct {
         
         /**
          * saves a {@code GdkPixbuf} by calling the given {@code GdkPixbufSaveFunc}.
-         * @param save_to_callback The value for the {@code save_to_callback} field
+         * @param saveToCallback The value for the {@code saveToCallback} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setSaveToCallback(java.lang.foreign.MemoryAddress save_to_callback) {
+        public Build setSaveToCallback(java.lang.foreign.MemoryAddress saveToCallback) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("save_to_callback"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (save_to_callback == null ? MemoryAddress.NULL : save_to_callback));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (saveToCallback == null ? MemoryAddress.NULL : saveToCallback));
             return this;
         }
         
         /**
          * returns whether a save option key is supported by the module
-         * @param is_save_option_supported The value for the {@code is_save_option_supported} field
+         * @param isSaveOptionSupported The value for the {@code isSaveOptionSupported} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setIsSaveOptionSupported(java.lang.foreign.MemoryAddress is_save_option_supported) {
+        public Build setIsSaveOptionSupported(java.lang.foreign.MemoryAddress isSaveOptionSupported) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("is_save_option_supported"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (is_save_option_supported == null ? MemoryAddress.NULL : is_save_option_supported));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (isSaveOptionSupported == null ? MemoryAddress.NULL : isSaveOptionSupported));
             return this;
         }
         
-        public Build setReserved1(java.lang.foreign.MemoryAddress _reserved1) {
+        public Build setReserved1(java.lang.foreign.MemoryAddress Reserved1) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("_reserved1"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (_reserved1 == null ? MemoryAddress.NULL : _reserved1));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (Reserved1 == null ? MemoryAddress.NULL : Reserved1));
             return this;
         }
         
-        public Build setReserved2(java.lang.foreign.MemoryAddress _reserved2) {
+        public Build setReserved2(java.lang.foreign.MemoryAddress Reserved2) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("_reserved2"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (_reserved2 == null ? MemoryAddress.NULL : _reserved2));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (Reserved2 == null ? MemoryAddress.NULL : Reserved2));
             return this;
         }
         
-        public Build setReserved3(java.lang.foreign.MemoryAddress _reserved3) {
+        public Build setReserved3(java.lang.foreign.MemoryAddress Reserved3) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("_reserved3"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (_reserved3 == null ? MemoryAddress.NULL : _reserved3));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (Reserved3 == null ? MemoryAddress.NULL : Reserved3));
             return this;
         }
         
-        public Build setReserved4(java.lang.foreign.MemoryAddress _reserved4) {
+        public Build setReserved4(java.lang.foreign.MemoryAddress Reserved4) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("_reserved4"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (_reserved4 == null ? MemoryAddress.NULL : _reserved4));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (Reserved4 == null ? MemoryAddress.NULL : Reserved4));
             return this;
         }
     }

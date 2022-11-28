@@ -32,15 +32,6 @@ public class InetSocketAddress extends org.gtk.gio.SocketAddress implements org.
     }
     
     /**
-     * Get the value of the field {@code parent_instance}
-     * @return The value of the field {@code parent_instance}
-     */
-    public org.gtk.gio.SocketAddress parent_instance$get() {
-        long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_instance"));
-        return new org.gtk.gio.SocketAddress(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
-    }
-    
-    /**
      * Create a InetSocketAddress proxy instance for the provided memory address.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
@@ -63,11 +54,7 @@ public class InetSocketAddress extends org.gtk.gio.SocketAddress implements org.
      * @throws ClassCastException If the GType is not derived from "GInetSocketAddress", a ClassCastException will be thrown.
      */
     public static InetSocketAddress castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), InetSocketAddress.getType())) {
             return new InetSocketAddress(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GInetSocketAddress");
-        }
     }
     
     private static Addressable constructNew(@NotNull org.gtk.gio.InetAddress address, short port) {

@@ -44,15 +44,6 @@ public class BufferedInputStream extends org.gtk.gio.FilterInputStream implement
     }
     
     /**
-     * Get the value of the field {@code parent_instance}
-     * @return The value of the field {@code parent_instance}
-     */
-    public org.gtk.gio.FilterInputStream parent_instance$get() {
-        long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_instance"));
-        return new org.gtk.gio.FilterInputStream(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
-    }
-    
-    /**
      * Create a BufferedInputStream proxy instance for the provided memory address.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
@@ -75,11 +66,7 @@ public class BufferedInputStream extends org.gtk.gio.FilterInputStream implement
      * @throws ClassCastException If the GType is not derived from "GBufferedInputStream", a ClassCastException will be thrown.
      */
     public static BufferedInputStream castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), BufferedInputStream.getType())) {
             return new BufferedInputStream(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GBufferedInputStream");
-        }
     }
     
     private static Addressable constructNew(@NotNull org.gtk.gio.InputStream baseStream) {

@@ -48,7 +48,7 @@ public class ColorChooserInterface extends Struct {
      * Get the value of the field {@code base_interface}
      * @return The value of the field {@code base_interface}
      */
-    public org.gtk.gobject.TypeInterface base_interface$get() {
+    public org.gtk.gobject.TypeInterface baseInterface$get() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("base_interface"));
         return new org.gtk.gobject.TypeInterface(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
     }
@@ -90,38 +90,38 @@ public class ColorChooserInterface extends Struct {
             return struct;
         }
         
-        public Build setBaseInterface(org.gtk.gobject.TypeInterface base_interface) {
+        public Build setBaseInterface(org.gtk.gobject.TypeInterface baseInterface) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("base_interface"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (base_interface == null ? MemoryAddress.NULL : base_interface.handle()));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (baseInterface == null ? MemoryAddress.NULL : baseInterface.handle()));
             return this;
         }
         
-        public Build setGetRgba(java.lang.foreign.MemoryAddress get_rgba) {
+        public Build setGetRgba(java.lang.foreign.MemoryAddress getRgba) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("get_rgba"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (get_rgba == null ? MemoryAddress.NULL : get_rgba));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getRgba == null ? MemoryAddress.NULL : getRgba));
             return this;
         }
         
-        public Build setSetRgba(java.lang.foreign.MemoryAddress set_rgba) {
+        public Build setSetRgba(java.lang.foreign.MemoryAddress setRgba) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("set_rgba"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (set_rgba == null ? MemoryAddress.NULL : set_rgba));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (setRgba == null ? MemoryAddress.NULL : setRgba));
             return this;
         }
         
-        public Build setAddPalette(java.lang.foreign.MemoryAddress add_palette) {
+        public Build setAddPalette(java.lang.foreign.MemoryAddress addPalette) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("add_palette"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (add_palette == null ? MemoryAddress.NULL : add_palette));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (addPalette == null ? MemoryAddress.NULL : addPalette));
             return this;
         }
         
-        public Build setColorActivated(java.lang.foreign.MemoryAddress color_activated) {
+        public Build setColorActivated(java.lang.foreign.MemoryAddress colorActivated) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("color_activated"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (color_activated == null ? MemoryAddress.NULL : color_activated));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (colorActivated == null ? MemoryAddress.NULL : colorActivated));
             return this;
         }
         

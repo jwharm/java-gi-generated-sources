@@ -565,13 +565,13 @@ public class PixbufFormat extends Struct {
         
         /**
          * the MIME types for the image format
-         * @param mime_types The value for the {@code mime_types} field
+         * @param mimeTypes The value for the {@code mimeTypes} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setMimeTypes(java.lang.String[] mime_types) {
+        public Build setMimeTypes(java.lang.String[] mimeTypes) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("mime_types"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (mime_types == null ? MemoryAddress.NULL : Interop.allocateNativeArray(mime_types, false)));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (mimeTypes == null ? MemoryAddress.NULL : Interop.allocateNativeArray(mimeTypes, false)));
             return this;
         }
         

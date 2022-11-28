@@ -124,7 +124,7 @@ public class CssLocation extends Struct {
      * Get the value of the field {@code line_bytes}
      * @return The value of the field {@code line_bytes}
      */
-    public long line_bytes$get() {
+    public long lineBytes$get() {
         var RESULT = (long) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("line_bytes"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -133,19 +133,19 @@ public class CssLocation extends Struct {
     
     /**
      * Change the value of the field {@code line_bytes}
-     * @param line_bytes The new value of the field {@code line_bytes}
+     * @param lineBytes The new value of the field {@code line_bytes}
      */
-    public void line_bytes$set(long line_bytes) {
+    public void lineBytes$set(long lineBytes) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("line_bytes"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), line_bytes);
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), lineBytes);
     }
     
     /**
      * Get the value of the field {@code line_chars}
      * @return The value of the field {@code line_chars}
      */
-    public long line_chars$get() {
+    public long lineChars$get() {
         var RESULT = (long) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("line_chars"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -154,12 +154,12 @@ public class CssLocation extends Struct {
     
     /**
      * Change the value of the field {@code line_chars}
-     * @param line_chars The new value of the field {@code line_chars}
+     * @param lineChars The new value of the field {@code line_chars}
      */
-    public void line_chars$set(long line_chars) {
+    public void lineChars$set(long lineChars) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("line_chars"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), line_chars);
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), lineChars);
     }
     
     /**
@@ -238,25 +238,25 @@ public class CssLocation extends Struct {
         
         /**
          * Number of bytes parsed since the last line break
-         * @param line_bytes The value for the {@code line_bytes} field
+         * @param lineBytes The value for the {@code lineBytes} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setLineBytes(long line_bytes) {
+        public Build setLineBytes(long lineBytes) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("line_bytes"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), line_bytes);
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), lineBytes);
             return this;
         }
         
         /**
          * Number of characters parsed since the last line break
-         * @param line_chars The value for the {@code line_chars} field
+         * @param lineChars The value for the {@code lineChars} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setLineChars(long line_chars) {
+        public Build setLineChars(long lineChars) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("line_chars"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), line_chars);
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), lineChars);
             return this;
         }
     }

@@ -34,7 +34,7 @@ public class PollableReturn extends io.github.jwharm.javagi.Enumeration {
     /**
      * The operation would block.
      */
-    public static final PollableReturn WOULD_BLOCK = new PollableReturn(-27);
+    public static final PollableReturn WOULD_BLOCK = new PollableReturn(0);
     
     public PollableReturn(int value) {
         super(value);

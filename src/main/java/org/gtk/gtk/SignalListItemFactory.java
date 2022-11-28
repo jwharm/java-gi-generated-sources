@@ -87,11 +87,7 @@ public class SignalListItemFactory extends org.gtk.gtk.ListItemFactory {
      * @throws ClassCastException If the GType is not derived from "GtkSignalListItemFactory", a ClassCastException will be thrown.
      */
     public static SignalListItemFactory castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), SignalListItemFactory.getType())) {
             return new SignalListItemFactory(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkSignalListItemFactory");
-        }
     }
     
     private static Addressable constructNew() {

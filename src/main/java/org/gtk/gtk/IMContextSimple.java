@@ -64,15 +64,6 @@ public class IMContextSimple extends org.gtk.gtk.IMContext {
     }
     
     /**
-     * Get the value of the field {@code object}
-     * @return The value of the field {@code object}
-     */
-    public org.gtk.gtk.IMContext object$get() {
-        long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("object"));
-        return new org.gtk.gtk.IMContext(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
-    }
-    
-    /**
      * Create a IMContextSimple proxy instance for the provided memory address.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
@@ -95,11 +86,7 @@ public class IMContextSimple extends org.gtk.gtk.IMContext {
      * @throws ClassCastException If the GType is not derived from "GtkIMContextSimple", a ClassCastException will be thrown.
      */
     public static IMContextSimple castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), IMContextSimple.getType())) {
             return new IMContextSimple(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkIMContextSimple");
-        }
     }
     
     private static Addressable constructNew() {

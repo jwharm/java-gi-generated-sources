@@ -64,11 +64,7 @@ public class ColorButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
      * @throws ClassCastException If the GType is not derived from "GtkColorButton", a ClassCastException will be thrown.
      */
     public static ColorButton castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), ColorButton.getType())) {
             return new ColorButton(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkColorButton");
-        }
     }
     
     private static Addressable constructNew() {

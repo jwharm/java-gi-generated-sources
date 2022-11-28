@@ -56,11 +56,7 @@ public class Printer extends org.gtk.gobject.Object {
      * @throws ClassCastException If the GType is not derived from "GtkPrinter", a ClassCastException will be thrown.
      */
     public static Printer castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), Printer.getType())) {
             return new Printer(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkPrinter");
-        }
     }
     
     private static Addressable constructNew(@NotNull java.lang.String name, @NotNull org.gtk.gtk.PrintBackend backend, boolean virtual) {

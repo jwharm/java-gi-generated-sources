@@ -85,11 +85,7 @@ public class ShortcutsWindow extends org.gtk.gtk.Window implements org.gtk.gtk.A
      * @throws ClassCastException If the GType is not derived from "GtkShortcutsWindow", a ClassCastException will be thrown.
      */
     public static ShortcutsWindow castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), ShortcutsWindow.getType())) {
             return new ShortcutsWindow(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkShortcutsWindow");
-        }
     }
     
     /**

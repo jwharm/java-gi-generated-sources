@@ -59,11 +59,7 @@ public class TreeListRowSorter extends org.gtk.gtk.Sorter {
      * @throws ClassCastException If the GType is not derived from "GtkTreeListRowSorter", a ClassCastException will be thrown.
      */
     public static TreeListRowSorter castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), TreeListRowSorter.getType())) {
             return new TreeListRowSorter(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkTreeListRowSorter");
-        }
     }
     
     private static Addressable constructNew(@Nullable org.gtk.gtk.Sorter sorter) {

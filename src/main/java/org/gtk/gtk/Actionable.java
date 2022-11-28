@@ -35,11 +35,7 @@ public interface Actionable extends io.github.jwharm.javagi.Proxy {
      * @throws ClassCastException If the GType is not derived from "GtkActionable", a ClassCastException will be thrown.
      */
     public static Actionable castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), Actionable.getType())) {
             return new ActionableImpl(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkActionable");
-        }
     }
     
     /**

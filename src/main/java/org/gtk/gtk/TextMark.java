@@ -63,15 +63,6 @@ public class TextMark extends org.gtk.gobject.Object {
     }
     
     /**
-     * Get the value of the field {@code parent_instance}
-     * @return The value of the field {@code parent_instance}
-     */
-    public org.gtk.gobject.Object parent_instance$get() {
-        long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_instance"));
-        return new org.gtk.gobject.Object(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
-    }
-    
-    /**
      * Create a TextMark proxy instance for the provided memory address.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
@@ -94,11 +85,7 @@ public class TextMark extends org.gtk.gobject.Object {
      * @throws ClassCastException If the GType is not derived from "GtkTextMark", a ClassCastException will be thrown.
      */
     public static TextMark castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), TextMark.getType())) {
             return new TextMark(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkTextMark");
-        }
     }
     
     private static Addressable constructNew(@Nullable java.lang.String name, boolean leftGravity) {

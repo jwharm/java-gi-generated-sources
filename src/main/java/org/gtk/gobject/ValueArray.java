@@ -49,7 +49,7 @@ public class ValueArray extends Struct {
      * Get the value of the field {@code n_values}
      * @return The value of the field {@code n_values}
      */
-    public int n_values$get() {
+    public int nValues$get() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("n_values"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -58,12 +58,12 @@ public class ValueArray extends Struct {
     
     /**
      * Change the value of the field {@code n_values}
-     * @param n_values The new value of the field {@code n_values}
+     * @param nValues The new value of the field {@code n_values}
      */
-    public void n_values$set(int n_values) {
+    public void nValues$set(int nValues) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("n_values"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), n_values);
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), nValues);
     }
     
     /**
@@ -366,13 +366,13 @@ public class ValueArray extends Struct {
         
         /**
          * number of values contained in the array
-         * @param n_values The value for the {@code n_values} field
+         * @param nValues The value for the {@code nValues} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setNValues(int n_values) {
+        public Build setNValues(int nValues) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("n_values"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), n_values);
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), nValues);
             return this;
         }
         
@@ -388,10 +388,10 @@ public class ValueArray extends Struct {
             return this;
         }
         
-        public Build setNPrealloced(int n_prealloced) {
+        public Build setNPrealloced(int nPrealloced) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("n_prealloced"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), n_prealloced);
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), nPrealloced);
             return this;
         }
     }

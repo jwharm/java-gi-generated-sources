@@ -50,7 +50,7 @@ public class ListModelInterface extends Struct {
      * Get the value of the field {@code g_iface}
      * @return The value of the field {@code g_iface}
      */
-    public org.gtk.gobject.TypeInterface g_iface$get() {
+    public org.gtk.gobject.TypeInterface gIface$get() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("g_iface"));
         return new org.gtk.gobject.TypeInterface(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
     }
@@ -94,34 +94,34 @@ public class ListModelInterface extends Struct {
         
         /**
          * parent {@link org.gtk.gobject.TypeInterface}
-         * @param g_iface The value for the {@code g_iface} field
+         * @param gIface The value for the {@code gIface} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setGIface(org.gtk.gobject.TypeInterface g_iface) {
+        public Build setGIface(org.gtk.gobject.TypeInterface gIface) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("g_iface"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (g_iface == null ? MemoryAddress.NULL : g_iface.handle()));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (gIface == null ? MemoryAddress.NULL : gIface.handle()));
             return this;
         }
         
-        public Build setGetItemType(java.lang.foreign.MemoryAddress get_item_type) {
+        public Build setGetItemType(java.lang.foreign.MemoryAddress getItemType) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("get_item_type"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (get_item_type == null ? MemoryAddress.NULL : get_item_type));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getItemType == null ? MemoryAddress.NULL : getItemType));
             return this;
         }
         
-        public Build setGetNItems(java.lang.foreign.MemoryAddress get_n_items) {
+        public Build setGetNItems(java.lang.foreign.MemoryAddress getNItems) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("get_n_items"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (get_n_items == null ? MemoryAddress.NULL : get_n_items));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getNItems == null ? MemoryAddress.NULL : getNItems));
             return this;
         }
         
-        public Build setGetItem(java.lang.foreign.MemoryAddress get_item) {
+        public Build setGetItem(java.lang.foreign.MemoryAddress getItem) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("get_item"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (get_item == null ? MemoryAddress.NULL : get_item));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getItem == null ? MemoryAddress.NULL : getItem));
             return this;
         }
     }

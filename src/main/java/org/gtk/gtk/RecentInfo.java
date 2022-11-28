@@ -145,13 +145,14 @@ public class RecentInfo extends Struct {
      *   {@code app_exec} string is owned by the {@code GtkRecentInfo} and should not be
      *   modified or freed
      */
-    public boolean getApplicationInfo(@NotNull java.lang.String appName, @NotNull Out<java.lang.String> appExec, Out<Integer> count, @NotNull PointerProxy<org.gtk.glib.DateTime> stamp) {
+    public boolean getApplicationInfo(@NotNull java.lang.String appName, @NotNull Out<java.lang.String> appExec, Out<Integer> count, @NotNull Out<org.gtk.glib.DateTime> stamp) {
         java.util.Objects.requireNonNull(appName, "Parameter 'appName' must not be null");
         java.util.Objects.requireNonNull(appExec, "Parameter 'appExec' must not be null");
         MemorySegment appExecPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         java.util.Objects.requireNonNull(count, "Parameter 'count' must not be null");
         MemorySegment countPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         java.util.Objects.requireNonNull(stamp, "Parameter 'stamp' must not be null");
+        MemorySegment stampPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_recent_info_get_application_info.invokeExact(
@@ -159,12 +160,13 @@ public class RecentInfo extends Struct {
                     Interop.allocateNativeString(appName),
                     (Addressable) appExecPOINTER.address(),
                     (Addressable) countPOINTER.address(),
-                    stamp.handle());
+                    (Addressable) stampPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         appExec.set(Interop.getStringFrom(appExecPOINTER.get(Interop.valueLayout.ADDRESS, 0)));
         count.set(countPOINTER.get(Interop.valueLayout.C_INT, 0));
+        stamp.set(new org.gtk.glib.DateTime(stampPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.NONE));
         return RESULT != 0;
     }
     

@@ -82,52 +82,52 @@ public class TreeSortableIface extends Struct {
             return struct;
         }
         
-        public Build setGIface(org.gtk.gobject.TypeInterface g_iface) {
+        public Build setGIface(org.gtk.gobject.TypeInterface gIface) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("g_iface"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (g_iface == null ? MemoryAddress.NULL : g_iface.handle()));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (gIface == null ? MemoryAddress.NULL : gIface.handle()));
             return this;
         }
         
-        public Build setSortColumnChanged(java.lang.foreign.MemoryAddress sort_column_changed) {
+        public Build setSortColumnChanged(java.lang.foreign.MemoryAddress sortColumnChanged) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("sort_column_changed"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (sort_column_changed == null ? MemoryAddress.NULL : sort_column_changed));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (sortColumnChanged == null ? MemoryAddress.NULL : sortColumnChanged));
             return this;
         }
         
-        public Build setGetSortColumnId(java.lang.foreign.MemoryAddress get_sort_column_id) {
+        public Build setGetSortColumnId(java.lang.foreign.MemoryAddress getSortColumnId) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("get_sort_column_id"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (get_sort_column_id == null ? MemoryAddress.NULL : get_sort_column_id));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getSortColumnId == null ? MemoryAddress.NULL : getSortColumnId));
             return this;
         }
         
-        public Build setSetSortColumnId(java.lang.foreign.MemoryAddress set_sort_column_id) {
+        public Build setSetSortColumnId(java.lang.foreign.MemoryAddress setSortColumnId) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("set_sort_column_id"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (set_sort_column_id == null ? MemoryAddress.NULL : set_sort_column_id));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (setSortColumnId == null ? MemoryAddress.NULL : setSortColumnId));
             return this;
         }
         
-        public Build setSetSortFunc(java.lang.foreign.MemoryAddress set_sort_func) {
+        public Build setSetSortFunc(java.lang.foreign.MemoryAddress setSortFunc) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("set_sort_func"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (set_sort_func == null ? MemoryAddress.NULL : set_sort_func));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (setSortFunc == null ? MemoryAddress.NULL : setSortFunc));
             return this;
         }
         
-        public Build setSetDefaultSortFunc(java.lang.foreign.MemoryAddress set_default_sort_func) {
+        public Build setSetDefaultSortFunc(java.lang.foreign.MemoryAddress setDefaultSortFunc) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("set_default_sort_func"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (set_default_sort_func == null ? MemoryAddress.NULL : set_default_sort_func));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (setDefaultSortFunc == null ? MemoryAddress.NULL : setDefaultSortFunc));
             return this;
         }
         
-        public Build setHasDefaultSortFunc(java.lang.foreign.MemoryAddress has_default_sort_func) {
+        public Build setHasDefaultSortFunc(java.lang.foreign.MemoryAddress hasDefaultSortFunc) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("has_default_sort_func"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (has_default_sort_func == null ? MemoryAddress.NULL : has_default_sort_func));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (hasDefaultSortFunc == null ? MemoryAddress.NULL : hasDefaultSortFunc));
             return this;
         }
     }

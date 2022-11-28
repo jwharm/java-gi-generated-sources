@@ -52,7 +52,7 @@ public class PixbufAnimationClass extends Struct {
      * Get the value of the field {@code parent_class}
      * @return The value of the field {@code parent_class}
      */
-    public org.gtk.gobject.ObjectClass parent_class$get() {
+    public org.gtk.gobject.ObjectClass parentClass$get() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_class"));
         return new org.gtk.gobject.ObjectClass(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
     }
@@ -96,41 +96,41 @@ public class PixbufAnimationClass extends Struct {
         
         /**
          * the parent class
-         * @param parent_class The value for the {@code parent_class} field
+         * @param parentClass The value for the {@code parentClass} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setParentClass(org.gtk.gobject.ObjectClass parent_class) {
+        public Build setParentClass(org.gtk.gobject.ObjectClass parentClass) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parent_class == null ? MemoryAddress.NULL : parent_class.handle()));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
             return this;
         }
         
-        public Build setIsStaticImage(java.lang.foreign.MemoryAddress is_static_image) {
+        public Build setIsStaticImage(java.lang.foreign.MemoryAddress isStaticImage) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("is_static_image"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (is_static_image == null ? MemoryAddress.NULL : is_static_image));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (isStaticImage == null ? MemoryAddress.NULL : isStaticImage));
             return this;
         }
         
-        public Build setGetStaticImage(java.lang.foreign.MemoryAddress get_static_image) {
+        public Build setGetStaticImage(java.lang.foreign.MemoryAddress getStaticImage) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("get_static_image"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (get_static_image == null ? MemoryAddress.NULL : get_static_image));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getStaticImage == null ? MemoryAddress.NULL : getStaticImage));
             return this;
         }
         
-        public Build setGetSize(java.lang.foreign.MemoryAddress get_size) {
+        public Build setGetSize(java.lang.foreign.MemoryAddress getSize) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("get_size"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (get_size == null ? MemoryAddress.NULL : get_size));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getSize == null ? MemoryAddress.NULL : getSize));
             return this;
         }
         
-        public Build setGetIter(java.lang.foreign.MemoryAddress get_iter) {
+        public Build setGetIter(java.lang.foreign.MemoryAddress getIter) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("get_iter"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (get_iter == null ? MemoryAddress.NULL : get_iter));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getIter == null ? MemoryAddress.NULL : getIter));
             return this;
         }
     }

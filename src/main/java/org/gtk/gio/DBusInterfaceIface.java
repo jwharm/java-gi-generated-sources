@@ -51,7 +51,7 @@ public class DBusInterfaceIface extends Struct {
      * Get the value of the field {@code parent_iface}
      * @return The value of the field {@code parent_iface}
      */
-    public org.gtk.gobject.TypeInterface parent_iface$get() {
+    public org.gtk.gobject.TypeInterface parentIface$get() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_iface"));
         return new org.gtk.gobject.TypeInterface(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
     }
@@ -95,41 +95,41 @@ public class DBusInterfaceIface extends Struct {
         
         /**
          * The parent interface.
-         * @param parent_iface The value for the {@code parent_iface} field
+         * @param parentIface The value for the {@code parentIface} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setParentIface(org.gtk.gobject.TypeInterface parent_iface) {
+        public Build setParentIface(org.gtk.gobject.TypeInterface parentIface) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("parent_iface"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parent_iface == null ? MemoryAddress.NULL : parent_iface.handle()));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parentIface == null ? MemoryAddress.NULL : parentIface.handle()));
             return this;
         }
         
-        public Build setGetInfo(java.lang.foreign.MemoryAddress get_info) {
+        public Build setGetInfo(java.lang.foreign.MemoryAddress getInfo) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("get_info"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (get_info == null ? MemoryAddress.NULL : get_info));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getInfo == null ? MemoryAddress.NULL : getInfo));
             return this;
         }
         
-        public Build setGetObject(java.lang.foreign.MemoryAddress get_object) {
+        public Build setGetObject(java.lang.foreign.MemoryAddress getObject) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("get_object"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (get_object == null ? MemoryAddress.NULL : get_object));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getObject == null ? MemoryAddress.NULL : getObject));
             return this;
         }
         
-        public Build setSetObject(java.lang.foreign.MemoryAddress set_object) {
+        public Build setSetObject(java.lang.foreign.MemoryAddress setObject) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("set_object"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (set_object == null ? MemoryAddress.NULL : set_object));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (setObject == null ? MemoryAddress.NULL : setObject));
             return this;
         }
         
-        public Build setDupObject(java.lang.foreign.MemoryAddress dup_object) {
+        public Build setDupObject(java.lang.foreign.MemoryAddress dupObject) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("dup_object"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (dup_object == null ? MemoryAddress.NULL : dup_object));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (dupObject == null ? MemoryAddress.NULL : dupObject));
             return this;
         }
     }

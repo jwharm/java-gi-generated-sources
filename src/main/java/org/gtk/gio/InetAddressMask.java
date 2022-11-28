@@ -35,15 +35,6 @@ public class InetAddressMask extends org.gtk.gobject.Object implements org.gtk.g
     }
     
     /**
-     * Get the value of the field {@code parent_instance}
-     * @return The value of the field {@code parent_instance}
-     */
-    public org.gtk.gobject.Object parent_instance$get() {
-        long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_instance"));
-        return new org.gtk.gobject.Object(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
-    }
-    
-    /**
      * Create a InetAddressMask proxy instance for the provided memory address.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
@@ -66,11 +57,7 @@ public class InetAddressMask extends org.gtk.gobject.Object implements org.gtk.g
      * @throws ClassCastException If the GType is not derived from "GInetAddressMask", a ClassCastException will be thrown.
      */
     public static InetAddressMask castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), InetAddressMask.getType())) {
             return new InetAddressMask(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GInetAddressMask");
-        }
     }
     
     private static Addressable constructNew(@NotNull org.gtk.gio.InetAddress addr, int length) throws GErrorException {

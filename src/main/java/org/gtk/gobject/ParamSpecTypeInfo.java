@@ -61,7 +61,7 @@ public class ParamSpecTypeInfo extends Struct {
      * Get the value of the field {@code instance_size}
      * @return The value of the field {@code instance_size}
      */
-    public short instance_size$get() {
+    public short instanceSize$get() {
         var RESULT = (short) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("instance_size"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -70,19 +70,19 @@ public class ParamSpecTypeInfo extends Struct {
     
     /**
      * Change the value of the field {@code instance_size}
-     * @param instance_size The new value of the field {@code instance_size}
+     * @param instanceSize The new value of the field {@code instance_size}
      */
-    public void instance_size$set(short instance_size) {
+    public void instanceSize$set(short instanceSize) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("instance_size"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), instance_size);
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), instanceSize);
     }
     
     /**
      * Get the value of the field {@code n_preallocs}
      * @return The value of the field {@code n_preallocs}
      */
-    public short n_preallocs$get() {
+    public short nPreallocs$get() {
         var RESULT = (short) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("n_preallocs"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -91,19 +91,19 @@ public class ParamSpecTypeInfo extends Struct {
     
     /**
      * Change the value of the field {@code n_preallocs}
-     * @param n_preallocs The new value of the field {@code n_preallocs}
+     * @param nPreallocs The new value of the field {@code n_preallocs}
      */
-    public void n_preallocs$set(short n_preallocs) {
+    public void nPreallocs$set(short nPreallocs) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("n_preallocs"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), n_preallocs);
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), nPreallocs);
     }
     
     /**
      * Get the value of the field {@code value_type}
      * @return The value of the field {@code value_type}
      */
-    public org.gtk.glib.Type value_type$get() {
+    public org.gtk.glib.Type valueType$get() {
         var RESULT = (long) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("value_type"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -112,12 +112,12 @@ public class ParamSpecTypeInfo extends Struct {
     
     /**
      * Change the value of the field {@code value_type}
-     * @param value_type The new value of the field {@code value_type}
+     * @param valueType The new value of the field {@code value_type}
      */
-    public void value_type$set(org.gtk.glib.Type value_type) {
+    public void valueType$set(org.gtk.glib.Type valueType) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("value_type"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), value_type.getValue().longValue());
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), valueType.getValue().longValue());
     }
     
     /**
@@ -159,44 +159,44 @@ public class ParamSpecTypeInfo extends Struct {
         
         /**
          * Size of the instance (object) structure.
-         * @param instance_size The value for the {@code instance_size} field
+         * @param instanceSize The value for the {@code instanceSize} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setInstanceSize(short instance_size) {
+        public Build setInstanceSize(short instanceSize) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("instance_size"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), instance_size);
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), instanceSize);
             return this;
         }
         
         /**
          * Prior to GLib 2.10, it specified the number of pre-allocated (cached) instances to reserve memory for (0 indicates no caching). Since GLib 2.10, it is ignored, since instances are allocated with the [slice allocator][glib-Memory-Slices] now.
-         * @param n_preallocs The value for the {@code n_preallocs} field
+         * @param nPreallocs The value for the {@code nPreallocs} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setNPreallocs(short n_preallocs) {
+        public Build setNPreallocs(short nPreallocs) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("n_preallocs"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), n_preallocs);
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), nPreallocs);
             return this;
         }
         
-        public Build setInstanceInit(java.lang.foreign.MemoryAddress instance_init) {
+        public Build setInstanceInit(java.lang.foreign.MemoryAddress instanceInit) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("instance_init"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (instance_init == null ? MemoryAddress.NULL : instance_init));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (instanceInit == null ? MemoryAddress.NULL : instanceInit));
             return this;
         }
         
         /**
          * The {@link Type} of values conforming to this {@link ParamSpec}
-         * @param value_type The value for the {@code value_type} field
+         * @param valueType The value for the {@code valueType} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setValueType(org.gtk.glib.Type value_type) {
+        public Build setValueType(org.gtk.glib.Type valueType) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("value_type"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (value_type == null ? MemoryAddress.NULL : value_type.getValue().longValue()));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (valueType == null ? MemoryAddress.NULL : valueType.getValue().longValue()));
             return this;
         }
         
@@ -207,24 +207,24 @@ public class ParamSpecTypeInfo extends Struct {
             return this;
         }
         
-        public Build setValueSetDefault(java.lang.foreign.MemoryAddress value_set_default) {
+        public Build setValueSetDefault(java.lang.foreign.MemoryAddress valueSetDefault) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("value_set_default"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (value_set_default == null ? MemoryAddress.NULL : value_set_default));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (valueSetDefault == null ? MemoryAddress.NULL : valueSetDefault));
             return this;
         }
         
-        public Build setValueValidate(java.lang.foreign.MemoryAddress value_validate) {
+        public Build setValueValidate(java.lang.foreign.MemoryAddress valueValidate) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("value_validate"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (value_validate == null ? MemoryAddress.NULL : value_validate));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (valueValidate == null ? MemoryAddress.NULL : valueValidate));
             return this;
         }
         
-        public Build setValuesCmp(java.lang.foreign.MemoryAddress values_cmp) {
+        public Build setValuesCmp(java.lang.foreign.MemoryAddress valuesCmp) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("values_cmp"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (values_cmp == null ? MemoryAddress.NULL : values_cmp));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (valuesCmp == null ? MemoryAddress.NULL : valuesCmp));
             return this;
         }
     }

@@ -84,7 +84,7 @@ public class ObjectClass extends Struct {
      * Get the value of the field {@code g_type_class}
      * @return The value of the field {@code g_type_class}
      */
-    public org.gtk.gobject.TypeClass g_type_class$get() {
+    public org.gtk.gobject.TypeClass gTypeClass$get() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("g_type_class"));
         return new org.gtk.gobject.TypeClass(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
     }
@@ -343,20 +343,20 @@ public class ObjectClass extends Struct {
         
         /**
          * the parent class
-         * @param g_type_class The value for the {@code g_type_class} field
+         * @param gTypeClass The value for the {@code gTypeClass} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setGTypeClass(org.gtk.gobject.TypeClass g_type_class) {
+        public Build setGTypeClass(org.gtk.gobject.TypeClass gTypeClass) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("g_type_class"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (g_type_class == null ? MemoryAddress.NULL : g_type_class.handle()));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (gTypeClass == null ? MemoryAddress.NULL : gTypeClass.handle()));
             return this;
         }
         
-        public Build setConstructProperties(org.gtk.glib.SList construct_properties) {
+        public Build setConstructProperties(org.gtk.glib.SList constructProperties) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("construct_properties"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (construct_properties == null ? MemoryAddress.NULL : construct_properties.handle()));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (constructProperties == null ? MemoryAddress.NULL : constructProperties.handle()));
             return this;
         }
         
@@ -367,17 +367,17 @@ public class ObjectClass extends Struct {
             return this;
         }
         
-        public Build setSetProperty(java.lang.foreign.MemoryAddress set_property) {
+        public Build setSetProperty(java.lang.foreign.MemoryAddress setProperty) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("set_property"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (set_property == null ? MemoryAddress.NULL : set_property));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (setProperty == null ? MemoryAddress.NULL : setProperty));
             return this;
         }
         
-        public Build setGetProperty(java.lang.foreign.MemoryAddress get_property) {
+        public Build setGetProperty(java.lang.foreign.MemoryAddress getProperty) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("get_property"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (get_property == null ? MemoryAddress.NULL : get_property));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getProperty == null ? MemoryAddress.NULL : getProperty));
             return this;
         }
         
@@ -395,10 +395,10 @@ public class ObjectClass extends Struct {
             return this;
         }
         
-        public Build setDispatchPropertiesChanged(java.lang.foreign.MemoryAddress dispatch_properties_changed) {
+        public Build setDispatchPropertiesChanged(java.lang.foreign.MemoryAddress dispatchPropertiesChanged) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("dispatch_properties_changed"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (dispatch_properties_changed == null ? MemoryAddress.NULL : dispatch_properties_changed));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (dispatchPropertiesChanged == null ? MemoryAddress.NULL : dispatchPropertiesChanged));
             return this;
         }
         
@@ -423,10 +423,10 @@ public class ObjectClass extends Struct {
             return this;
         }
         
-        public Build setNConstructProperties(long n_construct_properties) {
+        public Build setNConstructProperties(long nConstructProperties) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("n_construct_properties"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), n_construct_properties);
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), nConstructProperties);
             return this;
         }
         
@@ -437,10 +437,10 @@ public class ObjectClass extends Struct {
             return this;
         }
         
-        public Build setNPspecs(long n_pspecs) {
+        public Build setNPspecs(long nPspecs) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("n_pspecs"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), n_pspecs);
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), nPspecs);
             return this;
         }
         

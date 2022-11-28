@@ -69,11 +69,7 @@ public class IconView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * @throws ClassCastException If the GType is not derived from "GtkIconView", a ClassCastException will be thrown.
      */
     public static IconView castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), IconView.getType())) {
             return new IconView(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkIconView");
-        }
     }
     
     private static Addressable constructNew() {
@@ -281,18 +277,22 @@ public class IconView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      *   focus cell
      * @return {@code true} if the cursor is set.
      */
-    public boolean getCursor(@NotNull PointerProxy<org.gtk.gtk.TreePath> path, @NotNull PointerProxy<org.gtk.gtk.CellRenderer> cell) {
+    public boolean getCursor(@NotNull Out<org.gtk.gtk.TreePath> path, @NotNull Out<org.gtk.gtk.CellRenderer> cell) {
         java.util.Objects.requireNonNull(path, "Parameter 'path' must not be null");
+        MemorySegment pathPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         java.util.Objects.requireNonNull(cell, "Parameter 'cell' must not be null");
+        MemorySegment cellPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_icon_view_get_cursor.invokeExact(
                     handle(),
-                    path.handle(),
-                    cell.handle());
+                    (Addressable) pathPOINTER.address(),
+                    (Addressable) cellPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        path.set(new org.gtk.gtk.TreePath(pathPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
+        cell.set(new org.gtk.gtk.CellRenderer(cellPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.NONE));
         return RESULT != 0;
     }
     
@@ -304,8 +304,9 @@ public class IconView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * @param pos Return location for the drop position
      * @return whether there is an item at the given position.
      */
-    public boolean getDestItemAtPos(int dragX, int dragY, @NotNull PointerProxy<org.gtk.gtk.TreePath> path, @NotNull Out<org.gtk.gtk.IconViewDropPosition> pos) {
+    public boolean getDestItemAtPos(int dragX, int dragY, @NotNull Out<org.gtk.gtk.TreePath> path, @NotNull Out<org.gtk.gtk.IconViewDropPosition> pos) {
         java.util.Objects.requireNonNull(path, "Parameter 'path' must not be null");
+        MemorySegment pathPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         java.util.Objects.requireNonNull(pos, "Parameter 'pos' must not be null");
         MemorySegment posPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         int RESULT;
@@ -314,11 +315,12 @@ public class IconView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
                     handle(),
                     dragX,
                     dragY,
-                    path.handle(),
+                    (Addressable) pathPOINTER.address(),
                     (Addressable) posPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        path.set(new org.gtk.gtk.TreePath(pathPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
         pos.set(new org.gtk.gtk.IconViewDropPosition(posPOINTER.get(Interop.valueLayout.C_INT, 0)));
         return RESULT != 0;
     }
@@ -329,17 +331,19 @@ public class IconView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      *   the highlighted item
      * @param pos Return location for the drop position
      */
-    public void getDragDestItem(@Nullable PointerProxy<org.gtk.gtk.TreePath> path, @NotNull Out<org.gtk.gtk.IconViewDropPosition> pos) {
+    public void getDragDestItem(@Nullable Out<org.gtk.gtk.TreePath> path, @NotNull Out<org.gtk.gtk.IconViewDropPosition> pos) {
+        MemorySegment pathPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         java.util.Objects.requireNonNull(pos, "Parameter 'pos' must not be null");
         MemorySegment posPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         try {
             DowncallHandles.gtk_icon_view_get_drag_dest_item.invokeExact(
                     handle(),
-                    (Addressable) (path == null ? MemoryAddress.NULL : path.handle()),
+                    (Addressable) (path == null ? MemoryAddress.NULL : (Addressable) pathPOINTER.address()),
                     (Addressable) posPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (path != null) path.set(new org.gtk.gtk.TreePath(pathPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
         pos.set(new org.gtk.gtk.IconViewDropPosition(posPOINTER.get(Interop.valueLayout.C_INT, 0)));
     }
     
@@ -352,20 +356,24 @@ public class IconView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      *   responsible for the cell at ({@code x}, {@code y})
      * @return {@code true} if an item exists at the specified position
      */
-    public boolean getItemAtPos(int x, int y, @NotNull PointerProxy<org.gtk.gtk.TreePath> path, @NotNull PointerProxy<org.gtk.gtk.CellRenderer> cell) {
+    public boolean getItemAtPos(int x, int y, @NotNull Out<org.gtk.gtk.TreePath> path, @NotNull Out<org.gtk.gtk.CellRenderer> cell) {
         java.util.Objects.requireNonNull(path, "Parameter 'path' must not be null");
+        MemorySegment pathPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         java.util.Objects.requireNonNull(cell, "Parameter 'cell' must not be null");
+        MemorySegment cellPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_icon_view_get_item_at_pos.invokeExact(
                     handle(),
                     x,
                     y,
-                    path.handle(),
-                    cell.handle());
+                    (Addressable) pathPOINTER.address(),
+                    (Addressable) cellPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        path.set(new org.gtk.gtk.TreePath(pathPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
+        cell.set(new org.gtk.gtk.CellRenderer(cellPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.NONE));
         return RESULT != 0;
     }
     
@@ -676,9 +684,11 @@ public class IconView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * @param iter a pointer to receive a {@code GtkTreeIter}
      * @return whether or not the given tooltip context points to an item
      */
-    public boolean getTooltipContext(int x, int y, boolean keyboardTip, @NotNull PointerProxy<org.gtk.gtk.TreeModel> model, @NotNull PointerProxy<org.gtk.gtk.TreePath> path, @NotNull org.gtk.gtk.TreeIter iter) {
+    public boolean getTooltipContext(int x, int y, boolean keyboardTip, @NotNull Out<org.gtk.gtk.TreeModel> model, @NotNull Out<org.gtk.gtk.TreePath> path, @NotNull org.gtk.gtk.TreeIter iter) {
         java.util.Objects.requireNonNull(model, "Parameter 'model' must not be null");
+        MemorySegment modelPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         java.util.Objects.requireNonNull(path, "Parameter 'path' must not be null");
+        MemorySegment pathPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         java.util.Objects.requireNonNull(iter, "Parameter 'iter' must not be null");
         int RESULT;
         try {
@@ -687,12 +697,14 @@ public class IconView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
                     x,
                     y,
                     keyboardTip ? 1 : 0,
-                    model.handle(),
-                    path.handle(),
+                    (Addressable) modelPOINTER.address(),
+                    (Addressable) pathPOINTER.address(),
                     iter.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        model.set(new org.gtk.gtk.TreeModel.TreeModelImpl(modelPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.NONE));
+        path.set(new org.gtk.gtk.TreePath(pathPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
         return RESULT != 0;
     }
     
@@ -705,18 +717,22 @@ public class IconView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * @param endPath Return location for end of region
      * @return {@code true}, if valid paths were placed in {@code start_path} and {@code end_path}
      */
-    public boolean getVisibleRange(@NotNull PointerProxy<org.gtk.gtk.TreePath> startPath, @NotNull PointerProxy<org.gtk.gtk.TreePath> endPath) {
+    public boolean getVisibleRange(@NotNull Out<org.gtk.gtk.TreePath> startPath, @NotNull Out<org.gtk.gtk.TreePath> endPath) {
         java.util.Objects.requireNonNull(startPath, "Parameter 'startPath' must not be null");
+        MemorySegment startPathPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         java.util.Objects.requireNonNull(endPath, "Parameter 'endPath' must not be null");
+        MemorySegment endPathPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_icon_view_get_visible_range.invokeExact(
                     handle(),
-                    startPath.handle(),
-                    endPath.handle());
+                    (Addressable) startPathPOINTER.address(),
+                    (Addressable) endPathPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        startPath.set(new org.gtk.gtk.TreePath(startPathPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
+        endPath.set(new org.gtk.gtk.TreePath(endPathPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
         return RESULT != 0;
     }
     

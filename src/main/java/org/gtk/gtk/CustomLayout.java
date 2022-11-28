@@ -53,11 +53,7 @@ public class CustomLayout extends org.gtk.gtk.LayoutManager {
      * @throws ClassCastException If the GType is not derived from "GtkCustomLayout", a ClassCastException will be thrown.
      */
     public static CustomLayout castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), CustomLayout.getType())) {
             return new CustomLayout(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkCustomLayout");
-        }
     }
     
     private static Addressable constructNew(@Nullable org.gtk.gtk.CustomRequestModeFunc requestMode, @NotNull org.gtk.gtk.CustomMeasureFunc measure, @NotNull org.gtk.gtk.CustomAllocateFunc allocate) {

@@ -179,10 +179,10 @@ public class CellAreaClass extends Struct {
             return struct;
         }
         
-        public Build setParentClass(org.gtk.gobject.InitiallyUnownedClass parent_class) {
+        public Build setParentClass(org.gtk.gobject.InitiallyUnownedClass parentClass) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parent_class == null ? MemoryAddress.NULL : parent_class.handle()));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
             return this;
         }
         
@@ -207,10 +207,10 @@ public class CellAreaClass extends Struct {
             return this;
         }
         
-        public Build setForeachAlloc(java.lang.foreign.MemoryAddress foreach_alloc) {
+        public Build setForeachAlloc(java.lang.foreign.MemoryAddress foreachAlloc) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("foreach_alloc"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (foreach_alloc == null ? MemoryAddress.NULL : foreach_alloc));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (foreachAlloc == null ? MemoryAddress.NULL : foreachAlloc));
             return this;
         }
         
@@ -228,73 +228,73 @@ public class CellAreaClass extends Struct {
             return this;
         }
         
-        public Build setApplyAttributes(java.lang.foreign.MemoryAddress apply_attributes) {
+        public Build setApplyAttributes(java.lang.foreign.MemoryAddress applyAttributes) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("apply_attributes"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (apply_attributes == null ? MemoryAddress.NULL : apply_attributes));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (applyAttributes == null ? MemoryAddress.NULL : applyAttributes));
             return this;
         }
         
-        public Build setCreateContext(java.lang.foreign.MemoryAddress create_context) {
+        public Build setCreateContext(java.lang.foreign.MemoryAddress createContext) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("create_context"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (create_context == null ? MemoryAddress.NULL : create_context));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (createContext == null ? MemoryAddress.NULL : createContext));
             return this;
         }
         
-        public Build setCopyContext(java.lang.foreign.MemoryAddress copy_context) {
+        public Build setCopyContext(java.lang.foreign.MemoryAddress copyContext) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("copy_context"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (copy_context == null ? MemoryAddress.NULL : copy_context));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (copyContext == null ? MemoryAddress.NULL : copyContext));
             return this;
         }
         
-        public Build setGetRequestMode(java.lang.foreign.MemoryAddress get_request_mode) {
+        public Build setGetRequestMode(java.lang.foreign.MemoryAddress getRequestMode) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("get_request_mode"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (get_request_mode == null ? MemoryAddress.NULL : get_request_mode));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getRequestMode == null ? MemoryAddress.NULL : getRequestMode));
             return this;
         }
         
-        public Build setGetPreferredWidth(java.lang.foreign.MemoryAddress get_preferred_width) {
+        public Build setGetPreferredWidth(java.lang.foreign.MemoryAddress getPreferredWidth) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("get_preferred_width"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (get_preferred_width == null ? MemoryAddress.NULL : get_preferred_width));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getPreferredWidth == null ? MemoryAddress.NULL : getPreferredWidth));
             return this;
         }
         
-        public Build setGetPreferredHeightForWidth(java.lang.foreign.MemoryAddress get_preferred_height_for_width) {
+        public Build setGetPreferredHeightForWidth(java.lang.foreign.MemoryAddress getPreferredHeightForWidth) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("get_preferred_height_for_width"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (get_preferred_height_for_width == null ? MemoryAddress.NULL : get_preferred_height_for_width));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getPreferredHeightForWidth == null ? MemoryAddress.NULL : getPreferredHeightForWidth));
             return this;
         }
         
-        public Build setGetPreferredHeight(java.lang.foreign.MemoryAddress get_preferred_height) {
+        public Build setGetPreferredHeight(java.lang.foreign.MemoryAddress getPreferredHeight) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("get_preferred_height"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (get_preferred_height == null ? MemoryAddress.NULL : get_preferred_height));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getPreferredHeight == null ? MemoryAddress.NULL : getPreferredHeight));
             return this;
         }
         
-        public Build setGetPreferredWidthForHeight(java.lang.foreign.MemoryAddress get_preferred_width_for_height) {
+        public Build setGetPreferredWidthForHeight(java.lang.foreign.MemoryAddress getPreferredWidthForHeight) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("get_preferred_width_for_height"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (get_preferred_width_for_height == null ? MemoryAddress.NULL : get_preferred_width_for_height));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getPreferredWidthForHeight == null ? MemoryAddress.NULL : getPreferredWidthForHeight));
             return this;
         }
         
-        public Build setSetCellProperty(java.lang.foreign.MemoryAddress set_cell_property) {
+        public Build setSetCellProperty(java.lang.foreign.MemoryAddress setCellProperty) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("set_cell_property"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (set_cell_property == null ? MemoryAddress.NULL : set_cell_property));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (setCellProperty == null ? MemoryAddress.NULL : setCellProperty));
             return this;
         }
         
-        public Build setGetCellProperty(java.lang.foreign.MemoryAddress get_cell_property) {
+        public Build setGetCellProperty(java.lang.foreign.MemoryAddress getCellProperty) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("get_cell_property"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (get_cell_property == null ? MemoryAddress.NULL : get_cell_property));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getCellProperty == null ? MemoryAddress.NULL : getCellProperty));
             return this;
         }
         
@@ -305,10 +305,10 @@ public class CellAreaClass extends Struct {
             return this;
         }
         
-        public Build setIsActivatable(java.lang.foreign.MemoryAddress is_activatable) {
+        public Build setIsActivatable(java.lang.foreign.MemoryAddress isActivatable) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("is_activatable"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (is_activatable == null ? MemoryAddress.NULL : is_activatable));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (isActivatable == null ? MemoryAddress.NULL : isActivatable));
             return this;
         }
         

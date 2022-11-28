@@ -18,12 +18,12 @@ import org.jetbrains.annotations.*;
  * <li>Ensuring that blocked state transfers across target instances.
  * </ul>
  * <p>
- * One place you might want to use such a structure is with {@link org.gtk.gtk.TextView} and
- * {@link org.gtk.gtk.TextBuffer}. Often times, you'll need to connect to many signals on
- * {@link org.gtk.gtk.TextBuffer} from a {@link org.gtk.gtk.TextView} subclass. This allows you to create a
+ * One place you might want to use such a structure is with {@code GtkTextView} and
+ * {@code GtkTextBuffer}. Often times, you'll need to connect to many signals on
+ * {@code GtkTextBuffer} from a {@code GtkTextView} subclass. This allows you to create a
  * signal group during instance construction, simply bind the
- * {@link org.gtk.gtk.TextView}:buffer property to {@link SignalGroup}:target and connect
- * all the signals you need. When the {@link org.gtk.gtk.TextView}:buffer property changes
+ * {@code GtkTextView}:buffer property to {@link SignalGroup}:target and connect
+ * all the signals you need. When the {@code GtkTextView}:buffer property changes
  * all of the signals will be transitioned correctly.
  * @version 2.72
  */
@@ -67,11 +67,7 @@ public class SignalGroup extends org.gtk.gobject.Object {
      * @throws ClassCastException If the GType is not derived from "GSignalGroup", a ClassCastException will be thrown.
      */
     public static SignalGroup castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), SignalGroup.getType())) {
             return new SignalGroup(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GSignalGroup");
-        }
     }
     
     private static Addressable constructNew(@NotNull org.gtk.glib.Type targetType) {

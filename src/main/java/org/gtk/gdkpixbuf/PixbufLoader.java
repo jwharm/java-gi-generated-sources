@@ -97,11 +97,7 @@ public class PixbufLoader extends org.gtk.gobject.Object {
      * @throws ClassCastException If the GType is not derived from "GdkPixbufLoader", a ClassCastException will be thrown.
      */
     public static PixbufLoader castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), PixbufLoader.getType())) {
             return new PixbufLoader(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GdkPixbufLoader");
-        }
     }
     
     private static Addressable constructNew() {

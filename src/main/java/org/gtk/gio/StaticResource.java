@@ -164,10 +164,10 @@ public class StaticResource extends Struct {
             return this;
         }
         
-        public Build setDataLen(long data_len) {
+        public Build setDataLen(long dataLen) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("data_len"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), data_len);
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), dataLen);
             return this;
         }
         

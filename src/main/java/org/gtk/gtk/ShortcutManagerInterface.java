@@ -85,24 +85,24 @@ public class ShortcutManagerInterface extends Struct {
             return struct;
         }
         
-        public Build setGIface(org.gtk.gobject.TypeInterface g_iface) {
+        public Build setGIface(org.gtk.gobject.TypeInterface gIface) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("g_iface"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (g_iface == null ? MemoryAddress.NULL : g_iface.handle()));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (gIface == null ? MemoryAddress.NULL : gIface.handle()));
             return this;
         }
         
-        public Build setAddController(java.lang.foreign.MemoryAddress add_controller) {
+        public Build setAddController(java.lang.foreign.MemoryAddress addController) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("add_controller"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (add_controller == null ? MemoryAddress.NULL : add_controller));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (addController == null ? MemoryAddress.NULL : addController));
             return this;
         }
         
-        public Build setRemoveController(java.lang.foreign.MemoryAddress remove_controller) {
+        public Build setRemoveController(java.lang.foreign.MemoryAddress removeController) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("remove_controller"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (remove_controller == null ? MemoryAddress.NULL : remove_controller));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (removeController == null ? MemoryAddress.NULL : removeController));
             return this;
         }
     }

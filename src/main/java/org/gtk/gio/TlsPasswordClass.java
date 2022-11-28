@@ -50,7 +50,7 @@ public class TlsPasswordClass extends Struct {
      * Get the value of the field {@code parent_class}
      * @return The value of the field {@code parent_class}
      */
-    public org.gtk.gobject.ObjectClass parent_class$get() {
+    public org.gtk.gobject.ObjectClass parentClass$get() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_class"));
         return new org.gtk.gobject.ObjectClass(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
     }
@@ -92,31 +92,31 @@ public class TlsPasswordClass extends Struct {
             return struct;
         }
         
-        public Build setParentClass(org.gtk.gobject.ObjectClass parent_class) {
+        public Build setParentClass(org.gtk.gobject.ObjectClass parentClass) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parent_class == null ? MemoryAddress.NULL : parent_class.handle()));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
             return this;
         }
         
-        public Build setGetValue(java.lang.foreign.MemoryAddress get_value) {
+        public Build setGetValue(java.lang.foreign.MemoryAddress getValue) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("get_value"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (get_value == null ? MemoryAddress.NULL : get_value));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getValue == null ? MemoryAddress.NULL : getValue));
             return this;
         }
         
-        public Build setSetValue(java.lang.foreign.MemoryAddress set_value) {
+        public Build setSetValue(java.lang.foreign.MemoryAddress setValue) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("set_value"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (set_value == null ? MemoryAddress.NULL : set_value));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (setValue == null ? MemoryAddress.NULL : setValue));
             return this;
         }
         
-        public Build setGetDefaultWarning(java.lang.foreign.MemoryAddress get_default_warning) {
+        public Build setGetDefaultWarning(java.lang.foreign.MemoryAddress getDefaultWarning) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("get_default_warning"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (get_default_warning == null ? MemoryAddress.NULL : get_default_warning));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getDefaultWarning == null ? MemoryAddress.NULL : getDefaultWarning));
             return this;
         }
         

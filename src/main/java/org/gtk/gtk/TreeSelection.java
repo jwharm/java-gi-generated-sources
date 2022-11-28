@@ -72,11 +72,7 @@ public class TreeSelection extends org.gtk.gobject.Object {
      * @throws ClassCastException If the GType is not derived from "GtkTreeSelection", a ClassCastException will be thrown.
      */
     public static TreeSelection castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), TreeSelection.getType())) {
             return new TreeSelection(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkTreeSelection");
-        }
     }
     
     /**
@@ -128,18 +124,20 @@ public class TreeSelection extends org.gtk.gobject.Object {
      * @param iter The {@code GtkTreeIter}
      * @return TRUE, if there is a selected node.
      */
-    public boolean getSelected(@NotNull PointerProxy<org.gtk.gtk.TreeModel> model, @NotNull org.gtk.gtk.TreeIter iter) {
+    public boolean getSelected(@NotNull Out<org.gtk.gtk.TreeModel> model, @NotNull org.gtk.gtk.TreeIter iter) {
         java.util.Objects.requireNonNull(model, "Parameter 'model' must not be null");
+        MemorySegment modelPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         java.util.Objects.requireNonNull(iter, "Parameter 'iter' must not be null");
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_tree_selection_get_selected.invokeExact(
                     handle(),
-                    model.handle(),
+                    (Addressable) modelPOINTER.address(),
                     iter.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        model.set(new org.gtk.gtk.TreeModel.TreeModelImpl(modelPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.NONE));
         return RESULT != 0;
     }
     
@@ -156,16 +154,18 @@ public class TreeSelection extends org.gtk.gobject.Object {
      * @param model A pointer to set to the {@code GtkTreeModel}
      * @return A {@code GList} containing a {@code GtkTreePath} for each selected row.
      */
-    public @NotNull org.gtk.glib.List getSelectedRows(@NotNull PointerProxy<org.gtk.gtk.TreeModel> model) {
+    public @NotNull org.gtk.glib.List getSelectedRows(@NotNull Out<org.gtk.gtk.TreeModel> model) {
         java.util.Objects.requireNonNull(model, "Parameter 'model' must not be null");
+        MemorySegment modelPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_tree_selection_get_selected_rows.invokeExact(
                     handle(),
-                    model.handle());
+                    (Addressable) modelPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        model.set(new org.gtk.gtk.TreeModel.TreeModelImpl(modelPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.NONE));
         return new org.gtk.glib.List(RESULT, Ownership.FULL);
     }
     

@@ -67,11 +67,7 @@ public class TabBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
      * @throws ClassCastException If the GType is not derived from "AdwTabBar", a ClassCastException will be thrown.
      */
     public static TabBar castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), TabBar.getType())) {
             return new TabBar(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of AdwTabBar");
-        }
     }
     
     private static Addressable constructNew() {

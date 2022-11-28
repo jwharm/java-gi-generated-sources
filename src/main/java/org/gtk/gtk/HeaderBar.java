@@ -114,11 +114,7 @@ public class HeaderBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
      * @throws ClassCastException If the GType is not derived from "GtkHeaderBar", a ClassCastException will be thrown.
      */
     public static HeaderBar castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), HeaderBar.getType())) {
             return new HeaderBar(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkHeaderBar");
-        }
     }
     
     private static Addressable constructNew() {

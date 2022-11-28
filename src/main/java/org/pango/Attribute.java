@@ -76,7 +76,7 @@ public class Attribute extends Struct {
      * Get the value of the field {@code start_index}
      * @return The value of the field {@code start_index}
      */
-    public int start_index$get() {
+    public int startIndex$get() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("start_index"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -85,19 +85,19 @@ public class Attribute extends Struct {
     
     /**
      * Change the value of the field {@code start_index}
-     * @param start_index The new value of the field {@code start_index}
+     * @param startIndex The new value of the field {@code start_index}
      */
-    public void start_index$set(int start_index) {
+    public void startIndex$set(int startIndex) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("start_index"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), start_index);
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), startIndex);
     }
     
     /**
      * Get the value of the field {@code end_index}
      * @return The value of the field {@code end_index}
      */
-    public int end_index$get() {
+    public int endIndex$get() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("end_index"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -106,12 +106,12 @@ public class Attribute extends Struct {
     
     /**
      * Change the value of the field {@code end_index}
-     * @param end_index The new value of the field {@code end_index}
+     * @param endIndex The new value of the field {@code end_index}
      */
-    public void end_index$set(int end_index) {
+    public void endIndex$set(int endIndex) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("end_index"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), end_index);
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), endIndex);
     }
     
     /**
@@ -477,26 +477,26 @@ public class Attribute extends Struct {
         
         /**
          * the start index of the range (in bytes).
-         * @param start_index The value for the {@code start_index} field
+         * @param startIndex The value for the {@code startIndex} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setStartIndex(int start_index) {
+        public Build setStartIndex(int startIndex) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("start_index"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), start_index);
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), startIndex);
             return this;
         }
         
         /**
          * end index of the range (in bytes). The character at this index
          *   is not included in the range.
-         * @param end_index The value for the {@code end_index} field
+         * @param endIndex The value for the {@code endIndex} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setEndIndex(int end_index) {
+        public Build setEndIndex(int endIndex) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("end_index"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), end_index);
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), endIndex);
             return this;
         }
     }

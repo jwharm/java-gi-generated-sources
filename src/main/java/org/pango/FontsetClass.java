@@ -55,7 +55,7 @@ public class FontsetClass extends Struct {
      * Get the value of the field {@code parent_class}
      * @return The value of the field {@code parent_class}
      */
-    public org.gtk.gobject.ObjectClass parent_class$get() {
+    public org.gtk.gobject.ObjectClass parentClass$get() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_class"));
         return new org.gtk.gobject.ObjectClass(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
     }
@@ -99,34 +99,34 @@ public class FontsetClass extends Struct {
         
         /**
          * parent {@code GObjectClass}
-         * @param parent_class The value for the {@code parent_class} field
+         * @param parentClass The value for the {@code parentClass} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setParentClass(org.gtk.gobject.ObjectClass parent_class) {
+        public Build setParentClass(org.gtk.gobject.ObjectClass parentClass) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parent_class == null ? MemoryAddress.NULL : parent_class.handle()));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
             return this;
         }
         
-        public Build setGetFont(java.lang.foreign.MemoryAddress get_font) {
+        public Build setGetFont(java.lang.foreign.MemoryAddress getFont) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("get_font"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (get_font == null ? MemoryAddress.NULL : get_font));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getFont == null ? MemoryAddress.NULL : getFont));
             return this;
         }
         
-        public Build setGetMetrics(java.lang.foreign.MemoryAddress get_metrics) {
+        public Build setGetMetrics(java.lang.foreign.MemoryAddress getMetrics) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("get_metrics"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (get_metrics == null ? MemoryAddress.NULL : get_metrics));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getMetrics == null ? MemoryAddress.NULL : getMetrics));
             return this;
         }
         
-        public Build setGetLanguage(java.lang.foreign.MemoryAddress get_language) {
+        public Build setGetLanguage(java.lang.foreign.MemoryAddress getLanguage) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("get_language"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (get_language == null ? MemoryAddress.NULL : get_language));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getLanguage == null ? MemoryAddress.NULL : getLanguage));
             return this;
         }
         
@@ -137,31 +137,31 @@ public class FontsetClass extends Struct {
             return this;
         }
         
-        public Build setPangoReserved1(java.lang.foreign.MemoryAddress _pango_reserved1) {
+        public Build setPangoReserved1(java.lang.foreign.MemoryAddress PangoReserved1) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("_pango_reserved1"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (_pango_reserved1 == null ? MemoryAddress.NULL : _pango_reserved1));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (PangoReserved1 == null ? MemoryAddress.NULL : PangoReserved1));
             return this;
         }
         
-        public Build setPangoReserved2(java.lang.foreign.MemoryAddress _pango_reserved2) {
+        public Build setPangoReserved2(java.lang.foreign.MemoryAddress PangoReserved2) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("_pango_reserved2"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (_pango_reserved2 == null ? MemoryAddress.NULL : _pango_reserved2));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (PangoReserved2 == null ? MemoryAddress.NULL : PangoReserved2));
             return this;
         }
         
-        public Build setPangoReserved3(java.lang.foreign.MemoryAddress _pango_reserved3) {
+        public Build setPangoReserved3(java.lang.foreign.MemoryAddress PangoReserved3) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("_pango_reserved3"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (_pango_reserved3 == null ? MemoryAddress.NULL : _pango_reserved3));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (PangoReserved3 == null ? MemoryAddress.NULL : PangoReserved3));
             return this;
         }
         
-        public Build setPangoReserved4(java.lang.foreign.MemoryAddress _pango_reserved4) {
+        public Build setPangoReserved4(java.lang.foreign.MemoryAddress PangoReserved4) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("_pango_reserved4"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (_pango_reserved4 == null ? MemoryAddress.NULL : _pango_reserved4));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (PangoReserved4 == null ? MemoryAddress.NULL : PangoReserved4));
             return this;
         }
     }

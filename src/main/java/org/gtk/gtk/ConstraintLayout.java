@@ -202,11 +202,7 @@ public class ConstraintLayout extends org.gtk.gtk.LayoutManager implements org.g
      * @throws ClassCastException If the GType is not derived from "GtkConstraintLayout", a ClassCastException will be thrown.
      */
     public static ConstraintLayout castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), ConstraintLayout.getType())) {
             return new ConstraintLayout(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkConstraintLayout");
-        }
     }
     
     private static Addressable constructNew() {

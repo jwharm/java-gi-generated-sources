@@ -62,15 +62,6 @@ public class EntryRow extends org.gnome.adw.PreferencesRow implements org.gtk.gt
     }
     
     /**
-     * Get the value of the field {@code parent_instance}
-     * @return The value of the field {@code parent_instance}
-     */
-    public org.gnome.adw.PreferencesRow parent_instance$get() {
-        long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_instance"));
-        return new org.gnome.adw.PreferencesRow(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
-    }
-    
-    /**
      * Create a EntryRow proxy instance for the provided memory address.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
@@ -93,11 +84,7 @@ public class EntryRow extends org.gnome.adw.PreferencesRow implements org.gtk.gt
      * @throws ClassCastException If the GType is not derived from "AdwEntryRow", a ClassCastException will be thrown.
      */
     public static EntryRow castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), EntryRow.getType())) {
             return new EntryRow(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of AdwEntryRow");
-        }
     }
     
     private static Addressable constructNew() {

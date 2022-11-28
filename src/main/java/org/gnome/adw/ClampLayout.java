@@ -70,11 +70,7 @@ public class ClampLayout extends org.gtk.gtk.LayoutManager implements org.gtk.gt
      * @throws ClassCastException If the GType is not derived from "AdwClampLayout", a ClassCastException will be thrown.
      */
     public static ClampLayout castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), ClampLayout.getType())) {
             return new ClampLayout(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of AdwClampLayout");
-        }
     }
     
     private static Addressable constructNew() {

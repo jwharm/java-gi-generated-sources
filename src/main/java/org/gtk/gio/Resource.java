@@ -8,7 +8,7 @@ import org.jetbrains.annotations.*;
 /**
  * Applications and libraries often contain binary or textual data that is
  * really part of the application, rather than user data. For instance
- * {@link org.gtk.gtk.Builder} .ui files, splashscreen images, GMenu markup XML, CSS files,
+ * {@code GtkBuilder} .ui files, splashscreen images, GMenu markup XML, CSS files,
  * icons, etc. These are often shipped as files in {@code $datadir/appname}, or
  * manually included as literal strings in the code.
  * <p>
@@ -102,7 +102,7 @@ import org.jetbrains.annotations.*;
  * to the data. You can also use URIs like "resource:///org/gtk/Example/data/splashscreen.png" with {@link File} to access
  * the resource data.
  * <p>
- * Some higher-level APIs, such as {@link org.gtk.gtk.Application}, will automatically load
+ * Some higher-level APIs, such as {@code GtkApplication}, will automatically load
  * resources from certain well-known paths in the resource namespace as a
  * convenience. See the documentation for those APIs for details.
  * <p>

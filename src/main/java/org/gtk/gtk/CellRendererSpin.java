@@ -62,11 +62,7 @@ public class CellRendererSpin extends org.gtk.gtk.CellRendererText {
      * @throws ClassCastException If the GType is not derived from "GtkCellRendererSpin", a ClassCastException will be thrown.
      */
     public static CellRendererSpin castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), CellRendererSpin.getType())) {
             return new CellRendererSpin(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkCellRendererSpin");
-        }
     }
     
     private static Addressable constructNew() {

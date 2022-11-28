@@ -76,11 +76,7 @@ public class FileInfo extends org.gtk.gobject.Object {
      * @throws ClassCastException If the GType is not derived from "GFileInfo", a ClassCastException will be thrown.
      */
     public static FileInfo castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), FileInfo.getType())) {
             return new FileInfo(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GFileInfo");
-        }
     }
     
     private static Addressable constructNew() {

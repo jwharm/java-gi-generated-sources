@@ -135,7 +135,7 @@ public class PadActionEntry extends Struct {
      * Get the value of the field {@code action_name}
      * @return The value of the field {@code action_name}
      */
-    public java.lang.String action_name$get() {
+    public java.lang.String actionName$get() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("action_name"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -144,12 +144,12 @@ public class PadActionEntry extends Struct {
     
     /**
      * Change the value of the field {@code action_name}
-     * @param action_name The new value of the field {@code action_name}
+     * @param actionName The new value of the field {@code action_name}
      */
-    public void action_name$set(java.lang.String action_name) {
+    public void actionName$set(java.lang.String actionName) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("action_name"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Interop.allocateNativeString(action_name));
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Interop.allocateNativeString(actionName));
     }
     
     /**
@@ -241,13 +241,13 @@ public class PadActionEntry extends Struct {
         
         /**
          * action name that will be activated in the {@code GActionGroup}.
-         * @param action_name The value for the {@code action_name} field
+         * @param actionName The value for the {@code actionName} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setActionName(java.lang.String action_name) {
+        public Build setActionName(java.lang.String actionName) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("action_name"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (action_name == null ? MemoryAddress.NULL : Interop.allocateNativeString(action_name)));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (actionName == null ? MemoryAddress.NULL : Interop.allocateNativeString(actionName)));
             return this;
         }
     }

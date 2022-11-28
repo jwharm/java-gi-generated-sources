@@ -36,15 +36,6 @@ public class TcpWrapperConnection extends org.gtk.gio.TcpConnection {
     }
     
     /**
-     * Get the value of the field {@code parent_instance}
-     * @return The value of the field {@code parent_instance}
-     */
-    public org.gtk.gio.TcpConnection parent_instance$get() {
-        long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_instance"));
-        return new org.gtk.gio.TcpConnection(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
-    }
-    
-    /**
      * Create a TcpWrapperConnection proxy instance for the provided memory address.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
@@ -67,11 +58,7 @@ public class TcpWrapperConnection extends org.gtk.gio.TcpConnection {
      * @throws ClassCastException If the GType is not derived from "GTcpWrapperConnection", a ClassCastException will be thrown.
      */
     public static TcpWrapperConnection castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), TcpWrapperConnection.getType())) {
             return new TcpWrapperConnection(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GTcpWrapperConnection");
-        }
     }
     
     private static Addressable constructNew(@NotNull org.gtk.gio.IOStream baseIoStream, @NotNull org.gtk.gio.Socket socket) {

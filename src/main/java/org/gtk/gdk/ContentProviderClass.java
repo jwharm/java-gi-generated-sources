@@ -55,7 +55,7 @@ public class ContentProviderClass extends Struct {
      * Get the value of the field {@code parent_class}
      * @return The value of the field {@code parent_class}
      */
-    public org.gtk.gobject.ObjectClass parent_class$get() {
+    public org.gtk.gobject.ObjectClass parentClass$get() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_class"));
         return new org.gtk.gobject.ObjectClass(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
     }
@@ -97,66 +97,66 @@ public class ContentProviderClass extends Struct {
             return struct;
         }
         
-        public Build setParentClass(org.gtk.gobject.ObjectClass parent_class) {
+        public Build setParentClass(org.gtk.gobject.ObjectClass parentClass) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parent_class == null ? MemoryAddress.NULL : parent_class.handle()));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
             return this;
         }
         
-        public Build setContentChanged(java.lang.foreign.MemoryAddress content_changed) {
+        public Build setContentChanged(java.lang.foreign.MemoryAddress contentChanged) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("content_changed"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (content_changed == null ? MemoryAddress.NULL : content_changed));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (contentChanged == null ? MemoryAddress.NULL : contentChanged));
             return this;
         }
         
-        public Build setAttachClipboard(java.lang.foreign.MemoryAddress attach_clipboard) {
+        public Build setAttachClipboard(java.lang.foreign.MemoryAddress attachClipboard) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("attach_clipboard"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (attach_clipboard == null ? MemoryAddress.NULL : attach_clipboard));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (attachClipboard == null ? MemoryAddress.NULL : attachClipboard));
             return this;
         }
         
-        public Build setDetachClipboard(java.lang.foreign.MemoryAddress detach_clipboard) {
+        public Build setDetachClipboard(java.lang.foreign.MemoryAddress detachClipboard) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("detach_clipboard"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (detach_clipboard == null ? MemoryAddress.NULL : detach_clipboard));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (detachClipboard == null ? MemoryAddress.NULL : detachClipboard));
             return this;
         }
         
-        public Build setRefFormats(java.lang.foreign.MemoryAddress ref_formats) {
+        public Build setRefFormats(java.lang.foreign.MemoryAddress refFormats) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("ref_formats"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (ref_formats == null ? MemoryAddress.NULL : ref_formats));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (refFormats == null ? MemoryAddress.NULL : refFormats));
             return this;
         }
         
-        public Build setRefStorableFormats(java.lang.foreign.MemoryAddress ref_storable_formats) {
+        public Build setRefStorableFormats(java.lang.foreign.MemoryAddress refStorableFormats) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("ref_storable_formats"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (ref_storable_formats == null ? MemoryAddress.NULL : ref_storable_formats));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (refStorableFormats == null ? MemoryAddress.NULL : refStorableFormats));
             return this;
         }
         
-        public Build setWriteMimeTypeAsync(java.lang.foreign.MemoryAddress write_mime_type_async) {
+        public Build setWriteMimeTypeAsync(java.lang.foreign.MemoryAddress writeMimeTypeAsync) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("write_mime_type_async"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (write_mime_type_async == null ? MemoryAddress.NULL : write_mime_type_async));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (writeMimeTypeAsync == null ? MemoryAddress.NULL : writeMimeTypeAsync));
             return this;
         }
         
-        public Build setWriteMimeTypeFinish(java.lang.foreign.MemoryAddress write_mime_type_finish) {
+        public Build setWriteMimeTypeFinish(java.lang.foreign.MemoryAddress writeMimeTypeFinish) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("write_mime_type_finish"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (write_mime_type_finish == null ? MemoryAddress.NULL : write_mime_type_finish));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (writeMimeTypeFinish == null ? MemoryAddress.NULL : writeMimeTypeFinish));
             return this;
         }
         
-        public Build setGetValue(java.lang.foreign.MemoryAddress get_value) {
+        public Build setGetValue(java.lang.foreign.MemoryAddress getValue) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("get_value"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (get_value == null ? MemoryAddress.NULL : get_value));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getValue == null ? MemoryAddress.NULL : getValue));
             return this;
         }
         

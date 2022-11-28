@@ -73,7 +73,7 @@ public class OtColorLayerT extends Struct {
      * Get the value of the field {@code color_index}
      * @return The value of the field {@code color_index}
      */
-    public int color_index$get() {
+    public int colorIndex$get() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("color_index"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -82,12 +82,12 @@ public class OtColorLayerT extends Struct {
     
     /**
      * Change the value of the field {@code color_index}
-     * @param color_index The new value of the field {@code color_index}
+     * @param colorIndex The new value of the field {@code color_index}
      */
-    public void color_index$set(int color_index) {
+    public void colorIndex$set(int colorIndex) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("color_index"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), color_index);
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), colorIndex);
     }
     
     /**
@@ -141,13 +141,13 @@ public class OtColorLayerT extends Struct {
         
         /**
          * the palette color index of the layer
-         * @param color_index The value for the {@code color_index} field
+         * @param colorIndex The value for the {@code colorIndex} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setColorIndex(int color_index) {
+        public Build setColorIndex(int colorIndex) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("color_index"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), color_index);
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), colorIndex);
             return this;
         }
     }

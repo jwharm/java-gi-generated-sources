@@ -79,31 +79,31 @@ public class TreeDragSourceIface extends Struct {
             return struct;
         }
         
-        public Build setGIface(org.gtk.gobject.TypeInterface g_iface) {
+        public Build setGIface(org.gtk.gobject.TypeInterface gIface) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("g_iface"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (g_iface == null ? MemoryAddress.NULL : g_iface.handle()));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (gIface == null ? MemoryAddress.NULL : gIface.handle()));
             return this;
         }
         
-        public Build setRowDraggable(java.lang.foreign.MemoryAddress row_draggable) {
+        public Build setRowDraggable(java.lang.foreign.MemoryAddress rowDraggable) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("row_draggable"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (row_draggable == null ? MemoryAddress.NULL : row_draggable));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (rowDraggable == null ? MemoryAddress.NULL : rowDraggable));
             return this;
         }
         
-        public Build setDragDataGet(java.lang.foreign.MemoryAddress drag_data_get) {
+        public Build setDragDataGet(java.lang.foreign.MemoryAddress dragDataGet) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("drag_data_get"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (drag_data_get == null ? MemoryAddress.NULL : drag_data_get));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (dragDataGet == null ? MemoryAddress.NULL : dragDataGet));
             return this;
         }
         
-        public Build setDragDataDelete(java.lang.foreign.MemoryAddress drag_data_delete) {
+        public Build setDragDataDelete(java.lang.foreign.MemoryAddress dragDataDelete) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("drag_data_delete"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (drag_data_delete == null ? MemoryAddress.NULL : drag_data_delete));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (dragDataDelete == null ? MemoryAddress.NULL : dragDataDelete));
             return this;
         }
     }

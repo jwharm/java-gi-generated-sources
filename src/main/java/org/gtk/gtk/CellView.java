@@ -65,11 +65,7 @@ public class CellView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * @throws ClassCastException If the GType is not derived from "GtkCellView", a ClassCastException will be thrown.
      */
     public static CellView castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), CellView.getType())) {
             return new CellView(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkCellView");
-        }
     }
     
     private static Addressable constructNew() {

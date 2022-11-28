@@ -76,18 +76,20 @@ public final class GdkPixbuf {
             HANDLER.onPixbufDestroyNotify(new PointerByte(pixels));
         }
         
-        public static boolean cbPixbufModuleSaveCallbackFunc(MemoryAddress saveFunc, MemoryAddress userData, MemoryAddress pixbuf, MemoryAddress optionKeys, MemoryAddress optionValues) {
+        public static int cbPixbufModuleSaveCallbackFunc(MemoryAddress saveFunc, MemoryAddress userData, MemoryAddress pixbuf, MemoryAddress optionKeys, MemoryAddress optionValues) {
             int HASH = userData.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (PixbufModuleSaveCallbackFunc) Interop.signalRegistry.get(HASH);
             var RESULT = HANDLER.onPixbufModuleSaveCallbackFunc(null /* Unsupported parameter type */, new org.gtk.gdkpixbuf.Pixbuf(pixbuf, Ownership.NONE), new PointerString(optionKeys), new PointerString(optionValues));
-            return RESULT;
+            return RESULT ? 1 : 0;
         }
         
-        public static boolean cbPixbufSaveFunc(MemoryAddress buf, long count, MemoryAddress error, MemoryAddress data) {
+        public static int cbPixbufSaveFunc(MemoryAddress buf, long count, MemoryAddress error, MemoryAddress data) {
             int HASH = data.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (PixbufSaveFunc) Interop.signalRegistry.get(HASH);
-            var RESULT = HANDLER.onPixbufSaveFunc(new PointerByte(buf), count, new PointerProxy<org.gtk.glib.Error>(error, org.gtk.glib.Error.class));
-            return RESULT;
+        var errorOUT = new Out<PointerProxy<org.gtk.glib.Error>>(new PointerProxy<org.gtk.glib.Error>(error, org.gtk.glib.Error.class));
+            var RESULT = HANDLER.onPixbufSaveFunc(new PointerByte(buf), count, errorOUT);
+            error.set(Interop.valueLayout.ADDRESS, 0, errorOUT.get().handle());
+            return RESULT ? 1 : 0;
         }
         
         public static void cbPixbufModuleUpdatedFunc(MemoryAddress pixbuf, int x, int y, int width, int height, MemoryAddress userData) {
@@ -102,11 +104,11 @@ public final class GdkPixbuf {
             HANDLER.onPixbufModulePreparedFunc(new org.gtk.gdkpixbuf.Pixbuf(pixbuf, Ownership.NONE), new org.gtk.gdkpixbuf.PixbufAnimation(anim, Ownership.NONE));
         }
         
-        public static java.lang.foreign.MemoryAddress cbPixbufModuleBeginLoadFunc(MemoryAddress sizeFunc, MemoryAddress preparedFunc, MemoryAddress updatedFunc, MemoryAddress userData) {
+        public static Addressable cbPixbufModuleBeginLoadFunc(MemoryAddress sizeFunc, MemoryAddress preparedFunc, MemoryAddress updatedFunc, MemoryAddress userData) {
             int HASH = userData.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (PixbufModuleBeginLoadFunc) Interop.signalRegistry.get(HASH);
             var RESULT = HANDLER.onPixbufModuleBeginLoadFunc(null /* Unsupported parameter type */, null /* Unsupported parameter type */, null /* Unsupported parameter type */);
-            return RESULT;
+            return (Addressable) RESULT;
         }
     }
 }

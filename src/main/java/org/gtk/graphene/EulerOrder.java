@@ -20,7 +20,7 @@ public class EulerOrder extends io.github.jwharm.javagi.Enumeration {
      * Rotate in the default order; the
      *   default order is one of the following enumeration values
      */
-    public static final EulerOrder DEFAULT = new EulerOrder(-1);
+    public static final EulerOrder DEFAULT = new EulerOrder(0);
     
     /**
      * Rotate in the X, Y, and Z order. Deprecated in

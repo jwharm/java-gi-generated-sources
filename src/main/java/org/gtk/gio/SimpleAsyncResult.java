@@ -211,11 +211,7 @@ public class SimpleAsyncResult extends org.gtk.gobject.Object implements org.gtk
      * @throws ClassCastException If the GType is not derived from "GSimpleAsyncResult", a ClassCastException will be thrown.
      */
     public static SimpleAsyncResult castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), SimpleAsyncResult.getType())) {
             return new SimpleAsyncResult(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GSimpleAsyncResult");
-        }
     }
     
     private static Addressable constructNewError(@Nullable org.gtk.gobject.Object sourceObject, @Nullable org.gtk.gio.AsyncReadyCallback callback, @NotNull org.gtk.glib.Quark domain, int code, @NotNull java.lang.String format, java.lang.Object... varargs) {

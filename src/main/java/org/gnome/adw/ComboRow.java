@@ -75,15 +75,6 @@ public class ComboRow extends org.gnome.adw.ActionRow implements org.gtk.gtk.Acc
     }
     
     /**
-     * Get the value of the field {@code parent_instance}
-     * @return The value of the field {@code parent_instance}
-     */
-    public org.gnome.adw.ActionRow parent_instance$get() {
-        long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_instance"));
-        return new org.gnome.adw.ActionRow(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
-    }
-    
-    /**
      * Create a ComboRow proxy instance for the provided memory address.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
@@ -106,11 +97,7 @@ public class ComboRow extends org.gnome.adw.ActionRow implements org.gtk.gtk.Acc
      * @throws ClassCastException If the GType is not derived from "AdwComboRow", a ClassCastException will be thrown.
      */
     public static ComboRow castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), ComboRow.getType())) {
             return new ComboRow(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of AdwComboRow");
-        }
     }
     
     private static Addressable constructNew() {

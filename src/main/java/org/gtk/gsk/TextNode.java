@@ -48,11 +48,7 @@ public class TextNode extends org.gtk.gsk.RenderNode {
      * @throws ClassCastException If the GType is not derived from "GskTextNode", a ClassCastException will be thrown.
      */
     public static TextNode castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), TextNode.getType())) {
             return new TextNode(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GskTextNode");
-        }
     }
     
     private static Addressable constructNew(@NotNull org.pango.Font font, @NotNull org.pango.GlyphString glyphs, @NotNull org.gtk.gdk.RGBA color, @NotNull org.gtk.graphene.Point offset) {

@@ -104,7 +104,7 @@ public class Closure extends Struct {
      * Get the value of the field {@code in_marshal}
      * @return The value of the field {@code in_marshal}
      */
-    public int in_marshal$get() {
+    public int inMarshal$get() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("in_marshal"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -113,19 +113,19 @@ public class Closure extends Struct {
     
     /**
      * Change the value of the field {@code in_marshal}
-     * @param in_marshal The new value of the field {@code in_marshal}
+     * @param inMarshal The new value of the field {@code in_marshal}
      */
-    public void in_marshal$set(int in_marshal) {
+    public void inMarshal$set(int inMarshal) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("in_marshal"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), in_marshal);
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), inMarshal);
     }
     
     /**
      * Get the value of the field {@code is_invalid}
      * @return The value of the field {@code is_invalid}
      */
-    public int is_invalid$get() {
+    public int isInvalid$get() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("is_invalid"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -134,12 +134,12 @@ public class Closure extends Struct {
     
     /**
      * Change the value of the field {@code is_invalid}
-     * @param is_invalid The new value of the field {@code is_invalid}
+     * @param isInvalid The new value of the field {@code is_invalid}
      */
-    public void is_invalid$set(int is_invalid) {
+    public void isInvalid$set(int isInvalid) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("is_invalid"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), is_invalid);
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), isInvalid);
     }
     
     /**
@@ -666,45 +666,45 @@ public class Closure extends Struct {
             return struct;
         }
         
-        public Build setRefCount(int ref_count) {
+        public Build setRefCount(int refCount) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("ref_count"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), ref_count);
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), refCount);
             return this;
         }
         
-        public Build setMetaMarshalNouse(int meta_marshal_nouse) {
+        public Build setMetaMarshalNouse(int metaMarshalNouse) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("meta_marshal_nouse"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), meta_marshal_nouse);
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), metaMarshalNouse);
             return this;
         }
         
-        public Build setNGuards(int n_guards) {
+        public Build setNGuards(int nGuards) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("n_guards"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), n_guards);
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), nGuards);
             return this;
         }
         
-        public Build setNFnotifiers(int n_fnotifiers) {
+        public Build setNFnotifiers(int nFnotifiers) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("n_fnotifiers"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), n_fnotifiers);
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), nFnotifiers);
             return this;
         }
         
-        public Build setNInotifiers(int n_inotifiers) {
+        public Build setNInotifiers(int nInotifiers) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("n_inotifiers"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), n_inotifiers);
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), nInotifiers);
             return this;
         }
         
-        public Build setInInotify(int in_inotify) {
+        public Build setInInotify(int inInotify) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("in_inotify"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), in_inotify);
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), inInotify);
             return this;
         }
         
@@ -715,36 +715,36 @@ public class Closure extends Struct {
             return this;
         }
         
-        public Build setDerivativeFlag(int derivative_flag) {
+        public Build setDerivativeFlag(int derivativeFlag) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("derivative_flag"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), derivative_flag);
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), derivativeFlag);
             return this;
         }
         
         /**
          * Indicates whether the closure is currently being invoked with
          *  g_closure_invoke()
-         * @param in_marshal The value for the {@code in_marshal} field
+         * @param inMarshal The value for the {@code inMarshal} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setInMarshal(int in_marshal) {
+        public Build setInMarshal(int inMarshal) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("in_marshal"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), in_marshal);
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), inMarshal);
             return this;
         }
         
         /**
          * Indicates whether the closure has been invalidated by
          *  g_closure_invalidate()
-         * @param is_invalid The value for the {@code is_invalid} field
+         * @param isInvalid The value for the {@code isInvalid} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setIsInvalid(int is_invalid) {
+        public Build setIsInvalid(int isInvalid) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("is_invalid"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), is_invalid);
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), isInvalid);
             return this;
         }
         

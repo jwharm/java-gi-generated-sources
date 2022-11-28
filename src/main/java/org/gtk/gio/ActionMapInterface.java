@@ -50,7 +50,7 @@ public class ActionMapInterface extends Struct {
      * Get the value of the field {@code g_iface}
      * @return The value of the field {@code g_iface}
      */
-    public org.gtk.gobject.TypeInterface g_iface$get() {
+    public org.gtk.gobject.TypeInterface gIface$get() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("g_iface"));
         return new org.gtk.gobject.TypeInterface(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
     }
@@ -92,31 +92,31 @@ public class ActionMapInterface extends Struct {
             return struct;
         }
         
-        public Build setGIface(org.gtk.gobject.TypeInterface g_iface) {
+        public Build setGIface(org.gtk.gobject.TypeInterface gIface) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("g_iface"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (g_iface == null ? MemoryAddress.NULL : g_iface.handle()));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (gIface == null ? MemoryAddress.NULL : gIface.handle()));
             return this;
         }
         
-        public Build setLookupAction(java.lang.foreign.MemoryAddress lookup_action) {
+        public Build setLookupAction(java.lang.foreign.MemoryAddress lookupAction) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("lookup_action"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (lookup_action == null ? MemoryAddress.NULL : lookup_action));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (lookupAction == null ? MemoryAddress.NULL : lookupAction));
             return this;
         }
         
-        public Build setAddAction(java.lang.foreign.MemoryAddress add_action) {
+        public Build setAddAction(java.lang.foreign.MemoryAddress addAction) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("add_action"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (add_action == null ? MemoryAddress.NULL : add_action));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (addAction == null ? MemoryAddress.NULL : addAction));
             return this;
         }
         
-        public Build setRemoveAction(java.lang.foreign.MemoryAddress remove_action) {
+        public Build setRemoveAction(java.lang.foreign.MemoryAddress removeAction) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("remove_action"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (remove_action == null ? MemoryAddress.NULL : remove_action));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (removeAction == null ? MemoryAddress.NULL : removeAction));
             return this;
         }
     }

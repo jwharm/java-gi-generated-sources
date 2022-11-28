@@ -49,7 +49,7 @@ public class RemoteActionGroupInterface extends Struct {
      * Get the value of the field {@code g_iface}
      * @return The value of the field {@code g_iface}
      */
-    public org.gtk.gobject.TypeInterface g_iface$get() {
+    public org.gtk.gobject.TypeInterface gIface$get() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("g_iface"));
         return new org.gtk.gobject.TypeInterface(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
     }
@@ -91,24 +91,24 @@ public class RemoteActionGroupInterface extends Struct {
             return struct;
         }
         
-        public Build setGIface(org.gtk.gobject.TypeInterface g_iface) {
+        public Build setGIface(org.gtk.gobject.TypeInterface gIface) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("g_iface"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (g_iface == null ? MemoryAddress.NULL : g_iface.handle()));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (gIface == null ? MemoryAddress.NULL : gIface.handle()));
             return this;
         }
         
-        public Build setActivateActionFull(java.lang.foreign.MemoryAddress activate_action_full) {
+        public Build setActivateActionFull(java.lang.foreign.MemoryAddress activateActionFull) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("activate_action_full"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (activate_action_full == null ? MemoryAddress.NULL : activate_action_full));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (activateActionFull == null ? MemoryAddress.NULL : activateActionFull));
             return this;
         }
         
-        public Build setChangeActionStateFull(java.lang.foreign.MemoryAddress change_action_state_full) {
+        public Build setChangeActionStateFull(java.lang.foreign.MemoryAddress changeActionStateFull) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("change_action_state_full"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (change_action_state_full == null ? MemoryAddress.NULL : change_action_state_full));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (changeActionStateFull == null ? MemoryAddress.NULL : changeActionStateFull));
             return this;
         }
     }

@@ -102,7 +102,7 @@ public class FontExtentsT extends Struct {
      * Get the value of the field {@code line_gap}
      * @return The value of the field {@code line_gap}
      */
-    public org.harfbuzz.PositionT line_gap$get() {
+    public org.harfbuzz.PositionT lineGap$get() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("line_gap"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -111,12 +111,12 @@ public class FontExtentsT extends Struct {
     
     /**
      * Change the value of the field {@code line_gap}
-     * @param line_gap The new value of the field {@code line_gap}
+     * @param lineGap The new value of the field {@code line_gap}
      */
-    public void line_gap$set(org.harfbuzz.PositionT line_gap) {
+    public void lineGap$set(org.harfbuzz.PositionT lineGap) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("line_gap"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), line_gap.getValue().intValue());
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), lineGap.getValue().intValue());
     }
     
     /**
@@ -182,13 +182,13 @@ public class FontExtentsT extends Struct {
         
         /**
          * The suggested line-spacing gap.
-         * @param line_gap The value for the {@code line_gap} field
+         * @param lineGap The value for the {@code lineGap} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setLineGap(org.harfbuzz.PositionT line_gap) {
+        public Build setLineGap(org.harfbuzz.PositionT lineGap) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("line_gap"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (line_gap == null ? MemoryAddress.NULL : line_gap.getValue().intValue()));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (lineGap == null ? MemoryAddress.NULL : lineGap.getValue().intValue()));
             return this;
         }
         

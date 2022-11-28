@@ -57,11 +57,7 @@ public class PrintJob extends org.gtk.gobject.Object {
      * @throws ClassCastException If the GType is not derived from "GtkPrintJob", a ClassCastException will be thrown.
      */
     public static PrintJob castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), PrintJob.getType())) {
             return new PrintJob(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkPrintJob");
-        }
     }
     
     private static Addressable constructNew(@NotNull java.lang.String title, @NotNull org.gtk.gtk.Printer printer, @NotNull org.gtk.gtk.PrintSettings settings, @NotNull org.gtk.gtk.PageSetup pageSetup) {

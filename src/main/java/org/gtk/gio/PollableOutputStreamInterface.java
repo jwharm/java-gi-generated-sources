@@ -67,7 +67,7 @@ public class PollableOutputStreamInterface extends Struct {
      * Get the value of the field {@code g_iface}
      * @return The value of the field {@code g_iface}
      */
-    public org.gtk.gobject.TypeInterface g_iface$get() {
+    public org.gtk.gobject.TypeInterface gIface$get() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("g_iface"));
         return new org.gtk.gobject.TypeInterface(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
     }
@@ -111,48 +111,48 @@ public class PollableOutputStreamInterface extends Struct {
         
         /**
          * The parent interface.
-         * @param g_iface The value for the {@code g_iface} field
+         * @param gIface The value for the {@code gIface} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setGIface(org.gtk.gobject.TypeInterface g_iface) {
+        public Build setGIface(org.gtk.gobject.TypeInterface gIface) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("g_iface"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (g_iface == null ? MemoryAddress.NULL : g_iface.handle()));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (gIface == null ? MemoryAddress.NULL : gIface.handle()));
             return this;
         }
         
-        public Build setCanPoll(java.lang.foreign.MemoryAddress can_poll) {
+        public Build setCanPoll(java.lang.foreign.MemoryAddress canPoll) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("can_poll"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (can_poll == null ? MemoryAddress.NULL : can_poll));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (canPoll == null ? MemoryAddress.NULL : canPoll));
             return this;
         }
         
-        public Build setIsWritable(java.lang.foreign.MemoryAddress is_writable) {
+        public Build setIsWritable(java.lang.foreign.MemoryAddress isWritable) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("is_writable"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (is_writable == null ? MemoryAddress.NULL : is_writable));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (isWritable == null ? MemoryAddress.NULL : isWritable));
             return this;
         }
         
-        public Build setCreateSource(java.lang.foreign.MemoryAddress create_source) {
+        public Build setCreateSource(java.lang.foreign.MemoryAddress createSource) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("create_source"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (create_source == null ? MemoryAddress.NULL : create_source));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (createSource == null ? MemoryAddress.NULL : createSource));
             return this;
         }
         
-        public Build setWriteNonblocking(java.lang.foreign.MemoryAddress write_nonblocking) {
+        public Build setWriteNonblocking(java.lang.foreign.MemoryAddress writeNonblocking) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("write_nonblocking"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (write_nonblocking == null ? MemoryAddress.NULL : write_nonblocking));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (writeNonblocking == null ? MemoryAddress.NULL : writeNonblocking));
             return this;
         }
         
-        public Build setWritevNonblocking(java.lang.foreign.MemoryAddress writev_nonblocking) {
+        public Build setWritevNonblocking(java.lang.foreign.MemoryAddress writevNonblocking) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("writev_nonblocking"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (writev_nonblocking == null ? MemoryAddress.NULL : writev_nonblocking));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (writevNonblocking == null ? MemoryAddress.NULL : writevNonblocking));
             return this;
         }
     }

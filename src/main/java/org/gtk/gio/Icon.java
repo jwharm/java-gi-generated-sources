@@ -24,7 +24,7 @@ import org.jetbrains.annotations.*;
  * If you want to consume {@link Icon} (for example, in a toolkit) you must
  * be prepared to handle at least the three following cases:
  * {@link LoadableIcon}, {@link ThemedIcon} and {@link EmblemedIcon}.  It may also make
- * sense to have fast-paths for other cases (like handling {@link org.gtk.gdkpixbuf.Pixbuf}
+ * sense to have fast-paths for other cases (like handling {@code GdkPixbuf}
  * directly, for example) but all compliant {@link Icon} implementations
  * outside of GIO must implement {@link LoadableIcon}.
  * <p>
@@ -50,11 +50,7 @@ public interface Icon extends io.github.jwharm.javagi.Proxy {
      * @throws ClassCastException If the GType is not derived from "GIcon", a ClassCastException will be thrown.
      */
     public static Icon castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), Icon.getType())) {
             return new IconImpl(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GIcon");
-        }
     }
     
     /**

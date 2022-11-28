@@ -15,7 +15,7 @@ public class ConstraintRelation extends io.github.jwharm.javagi.Enumeration {
     /**
      * Less than, or equal
      */
-    public static final ConstraintRelation LE = new ConstraintRelation(-1);
+    public static final ConstraintRelation LE = new ConstraintRelation(0);
     
     /**
      * Equal

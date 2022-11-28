@@ -56,15 +56,6 @@ public class FileEnumerator extends org.gtk.gobject.Object {
     }
     
     /**
-     * Get the value of the field {@code parent_instance}
-     * @return The value of the field {@code parent_instance}
-     */
-    public org.gtk.gobject.Object parent_instance$get() {
-        long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_instance"));
-        return new org.gtk.gobject.Object(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
-    }
-    
-    /**
      * Create a FileEnumerator proxy instance for the provided memory address.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
@@ -87,11 +78,7 @@ public class FileEnumerator extends org.gtk.gobject.Object {
      * @throws ClassCastException If the GType is not derived from "GFileEnumerator", a ClassCastException will be thrown.
      */
     public static FileEnumerator castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), FileEnumerator.getType())) {
             return new FileEnumerator(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GFileEnumerator");
-        }
     }
     
     /**
@@ -302,16 +289,18 @@ public class FileEnumerator extends org.gtk.gobject.Object {
      * @param cancellable a {@link Cancellable}
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public boolean iterate(@NotNull PointerProxy<org.gtk.gio.FileInfo> outInfo, @NotNull PointerProxy<org.gtk.gio.File> outChild, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+    public boolean iterate(@NotNull Out<org.gtk.gio.FileInfo> outInfo, @NotNull Out<org.gtk.gio.File> outChild, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         java.util.Objects.requireNonNull(outInfo, "Parameter 'outInfo' must not be null");
+        MemorySegment outInfoPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         java.util.Objects.requireNonNull(outChild, "Parameter 'outChild' must not be null");
+        MemorySegment outChildPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_file_enumerator_iterate.invokeExact(
                     handle(),
-                    outInfo.handle(),
-                    outChild.handle(),
+                    (Addressable) outInfoPOINTER.address(),
+                    (Addressable) outChildPOINTER.address(),
                     (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
@@ -320,6 +309,8 @@ public class FileEnumerator extends org.gtk.gobject.Object {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
+        outInfo.set(new org.gtk.gio.FileInfo(outInfoPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.NONE));
+        outChild.set(new org.gtk.gio.File.FileImpl(outChildPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.NONE));
         return RESULT != 0;
     }
     

@@ -35,15 +35,6 @@ public class MemoryOutputStream extends org.gtk.gio.OutputStream implements org.
     }
     
     /**
-     * Get the value of the field {@code parent_instance}
-     * @return The value of the field {@code parent_instance}
-     */
-    public org.gtk.gio.OutputStream parent_instance$get() {
-        long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_instance"));
-        return new org.gtk.gio.OutputStream(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
-    }
-    
-    /**
      * Create a MemoryOutputStream proxy instance for the provided memory address.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
@@ -66,11 +57,7 @@ public class MemoryOutputStream extends org.gtk.gio.OutputStream implements org.
      * @throws ClassCastException If the GType is not derived from "GMemoryOutputStream", a ClassCastException will be thrown.
      */
     public static MemoryOutputStream castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), MemoryOutputStream.getType())) {
             return new MemoryOutputStream(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GMemoryOutputStream");
-        }
     }
     
     private static Addressable constructNew(long size, @Nullable org.gtk.gio.ReallocFunc reallocFunction) {

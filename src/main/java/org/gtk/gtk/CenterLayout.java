@@ -54,11 +54,7 @@ public class CenterLayout extends org.gtk.gtk.LayoutManager {
      * @throws ClassCastException If the GType is not derived from "GtkCenterLayout", a ClassCastException will be thrown.
      */
     public static CenterLayout castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), CenterLayout.getType())) {
             return new CenterLayout(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkCenterLayout");
-        }
     }
     
     private static Addressable constructNew() {

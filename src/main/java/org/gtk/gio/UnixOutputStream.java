@@ -39,15 +39,6 @@ public class UnixOutputStream extends org.gtk.gio.OutputStream implements org.gt
     }
     
     /**
-     * Get the value of the field {@code parent_instance}
-     * @return The value of the field {@code parent_instance}
-     */
-    public org.gtk.gio.OutputStream parent_instance$get() {
-        long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_instance"));
-        return new org.gtk.gio.OutputStream(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
-    }
-    
-    /**
      * Create a UnixOutputStream proxy instance for the provided memory address.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
@@ -70,11 +61,7 @@ public class UnixOutputStream extends org.gtk.gio.OutputStream implements org.gt
      * @throws ClassCastException If the GType is not derived from "GUnixOutputStream", a ClassCastException will be thrown.
      */
     public static UnixOutputStream castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), UnixOutputStream.getType())) {
             return new UnixOutputStream(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GUnixOutputStream");
-        }
     }
     
     private static Addressable constructNew(int fd, boolean closeFd) {

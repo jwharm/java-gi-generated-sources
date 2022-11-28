@@ -41,18 +41,18 @@ import org.jetbrains.annotations.*;
  * in sync with the property value -- its state is the property value.
  * <p>
  * For example, it might be useful to create a {@link Action} corresponding to
- * the "visible-child-name" property of a {@link org.gtk.gtk.Stack} so that the current
+ * the "visible-child-name" property of a {@code GtkStack} so that the current
  * page can be switched from a menu.  The active radio indication in the
  * menu is then directly determined from the active page of the
- * {@link org.gtk.gtk.Stack}.
+ * {@code GtkStack}.
  * <p>
  * An anti-example would be binding the "active-id" property on a
- * {@link org.gtk.gtk.ComboBox}.  This is because the state of the combobox itself is
+ * {@code GtkComboBox}.  This is because the state of the combobox itself is
  * probably uninteresting and is actually being used to control
  * something else.
  * <p>
  * Another anti-example would be to bind to the "visible-child-name"
- * property of a {@link org.gtk.gtk.Stack} if this value is actually stored in
+ * property of a {@code GtkStack} if this value is actually stored in
  * {@link Settings}.  In that case, the real source of the value is
  * {@link Settings}.  If you want a {@link Action} to control a setting stored in
  * {@link Settings}, see g_settings_create_action() instead, and possibly
@@ -99,11 +99,7 @@ public class PropertyAction extends org.gtk.gobject.Object implements org.gtk.gi
      * @throws ClassCastException If the GType is not derived from "GPropertyAction", a ClassCastException will be thrown.
      */
     public static PropertyAction castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), PropertyAction.getType())) {
             return new PropertyAction(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GPropertyAction");
-        }
     }
     
     private static Addressable constructNew(@NotNull java.lang.String name, @NotNull org.gtk.gobject.Object object, @NotNull java.lang.String propertyName) {

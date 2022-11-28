@@ -48,11 +48,7 @@ public class ConstantExpression extends org.gtk.gtk.Expression {
      * @throws ClassCastException If the GType is not derived from "GtkConstantExpression", a ClassCastException will be thrown.
      */
     public static ConstantExpression castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), ConstantExpression.getType())) {
             return new ConstantExpression(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkConstantExpression");
-        }
     }
     
     private static Addressable constructNew(@NotNull org.gtk.glib.Type valueType, java.lang.Object... varargs) {

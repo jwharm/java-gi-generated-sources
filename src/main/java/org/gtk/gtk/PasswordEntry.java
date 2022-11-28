@@ -77,11 +77,7 @@ public class PasswordEntry extends org.gtk.gtk.Widget implements org.gtk.gtk.Acc
      * @throws ClassCastException If the GType is not derived from "GtkPasswordEntry", a ClassCastException will be thrown.
      */
     public static PasswordEntry castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), PasswordEntry.getType())) {
             return new PasswordEntry(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkPasswordEntry");
-        }
     }
     
     private static Addressable constructNew() {

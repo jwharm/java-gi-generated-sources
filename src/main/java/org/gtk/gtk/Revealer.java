@@ -66,11 +66,7 @@ public class Revealer extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * @throws ClassCastException If the GType is not derived from "GtkRevealer", a ClassCastException will be thrown.
      */
     public static Revealer castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(gobject.g_type_instance$get(), Revealer.getType())) {
             return new Revealer(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkRevealer");
-        }
     }
     
     private static Addressable constructNew() {

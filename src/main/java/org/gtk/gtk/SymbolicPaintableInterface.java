@@ -81,17 +81,17 @@ public class SymbolicPaintableInterface extends Struct {
             return struct;
         }
         
-        public Build setGIface(org.gtk.gobject.TypeInterface g_iface) {
+        public Build setGIface(org.gtk.gobject.TypeInterface gIface) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("g_iface"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (g_iface == null ? MemoryAddress.NULL : g_iface.handle()));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (gIface == null ? MemoryAddress.NULL : gIface.handle()));
             return this;
         }
         
-        public Build setSnapshotSymbolic(java.lang.foreign.MemoryAddress snapshot_symbolic) {
+        public Build setSnapshotSymbolic(java.lang.foreign.MemoryAddress snapshotSymbolic) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("snapshot_symbolic"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (snapshot_symbolic == null ? MemoryAddress.NULL : snapshot_symbolic));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (snapshotSymbolic == null ? MemoryAddress.NULL : snapshotSymbolic));
             return this;
         }
     }

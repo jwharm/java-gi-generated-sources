@@ -605,7 +605,7 @@ public class MainContext extends Struct {
      * @deprecated Use g_main_context_is_owner() and separate locking instead.
      */
     @Deprecated
-    public boolean wait(@NotNull org.gtk.glib.Cond cond, @NotNull org.gtk.glib.Mutex mutex) {
+    public boolean wait_(@NotNull org.gtk.glib.Cond cond, @NotNull org.gtk.glib.Mutex mutex) {
         java.util.Objects.requireNonNull(cond, "Parameter 'cond' must not be null");
         java.util.Objects.requireNonNull(mutex, "Parameter 'mutex' must not be null");
         int RESULT;

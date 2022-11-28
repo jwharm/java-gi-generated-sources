@@ -69,7 +69,7 @@ public class FileAttributeInfoList extends Struct {
      * Get the value of the field {@code n_infos}
      * @return The value of the field {@code n_infos}
      */
-    public int n_infos$get() {
+    public int nInfos$get() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("n_infos"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -78,12 +78,12 @@ public class FileAttributeInfoList extends Struct {
     
     /**
      * Change the value of the field {@code n_infos}
-     * @param n_infos The new value of the field {@code n_infos}
+     * @param nInfos The new value of the field {@code n_infos}
      */
-    public void n_infos$set(int n_infos) {
+    public void nInfos$set(int nInfos) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("n_infos"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), n_infos);
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), nInfos);
     }
     
     /**
@@ -277,13 +277,13 @@ public class FileAttributeInfoList extends Struct {
         
         /**
          * the number of values in the array.
-         * @param n_infos The value for the {@code n_infos} field
+         * @param nInfos The value for the {@code nInfos} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setNInfos(int n_infos) {
+        public Build setNInfos(int nInfos) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("n_infos"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), n_infos);
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), nInfos);
             return this;
         }
     }
