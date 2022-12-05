@@ -42,12 +42,19 @@ public class FontButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
     
     /**
      * Create a FontButton proxy instance for the provided memory address.
+     * <p>
+     * Because FontButton is an {@code InitiallyUnowned} instance, when 
+     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
+     * and a call to {@code refSink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
     @ApiStatus.Internal
     public FontButton(Addressable address, Ownership ownership) {
-        super(address, ownership);
+        super(address, Ownership.FULL);
+        if (ownership == Ownership.NONE) {
+            refSink();
+        }
     }
     
     /**
@@ -63,7 +70,11 @@ public class FontButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
      * @throws ClassCastException If the GType is not derived from "GtkFontButton", a ClassCastException will be thrown.
      */
     public static FontButton castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), FontButton.getType())) {
             return new FontButton(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkFontButton");
+        }
     }
     
     private static Addressable constructNew() {
@@ -241,7 +252,7 @@ public class FontButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
     
     @FunctionalInterface
     public interface Activate {
-        void signalReceived(FontButton source);
+        void signalReceived(FontButton sourceFontButton);
     }
     
     /**
@@ -272,7 +283,7 @@ public class FontButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
     
     @FunctionalInterface
     public interface FontSet {
-        void signalReceived(FontButton source);
+        void signalReceived(FontButton sourceFontButton);
     }
     
     /**
@@ -455,16 +466,16 @@ public class FontButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
     
     private static class Callbacks {
         
-        public static void signalFontButtonActivate(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalFontButtonActivate(MemoryAddress sourceFontButton, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (FontButton.Activate) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new FontButton(source, Ownership.NONE));
+            HANDLER.signalReceived(new FontButton(sourceFontButton, Ownership.NONE));
         }
         
-        public static void signalFontButtonFontSet(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalFontButtonFontSet(MemoryAddress sourceFontButton, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (FontButton.FontSet) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new FontButton(source, Ownership.NONE));
+            HANDLER.signalReceived(new FontButton(sourceFontButton, Ownership.NONE));
         }
     }
 }

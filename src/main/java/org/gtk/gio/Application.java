@@ -171,7 +171,11 @@ public class Application extends org.gtk.gobject.Object implements org.gtk.gio.A
      * @throws ClassCastException If the GType is not derived from "GApplication", a ClassCastException will be thrown.
      */
     public static Application castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), Application.getType())) {
             return new Application(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GApplication");
+        }
     }
     
     private static Addressable constructNew(@Nullable java.lang.String applicationId, @NotNull org.gtk.gio.ApplicationFlags flags) {
@@ -1242,7 +1246,7 @@ public class Application extends org.gtk.gobject.Object implements org.gtk.gio.A
     
     @FunctionalInterface
     public interface Activate {
-        void signalReceived(Application source);
+        void signalReceived(Application sourceApplication);
     }
     
     /**
@@ -1271,7 +1275,7 @@ public class Application extends org.gtk.gobject.Object implements org.gtk.gio.A
     
     @FunctionalInterface
     public interface CommandLine {
-        void signalReceived(Application source, @NotNull org.gtk.gio.ApplicationCommandLine commandLine);
+        void signalReceived(Application sourceApplication, @NotNull org.gtk.gio.ApplicationCommandLine commandLine);
     }
     
     /**
@@ -1301,7 +1305,7 @@ public class Application extends org.gtk.gobject.Object implements org.gtk.gio.A
     
     @FunctionalInterface
     public interface HandleLocalOptions {
-        void signalReceived(Application source, @NotNull org.gtk.glib.VariantDict options);
+        void signalReceived(Application sourceApplication, @NotNull org.gtk.glib.VariantDict options);
     }
     
     /**
@@ -1369,7 +1373,7 @@ public class Application extends org.gtk.gobject.Object implements org.gtk.gio.A
     
     @FunctionalInterface
     public interface NameLost {
-        boolean signalReceived(Application source);
+        boolean signalReceived(Application sourceApplication);
     }
     
     /**
@@ -1401,7 +1405,7 @@ public class Application extends org.gtk.gobject.Object implements org.gtk.gio.A
     
     @FunctionalInterface
     public interface Open {
-        void signalReceived(Application source, @NotNull org.gtk.gio.File[] files, int nFiles, @NotNull java.lang.String hint);
+        void signalReceived(Application sourceApplication, @NotNull org.gtk.gio.File[] files, int nFiles, @NotNull java.lang.String hint);
     }
     
     /**
@@ -1416,7 +1420,7 @@ public class Application extends org.gtk.gobject.Object implements org.gtk.gio.A
     
     @FunctionalInterface
     public interface Shutdown {
-        void signalReceived(Application source);
+        void signalReceived(Application sourceApplication);
     }
     
     /**
@@ -1445,7 +1449,7 @@ public class Application extends org.gtk.gobject.Object implements org.gtk.gio.A
     
     @FunctionalInterface
     public interface Startup {
-        void signalReceived(Application source);
+        void signalReceived(Application sourceApplication);
     }
     
     /**
@@ -1794,44 +1798,44 @@ public class Application extends org.gtk.gobject.Object implements org.gtk.gio.A
     
     private static class Callbacks {
         
-        public static void signalApplicationActivate(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalApplicationActivate(MemoryAddress sourceApplication, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (Application.Activate) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Application(source, Ownership.NONE));
+            HANDLER.signalReceived(new Application(sourceApplication, Ownership.NONE));
         }
         
-        public static void signalApplicationCommandLine(MemoryAddress source, MemoryAddress commandLine, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalApplicationCommandLine(MemoryAddress sourceApplication, MemoryAddress commandLine, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (Application.CommandLine) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Application(source, Ownership.NONE), new org.gtk.gio.ApplicationCommandLine(commandLine, Ownership.NONE));
+            HANDLER.signalReceived(new Application(sourceApplication, Ownership.NONE), new org.gtk.gio.ApplicationCommandLine(commandLine, Ownership.NONE));
         }
         
-        public static void signalApplicationHandleLocalOptions(MemoryAddress source, MemoryAddress options, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalApplicationHandleLocalOptions(MemoryAddress sourceApplication, MemoryAddress options, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (Application.HandleLocalOptions) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Application(source, Ownership.NONE), new org.gtk.glib.VariantDict(options, Ownership.NONE));
+            HANDLER.signalReceived(new Application(sourceApplication, Ownership.NONE), new org.gtk.glib.VariantDict(options, Ownership.NONE));
         }
         
-        public static boolean signalApplicationNameLost(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static boolean signalApplicationNameLost(MemoryAddress sourceApplication, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (Application.NameLost) Interop.signalRegistry.get(HASH);
-            return HANDLER.signalReceived(new Application(source, Ownership.NONE));
+            return HANDLER.signalReceived(new Application(sourceApplication, Ownership.NONE));
         }
         
-        public static void signalApplicationOpen(MemoryAddress source, MemoryAddress files, int nFiles, MemoryAddress hint, MemoryAddress data) {
+        public static void signalApplicationOpen(MemoryAddress sourceApplication, MemoryAddress files, int nFiles, MemoryAddress hint, MemoryAddress DATA) {
         // Operation not supported yet
     }
         
-        public static void signalApplicationShutdown(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalApplicationShutdown(MemoryAddress sourceApplication, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (Application.Shutdown) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Application(source, Ownership.NONE));
+            HANDLER.signalReceived(new Application(sourceApplication, Ownership.NONE));
         }
         
-        public static void signalApplicationStartup(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalApplicationStartup(MemoryAddress sourceApplication, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (Application.Startup) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Application(source, Ownership.NONE));
+            HANDLER.signalReceived(new Application(sourceApplication, Ownership.NONE));
         }
     }
 }

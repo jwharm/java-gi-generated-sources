@@ -49,7 +49,11 @@ public class EventControllerKey extends org.gtk.gtk.EventController {
      * @throws ClassCastException If the GType is not derived from "GtkEventControllerKey", a ClassCastException will be thrown.
      */
     public static EventControllerKey castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), EventControllerKey.getType())) {
             return new EventControllerKey(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkEventControllerKey");
+        }
     }
     
     private static Addressable constructNew() {
@@ -154,7 +158,7 @@ public class EventControllerKey extends org.gtk.gtk.EventController {
     
     @FunctionalInterface
     public interface ImUpdate {
-        void signalReceived(EventControllerKey source);
+        void signalReceived(EventControllerKey sourceEventControllerKey);
     }
     
     /**
@@ -186,7 +190,7 @@ public class EventControllerKey extends org.gtk.gtk.EventController {
     
     @FunctionalInterface
     public interface KeyPressed {
-        boolean signalReceived(EventControllerKey source, int keyval, int keycode, @NotNull org.gtk.gdk.ModifierType state);
+        boolean signalReceived(EventControllerKey sourceEventControllerKey, int keyval, int keycode, @NotNull org.gtk.gdk.ModifierType state);
     }
     
     /**
@@ -214,7 +218,7 @@ public class EventControllerKey extends org.gtk.gtk.EventController {
     
     @FunctionalInterface
     public interface KeyReleased {
-        void signalReceived(EventControllerKey source, int keyval, int keycode, @NotNull org.gtk.gdk.ModifierType state);
+        void signalReceived(EventControllerKey sourceEventControllerKey, int keyval, int keycode, @NotNull org.gtk.gdk.ModifierType state);
     }
     
     /**
@@ -242,7 +246,7 @@ public class EventControllerKey extends org.gtk.gtk.EventController {
     
     @FunctionalInterface
     public interface Modifiers {
-        boolean signalReceived(EventControllerKey source, @NotNull org.gtk.gdk.ModifierType keyval);
+        boolean signalReceived(EventControllerKey sourceEventControllerKey, @NotNull org.gtk.gdk.ModifierType keyval);
     }
     
     /**
@@ -344,28 +348,28 @@ public class EventControllerKey extends org.gtk.gtk.EventController {
     
     private static class Callbacks {
         
-        public static void signalEventControllerKeyImUpdate(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalEventControllerKeyImUpdate(MemoryAddress sourceEventControllerKey, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (EventControllerKey.ImUpdate) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new EventControllerKey(source, Ownership.NONE));
+            HANDLER.signalReceived(new EventControllerKey(sourceEventControllerKey, Ownership.NONE));
         }
         
-        public static boolean signalEventControllerKeyKeyPressed(MemoryAddress source, int keyval, int keycode, int state, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static boolean signalEventControllerKeyKeyPressed(MemoryAddress sourceEventControllerKey, int keyval, int keycode, int state, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (EventControllerKey.KeyPressed) Interop.signalRegistry.get(HASH);
-            return HANDLER.signalReceived(new EventControllerKey(source, Ownership.NONE), keyval, keycode, new org.gtk.gdk.ModifierType(state));
+            return HANDLER.signalReceived(new EventControllerKey(sourceEventControllerKey, Ownership.NONE), keyval, keycode, new org.gtk.gdk.ModifierType(state));
         }
         
-        public static void signalEventControllerKeyKeyReleased(MemoryAddress source, int keyval, int keycode, int state, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalEventControllerKeyKeyReleased(MemoryAddress sourceEventControllerKey, int keyval, int keycode, int state, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (EventControllerKey.KeyReleased) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new EventControllerKey(source, Ownership.NONE), keyval, keycode, new org.gtk.gdk.ModifierType(state));
+            HANDLER.signalReceived(new EventControllerKey(sourceEventControllerKey, Ownership.NONE), keyval, keycode, new org.gtk.gdk.ModifierType(state));
         }
         
-        public static boolean signalEventControllerKeyModifiers(MemoryAddress source, int keyval, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static boolean signalEventControllerKeyModifiers(MemoryAddress sourceEventControllerKey, int keyval, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (EventControllerKey.Modifiers) Interop.signalRegistry.get(HASH);
-            return HANDLER.signalReceived(new EventControllerKey(source, Ownership.NONE), new org.gtk.gdk.ModifierType(keyval));
+            return HANDLER.signalReceived(new EventControllerKey(sourceEventControllerKey, Ownership.NONE), new org.gtk.gdk.ModifierType(keyval));
         }
     }
 }

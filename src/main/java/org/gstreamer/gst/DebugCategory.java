@@ -128,7 +128,7 @@ public class DebugCategory extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.DebugLevel(RESULT);
+        return org.gstreamer.gst.DebugLevel.of(RESULT);
     }
     
     /**

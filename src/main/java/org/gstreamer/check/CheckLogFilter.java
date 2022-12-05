@@ -48,32 +48,4 @@ public class CheckLogFilter extends Struct {
     public CheckLogFilter(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
-
-    /**
-     * Inner class implementing a builder pattern to construct 
-     * a struct and set its values.
-     */
-    public static class Build {
-        
-        private CheckLogFilter struct;
-        
-         /**
-         * A {@link CheckLogFilter.Build} object constructs a {@link CheckLogFilter} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
-            struct = CheckLogFilter.allocate();
-        }
-        
-         /**
-         * Finish building the {@link CheckLogFilter} struct.
-         * @return A new instance of {@code CheckLogFilter} with the fields 
-         *         that were set in the Build object.
-         */
-        public CheckLogFilter construct() {
-            return struct;
-        }
-    }
 }

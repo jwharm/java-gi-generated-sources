@@ -11,31 +11,43 @@ import org.jetbrains.annotations.*;
  * The strength of a {@link Constraint} can be expressed with any positive
  * integer; the values of this enumeration can be used for readability.
  */
-public class ConstraintStrength extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "GtkConstraintStrength";
-    
+public enum ConstraintStrength implements io.github.jwharm.javagi.Enumeration {
     /**
      * The constraint is required towards solving the layout
      */
-    public static final ConstraintStrength REQUIRED = new ConstraintStrength(1001001000);
-    
+    REQUIRED(1001001000),
     /**
      * A strong constraint
      */
-    public static final ConstraintStrength STRONG = new ConstraintStrength(1000000000);
-    
+    STRONG(1000000000),
     /**
      * A medium constraint
      */
-    public static final ConstraintStrength MEDIUM = new ConstraintStrength(1000);
-    
+    MEDIUM(1000),
     /**
      * A weak constraint
      */
-    public static final ConstraintStrength WEAK = new ConstraintStrength(1);
+    WEAK(1);
     
-    public ConstraintStrength(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "GtkConstraintStrength";
+    
+    private final int value;
+    ConstraintStrength(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static ConstraintStrength of(int value) {
+        return switch (value) {
+            case 1001001000 -> REQUIRED;
+            case 1000000000 -> STRONG;
+            case 1000 -> MEDIUM;
+            case 1 -> WEAK;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

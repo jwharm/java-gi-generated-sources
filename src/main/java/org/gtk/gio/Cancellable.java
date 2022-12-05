@@ -55,7 +55,11 @@ public class Cancellable extends org.gtk.gobject.Object {
      * @throws ClassCastException If the GType is not derived from "GCancellable", a ClassCastException will be thrown.
      */
     public static Cancellable castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), Cancellable.getType())) {
             return new Cancellable(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GCancellable");
+        }
     }
     
     private static Addressable constructNew() {
@@ -408,7 +412,7 @@ public class Cancellable extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface Cancelled {
-        void signalReceived(Cancellable source);
+        void signalReceived(Cancellable sourceCancellable);
     }
     
     /**
@@ -614,10 +618,10 @@ public class Cancellable extends org.gtk.gobject.Object {
     
     private static class Callbacks {
         
-        public static void signalCancellableCancelled(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalCancellableCancelled(MemoryAddress sourceCancellable, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (Cancellable.Cancelled) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Cancellable(source, Ownership.NONE));
+            HANDLER.signalReceived(new Cancellable(sourceCancellable, Ownership.NONE));
         }
     }
 }

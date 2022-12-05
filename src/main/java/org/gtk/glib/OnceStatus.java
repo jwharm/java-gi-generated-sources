@@ -10,26 +10,38 @@ import org.jetbrains.annotations.*;
  * controlled by a {@link Once} struct.
  * @version 2.4
  */
-public class OnceStatus extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "GOnceStatus";
-    
+public enum OnceStatus implements io.github.jwharm.javagi.Enumeration {
     /**
      * the function has not been called yet.
      */
-    public static final OnceStatus NOTCALLED = new OnceStatus(0);
-    
+    NOTCALLED(0),
     /**
      * the function call is currently in progress.
      */
-    public static final OnceStatus PROGRESS = new OnceStatus(1);
-    
+    PROGRESS(1),
     /**
      * the function has been called.
      */
-    public static final OnceStatus READY = new OnceStatus(2);
+    READY(2);
     
-    public OnceStatus(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "GOnceStatus";
+    
+    private final int value;
+    OnceStatus(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static OnceStatus of(int value) {
+        return switch (value) {
+            case 0 -> NOTCALLED;
+            case 1 -> PROGRESS;
+            case 2 -> READY;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

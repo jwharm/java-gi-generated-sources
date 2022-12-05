@@ -13,26 +13,38 @@ import org.jetbrains.annotations.*;
  * {@link AccessibleTristate#TRUE} have the same values
  * as {@code false} and {@code true}.
  */
-public class AccessibleTristate extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "GtkAccessibleTristate";
-    
+public enum AccessibleTristate implements io.github.jwharm.javagi.Enumeration {
     /**
      * The state is {@code false}
      */
-    public static final AccessibleTristate FALSE = new AccessibleTristate(0);
-    
+    FALSE(0),
     /**
      * The state is {@code true}
      */
-    public static final AccessibleTristate TRUE = new AccessibleTristate(1);
-    
+    TRUE(1),
     /**
      * The state is {@code mixed}
      */
-    public static final AccessibleTristate MIXED = new AccessibleTristate(2);
+    MIXED(2);
     
-    public AccessibleTristate(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "GtkAccessibleTristate";
+    
+    private final int value;
+    AccessibleTristate(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static AccessibleTristate of(int value) {
+        return switch (value) {
+            case 0 -> FALSE;
+            case 1 -> TRUE;
+            case 2 -> MIXED;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

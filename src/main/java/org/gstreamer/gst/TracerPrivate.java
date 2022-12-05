@@ -44,32 +44,4 @@ public class TracerPrivate extends Struct {
     public TracerPrivate(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
-
-    /**
-     * Inner class implementing a builder pattern to construct 
-     * a struct and set its values.
-     */
-    public static class Build {
-        
-        private TracerPrivate struct;
-        
-         /**
-         * A {@link TracerPrivate.Build} object constructs a {@link TracerPrivate} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
-            struct = TracerPrivate.allocate();
-        }
-        
-         /**
-         * Finish building the {@link TracerPrivate} struct.
-         * @return A new instance of {@code TracerPrivate} with the fields 
-         *         that were set in the Build object.
-         */
-        public TracerPrivate construct() {
-            return struct;
-        }
-    }
 }

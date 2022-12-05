@@ -3605,7 +3605,7 @@ public final class Gio {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.IOErrorEnum(RESULT);
+        return org.gtk.gio.IOErrorEnum.of(RESULT);
     }
     
     /**
@@ -3622,7 +3622,7 @@ public final class Gio {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.IOErrorEnum(RESULT);
+        return org.gtk.gio.IOErrorEnum.of(RESULT);
     }
     
     /**

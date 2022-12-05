@@ -73,12 +73,19 @@ public class WindowControls extends org.gtk.gtk.Widget implements org.gtk.gtk.Ac
     
     /**
      * Create a WindowControls proxy instance for the provided memory address.
+     * <p>
+     * Because WindowControls is an {@code InitiallyUnowned} instance, when 
+     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
+     * and a call to {@code refSink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
     @ApiStatus.Internal
     public WindowControls(Addressable address, Ownership ownership) {
-        super(address, ownership);
+        super(address, Ownership.FULL);
+        if (ownership == Ownership.NONE) {
+            refSink();
+        }
     }
     
     /**
@@ -94,7 +101,11 @@ public class WindowControls extends org.gtk.gtk.Widget implements org.gtk.gtk.Ac
      * @throws ClassCastException If the GType is not derived from "GtkWindowControls", a ClassCastException will be thrown.
      */
     public static WindowControls castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), WindowControls.getType())) {
             return new WindowControls(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkWindowControls");
+        }
     }
     
     private static Addressable constructNew(@NotNull org.gtk.gtk.PackType side) {
@@ -159,7 +170,7 @@ public class WindowControls extends org.gtk.gtk.Widget implements org.gtk.gtk.Ac
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.PackType(RESULT);
+        return org.gtk.gtk.PackType.of(RESULT);
     }
     
     /**

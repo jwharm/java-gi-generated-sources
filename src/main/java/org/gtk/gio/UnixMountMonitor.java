@@ -48,7 +48,11 @@ public class UnixMountMonitor extends org.gtk.gobject.Object {
      * @throws ClassCastException If the GType is not derived from "GUnixMountMonitor", a ClassCastException will be thrown.
      */
     public static UnixMountMonitor castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), UnixMountMonitor.getType())) {
             return new UnixMountMonitor(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GUnixMountMonitor");
+        }
     }
     
     /**
@@ -112,7 +116,7 @@ public class UnixMountMonitor extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface MountpointsChanged {
-        void signalReceived(UnixMountMonitor source);
+        void signalReceived(UnixMountMonitor sourceUnixMountMonitor);
     }
     
     /**
@@ -140,7 +144,7 @@ public class UnixMountMonitor extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface MountsChanged {
-        void signalReceived(UnixMountMonitor source);
+        void signalReceived(UnixMountMonitor sourceUnixMountMonitor);
     }
     
     /**
@@ -230,16 +234,16 @@ public class UnixMountMonitor extends org.gtk.gobject.Object {
     
     private static class Callbacks {
         
-        public static void signalUnixMountMonitorMountpointsChanged(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalUnixMountMonitorMountpointsChanged(MemoryAddress sourceUnixMountMonitor, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (UnixMountMonitor.MountpointsChanged) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new UnixMountMonitor(source, Ownership.NONE));
+            HANDLER.signalReceived(new UnixMountMonitor(sourceUnixMountMonitor, Ownership.NONE));
         }
         
-        public static void signalUnixMountMonitorMountsChanged(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalUnixMountMonitorMountsChanged(MemoryAddress sourceUnixMountMonitor, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (UnixMountMonitor.MountsChanged) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new UnixMountMonitor(source, Ownership.NONE));
+            HANDLER.signalReceived(new UnixMountMonitor(sourceUnixMountMonitor, Ownership.NONE));
         }
     }
 }

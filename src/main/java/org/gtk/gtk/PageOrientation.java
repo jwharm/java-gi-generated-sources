@@ -8,31 +8,43 @@ import org.jetbrains.annotations.*;
 /**
  * See also gtk_print_settings_set_orientation().
  */
-public class PageOrientation extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "GtkPageOrientation";
-    
+public enum PageOrientation implements io.github.jwharm.javagi.Enumeration {
     /**
      * Portrait mode.
      */
-    public static final PageOrientation PORTRAIT = new PageOrientation(0);
-    
+    PORTRAIT(0),
     /**
      * Landscape mode.
      */
-    public static final PageOrientation LANDSCAPE = new PageOrientation(1);
-    
+    LANDSCAPE(1),
     /**
      * Reverse portrait mode.
      */
-    public static final PageOrientation REVERSE_PORTRAIT = new PageOrientation(2);
-    
+    REVERSE_PORTRAIT(2),
     /**
      * Reverse landscape mode.
      */
-    public static final PageOrientation REVERSE_LANDSCAPE = new PageOrientation(3);
+    REVERSE_LANDSCAPE(3);
     
-    public PageOrientation(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "GtkPageOrientation";
+    
+    private final int value;
+    PageOrientation(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static PageOrientation of(int value) {
+        return switch (value) {
+            case 0 -> PORTRAIT;
+            case 1 -> LANDSCAPE;
+            case 2 -> REVERSE_PORTRAIT;
+            case 3 -> REVERSE_LANDSCAPE;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

@@ -80,7 +80,11 @@ public class FrameClock extends org.gtk.gobject.Object {
      * @throws ClassCastException If the GType is not derived from "GdkFrameClock", a ClassCastException will be thrown.
      */
     public static FrameClock castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), FrameClock.getType())) {
             return new FrameClock(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GdkFrameClock");
+        }
     }
     
     /**
@@ -312,7 +316,7 @@ public class FrameClock extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface AfterPaint {
-        void signalReceived(FrameClock source);
+        void signalReceived(FrameClock sourceFrameClock);
     }
     
     /**
@@ -342,7 +346,7 @@ public class FrameClock extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface BeforePaint {
-        void signalReceived(FrameClock source);
+        void signalReceived(FrameClock sourceFrameClock);
     }
     
     /**
@@ -372,7 +376,7 @@ public class FrameClock extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface FlushEvents {
-        void signalReceived(FrameClock source);
+        void signalReceived(FrameClock sourceFrameClock);
     }
     
     /**
@@ -403,7 +407,7 @@ public class FrameClock extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface Layout {
-        void signalReceived(FrameClock source);
+        void signalReceived(FrameClock sourceFrameClock);
     }
     
     /**
@@ -435,7 +439,7 @@ public class FrameClock extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface Paint {
-        void signalReceived(FrameClock source);
+        void signalReceived(FrameClock sourceFrameClock);
     }
     
     /**
@@ -468,7 +472,7 @@ public class FrameClock extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface ResumeEvents {
-        void signalReceived(FrameClock source);
+        void signalReceived(FrameClock sourceFrameClock);
     }
     
     /**
@@ -499,7 +503,7 @@ public class FrameClock extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface Update {
-        void signalReceived(FrameClock source);
+        void signalReceived(FrameClock sourceFrameClock);
     }
     
     /**
@@ -636,46 +640,46 @@ public class FrameClock extends org.gtk.gobject.Object {
     
     private static class Callbacks {
         
-        public static void signalFrameClockAfterPaint(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalFrameClockAfterPaint(MemoryAddress sourceFrameClock, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (FrameClock.AfterPaint) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new FrameClock(source, Ownership.NONE));
+            HANDLER.signalReceived(new FrameClock(sourceFrameClock, Ownership.NONE));
         }
         
-        public static void signalFrameClockBeforePaint(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalFrameClockBeforePaint(MemoryAddress sourceFrameClock, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (FrameClock.BeforePaint) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new FrameClock(source, Ownership.NONE));
+            HANDLER.signalReceived(new FrameClock(sourceFrameClock, Ownership.NONE));
         }
         
-        public static void signalFrameClockFlushEvents(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalFrameClockFlushEvents(MemoryAddress sourceFrameClock, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (FrameClock.FlushEvents) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new FrameClock(source, Ownership.NONE));
+            HANDLER.signalReceived(new FrameClock(sourceFrameClock, Ownership.NONE));
         }
         
-        public static void signalFrameClockLayout(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalFrameClockLayout(MemoryAddress sourceFrameClock, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (FrameClock.Layout) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new FrameClock(source, Ownership.NONE));
+            HANDLER.signalReceived(new FrameClock(sourceFrameClock, Ownership.NONE));
         }
         
-        public static void signalFrameClockPaint(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalFrameClockPaint(MemoryAddress sourceFrameClock, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (FrameClock.Paint) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new FrameClock(source, Ownership.NONE));
+            HANDLER.signalReceived(new FrameClock(sourceFrameClock, Ownership.NONE));
         }
         
-        public static void signalFrameClockResumeEvents(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalFrameClockResumeEvents(MemoryAddress sourceFrameClock, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (FrameClock.ResumeEvents) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new FrameClock(source, Ownership.NONE));
+            HANDLER.signalReceived(new FrameClock(sourceFrameClock, Ownership.NONE));
         }
         
-        public static void signalFrameClockUpdate(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalFrameClockUpdate(MemoryAddress sourceFrameClock, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (FrameClock.Update) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new FrameClock(source, Ownership.NONE));
+            HANDLER.signalReceived(new FrameClock(sourceFrameClock, Ownership.NONE));
         }
     }
 }

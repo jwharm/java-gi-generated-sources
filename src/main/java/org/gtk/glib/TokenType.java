@@ -9,126 +9,138 @@ import org.jetbrains.annotations.*;
  * The possible types of token returned from each
  * g_scanner_get_next_token() call.
  */
-public class TokenType extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "GTokenType";
-    
+public enum TokenType implements io.github.jwharm.javagi.Enumeration {
     /**
      * the end of the file
      */
-    public static final TokenType EOF = new TokenType(0);
-    
+    EOF(0),
     /**
      * a '(' character
      */
-    public static final TokenType LEFT_PAREN = new TokenType(40);
-    
+    LEFT_PAREN(40),
     /**
      * a ')' character
      */
-    public static final TokenType RIGHT_PAREN = new TokenType(41);
-    
+    RIGHT_PAREN(41),
     /**
      * a '{' character
      */
-    public static final TokenType LEFT_CURLY = new TokenType(123);
-    
+    LEFT_CURLY(123),
     /**
      * a '}' character
      */
-    public static final TokenType RIGHT_CURLY = new TokenType(125);
-    
+    RIGHT_CURLY(125),
     /**
      * a '[' character
      */
-    public static final TokenType LEFT_BRACE = new TokenType(91);
-    
+    LEFT_BRACE(91),
     /**
      * a ']' character
      */
-    public static final TokenType RIGHT_BRACE = new TokenType(93);
-    
+    RIGHT_BRACE(93),
     /**
      * a '=' character
      */
-    public static final TokenType EQUAL_SIGN = new TokenType(61);
-    
+    EQUAL_SIGN(61),
     /**
      * a ',' character
      */
-    public static final TokenType COMMA = new TokenType(44);
-    
+    COMMA(44),
     /**
      * not a token
      */
-    public static final TokenType NONE = new TokenType(256);
-    
+    NONE(256),
     /**
      * an error occurred
      */
-    public static final TokenType ERROR = new TokenType(257);
-    
+    ERROR(257),
     /**
      * a character
      */
-    public static final TokenType CHAR = new TokenType(258);
-    
+    CHAR(258),
     /**
      * a binary integer
      */
-    public static final TokenType BINARY = new TokenType(259);
-    
+    BINARY(259),
     /**
      * an octal integer
      */
-    public static final TokenType OCTAL = new TokenType(260);
-    
+    OCTAL(260),
     /**
      * an integer
      */
-    public static final TokenType INT = new TokenType(261);
-    
+    INT(261),
     /**
      * a hex integer
      */
-    public static final TokenType HEX = new TokenType(262);
-    
+    HEX(262),
     /**
      * a floating point number
      */
-    public static final TokenType FLOAT = new TokenType(263);
-    
+    FLOAT(263),
     /**
      * a string
      */
-    public static final TokenType STRING = new TokenType(264);
-    
+    STRING(264),
     /**
      * a symbol
      */
-    public static final TokenType SYMBOL = new TokenType(265);
-    
+    SYMBOL(265),
     /**
      * an identifier
      */
-    public static final TokenType IDENTIFIER = new TokenType(266);
-    
+    IDENTIFIER(266),
     /**
      * a null identifier
      */
-    public static final TokenType IDENTIFIER_NULL = new TokenType(267);
-    
+    IDENTIFIER_NULL(267),
     /**
      * one line comment
      */
-    public static final TokenType COMMENT_SINGLE = new TokenType(268);
-    
+    COMMENT_SINGLE(268),
     /**
      * multi line comment
      */
-    public static final TokenType COMMENT_MULTI = new TokenType(269);
+    COMMENT_MULTI(269);
     
-    public TokenType(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "GTokenType";
+    
+    private final int value;
+    TokenType(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static TokenType of(int value) {
+        return switch (value) {
+            case 0 -> EOF;
+            case 40 -> LEFT_PAREN;
+            case 41 -> RIGHT_PAREN;
+            case 123 -> LEFT_CURLY;
+            case 125 -> RIGHT_CURLY;
+            case 91 -> LEFT_BRACE;
+            case 93 -> RIGHT_BRACE;
+            case 61 -> EQUAL_SIGN;
+            case 44 -> COMMA;
+            case 256 -> NONE;
+            case 257 -> ERROR;
+            case 258 -> CHAR;
+            case 259 -> BINARY;
+            case 260 -> OCTAL;
+            case 261 -> INT;
+            case 262 -> HEX;
+            case 263 -> FLOAT;
+            case 264 -> STRING;
+            case 265 -> SYMBOL;
+            case 266 -> IDENTIFIER;
+            case 267 -> IDENTIFIER_NULL;
+            case 268 -> COMMENT_SINGLE;
+            case 269 -> COMMENT_MULTI;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

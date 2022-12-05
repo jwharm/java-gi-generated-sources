@@ -129,12 +129,19 @@ public class GLArea extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
     
     /**
      * Create a GLArea proxy instance for the provided memory address.
+     * <p>
+     * Because GLArea is an {@code InitiallyUnowned} instance, when 
+     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
+     * and a call to {@code refSink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
     @ApiStatus.Internal
     public GLArea(Addressable address, Ownership ownership) {
-        super(address, ownership);
+        super(address, Ownership.FULL);
+        if (ownership == Ownership.NONE) {
+            refSink();
+        }
     }
     
     /**
@@ -150,7 +157,11 @@ public class GLArea extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
      * @throws ClassCastException If the GType is not derived from "GtkGLArea", a ClassCastException will be thrown.
      */
     public static GLArea castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), GLArea.getType())) {
             return new GLArea(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkGLArea");
+        }
     }
     
     private static Addressable constructNew() {
@@ -474,7 +485,7 @@ public class GLArea extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
     
     @FunctionalInterface
     public interface CreateContext {
-        void signalReceived(GLArea source);
+        void signalReceived(GLArea sourceGLArea);
     }
     
     /**
@@ -510,7 +521,7 @@ public class GLArea extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
     
     @FunctionalInterface
     public interface Render {
-        boolean signalReceived(GLArea source, @NotNull org.gtk.gdk.GLContext context);
+        boolean signalReceived(GLArea sourceGLArea, @NotNull org.gtk.gdk.GLContext context);
     }
     
     /**
@@ -541,7 +552,7 @@ public class GLArea extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
     
     @FunctionalInterface
     public interface Resize {
-        void signalReceived(GLArea source, int width, int height);
+        void signalReceived(GLArea sourceGLArea, int width, int height);
     }
     
     /**
@@ -800,22 +811,22 @@ public class GLArea extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
     
     private static class Callbacks {
         
-        public static void signalGLAreaCreateContext(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalGLAreaCreateContext(MemoryAddress sourceGLArea, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (GLArea.CreateContext) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new GLArea(source, Ownership.NONE));
+            HANDLER.signalReceived(new GLArea(sourceGLArea, Ownership.NONE));
         }
         
-        public static boolean signalGLAreaRender(MemoryAddress source, MemoryAddress context, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static boolean signalGLAreaRender(MemoryAddress sourceGLArea, MemoryAddress context, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (GLArea.Render) Interop.signalRegistry.get(HASH);
-            return HANDLER.signalReceived(new GLArea(source, Ownership.NONE), new org.gtk.gdk.GLContext(context, Ownership.NONE));
+            return HANDLER.signalReceived(new GLArea(sourceGLArea, Ownership.NONE), new org.gtk.gdk.GLContext(context, Ownership.NONE));
         }
         
-        public static void signalGLAreaResize(MemoryAddress source, int width, int height, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalGLAreaResize(MemoryAddress sourceGLArea, int width, int height, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (GLArea.Resize) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new GLArea(source, Ownership.NONE), width, height);
+            HANDLER.signalReceived(new GLArea(sourceGLArea, Ownership.NONE), width, height);
         }
     }
 }

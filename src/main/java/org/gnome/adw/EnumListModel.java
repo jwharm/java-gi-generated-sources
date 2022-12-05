@@ -51,7 +51,11 @@ public class EnumListModel extends org.gtk.gobject.Object implements org.gtk.gio
      * @throws ClassCastException If the GType is not derived from "AdwEnumListModel", a ClassCastException will be thrown.
      */
     public static EnumListModel castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), EnumListModel.getType())) {
             return new EnumListModel(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of AdwEnumListModel");
+        }
     }
     
     private static Addressable constructNew(@NotNull org.gtk.glib.Type enumType) {

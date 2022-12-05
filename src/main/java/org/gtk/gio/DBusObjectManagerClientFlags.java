@@ -35,9 +35,8 @@ public class DBusObjectManagerClientFlags extends io.github.jwharm.javagi.Bitfie
      * @param mask the value to combine with
      * @return the combined value by calculating {@code this | mask} 
      */
-    public DBusObjectManagerClientFlags combined(DBusObjectManagerClientFlags mask) {
-        this.setValue(this.getValue() | mask.getValue());
-        return this;
+    public DBusObjectManagerClientFlags or(DBusObjectManagerClientFlags mask) {
+        return new DBusObjectManagerClientFlags(this.getValue() | mask.getValue());
     }
     
     /**
@@ -47,9 +46,9 @@ public class DBusObjectManagerClientFlags extends io.github.jwharm.javagi.Bitfie
      * @return the combined value by calculating {@code mask | masks[0] | masks[1] | ...} 
      */
     public static DBusObjectManagerClientFlags combined(DBusObjectManagerClientFlags mask, DBusObjectManagerClientFlags... masks) {
-        for (DBusObjectManagerClientFlags arg : masks) {
-            mask.setValue(mask.getValue() | arg.getValue());
+        int value = mask.getValue();        for (DBusObjectManagerClientFlags arg : masks) {
+            value |= arg.getValue();
         }
-        return mask;
+        return new DBusObjectManagerClientFlags(value);
     }
 }

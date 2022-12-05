@@ -62,9 +62,8 @@ public class TlsPasswordFlags extends io.github.jwharm.javagi.Bitfield {
      * @param mask the value to combine with
      * @return the combined value by calculating {@code this | mask} 
      */
-    public TlsPasswordFlags combined(TlsPasswordFlags mask) {
-        this.setValue(this.getValue() | mask.getValue());
-        return this;
+    public TlsPasswordFlags or(TlsPasswordFlags mask) {
+        return new TlsPasswordFlags(this.getValue() | mask.getValue());
     }
     
     /**
@@ -74,9 +73,9 @@ public class TlsPasswordFlags extends io.github.jwharm.javagi.Bitfield {
      * @return the combined value by calculating {@code mask | masks[0] | masks[1] | ...} 
      */
     public static TlsPasswordFlags combined(TlsPasswordFlags mask, TlsPasswordFlags... masks) {
-        for (TlsPasswordFlags arg : masks) {
-            mask.setValue(mask.getValue() | arg.getValue());
+        int value = mask.getValue();        for (TlsPasswordFlags arg : masks) {
+            value |= arg.getValue();
         }
-        return mask;
+        return new TlsPasswordFlags(value);
     }
 }

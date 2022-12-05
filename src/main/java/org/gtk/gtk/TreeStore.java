@@ -78,7 +78,11 @@ public class TreeStore extends org.gtk.gobject.Object implements org.gtk.gtk.Bui
      * @throws ClassCastException If the GType is not derived from "GtkTreeStore", a ClassCastException will be thrown.
      */
     public static TreeStore castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), TreeStore.getType())) {
             return new TreeStore(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkTreeStore");
+        }
     }
     
     private static Addressable constructNew(int nColumns, java.lang.Object... varargs) {

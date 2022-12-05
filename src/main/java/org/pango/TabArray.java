@@ -211,7 +211,7 @@ public class TabArray extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        alignment.set(new org.pango.TabAlign(alignmentPOINTER.get(Interop.valueLayout.C_INT, 0)));
+        alignment.set(org.pango.TabAlign.of(alignmentPOINTER.get(Interop.valueLayout.C_INT, 0)));
         location.set(locationPOINTER.get(Interop.valueLayout.C_INT, 0));
     }
     
@@ -455,33 +455,5 @@ public class TabArray extends Struct {
             FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
-    }
-
-    /**
-     * Inner class implementing a builder pattern to construct 
-     * a struct and set its values.
-     */
-    public static class Build {
-        
-        private TabArray struct;
-        
-         /**
-         * A {@link TabArray.Build} object constructs a {@link TabArray} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
-            struct = TabArray.allocate();
-        }
-        
-         /**
-         * Finish building the {@link TabArray} struct.
-         * @return A new instance of {@code TabArray} with the fields 
-         *         that were set in the Build object.
-         */
-        public TabArray construct() {
-            return struct;
-        }
     }
 }

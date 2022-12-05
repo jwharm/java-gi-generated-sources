@@ -98,12 +98,19 @@ public class ToggleButton extends org.gtk.gtk.Button implements org.gtk.gtk.Acce
     
     /**
      * Create a ToggleButton proxy instance for the provided memory address.
+     * <p>
+     * Because ToggleButton is an {@code InitiallyUnowned} instance, when 
+     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
+     * and a call to {@code refSink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
     @ApiStatus.Internal
     public ToggleButton(Addressable address, Ownership ownership) {
-        super(address, ownership);
+        super(address, Ownership.FULL);
+        if (ownership == Ownership.NONE) {
+            refSink();
+        }
     }
     
     /**
@@ -119,7 +126,11 @@ public class ToggleButton extends org.gtk.gtk.Button implements org.gtk.gtk.Acce
      * @throws ClassCastException If the GType is not derived from "GtkToggleButton", a ClassCastException will be thrown.
      */
     public static ToggleButton castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), ToggleButton.getType())) {
             return new ToggleButton(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkToggleButton");
+        }
     }
     
     private static Addressable constructNew() {
@@ -280,7 +291,7 @@ public class ToggleButton extends org.gtk.gtk.Button implements org.gtk.gtk.Acce
     
     @FunctionalInterface
     public interface Toggled {
-        void signalReceived(ToggleButton source);
+        void signalReceived(ToggleButton sourceToggleButton);
     }
     
     /**
@@ -416,10 +427,10 @@ public class ToggleButton extends org.gtk.gtk.Button implements org.gtk.gtk.Acce
     
     private static class Callbacks {
         
-        public static void signalToggleButtonToggled(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalToggleButtonToggled(MemoryAddress sourceToggleButton, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (ToggleButton.Toggled) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new ToggleButton(source, Ownership.NONE));
+            HANDLER.signalReceived(new ToggleButton(sourceToggleButton, Ownership.NONE));
         }
     }
 }

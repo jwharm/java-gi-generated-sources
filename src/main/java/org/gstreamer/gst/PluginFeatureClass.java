@@ -44,32 +44,4 @@ public class PluginFeatureClass extends Struct {
     public PluginFeatureClass(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
-
-    /**
-     * Inner class implementing a builder pattern to construct 
-     * a struct and set its values.
-     */
-    public static class Build {
-        
-        private PluginFeatureClass struct;
-        
-         /**
-         * A {@link PluginFeatureClass.Build} object constructs a {@link PluginFeatureClass} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
-            struct = PluginFeatureClass.allocate();
-        }
-        
-         /**
-         * Finish building the {@link PluginFeatureClass} struct.
-         * @return A new instance of {@code PluginFeatureClass} with the fields 
-         *         that were set in the Build object.
-         */
-        public PluginFeatureClass construct() {
-            return struct;
-        }
-    }
 }

@@ -44,32 +44,4 @@ public class ProxyAddressEnumeratorPrivate extends Struct {
     public ProxyAddressEnumeratorPrivate(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
-
-    /**
-     * Inner class implementing a builder pattern to construct 
-     * a struct and set its values.
-     */
-    public static class Build {
-        
-        private ProxyAddressEnumeratorPrivate struct;
-        
-         /**
-         * A {@link ProxyAddressEnumeratorPrivate.Build} object constructs a {@link ProxyAddressEnumeratorPrivate} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
-            struct = ProxyAddressEnumeratorPrivate.allocate();
-        }
-        
-         /**
-         * Finish building the {@link ProxyAddressEnumeratorPrivate} struct.
-         * @return A new instance of {@code ProxyAddressEnumeratorPrivate} with the fields 
-         *         that were set in the Build object.
-         */
-        public ProxyAddressEnumeratorPrivate construct() {
-            return struct;
-        }
-    }
 }

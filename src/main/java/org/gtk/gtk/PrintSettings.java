@@ -59,7 +59,11 @@ public class PrintSettings extends org.gtk.gobject.Object {
      * @throws ClassCastException If the GType is not derived from "GtkPrintSettings", a ClassCastException will be thrown.
      */
     public static PrintSettings castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), PrintSettings.getType())) {
             return new PrintSettings(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkPrintSettings");
+        }
     }
     
     private static Addressable constructNew() {
@@ -344,7 +348,7 @@ public class PrintSettings extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.PrintDuplex(RESULT);
+        return org.gtk.gtk.PrintDuplex.of(RESULT);
     }
     
     /**
@@ -484,7 +488,7 @@ public class PrintSettings extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.NumberUpLayout(RESULT);
+        return org.gtk.gtk.NumberUpLayout.of(RESULT);
     }
     
     /**
@@ -500,7 +504,7 @@ public class PrintSettings extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.PageOrientation(RESULT);
+        return org.gtk.gtk.PageOrientation.of(RESULT);
     }
     
     /**
@@ -557,7 +561,7 @@ public class PrintSettings extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.PageSet(RESULT);
+        return org.gtk.gtk.PageSet.of(RESULT);
     }
     
     /**
@@ -626,7 +630,7 @@ public class PrintSettings extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.PrintPages(RESULT);
+        return org.gtk.gtk.PrintPages.of(RESULT);
     }
     
     /**
@@ -672,7 +676,7 @@ public class PrintSettings extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.PrintQuality(RESULT);
+        return org.gtk.gtk.PrintQuality.of(RESULT);
     }
     
     /**

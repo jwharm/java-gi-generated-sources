@@ -44,32 +44,4 @@ public class FontOptions extends Struct {
     public FontOptions(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
-
-    /**
-     * Inner class implementing a builder pattern to construct 
-     * a struct and set its values.
-     */
-    public static class Build {
-        
-        private FontOptions struct;
-        
-         /**
-         * A {@link FontOptions.Build} object constructs a {@link FontOptions} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
-            struct = FontOptions.allocate();
-        }
-        
-         /**
-         * Finish building the {@link FontOptions} struct.
-         * @return A new instance of {@code FontOptions} with the fields 
-         *         that were set in the Build object.
-         */
-        public FontOptions construct() {
-            return struct;
-        }
-    }
 }

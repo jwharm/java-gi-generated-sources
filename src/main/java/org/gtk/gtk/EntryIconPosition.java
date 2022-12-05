@@ -8,21 +8,33 @@ import org.jetbrains.annotations.*;
 /**
  * Specifies the side of the entry at which an icon is placed.
  */
-public class EntryIconPosition extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "GtkEntryIconPosition";
-    
+public enum EntryIconPosition implements io.github.jwharm.javagi.Enumeration {
     /**
      * At the beginning of the entry (depending on the text direction).
      */
-    public static final EntryIconPosition PRIMARY = new EntryIconPosition(0);
-    
+    PRIMARY(0),
     /**
      * At the end of the entry (depending on the text direction).
      */
-    public static final EntryIconPosition SECONDARY = new EntryIconPosition(1);
+    SECONDARY(1);
     
-    public EntryIconPosition(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "GtkEntryIconPosition";
+    
+    private final int value;
+    EntryIconPosition(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static EntryIconPosition of(int value) {
+        return switch (value) {
+            case 0 -> PRIMARY;
+            case 1 -> SECONDARY;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

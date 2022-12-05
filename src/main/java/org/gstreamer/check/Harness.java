@@ -909,7 +909,7 @@ public class Harness extends Struct {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         buffer.yieldOwnership();
-        return new org.gstreamer.gst.FlowReturn(RESULT);
+        return org.gstreamer.gst.FlowReturn.of(RESULT);
     }
     
     /**
@@ -974,7 +974,7 @@ public class Harness extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.FlowReturn(RESULT);
+        return org.gstreamer.gst.FlowReturn.of(RESULT);
     }
     
     /**
@@ -992,7 +992,7 @@ public class Harness extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.FlowReturn(RESULT);
+        return org.gstreamer.gst.FlowReturn.of(RESULT);
     }
     
     /**
@@ -1321,7 +1321,7 @@ public class Harness extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.FlowReturn(RESULT);
+        return org.gstreamer.gst.FlowReturn.of(RESULT);
     }
     
     /**
@@ -1346,7 +1346,7 @@ public class Harness extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.FlowReturn(RESULT);
+        return org.gstreamer.gst.FlowReturn.of(RESULT);
     }
     
     /**

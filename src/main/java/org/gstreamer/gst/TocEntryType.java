@@ -10,47 +10,59 @@ import org.jetbrains.annotations.*;
  * <p>
  * There are two types of TOC entries: alternatives or parts in a sequence.
  */
-public class TocEntryType extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "GstTocEntryType";
-    
+public enum TocEntryType implements io.github.jwharm.javagi.Enumeration {
     /**
      * entry is an angle (i.e. an alternative)
      */
-    public static final TocEntryType ANGLE = new TocEntryType(0);
-    
+    ANGLE(-3),
     /**
      * entry is a version (i.e. alternative)
      */
-    public static final TocEntryType VERSION = new TocEntryType(0);
-    
+    VERSION(-2),
     /**
      * entry is an edition (i.e. alternative)
      */
-    public static final TocEntryType EDITION = new TocEntryType(0);
-    
+    EDITION(-1),
     /**
      * invalid entry type value
      */
-    public static final TocEntryType INVALID = new TocEntryType(0);
-    
+    INVALID(0),
     /**
      * entry is a title (i.e. a part of a sequence)
      */
-    public static final TocEntryType TITLE = new TocEntryType(1);
-    
+    TITLE(1),
     /**
      * entry is a track (i.e. a part of a sequence)
      */
-    public static final TocEntryType TRACK = new TocEntryType(2);
-    
+    TRACK(2),
     /**
      * entry is a chapter (i.e. a part of a sequence)
      */
-    public static final TocEntryType CHAPTER = new TocEntryType(3);
+    CHAPTER(3);
     
-    public TocEntryType(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "GstTocEntryType";
+    
+    private final int value;
+    TocEntryType(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static TocEntryType of(int value) {
+        return switch (value) {
+            case -3 -> ANGLE;
+            case -2 -> VERSION;
+            case -1 -> EDITION;
+            case 0 -> INVALID;
+            case 1 -> TITLE;
+            case 2 -> TRACK;
+            case 3 -> CHAPTER;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
     
     /**

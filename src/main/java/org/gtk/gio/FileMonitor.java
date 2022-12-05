@@ -66,7 +66,11 @@ public class FileMonitor extends org.gtk.gobject.Object {
      * @throws ClassCastException If the GType is not derived from "GFileMonitor", a ClassCastException will be thrown.
      */
     public static FileMonitor castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), FileMonitor.getType())) {
             return new FileMonitor(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GFileMonitor");
+        }
     }
     
     /**
@@ -158,7 +162,7 @@ public class FileMonitor extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface Changed {
-        void signalReceived(FileMonitor source, @NotNull org.gtk.gio.File file, @Nullable org.gtk.gio.File otherFile, @NotNull org.gtk.gio.FileMonitorEvent eventType);
+        void signalReceived(FileMonitor sourceFileMonitor, @NotNull org.gtk.gio.File file, @Nullable org.gtk.gio.File otherFile, @NotNull org.gtk.gio.FileMonitorEvent eventType);
     }
     
     /**
@@ -293,10 +297,10 @@ public class FileMonitor extends org.gtk.gobject.Object {
     
     private static class Callbacks {
         
-        public static void signalFileMonitorChanged(MemoryAddress source, MemoryAddress file, MemoryAddress otherFile, int eventType, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalFileMonitorChanged(MemoryAddress sourceFileMonitor, MemoryAddress file, MemoryAddress otherFile, int eventType, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (FileMonitor.Changed) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new FileMonitor(source, Ownership.NONE), new org.gtk.gio.File.FileImpl(file, Ownership.NONE), new org.gtk.gio.File.FileImpl(otherFile, Ownership.NONE), new org.gtk.gio.FileMonitorEvent(eventType));
+            HANDLER.signalReceived(new FileMonitor(sourceFileMonitor, Ownership.NONE), new org.gtk.gio.File.FileImpl(file, Ownership.NONE), new org.gtk.gio.File.FileImpl(otherFile, Ownership.NONE), org.gtk.gio.FileMonitorEvent.of(eventType));
         }
     }
 }

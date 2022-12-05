@@ -62,7 +62,11 @@ public class Display extends org.gtk.gobject.Object {
      * @throws ClassCastException If the GType is not derived from "GdkDisplay", a ClassCastException will be thrown.
      */
     public static Display castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), Display.getType())) {
             return new Display(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GdkDisplay");
+        }
     }
     
     /**
@@ -733,7 +737,7 @@ public class Display extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface Closed {
-        void signalReceived(Display source, boolean isError);
+        void signalReceived(Display sourceDisplay, boolean isError);
     }
     
     /**
@@ -761,7 +765,7 @@ public class Display extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface Opened {
-        void signalReceived(Display source);
+        void signalReceived(Display sourceDisplay);
     }
     
     /**
@@ -789,7 +793,7 @@ public class Display extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface SeatAdded {
-        void signalReceived(Display source, @NotNull org.gtk.gdk.Seat seat);
+        void signalReceived(Display sourceDisplay, @NotNull org.gtk.gdk.Seat seat);
     }
     
     /**
@@ -817,7 +821,7 @@ public class Display extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface SeatRemoved {
-        void signalReceived(Display source, @NotNull org.gtk.gdk.Seat seat);
+        void signalReceived(Display sourceDisplay, @NotNull org.gtk.gdk.Seat seat);
     }
     
     /**
@@ -845,7 +849,7 @@ public class Display extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface SettingChanged {
-        void signalReceived(Display source, @NotNull java.lang.String setting);
+        void signalReceived(Display sourceDisplay, @NotNull java.lang.String setting);
     }
     
     /**
@@ -1118,34 +1122,34 @@ public class Display extends org.gtk.gobject.Object {
     
     private static class Callbacks {
         
-        public static void signalDisplayClosed(MemoryAddress source, int isError, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalDisplayClosed(MemoryAddress sourceDisplay, int isError, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (Display.Closed) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Display(source, Ownership.NONE), isError != 0);
+            HANDLER.signalReceived(new Display(sourceDisplay, Ownership.NONE), isError != 0);
         }
         
-        public static void signalDisplayOpened(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalDisplayOpened(MemoryAddress sourceDisplay, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (Display.Opened) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Display(source, Ownership.NONE));
+            HANDLER.signalReceived(new Display(sourceDisplay, Ownership.NONE));
         }
         
-        public static void signalDisplaySeatAdded(MemoryAddress source, MemoryAddress seat, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalDisplaySeatAdded(MemoryAddress sourceDisplay, MemoryAddress seat, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (Display.SeatAdded) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Display(source, Ownership.NONE), new org.gtk.gdk.Seat(seat, Ownership.NONE));
+            HANDLER.signalReceived(new Display(sourceDisplay, Ownership.NONE), new org.gtk.gdk.Seat(seat, Ownership.NONE));
         }
         
-        public static void signalDisplaySeatRemoved(MemoryAddress source, MemoryAddress seat, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalDisplaySeatRemoved(MemoryAddress sourceDisplay, MemoryAddress seat, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (Display.SeatRemoved) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Display(source, Ownership.NONE), new org.gtk.gdk.Seat(seat, Ownership.NONE));
+            HANDLER.signalReceived(new Display(sourceDisplay, Ownership.NONE), new org.gtk.gdk.Seat(seat, Ownership.NONE));
         }
         
-        public static void signalDisplaySettingChanged(MemoryAddress source, MemoryAddress setting, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalDisplaySettingChanged(MemoryAddress sourceDisplay, MemoryAddress setting, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (Display.SettingChanged) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Display(source, Ownership.NONE), Interop.getStringFrom(setting));
+            HANDLER.signalReceived(new Display(sourceDisplay, Ownership.NONE), Interop.getStringFrom(setting));
         }
     }
 }

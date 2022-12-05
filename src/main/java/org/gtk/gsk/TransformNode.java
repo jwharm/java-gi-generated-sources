@@ -48,7 +48,11 @@ public class TransformNode extends org.gtk.gsk.RenderNode {
      * @throws ClassCastException If the GType is not derived from "GskTransformNode", a ClassCastException will be thrown.
      */
     public static TransformNode castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), TransformNode.getType())) {
             return new TransformNode(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GskTransformNode");
+        }
     }
     
     private static Addressable constructNew(@NotNull org.gtk.gsk.RenderNode child, @NotNull org.gtk.gsk.Transform transform) {

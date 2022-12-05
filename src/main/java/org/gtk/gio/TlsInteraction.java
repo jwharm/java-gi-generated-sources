@@ -73,7 +73,11 @@ public class TlsInteraction extends org.gtk.gobject.Object {
      * @throws ClassCastException If the GType is not derived from "GTlsInteraction", a ClassCastException will be thrown.
      */
     public static TlsInteraction castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), TlsInteraction.getType())) {
             return new TlsInteraction(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GTlsInteraction");
+        }
     }
     
     /**
@@ -111,7 +115,7 @@ public class TlsInteraction extends org.gtk.gobject.Object {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new org.gtk.gio.TlsInteractionResult(RESULT);
+        return org.gtk.gio.TlsInteractionResult.of(RESULT);
     }
     
     /**
@@ -181,7 +185,7 @@ public class TlsInteraction extends org.gtk.gobject.Object {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new org.gtk.gio.TlsInteractionResult(RESULT);
+        return org.gtk.gio.TlsInteractionResult.of(RESULT);
     }
     
     /**
@@ -225,7 +229,7 @@ public class TlsInteraction extends org.gtk.gobject.Object {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new org.gtk.gio.TlsInteractionResult(RESULT);
+        return org.gtk.gio.TlsInteractionResult.of(RESULT);
     }
     
     /**
@@ -273,7 +277,7 @@ public class TlsInteraction extends org.gtk.gobject.Object {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new org.gtk.gio.TlsInteractionResult(RESULT);
+        return org.gtk.gio.TlsInteractionResult.of(RESULT);
     }
     
     /**
@@ -317,7 +321,7 @@ public class TlsInteraction extends org.gtk.gobject.Object {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new org.gtk.gio.TlsInteractionResult(RESULT);
+        return org.gtk.gio.TlsInteractionResult.of(RESULT);
     }
     
     /**
@@ -384,7 +388,7 @@ public class TlsInteraction extends org.gtk.gobject.Object {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new org.gtk.gio.TlsInteractionResult(RESULT);
+        return org.gtk.gio.TlsInteractionResult.of(RESULT);
     }
     
     /**

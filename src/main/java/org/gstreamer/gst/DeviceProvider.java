@@ -43,12 +43,19 @@ public class DeviceProvider extends org.gstreamer.gst.Object {
     
     /**
      * Create a DeviceProvider proxy instance for the provided memory address.
+     * <p>
+     * Because DeviceProvider is an {@code InitiallyUnowned} instance, when 
+     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
+     * and a call to {@code refSink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
     @ApiStatus.Internal
     public DeviceProvider(Addressable address, Ownership ownership) {
-        super(address, ownership);
+        super(address, Ownership.FULL);
+        if (ownership == Ownership.NONE) {
+            refSink();
+        }
     }
     
     /**
@@ -64,7 +71,11 @@ public class DeviceProvider extends org.gstreamer.gst.Object {
      * @throws ClassCastException If the GType is not derived from "GstDeviceProvider", a ClassCastException will be thrown.
      */
     public static DeviceProvider castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), DeviceProvider.getType())) {
             return new DeviceProvider(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GstDeviceProvider");
+        }
     }
     
     public boolean canMonitor() {
@@ -360,7 +371,7 @@ public class DeviceProvider extends org.gstreamer.gst.Object {
     
     @FunctionalInterface
     public interface ProviderHidden {
-        void signalReceived(DeviceProvider source, @NotNull java.lang.String object);
+        void signalReceived(DeviceProvider sourceDeviceProvider, @NotNull java.lang.String object);
     }
     
     public Signal<DeviceProvider.ProviderHidden> onProviderHidden(DeviceProvider.ProviderHidden handler) {
@@ -383,7 +394,7 @@ public class DeviceProvider extends org.gstreamer.gst.Object {
     
     @FunctionalInterface
     public interface ProviderUnhidden {
-        void signalReceived(DeviceProvider source, @NotNull java.lang.String object);
+        void signalReceived(DeviceProvider sourceDeviceProvider, @NotNull java.lang.String object);
     }
     
     public Signal<DeviceProvider.ProviderUnhidden> onProviderUnhidden(DeviceProvider.ProviderUnhidden handler) {
@@ -540,16 +551,16 @@ public class DeviceProvider extends org.gstreamer.gst.Object {
     
     private static class Callbacks {
         
-        public static void signalDeviceProviderProviderHidden(MemoryAddress source, MemoryAddress object, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalDeviceProviderProviderHidden(MemoryAddress sourceDeviceProvider, MemoryAddress object, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (DeviceProvider.ProviderHidden) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new DeviceProvider(source, Ownership.NONE), Interop.getStringFrom(object));
+            HANDLER.signalReceived(new DeviceProvider(sourceDeviceProvider, Ownership.NONE), Interop.getStringFrom(object));
         }
         
-        public static void signalDeviceProviderProviderUnhidden(MemoryAddress source, MemoryAddress object, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalDeviceProviderProviderUnhidden(MemoryAddress sourceDeviceProvider, MemoryAddress object, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (DeviceProvider.ProviderUnhidden) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new DeviceProvider(source, Ownership.NONE), Interop.getStringFrom(object));
+            HANDLER.signalReceived(new DeviceProvider(sourceDeviceProvider, Ownership.NONE), Interop.getStringFrom(object));
         }
     }
 }

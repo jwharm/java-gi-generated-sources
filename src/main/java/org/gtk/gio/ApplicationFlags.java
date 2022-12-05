@@ -105,9 +105,8 @@ public class ApplicationFlags extends io.github.jwharm.javagi.Bitfield {
      * @param mask the value to combine with
      * @return the combined value by calculating {@code this | mask} 
      */
-    public ApplicationFlags combined(ApplicationFlags mask) {
-        this.setValue(this.getValue() | mask.getValue());
-        return this;
+    public ApplicationFlags or(ApplicationFlags mask) {
+        return new ApplicationFlags(this.getValue() | mask.getValue());
     }
     
     /**
@@ -117,9 +116,9 @@ public class ApplicationFlags extends io.github.jwharm.javagi.Bitfield {
      * @return the combined value by calculating {@code mask | masks[0] | masks[1] | ...} 
      */
     public static ApplicationFlags combined(ApplicationFlags mask, ApplicationFlags... masks) {
-        for (ApplicationFlags arg : masks) {
-            mask.setValue(mask.getValue() | arg.getValue());
+        int value = mask.getValue();        for (ApplicationFlags arg : masks) {
+            value |= arg.getValue();
         }
-        return mask;
+        return new ApplicationFlags(value);
     }
 }

@@ -10,6 +10,10 @@ import org.jetbrains.annotations.*;
  */
 public final class GstCheck {
     
+    static {
+        System.loadLibrary("gstcheck-1.0");
+    }
+    
     @ApiStatus.Internal static void javagi$ensureInitialized() {}
     
     /**
@@ -198,7 +202,7 @@ public final class GstCheck {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.FlowReturn(RESULT);
+        return org.gstreamer.gst.FlowReturn.of(RESULT);
     }
     
     /**

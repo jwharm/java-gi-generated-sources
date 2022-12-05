@@ -73,32 +73,4 @@ public class LanguageT extends Struct {
             false
         );
     }
-
-    /**
-     * Inner class implementing a builder pattern to construct 
-     * a struct and set its values.
-     */
-    public static class Build {
-        
-        private LanguageT struct;
-        
-         /**
-         * A {@link LanguageT.Build} object constructs a {@link LanguageT} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
-            struct = LanguageT.allocate();
-        }
-        
-         /**
-         * Finish building the {@link LanguageT} struct.
-         * @return A new instance of {@code LanguageT} with the fields 
-         *         that were set in the Build object.
-         */
-        public LanguageT construct() {
-            return struct;
-        }
-    }
 }

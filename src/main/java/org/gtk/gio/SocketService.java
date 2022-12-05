@@ -79,7 +79,11 @@ public class SocketService extends org.gtk.gio.SocketListener {
      * @throws ClassCastException If the GType is not derived from "GSocketService", a ClassCastException will be thrown.
      */
     public static SocketService castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), SocketService.getType())) {
             return new SocketService(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GSocketService");
+        }
     }
     
     private static Addressable constructNew() {
@@ -183,7 +187,7 @@ public class SocketService extends org.gtk.gio.SocketListener {
     
     @FunctionalInterface
     public interface Incoming {
-        boolean signalReceived(SocketService source, @NotNull org.gtk.gio.SocketConnection connection, @Nullable org.gtk.gobject.Object sourceObject);
+        boolean signalReceived(SocketService sourceSocketService, @NotNull org.gtk.gio.SocketConnection connection, @Nullable org.gtk.gobject.Object sourceObject);
     }
     
     /**
@@ -296,10 +300,10 @@ public class SocketService extends org.gtk.gio.SocketListener {
     
     private static class Callbacks {
         
-        public static boolean signalSocketServiceIncoming(MemoryAddress source, MemoryAddress connection, MemoryAddress sourceObject, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static boolean signalSocketServiceIncoming(MemoryAddress sourceSocketService, MemoryAddress connection, MemoryAddress sourceObject, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (SocketService.Incoming) Interop.signalRegistry.get(HASH);
-            return HANDLER.signalReceived(new SocketService(source, Ownership.NONE), new org.gtk.gio.SocketConnection(connection, Ownership.NONE), new org.gtk.gobject.Object(sourceObject, Ownership.NONE));
+            return HANDLER.signalReceived(new SocketService(sourceSocketService, Ownership.NONE), new org.gtk.gio.SocketConnection(connection, Ownership.NONE), new org.gtk.gobject.Object(sourceObject, Ownership.NONE));
         }
     }
 }

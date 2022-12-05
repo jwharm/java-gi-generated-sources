@@ -61,7 +61,11 @@ public interface Volume extends io.github.jwharm.javagi.Proxy {
      * @throws ClassCastException If the GType is not derived from "GVolume", a ClassCastException will be thrown.
      */
     public static Volume castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), Volume.getType())) {
             return new VolumeImpl(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GVolume");
+        }
     }
     
     /**
@@ -491,7 +495,7 @@ public interface Volume extends io.github.jwharm.javagi.Proxy {
     
     @FunctionalInterface
     public interface Changed {
-        void signalReceived(Volume source);
+        void signalReceived(Volume sourceVolume);
     }
     
     /**
@@ -519,7 +523,7 @@ public interface Volume extends io.github.jwharm.javagi.Proxy {
     
     @FunctionalInterface
     public interface Removed {
-        void signalReceived(Volume source);
+        void signalReceived(Volume sourceVolume);
     }
     
     /**
@@ -694,16 +698,16 @@ public interface Volume extends io.github.jwharm.javagi.Proxy {
     @ApiStatus.Internal
     static class Callbacks {
         
-        public static void signalVolumeChanged(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalVolumeChanged(MemoryAddress sourceVolume, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (Volume.Changed) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Volume.VolumeImpl(source, Ownership.NONE));
+            HANDLER.signalReceived(new Volume.VolumeImpl(sourceVolume, Ownership.NONE));
         }
         
-        public static void signalVolumeRemoved(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalVolumeRemoved(MemoryAddress sourceVolume, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (Volume.Removed) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Volume.VolumeImpl(source, Ownership.NONE));
+            HANDLER.signalReceived(new Volume.VolumeImpl(sourceVolume, Ownership.NONE));
         }
     }
     

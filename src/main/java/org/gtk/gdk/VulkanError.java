@@ -8,23 +8,35 @@ import org.jetbrains.annotations.*;
 /**
  * Error enumeration for {@code GdkVulkanContext}.
  */
-public class VulkanError extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "GdkVulkanError";
-    
+public enum VulkanError implements io.github.jwharm.javagi.Enumeration {
     /**
      * Vulkan is not supported on this backend or has not been
      *   compiled in.
      */
-    public static final VulkanError UNSUPPORTED = new VulkanError(0);
-    
+    UNSUPPORTED(0),
     /**
      * Vulkan support is not available on this Surface
      */
-    public static final VulkanError NOT_AVAILABLE = new VulkanError(1);
+    NOT_AVAILABLE(1);
     
-    public VulkanError(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "GdkVulkanError";
+    
+    private final int value;
+    VulkanError(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static VulkanError of(int value) {
+        return switch (value) {
+            case 0 -> UNSUPPORTED;
+            case 1 -> NOT_AVAILABLE;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
     
     public static @NotNull org.gtk.glib.Quark quark() {

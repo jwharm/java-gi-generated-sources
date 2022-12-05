@@ -61,12 +61,19 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
     
     /**
      * Create a TabView proxy instance for the provided memory address.
+     * <p>
+     * Because TabView is an {@code InitiallyUnowned} instance, when 
+     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
+     * and a call to {@code refSink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
     @ApiStatus.Internal
     public TabView(Addressable address, Ownership ownership) {
-        super(address, ownership);
+        super(address, Ownership.FULL);
+        if (ownership == Ownership.NONE) {
+            refSink();
+        }
     }
     
     /**
@@ -82,7 +89,11 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      * @throws ClassCastException If the GType is not derived from "AdwTabView", a ClassCastException will be thrown.
      */
     public static TabView castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), TabView.getType())) {
             return new TabView(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of AdwTabView");
+        }
     }
     
     private static Addressable constructNew() {
@@ -859,7 +870,7 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
     
     @FunctionalInterface
     public interface ClosePage {
-        boolean signalReceived(TabView source, @NotNull org.gnome.adw.TabPage page);
+        boolean signalReceived(TabView sourceTabView, @NotNull org.gnome.adw.TabPage page);
     }
     
     /**
@@ -911,7 +922,7 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
     
     @FunctionalInterface
     public interface CreateWindow {
-        void signalReceived(TabView source);
+        void signalReceived(TabView sourceTabView);
     }
     
     /**
@@ -944,7 +955,7 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
     
     @FunctionalInterface
     public interface IndicatorActivated {
-        void signalReceived(TabView source, @NotNull org.gnome.adw.TabPage page);
+        void signalReceived(TabView sourceTabView, @NotNull org.gnome.adw.TabPage page);
     }
     
     /**
@@ -975,7 +986,7 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
     
     @FunctionalInterface
     public interface PageAttached {
-        void signalReceived(TabView source, @NotNull org.gnome.adw.TabPage page, int position);
+        void signalReceived(TabView sourceTabView, @NotNull org.gnome.adw.TabPage page, int position);
     }
     
     /**
@@ -1006,7 +1017,7 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
     
     @FunctionalInterface
     public interface PageDetached {
-        void signalReceived(TabView source, @NotNull org.gnome.adw.TabPage page, int position);
+        void signalReceived(TabView sourceTabView, @NotNull org.gnome.adw.TabPage page, int position);
     }
     
     /**
@@ -1042,7 +1053,7 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
     
     @FunctionalInterface
     public interface PageReordered {
-        void signalReceived(TabView source, @NotNull org.gnome.adw.TabPage page, int position);
+        void signalReceived(TabView sourceTabView, @NotNull org.gnome.adw.TabPage page, int position);
     }
     
     /**
@@ -1070,7 +1081,7 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
     
     @FunctionalInterface
     public interface SetupMenu {
-        void signalReceived(TabView source, @Nullable org.gnome.adw.TabPage page);
+        void signalReceived(TabView sourceTabView, @Nullable org.gnome.adw.TabPage page);
     }
     
     /**
@@ -1501,46 +1512,46 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
     
     private static class Callbacks {
         
-        public static boolean signalTabViewClosePage(MemoryAddress source, MemoryAddress page, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static boolean signalTabViewClosePage(MemoryAddress sourceTabView, MemoryAddress page, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (TabView.ClosePage) Interop.signalRegistry.get(HASH);
-            return HANDLER.signalReceived(new TabView(source, Ownership.NONE), new org.gnome.adw.TabPage(page, Ownership.NONE));
+            return HANDLER.signalReceived(new TabView(sourceTabView, Ownership.NONE), new org.gnome.adw.TabPage(page, Ownership.NONE));
         }
         
-        public static void signalTabViewCreateWindow(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalTabViewCreateWindow(MemoryAddress sourceTabView, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (TabView.CreateWindow) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new TabView(source, Ownership.NONE));
+            HANDLER.signalReceived(new TabView(sourceTabView, Ownership.NONE));
         }
         
-        public static void signalTabViewIndicatorActivated(MemoryAddress source, MemoryAddress page, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalTabViewIndicatorActivated(MemoryAddress sourceTabView, MemoryAddress page, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (TabView.IndicatorActivated) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new TabView(source, Ownership.NONE), new org.gnome.adw.TabPage(page, Ownership.NONE));
+            HANDLER.signalReceived(new TabView(sourceTabView, Ownership.NONE), new org.gnome.adw.TabPage(page, Ownership.NONE));
         }
         
-        public static void signalTabViewPageAttached(MemoryAddress source, MemoryAddress page, int position, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalTabViewPageAttached(MemoryAddress sourceTabView, MemoryAddress page, int position, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (TabView.PageAttached) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new TabView(source, Ownership.NONE), new org.gnome.adw.TabPage(page, Ownership.NONE), position);
+            HANDLER.signalReceived(new TabView(sourceTabView, Ownership.NONE), new org.gnome.adw.TabPage(page, Ownership.NONE), position);
         }
         
-        public static void signalTabViewPageDetached(MemoryAddress source, MemoryAddress page, int position, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalTabViewPageDetached(MemoryAddress sourceTabView, MemoryAddress page, int position, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (TabView.PageDetached) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new TabView(source, Ownership.NONE), new org.gnome.adw.TabPage(page, Ownership.NONE), position);
+            HANDLER.signalReceived(new TabView(sourceTabView, Ownership.NONE), new org.gnome.adw.TabPage(page, Ownership.NONE), position);
         }
         
-        public static void signalTabViewPageReordered(MemoryAddress source, MemoryAddress page, int position, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalTabViewPageReordered(MemoryAddress sourceTabView, MemoryAddress page, int position, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (TabView.PageReordered) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new TabView(source, Ownership.NONE), new org.gnome.adw.TabPage(page, Ownership.NONE), position);
+            HANDLER.signalReceived(new TabView(sourceTabView, Ownership.NONE), new org.gnome.adw.TabPage(page, Ownership.NONE), position);
         }
         
-        public static void signalTabViewSetupMenu(MemoryAddress source, MemoryAddress page, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalTabViewSetupMenu(MemoryAddress sourceTabView, MemoryAddress page, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (TabView.SetupMenu) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new TabView(source, Ownership.NONE), new org.gnome.adw.TabPage(page, Ownership.NONE));
+            HANDLER.signalReceived(new TabView(sourceTabView, Ownership.NONE), new org.gnome.adw.TabPage(page, Ownership.NONE));
         }
     }
 }

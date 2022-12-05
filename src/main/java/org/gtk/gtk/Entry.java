@@ -114,12 +114,19 @@ public class Entry extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     
     /**
      * Create a Entry proxy instance for the provided memory address.
+     * <p>
+     * Because Entry is an {@code InitiallyUnowned} instance, when 
+     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
+     * and a call to {@code refSink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
     @ApiStatus.Internal
     public Entry(Addressable address, Ownership ownership) {
-        super(address, ownership);
+        super(address, Ownership.FULL);
+        if (ownership == Ownership.NONE) {
+            refSink();
+        }
     }
     
     /**
@@ -135,7 +142,11 @@ public class Entry extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      * @throws ClassCastException If the GType is not derived from "GtkEntry", a ClassCastException will be thrown.
      */
     public static Entry castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), Entry.getType())) {
             return new Entry(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkEntry");
+        }
     }
     
     private static Addressable constructNew() {
@@ -474,7 +485,7 @@ public class Entry extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.ImageType(RESULT);
+        return org.gtk.gtk.ImageType.of(RESULT);
     }
     
     /**
@@ -542,7 +553,7 @@ public class Entry extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.InputPurpose(RESULT);
+        return org.gtk.gtk.InputPurpose.of(RESULT);
     }
     
     /**
@@ -1277,7 +1288,7 @@ public class Entry extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     
     @FunctionalInterface
     public interface Activate {
-        void signalReceived(Entry source);
+        void signalReceived(Entry sourceEntry);
     }
     
     /**
@@ -1307,7 +1318,7 @@ public class Entry extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     
     @FunctionalInterface
     public interface IconPress {
-        void signalReceived(Entry source, @NotNull org.gtk.gtk.EntryIconPosition iconPos);
+        void signalReceived(Entry sourceEntry, @NotNull org.gtk.gtk.EntryIconPosition iconPos);
     }
     
     /**
@@ -1335,7 +1346,7 @@ public class Entry extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     
     @FunctionalInterface
     public interface IconRelease {
-        void signalReceived(Entry source, @NotNull org.gtk.gtk.EntryIconPosition iconPos);
+        void signalReceived(Entry sourceEntry, @NotNull org.gtk.gtk.EntryIconPosition iconPos);
     }
     
     /**
@@ -2249,22 +2260,22 @@ public class Entry extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     
     private static class Callbacks {
         
-        public static void signalEntryActivate(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalEntryActivate(MemoryAddress sourceEntry, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (Entry.Activate) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Entry(source, Ownership.NONE));
+            HANDLER.signalReceived(new Entry(sourceEntry, Ownership.NONE));
         }
         
-        public static void signalEntryIconPress(MemoryAddress source, int iconPos, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalEntryIconPress(MemoryAddress sourceEntry, int iconPos, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (Entry.IconPress) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Entry(source, Ownership.NONE), new org.gtk.gtk.EntryIconPosition(iconPos));
+            HANDLER.signalReceived(new Entry(sourceEntry, Ownership.NONE), org.gtk.gtk.EntryIconPosition.of(iconPos));
         }
         
-        public static void signalEntryIconRelease(MemoryAddress source, int iconPos, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalEntryIconRelease(MemoryAddress sourceEntry, int iconPos, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (Entry.IconRelease) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Entry(source, Ownership.NONE), new org.gtk.gtk.EntryIconPosition(iconPos));
+            HANDLER.signalReceived(new Entry(sourceEntry, Ownership.NONE), org.gtk.gtk.EntryIconPosition.of(iconPos));
         }
     }
 }

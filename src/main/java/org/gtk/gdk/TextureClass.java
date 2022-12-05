@@ -44,32 +44,4 @@ public class TextureClass extends Struct {
     public TextureClass(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
-
-    /**
-     * Inner class implementing a builder pattern to construct 
-     * a struct and set its values.
-     */
-    public static class Build {
-        
-        private TextureClass struct;
-        
-         /**
-         * A {@link TextureClass.Build} object constructs a {@link TextureClass} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
-            struct = TextureClass.allocate();
-        }
-        
-         /**
-         * Finish building the {@link TextureClass} struct.
-         * @return A new instance of {@code TextureClass} with the fields 
-         *         that were set in the Build object.
-         */
-        public TextureClass construct() {
-            return struct;
-        }
-    }
 }

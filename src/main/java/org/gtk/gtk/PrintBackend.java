@@ -44,32 +44,4 @@ public class PrintBackend extends Struct {
     public PrintBackend(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
-
-    /**
-     * Inner class implementing a builder pattern to construct 
-     * a struct and set its values.
-     */
-    public static class Build {
-        
-        private PrintBackend struct;
-        
-         /**
-         * A {@link PrintBackend.Build} object constructs a {@link PrintBackend} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
-            struct = PrintBackend.allocate();
-        }
-        
-         /**
-         * Finish building the {@link PrintBackend} struct.
-         * @return A new instance of {@code PrintBackend} with the fields 
-         *         that were set in the Build object.
-         */
-        public PrintBackend construct() {
-            return struct;
-        }
-    }
 }

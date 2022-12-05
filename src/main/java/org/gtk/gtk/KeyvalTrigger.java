@@ -48,7 +48,11 @@ public class KeyvalTrigger extends org.gtk.gtk.ShortcutTrigger {
      * @throws ClassCastException If the GType is not derived from "GtkKeyvalTrigger", a ClassCastException will be thrown.
      */
     public static KeyvalTrigger castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), KeyvalTrigger.getType())) {
             return new KeyvalTrigger(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkKeyvalTrigger");
+        }
     }
     
     private static Addressable constructNew(int keyval, @NotNull org.gtk.gdk.ModifierType modifiers) {

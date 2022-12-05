@@ -44,32 +44,4 @@ public class NativeSocketAddressPrivate extends Struct {
     public NativeSocketAddressPrivate(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
-
-    /**
-     * Inner class implementing a builder pattern to construct 
-     * a struct and set its values.
-     */
-    public static class Build {
-        
-        private NativeSocketAddressPrivate struct;
-        
-         /**
-         * A {@link NativeSocketAddressPrivate.Build} object constructs a {@link NativeSocketAddressPrivate} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
-            struct = NativeSocketAddressPrivate.allocate();
-        }
-        
-         /**
-         * Finish building the {@link NativeSocketAddressPrivate} struct.
-         * @return A new instance of {@code NativeSocketAddressPrivate} with the fields 
-         *         that were set in the Build object.
-         */
-        public NativeSocketAddressPrivate construct() {
-            return struct;
-        }
-    }
 }

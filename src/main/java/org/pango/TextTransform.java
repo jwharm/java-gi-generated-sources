@@ -9,32 +9,44 @@ import org.jetbrains.annotations.*;
  * An enumeration that affects how Pango treats characters during shaping.
  * @version 1.50
  */
-public class TextTransform extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "PangoTextTransform";
-    
+public enum TextTransform implements io.github.jwharm.javagi.Enumeration {
     /**
      * Leave text unchanged
      */
-    public static final TextTransform NONE = new TextTransform(0);
-    
+    NONE(0),
     /**
      * Display letters and numbers as lowercase
      */
-    public static final TextTransform LOWERCASE = new TextTransform(1);
-    
+    LOWERCASE(1),
     /**
      * Display letters and numbers as uppercase
      */
-    public static final TextTransform UPPERCASE = new TextTransform(2);
-    
+    UPPERCASE(2),
     /**
      * Display the first character of a word
      *   in titlecase
      */
-    public static final TextTransform CAPITALIZE = new TextTransform(3);
+    CAPITALIZE(3);
     
-    public TextTransform(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "PangoTextTransform";
+    
+    private final int value;
+    TextTransform(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static TextTransform of(int value) {
+        return switch (value) {
+            case 0 -> NONE;
+            case 1 -> LOWERCASE;
+            case 2 -> UPPERCASE;
+            case 3 -> CAPITALIZE;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

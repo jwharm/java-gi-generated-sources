@@ -103,12 +103,19 @@ public class Popover extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
     
     /**
      * Create a Popover proxy instance for the provided memory address.
+     * <p>
+     * Because Popover is an {@code InitiallyUnowned} instance, when 
+     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
+     * and a call to {@code refSink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
     @ApiStatus.Internal
     public Popover(Addressable address, Ownership ownership) {
-        super(address, ownership);
+        super(address, Ownership.FULL);
+        if (ownership == Ownership.NONE) {
+            refSink();
+        }
     }
     
     /**
@@ -124,7 +131,11 @@ public class Popover extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      * @throws ClassCastException If the GType is not derived from "GtkPopover", a ClassCastException will be thrown.
      */
     public static Popover castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), Popover.getType())) {
             return new Popover(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkPopover");
+        }
     }
     
     private static Addressable constructNew() {
@@ -279,7 +290,7 @@ public class Popover extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.PositionType(RESULT);
+        return org.gtk.gtk.PositionType.of(RESULT);
     }
     
     /**
@@ -496,7 +507,7 @@ public class Popover extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
     
     @FunctionalInterface
     public interface ActivateDefault {
-        void signalReceived(Popover source);
+        void signalReceived(Popover sourcePopover);
     }
     
     /**
@@ -526,7 +537,7 @@ public class Popover extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
     
     @FunctionalInterface
     public interface Closed {
-        void signalReceived(Popover source);
+        void signalReceived(Popover sourcePopover);
     }
     
     /**
@@ -814,16 +825,16 @@ public class Popover extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
     
     private static class Callbacks {
         
-        public static void signalPopoverActivateDefault(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalPopoverActivateDefault(MemoryAddress sourcePopover, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (Popover.ActivateDefault) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Popover(source, Ownership.NONE));
+            HANDLER.signalReceived(new Popover(sourcePopover, Ownership.NONE));
         }
         
-        public static void signalPopoverClosed(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalPopoverClosed(MemoryAddress sourcePopover, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (Popover.Closed) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Popover(source, Ownership.NONE));
+            HANDLER.signalReceived(new Popover(sourcePopover, Ownership.NONE));
         }
     }
 }

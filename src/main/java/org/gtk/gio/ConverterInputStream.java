@@ -57,7 +57,11 @@ public class ConverterInputStream extends org.gtk.gio.FilterInputStream implemen
      * @throws ClassCastException If the GType is not derived from "GConverterInputStream", a ClassCastException will be thrown.
      */
     public static ConverterInputStream castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), ConverterInputStream.getType())) {
             return new ConverterInputStream(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GConverterInputStream");
+        }
     }
     
     private static Addressable constructNew(@NotNull org.gtk.gio.InputStream baseStream, @NotNull org.gtk.gio.Converter converter) {

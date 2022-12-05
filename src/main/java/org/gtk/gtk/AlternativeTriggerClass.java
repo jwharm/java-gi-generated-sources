@@ -44,32 +44,4 @@ public class AlternativeTriggerClass extends Struct {
     public AlternativeTriggerClass(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
-
-    /**
-     * Inner class implementing a builder pattern to construct 
-     * a struct and set its values.
-     */
-    public static class Build {
-        
-        private AlternativeTriggerClass struct;
-        
-         /**
-         * A {@link AlternativeTriggerClass.Build} object constructs a {@link AlternativeTriggerClass} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
-            struct = AlternativeTriggerClass.allocate();
-        }
-        
-         /**
-         * Finish building the {@link AlternativeTriggerClass} struct.
-         * @return A new instance of {@code AlternativeTriggerClass} with the fields 
-         *         that were set in the Build object.
-         */
-        public AlternativeTriggerClass construct() {
-            return struct;
-        }
-    }
 }

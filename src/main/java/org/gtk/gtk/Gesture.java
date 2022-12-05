@@ -136,7 +136,11 @@ public class Gesture extends org.gtk.gtk.EventController {
      * @throws ClassCastException If the GType is not derived from "GtkGesture", a ClassCastException will be thrown.
      */
     public static Gesture castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), Gesture.getType())) {
             return new Gesture(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkGesture");
+        }
     }
     
     /**
@@ -312,7 +316,7 @@ public class Gesture extends org.gtk.gtk.EventController {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.EventSequenceState(RESULT);
+        return org.gtk.gtk.EventSequenceState.of(RESULT);
     }
     
     /**
@@ -550,7 +554,7 @@ public class Gesture extends org.gtk.gtk.EventController {
     
     @FunctionalInterface
     public interface Begin {
-        void signalReceived(Gesture source, @Nullable org.gtk.gdk.EventSequence sequence);
+        void signalReceived(Gesture sourceGesture, @Nullable org.gtk.gdk.EventSequence sequence);
     }
     
     /**
@@ -586,7 +590,7 @@ public class Gesture extends org.gtk.gtk.EventController {
     
     @FunctionalInterface
     public interface Cancel {
-        void signalReceived(Gesture source, @Nullable org.gtk.gdk.EventSequence sequence);
+        void signalReceived(Gesture sourceGesture, @Nullable org.gtk.gdk.EventSequence sequence);
     }
     
     /**
@@ -623,7 +627,7 @@ public class Gesture extends org.gtk.gtk.EventController {
     
     @FunctionalInterface
     public interface End {
-        void signalReceived(Gesture source, @Nullable org.gtk.gdk.EventSequence sequence);
+        void signalReceived(Gesture sourceGesture, @Nullable org.gtk.gdk.EventSequence sequence);
     }
     
     /**
@@ -659,7 +663,7 @@ public class Gesture extends org.gtk.gtk.EventController {
     
     @FunctionalInterface
     public interface SequenceStateChanged {
-        void signalReceived(Gesture source, @Nullable org.gtk.gdk.EventSequence sequence, @NotNull org.gtk.gtk.EventSequenceState state);
+        void signalReceived(Gesture sourceGesture, @Nullable org.gtk.gdk.EventSequence sequence, @NotNull org.gtk.gtk.EventSequenceState state);
     }
     
     /**
@@ -690,7 +694,7 @@ public class Gesture extends org.gtk.gtk.EventController {
     
     @FunctionalInterface
     public interface Update {
-        void signalReceived(Gesture source, @Nullable org.gtk.gdk.EventSequence sequence);
+        void signalReceived(Gesture sourceGesture, @Nullable org.gtk.gdk.EventSequence sequence);
     }
     
     /**
@@ -878,34 +882,34 @@ public class Gesture extends org.gtk.gtk.EventController {
     
     private static class Callbacks {
         
-        public static void signalGestureBegin(MemoryAddress source, MemoryAddress sequence, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalGestureBegin(MemoryAddress sourceGesture, MemoryAddress sequence, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (Gesture.Begin) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Gesture(source, Ownership.NONE), new org.gtk.gdk.EventSequence(sequence, Ownership.NONE));
+            HANDLER.signalReceived(new Gesture(sourceGesture, Ownership.NONE), new org.gtk.gdk.EventSequence(sequence, Ownership.NONE));
         }
         
-        public static void signalGestureCancel(MemoryAddress source, MemoryAddress sequence, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalGestureCancel(MemoryAddress sourceGesture, MemoryAddress sequence, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (Gesture.Cancel) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Gesture(source, Ownership.NONE), new org.gtk.gdk.EventSequence(sequence, Ownership.NONE));
+            HANDLER.signalReceived(new Gesture(sourceGesture, Ownership.NONE), new org.gtk.gdk.EventSequence(sequence, Ownership.NONE));
         }
         
-        public static void signalGestureEnd(MemoryAddress source, MemoryAddress sequence, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalGestureEnd(MemoryAddress sourceGesture, MemoryAddress sequence, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (Gesture.End) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Gesture(source, Ownership.NONE), new org.gtk.gdk.EventSequence(sequence, Ownership.NONE));
+            HANDLER.signalReceived(new Gesture(sourceGesture, Ownership.NONE), new org.gtk.gdk.EventSequence(sequence, Ownership.NONE));
         }
         
-        public static void signalGestureSequenceStateChanged(MemoryAddress source, MemoryAddress sequence, int state, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalGestureSequenceStateChanged(MemoryAddress sourceGesture, MemoryAddress sequence, int state, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (Gesture.SequenceStateChanged) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Gesture(source, Ownership.NONE), new org.gtk.gdk.EventSequence(sequence, Ownership.NONE), new org.gtk.gtk.EventSequenceState(state));
+            HANDLER.signalReceived(new Gesture(sourceGesture, Ownership.NONE), new org.gtk.gdk.EventSequence(sequence, Ownership.NONE), org.gtk.gtk.EventSequenceState.of(state));
         }
         
-        public static void signalGestureUpdate(MemoryAddress source, MemoryAddress sequence, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalGestureUpdate(MemoryAddress sourceGesture, MemoryAddress sequence, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (Gesture.Update) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Gesture(source, Ownership.NONE), new org.gtk.gdk.EventSequence(sequence, Ownership.NONE));
+            HANDLER.signalReceived(new Gesture(sourceGesture, Ownership.NONE), new org.gtk.gdk.EventSequence(sequence, Ownership.NONE));
         }
     }
 }

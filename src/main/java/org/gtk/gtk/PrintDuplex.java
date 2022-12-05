@@ -8,26 +8,38 @@ import org.jetbrains.annotations.*;
 /**
  * See also gtk_print_settings_set_duplex().
  */
-public class PrintDuplex extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "GtkPrintDuplex";
-    
+public enum PrintDuplex implements io.github.jwharm.javagi.Enumeration {
     /**
      * No duplex.
      */
-    public static final PrintDuplex SIMPLEX = new PrintDuplex(0);
-    
+    SIMPLEX(0),
     /**
      * Horizontal duplex.
      */
-    public static final PrintDuplex HORIZONTAL = new PrintDuplex(1);
-    
+    HORIZONTAL(1),
     /**
      * Vertical duplex.
      */
-    public static final PrintDuplex VERTICAL = new PrintDuplex(2);
+    VERTICAL(2);
     
-    public PrintDuplex(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "GtkPrintDuplex";
+    
+    private final int value;
+    PrintDuplex(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static PrintDuplex of(int value) {
+        return switch (value) {
+            case 0 -> SIMPLEX;
+            case 1 -> HORIZONTAL;
+            case 2 -> VERTICAL;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

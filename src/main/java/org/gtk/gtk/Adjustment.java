@@ -41,12 +41,19 @@ public class Adjustment extends org.gtk.gobject.InitiallyUnowned {
     
     /**
      * Create a Adjustment proxy instance for the provided memory address.
+     * <p>
+     * Because Adjustment is an {@code InitiallyUnowned} instance, when 
+     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
+     * and a call to {@code refSink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
     @ApiStatus.Internal
     public Adjustment(Addressable address, Ownership ownership) {
-        super(address, ownership);
+        super(address, Ownership.FULL);
+        if (ownership == Ownership.NONE) {
+            refSink();
+        }
     }
     
     /**
@@ -62,7 +69,11 @@ public class Adjustment extends org.gtk.gobject.InitiallyUnowned {
      * @throws ClassCastException If the GType is not derived from "GtkAdjustment", a ClassCastException will be thrown.
      */
     public static Adjustment castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), Adjustment.getType())) {
             return new Adjustment(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkAdjustment");
+        }
     }
     
     private static Addressable constructNew(double value, double lower, double upper, double stepIncrement, double pageIncrement, double pageSize) {
@@ -392,7 +403,7 @@ public class Adjustment extends org.gtk.gobject.InitiallyUnowned {
     
     @FunctionalInterface
     public interface Changed {
-        void signalReceived(Adjustment source);
+        void signalReceived(Adjustment sourceAdjustment);
     }
     
     /**
@@ -424,7 +435,7 @@ public class Adjustment extends org.gtk.gobject.InitiallyUnowned {
     
     @FunctionalInterface
     public interface ValueChanged {
-        void signalReceived(Adjustment source);
+        void signalReceived(Adjustment sourceAdjustment);
     }
     
     /**
@@ -665,16 +676,16 @@ public class Adjustment extends org.gtk.gobject.InitiallyUnowned {
     
     private static class Callbacks {
         
-        public static void signalAdjustmentChanged(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalAdjustmentChanged(MemoryAddress sourceAdjustment, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (Adjustment.Changed) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Adjustment(source, Ownership.NONE));
+            HANDLER.signalReceived(new Adjustment(sourceAdjustment, Ownership.NONE));
         }
         
-        public static void signalAdjustmentValueChanged(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalAdjustmentValueChanged(MemoryAddress sourceAdjustment, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (Adjustment.ValueChanged) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Adjustment(source, Ownership.NONE));
+            HANDLER.signalReceived(new Adjustment(sourceAdjustment, Ownership.NONE));
         }
     }
 }

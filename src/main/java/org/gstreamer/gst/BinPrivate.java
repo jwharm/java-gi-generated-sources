@@ -44,32 +44,4 @@ public class BinPrivate extends Struct {
     public BinPrivate(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
-
-    /**
-     * Inner class implementing a builder pattern to construct 
-     * a struct and set its values.
-     */
-    public static class Build {
-        
-        private BinPrivate struct;
-        
-         /**
-         * A {@link BinPrivate.Build} object constructs a {@link BinPrivate} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
-            struct = BinPrivate.allocate();
-        }
-        
-         /**
-         * Finish building the {@link BinPrivate} struct.
-         * @return A new instance of {@code BinPrivate} with the fields 
-         *         that were set in the Build object.
-         */
-        public BinPrivate construct() {
-            return struct;
-        }
-    }
 }

@@ -36,9 +36,8 @@ public class BaseSrcFlags extends io.github.jwharm.javagi.Bitfield {
      * @param mask the value to combine with
      * @return the combined value by calculating {@code this | mask} 
      */
-    public BaseSrcFlags combined(BaseSrcFlags mask) {
-        this.setValue(this.getValue() | mask.getValue());
-        return this;
+    public BaseSrcFlags or(BaseSrcFlags mask) {
+        return new BaseSrcFlags(this.getValue() | mask.getValue());
     }
     
     /**
@@ -48,9 +47,9 @@ public class BaseSrcFlags extends io.github.jwharm.javagi.Bitfield {
      * @return the combined value by calculating {@code mask | masks[0] | masks[1] | ...} 
      */
     public static BaseSrcFlags combined(BaseSrcFlags mask, BaseSrcFlags... masks) {
-        for (BaseSrcFlags arg : masks) {
-            mask.setValue(mask.getValue() | arg.getValue());
+        int value = mask.getValue();        for (BaseSrcFlags arg : masks) {
+            value |= arg.getValue();
         }
-        return mask;
+        return new BaseSrcFlags(value);
     }
 }

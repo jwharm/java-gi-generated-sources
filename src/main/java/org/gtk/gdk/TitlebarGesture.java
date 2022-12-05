@@ -5,17 +5,29 @@ import java.lang.foreign.*;
 import java.lang.invoke.*;
 import org.jetbrains.annotations.*;
 
-public class TitlebarGesture extends io.github.jwharm.javagi.Enumeration {
+public enum TitlebarGesture implements io.github.jwharm.javagi.Enumeration {
+    DOUBLE_CLICK(1),
+    RIGHT_CLICK(2),
+    MIDDLE_CLICK(3);
     
     private static final java.lang.String C_TYPE_NAME = "GdkTitlebarGesture";
     
-    public static final TitlebarGesture DOUBLE_CLICK = new TitlebarGesture(1);
+    private final int value;
+    TitlebarGesture(int value) {
+        this.value = value;
+    }
     
-    public static final TitlebarGesture RIGHT_CLICK = new TitlebarGesture(2);
+    @Override
+    public int getValue() {
+        return value;
+    }
     
-    public static final TitlebarGesture MIDDLE_CLICK = new TitlebarGesture(3);
-    
-    public TitlebarGesture(int value) {
-        super(value);
+    public static TitlebarGesture of(int value) {
+        return switch (value) {
+            case 1 -> DOUBLE_CLICK;
+            case 2 -> RIGHT_CLICK;
+            case 3 -> MIDDLE_CLICK;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

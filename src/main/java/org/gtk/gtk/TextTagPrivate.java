@@ -44,32 +44,4 @@ public class TextTagPrivate extends Struct {
     public TextTagPrivate(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
-
-    /**
-     * Inner class implementing a builder pattern to construct 
-     * a struct and set its values.
-     */
-    public static class Build {
-        
-        private TextTagPrivate struct;
-        
-         /**
-         * A {@link TextTagPrivate.Build} object constructs a {@link TextTagPrivate} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
-            struct = TextTagPrivate.allocate();
-        }
-        
-         /**
-         * Finish building the {@link TextTagPrivate} struct.
-         * @return A new instance of {@code TextTagPrivate} with the fields 
-         *         that were set in the Build object.
-         */
-        public TextTagPrivate construct() {
-            return struct;
-        }
-    }
 }

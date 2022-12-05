@@ -56,7 +56,11 @@ public class Surface extends org.gtk.gobject.Object {
      * @throws ClassCastException If the GType is not derived from "GdkSurface", a ClassCastException will be thrown.
      */
     public static Surface castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), Surface.getType())) {
             return new Surface(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GdkSurface");
+        }
     }
     
     private static Addressable constructNewPopup(@NotNull org.gtk.gdk.Surface parent, boolean autohide) {
@@ -648,7 +652,7 @@ public class Surface extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface EnterMonitor {
-        void signalReceived(Surface source, @NotNull org.gtk.gdk.Monitor monitor);
+        void signalReceived(Surface sourceSurface, @NotNull org.gtk.gdk.Monitor monitor);
     }
     
     /**
@@ -676,7 +680,7 @@ public class Surface extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface Event {
-        boolean signalReceived(Surface source, @NotNull org.gtk.gdk.Event event);
+        boolean signalReceived(Surface sourceSurface, @NotNull org.gtk.gdk.Event event);
     }
     
     /**
@@ -704,7 +708,7 @@ public class Surface extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface Layout {
-        void signalReceived(Surface source, int width, int height);
+        void signalReceived(Surface sourceSurface, int width, int height);
     }
     
     /**
@@ -736,7 +740,7 @@ public class Surface extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface LeaveMonitor {
-        void signalReceived(Surface source, @NotNull org.gtk.gdk.Monitor monitor);
+        void signalReceived(Surface sourceSurface, @NotNull org.gtk.gdk.Monitor monitor);
     }
     
     /**
@@ -764,7 +768,7 @@ public class Surface extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface Render {
-        boolean signalReceived(Surface source, @NotNull org.cairographics.Region region);
+        boolean signalReceived(Surface sourceSurface, @NotNull org.cairographics.Region region);
     }
     
     /**
@@ -1069,34 +1073,34 @@ public class Surface extends org.gtk.gobject.Object {
     
     private static class Callbacks {
         
-        public static void signalSurfaceEnterMonitor(MemoryAddress source, MemoryAddress monitor, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalSurfaceEnterMonitor(MemoryAddress sourceSurface, MemoryAddress monitor, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (Surface.EnterMonitor) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Surface(source, Ownership.NONE), new org.gtk.gdk.Monitor(monitor, Ownership.NONE));
+            HANDLER.signalReceived(new Surface(sourceSurface, Ownership.NONE), new org.gtk.gdk.Monitor(monitor, Ownership.NONE));
         }
         
-        public static boolean signalSurfaceEvent(MemoryAddress source, MemoryAddress event, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static boolean signalSurfaceEvent(MemoryAddress sourceSurface, MemoryAddress event, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (Surface.Event) Interop.signalRegistry.get(HASH);
-            return HANDLER.signalReceived(new Surface(source, Ownership.NONE), new org.gtk.gdk.Event(event, Ownership.NONE));
+            return HANDLER.signalReceived(new Surface(sourceSurface, Ownership.NONE), new org.gtk.gdk.Event(event, Ownership.NONE));
         }
         
-        public static void signalSurfaceLayout(MemoryAddress source, int width, int height, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalSurfaceLayout(MemoryAddress sourceSurface, int width, int height, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (Surface.Layout) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Surface(source, Ownership.NONE), width, height);
+            HANDLER.signalReceived(new Surface(sourceSurface, Ownership.NONE), width, height);
         }
         
-        public static void signalSurfaceLeaveMonitor(MemoryAddress source, MemoryAddress monitor, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalSurfaceLeaveMonitor(MemoryAddress sourceSurface, MemoryAddress monitor, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (Surface.LeaveMonitor) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Surface(source, Ownership.NONE), new org.gtk.gdk.Monitor(monitor, Ownership.NONE));
+            HANDLER.signalReceived(new Surface(sourceSurface, Ownership.NONE), new org.gtk.gdk.Monitor(monitor, Ownership.NONE));
         }
         
-        public static boolean signalSurfaceRender(MemoryAddress source, MemoryAddress region, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static boolean signalSurfaceRender(MemoryAddress sourceSurface, MemoryAddress region, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (Surface.Render) Interop.signalRegistry.get(HASH);
-            return HANDLER.signalReceived(new Surface(source, Ownership.NONE), new org.cairographics.Region(region, Ownership.NONE));
+            return HANDLER.signalReceived(new Surface(sourceSurface, Ownership.NONE), new org.cairographics.Region(region, Ownership.NONE));
         }
     }
 }

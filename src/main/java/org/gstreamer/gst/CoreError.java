@@ -8,91 +8,103 @@ import org.jetbrains.annotations.*;
 /**
  * Core errors are errors inside the core GStreamer library.
  */
-public class CoreError extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "GstCoreError";
-    
+public enum CoreError implements io.github.jwharm.javagi.Enumeration {
     /**
      * a general error which doesn't fit in any other
      * category.  Make sure you add a custom message to the error call.
      */
-    public static final CoreError FAILED = new CoreError(1);
-    
+    FAILED(1),
     /**
      * do not use this except as a placeholder for
      * deciding where to go while developing code.
      */
-    public static final CoreError TOO_LAZY = new CoreError(2);
-    
+    TOO_LAZY(2),
     /**
      * use this when you do not want to implement
      * this functionality yet.
      */
-    public static final CoreError NOT_IMPLEMENTED = new CoreError(3);
-    
+    NOT_IMPLEMENTED(3),
     /**
      * used for state change errors.
      */
-    public static final CoreError STATE_CHANGE = new CoreError(4);
-    
+    STATE_CHANGE(4),
     /**
      * used for pad-related errors.
      */
-    public static final CoreError PAD = new CoreError(5);
-    
+    PAD(5),
     /**
      * used for thread-related errors.
      */
-    public static final CoreError THREAD = new CoreError(6);
-    
+    THREAD(6),
     /**
      * used for negotiation-related errors.
      */
-    public static final CoreError NEGOTIATION = new CoreError(7);
-    
+    NEGOTIATION(7),
     /**
      * used for event-related errors.
      */
-    public static final CoreError EVENT = new CoreError(8);
-    
+    EVENT(8),
     /**
      * used for seek-related errors.
      */
-    public static final CoreError SEEK = new CoreError(9);
-    
+    SEEK(9),
     /**
      * used for caps-related errors.
      */
-    public static final CoreError CAPS = new CoreError(10);
-    
+    CAPS(10),
     /**
      * used for negotiation-related errors.
      */
-    public static final CoreError TAG = new CoreError(11);
-    
+    TAG(11),
     /**
      * used if a plugin is missing.
      */
-    public static final CoreError MISSING_PLUGIN = new CoreError(12);
-    
+    MISSING_PLUGIN(12),
     /**
      * used for clock related errors.
      */
-    public static final CoreError CLOCK = new CoreError(13);
-    
+    CLOCK(13),
     /**
      * used if functionality has been disabled at
      *                           compile time.
      */
-    public static final CoreError DISABLED = new CoreError(14);
-    
+    DISABLED(14),
     /**
      * the number of core error types.
      */
-    public static final CoreError NUM_ERRORS = new CoreError(15);
+    NUM_ERRORS(15);
     
-    public CoreError(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "GstCoreError";
+    
+    private final int value;
+    CoreError(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static CoreError of(int value) {
+        return switch (value) {
+            case 1 -> FAILED;
+            case 2 -> TOO_LAZY;
+            case 3 -> NOT_IMPLEMENTED;
+            case 4 -> STATE_CHANGE;
+            case 5 -> PAD;
+            case 6 -> THREAD;
+            case 7 -> NEGOTIATION;
+            case 8 -> EVENT;
+            case 9 -> SEEK;
+            case 10 -> CAPS;
+            case 11 -> TAG;
+            case 12 -> MISSING_PLUGIN;
+            case 13 -> CLOCK;
+            case 14 -> DISABLED;
+            case 15 -> NUM_ERRORS;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
     
     public static @NotNull org.gtk.glib.Quark quark() {

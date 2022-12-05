@@ -53,7 +53,11 @@ public class Font extends org.gtk.gobject.Object {
      * @throws ClassCastException If the GType is not derived from "PangoFont", a ClassCastException will be thrown.
      */
     public static Font castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), Font.getType())) {
             return new Font(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of PangoFont");
+        }
     }
     
     /**

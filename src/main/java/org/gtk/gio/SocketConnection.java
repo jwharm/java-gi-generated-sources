@@ -69,7 +69,11 @@ public class SocketConnection extends org.gtk.gio.IOStream {
      * @throws ClassCastException If the GType is not derived from "GSocketConnection", a ClassCastException will be thrown.
      */
     public static SocketConnection castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), SocketConnection.getType())) {
             return new SocketConnection(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GSocketConnection");
+        }
     }
     
     /**

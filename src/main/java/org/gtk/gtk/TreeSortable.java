@@ -27,7 +27,11 @@ public interface TreeSortable extends io.github.jwharm.javagi.Proxy {
      * @throws ClassCastException If the GType is not derived from "GtkTreeSortable", a ClassCastException will be thrown.
      */
     public static TreeSortable castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), TreeSortable.getType())) {
             return new TreeSortableImpl(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkTreeSortable");
+        }
     }
     
     /**
@@ -55,7 +59,7 @@ public interface TreeSortable extends io.github.jwharm.javagi.Proxy {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         sortColumnId.set(sortColumnIdPOINTER.get(Interop.valueLayout.C_INT, 0));
-        order.set(new org.gtk.gtk.SortType(orderPOINTER.get(Interop.valueLayout.C_INT, 0)));
+        order.set(org.gtk.gtk.SortType.of(orderPOINTER.get(Interop.valueLayout.C_INT, 0)));
         return RESULT != 0;
     }
     
@@ -185,7 +189,7 @@ public interface TreeSortable extends io.github.jwharm.javagi.Proxy {
     
     @FunctionalInterface
     public interface SortColumnChanged {
-        void signalReceived(TreeSortable source);
+        void signalReceived(TreeSortable sourceTreeSortable);
     }
     
     /**
@@ -269,10 +273,10 @@ public interface TreeSortable extends io.github.jwharm.javagi.Proxy {
     @ApiStatus.Internal
     static class Callbacks {
         
-        public static void signalTreeSortableSortColumnChanged(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalTreeSortableSortColumnChanged(MemoryAddress sourceTreeSortable, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (TreeSortable.SortColumnChanged) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new TreeSortable.TreeSortableImpl(source, Ownership.NONE));
+            HANDLER.signalReceived(new TreeSortable.TreeSortableImpl(sourceTreeSortable, Ownership.NONE));
         }
     }
     

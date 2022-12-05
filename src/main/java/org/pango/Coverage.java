@@ -55,7 +55,11 @@ public class Coverage extends org.gtk.gobject.Object {
      * @throws ClassCastException If the GType is not derived from "PangoCoverage", a ClassCastException will be thrown.
      */
     public static Coverage castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), Coverage.getType())) {
             return new Coverage(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of PangoCoverage");
+        }
     }
     
     private static Addressable constructNew() {
@@ -106,7 +110,7 @@ public class Coverage extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.CoverageLevel(RESULT);
+        return org.pango.CoverageLevel.of(RESULT);
     }
     
     /**

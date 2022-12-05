@@ -250,32 +250,4 @@ public class AttrIterator extends Struct {
             false
         );
     }
-
-    /**
-     * Inner class implementing a builder pattern to construct 
-     * a struct and set its values.
-     */
-    public static class Build {
-        
-        private AttrIterator struct;
-        
-         /**
-         * A {@link AttrIterator.Build} object constructs a {@link AttrIterator} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
-            struct = AttrIterator.allocate();
-        }
-        
-         /**
-         * Finish building the {@link AttrIterator} struct.
-         * @return A new instance of {@code AttrIterator} with the fields 
-         *         that were set in the Build object.
-         */
-        public AttrIterator construct() {
-            return struct;
-        }
-    }
 }

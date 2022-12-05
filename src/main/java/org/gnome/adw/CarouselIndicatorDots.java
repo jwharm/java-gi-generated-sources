@@ -44,12 +44,19 @@ public class CarouselIndicatorDots extends org.gtk.gtk.Widget implements org.gtk
     
     /**
      * Create a CarouselIndicatorDots proxy instance for the provided memory address.
+     * <p>
+     * Because CarouselIndicatorDots is an {@code InitiallyUnowned} instance, when 
+     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
+     * and a call to {@code refSink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
     @ApiStatus.Internal
     public CarouselIndicatorDots(Addressable address, Ownership ownership) {
-        super(address, ownership);
+        super(address, Ownership.FULL);
+        if (ownership == Ownership.NONE) {
+            refSink();
+        }
     }
     
     /**
@@ -65,7 +72,11 @@ public class CarouselIndicatorDots extends org.gtk.gtk.Widget implements org.gtk
      * @throws ClassCastException If the GType is not derived from "AdwCarouselIndicatorDots", a ClassCastException will be thrown.
      */
     public static CarouselIndicatorDots castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), CarouselIndicatorDots.getType())) {
             return new CarouselIndicatorDots(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of AdwCarouselIndicatorDots");
+        }
     }
     
     private static Addressable constructNew() {

@@ -621,32 +621,4 @@ public class Poll extends Struct {
             false
         );
     }
-
-    /**
-     * Inner class implementing a builder pattern to construct 
-     * a struct and set its values.
-     */
-    public static class Build {
-        
-        private Poll struct;
-        
-         /**
-         * A {@link Poll.Build} object constructs a {@link Poll} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
-            struct = Poll.allocate();
-        }
-        
-         /**
-         * Finish building the {@link Poll} struct.
-         * @return A new instance of {@code Poll} with the fields 
-         *         that were set in the Build object.
-         */
-        public Poll construct() {
-            return struct;
-        }
-    }
 }

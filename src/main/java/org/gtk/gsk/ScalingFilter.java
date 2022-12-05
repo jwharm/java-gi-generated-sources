@@ -11,28 +11,40 @@ import org.jetbrains.annotations.*;
  * The actual implementation of each filter is deferred to the
  * rendering pipeline.
  */
-public class ScalingFilter extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "GskScalingFilter";
-    
+public enum ScalingFilter implements io.github.jwharm.javagi.Enumeration {
     /**
      * linear interpolation filter
      */
-    public static final ScalingFilter LINEAR = new ScalingFilter(0);
-    
+    LINEAR(0),
     /**
      * nearest neighbor interpolation filter
      */
-    public static final ScalingFilter NEAREST = new ScalingFilter(1);
-    
+    NEAREST(1),
     /**
      * linear interpolation along each axis,
      *   plus mipmap generation, with linear interpolation along the mipmap
      *   levels
      */
-    public static final ScalingFilter TRILINEAR = new ScalingFilter(2);
+    TRILINEAR(2);
     
-    public ScalingFilter(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "GskScalingFilter";
+    
+    private final int value;
+    ScalingFilter(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static ScalingFilter of(int value) {
+        return switch (value) {
+            case 0 -> LINEAR;
+            case 1 -> NEAREST;
+            case 2 -> TRILINEAR;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

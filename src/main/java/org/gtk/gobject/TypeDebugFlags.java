@@ -50,9 +50,8 @@ public class TypeDebugFlags extends io.github.jwharm.javagi.Bitfield {
      * @param mask the value to combine with
      * @return the combined value by calculating {@code this | mask} 
      */
-    public TypeDebugFlags combined(TypeDebugFlags mask) {
-        this.setValue(this.getValue() | mask.getValue());
-        return this;
+    public TypeDebugFlags or(TypeDebugFlags mask) {
+        return new TypeDebugFlags(this.getValue() | mask.getValue());
     }
     
     /**
@@ -62,9 +61,9 @@ public class TypeDebugFlags extends io.github.jwharm.javagi.Bitfield {
      * @return the combined value by calculating {@code mask | masks[0] | masks[1] | ...} 
      */
     public static TypeDebugFlags combined(TypeDebugFlags mask, TypeDebugFlags... masks) {
-        for (TypeDebugFlags arg : masks) {
-            mask.setValue(mask.getValue() | arg.getValue());
+        int value = mask.getValue();        for (TypeDebugFlags arg : masks) {
+            value |= arg.getValue();
         }
-        return mask;
+        return new TypeDebugFlags(value);
     }
 }

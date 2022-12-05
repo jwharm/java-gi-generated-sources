@@ -48,7 +48,11 @@ public class CrossingEvent extends org.gtk.gdk.Event {
      * @throws ClassCastException If the GType is not derived from "GdkCrossingEvent", a ClassCastException will be thrown.
      */
     public static CrossingEvent castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), CrossingEvent.getType())) {
             return new CrossingEvent(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GdkCrossingEvent");
+        }
     }
     
     /**
@@ -63,7 +67,7 @@ public class CrossingEvent extends org.gtk.gdk.Event {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gdk.NotifyType(RESULT);
+        return org.gtk.gdk.NotifyType.of(RESULT);
     }
     
     /**
@@ -93,7 +97,7 @@ public class CrossingEvent extends org.gtk.gdk.Event {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gdk.CrossingMode(RESULT);
+        return org.gtk.gdk.CrossingMode.of(RESULT);
     }
     
     /**

@@ -87,12 +87,19 @@ public class ComboBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     
     /**
      * Create a ComboBox proxy instance for the provided memory address.
+     * <p>
+     * Because ComboBox is an {@code InitiallyUnowned} instance, when 
+     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
+     * and a call to {@code refSink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
     @ApiStatus.Internal
     public ComboBox(Addressable address, Ownership ownership) {
-        super(address, ownership);
+        super(address, Ownership.FULL);
+        if (ownership == Ownership.NONE) {
+            refSink();
+        }
     }
     
     /**
@@ -108,7 +115,11 @@ public class ComboBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * @throws ClassCastException If the GType is not derived from "GtkComboBox", a ClassCastException will be thrown.
      */
     public static ComboBox castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), ComboBox.getType())) {
             return new ComboBox(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkComboBox");
+        }
     }
     
     private static Addressable constructNew() {
@@ -279,7 +290,7 @@ public class ComboBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.SensitivityType(RESULT);
+        return org.gtk.gtk.SensitivityType.of(RESULT);
     }
     
     /**
@@ -644,7 +655,7 @@ public class ComboBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     
     @FunctionalInterface
     public interface Activate {
-        void signalReceived(ComboBox source);
+        void signalReceived(ComboBox sourceComboBox);
     }
     
     /**
@@ -675,7 +686,7 @@ public class ComboBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     
     @FunctionalInterface
     public interface Changed {
-        void signalReceived(ComboBox source);
+        void signalReceived(ComboBox sourceComboBox);
     }
     
     /**
@@ -707,7 +718,7 @@ public class ComboBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     
     @FunctionalInterface
     public interface FormatEntryText {
-        void signalReceived(ComboBox source, @NotNull java.lang.String path);
+        void signalReceived(ComboBox sourceComboBox, @NotNull java.lang.String path);
     }
     
     /**
@@ -765,7 +776,7 @@ public class ComboBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     
     @FunctionalInterface
     public interface MoveActive {
-        void signalReceived(ComboBox source, @NotNull org.gtk.gtk.ScrollType scrollType);
+        void signalReceived(ComboBox sourceComboBox, @NotNull org.gtk.gtk.ScrollType scrollType);
     }
     
     /**
@@ -795,7 +806,7 @@ public class ComboBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     
     @FunctionalInterface
     public interface Popdown {
-        boolean signalReceived(ComboBox source);
+        boolean signalReceived(ComboBox sourceComboBox);
     }
     
     /**
@@ -827,7 +838,7 @@ public class ComboBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     
     @FunctionalInterface
     public interface Popup {
-        void signalReceived(ComboBox source);
+        void signalReceived(ComboBox sourceComboBox);
     }
     
     /**
@@ -1206,40 +1217,40 @@ public class ComboBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     
     private static class Callbacks {
         
-        public static void signalComboBoxActivate(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalComboBoxActivate(MemoryAddress sourceComboBox, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (ComboBox.Activate) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new ComboBox(source, Ownership.NONE));
+            HANDLER.signalReceived(new ComboBox(sourceComboBox, Ownership.NONE));
         }
         
-        public static void signalComboBoxChanged(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalComboBoxChanged(MemoryAddress sourceComboBox, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (ComboBox.Changed) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new ComboBox(source, Ownership.NONE));
+            HANDLER.signalReceived(new ComboBox(sourceComboBox, Ownership.NONE));
         }
         
-        public static void signalComboBoxFormatEntryText(MemoryAddress source, MemoryAddress path, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalComboBoxFormatEntryText(MemoryAddress sourceComboBox, MemoryAddress path, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (ComboBox.FormatEntryText) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new ComboBox(source, Ownership.NONE), Interop.getStringFrom(path));
+            HANDLER.signalReceived(new ComboBox(sourceComboBox, Ownership.NONE), Interop.getStringFrom(path));
         }
         
-        public static void signalComboBoxMoveActive(MemoryAddress source, int scrollType, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalComboBoxMoveActive(MemoryAddress sourceComboBox, int scrollType, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (ComboBox.MoveActive) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new ComboBox(source, Ownership.NONE), new org.gtk.gtk.ScrollType(scrollType));
+            HANDLER.signalReceived(new ComboBox(sourceComboBox, Ownership.NONE), org.gtk.gtk.ScrollType.of(scrollType));
         }
         
-        public static boolean signalComboBoxPopdown(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static boolean signalComboBoxPopdown(MemoryAddress sourceComboBox, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (ComboBox.Popdown) Interop.signalRegistry.get(HASH);
-            return HANDLER.signalReceived(new ComboBox(source, Ownership.NONE));
+            return HANDLER.signalReceived(new ComboBox(sourceComboBox, Ownership.NONE));
         }
         
-        public static void signalComboBoxPopup(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalComboBoxPopup(MemoryAddress sourceComboBox, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (ComboBox.Popup) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new ComboBox(source, Ownership.NONE));
+            HANDLER.signalReceived(new ComboBox(sourceComboBox, Ownership.NONE));
         }
     }
 }

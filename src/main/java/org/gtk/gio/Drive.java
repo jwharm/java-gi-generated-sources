@@ -48,7 +48,11 @@ public interface Drive extends io.github.jwharm.javagi.Proxy {
      * @throws ClassCastException If the GType is not derived from "GDrive", a ClassCastException will be thrown.
      */
     public static Drive castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), Drive.getType())) {
             return new DriveImpl(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GDrive");
+        }
     }
     
     /**
@@ -338,7 +342,7 @@ public interface Drive extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.DriveStartStopType(RESULT);
+        return org.gtk.gio.DriveStartStopType.of(RESULT);
     }
     
     /**
@@ -632,7 +636,7 @@ public interface Drive extends io.github.jwharm.javagi.Proxy {
     
     @FunctionalInterface
     public interface Changed {
-        void signalReceived(Drive source);
+        void signalReceived(Drive sourceDrive);
     }
     
     /**
@@ -660,7 +664,7 @@ public interface Drive extends io.github.jwharm.javagi.Proxy {
     
     @FunctionalInterface
     public interface Disconnected {
-        void signalReceived(Drive source);
+        void signalReceived(Drive sourceDrive);
     }
     
     /**
@@ -691,7 +695,7 @@ public interface Drive extends io.github.jwharm.javagi.Proxy {
     
     @FunctionalInterface
     public interface EjectButton {
-        void signalReceived(Drive source);
+        void signalReceived(Drive sourceDrive);
     }
     
     /**
@@ -720,7 +724,7 @@ public interface Drive extends io.github.jwharm.javagi.Proxy {
     
     @FunctionalInterface
     public interface StopButton {
-        void signalReceived(Drive source);
+        void signalReceived(Drive sourceDrive);
     }
     
     /**
@@ -957,28 +961,28 @@ public interface Drive extends io.github.jwharm.javagi.Proxy {
     @ApiStatus.Internal
     static class Callbacks {
         
-        public static void signalDriveChanged(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalDriveChanged(MemoryAddress sourceDrive, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (Drive.Changed) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Drive.DriveImpl(source, Ownership.NONE));
+            HANDLER.signalReceived(new Drive.DriveImpl(sourceDrive, Ownership.NONE));
         }
         
-        public static void signalDriveDisconnected(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalDriveDisconnected(MemoryAddress sourceDrive, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (Drive.Disconnected) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Drive.DriveImpl(source, Ownership.NONE));
+            HANDLER.signalReceived(new Drive.DriveImpl(sourceDrive, Ownership.NONE));
         }
         
-        public static void signalDriveEjectButton(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalDriveEjectButton(MemoryAddress sourceDrive, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (Drive.EjectButton) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Drive.DriveImpl(source, Ownership.NONE));
+            HANDLER.signalReceived(new Drive.DriveImpl(sourceDrive, Ownership.NONE));
         }
         
-        public static void signalDriveStopButton(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalDriveStopButton(MemoryAddress sourceDrive, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (Drive.StopButton) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Drive.DriveImpl(source, Ownership.NONE));
+            HANDLER.signalReceived(new Drive.DriveImpl(sourceDrive, Ownership.NONE));
         }
     }
     

@@ -58,7 +58,11 @@ public class TcpWrapperConnection extends org.gtk.gio.TcpConnection {
      * @throws ClassCastException If the GType is not derived from "GTcpWrapperConnection", a ClassCastException will be thrown.
      */
     public static TcpWrapperConnection castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), TcpWrapperConnection.getType())) {
             return new TcpWrapperConnection(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GTcpWrapperConnection");
+        }
     }
     
     private static Addressable constructNew(@NotNull org.gtk.gio.IOStream baseIoStream, @NotNull org.gtk.gio.Socket socket) {

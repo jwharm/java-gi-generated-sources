@@ -50,12 +50,19 @@ public class LinkButton extends org.gtk.gtk.Button implements org.gtk.gtk.Access
     
     /**
      * Create a LinkButton proxy instance for the provided memory address.
+     * <p>
+     * Because LinkButton is an {@code InitiallyUnowned} instance, when 
+     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
+     * and a call to {@code refSink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
     @ApiStatus.Internal
     public LinkButton(Addressable address, Ownership ownership) {
-        super(address, ownership);
+        super(address, Ownership.FULL);
+        if (ownership == Ownership.NONE) {
+            refSink();
+        }
     }
     
     /**
@@ -71,7 +78,11 @@ public class LinkButton extends org.gtk.gtk.Button implements org.gtk.gtk.Access
      * @throws ClassCastException If the GType is not derived from "GtkLinkButton", a ClassCastException will be thrown.
      */
     public static LinkButton castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), LinkButton.getType())) {
             return new LinkButton(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkLinkButton");
+        }
     }
     
     private static Addressable constructNew(@NotNull java.lang.String uri) {
@@ -202,7 +213,7 @@ public class LinkButton extends org.gtk.gtk.Button implements org.gtk.gtk.Access
     
     @FunctionalInterface
     public interface ActivateLink {
-        boolean signalReceived(LinkButton source);
+        boolean signalReceived(LinkButton sourceLinkButton);
     }
     
     /**
@@ -341,10 +352,10 @@ public class LinkButton extends org.gtk.gtk.Button implements org.gtk.gtk.Access
     
     private static class Callbacks {
         
-        public static boolean signalLinkButtonActivateLink(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static boolean signalLinkButtonActivateLink(MemoryAddress sourceLinkButton, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (LinkButton.ActivateLink) Interop.signalRegistry.get(HASH);
-            return HANDLER.signalReceived(new LinkButton(source, Ownership.NONE));
+            return HANDLER.signalReceived(new LinkButton(sourceLinkButton, Ownership.NONE));
         }
     }
 }

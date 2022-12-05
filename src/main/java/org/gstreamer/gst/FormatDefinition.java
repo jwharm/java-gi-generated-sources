@@ -54,7 +54,7 @@ public class FormatDefinition extends Struct {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("value"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new org.gstreamer.gst.Format(RESULT);
+        return org.gstreamer.gst.Format.of(RESULT);
     }
     
     /**

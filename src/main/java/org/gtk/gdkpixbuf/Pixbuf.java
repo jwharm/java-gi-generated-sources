@@ -175,7 +175,11 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
      * @throws ClassCastException If the GType is not derived from "GdkPixbuf", a ClassCastException will be thrown.
      */
     public static Pixbuf castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), Pixbuf.getType())) {
             return new Pixbuf(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GdkPixbuf");
+        }
     }
     
     private static Addressable constructNew(@NotNull org.gtk.gdkpixbuf.Colorspace colorspace, boolean hasAlpha, int bitsPerSample, int width, int height) {
@@ -1086,7 +1090,7 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gdkpixbuf.Colorspace(RESULT);
+        return org.gtk.gdkpixbuf.Colorspace.of(RESULT);
     }
     
     /**

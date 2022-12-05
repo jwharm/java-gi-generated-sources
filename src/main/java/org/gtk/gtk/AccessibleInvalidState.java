@@ -13,31 +13,43 @@ import org.jetbrains.annotations.*;
  * {@link AccessibleInvalidState#TRUE} have the same values
  * as {@code false} and {@code true}.
  */
-public class AccessibleInvalidState extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "GtkAccessibleInvalidState";
-    
+public enum AccessibleInvalidState implements io.github.jwharm.javagi.Enumeration {
     /**
      * There are no detected errors in the value
      */
-    public static final AccessibleInvalidState FALSE = new AccessibleInvalidState(0);
-    
+    FALSE(0),
     /**
      * The value entered by the user has failed validation
      */
-    public static final AccessibleInvalidState TRUE = new AccessibleInvalidState(1);
-    
+    TRUE(1),
     /**
      * A grammatical error was detected
      */
-    public static final AccessibleInvalidState GRAMMAR = new AccessibleInvalidState(2);
-    
+    GRAMMAR(2),
     /**
      * A spelling error was detected
      */
-    public static final AccessibleInvalidState SPELLING = new AccessibleInvalidState(3);
+    SPELLING(3);
     
-    public AccessibleInvalidState(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "GtkAccessibleInvalidState";
+    
+    private final int value;
+    AccessibleInvalidState(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static AccessibleInvalidState of(int value) {
+        return switch (value) {
+            case 0 -> FALSE;
+            case 1 -> TRUE;
+            case 2 -> GRAMMAR;
+            case 3 -> SPELLING;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

@@ -13,31 +13,43 @@ import org.jetbrains.annotations.*;
  * text in order to make it fit to a given width and replaced
  * with an ellipsis.
  */
-public class EllipsizeMode extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "PangoEllipsizeMode";
-    
+public enum EllipsizeMode implements io.github.jwharm.javagi.Enumeration {
     /**
      * No ellipsization
      */
-    public static final EllipsizeMode NONE = new EllipsizeMode(0);
-    
+    NONE(0),
     /**
      * Omit characters at the start of the text
      */
-    public static final EllipsizeMode START = new EllipsizeMode(1);
-    
+    START(1),
     /**
      * Omit characters in the middle of the text
      */
-    public static final EllipsizeMode MIDDLE = new EllipsizeMode(2);
-    
+    MIDDLE(2),
     /**
      * Omit characters at the end of the text
      */
-    public static final EllipsizeMode END = new EllipsizeMode(3);
+    END(3);
     
-    public EllipsizeMode(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "PangoEllipsizeMode";
+    
+    private final int value;
+    EllipsizeMode(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static EllipsizeMode of(int value) {
+        return switch (value) {
+            case 0 -> NONE;
+            case 1 -> START;
+            case 2 -> MIDDLE;
+            case 3 -> END;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

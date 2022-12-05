@@ -14,21 +14,33 @@ import org.jetbrains.annotations.*;
  * {@link LogWriterOutput#HANDLED}.
  * @version 2.50
  */
-public class LogWriterOutput extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "GLogWriterOutput";
-    
+public enum LogWriterOutput implements io.github.jwharm.javagi.Enumeration {
     /**
      * Log writer has handled the log entry.
      */
-    public static final LogWriterOutput HANDLED = new LogWriterOutput(1);
-    
+    HANDLED(1),
     /**
      * Log writer could not handle the log entry.
      */
-    public static final LogWriterOutput UNHANDLED = new LogWriterOutput(0);
+    UNHANDLED(0);
     
-    public LogWriterOutput(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "GLogWriterOutput";
+    
+    private final int value;
+    LogWriterOutput(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static LogWriterOutput of(int value) {
+        return switch (value) {
+            case 1 -> HANDLED;
+            case 0 -> UNHANDLED;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

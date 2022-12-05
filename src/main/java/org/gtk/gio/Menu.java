@@ -56,7 +56,11 @@ public class Menu extends org.gtk.gio.MenuModel {
      * @throws ClassCastException If the GType is not derived from "GMenu", a ClassCastException will be thrown.
      */
     public static Menu castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), Menu.getType())) {
             return new Menu(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GMenu");
+        }
     }
     
     private static Addressable constructNew() {

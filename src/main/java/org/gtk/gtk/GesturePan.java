@@ -61,7 +61,11 @@ public class GesturePan extends org.gtk.gtk.GestureDrag {
      * @throws ClassCastException If the GType is not derived from "GtkGesturePan", a ClassCastException will be thrown.
      */
     public static GesturePan castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), GesturePan.getType())) {
             return new GesturePan(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkGesturePan");
+        }
     }
     
     private static Addressable constructNew(@NotNull org.gtk.gtk.Orientation orientation) {
@@ -96,7 +100,7 @@ public class GesturePan extends org.gtk.gtk.GestureDrag {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.Orientation(RESULT);
+        return org.gtk.gtk.Orientation.of(RESULT);
     }
     
     /**
@@ -130,7 +134,7 @@ public class GesturePan extends org.gtk.gtk.GestureDrag {
     
     @FunctionalInterface
     public interface Pan {
-        void signalReceived(GesturePan source, @NotNull org.gtk.gtk.PanDirection direction, double offset);
+        void signalReceived(GesturePan sourceGesturePan, @NotNull org.gtk.gtk.PanDirection direction, double offset);
     }
     
     /**
@@ -231,10 +235,10 @@ public class GesturePan extends org.gtk.gtk.GestureDrag {
     
     private static class Callbacks {
         
-        public static void signalGesturePanPan(MemoryAddress source, int direction, double offset, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalGesturePanPan(MemoryAddress sourceGesturePan, int direction, double offset, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (GesturePan.Pan) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new GesturePan(source, Ownership.NONE), new org.gtk.gtk.PanDirection(direction), offset);
+            HANDLER.signalReceived(new GesturePan(sourceGesturePan, Ownership.NONE), org.gtk.gtk.PanDirection.of(direction), offset);
         }
     }
 }

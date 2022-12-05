@@ -40,12 +40,29 @@ public final class Pango {
     public static final int ATTR_INDEX_FROM_TEXT_BEGINNING = 0;
     
     /**
+     * Value for {@code end_index} in {@code PangoAttribute} that indicates
+     * the end of the text.
+     */
+    public static final int ATTR_INDEX_TO_TEXT_END = -1;
+    
+    /**
      * A {@code PangoGlyph} value that indicates a zero-width empty glpyh.
      * <p>
      * This is useful for example in shaper modules, to use as the glyph for
      * various zero-width Unicode characters (those passing {@link Pango#isZeroWidth}).
      */
     public static final org.pango.Glyph GLYPH_EMPTY = new org.pango.Glyph(268435455);
+    
+    /**
+     * A {@code PangoGlyph} value for invalid input.
+     * <p>
+     * {@code PangoLayout} produces one such glyph per invalid input UTF-8 byte and such
+     * a glyph is rendered as a crossed box.
+     * <p>
+     * Note that this value is defined such that it has the {@code PANGO_GLYPH_UNKNOWN_FLAG}
+     * set.
+     */
+    public static final org.pango.Glyph GLYPH_INVALID_INPUT = new org.pango.Glyph(-1);
     
     /**
      * Flag used in {@code PangoGlyph} to turn a {@code gunichar} value of a valid Unicode
@@ -882,7 +899,7 @@ public final class Pango {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.AttrType(RESULT);
+        return org.pango.AttrType.of(RESULT);
     }
     
     /**
@@ -1003,7 +1020,7 @@ public final class Pango {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.BidiType(RESULT);
+        return org.pango.BidiType.of(RESULT);
     }
     
     /**
@@ -1116,7 +1133,7 @@ public final class Pango {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.Direction(RESULT);
+        return org.pango.Direction.of(RESULT);
     }
     
     /**
@@ -1295,7 +1312,7 @@ public final class Pango {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.Gravity(RESULT);
+        return org.pango.Gravity.of(RESULT);
     }
     
     /**
@@ -1325,7 +1342,7 @@ public final class Pango {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.Gravity(RESULT);
+        return org.pango.Gravity.of(RESULT);
     }
     
     /**
@@ -1365,7 +1382,7 @@ public final class Pango {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.Gravity(RESULT);
+        return org.pango.Gravity.of(RESULT);
     }
     
     /**
@@ -1837,7 +1854,7 @@ public final class Pango {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        stretch.set(new org.pango.Stretch(stretchPOINTER.get(Interop.valueLayout.C_INT, 0)));
+        stretch.set(org.pango.Stretch.of(stretchPOINTER.get(Interop.valueLayout.C_INT, 0)));
         return RESULT != 0;
     }
     
@@ -1865,7 +1882,7 @@ public final class Pango {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        style.set(new org.pango.Style(stylePOINTER.get(Interop.valueLayout.C_INT, 0)));
+        style.set(org.pango.Style.of(stylePOINTER.get(Interop.valueLayout.C_INT, 0)));
         return RESULT != 0;
     }
     
@@ -1893,7 +1910,7 @@ public final class Pango {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        variant.set(new org.pango.Variant(variantPOINTER.get(Interop.valueLayout.C_INT, 0)));
+        variant.set(org.pango.Variant.of(variantPOINTER.get(Interop.valueLayout.C_INT, 0)));
         return RESULT != 0;
     }
     
@@ -1921,7 +1938,7 @@ public final class Pango {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        weight.set(new org.pango.Weight(weightPOINTER.get(Interop.valueLayout.C_INT, 0)));
+        weight.set(org.pango.Weight.of(weightPOINTER.get(Interop.valueLayout.C_INT, 0)));
         return RESULT != 0;
     }
     
@@ -2114,7 +2131,7 @@ public final class Pango {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.Script(RESULT);
+        return org.pango.Script.of(RESULT);
     }
     
     /**
@@ -2471,7 +2488,7 @@ public final class Pango {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.Direction(RESULT);
+        return org.pango.Direction.of(RESULT);
     }
     
     /**

@@ -48,7 +48,11 @@ public class FixedLayoutChild extends org.gtk.gtk.LayoutChild {
      * @throws ClassCastException If the GType is not derived from "GtkFixedLayoutChild", a ClassCastException will be thrown.
      */
     public static FixedLayoutChild castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), FixedLayoutChild.getType())) {
             return new FixedLayoutChild(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkFixedLayoutChild");
+        }
     }
     
     /**

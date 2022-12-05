@@ -26,66 +26,78 @@ import org.jetbrains.annotations.*;
  * This enumeration may be extended in the future; input methods should
  * interpret unknown values as “free form”.
  */
-public class InputPurpose extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "GtkInputPurpose";
-    
+public enum InputPurpose implements io.github.jwharm.javagi.Enumeration {
     /**
      * Allow any character
      */
-    public static final InputPurpose FREE_FORM = new InputPurpose(0);
-    
+    FREE_FORM(0),
     /**
      * Allow only alphabetic characters
      */
-    public static final InputPurpose ALPHA = new InputPurpose(1);
-    
+    ALPHA(1),
     /**
      * Allow only digits
      */
-    public static final InputPurpose DIGITS = new InputPurpose(2);
-    
+    DIGITS(2),
     /**
      * Edited field expects numbers
      */
-    public static final InputPurpose NUMBER = new InputPurpose(3);
-    
+    NUMBER(3),
     /**
      * Edited field expects phone number
      */
-    public static final InputPurpose PHONE = new InputPurpose(4);
-    
+    PHONE(4),
     /**
      * Edited field expects URL
      */
-    public static final InputPurpose URL = new InputPurpose(5);
-    
+    URL(5),
     /**
      * Edited field expects email address
      */
-    public static final InputPurpose EMAIL = new InputPurpose(6);
-    
+    EMAIL(6),
     /**
      * Edited field expects the name of a person
      */
-    public static final InputPurpose NAME = new InputPurpose(7);
-    
+    NAME(7),
     /**
      * Like {@link InputPurpose#FREE_FORM}, but characters are hidden
      */
-    public static final InputPurpose PASSWORD = new InputPurpose(8);
-    
+    PASSWORD(8),
     /**
      * Like {@link InputPurpose#DIGITS}, but characters are hidden
      */
-    public static final InputPurpose PIN = new InputPurpose(9);
-    
+    PIN(9),
     /**
      * Allow any character, in addition to control codes
      */
-    public static final InputPurpose TERMINAL = new InputPurpose(10);
+    TERMINAL(10);
     
-    public InputPurpose(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "GtkInputPurpose";
+    
+    private final int value;
+    InputPurpose(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static InputPurpose of(int value) {
+        return switch (value) {
+            case 0 -> FREE_FORM;
+            case 1 -> ALPHA;
+            case 2 -> DIGITS;
+            case 3 -> NUMBER;
+            case 4 -> PHONE;
+            case 5 -> URL;
+            case 6 -> EMAIL;
+            case 7 -> NAME;
+            case 8 -> PASSWORD;
+            case 9 -> PIN;
+            case 10 -> TERMINAL;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

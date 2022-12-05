@@ -23,7 +23,11 @@ public interface DragSurface extends io.github.jwharm.javagi.Proxy {
      * @throws ClassCastException If the GType is not derived from "GdkDragSurface", a ClassCastException will be thrown.
      */
     public static DragSurface castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), DragSurface.getType())) {
             return new DragSurfaceImpl(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GdkDragSurface");
+        }
     }
     
     /**

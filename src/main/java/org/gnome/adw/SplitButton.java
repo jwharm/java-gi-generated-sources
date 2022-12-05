@@ -61,12 +61,19 @@ public class SplitButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
     
     /**
      * Create a SplitButton proxy instance for the provided memory address.
+     * <p>
+     * Because SplitButton is an {@code InitiallyUnowned} instance, when 
+     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
+     * and a call to {@code refSink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
     @ApiStatus.Internal
     public SplitButton(Addressable address, Ownership ownership) {
-        super(address, ownership);
+        super(address, Ownership.FULL);
+        if (ownership == Ownership.NONE) {
+            refSink();
+        }
     }
     
     /**
@@ -82,7 +89,11 @@ public class SplitButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
      * @throws ClassCastException If the GType is not derived from "AdwSplitButton", a ClassCastException will be thrown.
      */
     public static SplitButton castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), SplitButton.getType())) {
             return new SplitButton(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of AdwSplitButton");
+        }
     }
     
     private static Addressable constructNew() {
@@ -129,7 +140,7 @@ public class SplitButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.ArrowType(RESULT);
+        return org.gtk.gtk.ArrowType.of(RESULT);
     }
     
     /**
@@ -412,7 +423,7 @@ public class SplitButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
     
     @FunctionalInterface
     public interface Activate {
-        void signalReceived(SplitButton source);
+        void signalReceived(SplitButton sourceSplitButton);
     }
     
     /**
@@ -443,7 +454,7 @@ public class SplitButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
     
     @FunctionalInterface
     public interface Clicked {
-        void signalReceived(SplitButton source);
+        void signalReceived(SplitButton sourceSplitButton);
     }
     
     /**
@@ -751,16 +762,16 @@ public class SplitButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
     
     private static class Callbacks {
         
-        public static void signalSplitButtonActivate(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalSplitButtonActivate(MemoryAddress sourceSplitButton, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (SplitButton.Activate) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new SplitButton(source, Ownership.NONE));
+            HANDLER.signalReceived(new SplitButton(sourceSplitButton, Ownership.NONE));
         }
         
-        public static void signalSplitButtonClicked(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalSplitButtonClicked(MemoryAddress sourceSplitButton, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (SplitButton.Clicked) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new SplitButton(source, Ownership.NONE));
+            HANDLER.signalReceived(new SplitButton(sourceSplitButton, Ownership.NONE));
         }
     }
 }

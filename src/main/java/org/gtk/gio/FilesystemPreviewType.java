@@ -10,26 +10,38 @@ import org.jetbrains.annotations.*;
  * previewed in a file manager. Returned as the value of the key
  * {@code G_FILE_ATTRIBUTE_FILESYSTEM_USE_PREVIEW}.
  */
-public class FilesystemPreviewType extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "GFilesystemPreviewType";
-    
+public enum FilesystemPreviewType implements io.github.jwharm.javagi.Enumeration {
     /**
      * Only preview files if user has explicitly requested it.
      */
-    public static final FilesystemPreviewType IF_ALWAYS = new FilesystemPreviewType(0);
-    
+    IF_ALWAYS(0),
     /**
      * Preview files if user has requested preview of "local" files.
      */
-    public static final FilesystemPreviewType IF_LOCAL = new FilesystemPreviewType(1);
-    
+    IF_LOCAL(1),
     /**
      * Never preview files.
      */
-    public static final FilesystemPreviewType NEVER = new FilesystemPreviewType(2);
+    NEVER(2);
     
-    public FilesystemPreviewType(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "GFilesystemPreviewType";
+    
+    private final int value;
+    FilesystemPreviewType(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static FilesystemPreviewType of(int value) {
+        return switch (value) {
+            case 0 -> IF_ALWAYS;
+            case 1 -> IF_LOCAL;
+            case 2 -> NEVER;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

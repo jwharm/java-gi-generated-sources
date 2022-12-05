@@ -8,31 +8,43 @@ import org.jetbrains.annotations.*;
 /**
  * Describes the panning direction of a {@link GesturePan}.
  */
-public class PanDirection extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "GtkPanDirection";
-    
+public enum PanDirection implements io.github.jwharm.javagi.Enumeration {
     /**
      * panned towards the left
      */
-    public static final PanDirection LEFT = new PanDirection(0);
-    
+    LEFT(0),
     /**
      * panned towards the right
      */
-    public static final PanDirection RIGHT = new PanDirection(1);
-    
+    RIGHT(1),
     /**
      * panned upwards
      */
-    public static final PanDirection UP = new PanDirection(2);
-    
+    UP(2),
     /**
      * panned downwards
      */
-    public static final PanDirection DOWN = new PanDirection(3);
+    DOWN(3);
     
-    public PanDirection(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "GtkPanDirection";
+    
+    private final int value;
+    PanDirection(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static PanDirection of(int value) {
+        return switch (value) {
+            case 0 -> LEFT;
+            case 1 -> RIGHT;
+            case 2 -> UP;
+            case 3 -> DOWN;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

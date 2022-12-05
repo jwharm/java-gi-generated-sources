@@ -44,32 +44,4 @@ public class NetworkAddressPrivate extends Struct {
     public NetworkAddressPrivate(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
-
-    /**
-     * Inner class implementing a builder pattern to construct 
-     * a struct and set its values.
-     */
-    public static class Build {
-        
-        private NetworkAddressPrivate struct;
-        
-         /**
-         * A {@link NetworkAddressPrivate.Build} object constructs a {@link NetworkAddressPrivate} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
-            struct = NetworkAddressPrivate.allocate();
-        }
-        
-         /**
-         * Finish building the {@link NetworkAddressPrivate} struct.
-         * @return A new instance of {@code NetworkAddressPrivate} with the fields 
-         *         that were set in the Build object.
-         */
-        public NetworkAddressPrivate construct() {
-            return struct;
-        }
-    }
 }

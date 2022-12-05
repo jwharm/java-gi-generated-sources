@@ -37,9 +37,8 @@ public class DBusPropertyInfoFlags extends io.github.jwharm.javagi.Bitfield {
      * @param mask the value to combine with
      * @return the combined value by calculating {@code this | mask} 
      */
-    public DBusPropertyInfoFlags combined(DBusPropertyInfoFlags mask) {
-        this.setValue(this.getValue() | mask.getValue());
-        return this;
+    public DBusPropertyInfoFlags or(DBusPropertyInfoFlags mask) {
+        return new DBusPropertyInfoFlags(this.getValue() | mask.getValue());
     }
     
     /**
@@ -49,9 +48,9 @@ public class DBusPropertyInfoFlags extends io.github.jwharm.javagi.Bitfield {
      * @return the combined value by calculating {@code mask | masks[0] | masks[1] | ...} 
      */
     public static DBusPropertyInfoFlags combined(DBusPropertyInfoFlags mask, DBusPropertyInfoFlags... masks) {
-        for (DBusPropertyInfoFlags arg : masks) {
-            mask.setValue(mask.getValue() | arg.getValue());
+        int value = mask.getValue();        for (DBusPropertyInfoFlags arg : masks) {
+            value |= arg.getValue();
         }
-        return mask;
+        return new DBusPropertyInfoFlags(value);
     }
 }

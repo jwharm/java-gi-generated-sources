@@ -54,7 +54,11 @@ public class TlsPassword extends org.gtk.gobject.Object {
      * @throws ClassCastException If the GType is not derived from "GTlsPassword", a ClassCastException will be thrown.
      */
     public static TlsPassword castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), TlsPassword.getType())) {
             return new TlsPassword(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GTlsPassword");
+        }
     }
     
     private static Addressable constructNew(@NotNull org.gtk.gio.TlsPasswordFlags flags, @NotNull java.lang.String description) {

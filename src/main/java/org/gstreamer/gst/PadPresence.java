@@ -8,27 +8,39 @@ import org.jetbrains.annotations.*;
 /**
  * Indicates when this pad will become available.
  */
-public class PadPresence extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "GstPadPresence";
-    
+public enum PadPresence implements io.github.jwharm.javagi.Enumeration {
     /**
      * the pad is always available
      */
-    public static final PadPresence ALWAYS = new PadPresence(0);
-    
+    ALWAYS(0),
     /**
      * the pad will become available depending on the media stream
      */
-    public static final PadPresence SOMETIMES = new PadPresence(1);
-    
+    SOMETIMES(1),
     /**
      * the pad is only available on request with
      *  gst_element_request_pad().
      */
-    public static final PadPresence REQUEST = new PadPresence(2);
+    REQUEST(2);
     
-    public PadPresence(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "GstPadPresence";
+    
+    private final int value;
+    PadPresence(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static PadPresence of(int value) {
+        return switch (value) {
+            case 0 -> ALWAYS;
+            case 1 -> SOMETIMES;
+            case 2 -> REQUEST;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

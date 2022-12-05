@@ -44,32 +44,4 @@ public class TimedValueControlSourcePrivate extends Struct {
     public TimedValueControlSourcePrivate(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
-
-    /**
-     * Inner class implementing a builder pattern to construct 
-     * a struct and set its values.
-     */
-    public static class Build {
-        
-        private TimedValueControlSourcePrivate struct;
-        
-         /**
-         * A {@link TimedValueControlSourcePrivate.Build} object constructs a {@link TimedValueControlSourcePrivate} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
-            struct = TimedValueControlSourcePrivate.allocate();
-        }
-        
-         /**
-         * Finish building the {@link TimedValueControlSourcePrivate} struct.
-         * @return A new instance of {@code TimedValueControlSourcePrivate} with the fields 
-         *         that were set in the Build object.
-         */
-        public TimedValueControlSourcePrivate construct() {
-            return struct;
-        }
-    }
 }

@@ -54,7 +54,11 @@ public class GestureClick extends org.gtk.gtk.GestureSingle {
      * @throws ClassCastException If the GType is not derived from "GtkGestureClick", a ClassCastException will be thrown.
      */
     public static GestureClick castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), GestureClick.getType())) {
             return new GestureClick(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkGestureClick");
+        }
     }
     
     private static Addressable constructNew() {
@@ -91,7 +95,7 @@ public class GestureClick extends org.gtk.gtk.GestureSingle {
     
     @FunctionalInterface
     public interface Pressed {
-        void signalReceived(GestureClick source, int nPress, double x, double y);
+        void signalReceived(GestureClick sourceGestureClick, int nPress, double x, double y);
     }
     
     /**
@@ -119,7 +123,7 @@ public class GestureClick extends org.gtk.gtk.GestureSingle {
     
     @FunctionalInterface
     public interface Released {
-        void signalReceived(GestureClick source, int nPress, double x, double y);
+        void signalReceived(GestureClick sourceGestureClick, int nPress, double x, double y);
     }
     
     /**
@@ -152,7 +156,7 @@ public class GestureClick extends org.gtk.gtk.GestureSingle {
     
     @FunctionalInterface
     public interface Stopped {
-        void signalReceived(GestureClick source);
+        void signalReceived(GestureClick sourceGestureClick);
     }
     
     /**
@@ -180,7 +184,7 @@ public class GestureClick extends org.gtk.gtk.GestureSingle {
     
     @FunctionalInterface
     public interface UnpairedRelease {
-        void signalReceived(GestureClick source, double x, double y, int button, @Nullable org.gtk.gdk.EventSequence sequence);
+        void signalReceived(GestureClick sourceGestureClick, double x, double y, int button, @Nullable org.gtk.gdk.EventSequence sequence);
     }
     
     /**
@@ -263,28 +267,28 @@ public class GestureClick extends org.gtk.gtk.GestureSingle {
     
     private static class Callbacks {
         
-        public static void signalGestureClickPressed(MemoryAddress source, int nPress, double x, double y, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalGestureClickPressed(MemoryAddress sourceGestureClick, int nPress, double x, double y, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (GestureClick.Pressed) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new GestureClick(source, Ownership.NONE), nPress, x, y);
+            HANDLER.signalReceived(new GestureClick(sourceGestureClick, Ownership.NONE), nPress, x, y);
         }
         
-        public static void signalGestureClickReleased(MemoryAddress source, int nPress, double x, double y, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalGestureClickReleased(MemoryAddress sourceGestureClick, int nPress, double x, double y, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (GestureClick.Released) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new GestureClick(source, Ownership.NONE), nPress, x, y);
+            HANDLER.signalReceived(new GestureClick(sourceGestureClick, Ownership.NONE), nPress, x, y);
         }
         
-        public static void signalGestureClickStopped(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalGestureClickStopped(MemoryAddress sourceGestureClick, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (GestureClick.Stopped) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new GestureClick(source, Ownership.NONE));
+            HANDLER.signalReceived(new GestureClick(sourceGestureClick, Ownership.NONE));
         }
         
-        public static void signalGestureClickUnpairedRelease(MemoryAddress source, double x, double y, int button, MemoryAddress sequence, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalGestureClickUnpairedRelease(MemoryAddress sourceGestureClick, double x, double y, int button, MemoryAddress sequence, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (GestureClick.UnpairedRelease) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new GestureClick(source, Ownership.NONE), x, y, button, new org.gtk.gdk.EventSequence(sequence, Ownership.NONE));
+            HANDLER.signalReceived(new GestureClick(sourceGestureClick, Ownership.NONE), x, y, button, new org.gtk.gdk.EventSequence(sequence, Ownership.NONE));
         }
     }
 }

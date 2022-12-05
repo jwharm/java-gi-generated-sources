@@ -63,7 +63,11 @@ public interface FileChooser extends io.github.jwharm.javagi.Proxy {
      * @throws ClassCastException If the GType is not derived from "GtkFileChooser", a ClassCastException will be thrown.
      */
     public static FileChooser castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), FileChooser.getType())) {
             return new FileChooserImpl(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkFileChooser");
+        }
     }
     
     /**
@@ -154,7 +158,7 @@ public interface FileChooser extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.FileChooserAction(RESULT);
+        return org.gtk.gtk.FileChooserAction.of(RESULT);
     }
     
     /**

@@ -8,21 +8,33 @@ import org.jetbrains.annotations.*;
 /**
  * Determines the direction of a sort.
  */
-public class SortType extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "GtkSortType";
-    
+public enum SortType implements io.github.jwharm.javagi.Enumeration {
     /**
      * Sorting is in ascending order.
      */
-    public static final SortType ASCENDING = new SortType(0);
-    
+    ASCENDING(0),
     /**
      * Sorting is in descending order.
      */
-    public static final SortType DESCENDING = new SortType(1);
+    DESCENDING(1);
     
-    public SortType(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "GtkSortType";
+    
+    private final int value;
+    SortType(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static SortType of(int value) {
+        return switch (value) {
+            case 0 -> ASCENDING;
+            case 1 -> DESCENDING;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

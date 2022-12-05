@@ -16,32 +16,44 @@ import org.jetbrains.annotations.*;
  * }</pre>
  * @version 2.64
  */
-public class MemoryMonitorWarningLevel extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "GMemoryMonitorWarningLevel";
-    
+public enum MemoryMonitorWarningLevel implements io.github.jwharm.javagi.Enumeration {
     /**
      * Memory on the device is low, processes
      *   should free up unneeded resources (for example, in-memory caches) so they can
      *   be used elsewhere.
      */
-    public static final MemoryMonitorWarningLevel LOW = new MemoryMonitorWarningLevel(50);
-    
+    LOW(50),
     /**
      * Same as {@code G_MEMORY_MONITOR_WARNING_LEVEL_LOW}
      *   but the device has even less free memory, so processes should try harder to free
      *   up unneeded resources. If your process does not need to stay running, it is a
      *   good time for it to quit.
      */
-    public static final MemoryMonitorWarningLevel MEDIUM = new MemoryMonitorWarningLevel(100);
-    
+    MEDIUM(100),
     /**
      * The system will soon start terminating
      *   processes to reclaim memory, including background processes.
      */
-    public static final MemoryMonitorWarningLevel CRITICAL = new MemoryMonitorWarningLevel(255);
+    CRITICAL(255);
     
-    public MemoryMonitorWarningLevel(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "GMemoryMonitorWarningLevel";
+    
+    private final int value;
+    MemoryMonitorWarningLevel(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static MemoryMonitorWarningLevel of(int value) {
+        return switch (value) {
+            case 50 -> LOW;
+            case 100 -> MEDIUM;
+            case 255 -> CRITICAL;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

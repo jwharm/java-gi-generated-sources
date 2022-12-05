@@ -12,33 +12,45 @@ import org.jetbrains.annotations.*;
  * Additional values may be added to this type in the future.
  * @version 2.46
  */
-public class SocketListenerEvent extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "GSocketListenerEvent";
-    
+public enum SocketListenerEvent implements io.github.jwharm.javagi.Enumeration {
     /**
      * The listener is about to bind a socket.
      */
-    public static final SocketListenerEvent BINDING = new SocketListenerEvent(0);
-    
+    BINDING(0),
     /**
      * The listener has bound a socket.
      */
-    public static final SocketListenerEvent BOUND = new SocketListenerEvent(1);
-    
+    BOUND(1),
     /**
      * The listener is about to start
      *    listening on this socket.
      */
-    public static final SocketListenerEvent LISTENING = new SocketListenerEvent(2);
-    
+    LISTENING(2),
     /**
      * The listener is now listening on
      *   this socket.
      */
-    public static final SocketListenerEvent LISTENED = new SocketListenerEvent(3);
+    LISTENED(3);
     
-    public SocketListenerEvent(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "GSocketListenerEvent";
+    
+    private final int value;
+    SocketListenerEvent(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static SocketListenerEvent of(int value) {
+        return switch (value) {
+            case 0 -> BINDING;
+            case 1 -> BOUND;
+            case 2 -> LISTENING;
+            case 3 -> LISTENED;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

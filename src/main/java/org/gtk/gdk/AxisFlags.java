@@ -76,9 +76,8 @@ public class AxisFlags extends io.github.jwharm.javagi.Bitfield {
      * @param mask the value to combine with
      * @return the combined value by calculating {@code this | mask} 
      */
-    public AxisFlags combined(AxisFlags mask) {
-        this.setValue(this.getValue() | mask.getValue());
-        return this;
+    public AxisFlags or(AxisFlags mask) {
+        return new AxisFlags(this.getValue() | mask.getValue());
     }
     
     /**
@@ -88,9 +87,9 @@ public class AxisFlags extends io.github.jwharm.javagi.Bitfield {
      * @return the combined value by calculating {@code mask | masks[0] | masks[1] | ...} 
      */
     public static AxisFlags combined(AxisFlags mask, AxisFlags... masks) {
-        for (AxisFlags arg : masks) {
-            mask.setValue(mask.getValue() | arg.getValue());
+        int value = mask.getValue();        for (AxisFlags arg : masks) {
+            value |= arg.getValue();
         }
-        return mask;
+        return new AxisFlags(value);
     }
 }

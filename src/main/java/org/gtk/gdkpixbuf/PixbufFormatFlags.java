@@ -39,9 +39,8 @@ public class PixbufFormatFlags extends io.github.jwharm.javagi.Bitfield {
      * @param mask the value to combine with
      * @return the combined value by calculating {@code this | mask} 
      */
-    public PixbufFormatFlags combined(PixbufFormatFlags mask) {
-        this.setValue(this.getValue() | mask.getValue());
-        return this;
+    public PixbufFormatFlags or(PixbufFormatFlags mask) {
+        return new PixbufFormatFlags(this.getValue() | mask.getValue());
     }
     
     /**
@@ -51,9 +50,9 @@ public class PixbufFormatFlags extends io.github.jwharm.javagi.Bitfield {
      * @return the combined value by calculating {@code mask | masks[0] | masks[1] | ...} 
      */
     public static PixbufFormatFlags combined(PixbufFormatFlags mask, PixbufFormatFlags... masks) {
-        for (PixbufFormatFlags arg : masks) {
-            mask.setValue(mask.getValue() | arg.getValue());
+        int value = mask.getValue();        for (PixbufFormatFlags arg : masks) {
+            value |= arg.getValue();
         }
-        return mask;
+        return new PixbufFormatFlags(value);
     }
 }

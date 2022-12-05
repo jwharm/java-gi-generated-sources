@@ -5,19 +5,31 @@ import java.lang.foreign.*;
 import java.lang.invoke.*;
 import org.jetbrains.annotations.*;
 
-public class TestResult extends io.github.jwharm.javagi.Enumeration {
+public enum TestResult implements io.github.jwharm.javagi.Enumeration {
+    SUCCESS(0),
+    SKIPPED(1),
+    FAILURE(2),
+    INCOMPLETE(3);
     
     private static final java.lang.String C_TYPE_NAME = "GTestResult";
     
-    public static final TestResult SUCCESS = new TestResult(0);
+    private final int value;
+    TestResult(int value) {
+        this.value = value;
+    }
     
-    public static final TestResult SKIPPED = new TestResult(1);
+    @Override
+    public int getValue() {
+        return value;
+    }
     
-    public static final TestResult FAILURE = new TestResult(2);
-    
-    public static final TestResult INCOMPLETE = new TestResult(3);
-    
-    public TestResult(int value) {
-        super(value);
+    public static TestResult of(int value) {
+        return switch (value) {
+            case 0 -> SUCCESS;
+            case 1 -> SKIPPED;
+            case 2 -> FAILURE;
+            case 3 -> INCOMPLETE;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

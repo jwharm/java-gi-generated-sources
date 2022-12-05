@@ -113,12 +113,19 @@ public class DrawingArea extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
     
     /**
      * Create a DrawingArea proxy instance for the provided memory address.
+     * <p>
+     * Because DrawingArea is an {@code InitiallyUnowned} instance, when 
+     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
+     * and a call to {@code refSink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
     @ApiStatus.Internal
     public DrawingArea(Addressable address, Ownership ownership) {
-        super(address, ownership);
+        super(address, Ownership.FULL);
+        if (ownership == Ownership.NONE) {
+            refSink();
+        }
     }
     
     /**
@@ -134,7 +141,11 @@ public class DrawingArea extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
      * @throws ClassCastException If the GType is not derived from "GtkDrawingArea", a ClassCastException will be thrown.
      */
     public static DrawingArea castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), DrawingArea.getType())) {
             return new DrawingArea(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkDrawingArea");
+        }
     }
     
     private static Addressable constructNew() {
@@ -276,7 +287,7 @@ public class DrawingArea extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
     
     @FunctionalInterface
     public interface Resize {
-        void signalReceived(DrawingArea source, int width, int height);
+        void signalReceived(DrawingArea sourceDrawingArea, int width, int height);
     }
     
     /**
@@ -410,10 +421,10 @@ public class DrawingArea extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
     
     private static class Callbacks {
         
-        public static void signalDrawingAreaResize(MemoryAddress source, int width, int height, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalDrawingAreaResize(MemoryAddress sourceDrawingArea, int width, int height, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (DrawingArea.Resize) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new DrawingArea(source, Ownership.NONE), width, height);
+            HANDLER.signalReceived(new DrawingArea(sourceDrawingArea, Ownership.NONE), width, height);
         }
     }
 }

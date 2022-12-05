@@ -58,9 +58,8 @@ public class SettingsBindFlags extends io.github.jwharm.javagi.Bitfield {
      * @param mask the value to combine with
      * @return the combined value by calculating {@code this | mask} 
      */
-    public SettingsBindFlags combined(SettingsBindFlags mask) {
-        this.setValue(this.getValue() | mask.getValue());
-        return this;
+    public SettingsBindFlags or(SettingsBindFlags mask) {
+        return new SettingsBindFlags(this.getValue() | mask.getValue());
     }
     
     /**
@@ -70,9 +69,9 @@ public class SettingsBindFlags extends io.github.jwharm.javagi.Bitfield {
      * @return the combined value by calculating {@code mask | masks[0] | masks[1] | ...} 
      */
     public static SettingsBindFlags combined(SettingsBindFlags mask, SettingsBindFlags... masks) {
-        for (SettingsBindFlags arg : masks) {
-            mask.setValue(mask.getValue() | arg.getValue());
+        int value = mask.getValue();        for (SettingsBindFlags arg : masks) {
+            value |= arg.getValue();
         }
-        return mask;
+        return new SettingsBindFlags(value);
     }
 }

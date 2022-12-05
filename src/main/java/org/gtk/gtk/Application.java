@@ -111,7 +111,11 @@ public class Application extends org.gtk.gio.Application implements org.gtk.gio.
      * @throws ClassCastException If the GType is not derived from "GtkApplication", a ClassCastException will be thrown.
      */
     public static Application castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), Application.getType())) {
             return new Application(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkApplication");
+        }
     }
     
     private static Addressable constructNew(@Nullable java.lang.String applicationId, @NotNull org.gtk.gio.ApplicationFlags flags) {
@@ -520,7 +524,7 @@ public class Application extends org.gtk.gio.Application implements org.gtk.gio.
     
     @FunctionalInterface
     public interface QueryEnd {
-        void signalReceived(Application source);
+        void signalReceived(Application sourceApplication);
     }
     
     /**
@@ -553,7 +557,7 @@ public class Application extends org.gtk.gio.Application implements org.gtk.gio.
     
     @FunctionalInterface
     public interface WindowAdded {
-        void signalReceived(Application source, @NotNull org.gtk.gtk.Window window);
+        void signalReceived(Application sourceApplication, @NotNull org.gtk.gtk.Window window);
     }
     
     /**
@@ -582,7 +586,7 @@ public class Application extends org.gtk.gio.Application implements org.gtk.gio.
     
     @FunctionalInterface
     public interface WindowRemoved {
-        void signalReceived(Application source, @NotNull org.gtk.gtk.Window window);
+        void signalReceived(Application sourceApplication, @NotNull org.gtk.gtk.Window window);
     }
     
     /**
@@ -801,22 +805,22 @@ public class Application extends org.gtk.gio.Application implements org.gtk.gio.
     
     private static class Callbacks {
         
-        public static void signalApplicationQueryEnd(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalApplicationQueryEnd(MemoryAddress sourceApplication, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (Application.QueryEnd) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Application(source, Ownership.NONE));
+            HANDLER.signalReceived(new Application(sourceApplication, Ownership.NONE));
         }
         
-        public static void signalApplicationWindowAdded(MemoryAddress source, MemoryAddress window, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalApplicationWindowAdded(MemoryAddress sourceApplication, MemoryAddress window, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (Application.WindowAdded) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Application(source, Ownership.NONE), new org.gtk.gtk.Window(window, Ownership.NONE));
+            HANDLER.signalReceived(new Application(sourceApplication, Ownership.NONE), new org.gtk.gtk.Window(window, Ownership.NONE));
         }
         
-        public static void signalApplicationWindowRemoved(MemoryAddress source, MemoryAddress window, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalApplicationWindowRemoved(MemoryAddress sourceApplication, MemoryAddress window, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (Application.WindowRemoved) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Application(source, Ownership.NONE), new org.gtk.gtk.Window(window, Ownership.NONE));
+            HANDLER.signalReceived(new Application(sourceApplication, Ownership.NONE), new org.gtk.gtk.Window(window, Ownership.NONE));
         }
     }
 }

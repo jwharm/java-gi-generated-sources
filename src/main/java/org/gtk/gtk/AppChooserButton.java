@@ -52,12 +52,19 @@ public class AppChooserButton extends org.gtk.gtk.Widget implements org.gtk.gtk.
     
     /**
      * Create a AppChooserButton proxy instance for the provided memory address.
+     * <p>
+     * Because AppChooserButton is an {@code InitiallyUnowned} instance, when 
+     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
+     * and a call to {@code refSink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
     @ApiStatus.Internal
     public AppChooserButton(Addressable address, Ownership ownership) {
-        super(address, ownership);
+        super(address, Ownership.FULL);
+        if (ownership == Ownership.NONE) {
+            refSink();
+        }
     }
     
     /**
@@ -73,7 +80,11 @@ public class AppChooserButton extends org.gtk.gtk.Widget implements org.gtk.gtk.
      * @throws ClassCastException If the GType is not derived from "GtkAppChooserButton", a ClassCastException will be thrown.
      */
     public static AppChooserButton castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), AppChooserButton.getType())) {
             return new AppChooserButton(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkAppChooserButton");
+        }
     }
     
     private static Addressable constructNew(@NotNull java.lang.String contentType) {
@@ -299,7 +310,7 @@ public class AppChooserButton extends org.gtk.gtk.Widget implements org.gtk.gtk.
     
     @FunctionalInterface
     public interface Activate {
-        void signalReceived(AppChooserButton source);
+        void signalReceived(AppChooserButton sourceAppChooserButton);
     }
     
     /**
@@ -330,7 +341,7 @@ public class AppChooserButton extends org.gtk.gtk.Widget implements org.gtk.gtk.
     
     @FunctionalInterface
     public interface Changed {
-        void signalReceived(AppChooserButton source);
+        void signalReceived(AppChooserButton sourceAppChooserButton);
     }
     
     /**
@@ -358,7 +369,7 @@ public class AppChooserButton extends org.gtk.gtk.Widget implements org.gtk.gtk.
     
     @FunctionalInterface
     public interface CustomItemActivated {
-        void signalReceived(AppChooserButton source, @NotNull java.lang.String itemName);
+        void signalReceived(AppChooserButton sourceAppChooserButton, @NotNull java.lang.String itemName);
     }
     
     /**
@@ -555,22 +566,22 @@ public class AppChooserButton extends org.gtk.gtk.Widget implements org.gtk.gtk.
     
     private static class Callbacks {
         
-        public static void signalAppChooserButtonActivate(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalAppChooserButtonActivate(MemoryAddress sourceAppChooserButton, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (AppChooserButton.Activate) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new AppChooserButton(source, Ownership.NONE));
+            HANDLER.signalReceived(new AppChooserButton(sourceAppChooserButton, Ownership.NONE));
         }
         
-        public static void signalAppChooserButtonChanged(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalAppChooserButtonChanged(MemoryAddress sourceAppChooserButton, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (AppChooserButton.Changed) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new AppChooserButton(source, Ownership.NONE));
+            HANDLER.signalReceived(new AppChooserButton(sourceAppChooserButton, Ownership.NONE));
         }
         
-        public static void signalAppChooserButtonCustomItemActivated(MemoryAddress source, MemoryAddress itemName, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalAppChooserButtonCustomItemActivated(MemoryAddress sourceAppChooserButton, MemoryAddress itemName, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (AppChooserButton.CustomItemActivated) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new AppChooserButton(source, Ownership.NONE), Interop.getStringFrom(itemName));
+            HANDLER.signalReceived(new AppChooserButton(sourceAppChooserButton, Ownership.NONE), Interop.getStringFrom(itemName));
         }
     }
 }

@@ -54,9 +54,8 @@ public class BindingFlags extends io.github.jwharm.javagi.Bitfield {
      * @param mask the value to combine with
      * @return the combined value by calculating {@code this | mask} 
      */
-    public BindingFlags combined(BindingFlags mask) {
-        this.setValue(this.getValue() | mask.getValue());
-        return this;
+    public BindingFlags or(BindingFlags mask) {
+        return new BindingFlags(this.getValue() | mask.getValue());
     }
     
     /**
@@ -66,9 +65,9 @@ public class BindingFlags extends io.github.jwharm.javagi.Bitfield {
      * @return the combined value by calculating {@code mask | masks[0] | masks[1] | ...} 
      */
     public static BindingFlags combined(BindingFlags mask, BindingFlags... masks) {
-        for (BindingFlags arg : masks) {
-            mask.setValue(mask.getValue() | arg.getValue());
+        int value = mask.getValue();        for (BindingFlags arg : masks) {
+            value |= arg.getValue();
         }
-        return mask;
+        return new BindingFlags(value);
     }
 }

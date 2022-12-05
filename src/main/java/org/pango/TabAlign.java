@@ -9,35 +9,47 @@ import org.jetbrains.annotations.*;
  * {@code PangoTabAlign} specifies where the text appears relative to the tab stop
  * position.
  */
-public class TabAlign extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "PangoTabAlign";
-    
+public enum TabAlign implements io.github.jwharm.javagi.Enumeration {
     /**
      * the text appears to the right of the tab stop position
      */
-    public static final TabAlign LEFT = new TabAlign(0);
-    
+    LEFT(0),
     /**
      * the text appears to the left of the tab stop position
      *   until the available space is filled. Since: 1.50
      */
-    public static final TabAlign RIGHT = new TabAlign(1);
-    
+    RIGHT(1),
     /**
      * the text is centered at the tab stop position
      *   until the available space is filled. Since: 1.50
      */
-    public static final TabAlign CENTER = new TabAlign(2);
-    
+    CENTER(2),
     /**
      * text before the first occurrence of the decimal point
      *   character appears to the left of the tab stop position (until the available
      *   space is filled), the rest to the right. Since: 1.50
      */
-    public static final TabAlign DECIMAL = new TabAlign(3);
+    DECIMAL(3);
     
-    public TabAlign(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "PangoTabAlign";
+    
+    private final int value;
+    TabAlign(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static TabAlign of(int value) {
+        return switch (value) {
+            case 0 -> LEFT;
+            case 1 -> RIGHT;
+            case 2 -> CENTER;
+            case 3 -> DECIMAL;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

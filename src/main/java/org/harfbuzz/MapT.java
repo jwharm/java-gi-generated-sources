@@ -47,32 +47,4 @@ public class MapT extends Struct {
     public MapT(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
-
-    /**
-     * Inner class implementing a builder pattern to construct 
-     * a struct and set its values.
-     */
-    public static class Build {
-        
-        private MapT struct;
-        
-         /**
-         * A {@link MapT.Build} object constructs a {@link MapT} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
-            struct = MapT.allocate();
-        }
-        
-         /**
-         * Finish building the {@link MapT} struct.
-         * @return A new instance of {@code MapT} with the fields 
-         *         that were set in the Build object.
-         */
-        public MapT construct() {
-            return struct;
-        }
-    }
 }

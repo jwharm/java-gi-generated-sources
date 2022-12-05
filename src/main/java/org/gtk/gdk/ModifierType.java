@@ -92,9 +92,8 @@ public class ModifierType extends io.github.jwharm.javagi.Bitfield {
      * @param mask the value to combine with
      * @return the combined value by calculating {@code this | mask} 
      */
-    public ModifierType combined(ModifierType mask) {
-        this.setValue(this.getValue() | mask.getValue());
-        return this;
+    public ModifierType or(ModifierType mask) {
+        return new ModifierType(this.getValue() | mask.getValue());
     }
     
     /**
@@ -104,9 +103,9 @@ public class ModifierType extends io.github.jwharm.javagi.Bitfield {
      * @return the combined value by calculating {@code mask | masks[0] | masks[1] | ...} 
      */
     public static ModifierType combined(ModifierType mask, ModifierType... masks) {
-        for (ModifierType arg : masks) {
-            mask.setValue(mask.getValue() | arg.getValue());
+        int value = mask.getValue();        for (ModifierType arg : masks) {
+            value |= arg.getValue();
         }
-        return mask;
+        return new ModifierType(value);
     }
 }

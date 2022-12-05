@@ -44,32 +44,4 @@ public class LFOControlSourcePrivate extends Struct {
     public LFOControlSourcePrivate(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
-
-    /**
-     * Inner class implementing a builder pattern to construct 
-     * a struct and set its values.
-     */
-    public static class Build {
-        
-        private LFOControlSourcePrivate struct;
-        
-         /**
-         * A {@link LFOControlSourcePrivate.Build} object constructs a {@link LFOControlSourcePrivate} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
-            struct = LFOControlSourcePrivate.allocate();
-        }
-        
-         /**
-         * Finish building the {@link LFOControlSourcePrivate} struct.
-         * @return A new instance of {@code LFOControlSourcePrivate} with the fields 
-         *         that were set in the Build object.
-         */
-        public LFOControlSourcePrivate construct() {
-            return struct;
-        }
-    }
 }

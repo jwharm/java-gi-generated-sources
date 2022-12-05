@@ -89,12 +89,19 @@ public class ColumnView extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
     
     /**
      * Create a ColumnView proxy instance for the provided memory address.
+     * <p>
+     * Because ColumnView is an {@code InitiallyUnowned} instance, when 
+     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
+     * and a call to {@code refSink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
     @ApiStatus.Internal
     public ColumnView(Addressable address, Ownership ownership) {
-        super(address, ownership);
+        super(address, Ownership.FULL);
+        if (ownership == Ownership.NONE) {
+            refSink();
+        }
     }
     
     /**
@@ -110,7 +117,11 @@ public class ColumnView extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
      * @throws ClassCastException If the GType is not derived from "GtkColumnView", a ClassCastException will be thrown.
      */
     public static ColumnView castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), ColumnView.getType())) {
             return new ColumnView(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkColumnView");
+        }
     }
     
     private static Addressable constructNew(@Nullable org.gtk.gtk.SelectionModel model) {
@@ -464,7 +475,7 @@ public class ColumnView extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
     
     @FunctionalInterface
     public interface Activate {
-        void signalReceived(ColumnView source, int position);
+        void signalReceived(ColumnView sourceColumnView, int position);
     }
     
     /**
@@ -743,10 +754,10 @@ public class ColumnView extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
     
     private static class Callbacks {
         
-        public static void signalColumnViewActivate(MemoryAddress source, int position, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalColumnViewActivate(MemoryAddress sourceColumnView, int position, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (ColumnView.Activate) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new ColumnView(source, Ownership.NONE), position);
+            HANDLER.signalReceived(new ColumnView(sourceColumnView, Ownership.NONE), position);
         }
     }
 }

@@ -54,7 +54,11 @@ public class ProxyAddress extends org.gtk.gio.InetSocketAddress implements org.g
      * @throws ClassCastException If the GType is not derived from "GProxyAddress", a ClassCastException will be thrown.
      */
     public static ProxyAddress castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), ProxyAddress.getType())) {
             return new ProxyAddress(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GProxyAddress");
+        }
     }
     
     private static Addressable constructNew(@NotNull org.gtk.gio.InetAddress inetaddr, short port, @NotNull java.lang.String protocol, @NotNull java.lang.String destHostname, short destPort, @Nullable java.lang.String username, @Nullable java.lang.String password) {

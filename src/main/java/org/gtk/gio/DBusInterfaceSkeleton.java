@@ -54,7 +54,11 @@ public class DBusInterfaceSkeleton extends org.gtk.gobject.Object implements org
      * @throws ClassCastException If the GType is not derived from "GDBusInterfaceSkeleton", a ClassCastException will be thrown.
      */
     public static DBusInterfaceSkeleton castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), DBusInterfaceSkeleton.getType())) {
             return new DBusInterfaceSkeleton(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GDBusInterfaceSkeleton");
+        }
     }
     
     /**
@@ -308,7 +312,7 @@ public class DBusInterfaceSkeleton extends org.gtk.gobject.Object implements org
     
     @FunctionalInterface
     public interface GAuthorizeMethod {
-        boolean signalReceived(DBusInterfaceSkeleton source, @NotNull org.gtk.gio.DBusMethodInvocation invocation);
+        boolean signalReceived(DBusInterfaceSkeleton sourceDBusInterfaceSkeleton, @NotNull org.gtk.gio.DBusMethodInvocation invocation);
     }
     
     /**
@@ -501,10 +505,10 @@ public class DBusInterfaceSkeleton extends org.gtk.gobject.Object implements org
     
     private static class Callbacks {
         
-        public static boolean signalDBusInterfaceSkeletonGAuthorizeMethod(MemoryAddress source, MemoryAddress invocation, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static boolean signalDBusInterfaceSkeletonGAuthorizeMethod(MemoryAddress sourceDBusInterfaceSkeleton, MemoryAddress invocation, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (DBusInterfaceSkeleton.GAuthorizeMethod) Interop.signalRegistry.get(HASH);
-            return HANDLER.signalReceived(new DBusInterfaceSkeleton(source, Ownership.NONE), new org.gtk.gio.DBusMethodInvocation(invocation, Ownership.NONE));
+            return HANDLER.signalReceived(new DBusInterfaceSkeleton(sourceDBusInterfaceSkeleton, Ownership.NONE), new org.gtk.gio.DBusMethodInvocation(invocation, Ownership.NONE));
         }
     }
 }

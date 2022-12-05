@@ -66,12 +66,19 @@ public class DropDown extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     
     /**
      * Create a DropDown proxy instance for the provided memory address.
+     * <p>
+     * Because DropDown is an {@code InitiallyUnowned} instance, when 
+     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
+     * and a call to {@code refSink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
     @ApiStatus.Internal
     public DropDown(Addressable address, Ownership ownership) {
-        super(address, ownership);
+        super(address, Ownership.FULL);
+        if (ownership == Ownership.NONE) {
+            refSink();
+        }
     }
     
     /**
@@ -87,7 +94,11 @@ public class DropDown extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * @throws ClassCastException If the GType is not derived from "GtkDropDown", a ClassCastException will be thrown.
      */
     public static DropDown castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), DropDown.getType())) {
             return new DropDown(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkDropDown");
+        }
     }
     
     private static Addressable constructNew(@Nullable org.gtk.gio.ListModel model, @Nullable org.gtk.gtk.Expression expression) {
@@ -386,7 +397,7 @@ public class DropDown extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     
     @FunctionalInterface
     public interface Activate {
-        void signalReceived(DropDown source);
+        void signalReceived(DropDown sourceDropDown);
     }
     
     /**
@@ -664,10 +675,10 @@ public class DropDown extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     
     private static class Callbacks {
         
-        public static void signalDropDownActivate(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalDropDownActivate(MemoryAddress sourceDropDown, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (DropDown.Activate) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new DropDown(source, Ownership.NONE));
+            HANDLER.signalReceived(new DropDown(sourceDropDown, Ownership.NONE));
         }
     }
 }

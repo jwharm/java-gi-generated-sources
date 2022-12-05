@@ -16,26 +16,38 @@ import org.jetbrains.annotations.*;
  * determine the actual size to be used with the
  * {@code -gtk-icon-size} CSS property.
  */
-public class IconSize extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "GtkIconSize";
-    
+public enum IconSize implements io.github.jwharm.javagi.Enumeration {
     /**
      * Keep the size of the parent element
      */
-    public static final IconSize INHERIT = new IconSize(0);
-    
+    INHERIT(0),
     /**
      * Size similar to text size
      */
-    public static final IconSize NORMAL = new IconSize(1);
-    
+    NORMAL(1),
     /**
      * Large size, for example in an icon view
      */
-    public static final IconSize LARGE = new IconSize(2);
+    LARGE(2);
     
-    public IconSize(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "GtkIconSize";
+    
+    private final int value;
+    IconSize(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static IconSize of(int value) {
+        return switch (value) {
+            case 0 -> INHERIT;
+            case 1 -> NORMAL;
+            case 2 -> LARGE;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

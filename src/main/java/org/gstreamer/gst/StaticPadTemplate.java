@@ -74,7 +74,7 @@ public class StaticPadTemplate extends Struct {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("direction"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new org.gstreamer.gst.PadDirection(RESULT);
+        return org.gstreamer.gst.PadDirection.of(RESULT);
     }
     
     /**
@@ -95,7 +95,7 @@ public class StaticPadTemplate extends Struct {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("presence"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new org.gstreamer.gst.PadPresence(RESULT);
+        return org.gstreamer.gst.PadPresence.of(RESULT);
     }
     
     /**

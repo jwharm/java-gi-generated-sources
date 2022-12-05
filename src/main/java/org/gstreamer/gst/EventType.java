@@ -14,200 +14,212 @@ import org.jetbrains.annotations.*;
  * {@link Structure}.
  * Specific custom events are distinguished by the name of the structure.
  */
-public class EventType extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "GstEventType";
-    
+public enum EventType implements io.github.jwharm.javagi.Enumeration {
     /**
      * unknown event.
      */
-    public static final EventType UNKNOWN = new EventType(0);
-    
+    UNKNOWN(0),
     /**
      * Start a flush operation. This event clears all data
      *                 from the pipeline and unblock all streaming threads.
      */
-    public static final EventType FLUSH_START = new EventType(2563);
-    
+    FLUSH_START(2563),
     /**
      * Stop a flush operation. This event resets the
      *                 running-time of the pipeline.
      */
-    public static final EventType FLUSH_STOP = new EventType(5127);
-    
+    FLUSH_STOP(5127),
     /**
      * Event to mark the start of a new stream. Sent before any
      *                 other serialized event and only sent at the start of a new stream,
      *                 not after flushing seeks.
      */
-    public static final EventType STREAM_START = new EventType(10254);
-    
+    STREAM_START(10254),
     /**
      * {@link Caps} event. Notify the pad of a new media type.
      */
-    public static final EventType CAPS = new EventType(12814);
-    
+    CAPS(12814),
     /**
      * A new media segment follows in the dataflow. The
      *                 segment events contains information for clipping buffers and
      *                 converting buffer timestamps to running-time and
      *                 stream-time.
      */
-    public static final EventType SEGMENT = new EventType(17934);
-    
+    SEGMENT(17934),
     /**
      * A new {@link StreamCollection} is available (Since: 1.10)
      */
-    public static final EventType STREAM_COLLECTION = new EventType(19230);
-    
+    STREAM_COLLECTION(19230),
     /**
      * A new set of metadata tags has been found in the stream.
      */
-    public static final EventType TAG = new EventType(20510);
-    
+    TAG(20510),
     /**
      * Notification of buffering requirements. Currently not
      *                 used yet.
      */
-    public static final EventType BUFFERSIZE = new EventType(23054);
-    
+    BUFFERSIZE(23054),
     /**
      * An event that sinks turn into a message. Used to
      *                          send messages that should be emitted in sync with
      *                          rendering.
      */
-    public static final EventType SINK_MESSAGE = new EventType(25630);
-    
+    SINK_MESSAGE(25630),
     /**
      * Indicates that there is no more data for
      *                 the stream group ID in the message. Sent before EOS
      *                 in some instances and should be handled mostly the same. (Since: 1.10)
      */
-    public static final EventType STREAM_GROUP_DONE = new EventType(26894);
-    
+    STREAM_GROUP_DONE(26894),
     /**
      * End-Of-Stream. No more data is to be expected to follow
      *                 without either a STREAM_START event, or a FLUSH_STOP and a SEGMENT
      *                 event.
      */
-    public static final EventType EOS = new EventType(28174);
-    
+    EOS(28174),
     /**
      * An event which indicates that a new table of contents (TOC)
      *                 was found or updated.
      */
-    public static final EventType TOC = new EventType(30750);
-    
+    TOC(30750),
     /**
      * An event which indicates that new or updated
      *                 encryption information has been found in the stream.
      */
-    public static final EventType PROTECTION = new EventType(33310);
-    
+    PROTECTION(33310),
     /**
      * Marks the end of a segment playback.
      */
-    public static final EventType SEGMENT_DONE = new EventType(38406);
-    
+    SEGMENT_DONE(38406),
     /**
      * Marks a gap in the datastream.
      */
-    public static final EventType GAP = new EventType(40966);
-    
+    GAP(40966),
     /**
      * Notify downstream that a playback rate override
      *                                 should be applied as soon as possible. (Since: 1.18)
      */
-    public static final EventType INSTANT_RATE_CHANGE = new EventType(46090);
-    
+    INSTANT_RATE_CHANGE(46090),
     /**
      * A quality message. Used to indicate to upstream elements
      *                 that the downstream elements should adjust their processing
      *                 rate.
      */
-    public static final EventType QOS = new EventType(48641);
-    
+    QOS(48641),
     /**
      * A request for a new playback position and rate.
      */
-    public static final EventType SEEK = new EventType(51201);
-    
+    SEEK(51201),
     /**
      * Navigation events are usually used for communicating
      *                        user requests, such as mouse or keyboard movements,
      *                        to upstream elements.
      */
-    public static final EventType NAVIGATION = new EventType(53761);
-    
+    NAVIGATION(53761),
     /**
      * Notification of new latency adjustment. Sinks will use
      *                     the latency information to adjust their synchronisation.
      */
-    public static final EventType LATENCY = new EventType(56321);
-    
+    LATENCY(56321),
     /**
      * A request for stepping through the media. Sinks will usually
      *                  execute the step operation.
      */
-    public static final EventType STEP = new EventType(58881);
-    
+    STEP(58881),
     /**
      * A request for upstream renegotiating caps and reconfiguring.
      */
-    public static final EventType RECONFIGURE = new EventType(61441);
-    
+    RECONFIGURE(61441),
     /**
      * A request for a new playback position based on TOC
      *                        entry's UID.
      */
-    public static final EventType TOC_SELECT = new EventType(64001);
-    
+    TOC_SELECT(64001),
     /**
      * A request to select one or more streams (Since: 1.10)
      */
-    public static final EventType SELECT_STREAMS = new EventType(66561);
-    
+    SELECT_STREAMS(66561),
     /**
      * Sent by the pipeline to notify elements that handle the
      *                                    instant-rate-change event about the running-time when
      *                                    the rate multiplier should be applied (or was applied). (Since: 1.18)
      */
-    public static final EventType INSTANT_RATE_SYNC_TIME = new EventType(66817);
-    
+    INSTANT_RATE_SYNC_TIME(66817),
     /**
      * Upstream custom event
      */
-    public static final EventType CUSTOM_UPSTREAM = new EventType(69121);
-    
+    CUSTOM_UPSTREAM(69121),
     /**
      * Downstream custom event that travels in the
      *                        data flow.
      */
-    public static final EventType CUSTOM_DOWNSTREAM = new EventType(71686);
-    
+    CUSTOM_DOWNSTREAM(71686),
     /**
      * Custom out-of-band downstream event.
      */
-    public static final EventType CUSTOM_DOWNSTREAM_OOB = new EventType(74242);
-    
+    CUSTOM_DOWNSTREAM_OOB(74242),
     /**
      * Custom sticky downstream event.
      */
-    public static final EventType CUSTOM_DOWNSTREAM_STICKY = new EventType(76830);
-    
+    CUSTOM_DOWNSTREAM_STICKY(76830),
     /**
      * Custom upstream or downstream event.
      *                         In-band when travelling downstream.
      */
-    public static final EventType CUSTOM_BOTH = new EventType(79367);
-    
+    CUSTOM_BOTH(79367),
     /**
      * Custom upstream or downstream out-of-band event.
      */
-    public static final EventType CUSTOM_BOTH_OOB = new EventType(81923);
+    CUSTOM_BOTH_OOB(81923);
     
-    public EventType(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "GstEventType";
+    
+    private final int value;
+    EventType(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static EventType of(int value) {
+        return switch (value) {
+            case 0 -> UNKNOWN;
+            case 2563 -> FLUSH_START;
+            case 5127 -> FLUSH_STOP;
+            case 10254 -> STREAM_START;
+            case 12814 -> CAPS;
+            case 17934 -> SEGMENT;
+            case 19230 -> STREAM_COLLECTION;
+            case 20510 -> TAG;
+            case 23054 -> BUFFERSIZE;
+            case 25630 -> SINK_MESSAGE;
+            case 26894 -> STREAM_GROUP_DONE;
+            case 28174 -> EOS;
+            case 30750 -> TOC;
+            case 33310 -> PROTECTION;
+            case 38406 -> SEGMENT_DONE;
+            case 40966 -> GAP;
+            case 46090 -> INSTANT_RATE_CHANGE;
+            case 48641 -> QOS;
+            case 51201 -> SEEK;
+            case 53761 -> NAVIGATION;
+            case 56321 -> LATENCY;
+            case 58881 -> STEP;
+            case 61441 -> RECONFIGURE;
+            case 64001 -> TOC_SELECT;
+            case 66561 -> SELECT_STREAMS;
+            case 66817 -> INSTANT_RATE_SYNC_TIME;
+            case 69121 -> CUSTOM_UPSTREAM;
+            case 71686 -> CUSTOM_DOWNSTREAM;
+            case 74242 -> CUSTOM_DOWNSTREAM_OOB;
+            case 76830 -> CUSTOM_DOWNSTREAM_STICKY;
+            case 79367 -> CUSTOM_BOTH;
+            case 81923 -> CUSTOM_BOTH_OOB;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
     
     /**

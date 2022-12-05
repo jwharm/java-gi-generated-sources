@@ -34,9 +34,8 @@ public class DBusSubtreeFlags extends io.github.jwharm.javagi.Bitfield {
      * @param mask the value to combine with
      * @return the combined value by calculating {@code this | mask} 
      */
-    public DBusSubtreeFlags combined(DBusSubtreeFlags mask) {
-        this.setValue(this.getValue() | mask.getValue());
-        return this;
+    public DBusSubtreeFlags or(DBusSubtreeFlags mask) {
+        return new DBusSubtreeFlags(this.getValue() | mask.getValue());
     }
     
     /**
@@ -46,9 +45,9 @@ public class DBusSubtreeFlags extends io.github.jwharm.javagi.Bitfield {
      * @return the combined value by calculating {@code mask | masks[0] | masks[1] | ...} 
      */
     public static DBusSubtreeFlags combined(DBusSubtreeFlags mask, DBusSubtreeFlags... masks) {
-        for (DBusSubtreeFlags arg : masks) {
-            mask.setValue(mask.getValue() | arg.getValue());
+        int value = mask.getValue();        for (DBusSubtreeFlags arg : masks) {
+            value |= arg.getValue();
         }
-        return mask;
+        return new DBusSubtreeFlags(value);
     }
 }

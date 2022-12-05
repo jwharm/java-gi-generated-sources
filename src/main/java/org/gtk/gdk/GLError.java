@@ -8,37 +8,49 @@ import org.jetbrains.annotations.*;
 /**
  * Error enumeration for {@code GdkGLContext}.
  */
-public class GLError extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "GdkGLError";
-    
+public enum GLError implements io.github.jwharm.javagi.Enumeration {
     /**
      * OpenGL support is not available
      */
-    public static final GLError NOT_AVAILABLE = new GLError(0);
-    
+    NOT_AVAILABLE(0),
     /**
      * The requested visual format is not supported
      */
-    public static final GLError UNSUPPORTED_FORMAT = new GLError(1);
-    
+    UNSUPPORTED_FORMAT(1),
     /**
      * The requested profile is not supported
      */
-    public static final GLError UNSUPPORTED_PROFILE = new GLError(2);
-    
+    UNSUPPORTED_PROFILE(2),
     /**
      * The shader compilation failed
      */
-    public static final GLError COMPILATION_FAILED = new GLError(3);
-    
+    COMPILATION_FAILED(3),
     /**
      * The shader linking failed
      */
-    public static final GLError LINK_FAILED = new GLError(4);
+    LINK_FAILED(4);
     
-    public GLError(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "GdkGLError";
+    
+    private final int value;
+    GLError(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static GLError of(int value) {
+        return switch (value) {
+            case 0 -> NOT_AVAILABLE;
+            case 1 -> UNSUPPORTED_FORMAT;
+            case 2 -> UNSUPPORTED_PROFILE;
+            case 3 -> COMPILATION_FAILED;
+            case 4 -> LINK_FAILED;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
     
     public static @NotNull org.gtk.glib.Quark quark() {

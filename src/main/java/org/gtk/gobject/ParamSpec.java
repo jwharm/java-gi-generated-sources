@@ -73,7 +73,11 @@ public class ParamSpec extends io.github.jwharm.javagi.ObjectBase {
      * @throws ClassCastException If the GType is not derived from "GParamSpec", a ClassCastException will be thrown.
      */
     public static ParamSpec castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), ParamSpec.getType())) {
             return new ParamSpec(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GParamSpec");
+        }
     }
     
     /**

@@ -86,7 +86,11 @@ public class IMContextSimple extends org.gtk.gtk.IMContext {
      * @throws ClassCastException If the GType is not derived from "GtkIMContextSimple", a ClassCastException will be thrown.
      */
     public static IMContextSimple castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), IMContextSimple.getType())) {
             return new IMContextSimple(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkIMContextSimple");
+        }
     }
     
     private static Addressable constructNew() {

@@ -39,9 +39,8 @@ public class QueryTypeFlags extends io.github.jwharm.javagi.Bitfield {
      * @param mask the value to combine with
      * @return the combined value by calculating {@code this | mask} 
      */
-    public QueryTypeFlags combined(QueryTypeFlags mask) {
-        this.setValue(this.getValue() | mask.getValue());
-        return this;
+    public QueryTypeFlags or(QueryTypeFlags mask) {
+        return new QueryTypeFlags(this.getValue() | mask.getValue());
     }
     
     /**
@@ -51,9 +50,9 @@ public class QueryTypeFlags extends io.github.jwharm.javagi.Bitfield {
      * @return the combined value by calculating {@code mask | masks[0] | masks[1] | ...} 
      */
     public static QueryTypeFlags combined(QueryTypeFlags mask, QueryTypeFlags... masks) {
-        for (QueryTypeFlags arg : masks) {
-            mask.setValue(mask.getValue() | arg.getValue());
+        int value = mask.getValue();        for (QueryTypeFlags arg : masks) {
+            value |= arg.getValue();
         }
-        return mask;
+        return new QueryTypeFlags(value);
     }
 }

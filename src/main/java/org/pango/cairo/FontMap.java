@@ -28,7 +28,11 @@ public interface FontMap extends io.github.jwharm.javagi.Proxy {
      * @throws ClassCastException If the GType is not derived from "PangoCairoFontMap", a ClassCastException will be thrown.
      */
     public static FontMap castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), FontMap.getType())) {
             return new FontMapImpl(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of PangoCairoFontMap");
+        }
     }
     
     /**
@@ -60,7 +64,7 @@ public interface FontMap extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.cairographics.FontType(RESULT);
+        return org.cairographics.FontType.of(RESULT);
     }
     
     /**

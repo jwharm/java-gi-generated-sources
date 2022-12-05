@@ -180,32 +180,4 @@ public class WeakRef extends Struct {
             false
         );
     }
-
-    /**
-     * Inner class implementing a builder pattern to construct 
-     * a struct and set its values.
-     */
-    public static class Build {
-        
-        private WeakRef struct;
-        
-         /**
-         * A {@link WeakRef.Build} object constructs a {@link WeakRef} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
-            struct = WeakRef.allocate();
-        }
-        
-         /**
-         * Finish building the {@link WeakRef} struct.
-         * @return A new instance of {@code WeakRef} with the fields 
-         *         that were set in the Build object.
-         */
-        public WeakRef construct() {
-            return struct;
-        }
-    }
 }

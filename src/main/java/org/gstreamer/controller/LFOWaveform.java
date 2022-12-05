@@ -8,36 +8,48 @@ import org.jetbrains.annotations.*;
 /**
  * The various waveform modes available.
  */
-public class LFOWaveform extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "GstLFOWaveform";
-    
+public enum LFOWaveform implements io.github.jwharm.javagi.Enumeration {
     /**
      * sine waveform
      */
-    public static final LFOWaveform SINE = new LFOWaveform(0);
-    
+    SINE(0),
     /**
      * square waveform
      */
-    public static final LFOWaveform SQUARE = new LFOWaveform(1);
-    
+    SQUARE(1),
     /**
      * saw waveform
      */
-    public static final LFOWaveform SAW = new LFOWaveform(2);
-    
+    SAW(2),
     /**
      * reverse saw waveform
      */
-    public static final LFOWaveform REVERSE_SAW = new LFOWaveform(3);
-    
+    REVERSE_SAW(3),
     /**
      * triangle waveform
      */
-    public static final LFOWaveform TRIANGLE = new LFOWaveform(4);
+    TRIANGLE(4);
     
-    public LFOWaveform(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "GstLFOWaveform";
+    
+    private final int value;
+    LFOWaveform(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static LFOWaveform of(int value) {
+        return switch (value) {
+            case 0 -> SINE;
+            case 1 -> SQUARE;
+            case 2 -> SAW;
+            case 3 -> REVERSE_SAW;
+            case 4 -> TRIANGLE;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

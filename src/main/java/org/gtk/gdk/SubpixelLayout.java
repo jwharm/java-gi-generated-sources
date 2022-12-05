@@ -9,41 +9,53 @@ import org.jetbrains.annotations.*;
  * This enumeration describes how the red, green and blue components
  * of physical pixels on an output device are laid out.
  */
-public class SubpixelLayout extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "GdkSubpixelLayout";
-    
+public enum SubpixelLayout implements io.github.jwharm.javagi.Enumeration {
     /**
      * The layout is not known
      */
-    public static final SubpixelLayout UNKNOWN = new SubpixelLayout(0);
-    
+    UNKNOWN(0),
     /**
      * Not organized in this way
      */
-    public static final SubpixelLayout NONE = new SubpixelLayout(1);
-    
+    NONE(1),
     /**
      * The layout is horizontal, the order is RGB
      */
-    public static final SubpixelLayout HORIZONTAL_RGB = new SubpixelLayout(2);
-    
+    HORIZONTAL_RGB(2),
     /**
      * The layout is horizontal, the order is BGR
      */
-    public static final SubpixelLayout HORIZONTAL_BGR = new SubpixelLayout(3);
-    
+    HORIZONTAL_BGR(3),
     /**
      * The layout is vertical, the order is RGB
      */
-    public static final SubpixelLayout VERTICAL_RGB = new SubpixelLayout(4);
-    
+    VERTICAL_RGB(4),
     /**
      * The layout is vertical, the order is BGR
      */
-    public static final SubpixelLayout VERTICAL_BGR = new SubpixelLayout(5);
+    VERTICAL_BGR(5);
     
-    public SubpixelLayout(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "GdkSubpixelLayout";
+    
+    private final int value;
+    SubpixelLayout(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static SubpixelLayout of(int value) {
+        return switch (value) {
+            case 0 -> UNKNOWN;
+            case 1 -> NONE;
+            case 2 -> HORIZONTAL_RGB;
+            case 3 -> HORIZONTAL_BGR;
+            case 4 -> VERTICAL_RGB;
+            case 5 -> VERTICAL_BGR;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

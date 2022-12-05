@@ -62,7 +62,11 @@ public class NetworkAddress extends org.gtk.gobject.Object implements org.gtk.gi
      * @throws ClassCastException If the GType is not derived from "GNetworkAddress", a ClassCastException will be thrown.
      */
     public static NetworkAddress castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), NetworkAddress.getType())) {
             return new NetworkAddress(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GNetworkAddress");
+        }
     }
     
     private static Addressable constructNew(@NotNull java.lang.String hostname, short port) {

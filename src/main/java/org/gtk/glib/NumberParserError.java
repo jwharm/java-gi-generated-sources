@@ -9,21 +9,33 @@ import org.jetbrains.annotations.*;
  * Error codes returned by functions converting a string to a number.
  * @version 2.54
  */
-public class NumberParserError extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "GNumberParserError";
-    
+public enum NumberParserError implements io.github.jwharm.javagi.Enumeration {
     /**
      * String was not a valid number.
      */
-    public static final NumberParserError INVALID = new NumberParserError(0);
-    
+    INVALID(0),
     /**
      * String was a number, but out of bounds.
      */
-    public static final NumberParserError OUT_OF_BOUNDS = new NumberParserError(1);
+    OUT_OF_BOUNDS(1);
     
-    public NumberParserError(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "GNumberParserError";
+    
+    private final int value;
+    NumberParserError(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static NumberParserError of(int value) {
+        return switch (value) {
+            case 0 -> INVALID;
+            case 1 -> OUT_OF_BOUNDS;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

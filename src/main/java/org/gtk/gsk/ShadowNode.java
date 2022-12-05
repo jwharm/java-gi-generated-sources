@@ -48,7 +48,11 @@ public class ShadowNode extends org.gtk.gsk.RenderNode {
      * @throws ClassCastException If the GType is not derived from "GskShadowNode", a ClassCastException will be thrown.
      */
     public static ShadowNode castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), ShadowNode.getType())) {
             return new ShadowNode(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GskShadowNode");
+        }
     }
     
     private static Addressable constructNew(@NotNull org.gtk.gsk.RenderNode child, @NotNull org.gtk.gsk.Shadow[] shadows, long nShadows) {

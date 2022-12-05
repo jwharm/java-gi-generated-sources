@@ -44,32 +44,4 @@ public class DBusObjectProxyPrivate extends Struct {
     public DBusObjectProxyPrivate(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
-
-    /**
-     * Inner class implementing a builder pattern to construct 
-     * a struct and set its values.
-     */
-    public static class Build {
-        
-        private DBusObjectProxyPrivate struct;
-        
-         /**
-         * A {@link DBusObjectProxyPrivate.Build} object constructs a {@link DBusObjectProxyPrivate} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
-            struct = DBusObjectProxyPrivate.allocate();
-        }
-        
-         /**
-         * Finish building the {@link DBusObjectProxyPrivate} struct.
-         * @return A new instance of {@code DBusObjectProxyPrivate} with the fields 
-         *         that were set in the Build object.
-         */
-        public DBusObjectProxyPrivate construct() {
-            return struct;
-        }
-    }
 }

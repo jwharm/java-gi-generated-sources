@@ -44,32 +44,4 @@ public class PermissionPrivate extends Struct {
     public PermissionPrivate(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
-
-    /**
-     * Inner class implementing a builder pattern to construct 
-     * a struct and set its values.
-     */
-    public static class Build {
-        
-        private PermissionPrivate struct;
-        
-         /**
-         * A {@link PermissionPrivate.Build} object constructs a {@link PermissionPrivate} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
-            struct = PermissionPrivate.allocate();
-        }
-        
-         /**
-         * Finish building the {@link PermissionPrivate} struct.
-         * @return A new instance of {@code PermissionPrivate} with the fields 
-         *         that were set in the Build object.
-         */
-        public PermissionPrivate construct() {
-            return struct;
-        }
-    }
 }

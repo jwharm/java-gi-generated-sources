@@ -10,27 +10,39 @@ import org.jetbrains.annotations.*;
  * <p>
  * {@code GdkKeyMatch} values are returned by {@link KeyEvent#matches}.
  */
-public class KeyMatch extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "GdkKeyMatch";
-    
+public enum KeyMatch implements io.github.jwharm.javagi.Enumeration {
     /**
      * The key event does not match
      */
-    public static final KeyMatch NONE = new KeyMatch(0);
-    
+    NONE(0),
     /**
      * The key event matches if keyboard state
      *   (specifically, the currently active group) is ignored
      */
-    public static final KeyMatch PARTIAL = new KeyMatch(1);
-    
+    PARTIAL(1),
     /**
      * The key event matches
      */
-    public static final KeyMatch EXACT = new KeyMatch(2);
+    EXACT(2);
     
-    public KeyMatch(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "GdkKeyMatch";
+    
+    private final int value;
+    KeyMatch(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static KeyMatch of(int value) {
+        return switch (value) {
+            case 0 -> NONE;
+            case 1 -> PARTIAL;
+            case 2 -> EXACT;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

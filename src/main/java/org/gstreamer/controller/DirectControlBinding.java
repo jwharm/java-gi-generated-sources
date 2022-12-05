@@ -43,12 +43,19 @@ public class DirectControlBinding extends org.gstreamer.gst.ControlBinding {
     
     /**
      * Create a DirectControlBinding proxy instance for the provided memory address.
+     * <p>
+     * Because DirectControlBinding is an {@code InitiallyUnowned} instance, when 
+     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
+     * and a call to {@code refSink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
     @ApiStatus.Internal
     public DirectControlBinding(Addressable address, Ownership ownership) {
-        super(address, ownership);
+        super(address, Ownership.FULL);
+        if (ownership == Ownership.NONE) {
+            refSink();
+        }
     }
     
     /**
@@ -64,7 +71,11 @@ public class DirectControlBinding extends org.gstreamer.gst.ControlBinding {
      * @throws ClassCastException If the GType is not derived from "GstDirectControlBinding", a ClassCastException will be thrown.
      */
     public static DirectControlBinding castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), DirectControlBinding.getType())) {
             return new DirectControlBinding(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GstDirectControlBinding");
+        }
     }
     
     private static Addressable constructNew(@NotNull org.gstreamer.gst.Object object, @NotNull java.lang.String propertyName, @NotNull org.gstreamer.gst.ControlSource cs) {

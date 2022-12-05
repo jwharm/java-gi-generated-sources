@@ -66,7 +66,11 @@ public class SocketClient extends org.gtk.gobject.Object {
      * @throws ClassCastException If the GType is not derived from "GSocketClient", a ClassCastException will be thrown.
      */
     public static SocketClient castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), SocketClient.getType())) {
             return new SocketClient(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GSocketClient");
+        }
     }
     
     private static Addressable constructNew() {
@@ -559,7 +563,7 @@ public class SocketClient extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.SocketFamily(RESULT);
+        return org.gtk.gio.SocketFamily.of(RESULT);
     }
     
     /**
@@ -593,7 +597,7 @@ public class SocketClient extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.SocketProtocol(RESULT);
+        return org.gtk.gio.SocketProtocol.of(RESULT);
     }
     
     /**
@@ -628,7 +632,7 @@ public class SocketClient extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.SocketType(RESULT);
+        return org.gtk.gio.SocketType.of(RESULT);
     }
     
     /**
@@ -896,7 +900,7 @@ public class SocketClient extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface Event {
-        void signalReceived(SocketClient source, @NotNull org.gtk.gio.SocketClientEvent event, @NotNull org.gtk.gio.SocketConnectable connectable, @Nullable org.gtk.gio.IOStream connection);
+        void signalReceived(SocketClient sourceSocketClient, @NotNull org.gtk.gio.SocketClientEvent event, @NotNull org.gtk.gio.SocketConnectable connectable, @Nullable org.gtk.gio.IOStream connection);
     }
     
     /**
@@ -1296,10 +1300,10 @@ public class SocketClient extends org.gtk.gobject.Object {
     
     private static class Callbacks {
         
-        public static void signalSocketClientEvent(MemoryAddress source, int event, MemoryAddress connectable, MemoryAddress connection, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalSocketClientEvent(MemoryAddress sourceSocketClient, int event, MemoryAddress connectable, MemoryAddress connection, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (SocketClient.Event) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new SocketClient(source, Ownership.NONE), new org.gtk.gio.SocketClientEvent(event), new org.gtk.gio.SocketConnectable.SocketConnectableImpl(connectable, Ownership.NONE), new org.gtk.gio.IOStream(connection, Ownership.NONE));
+            HANDLER.signalReceived(new SocketClient(sourceSocketClient, Ownership.NONE), org.gtk.gio.SocketClientEvent.of(event), new org.gtk.gio.SocketConnectable.SocketConnectableImpl(connectable, Ownership.NONE), new org.gtk.gio.IOStream(connection, Ownership.NONE));
         }
     }
 }

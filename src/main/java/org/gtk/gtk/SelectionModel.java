@@ -59,7 +59,11 @@ public interface SelectionModel extends io.github.jwharm.javagi.Proxy {
      * @throws ClassCastException If the GType is not derived from "GtkSelectionModel", a ClassCastException will be thrown.
      */
     public static SelectionModel castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), SelectionModel.getType())) {
             return new SelectionModelImpl(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkSelectionModel");
+        }
     }
     
     /**
@@ -328,7 +332,7 @@ public interface SelectionModel extends io.github.jwharm.javagi.Proxy {
     
     @FunctionalInterface
     public interface SelectionChanged {
-        void signalReceived(SelectionModel source, int position, int nItems);
+        void signalReceived(SelectionModel sourceSelectionModel, int position, int nItems);
     }
     
     /**
@@ -450,10 +454,10 @@ public interface SelectionModel extends io.github.jwharm.javagi.Proxy {
     @ApiStatus.Internal
     static class Callbacks {
         
-        public static void signalSelectionModelSelectionChanged(MemoryAddress source, int position, int nItems, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalSelectionModelSelectionChanged(MemoryAddress sourceSelectionModel, int position, int nItems, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (SelectionModel.SelectionChanged) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new SelectionModel.SelectionModelImpl(source, Ownership.NONE), position, nItems);
+            HANDLER.signalReceived(new SelectionModel.SelectionModelImpl(sourceSelectionModel, Ownership.NONE), position, nItems);
         }
     }
     

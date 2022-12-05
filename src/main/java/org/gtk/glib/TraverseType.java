@@ -20,28 +20,22 @@ import org.jetbrains.annotations.*;
  *   <img src="./doc-files/Sorted_binary_tree_breadth-first_traversal.svg" alt="">
  * </ul>
  */
-public class TraverseType extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "GTraverseType";
-    
+public enum TraverseType implements io.github.jwharm.javagi.Enumeration {
     /**
      * vists a node's left child first, then the node itself,
      *              then its right child. This is the one to use if you
      *              want the output sorted according to the compare
      *              function.
      */
-    public static final TraverseType IN_ORDER = new TraverseType(0);
-    
+    IN_ORDER(0),
     /**
      * visits a node, then its children.
      */
-    public static final TraverseType PRE_ORDER = new TraverseType(1);
-    
+    PRE_ORDER(1),
     /**
      * visits the node's children, then the node itself.
      */
-    public static final TraverseType POST_ORDER = new TraverseType(2);
-    
+    POST_ORDER(2),
     /**
      * is not implemented for
      *              [balanced binary trees][glib-Balanced-Binary-Trees].
@@ -50,9 +44,27 @@ public class TraverseType extends io.github.jwharm.javagi.Enumeration {
      *              its grandchildren, and so on. Note that this is less
      *              efficient than the other orders.
      */
-    public static final TraverseType LEVEL_ORDER = new TraverseType(3);
+    LEVEL_ORDER(3);
     
-    public TraverseType(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "GTraverseType";
+    
+    private final int value;
+    TraverseType(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static TraverseType of(int value) {
+        return switch (value) {
+            case 0 -> IN_ORDER;
+            case 1 -> PRE_ORDER;
+            case 2 -> POST_ORDER;
+            case 3 -> LEVEL_ORDER;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

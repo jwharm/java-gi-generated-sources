@@ -10,21 +10,33 @@ import org.jetbrains.annotations.*;
  * <p>
  * See {@link WindowControls} for example.
  */
-public class PackType extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "GtkPackType";
-    
+public enum PackType implements io.github.jwharm.javagi.Enumeration {
     /**
      * The child is packed into the start of the widget
      */
-    public static final PackType START = new PackType(0);
-    
+    START(0),
     /**
      * The child is packed into the end of the widget
      */
-    public static final PackType END = new PackType(1);
+    END(1);
     
-    public PackType(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "GtkPackType";
+    
+    private final int value;
+    PackType(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static PackType of(int value) {
+        return switch (value) {
+            case 0 -> START;
+            case 1 -> END;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

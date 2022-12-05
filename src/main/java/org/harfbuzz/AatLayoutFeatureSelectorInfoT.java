@@ -74,7 +74,7 @@ public class AatLayoutFeatureSelectorInfoT extends Struct {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("enable"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new org.harfbuzz.AatLayoutFeatureSelectorT(RESULT);
+        return org.harfbuzz.AatLayoutFeatureSelectorT.of(RESULT);
     }
     
     /**
@@ -95,7 +95,7 @@ public class AatLayoutFeatureSelectorInfoT extends Struct {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("disable"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new org.harfbuzz.AatLayoutFeatureSelectorT(RESULT);
+        return org.harfbuzz.AatLayoutFeatureSelectorT.of(RESULT);
     }
     
     /**

@@ -44,32 +44,4 @@ public class Device extends Struct {
     public Device(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
-
-    /**
-     * Inner class implementing a builder pattern to construct 
-     * a struct and set its values.
-     */
-    public static class Build {
-        
-        private Device struct;
-        
-         /**
-         * A {@link Device.Build} object constructs a {@link Device} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
-            struct = Device.allocate();
-        }
-        
-         /**
-         * Finish building the {@link Device} struct.
-         * @return A new instance of {@code Device} with the fields 
-         *         that were set in the Build object.
-         */
-        public Device construct() {
-            return struct;
-        }
-    }
 }

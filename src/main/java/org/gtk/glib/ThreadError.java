@@ -8,17 +8,29 @@ import org.jetbrains.annotations.*;
 /**
  * Possible errors of thread related functions.
  */
-public class ThreadError extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "GThreadError";
-    
+public enum ThreadError implements io.github.jwharm.javagi.Enumeration {
     /**
      * a thread couldn't be created due to resource
      *                        shortage. Try again later.
      */
-    public static final ThreadError THREAD_ERROR_AGAIN = new ThreadError(0);
+    THREAD_ERROR_AGAIN(0);
     
-    public ThreadError(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "GThreadError";
+    
+    private final int value;
+    ThreadError(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static ThreadError of(int value) {
+        return switch (value) {
+            case 0 -> THREAD_ERROR_AGAIN;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

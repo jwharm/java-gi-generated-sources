@@ -19,25 +19,37 @@ import org.jetbrains.annotations.*;
  * it will be possible to do full alpha compositing onto arbitrary drawables.
  * For now both cases fall back to a bilevel clipping mask.
  */
-public class PixbufAlphaMode extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "GdkPixbufAlphaMode";
-    
+public enum PixbufAlphaMode implements io.github.jwharm.javagi.Enumeration {
     /**
      * A bilevel clipping mask (black and white)
      *  will be created and used to draw the image.  Pixels below 0.5 opacity
      *  will be considered fully transparent, and all others will be
      *  considered fully opaque.
      */
-    public static final PixbufAlphaMode BILEVEL = new PixbufAlphaMode(0);
-    
+    BILEVEL(0),
     /**
      * For now falls back to {@code GDK_PIXBUF_ALPHA_BILEVEL}.
      *  In the future it will do full alpha compositing.
      */
-    public static final PixbufAlphaMode FULL = new PixbufAlphaMode(1);
+    FULL(1);
     
-    public PixbufAlphaMode(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "GdkPixbufAlphaMode";
+    
+    private final int value;
+    PixbufAlphaMode(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static PixbufAlphaMode of(int value) {
+        return switch (value) {
+            case 0 -> BILEVEL;
+            case 1 -> FULL;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

@@ -44,32 +44,4 @@ public class SocketConnectionPrivate extends Struct {
     public SocketConnectionPrivate(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
-
-    /**
-     * Inner class implementing a builder pattern to construct 
-     * a struct and set its values.
-     */
-    public static class Build {
-        
-        private SocketConnectionPrivate struct;
-        
-         /**
-         * A {@link SocketConnectionPrivate.Build} object constructs a {@link SocketConnectionPrivate} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
-            struct = SocketConnectionPrivate.allocate();
-        }
-        
-         /**
-         * Finish building the {@link SocketConnectionPrivate} struct.
-         * @return A new instance of {@code SocketConnectionPrivate} with the fields 
-         *         that were set in the Build object.
-         */
-        public SocketConnectionPrivate construct() {
-            return struct;
-        }
-    }
 }

@@ -44,32 +44,4 @@ public class ShortcutControllerClass extends Struct {
     public ShortcutControllerClass(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
-
-    /**
-     * Inner class implementing a builder pattern to construct 
-     * a struct and set its values.
-     */
-    public static class Build {
-        
-        private ShortcutControllerClass struct;
-        
-         /**
-         * A {@link ShortcutControllerClass.Build} object constructs a {@link ShortcutControllerClass} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
-            struct = ShortcutControllerClass.allocate();
-        }
-        
-         /**
-         * Finish building the {@link ShortcutControllerClass} struct.
-         * @return A new instance of {@code ShortcutControllerClass} with the fields 
-         *         that were set in the Build object.
-         */
-        public ShortcutControllerClass construct() {
-            return struct;
-        }
-    }
 }

@@ -10,29 +10,41 @@ import org.jetbrains.annotations.*;
  * from a {@link Resolver} routine.
  * @version 2.22
  */
-public class ResolverError extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "GResolverError";
-    
+public enum ResolverError implements io.github.jwharm.javagi.Enumeration {
     /**
      * the requested name/address/service was not
      *     found
      */
-    public static final ResolverError NOT_FOUND = new ResolverError(0);
-    
+    NOT_FOUND(0),
     /**
      * the requested information could not
      *     be looked up due to a network error or similar problem
      */
-    public static final ResolverError TEMPORARY_FAILURE = new ResolverError(1);
-    
+    TEMPORARY_FAILURE(1),
     /**
      * unknown error
      */
-    public static final ResolverError INTERNAL = new ResolverError(2);
+    INTERNAL(2);
     
-    public ResolverError(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "GResolverError";
+    
+    private final int value;
+    ResolverError(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static ResolverError of(int value) {
+        return switch (value) {
+            case 0 -> NOT_FOUND;
+            case 1 -> TEMPORARY_FAILURE;
+            case 2 -> INTERNAL;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
     
     /**

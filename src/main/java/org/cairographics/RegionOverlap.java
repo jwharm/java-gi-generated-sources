@@ -5,17 +5,29 @@ import java.lang.foreign.*;
 import java.lang.invoke.*;
 import org.jetbrains.annotations.*;
 
-public class RegionOverlap extends io.github.jwharm.javagi.Enumeration {
+public enum RegionOverlap implements io.github.jwharm.javagi.Enumeration {
+    IN(0),
+    OUT(1),
+    PART(2);
     
     private static final java.lang.String C_TYPE_NAME = "cairo_region_overlap_t";
     
-    public static final RegionOverlap IN = new RegionOverlap(0);
+    private final int value;
+    RegionOverlap(int value) {
+        this.value = value;
+    }
     
-    public static final RegionOverlap OUT = new RegionOverlap(1);
+    @Override
+    public int getValue() {
+        return value;
+    }
     
-    public static final RegionOverlap PART = new RegionOverlap(2);
-    
-    public RegionOverlap(int value) {
-        super(value);
+    public static RegionOverlap of(int value) {
+        return switch (value) {
+            case 0 -> IN;
+            case 1 -> OUT;
+            case 2 -> PART;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

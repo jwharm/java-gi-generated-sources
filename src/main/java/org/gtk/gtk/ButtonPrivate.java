@@ -44,32 +44,4 @@ public class ButtonPrivate extends Struct {
     public ButtonPrivate(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
-
-    /**
-     * Inner class implementing a builder pattern to construct 
-     * a struct and set its values.
-     */
-    public static class Build {
-        
-        private ButtonPrivate struct;
-        
-         /**
-         * A {@link ButtonPrivate.Build} object constructs a {@link ButtonPrivate} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
-            struct = ButtonPrivate.allocate();
-        }
-        
-         /**
-         * Finish building the {@link ButtonPrivate} struct.
-         * @return A new instance of {@code ButtonPrivate} with the fields 
-         *         that were set in the Build object.
-         */
-        public ButtonPrivate construct() {
-            return struct;
-        }
-    }
 }

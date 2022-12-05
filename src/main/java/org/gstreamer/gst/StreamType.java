@@ -69,9 +69,8 @@ public class StreamType extends io.github.jwharm.javagi.Bitfield {
      * @param mask the value to combine with
      * @return the combined value by calculating {@code this | mask} 
      */
-    public StreamType combined(StreamType mask) {
-        this.setValue(this.getValue() | mask.getValue());
-        return this;
+    public StreamType or(StreamType mask) {
+        return new StreamType(this.getValue() | mask.getValue());
     }
     
     /**
@@ -81,10 +80,10 @@ public class StreamType extends io.github.jwharm.javagi.Bitfield {
      * @return the combined value by calculating {@code mask | masks[0] | masks[1] | ...} 
      */
     public static StreamType combined(StreamType mask, StreamType... masks) {
-        for (StreamType arg : masks) {
-            mask.setValue(mask.getValue() | arg.getValue());
+        int value = mask.getValue();        for (StreamType arg : masks) {
+            value |= arg.getValue();
         }
-        return mask;
+        return new StreamType(value);
     }
     
     private static class DowncallHandles {

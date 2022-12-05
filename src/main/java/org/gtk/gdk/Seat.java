@@ -53,7 +53,11 @@ public class Seat extends org.gtk.gobject.Object {
      * @throws ClassCastException If the GType is not derived from "GdkSeat", a ClassCastException will be thrown.
      */
     public static Seat castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), Seat.getType())) {
             return new Seat(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GdkSeat");
+        }
     }
     
     /**
@@ -170,7 +174,7 @@ public class Seat extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface DeviceAdded {
-        void signalReceived(Seat source, @NotNull org.gtk.gdk.Device device);
+        void signalReceived(Seat sourceSeat, @NotNull org.gtk.gdk.Device device);
     }
     
     /**
@@ -198,7 +202,7 @@ public class Seat extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface DeviceRemoved {
-        void signalReceived(Seat source, @NotNull org.gtk.gdk.Device device);
+        void signalReceived(Seat sourceSeat, @NotNull org.gtk.gdk.Device device);
     }
     
     /**
@@ -226,7 +230,7 @@ public class Seat extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface ToolAdded {
-        void signalReceived(Seat source, @NotNull org.gtk.gdk.DeviceTool tool);
+        void signalReceived(Seat sourceSeat, @NotNull org.gtk.gdk.DeviceTool tool);
     }
     
     /**
@@ -260,7 +264,7 @@ public class Seat extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface ToolRemoved {
-        void signalReceived(Seat source, @NotNull org.gtk.gdk.DeviceTool tool);
+        void signalReceived(Seat sourceSeat, @NotNull org.gtk.gdk.DeviceTool tool);
     }
     
     /**
@@ -379,28 +383,28 @@ public class Seat extends org.gtk.gobject.Object {
     
     private static class Callbacks {
         
-        public static void signalSeatDeviceAdded(MemoryAddress source, MemoryAddress device, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalSeatDeviceAdded(MemoryAddress sourceSeat, MemoryAddress device, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (Seat.DeviceAdded) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Seat(source, Ownership.NONE), new org.gtk.gdk.Device(device, Ownership.NONE));
+            HANDLER.signalReceived(new Seat(sourceSeat, Ownership.NONE), new org.gtk.gdk.Device(device, Ownership.NONE));
         }
         
-        public static void signalSeatDeviceRemoved(MemoryAddress source, MemoryAddress device, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalSeatDeviceRemoved(MemoryAddress sourceSeat, MemoryAddress device, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (Seat.DeviceRemoved) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Seat(source, Ownership.NONE), new org.gtk.gdk.Device(device, Ownership.NONE));
+            HANDLER.signalReceived(new Seat(sourceSeat, Ownership.NONE), new org.gtk.gdk.Device(device, Ownership.NONE));
         }
         
-        public static void signalSeatToolAdded(MemoryAddress source, MemoryAddress tool, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalSeatToolAdded(MemoryAddress sourceSeat, MemoryAddress tool, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (Seat.ToolAdded) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Seat(source, Ownership.NONE), new org.gtk.gdk.DeviceTool(tool, Ownership.NONE));
+            HANDLER.signalReceived(new Seat(sourceSeat, Ownership.NONE), new org.gtk.gdk.DeviceTool(tool, Ownership.NONE));
         }
         
-        public static void signalSeatToolRemoved(MemoryAddress source, MemoryAddress tool, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalSeatToolRemoved(MemoryAddress sourceSeat, MemoryAddress tool, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (Seat.ToolRemoved) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Seat(source, Ownership.NONE), new org.gtk.gdk.DeviceTool(tool, Ownership.NONE));
+            HANDLER.signalReceived(new Seat(sourceSeat, Ownership.NONE), new org.gtk.gdk.DeviceTool(tool, Ownership.NONE));
         }
     }
 }

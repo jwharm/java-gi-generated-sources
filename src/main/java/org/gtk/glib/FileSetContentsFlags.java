@@ -55,9 +55,8 @@ public class FileSetContentsFlags extends io.github.jwharm.javagi.Bitfield {
      * @param mask the value to combine with
      * @return the combined value by calculating {@code this | mask} 
      */
-    public FileSetContentsFlags combined(FileSetContentsFlags mask) {
-        this.setValue(this.getValue() | mask.getValue());
-        return this;
+    public FileSetContentsFlags or(FileSetContentsFlags mask) {
+        return new FileSetContentsFlags(this.getValue() | mask.getValue());
     }
     
     /**
@@ -67,9 +66,9 @@ public class FileSetContentsFlags extends io.github.jwharm.javagi.Bitfield {
      * @return the combined value by calculating {@code mask | masks[0] | masks[1] | ...} 
      */
     public static FileSetContentsFlags combined(FileSetContentsFlags mask, FileSetContentsFlags... masks) {
-        for (FileSetContentsFlags arg : masks) {
-            mask.setValue(mask.getValue() | arg.getValue());
+        int value = mask.getValue();        for (FileSetContentsFlags arg : masks) {
+            value |= arg.getValue();
         }
-        return mask;
+        return new FileSetContentsFlags(value);
     }
 }

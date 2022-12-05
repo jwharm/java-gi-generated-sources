@@ -11,31 +11,43 @@ import org.jetbrains.annotations.*;
  * if available.)
  * @version 2.22
  */
-public class SocketFamily extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "GSocketFamily";
-    
+public enum SocketFamily implements io.github.jwharm.javagi.Enumeration {
     /**
      * no address family
      */
-    public static final SocketFamily INVALID = new SocketFamily(0);
-    
+    INVALID(0),
     /**
      * the UNIX domain family
      */
-    public static final SocketFamily UNIX = new SocketFamily(1);
-    
+    UNIX(1),
     /**
      * the IPv4 family
      */
-    public static final SocketFamily IPV4 = new SocketFamily(2);
-    
+    IPV4(2),
     /**
      * the IPv6 family
      */
-    public static final SocketFamily IPV6 = new SocketFamily(10);
+    IPV6(10);
     
-    public SocketFamily(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "GSocketFamily";
+    
+    private final int value;
+    SocketFamily(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static SocketFamily of(int value) {
+        return switch (value) {
+            case 0 -> INVALID;
+            case 1 -> UNIX;
+            case 2 -> IPV4;
+            case 10 -> IPV6;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

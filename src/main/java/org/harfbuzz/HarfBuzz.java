@@ -35,6 +35,11 @@ public final class HarfBuzz {
     public static final int FEATURE_GLOBAL_START = 0;
     
     /**
+     * Unset {@link MapT} value.
+     */
+    public static final org.harfbuzz.CodepointT MAP_VALUE_INVALID = new org.harfbuzz.CodepointT(-1);
+    
+    /**
      * Special value for language index indicating default or unsupported language.
      */
     public static final int OT_LAYOUT_DEFAULT_LANGUAGE_INDEX = 65535;
@@ -50,6 +55,11 @@ public final class HarfBuzz {
     public static final int OT_LAYOUT_NO_SCRIPT_INDEX = 65535;
     
     /**
+     * Special value for variations index indicating unsupported variation.
+     */
+    public static final int OT_LAYOUT_NO_VARIATIONS_INDEX = -1;
+    
+    /**
      * Maximum number of OpenType tags that can correspond to a give {@link LanguageT}.
      */
     public static final int OT_MAX_TAGS_PER_LANGUAGE = 3;
@@ -58,6 +68,16 @@ public final class HarfBuzz {
      * Maximum number of OpenType tags that can correspond to a give {@link ScriptT}.
      */
     public static final int OT_MAX_TAGS_PER_SCRIPT = 3;
+    
+    /**
+     * Do not use.
+     */
+    public static final int OT_VAR_NO_AXIS_INDEX = -1;
+    
+    /**
+     * Unset {@link SetT} value.
+     */
+    public static final org.harfbuzz.CodepointT SET_VALUE_INVALID = new org.harfbuzz.CodepointT(-1);
     
     /**
      * Maximum valid Unicode code point.
@@ -185,7 +205,7 @@ public final class HarfBuzz {
         org.harfbuzz.AatLayoutFeatureTypeT[] featuresARRAY = new org.harfbuzz.AatLayoutFeatureTypeT[featureCount.get().intValue()];
         for (int I = 0; I < featureCount.get().intValue(); I++) {
             var OBJ = featuresPOINTER.get(Interop.valueLayout.C_INT, I);
-            featuresARRAY[I] = new org.harfbuzz.AatLayoutFeatureTypeT(OBJ);
+            featuresARRAY[I] = org.harfbuzz.AatLayoutFeatureTypeT.of(OBJ);
         }
         features.set(featuresARRAY);
         return RESULT;
@@ -945,7 +965,7 @@ public final class HarfBuzz {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.harfbuzz.BufferClusterLevelT(RESULT);
+        return org.harfbuzz.BufferClusterLevelT.of(RESULT);
     }
     
     /**
@@ -963,7 +983,7 @@ public final class HarfBuzz {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.harfbuzz.BufferContentTypeT(RESULT);
+        return org.harfbuzz.BufferContentTypeT.of(RESULT);
     }
     
     /**
@@ -980,7 +1000,7 @@ public final class HarfBuzz {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.harfbuzz.DirectionT(RESULT);
+        return org.harfbuzz.DirectionT.of(RESULT);
     }
     
     /**
@@ -1178,7 +1198,7 @@ public final class HarfBuzz {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.harfbuzz.ScriptT(RESULT);
+        return org.harfbuzz.ScriptT.of(RESULT);
     }
     
     /**
@@ -1474,7 +1494,7 @@ public final class HarfBuzz {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.harfbuzz.BufferSerializeFormatT(RESULT);
+        return org.harfbuzz.BufferSerializeFormatT.of(RESULT);
     }
     
     /**
@@ -2030,7 +2050,7 @@ public final class HarfBuzz {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.harfbuzz.DirectionT(RESULT);
+        return org.harfbuzz.DirectionT.of(RESULT);
     }
     
     /**
@@ -5025,7 +5045,7 @@ public final class HarfBuzz {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.UnicodeScript(RESULT);
+        return org.gtk.glib.UnicodeScript.of(RESULT);
     }
     
     /**
@@ -5043,7 +5063,7 @@ public final class HarfBuzz {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.harfbuzz.ScriptT(RESULT);
+        return org.harfbuzz.ScriptT.of(RESULT);
     }
     
     /**
@@ -6122,7 +6142,7 @@ public final class HarfBuzz {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.harfbuzz.OtLayoutGlyphClassT(RESULT);
+        return org.harfbuzz.OtLayoutGlyphClassT.of(RESULT);
     }
     
     /**
@@ -6161,7 +6181,7 @@ public final class HarfBuzz {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.harfbuzz.OtLayoutBaselineTagT(RESULT);
+        return org.harfbuzz.OtLayoutBaselineTagT.of(RESULT);
     }
     
     /**
@@ -7341,7 +7361,7 @@ public final class HarfBuzz {
         org.harfbuzz.OtMetaTagT[] entriesARRAY = new org.harfbuzz.OtMetaTagT[entriesCount.get().intValue()];
         for (int I = 0; I < entriesCount.get().intValue(); I++) {
             var OBJ = entriesPOINTER.get(Interop.valueLayout.C_INT, I);
-            entriesARRAY[I] = new org.harfbuzz.OtMetaTagT(OBJ);
+            entriesARRAY[I] = org.harfbuzz.OtMetaTagT.of(OBJ);
         }
         entries.set(entriesARRAY);
         return RESULT;
@@ -7714,7 +7734,7 @@ public final class HarfBuzz {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.harfbuzz.ScriptT(RESULT);
+        return org.harfbuzz.ScriptT.of(RESULT);
     }
     
     public static void otTagsFromScript(@NotNull org.harfbuzz.ScriptT script, @NotNull org.harfbuzz.TagT scriptTag1, @NotNull org.harfbuzz.TagT scriptTag2) {
@@ -7800,7 +7820,7 @@ public final class HarfBuzz {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        script.set(new org.harfbuzz.ScriptT(scriptPOINTER.get(Interop.valueLayout.C_INT, 0)));
+        script.set(org.harfbuzz.ScriptT.of(scriptPOINTER.get(Interop.valueLayout.C_INT, 0)));
     }
     
     /**
@@ -8126,7 +8146,7 @@ public final class HarfBuzz {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.harfbuzz.ScriptT(RESULT);
+        return org.harfbuzz.ScriptT.of(RESULT);
     }
     
     /**
@@ -8148,7 +8168,7 @@ public final class HarfBuzz {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.harfbuzz.ScriptT(RESULT);
+        return org.harfbuzz.ScriptT.of(RESULT);
     }
     
     /**
@@ -8170,7 +8190,7 @@ public final class HarfBuzz {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.harfbuzz.DirectionT(RESULT);
+        return org.harfbuzz.DirectionT.of(RESULT);
     }
     
     /**
@@ -9291,7 +9311,7 @@ public final class HarfBuzz {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.harfbuzz.UnicodeCombiningClassT(RESULT);
+        return org.harfbuzz.UnicodeCombiningClassT.of(RESULT);
     }
     
     /**
@@ -9677,7 +9697,7 @@ public final class HarfBuzz {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.harfbuzz.UnicodeGeneralCategoryT(RESULT);
+        return org.harfbuzz.UnicodeGeneralCategoryT.of(RESULT);
     }
     
     /**
@@ -9719,7 +9739,7 @@ public final class HarfBuzz {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.harfbuzz.ScriptT(RESULT);
+        return org.harfbuzz.ScriptT.of(RESULT);
     }
     
     /**

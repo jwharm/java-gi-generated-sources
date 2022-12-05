@@ -27,9 +27,8 @@ public class TlsDatabaseVerifyFlags extends io.github.jwharm.javagi.Bitfield {
      * @param mask the value to combine with
      * @return the combined value by calculating {@code this | mask} 
      */
-    public TlsDatabaseVerifyFlags combined(TlsDatabaseVerifyFlags mask) {
-        this.setValue(this.getValue() | mask.getValue());
-        return this;
+    public TlsDatabaseVerifyFlags or(TlsDatabaseVerifyFlags mask) {
+        return new TlsDatabaseVerifyFlags(this.getValue() | mask.getValue());
     }
     
     /**
@@ -39,9 +38,9 @@ public class TlsDatabaseVerifyFlags extends io.github.jwharm.javagi.Bitfield {
      * @return the combined value by calculating {@code mask | masks[0] | masks[1] | ...} 
      */
     public static TlsDatabaseVerifyFlags combined(TlsDatabaseVerifyFlags mask, TlsDatabaseVerifyFlags... masks) {
-        for (TlsDatabaseVerifyFlags arg : masks) {
-            mask.setValue(mask.getValue() | arg.getValue());
+        int value = mask.getValue();        for (TlsDatabaseVerifyFlags arg : masks) {
+            value |= arg.getValue();
         }
-        return mask;
+        return new TlsDatabaseVerifyFlags(value);
     }
 }

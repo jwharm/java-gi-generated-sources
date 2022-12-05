@@ -72,9 +72,8 @@ public class DBusConnectionFlags extends io.github.jwharm.javagi.Bitfield {
      * @param mask the value to combine with
      * @return the combined value by calculating {@code this | mask} 
      */
-    public DBusConnectionFlags combined(DBusConnectionFlags mask) {
-        this.setValue(this.getValue() | mask.getValue());
-        return this;
+    public DBusConnectionFlags or(DBusConnectionFlags mask) {
+        return new DBusConnectionFlags(this.getValue() | mask.getValue());
     }
     
     /**
@@ -84,9 +83,9 @@ public class DBusConnectionFlags extends io.github.jwharm.javagi.Bitfield {
      * @return the combined value by calculating {@code mask | masks[0] | masks[1] | ...} 
      */
     public static DBusConnectionFlags combined(DBusConnectionFlags mask, DBusConnectionFlags... masks) {
-        for (DBusConnectionFlags arg : masks) {
-            mask.setValue(mask.getValue() | arg.getValue());
+        int value = mask.getValue();        for (DBusConnectionFlags arg : masks) {
+            value |= arg.getValue();
         }
-        return mask;
+        return new DBusConnectionFlags(value);
     }
 }

@@ -72,7 +72,11 @@ public class TreeSelection extends org.gtk.gobject.Object {
      * @throws ClassCastException If the GType is not derived from "GtkTreeSelection", a ClassCastException will be thrown.
      */
     public static TreeSelection castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), TreeSelection.getType())) {
             return new TreeSelection(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkTreeSelection");
+        }
     }
     
     /**
@@ -103,7 +107,7 @@ public class TreeSelection extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.SelectionMode(RESULT);
+        return org.gtk.gtk.SelectionMode.of(RESULT);
     }
     
     /**
@@ -439,7 +443,7 @@ public class TreeSelection extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface Changed {
-        void signalReceived(TreeSelection source);
+        void signalReceived(TreeSelection sourceTreeSelection);
     }
     
     /**
@@ -646,10 +650,10 @@ public class TreeSelection extends org.gtk.gobject.Object {
     
     private static class Callbacks {
         
-        public static void signalTreeSelectionChanged(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalTreeSelectionChanged(MemoryAddress sourceTreeSelection, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (TreeSelection.Changed) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new TreeSelection(source, Ownership.NONE));
+            HANDLER.signalReceived(new TreeSelection(sourceTreeSelection, Ownership.NONE));
         }
     }
 }

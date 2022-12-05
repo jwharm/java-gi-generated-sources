@@ -113,7 +113,11 @@ public class PrintOperation extends org.gtk.gobject.Object implements org.gtk.gt
      * @throws ClassCastException If the GType is not derived from "GtkPrintOperation", a ClassCastException will be thrown.
      */
     public static PrintOperation castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), PrintOperation.getType())) {
             return new PrintOperation(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkPrintOperation");
+        }
     }
     
     private static Addressable constructNew() {
@@ -293,7 +297,7 @@ public class PrintOperation extends org.gtk.gobject.Object implements org.gtk.gt
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.PrintStatus(RESULT);
+        return org.gtk.gtk.PrintStatus.of(RESULT);
     }
     
     /**
@@ -441,7 +445,7 @@ public class PrintOperation extends org.gtk.gobject.Object implements org.gtk.gt
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new org.gtk.gtk.PrintOperationResult(RESULT);
+        return org.gtk.gtk.PrintOperationResult.of(RESULT);
     }
     
     /**
@@ -754,7 +758,7 @@ public class PrintOperation extends org.gtk.gobject.Object implements org.gtk.gt
     
     @FunctionalInterface
     public interface BeginPrint {
-        void signalReceived(PrintOperation source, @NotNull org.gtk.gtk.PrintContext context);
+        void signalReceived(PrintOperation sourcePrintOperation, @NotNull org.gtk.gtk.PrintContext context);
     }
     
     /**
@@ -788,7 +792,7 @@ public class PrintOperation extends org.gtk.gobject.Object implements org.gtk.gt
     
     @FunctionalInterface
     public interface CreateCustomWidget {
-        void signalReceived(PrintOperation source);
+        void signalReceived(PrintOperation sourcePrintOperation);
     }
     
     /**
@@ -826,7 +830,7 @@ public class PrintOperation extends org.gtk.gobject.Object implements org.gtk.gt
     
     @FunctionalInterface
     public interface CustomWidgetApply {
-        void signalReceived(PrintOperation source, @NotNull org.gtk.gtk.Widget widget);
+        void signalReceived(PrintOperation sourcePrintOperation, @NotNull org.gtk.gtk.Widget widget);
     }
     
     /**
@@ -859,7 +863,7 @@ public class PrintOperation extends org.gtk.gobject.Object implements org.gtk.gt
     
     @FunctionalInterface
     public interface Done {
-        void signalReceived(PrintOperation source, @NotNull org.gtk.gtk.PrintOperationResult result);
+        void signalReceived(PrintOperation sourcePrintOperation, @NotNull org.gtk.gtk.PrintOperationResult result);
     }
     
     /**
@@ -896,7 +900,7 @@ public class PrintOperation extends org.gtk.gobject.Object implements org.gtk.gt
     
     @FunctionalInterface
     public interface DrawPage {
-        void signalReceived(PrintOperation source, @NotNull org.gtk.gtk.PrintContext context, int pageNr);
+        void signalReceived(PrintOperation sourcePrintOperation, @NotNull org.gtk.gtk.PrintContext context, int pageNr);
     }
     
     /**
@@ -973,7 +977,7 @@ public class PrintOperation extends org.gtk.gobject.Object implements org.gtk.gt
     
     @FunctionalInterface
     public interface EndPrint {
-        void signalReceived(PrintOperation source, @NotNull org.gtk.gtk.PrintContext context);
+        void signalReceived(PrintOperation sourcePrintOperation, @NotNull org.gtk.gtk.PrintContext context);
     }
     
     /**
@@ -1004,7 +1008,7 @@ public class PrintOperation extends org.gtk.gobject.Object implements org.gtk.gt
     
     @FunctionalInterface
     public interface Paginate {
-        boolean signalReceived(PrintOperation source, @NotNull org.gtk.gtk.PrintContext context);
+        boolean signalReceived(PrintOperation sourcePrintOperation, @NotNull org.gtk.gtk.PrintContext context);
     }
     
     /**
@@ -1045,7 +1049,7 @@ public class PrintOperation extends org.gtk.gobject.Object implements org.gtk.gt
     
     @FunctionalInterface
     public interface Preview {
-        boolean signalReceived(PrintOperation source, @NotNull org.gtk.gtk.PrintOperationPreview preview, @NotNull org.gtk.gtk.PrintContext context, @Nullable org.gtk.gtk.Window parent);
+        boolean signalReceived(PrintOperation sourcePrintOperation, @NotNull org.gtk.gtk.PrintOperationPreview preview, @NotNull org.gtk.gtk.PrintContext context, @Nullable org.gtk.gtk.Window parent);
     }
     
     /**
@@ -1089,7 +1093,7 @@ public class PrintOperation extends org.gtk.gobject.Object implements org.gtk.gt
     
     @FunctionalInterface
     public interface RequestPageSetup {
-        void signalReceived(PrintOperation source, @NotNull org.gtk.gtk.PrintContext context, int pageNr, @NotNull org.gtk.gtk.PageSetup setup);
+        void signalReceived(PrintOperation sourcePrintOperation, @NotNull org.gtk.gtk.PrintContext context, int pageNr, @NotNull org.gtk.gtk.PageSetup setup);
     }
     
     /**
@@ -1121,7 +1125,7 @@ public class PrintOperation extends org.gtk.gobject.Object implements org.gtk.gt
     
     @FunctionalInterface
     public interface StatusChanged {
-        void signalReceived(PrintOperation source);
+        void signalReceived(PrintOperation sourcePrintOperation);
     }
     
     /**
@@ -1153,7 +1157,7 @@ public class PrintOperation extends org.gtk.gobject.Object implements org.gtk.gt
     
     @FunctionalInterface
     public interface UpdateCustomWidget {
-        void signalReceived(PrintOperation source, @NotNull org.gtk.gtk.Widget widget, @NotNull org.gtk.gtk.PageSetup setup, @NotNull org.gtk.gtk.PrintSettings settings);
+        void signalReceived(PrintOperation sourcePrintOperation, @NotNull org.gtk.gtk.Widget widget, @NotNull org.gtk.gtk.PageSetup setup, @NotNull org.gtk.gtk.PrintSettings settings);
     }
     
     /**
@@ -1692,70 +1696,70 @@ public class PrintOperation extends org.gtk.gobject.Object implements org.gtk.gt
     
     private static class Callbacks {
         
-        public static void signalPrintOperationBeginPrint(MemoryAddress source, MemoryAddress context, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalPrintOperationBeginPrint(MemoryAddress sourcePrintOperation, MemoryAddress context, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (PrintOperation.BeginPrint) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new PrintOperation(source, Ownership.NONE), new org.gtk.gtk.PrintContext(context, Ownership.NONE));
+            HANDLER.signalReceived(new PrintOperation(sourcePrintOperation, Ownership.NONE), new org.gtk.gtk.PrintContext(context, Ownership.NONE));
         }
         
-        public static void signalPrintOperationCreateCustomWidget(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalPrintOperationCreateCustomWidget(MemoryAddress sourcePrintOperation, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (PrintOperation.CreateCustomWidget) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new PrintOperation(source, Ownership.NONE));
+            HANDLER.signalReceived(new PrintOperation(sourcePrintOperation, Ownership.NONE));
         }
         
-        public static void signalPrintOperationCustomWidgetApply(MemoryAddress source, MemoryAddress widget, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalPrintOperationCustomWidgetApply(MemoryAddress sourcePrintOperation, MemoryAddress widget, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (PrintOperation.CustomWidgetApply) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new PrintOperation(source, Ownership.NONE), new org.gtk.gtk.Widget(widget, Ownership.NONE));
+            HANDLER.signalReceived(new PrintOperation(sourcePrintOperation, Ownership.NONE), new org.gtk.gtk.Widget(widget, Ownership.NONE));
         }
         
-        public static void signalPrintOperationDone(MemoryAddress source, int result, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalPrintOperationDone(MemoryAddress sourcePrintOperation, int result, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (PrintOperation.Done) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new PrintOperation(source, Ownership.NONE), new org.gtk.gtk.PrintOperationResult(result));
+            HANDLER.signalReceived(new PrintOperation(sourcePrintOperation, Ownership.NONE), org.gtk.gtk.PrintOperationResult.of(result));
         }
         
-        public static void signalPrintOperationDrawPage(MemoryAddress source, MemoryAddress context, int pageNr, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalPrintOperationDrawPage(MemoryAddress sourcePrintOperation, MemoryAddress context, int pageNr, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (PrintOperation.DrawPage) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new PrintOperation(source, Ownership.NONE), new org.gtk.gtk.PrintContext(context, Ownership.NONE), pageNr);
+            HANDLER.signalReceived(new PrintOperation(sourcePrintOperation, Ownership.NONE), new org.gtk.gtk.PrintContext(context, Ownership.NONE), pageNr);
         }
         
-        public static void signalPrintOperationEndPrint(MemoryAddress source, MemoryAddress context, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalPrintOperationEndPrint(MemoryAddress sourcePrintOperation, MemoryAddress context, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (PrintOperation.EndPrint) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new PrintOperation(source, Ownership.NONE), new org.gtk.gtk.PrintContext(context, Ownership.NONE));
+            HANDLER.signalReceived(new PrintOperation(sourcePrintOperation, Ownership.NONE), new org.gtk.gtk.PrintContext(context, Ownership.NONE));
         }
         
-        public static boolean signalPrintOperationPaginate(MemoryAddress source, MemoryAddress context, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static boolean signalPrintOperationPaginate(MemoryAddress sourcePrintOperation, MemoryAddress context, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (PrintOperation.Paginate) Interop.signalRegistry.get(HASH);
-            return HANDLER.signalReceived(new PrintOperation(source, Ownership.NONE), new org.gtk.gtk.PrintContext(context, Ownership.NONE));
+            return HANDLER.signalReceived(new PrintOperation(sourcePrintOperation, Ownership.NONE), new org.gtk.gtk.PrintContext(context, Ownership.NONE));
         }
         
-        public static boolean signalPrintOperationPreview(MemoryAddress source, MemoryAddress preview, MemoryAddress context, MemoryAddress parent, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static boolean signalPrintOperationPreview(MemoryAddress sourcePrintOperation, MemoryAddress preview, MemoryAddress context, MemoryAddress parent, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (PrintOperation.Preview) Interop.signalRegistry.get(HASH);
-            return HANDLER.signalReceived(new PrintOperation(source, Ownership.NONE), new org.gtk.gtk.PrintOperationPreview.PrintOperationPreviewImpl(preview, Ownership.NONE), new org.gtk.gtk.PrintContext(context, Ownership.NONE), new org.gtk.gtk.Window(parent, Ownership.NONE));
+            return HANDLER.signalReceived(new PrintOperation(sourcePrintOperation, Ownership.NONE), new org.gtk.gtk.PrintOperationPreview.PrintOperationPreviewImpl(preview, Ownership.NONE), new org.gtk.gtk.PrintContext(context, Ownership.NONE), new org.gtk.gtk.Window(parent, Ownership.NONE));
         }
         
-        public static void signalPrintOperationRequestPageSetup(MemoryAddress source, MemoryAddress context, int pageNr, MemoryAddress setup, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalPrintOperationRequestPageSetup(MemoryAddress sourcePrintOperation, MemoryAddress context, int pageNr, MemoryAddress setup, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (PrintOperation.RequestPageSetup) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new PrintOperation(source, Ownership.NONE), new org.gtk.gtk.PrintContext(context, Ownership.NONE), pageNr, new org.gtk.gtk.PageSetup(setup, Ownership.NONE));
+            HANDLER.signalReceived(new PrintOperation(sourcePrintOperation, Ownership.NONE), new org.gtk.gtk.PrintContext(context, Ownership.NONE), pageNr, new org.gtk.gtk.PageSetup(setup, Ownership.NONE));
         }
         
-        public static void signalPrintOperationStatusChanged(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalPrintOperationStatusChanged(MemoryAddress sourcePrintOperation, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (PrintOperation.StatusChanged) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new PrintOperation(source, Ownership.NONE));
+            HANDLER.signalReceived(new PrintOperation(sourcePrintOperation, Ownership.NONE));
         }
         
-        public static void signalPrintOperationUpdateCustomWidget(MemoryAddress source, MemoryAddress widget, MemoryAddress setup, MemoryAddress settings, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalPrintOperationUpdateCustomWidget(MemoryAddress sourcePrintOperation, MemoryAddress widget, MemoryAddress setup, MemoryAddress settings, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (PrintOperation.UpdateCustomWidget) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new PrintOperation(source, Ownership.NONE), new org.gtk.gtk.Widget(widget, Ownership.NONE), new org.gtk.gtk.PageSetup(setup, Ownership.NONE), new org.gtk.gtk.PrintSettings(settings, Ownership.NONE));
+            HANDLER.signalReceived(new PrintOperation(sourcePrintOperation, Ownership.NONE), new org.gtk.gtk.Widget(widget, Ownership.NONE), new org.gtk.gtk.PageSetup(setup, Ownership.NONE), new org.gtk.gtk.PrintSettings(settings, Ownership.NONE));
         }
     }
 }

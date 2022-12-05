@@ -80,7 +80,11 @@ public class IMContext extends org.gtk.gobject.Object {
      * @throws ClassCastException If the GType is not derived from "GtkIMContext", a ClassCastException will be thrown.
      */
     public static IMContext castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), IMContext.getType())) {
             return new IMContext(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkIMContext");
+        }
     }
     
     /**
@@ -476,7 +480,7 @@ public class IMContext extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface Commit {
-        void signalReceived(IMContext source, @NotNull java.lang.String str);
+        void signalReceived(IMContext sourceIMContext, @NotNull java.lang.String str);
     }
     
     /**
@@ -511,7 +515,7 @@ public class IMContext extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface DeleteSurrounding {
-        boolean signalReceived(IMContext source, int offset, int nChars);
+        boolean signalReceived(IMContext sourceIMContext, int offset, int nChars);
     }
     
     /**
@@ -540,7 +544,7 @@ public class IMContext extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface PreeditChanged {
-        void signalReceived(IMContext source);
+        void signalReceived(IMContext sourceIMContext);
     }
     
     /**
@@ -572,7 +576,7 @@ public class IMContext extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface PreeditEnd {
-        void signalReceived(IMContext source);
+        void signalReceived(IMContext sourceIMContext);
     }
     
     /**
@@ -601,7 +605,7 @@ public class IMContext extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface PreeditStart {
-        void signalReceived(IMContext source);
+        void signalReceived(IMContext sourceIMContext);
     }
     
     /**
@@ -630,7 +634,7 @@ public class IMContext extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface RetrieveSurrounding {
-        boolean signalReceived(IMContext source);
+        boolean signalReceived(IMContext sourceIMContext);
     }
     
     /**
@@ -816,40 +820,40 @@ public class IMContext extends org.gtk.gobject.Object {
     
     private static class Callbacks {
         
-        public static void signalIMContextCommit(MemoryAddress source, MemoryAddress str, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalIMContextCommit(MemoryAddress sourceIMContext, MemoryAddress str, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (IMContext.Commit) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new IMContext(source, Ownership.NONE), Interop.getStringFrom(str));
+            HANDLER.signalReceived(new IMContext(sourceIMContext, Ownership.NONE), Interop.getStringFrom(str));
         }
         
-        public static boolean signalIMContextDeleteSurrounding(MemoryAddress source, int offset, int nChars, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static boolean signalIMContextDeleteSurrounding(MemoryAddress sourceIMContext, int offset, int nChars, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (IMContext.DeleteSurrounding) Interop.signalRegistry.get(HASH);
-            return HANDLER.signalReceived(new IMContext(source, Ownership.NONE), offset, nChars);
+            return HANDLER.signalReceived(new IMContext(sourceIMContext, Ownership.NONE), offset, nChars);
         }
         
-        public static void signalIMContextPreeditChanged(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalIMContextPreeditChanged(MemoryAddress sourceIMContext, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (IMContext.PreeditChanged) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new IMContext(source, Ownership.NONE));
+            HANDLER.signalReceived(new IMContext(sourceIMContext, Ownership.NONE));
         }
         
-        public static void signalIMContextPreeditEnd(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalIMContextPreeditEnd(MemoryAddress sourceIMContext, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (IMContext.PreeditEnd) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new IMContext(source, Ownership.NONE));
+            HANDLER.signalReceived(new IMContext(sourceIMContext, Ownership.NONE));
         }
         
-        public static void signalIMContextPreeditStart(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalIMContextPreeditStart(MemoryAddress sourceIMContext, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (IMContext.PreeditStart) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new IMContext(source, Ownership.NONE));
+            HANDLER.signalReceived(new IMContext(sourceIMContext, Ownership.NONE));
         }
         
-        public static boolean signalIMContextRetrieveSurrounding(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static boolean signalIMContextRetrieveSurrounding(MemoryAddress sourceIMContext, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (IMContext.RetrieveSurrounding) Interop.signalRegistry.get(HASH);
-            return HANDLER.signalReceived(new IMContext(source, Ownership.NONE));
+            return HANDLER.signalReceived(new IMContext(sourceIMContext, Ownership.NONE));
         }
     }
 }

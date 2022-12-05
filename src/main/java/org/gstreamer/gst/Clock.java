@@ -104,12 +104,19 @@ public class Clock extends org.gstreamer.gst.Object {
     
     /**
      * Create a Clock proxy instance for the provided memory address.
+     * <p>
+     * Because Clock is an {@code InitiallyUnowned} instance, when 
+     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
+     * and a call to {@code refSink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
     @ApiStatus.Internal
     public Clock(Addressable address, Ownership ownership) {
-        super(address, ownership);
+        super(address, Ownership.FULL);
+        if (ownership == Ownership.NONE) {
+            refSink();
+        }
     }
     
     /**
@@ -125,7 +132,11 @@ public class Clock extends org.gstreamer.gst.Object {
      * @throws ClassCastException If the GType is not derived from "GstClock", a ClassCastException will be thrown.
      */
     public static Clock castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), Clock.getType())) {
             return new Clock(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GstClock");
+        }
     }
     
     /**
@@ -891,7 +902,7 @@ public class Clock extends org.gstreamer.gst.Object {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         jitter.set(new org.gstreamer.gst.ClockTimeDiff(jitterPOINTER.get(Interop.valueLayout.C_LONG, 0)));
-        return new org.gstreamer.gst.ClockReturn(RESULT);
+        return org.gstreamer.gst.ClockReturn.of(RESULT);
     }
     
     /**
@@ -924,12 +935,12 @@ public class Clock extends org.gstreamer.gst.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.ClockReturn(RESULT);
+        return org.gstreamer.gst.ClockReturn.of(RESULT);
     }
     
     @FunctionalInterface
     public interface Synced {
-        void signalReceived(Clock source, boolean synced);
+        void signalReceived(Clock sourceClock, boolean synced);
     }
     
     /**
@@ -1216,10 +1227,10 @@ public class Clock extends org.gstreamer.gst.Object {
     
     private static class Callbacks {
         
-        public static void signalClockSynced(MemoryAddress source, int synced, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalClockSynced(MemoryAddress sourceClock, int synced, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (Clock.Synced) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Clock(source, Ownership.NONE), synced != 0);
+            HANDLER.signalReceived(new Clock(sourceClock, Ownership.NONE), synced != 0);
         }
     }
 }

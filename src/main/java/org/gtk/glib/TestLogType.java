@@ -5,35 +5,47 @@ import java.lang.foreign.*;
 import java.lang.invoke.*;
 import org.jetbrains.annotations.*;
 
-public class TestLogType extends io.github.jwharm.javagi.Enumeration {
+public enum TestLogType implements io.github.jwharm.javagi.Enumeration {
+    NONE(0),
+    ERROR(1),
+    START_BINARY(2),
+    LIST_CASE(3),
+    SKIP_CASE(4),
+    START_CASE(5),
+    STOP_CASE(6),
+    MIN_RESULT(7),
+    MAX_RESULT(8),
+    MESSAGE(9),
+    START_SUITE(10),
+    STOP_SUITE(11);
     
     private static final java.lang.String C_TYPE_NAME = "GTestLogType";
     
-    public static final TestLogType NONE = new TestLogType(0);
+    private final int value;
+    TestLogType(int value) {
+        this.value = value;
+    }
     
-    public static final TestLogType ERROR = new TestLogType(1);
+    @Override
+    public int getValue() {
+        return value;
+    }
     
-    public static final TestLogType START_BINARY = new TestLogType(2);
-    
-    public static final TestLogType LIST_CASE = new TestLogType(3);
-    
-    public static final TestLogType SKIP_CASE = new TestLogType(4);
-    
-    public static final TestLogType START_CASE = new TestLogType(5);
-    
-    public static final TestLogType STOP_CASE = new TestLogType(6);
-    
-    public static final TestLogType MIN_RESULT = new TestLogType(7);
-    
-    public static final TestLogType MAX_RESULT = new TestLogType(8);
-    
-    public static final TestLogType MESSAGE = new TestLogType(9);
-    
-    public static final TestLogType START_SUITE = new TestLogType(10);
-    
-    public static final TestLogType STOP_SUITE = new TestLogType(11);
-    
-    public TestLogType(int value) {
-        super(value);
+    public static TestLogType of(int value) {
+        return switch (value) {
+            case 0 -> NONE;
+            case 1 -> ERROR;
+            case 2 -> START_BINARY;
+            case 3 -> LIST_CASE;
+            case 4 -> SKIP_CASE;
+            case 5 -> START_CASE;
+            case 6 -> STOP_CASE;
+            case 7 -> MIN_RESULT;
+            case 8 -> MAX_RESULT;
+            case 9 -> MESSAGE;
+            case 10 -> START_SUITE;
+            case 11 -> STOP_SUITE;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

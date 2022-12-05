@@ -146,7 +146,11 @@ public class TreeModelSort extends org.gtk.gobject.Object implements org.gtk.gtk
      * @throws ClassCastException If the GType is not derived from "GtkTreeModelSort", a ClassCastException will be thrown.
      */
     public static TreeModelSort castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), TreeModelSort.getType())) {
             return new TreeModelSort(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkTreeModelSort");
+        }
     }
     
     private static Addressable constructNewWithModel(@NotNull org.gtk.gtk.TreeModel childModel) {

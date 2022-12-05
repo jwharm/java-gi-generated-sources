@@ -10,21 +10,33 @@ import org.jetbrains.annotations.*;
  * <p>
  * Typical examples are {@link Box}.
  */
-public class Orientation extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "GtkOrientation";
-    
+public enum Orientation implements io.github.jwharm.javagi.Enumeration {
     /**
      * The element is in horizontal orientation.
      */
-    public static final Orientation HORIZONTAL = new Orientation(0);
-    
+    HORIZONTAL(0),
     /**
      * The element is in vertical orientation.
      */
-    public static final Orientation VERTICAL = new Orientation(1);
+    VERTICAL(1);
     
-    public Orientation(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "GtkOrientation";
+    
+    private final int value;
+    Orientation(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static Orientation of(int value) {
+        return switch (value) {
+            case 0 -> HORIZONTAL;
+            case 1 -> VERTICAL;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

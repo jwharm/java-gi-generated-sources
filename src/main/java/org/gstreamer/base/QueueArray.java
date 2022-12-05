@@ -537,32 +537,4 @@ public class QueueArray extends Struct {
             false
         );
     }
-
-    /**
-     * Inner class implementing a builder pattern to construct 
-     * a struct and set its values.
-     */
-    public static class Build {
-        
-        private QueueArray struct;
-        
-         /**
-         * A {@link QueueArray.Build} object constructs a {@link QueueArray} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
-            struct = QueueArray.allocate();
-        }
-        
-         /**
-         * Finish building the {@link QueueArray} struct.
-         * @return A new instance of {@code QueueArray} with the fields 
-         *         that were set in the Build object.
-         */
-        public QueueArray construct() {
-            return struct;
-        }
-    }
 }

@@ -59,7 +59,11 @@ public class TlsConnection extends org.gtk.gio.IOStream {
      * @throws ClassCastException If the GType is not derived from "GTlsConnection", a ClassCastException will be thrown.
      */
     public static TlsConnection castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), TlsConnection.getType())) {
             return new TlsConnection(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GTlsConnection");
+        }
     }
     
     /**
@@ -252,7 +256,7 @@ public class TlsConnection extends org.gtk.gio.IOStream {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.TlsProtocolVersion(RESULT);
+        return org.gtk.gio.TlsProtocolVersion.of(RESULT);
     }
     
     /**
@@ -272,7 +276,7 @@ public class TlsConnection extends org.gtk.gio.IOStream {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.TlsRehandshakeMode(RESULT);
+        return org.gtk.gio.TlsRehandshakeMode.of(RESULT);
     }
     
     /**
@@ -613,7 +617,7 @@ public class TlsConnection extends org.gtk.gio.IOStream {
     
     @FunctionalInterface
     public interface AcceptCertificate {
-        boolean signalReceived(TlsConnection source, @NotNull org.gtk.gio.TlsCertificate peerCert, @NotNull org.gtk.gio.TlsCertificateFlags errors);
+        boolean signalReceived(TlsConnection sourceTlsConnection, @NotNull org.gtk.gio.TlsCertificate peerCert, @NotNull org.gtk.gio.TlsCertificateFlags errors);
     }
     
     /**
@@ -1041,10 +1045,10 @@ public class TlsConnection extends org.gtk.gio.IOStream {
     
     private static class Callbacks {
         
-        public static boolean signalTlsConnectionAcceptCertificate(MemoryAddress source, MemoryAddress peerCert, int errors, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static boolean signalTlsConnectionAcceptCertificate(MemoryAddress sourceTlsConnection, MemoryAddress peerCert, int errors, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (TlsConnection.AcceptCertificate) Interop.signalRegistry.get(HASH);
-            return HANDLER.signalReceived(new TlsConnection(source, Ownership.NONE), new org.gtk.gio.TlsCertificate(peerCert, Ownership.NONE), new org.gtk.gio.TlsCertificateFlags(errors));
+            return HANDLER.signalReceived(new TlsConnection(sourceTlsConnection, Ownership.NONE), new org.gtk.gio.TlsCertificate(peerCert, Ownership.NONE), new org.gtk.gio.TlsCertificateFlags(errors));
         }
     }
 }

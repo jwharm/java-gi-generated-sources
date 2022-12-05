@@ -63,9 +63,8 @@ public class BufferCopyFlags extends io.github.jwharm.javagi.Bitfield {
      * @param mask the value to combine with
      * @return the combined value by calculating {@code this | mask} 
      */
-    public BufferCopyFlags combined(BufferCopyFlags mask) {
-        this.setValue(this.getValue() | mask.getValue());
-        return this;
+    public BufferCopyFlags or(BufferCopyFlags mask) {
+        return new BufferCopyFlags(this.getValue() | mask.getValue());
     }
     
     /**
@@ -75,9 +74,9 @@ public class BufferCopyFlags extends io.github.jwharm.javagi.Bitfield {
      * @return the combined value by calculating {@code mask | masks[0] | masks[1] | ...} 
      */
     public static BufferCopyFlags combined(BufferCopyFlags mask, BufferCopyFlags... masks) {
-        for (BufferCopyFlags arg : masks) {
-            mask.setValue(mask.getValue() | arg.getValue());
+        int value = mask.getValue();        for (BufferCopyFlags arg : masks) {
+            value |= arg.getValue();
         }
-        return mask;
+        return new BufferCopyFlags(value);
     }
 }

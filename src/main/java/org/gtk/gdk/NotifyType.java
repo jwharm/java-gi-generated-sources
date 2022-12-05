@@ -11,48 +11,60 @@ import org.jetbrains.annotations.*;
  * See the X11 protocol specification of LeaveNotify for
  * full details of crossing event generation.
  */
-public class NotifyType extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "GdkNotifyType";
-    
+public enum NotifyType implements io.github.jwharm.javagi.Enumeration {
     /**
      * the surface is entered from an ancestor or
      *   left towards an ancestor.
      */
-    public static final NotifyType ANCESTOR = new NotifyType(0);
-    
+    ANCESTOR(0),
     /**
      * the pointer moves between an ancestor and an
      *   inferior of the surface.
      */
-    public static final NotifyType VIRTUAL = new NotifyType(1);
-    
+    VIRTUAL(1),
     /**
      * the surface is entered from an inferior or
      *   left towards an inferior.
      */
-    public static final NotifyType INFERIOR = new NotifyType(2);
-    
+    INFERIOR(2),
     /**
      * the surface is entered from or left towards
      *   a surface which is neither an ancestor nor an inferior.
      */
-    public static final NotifyType NONLINEAR = new NotifyType(3);
-    
+    NONLINEAR(3),
     /**
      * the pointer moves between two surfaces
      *   which are not ancestors of each other and the surface is part of
      *   the ancestor chain between one of these surfaces and their least
      *   common ancestor.
      */
-    public static final NotifyType NONLINEAR_VIRTUAL = new NotifyType(4);
-    
+    NONLINEAR_VIRTUAL(4),
     /**
      * an unknown type of enter/leave event occurred.
      */
-    public static final NotifyType UNKNOWN = new NotifyType(5);
+    UNKNOWN(5);
     
-    public NotifyType(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "GdkNotifyType";
+    
+    private final int value;
+    NotifyType(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static NotifyType of(int value) {
+        return switch (value) {
+            case 0 -> ANCESTOR;
+            case 1 -> VIRTUAL;
+            case 2 -> INFERIOR;
+            case 3 -> NONLINEAR;
+            case 4 -> NONLINEAR_VIRTUAL;
+            case 5 -> UNKNOWN;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

@@ -67,7 +67,11 @@ public class TextTagTable extends org.gtk.gobject.Object implements org.gtk.gtk.
      * @throws ClassCastException If the GType is not derived from "GtkTextTagTable", a ClassCastException will be thrown.
      */
     public static TextTagTable castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), TextTagTable.getType())) {
             return new TextTagTable(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkTextTagTable");
+        }
     }
     
     private static Addressable constructNew() {
@@ -204,7 +208,7 @@ public class TextTagTable extends org.gtk.gobject.Object implements org.gtk.gtk.
     
     @FunctionalInterface
     public interface TagAdded {
-        void signalReceived(TextTagTable source, @NotNull org.gtk.gtk.TextTag tag);
+        void signalReceived(TextTagTable sourceTextTagTable, @NotNull org.gtk.gtk.TextTag tag);
     }
     
     /**
@@ -232,7 +236,7 @@ public class TextTagTable extends org.gtk.gobject.Object implements org.gtk.gtk.
     
     @FunctionalInterface
     public interface TagChanged {
-        void signalReceived(TextTagTable source, @NotNull org.gtk.gtk.TextTag tag, boolean sizeChanged);
+        void signalReceived(TextTagTable sourceTextTagTable, @NotNull org.gtk.gtk.TextTag tag, boolean sizeChanged);
     }
     
     /**
@@ -260,7 +264,7 @@ public class TextTagTable extends org.gtk.gobject.Object implements org.gtk.gtk.
     
     @FunctionalInterface
     public interface TagRemoved {
-        void signalReceived(TextTagTable source, @NotNull org.gtk.gtk.TextTag tag);
+        void signalReceived(TextTagTable sourceTextTagTable, @NotNull org.gtk.gtk.TextTag tag);
     }
     
     /**
@@ -371,22 +375,22 @@ public class TextTagTable extends org.gtk.gobject.Object implements org.gtk.gtk.
     
     private static class Callbacks {
         
-        public static void signalTextTagTableTagAdded(MemoryAddress source, MemoryAddress tag, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalTextTagTableTagAdded(MemoryAddress sourceTextTagTable, MemoryAddress tag, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (TextTagTable.TagAdded) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new TextTagTable(source, Ownership.NONE), new org.gtk.gtk.TextTag(tag, Ownership.NONE));
+            HANDLER.signalReceived(new TextTagTable(sourceTextTagTable, Ownership.NONE), new org.gtk.gtk.TextTag(tag, Ownership.NONE));
         }
         
-        public static void signalTextTagTableTagChanged(MemoryAddress source, MemoryAddress tag, int sizeChanged, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalTextTagTableTagChanged(MemoryAddress sourceTextTagTable, MemoryAddress tag, int sizeChanged, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (TextTagTable.TagChanged) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new TextTagTable(source, Ownership.NONE), new org.gtk.gtk.TextTag(tag, Ownership.NONE), sizeChanged != 0);
+            HANDLER.signalReceived(new TextTagTable(sourceTextTagTable, Ownership.NONE), new org.gtk.gtk.TextTag(tag, Ownership.NONE), sizeChanged != 0);
         }
         
-        public static void signalTextTagTableTagRemoved(MemoryAddress source, MemoryAddress tag, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalTextTagTableTagRemoved(MemoryAddress sourceTextTagTable, MemoryAddress tag, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (TextTagTable.TagRemoved) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new TextTagTable(source, Ownership.NONE), new org.gtk.gtk.TextTag(tag, Ownership.NONE));
+            HANDLER.signalReceived(new TextTagTable(sourceTextTagTable, Ownership.NONE), new org.gtk.gtk.TextTag(tag, Ownership.NONE));
         }
     }
 }

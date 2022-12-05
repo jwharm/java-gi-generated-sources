@@ -15,26 +15,38 @@ import org.jetbrains.annotations.*;
  * {@code GtkBaselinePosition} to select where to put the baseline inside the
  * extra available space.
  */
-public class BaselinePosition extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "GtkBaselinePosition";
-    
+public enum BaselinePosition implements io.github.jwharm.javagi.Enumeration {
     /**
      * Align the baseline at the top
      */
-    public static final BaselinePosition TOP = new BaselinePosition(0);
-    
+    TOP(0),
     /**
      * Center the baseline
      */
-    public static final BaselinePosition CENTER = new BaselinePosition(1);
-    
+    CENTER(1),
     /**
      * Align the baseline at the bottom
      */
-    public static final BaselinePosition BOTTOM = new BaselinePosition(2);
+    BOTTOM(2);
     
-    public BaselinePosition(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "GtkBaselinePosition";
+    
+    private final int value;
+    BaselinePosition(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static BaselinePosition of(int value) {
+        return switch (value) {
+            case 0 -> TOP;
+            case 1 -> CENTER;
+            case 2 -> BOTTOM;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

@@ -8,46 +8,58 @@ import org.jetbrains.annotations.*;
 /**
  * Result values from gst_pad_link and friends.
  */
-public class PadLinkReturn extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "GstPadLinkReturn";
-    
+public enum PadLinkReturn implements io.github.jwharm.javagi.Enumeration {
     /**
      * link succeeded
      */
-    public static final PadLinkReturn OK = new PadLinkReturn(0);
-    
+    OK(0),
     /**
      * pads have no common grandparent
      */
-    public static final PadLinkReturn WRONG_HIERARCHY = new PadLinkReturn(0);
-    
+    WRONG_HIERARCHY(-1),
     /**
      * pad was already linked
      */
-    public static final PadLinkReturn WAS_LINKED = new PadLinkReturn(0);
-    
+    WAS_LINKED(-2),
     /**
      * pads have wrong direction
      */
-    public static final PadLinkReturn WRONG_DIRECTION = new PadLinkReturn(0);
-    
+    WRONG_DIRECTION(-3),
     /**
      * pads do not have common format
      */
-    public static final PadLinkReturn NOFORMAT = new PadLinkReturn(0);
-    
+    NOFORMAT(-4),
     /**
      * pads cannot cooperate in scheduling
      */
-    public static final PadLinkReturn NOSCHED = new PadLinkReturn(0);
-    
+    NOSCHED(-5),
     /**
      * refused for some reason
      */
-    public static final PadLinkReturn REFUSED = new PadLinkReturn(0);
+    REFUSED(-6);
     
-    public PadLinkReturn(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "GstPadLinkReturn";
+    
+    private final int value;
+    PadLinkReturn(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static PadLinkReturn of(int value) {
+        return switch (value) {
+            case 0 -> OK;
+            case -1 -> WRONG_HIERARCHY;
+            case -2 -> WAS_LINKED;
+            case -3 -> WRONG_DIRECTION;
+            case -4 -> NOFORMAT;
+            case -5 -> NOSCHED;
+            case -6 -> REFUSED;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

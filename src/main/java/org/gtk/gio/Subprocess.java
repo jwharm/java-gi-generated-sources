@@ -105,7 +105,11 @@ public class Subprocess extends org.gtk.gobject.Object implements org.gtk.gio.In
      * @throws ClassCastException If the GType is not derived from "GSubprocess", a ClassCastException will be thrown.
      */
     public static Subprocess castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), Subprocess.getType())) {
             return new Subprocess(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GSubprocess");
+        }
     }
     
     private static Addressable constructNew(@NotNull org.gtk.gio.SubprocessFlags flags, @Nullable PointerProxy<org.gtk.glib.Error> error, @NotNull java.lang.String argv0, java.lang.Object... varargs) {

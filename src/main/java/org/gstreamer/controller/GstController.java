@@ -10,6 +10,10 @@ import org.jetbrains.annotations.*;
  */
 public final class GstController {
     
+    static {
+        System.loadLibrary("gstcontroller-1.0");
+    }
+    
     @ApiStatus.Internal static void javagi$ensureInitialized() {}
     
     /**

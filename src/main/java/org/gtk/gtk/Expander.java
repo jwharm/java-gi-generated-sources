@@ -111,12 +111,19 @@ public class Expander extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     
     /**
      * Create a Expander proxy instance for the provided memory address.
+     * <p>
+     * Because Expander is an {@code InitiallyUnowned} instance, when 
+     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
+     * and a call to {@code refSink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
     @ApiStatus.Internal
     public Expander(Addressable address, Ownership ownership) {
-        super(address, ownership);
+        super(address, Ownership.FULL);
+        if (ownership == Ownership.NONE) {
+            refSink();
+        }
     }
     
     /**
@@ -132,7 +139,11 @@ public class Expander extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * @throws ClassCastException If the GType is not derived from "GtkExpander", a ClassCastException will be thrown.
      */
     public static Expander castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), Expander.getType())) {
             return new Expander(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkExpander");
+        }
     }
     
     private static Addressable constructNew(@Nullable java.lang.String label) {
@@ -421,7 +432,7 @@ public class Expander extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     
     @FunctionalInterface
     public interface Activate {
-        void signalReceived(Expander source);
+        void signalReceived(Expander sourceExpander);
     }
     
     /**
@@ -667,10 +678,10 @@ public class Expander extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     
     private static class Callbacks {
         
-        public static void signalExpanderActivate(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalExpanderActivate(MemoryAddress sourceExpander, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (Expander.Activate) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Expander(source, Ownership.NONE));
+            HANDLER.signalReceived(new Expander(sourceExpander, Ownership.NONE));
         }
     }
 }

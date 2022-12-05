@@ -281,32 +281,4 @@ public class SpringParams extends Struct {
             false
         );
     }
-
-    /**
-     * Inner class implementing a builder pattern to construct 
-     * a struct and set its values.
-     */
-    public static class Build {
-        
-        private SpringParams struct;
-        
-         /**
-         * A {@link SpringParams.Build} object constructs a {@link SpringParams} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
-            struct = SpringParams.allocate();
-        }
-        
-         /**
-         * Finish building the {@link SpringParams} struct.
-         * @return A new instance of {@code SpringParams} with the fields 
-         *         that were set in the Build object.
-         */
-        public SpringParams construct() {
-            return struct;
-        }
-    }
 }

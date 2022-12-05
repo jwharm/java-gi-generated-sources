@@ -406,12 +406,19 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
     
     /**
      * Create a Widget proxy instance for the provided memory address.
+     * <p>
+     * Because Widget is an {@code InitiallyUnowned} instance, when 
+     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
+     * and a call to {@code refSink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
     @ApiStatus.Internal
     public Widget(Addressable address, Ownership ownership) {
-        super(address, ownership);
+        super(address, Ownership.FULL);
+        if (ownership == Ownership.NONE) {
+            refSink();
+        }
     }
     
     /**
@@ -427,7 +434,11 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
      * @throws ClassCastException If the GType is not derived from "GtkWidget", a ClassCastException will be thrown.
      */
     public static Widget castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), Widget.getType())) {
             return new Widget(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkWidget");
+        }
     }
     
     /**
@@ -1230,7 +1241,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.TextDirection(RESULT);
+        return org.gtk.gtk.TextDirection.of(RESULT);
     }
     
     /**
@@ -1414,7 +1425,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.Align(RESULT);
+        return org.gtk.gtk.Align.of(RESULT);
     }
     
     /**
@@ -1700,7 +1711,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.Overflow(RESULT);
+        return org.gtk.gtk.Overflow.of(RESULT);
     }
     
     /**
@@ -1863,7 +1874,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.SizeRequestMode(RESULT);
+        return org.gtk.gtk.SizeRequestMode.of(RESULT);
     }
     
     /**
@@ -2127,7 +2138,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.Align(RESULT);
+        return org.gtk.gtk.Align.of(RESULT);
     }
     
     /**
@@ -3957,7 +3968,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.TextDirection(RESULT);
+        return org.gtk.gtk.TextDirection.of(RESULT);
     }
     
     /**
@@ -3978,7 +3989,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
     
     @FunctionalInterface
     public interface Destroy {
-        void signalReceived(Widget source);
+        void signalReceived(Widget sourceWidget);
     }
     
     /**
@@ -4011,7 +4022,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
     
     @FunctionalInterface
     public interface DirectionChanged {
-        void signalReceived(Widget source, @NotNull org.gtk.gtk.TextDirection previousDirection);
+        void signalReceived(Widget sourceWidget, @NotNull org.gtk.gtk.TextDirection previousDirection);
     }
     
     /**
@@ -4039,7 +4050,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
     
     @FunctionalInterface
     public interface Hide {
-        void signalReceived(Widget source);
+        void signalReceived(Widget sourceWidget);
     }
     
     /**
@@ -4067,7 +4078,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
     
     @FunctionalInterface
     public interface KeynavFailed {
-        boolean signalReceived(Widget source, @NotNull org.gtk.gtk.DirectionType direction);
+        boolean signalReceived(Widget sourceWidget, @NotNull org.gtk.gtk.DirectionType direction);
     }
     
     /**
@@ -4097,7 +4108,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
     
     @FunctionalInterface
     public interface Map {
-        void signalReceived(Widget source);
+        void signalReceived(Widget sourceWidget);
     }
     
     /**
@@ -4133,7 +4144,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
     
     @FunctionalInterface
     public interface MnemonicActivate {
-        boolean signalReceived(Widget source, boolean groupCycling);
+        boolean signalReceived(Widget sourceWidget, boolean groupCycling);
     }
     
     /**
@@ -4164,7 +4175,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
     
     @FunctionalInterface
     public interface MoveFocus {
-        void signalReceived(Widget source, @NotNull org.gtk.gtk.DirectionType direction);
+        void signalReceived(Widget sourceWidget, @NotNull org.gtk.gtk.DirectionType direction);
     }
     
     /**
@@ -4192,7 +4203,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
     
     @FunctionalInterface
     public interface QueryTooltip {
-        boolean signalReceived(Widget source, int x, int y, boolean keyboardMode, @NotNull org.gtk.gtk.Tooltip tooltip);
+        boolean signalReceived(Widget sourceWidget, int x, int y, boolean keyboardMode, @NotNull org.gtk.gtk.Tooltip tooltip);
     }
     
     /**
@@ -4233,7 +4244,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
     
     @FunctionalInterface
     public interface Realize {
-        void signalReceived(Widget source);
+        void signalReceived(Widget sourceWidget);
     }
     
     /**
@@ -4264,7 +4275,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
     
     @FunctionalInterface
     public interface Show {
-        void signalReceived(Widget source);
+        void signalReceived(Widget sourceWidget);
     }
     
     /**
@@ -4292,7 +4303,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
     
     @FunctionalInterface
     public interface StateFlagsChanged {
-        void signalReceived(Widget source, @NotNull org.gtk.gtk.StateFlags flags);
+        void signalReceived(Widget sourceWidget, @NotNull org.gtk.gtk.StateFlags flags);
     }
     
     /**
@@ -4322,7 +4333,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
     
     @FunctionalInterface
     public interface Unmap {
-        void signalReceived(Widget source);
+        void signalReceived(Widget sourceWidget);
     }
     
     /**
@@ -4356,7 +4367,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
     
     @FunctionalInterface
     public interface Unrealize {
-        void signalReceived(Widget source);
+        void signalReceived(Widget sourceWidget);
     }
     
     /**
@@ -5837,82 +5848,82 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
     
     private static class Callbacks {
         
-        public static void signalWidgetDestroy(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalWidgetDestroy(MemoryAddress sourceWidget, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (Widget.Destroy) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Widget(source, Ownership.NONE));
+            HANDLER.signalReceived(new Widget(sourceWidget, Ownership.NONE));
         }
         
-        public static void signalWidgetDirectionChanged(MemoryAddress source, int previousDirection, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalWidgetDirectionChanged(MemoryAddress sourceWidget, int previousDirection, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (Widget.DirectionChanged) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Widget(source, Ownership.NONE), new org.gtk.gtk.TextDirection(previousDirection));
+            HANDLER.signalReceived(new Widget(sourceWidget, Ownership.NONE), org.gtk.gtk.TextDirection.of(previousDirection));
         }
         
-        public static void signalWidgetHide(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalWidgetHide(MemoryAddress sourceWidget, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (Widget.Hide) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Widget(source, Ownership.NONE));
+            HANDLER.signalReceived(new Widget(sourceWidget, Ownership.NONE));
         }
         
-        public static boolean signalWidgetKeynavFailed(MemoryAddress source, int direction, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static boolean signalWidgetKeynavFailed(MemoryAddress sourceWidget, int direction, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (Widget.KeynavFailed) Interop.signalRegistry.get(HASH);
-            return HANDLER.signalReceived(new Widget(source, Ownership.NONE), new org.gtk.gtk.DirectionType(direction));
+            return HANDLER.signalReceived(new Widget(sourceWidget, Ownership.NONE), org.gtk.gtk.DirectionType.of(direction));
         }
         
-        public static void signalWidgetMap(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalWidgetMap(MemoryAddress sourceWidget, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (Widget.Map) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Widget(source, Ownership.NONE));
+            HANDLER.signalReceived(new Widget(sourceWidget, Ownership.NONE));
         }
         
-        public static boolean signalWidgetMnemonicActivate(MemoryAddress source, int groupCycling, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static boolean signalWidgetMnemonicActivate(MemoryAddress sourceWidget, int groupCycling, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (Widget.MnemonicActivate) Interop.signalRegistry.get(HASH);
-            return HANDLER.signalReceived(new Widget(source, Ownership.NONE), groupCycling != 0);
+            return HANDLER.signalReceived(new Widget(sourceWidget, Ownership.NONE), groupCycling != 0);
         }
         
-        public static void signalWidgetMoveFocus(MemoryAddress source, int direction, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalWidgetMoveFocus(MemoryAddress sourceWidget, int direction, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (Widget.MoveFocus) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Widget(source, Ownership.NONE), new org.gtk.gtk.DirectionType(direction));
+            HANDLER.signalReceived(new Widget(sourceWidget, Ownership.NONE), org.gtk.gtk.DirectionType.of(direction));
         }
         
-        public static boolean signalWidgetQueryTooltip(MemoryAddress source, int x, int y, int keyboardMode, MemoryAddress tooltip, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static boolean signalWidgetQueryTooltip(MemoryAddress sourceWidget, int x, int y, int keyboardMode, MemoryAddress tooltip, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (Widget.QueryTooltip) Interop.signalRegistry.get(HASH);
-            return HANDLER.signalReceived(new Widget(source, Ownership.NONE), x, y, keyboardMode != 0, new org.gtk.gtk.Tooltip(tooltip, Ownership.NONE));
+            return HANDLER.signalReceived(new Widget(sourceWidget, Ownership.NONE), x, y, keyboardMode != 0, new org.gtk.gtk.Tooltip(tooltip, Ownership.NONE));
         }
         
-        public static void signalWidgetRealize(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalWidgetRealize(MemoryAddress sourceWidget, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (Widget.Realize) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Widget(source, Ownership.NONE));
+            HANDLER.signalReceived(new Widget(sourceWidget, Ownership.NONE));
         }
         
-        public static void signalWidgetShow(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalWidgetShow(MemoryAddress sourceWidget, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (Widget.Show) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Widget(source, Ownership.NONE));
+            HANDLER.signalReceived(new Widget(sourceWidget, Ownership.NONE));
         }
         
-        public static void signalWidgetStateFlagsChanged(MemoryAddress source, int flags, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalWidgetStateFlagsChanged(MemoryAddress sourceWidget, int flags, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (Widget.StateFlagsChanged) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Widget(source, Ownership.NONE), new org.gtk.gtk.StateFlags(flags));
+            HANDLER.signalReceived(new Widget(sourceWidget, Ownership.NONE), new org.gtk.gtk.StateFlags(flags));
         }
         
-        public static void signalWidgetUnmap(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalWidgetUnmap(MemoryAddress sourceWidget, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (Widget.Unmap) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Widget(source, Ownership.NONE));
+            HANDLER.signalReceived(new Widget(sourceWidget, Ownership.NONE));
         }
         
-        public static void signalWidgetUnrealize(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalWidgetUnrealize(MemoryAddress sourceWidget, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (Widget.Unrealize) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Widget(source, Ownership.NONE));
+            HANDLER.signalReceived(new Widget(sourceWidget, Ownership.NONE));
         }
     }
 }

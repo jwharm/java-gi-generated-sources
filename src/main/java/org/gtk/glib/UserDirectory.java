@@ -15,56 +15,68 @@ import org.jetbrains.annotations.*;
  * enumeration.
  * @version 2.14
  */
-public class UserDirectory extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "GUserDirectory";
-    
+public enum UserDirectory implements io.github.jwharm.javagi.Enumeration {
     /**
      * the user's Desktop directory
      */
-    public static final UserDirectory DIRECTORY_DESKTOP = new UserDirectory(0);
-    
+    DIRECTORY_DESKTOP(0),
     /**
      * the user's Documents directory
      */
-    public static final UserDirectory DIRECTORY_DOCUMENTS = new UserDirectory(1);
-    
+    DIRECTORY_DOCUMENTS(1),
     /**
      * the user's Downloads directory
      */
-    public static final UserDirectory DIRECTORY_DOWNLOAD = new UserDirectory(2);
-    
+    DIRECTORY_DOWNLOAD(2),
     /**
      * the user's Music directory
      */
-    public static final UserDirectory DIRECTORY_MUSIC = new UserDirectory(3);
-    
+    DIRECTORY_MUSIC(3),
     /**
      * the user's Pictures directory
      */
-    public static final UserDirectory DIRECTORY_PICTURES = new UserDirectory(4);
-    
+    DIRECTORY_PICTURES(4),
     /**
      * the user's shared directory
      */
-    public static final UserDirectory DIRECTORY_PUBLIC_SHARE = new UserDirectory(5);
-    
+    DIRECTORY_PUBLIC_SHARE(5),
     /**
      * the user's Templates directory
      */
-    public static final UserDirectory DIRECTORY_TEMPLATES = new UserDirectory(6);
-    
+    DIRECTORY_TEMPLATES(6),
     /**
      * the user's Movies directory
      */
-    public static final UserDirectory DIRECTORY_VIDEOS = new UserDirectory(7);
-    
+    DIRECTORY_VIDEOS(7),
     /**
      * the number of enum values
      */
-    public static final UserDirectory N_DIRECTORIES = new UserDirectory(8);
+    N_DIRECTORIES(8);
     
-    public UserDirectory(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "GUserDirectory";
+    
+    private final int value;
+    UserDirectory(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static UserDirectory of(int value) {
+        return switch (value) {
+            case 0 -> DIRECTORY_DESKTOP;
+            case 1 -> DIRECTORY_DOCUMENTS;
+            case 2 -> DIRECTORY_DOWNLOAD;
+            case 3 -> DIRECTORY_MUSIC;
+            case 4 -> DIRECTORY_PICTURES;
+            case 5 -> DIRECTORY_PUBLIC_SHARE;
+            case 6 -> DIRECTORY_TEMPLATES;
+            case 7 -> DIRECTORY_VIDEOS;
+            case 8 -> N_DIRECTORIES;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

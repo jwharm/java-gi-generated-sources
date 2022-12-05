@@ -45,9 +45,8 @@ public class DBusMessageFlags extends io.github.jwharm.javagi.Bitfield {
      * @param mask the value to combine with
      * @return the combined value by calculating {@code this | mask} 
      */
-    public DBusMessageFlags combined(DBusMessageFlags mask) {
-        this.setValue(this.getValue() | mask.getValue());
-        return this;
+    public DBusMessageFlags or(DBusMessageFlags mask) {
+        return new DBusMessageFlags(this.getValue() | mask.getValue());
     }
     
     /**
@@ -57,9 +56,9 @@ public class DBusMessageFlags extends io.github.jwharm.javagi.Bitfield {
      * @return the combined value by calculating {@code mask | masks[0] | masks[1] | ...} 
      */
     public static DBusMessageFlags combined(DBusMessageFlags mask, DBusMessageFlags... masks) {
-        for (DBusMessageFlags arg : masks) {
-            mask.setValue(mask.getValue() | arg.getValue());
+        int value = mask.getValue();        for (DBusMessageFlags arg : masks) {
+            value |= arg.getValue();
         }
-        return mask;
+        return new DBusMessageFlags(value);
     }
 }

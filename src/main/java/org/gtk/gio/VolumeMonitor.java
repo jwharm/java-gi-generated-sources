@@ -63,7 +63,11 @@ public class VolumeMonitor extends org.gtk.gobject.Object {
      * @throws ClassCastException If the GType is not derived from "GVolumeMonitor", a ClassCastException will be thrown.
      */
     public static VolumeMonitor castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), VolumeMonitor.getType())) {
             return new VolumeMonitor(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GVolumeMonitor");
+        }
     }
     
     /**
@@ -240,7 +244,7 @@ public class VolumeMonitor extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface DriveChanged {
-        void signalReceived(VolumeMonitor source, @NotNull org.gtk.gio.Drive drive);
+        void signalReceived(VolumeMonitor sourceVolumeMonitor, @NotNull org.gtk.gio.Drive drive);
     }
     
     /**
@@ -268,7 +272,7 @@ public class VolumeMonitor extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface DriveConnected {
-        void signalReceived(VolumeMonitor source, @NotNull org.gtk.gio.Drive drive);
+        void signalReceived(VolumeMonitor sourceVolumeMonitor, @NotNull org.gtk.gio.Drive drive);
     }
     
     /**
@@ -296,7 +300,7 @@ public class VolumeMonitor extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface DriveDisconnected {
-        void signalReceived(VolumeMonitor source, @NotNull org.gtk.gio.Drive drive);
+        void signalReceived(VolumeMonitor sourceVolumeMonitor, @NotNull org.gtk.gio.Drive drive);
     }
     
     /**
@@ -324,7 +328,7 @@ public class VolumeMonitor extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface DriveEjectButton {
-        void signalReceived(VolumeMonitor source, @NotNull org.gtk.gio.Drive drive);
+        void signalReceived(VolumeMonitor sourceVolumeMonitor, @NotNull org.gtk.gio.Drive drive);
     }
     
     /**
@@ -352,7 +356,7 @@ public class VolumeMonitor extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface DriveStopButton {
-        void signalReceived(VolumeMonitor source, @NotNull org.gtk.gio.Drive drive);
+        void signalReceived(VolumeMonitor sourceVolumeMonitor, @NotNull org.gtk.gio.Drive drive);
     }
     
     /**
@@ -380,7 +384,7 @@ public class VolumeMonitor extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface MountAdded {
-        void signalReceived(VolumeMonitor source, @NotNull org.gtk.gio.Mount mount);
+        void signalReceived(VolumeMonitor sourceVolumeMonitor, @NotNull org.gtk.gio.Mount mount);
     }
     
     /**
@@ -408,7 +412,7 @@ public class VolumeMonitor extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface MountChanged {
-        void signalReceived(VolumeMonitor source, @NotNull org.gtk.gio.Mount mount);
+        void signalReceived(VolumeMonitor sourceVolumeMonitor, @NotNull org.gtk.gio.Mount mount);
     }
     
     /**
@@ -436,7 +440,7 @@ public class VolumeMonitor extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface MountPreUnmount {
-        void signalReceived(VolumeMonitor source, @NotNull org.gtk.gio.Mount mount);
+        void signalReceived(VolumeMonitor sourceVolumeMonitor, @NotNull org.gtk.gio.Mount mount);
     }
     
     /**
@@ -467,7 +471,7 @@ public class VolumeMonitor extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface MountRemoved {
-        void signalReceived(VolumeMonitor source, @NotNull org.gtk.gio.Mount mount);
+        void signalReceived(VolumeMonitor sourceVolumeMonitor, @NotNull org.gtk.gio.Mount mount);
     }
     
     /**
@@ -495,7 +499,7 @@ public class VolumeMonitor extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface VolumeAdded {
-        void signalReceived(VolumeMonitor source, @NotNull org.gtk.gio.Volume volume);
+        void signalReceived(VolumeMonitor sourceVolumeMonitor, @NotNull org.gtk.gio.Volume volume);
     }
     
     /**
@@ -523,7 +527,7 @@ public class VolumeMonitor extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface VolumeChanged {
-        void signalReceived(VolumeMonitor source, @NotNull org.gtk.gio.Volume volume);
+        void signalReceived(VolumeMonitor sourceVolumeMonitor, @NotNull org.gtk.gio.Volume volume);
     }
     
     /**
@@ -551,7 +555,7 @@ public class VolumeMonitor extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface VolumeRemoved {
-        void signalReceived(VolumeMonitor source, @NotNull org.gtk.gio.Volume volume);
+        void signalReceived(VolumeMonitor sourceVolumeMonitor, @NotNull org.gtk.gio.Volume volume);
     }
     
     /**
@@ -665,76 +669,76 @@ public class VolumeMonitor extends org.gtk.gobject.Object {
     
     private static class Callbacks {
         
-        public static void signalVolumeMonitorDriveChanged(MemoryAddress source, MemoryAddress drive, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalVolumeMonitorDriveChanged(MemoryAddress sourceVolumeMonitor, MemoryAddress drive, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (VolumeMonitor.DriveChanged) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new VolumeMonitor(source, Ownership.NONE), new org.gtk.gio.Drive.DriveImpl(drive, Ownership.NONE));
+            HANDLER.signalReceived(new VolumeMonitor(sourceVolumeMonitor, Ownership.NONE), new org.gtk.gio.Drive.DriveImpl(drive, Ownership.NONE));
         }
         
-        public static void signalVolumeMonitorDriveConnected(MemoryAddress source, MemoryAddress drive, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalVolumeMonitorDriveConnected(MemoryAddress sourceVolumeMonitor, MemoryAddress drive, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (VolumeMonitor.DriveConnected) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new VolumeMonitor(source, Ownership.NONE), new org.gtk.gio.Drive.DriveImpl(drive, Ownership.NONE));
+            HANDLER.signalReceived(new VolumeMonitor(sourceVolumeMonitor, Ownership.NONE), new org.gtk.gio.Drive.DriveImpl(drive, Ownership.NONE));
         }
         
-        public static void signalVolumeMonitorDriveDisconnected(MemoryAddress source, MemoryAddress drive, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalVolumeMonitorDriveDisconnected(MemoryAddress sourceVolumeMonitor, MemoryAddress drive, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (VolumeMonitor.DriveDisconnected) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new VolumeMonitor(source, Ownership.NONE), new org.gtk.gio.Drive.DriveImpl(drive, Ownership.NONE));
+            HANDLER.signalReceived(new VolumeMonitor(sourceVolumeMonitor, Ownership.NONE), new org.gtk.gio.Drive.DriveImpl(drive, Ownership.NONE));
         }
         
-        public static void signalVolumeMonitorDriveEjectButton(MemoryAddress source, MemoryAddress drive, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalVolumeMonitorDriveEjectButton(MemoryAddress sourceVolumeMonitor, MemoryAddress drive, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (VolumeMonitor.DriveEjectButton) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new VolumeMonitor(source, Ownership.NONE), new org.gtk.gio.Drive.DriveImpl(drive, Ownership.NONE));
+            HANDLER.signalReceived(new VolumeMonitor(sourceVolumeMonitor, Ownership.NONE), new org.gtk.gio.Drive.DriveImpl(drive, Ownership.NONE));
         }
         
-        public static void signalVolumeMonitorDriveStopButton(MemoryAddress source, MemoryAddress drive, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalVolumeMonitorDriveStopButton(MemoryAddress sourceVolumeMonitor, MemoryAddress drive, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (VolumeMonitor.DriveStopButton) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new VolumeMonitor(source, Ownership.NONE), new org.gtk.gio.Drive.DriveImpl(drive, Ownership.NONE));
+            HANDLER.signalReceived(new VolumeMonitor(sourceVolumeMonitor, Ownership.NONE), new org.gtk.gio.Drive.DriveImpl(drive, Ownership.NONE));
         }
         
-        public static void signalVolumeMonitorMountAdded(MemoryAddress source, MemoryAddress mount, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalVolumeMonitorMountAdded(MemoryAddress sourceVolumeMonitor, MemoryAddress mount, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (VolumeMonitor.MountAdded) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new VolumeMonitor(source, Ownership.NONE), new org.gtk.gio.Mount.MountImpl(mount, Ownership.NONE));
+            HANDLER.signalReceived(new VolumeMonitor(sourceVolumeMonitor, Ownership.NONE), new org.gtk.gio.Mount.MountImpl(mount, Ownership.NONE));
         }
         
-        public static void signalVolumeMonitorMountChanged(MemoryAddress source, MemoryAddress mount, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalVolumeMonitorMountChanged(MemoryAddress sourceVolumeMonitor, MemoryAddress mount, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (VolumeMonitor.MountChanged) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new VolumeMonitor(source, Ownership.NONE), new org.gtk.gio.Mount.MountImpl(mount, Ownership.NONE));
+            HANDLER.signalReceived(new VolumeMonitor(sourceVolumeMonitor, Ownership.NONE), new org.gtk.gio.Mount.MountImpl(mount, Ownership.NONE));
         }
         
-        public static void signalVolumeMonitorMountPreUnmount(MemoryAddress source, MemoryAddress mount, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalVolumeMonitorMountPreUnmount(MemoryAddress sourceVolumeMonitor, MemoryAddress mount, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (VolumeMonitor.MountPreUnmount) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new VolumeMonitor(source, Ownership.NONE), new org.gtk.gio.Mount.MountImpl(mount, Ownership.NONE));
+            HANDLER.signalReceived(new VolumeMonitor(sourceVolumeMonitor, Ownership.NONE), new org.gtk.gio.Mount.MountImpl(mount, Ownership.NONE));
         }
         
-        public static void signalVolumeMonitorMountRemoved(MemoryAddress source, MemoryAddress mount, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalVolumeMonitorMountRemoved(MemoryAddress sourceVolumeMonitor, MemoryAddress mount, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (VolumeMonitor.MountRemoved) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new VolumeMonitor(source, Ownership.NONE), new org.gtk.gio.Mount.MountImpl(mount, Ownership.NONE));
+            HANDLER.signalReceived(new VolumeMonitor(sourceVolumeMonitor, Ownership.NONE), new org.gtk.gio.Mount.MountImpl(mount, Ownership.NONE));
         }
         
-        public static void signalVolumeMonitorVolumeAdded(MemoryAddress source, MemoryAddress volume, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalVolumeMonitorVolumeAdded(MemoryAddress sourceVolumeMonitor, MemoryAddress volume, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (VolumeMonitor.VolumeAdded) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new VolumeMonitor(source, Ownership.NONE), new org.gtk.gio.Volume.VolumeImpl(volume, Ownership.NONE));
+            HANDLER.signalReceived(new VolumeMonitor(sourceVolumeMonitor, Ownership.NONE), new org.gtk.gio.Volume.VolumeImpl(volume, Ownership.NONE));
         }
         
-        public static void signalVolumeMonitorVolumeChanged(MemoryAddress source, MemoryAddress volume, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalVolumeMonitorVolumeChanged(MemoryAddress sourceVolumeMonitor, MemoryAddress volume, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (VolumeMonitor.VolumeChanged) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new VolumeMonitor(source, Ownership.NONE), new org.gtk.gio.Volume.VolumeImpl(volume, Ownership.NONE));
+            HANDLER.signalReceived(new VolumeMonitor(sourceVolumeMonitor, Ownership.NONE), new org.gtk.gio.Volume.VolumeImpl(volume, Ownership.NONE));
         }
         
-        public static void signalVolumeMonitorVolumeRemoved(MemoryAddress source, MemoryAddress volume, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalVolumeMonitorVolumeRemoved(MemoryAddress sourceVolumeMonitor, MemoryAddress volume, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (VolumeMonitor.VolumeRemoved) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new VolumeMonitor(source, Ownership.NONE), new org.gtk.gio.Volume.VolumeImpl(volume, Ownership.NONE));
+            HANDLER.signalReceived(new VolumeMonitor(sourceVolumeMonitor, Ownership.NONE), new org.gtk.gio.Volume.VolumeImpl(volume, Ownership.NONE));
         }
     }
 }

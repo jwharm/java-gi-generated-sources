@@ -9,39 +9,51 @@ import org.jetbrains.annotations.*;
  * The possible states an element can be in. States can be changed using
  * gst_element_set_state() and checked using gst_element_get_state().
  */
-public class State extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "GstState";
-    
+public enum State implements io.github.jwharm.javagi.Enumeration {
     /**
      * no pending state.
      */
-    public static final State VOID_PENDING = new State(0);
-    
+    VOID_PENDING(0),
     /**
      * the NULL state or initial state of an element.
      */
-    public static final State NULL = new State(1);
-    
+    NULL(1),
     /**
      * the element is ready to go to PAUSED.
      */
-    public static final State READY = new State(2);
-    
+    READY(2),
     /**
      * the element is PAUSED, it is ready to accept and
      *                          process data. Sink elements however only accept one
      *                          buffer and then block.
      */
-    public static final State PAUSED = new State(3);
-    
+    PAUSED(3),
     /**
      * the element is PLAYING, the {@link Clock} is running and
      *                          the data is flowing.
      */
-    public static final State PLAYING = new State(4);
+    PLAYING(4);
     
-    public State(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "GstState";
+    
+    private final int value;
+    State(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static State of(int value) {
+        return switch (value) {
+            case 0 -> VOID_PENDING;
+            case 1 -> NULL;
+            case 2 -> READY;
+            case 3 -> PAUSED;
+            case 4 -> PLAYING;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

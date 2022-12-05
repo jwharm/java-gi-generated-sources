@@ -58,7 +58,11 @@ public class SwipeTracker extends org.gtk.gobject.Object implements org.gtk.gtk.
      * @throws ClassCastException If the GType is not derived from "AdwSwipeTracker", a ClassCastException will be thrown.
      */
     public static SwipeTracker castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), SwipeTracker.getType())) {
             return new SwipeTracker(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of AdwSwipeTracker");
+        }
     }
     
     private static Addressable constructNew(@NotNull org.gnome.adw.Swipeable swipeable) {
@@ -254,7 +258,7 @@ public class SwipeTracker extends org.gtk.gobject.Object implements org.gtk.gtk.
     
     @FunctionalInterface
     public interface BeginSwipe {
-        void signalReceived(SwipeTracker source);
+        void signalReceived(SwipeTracker sourceSwipeTracker);
     }
     
     /**
@@ -283,7 +287,7 @@ public class SwipeTracker extends org.gtk.gobject.Object implements org.gtk.gtk.
     
     @FunctionalInterface
     public interface EndSwipe {
-        void signalReceived(SwipeTracker source, double velocity, double to);
+        void signalReceived(SwipeTracker sourceSwipeTracker, double velocity, double to);
     }
     
     /**
@@ -316,7 +320,7 @@ public class SwipeTracker extends org.gtk.gobject.Object implements org.gtk.gtk.
     
     @FunctionalInterface
     public interface Prepare {
-        void signalReceived(SwipeTracker source, @NotNull org.gnome.adw.NavigationDirection direction);
+        void signalReceived(SwipeTracker sourceSwipeTracker, @NotNull org.gnome.adw.NavigationDirection direction);
     }
     
     /**
@@ -347,7 +351,7 @@ public class SwipeTracker extends org.gtk.gobject.Object implements org.gtk.gtk.
     
     @FunctionalInterface
     public interface UpdateSwipe {
-        void signalReceived(SwipeTracker source, double progress);
+        void signalReceived(SwipeTracker sourceSwipeTracker, double progress);
     }
     
     /**
@@ -549,28 +553,28 @@ public class SwipeTracker extends org.gtk.gobject.Object implements org.gtk.gtk.
     
     private static class Callbacks {
         
-        public static void signalSwipeTrackerBeginSwipe(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalSwipeTrackerBeginSwipe(MemoryAddress sourceSwipeTracker, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (SwipeTracker.BeginSwipe) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new SwipeTracker(source, Ownership.NONE));
+            HANDLER.signalReceived(new SwipeTracker(sourceSwipeTracker, Ownership.NONE));
         }
         
-        public static void signalSwipeTrackerEndSwipe(MemoryAddress source, double velocity, double to, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalSwipeTrackerEndSwipe(MemoryAddress sourceSwipeTracker, double velocity, double to, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (SwipeTracker.EndSwipe) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new SwipeTracker(source, Ownership.NONE), velocity, to);
+            HANDLER.signalReceived(new SwipeTracker(sourceSwipeTracker, Ownership.NONE), velocity, to);
         }
         
-        public static void signalSwipeTrackerPrepare(MemoryAddress source, int direction, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalSwipeTrackerPrepare(MemoryAddress sourceSwipeTracker, int direction, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (SwipeTracker.Prepare) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new SwipeTracker(source, Ownership.NONE), new org.gnome.adw.NavigationDirection(direction));
+            HANDLER.signalReceived(new SwipeTracker(sourceSwipeTracker, Ownership.NONE), org.gnome.adw.NavigationDirection.of(direction));
         }
         
-        public static void signalSwipeTrackerUpdateSwipe(MemoryAddress source, double progress, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalSwipeTrackerUpdateSwipe(MemoryAddress sourceSwipeTracker, double progress, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (SwipeTracker.UpdateSwipe) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new SwipeTracker(source, Ownership.NONE), progress);
+            HANDLER.signalReceived(new SwipeTracker(sourceSwipeTracker, Ownership.NONE), progress);
         }
     }
 }

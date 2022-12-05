@@ -265,32 +265,4 @@ public class FrameTimings extends Struct {
             false
         );
     }
-
-    /**
-     * Inner class implementing a builder pattern to construct 
-     * a struct and set its values.
-     */
-    public static class Build {
-        
-        private FrameTimings struct;
-        
-         /**
-         * A {@link FrameTimings.Build} object constructs a {@link FrameTimings} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
-            struct = FrameTimings.allocate();
-        }
-        
-         /**
-         * Finish building the {@link FrameTimings} struct.
-         * @return A new instance of {@code FrameTimings} with the fields 
-         *         that were set in the Build object.
-         */
-        public FrameTimings construct() {
-            return struct;
-        }
-    }
 }

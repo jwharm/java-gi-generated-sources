@@ -68,32 +68,4 @@ public class TestCase extends Struct {
             false
         );
     }
-
-    /**
-     * Inner class implementing a builder pattern to construct 
-     * a struct and set its values.
-     */
-    public static class Build {
-        
-        private TestCase struct;
-        
-         /**
-         * A {@link TestCase.Build} object constructs a {@link TestCase} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
-            struct = TestCase.allocate();
-        }
-        
-         /**
-         * Finish building the {@link TestCase} struct.
-         * @return A new instance of {@code TestCase} with the fields 
-         *         that were set in the Build object.
-         */
-        public TestCase construct() {
-            return struct;
-        }
-    }
 }

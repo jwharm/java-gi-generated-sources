@@ -128,7 +128,11 @@ public class DBusObjectManagerClient extends org.gtk.gobject.Object implements o
      * @throws ClassCastException If the GType is not derived from "GDBusObjectManagerClient", a ClassCastException will be thrown.
      */
     public static DBusObjectManagerClient castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), DBusObjectManagerClient.getType())) {
             return new DBusObjectManagerClient(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GDBusObjectManagerClient");
+        }
     }
     
     private static Addressable constructNewFinish(@NotNull org.gtk.gio.AsyncResult res) throws GErrorException {
@@ -472,7 +476,7 @@ public class DBusObjectManagerClient extends org.gtk.gobject.Object implements o
     
     @FunctionalInterface
     public interface InterfaceProxyPropertiesChanged {
-        void signalReceived(DBusObjectManagerClient source, @NotNull org.gtk.gio.DBusObjectProxy objectProxy, @NotNull org.gtk.gio.DBusProxy interfaceProxy, @NotNull org.gtk.glib.Variant changedProperties, @NotNull java.lang.String[] invalidatedProperties);
+        void signalReceived(DBusObjectManagerClient sourceDBusObjectManagerClient, @NotNull org.gtk.gio.DBusObjectProxy objectProxy, @NotNull org.gtk.gio.DBusProxy interfaceProxy, @NotNull org.gtk.glib.Variant changedProperties, @NotNull java.lang.String[] invalidatedProperties);
     }
     
     /**
@@ -496,7 +500,7 @@ public class DBusObjectManagerClient extends org.gtk.gobject.Object implements o
     
     @FunctionalInterface
     public interface InterfaceProxySignal {
-        void signalReceived(DBusObjectManagerClient source, @NotNull org.gtk.gio.DBusObjectProxy objectProxy, @NotNull org.gtk.gio.DBusProxy interfaceProxy, @NotNull java.lang.String senderName, @NotNull java.lang.String signalName, @NotNull org.gtk.glib.Variant parameters);
+        void signalReceived(DBusObjectManagerClient sourceDBusObjectManagerClient, @NotNull org.gtk.gio.DBusObjectProxy objectProxy, @NotNull org.gtk.gio.DBusProxy interfaceProxy, @NotNull java.lang.String senderName, @NotNull java.lang.String signalName, @NotNull org.gtk.glib.Variant parameters);
     }
     
     /**
@@ -740,14 +744,14 @@ public class DBusObjectManagerClient extends org.gtk.gobject.Object implements o
     
     private static class Callbacks {
         
-        public static void signalDBusObjectManagerClientInterfaceProxyPropertiesChanged(MemoryAddress source, MemoryAddress objectProxy, MemoryAddress interfaceProxy, MemoryAddress changedProperties, MemoryAddress invalidatedProperties, MemoryAddress data) {
+        public static void signalDBusObjectManagerClientInterfaceProxyPropertiesChanged(MemoryAddress sourceDBusObjectManagerClient, MemoryAddress objectProxy, MemoryAddress interfaceProxy, MemoryAddress changedProperties, MemoryAddress invalidatedProperties, MemoryAddress DATA) {
         // Operation not supported yet
     }
         
-        public static void signalDBusObjectManagerClientInterfaceProxySignal(MemoryAddress source, MemoryAddress objectProxy, MemoryAddress interfaceProxy, MemoryAddress senderName, MemoryAddress signalName, MemoryAddress parameters, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalDBusObjectManagerClientInterfaceProxySignal(MemoryAddress sourceDBusObjectManagerClient, MemoryAddress objectProxy, MemoryAddress interfaceProxy, MemoryAddress senderName, MemoryAddress signalName, MemoryAddress parameters, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (DBusObjectManagerClient.InterfaceProxySignal) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new DBusObjectManagerClient(source, Ownership.NONE), new org.gtk.gio.DBusObjectProxy(objectProxy, Ownership.NONE), new org.gtk.gio.DBusProxy(interfaceProxy, Ownership.NONE), Interop.getStringFrom(senderName), Interop.getStringFrom(signalName), new org.gtk.glib.Variant(parameters, Ownership.NONE));
+            HANDLER.signalReceived(new DBusObjectManagerClient(sourceDBusObjectManagerClient, Ownership.NONE), new org.gtk.gio.DBusObjectProxy(objectProxy, Ownership.NONE), new org.gtk.gio.DBusProxy(interfaceProxy, Ownership.NONE), Interop.getStringFrom(senderName), Interop.getStringFrom(signalName), new org.gtk.glib.Variant(parameters, Ownership.NONE));
         }
     }
 }

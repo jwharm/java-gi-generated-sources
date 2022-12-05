@@ -42,12 +42,19 @@ public class Carousel extends org.gtk.gtk.Widget implements org.gnome.adw.Swipea
     
     /**
      * Create a Carousel proxy instance for the provided memory address.
+     * <p>
+     * Because Carousel is an {@code InitiallyUnowned} instance, when 
+     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
+     * and a call to {@code refSink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
     @ApiStatus.Internal
     public Carousel(Addressable address, Ownership ownership) {
-        super(address, ownership);
+        super(address, Ownership.FULL);
+        if (ownership == Ownership.NONE) {
+            refSink();
+        }
     }
     
     /**
@@ -63,7 +70,11 @@ public class Carousel extends org.gtk.gtk.Widget implements org.gnome.adw.Swipea
      * @throws ClassCastException If the GType is not derived from "AdwCarousel", a ClassCastException will be thrown.
      */
     public static Carousel castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), Carousel.getType())) {
             return new Carousel(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of AdwCarousel");
+        }
     }
     
     private static Addressable constructNew() {
@@ -473,7 +484,7 @@ public class Carousel extends org.gtk.gtk.Widget implements org.gnome.adw.Swipea
     
     @FunctionalInterface
     public interface PageChanged {
-        void signalReceived(Carousel source, int index);
+        void signalReceived(Carousel sourceCarousel, int index);
     }
     
     /**
@@ -809,10 +820,10 @@ public class Carousel extends org.gtk.gtk.Widget implements org.gnome.adw.Swipea
     
     private static class Callbacks {
         
-        public static void signalCarouselPageChanged(MemoryAddress source, int index, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalCarouselPageChanged(MemoryAddress sourceCarousel, int index, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (Carousel.PageChanged) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Carousel(source, Ownership.NONE), index);
+            HANDLER.signalReceived(new Carousel(sourceCarousel, Ownership.NONE), index);
         }
     }
 }

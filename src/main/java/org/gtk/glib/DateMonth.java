@@ -9,76 +9,88 @@ import org.jetbrains.annotations.*;
  * Enumeration representing a month; values are {@link DateMonth#JANUARY},
  * {@link DateMonth#FEBRUARY}, etc. {@link DateMonth#BAD_MONTH} is the invalid value.
  */
-public class DateMonth extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "GDateMonth";
-    
+public enum DateMonth implements io.github.jwharm.javagi.Enumeration {
     /**
      * invalid value
      */
-    public static final DateMonth BAD_MONTH = new DateMonth(0);
-    
+    BAD_MONTH(0),
     /**
      * January
      */
-    public static final DateMonth JANUARY = new DateMonth(1);
-    
+    JANUARY(1),
     /**
      * February
      */
-    public static final DateMonth FEBRUARY = new DateMonth(2);
-    
+    FEBRUARY(2),
     /**
      * March
      */
-    public static final DateMonth MARCH = new DateMonth(3);
-    
+    MARCH(3),
     /**
      * April
      */
-    public static final DateMonth APRIL = new DateMonth(4);
-    
+    APRIL(4),
     /**
      * May
      */
-    public static final DateMonth MAY = new DateMonth(5);
-    
+    MAY(5),
     /**
      * June
      */
-    public static final DateMonth JUNE = new DateMonth(6);
-    
+    JUNE(6),
     /**
      * July
      */
-    public static final DateMonth JULY = new DateMonth(7);
-    
+    JULY(7),
     /**
      * August
      */
-    public static final DateMonth AUGUST = new DateMonth(8);
-    
+    AUGUST(8),
     /**
      * September
      */
-    public static final DateMonth SEPTEMBER = new DateMonth(9);
-    
+    SEPTEMBER(9),
     /**
      * October
      */
-    public static final DateMonth OCTOBER = new DateMonth(10);
-    
+    OCTOBER(10),
     /**
      * November
      */
-    public static final DateMonth NOVEMBER = new DateMonth(11);
-    
+    NOVEMBER(11),
     /**
      * December
      */
-    public static final DateMonth DECEMBER = new DateMonth(12);
+    DECEMBER(12);
     
-    public DateMonth(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "GDateMonth";
+    
+    private final int value;
+    DateMonth(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static DateMonth of(int value) {
+        return switch (value) {
+            case 0 -> BAD_MONTH;
+            case 1 -> JANUARY;
+            case 2 -> FEBRUARY;
+            case 3 -> MARCH;
+            case 4 -> APRIL;
+            case 5 -> MAY;
+            case 6 -> JUNE;
+            case 7 -> JULY;
+            case 8 -> AUGUST;
+            case 9 -> SEPTEMBER;
+            case 10 -> OCTOBER;
+            case 11 -> NOVEMBER;
+            case 12 -> DECEMBER;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

@@ -44,32 +44,4 @@ public class BuilderClass extends Struct {
     public BuilderClass(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
-
-    /**
-     * Inner class implementing a builder pattern to construct 
-     * a struct and set its values.
-     */
-    public static class Build {
-        
-        private BuilderClass struct;
-        
-         /**
-         * A {@link BuilderClass.Build} object constructs a {@link BuilderClass} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
-            struct = BuilderClass.allocate();
-        }
-        
-         /**
-         * Finish building the {@link BuilderClass} struct.
-         * @return A new instance of {@code BuilderClass} with the fields 
-         *         that were set in the Build object.
-         */
-        public BuilderClass construct() {
-            return struct;
-        }
-    }
 }

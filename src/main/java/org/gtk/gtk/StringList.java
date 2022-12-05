@@ -71,7 +71,11 @@ public class StringList extends org.gtk.gobject.Object implements org.gtk.gio.Li
      * @throws ClassCastException If the GType is not derived from "GtkStringList", a ClassCastException will be thrown.
      */
     public static StringList castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), StringList.getType())) {
             return new StringList(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkStringList");
+        }
     }
     
     private static Addressable constructNew(@Nullable java.lang.String[] strings) {

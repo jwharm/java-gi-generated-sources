@@ -67,7 +67,11 @@ public class SignalGroup extends org.gtk.gobject.Object {
      * @throws ClassCastException If the GType is not derived from "GSignalGroup", a ClassCastException will be thrown.
      */
     public static SignalGroup castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), SignalGroup.getType())) {
             return new SignalGroup(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GSignalGroup");
+        }
     }
     
     private static Addressable constructNew(@NotNull org.gtk.glib.Type targetType) {
@@ -331,7 +335,7 @@ public class SignalGroup extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface Bind {
-        void signalReceived(SignalGroup source, @NotNull org.gtk.gobject.Object instance);
+        void signalReceived(SignalGroup sourceSignalGroup, @NotNull org.gtk.gobject.Object instance);
     }
     
     /**
@@ -362,7 +366,7 @@ public class SignalGroup extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface Unbind {
-        void signalReceived(SignalGroup source);
+        void signalReceived(SignalGroup sourceSignalGroup);
     }
     
     /**
@@ -526,16 +530,16 @@ public class SignalGroup extends org.gtk.gobject.Object {
     
     private static class Callbacks {
         
-        public static void signalSignalGroupBind(MemoryAddress source, MemoryAddress instance, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalSignalGroupBind(MemoryAddress sourceSignalGroup, MemoryAddress instance, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (SignalGroup.Bind) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new SignalGroup(source, Ownership.NONE), new org.gtk.gobject.Object(instance, Ownership.NONE));
+            HANDLER.signalReceived(new SignalGroup(sourceSignalGroup, Ownership.NONE), new org.gtk.gobject.Object(instance, Ownership.NONE));
         }
         
-        public static void signalSignalGroupUnbind(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalSignalGroupUnbind(MemoryAddress sourceSignalGroup, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (SignalGroup.Unbind) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new SignalGroup(source, Ownership.NONE));
+            HANDLER.signalReceived(new SignalGroup(sourceSignalGroup, Ownership.NONE));
         }
     }
 }

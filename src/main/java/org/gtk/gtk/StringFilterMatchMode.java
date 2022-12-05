@@ -8,29 +8,41 @@ import org.jetbrains.annotations.*;
 /**
  * Specifies how search strings are matched inside text.
  */
-public class StringFilterMatchMode extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "GtkStringFilterMatchMode";
-    
+public enum StringFilterMatchMode implements io.github.jwharm.javagi.Enumeration {
     /**
      * The search string and
      *   text must match exactly.
      */
-    public static final StringFilterMatchMode EXACT = new StringFilterMatchMode(0);
-    
+    EXACT(0),
     /**
      * The search string
      *   must be contained as a substring inside the text.
      */
-    public static final StringFilterMatchMode SUBSTRING = new StringFilterMatchMode(1);
-    
+    SUBSTRING(1),
     /**
      * The text must begin
      *   with the search string.
      */
-    public static final StringFilterMatchMode PREFIX = new StringFilterMatchMode(2);
+    PREFIX(2);
     
-    public StringFilterMatchMode(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "GtkStringFilterMatchMode";
+    
+    private final int value;
+    StringFilterMatchMode(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static StringFilterMatchMode of(int value) {
+        return switch (value) {
+            case 0 -> EXACT;
+            case 1 -> SUBSTRING;
+            case 2 -> PREFIX;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

@@ -29,9 +29,8 @@ public class GapFlags extends io.github.jwharm.javagi.Bitfield {
      * @param mask the value to combine with
      * @return the combined value by calculating {@code this | mask} 
      */
-    public GapFlags combined(GapFlags mask) {
-        this.setValue(this.getValue() | mask.getValue());
-        return this;
+    public GapFlags or(GapFlags mask) {
+        return new GapFlags(this.getValue() | mask.getValue());
     }
     
     /**
@@ -41,9 +40,9 @@ public class GapFlags extends io.github.jwharm.javagi.Bitfield {
      * @return the combined value by calculating {@code mask | masks[0] | masks[1] | ...} 
      */
     public static GapFlags combined(GapFlags mask, GapFlags... masks) {
-        for (GapFlags arg : masks) {
-            mask.setValue(mask.getValue() | arg.getValue());
+        int value = mask.getValue();        for (GapFlags arg : masks) {
+            value |= arg.getValue();
         }
-        return mask;
+        return new GapFlags(value);
     }
 }

@@ -9,61 +9,73 @@ import org.jetbrains.annotations.*;
  * These enumeration values describe the possible transitions
  * when the child of a {@code GtkRevealer} widget is shown or hidden.
  */
-public class RevealerTransitionType extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "GtkRevealerTransitionType";
-    
+public enum RevealerTransitionType implements io.github.jwharm.javagi.Enumeration {
     /**
      * No transition
      */
-    public static final RevealerTransitionType NONE = new RevealerTransitionType(0);
-    
+    NONE(0),
     /**
      * Fade in
      */
-    public static final RevealerTransitionType CROSSFADE = new RevealerTransitionType(1);
-    
+    CROSSFADE(1),
     /**
      * Slide in from the left
      */
-    public static final RevealerTransitionType SLIDE_RIGHT = new RevealerTransitionType(2);
-    
+    SLIDE_RIGHT(2),
     /**
      * Slide in from the right
      */
-    public static final RevealerTransitionType SLIDE_LEFT = new RevealerTransitionType(3);
-    
+    SLIDE_LEFT(3),
     /**
      * Slide in from the bottom
      */
-    public static final RevealerTransitionType SLIDE_UP = new RevealerTransitionType(4);
-    
+    SLIDE_UP(4),
     /**
      * Slide in from the top
      */
-    public static final RevealerTransitionType SLIDE_DOWN = new RevealerTransitionType(5);
-    
+    SLIDE_DOWN(5),
     /**
      * Floop in from the left
      */
-    public static final RevealerTransitionType SWING_RIGHT = new RevealerTransitionType(6);
-    
+    SWING_RIGHT(6),
     /**
      * Floop in from the right
      */
-    public static final RevealerTransitionType SWING_LEFT = new RevealerTransitionType(7);
-    
+    SWING_LEFT(7),
     /**
      * Floop in from the bottom
      */
-    public static final RevealerTransitionType SWING_UP = new RevealerTransitionType(8);
-    
+    SWING_UP(8),
     /**
      * Floop in from the top
      */
-    public static final RevealerTransitionType SWING_DOWN = new RevealerTransitionType(9);
+    SWING_DOWN(9);
     
-    public RevealerTransitionType(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "GtkRevealerTransitionType";
+    
+    private final int value;
+    RevealerTransitionType(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static RevealerTransitionType of(int value) {
+        return switch (value) {
+            case 0 -> NONE;
+            case 1 -> CROSSFADE;
+            case 2 -> SLIDE_RIGHT;
+            case 3 -> SLIDE_LEFT;
+            case 4 -> SLIDE_UP;
+            case 5 -> SLIDE_DOWN;
+            case 6 -> SWING_RIGHT;
+            case 7 -> SWING_LEFT;
+            case 8 -> SWING_UP;
+            case 9 -> SWING_DOWN;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

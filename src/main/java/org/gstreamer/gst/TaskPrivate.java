@@ -44,32 +44,4 @@ public class TaskPrivate extends Struct {
     public TaskPrivate(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
-
-    /**
-     * Inner class implementing a builder pattern to construct 
-     * a struct and set its values.
-     */
-    public static class Build {
-        
-        private TaskPrivate struct;
-        
-         /**
-         * A {@link TaskPrivate.Build} object constructs a {@link TaskPrivate} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
-            struct = TaskPrivate.allocate();
-        }
-        
-         /**
-         * Finish building the {@link TaskPrivate} struct.
-         * @return A new instance of {@code TaskPrivate} with the fields 
-         *         that were set in the Build object.
-         */
-        public TaskPrivate construct() {
-            return struct;
-        }
-    }
 }

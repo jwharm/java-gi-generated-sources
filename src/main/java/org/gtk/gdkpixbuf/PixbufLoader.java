@@ -97,7 +97,11 @@ public class PixbufLoader extends org.gtk.gobject.Object {
      * @throws ClassCastException If the GType is not derived from "GdkPixbufLoader", a ClassCastException will be thrown.
      */
     public static PixbufLoader castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), PixbufLoader.getType())) {
             return new PixbufLoader(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GdkPixbufLoader");
+        }
     }
     
     private static Addressable constructNew() {
@@ -394,7 +398,7 @@ public class PixbufLoader extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface AreaPrepared {
-        void signalReceived(PixbufLoader source);
+        void signalReceived(PixbufLoader sourcePixbufLoader);
     }
     
     /**
@@ -427,7 +431,7 @@ public class PixbufLoader extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface AreaUpdated {
-        void signalReceived(PixbufLoader source, int x, int y, int width, int height);
+        void signalReceived(PixbufLoader sourcePixbufLoader, int x, int y, int width, int height);
     }
     
     /**
@@ -462,7 +466,7 @@ public class PixbufLoader extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface Closed {
-        void signalReceived(PixbufLoader source);
+        void signalReceived(PixbufLoader sourcePixbufLoader);
     }
     
     /**
@@ -494,7 +498,7 @@ public class PixbufLoader extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface SizePrepared {
-        void signalReceived(PixbufLoader source, int width, int height);
+        void signalReceived(PixbufLoader sourcePixbufLoader, int width, int height);
     }
     
     /**
@@ -632,28 +636,28 @@ public class PixbufLoader extends org.gtk.gobject.Object {
     
     private static class Callbacks {
         
-        public static void signalPixbufLoaderAreaPrepared(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalPixbufLoaderAreaPrepared(MemoryAddress sourcePixbufLoader, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (PixbufLoader.AreaPrepared) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new PixbufLoader(source, Ownership.NONE));
+            HANDLER.signalReceived(new PixbufLoader(sourcePixbufLoader, Ownership.NONE));
         }
         
-        public static void signalPixbufLoaderAreaUpdated(MemoryAddress source, int x, int y, int width, int height, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalPixbufLoaderAreaUpdated(MemoryAddress sourcePixbufLoader, int x, int y, int width, int height, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (PixbufLoader.AreaUpdated) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new PixbufLoader(source, Ownership.NONE), x, y, width, height);
+            HANDLER.signalReceived(new PixbufLoader(sourcePixbufLoader, Ownership.NONE), x, y, width, height);
         }
         
-        public static void signalPixbufLoaderClosed(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalPixbufLoaderClosed(MemoryAddress sourcePixbufLoader, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (PixbufLoader.Closed) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new PixbufLoader(source, Ownership.NONE));
+            HANDLER.signalReceived(new PixbufLoader(sourcePixbufLoader, Ownership.NONE));
         }
         
-        public static void signalPixbufLoaderSizePrepared(MemoryAddress source, int width, int height, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalPixbufLoaderSizePrepared(MemoryAddress sourcePixbufLoader, int width, int height, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (PixbufLoader.SizePrepared) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new PixbufLoader(source, Ownership.NONE), width, height);
+            HANDLER.signalReceived(new PixbufLoader(sourcePixbufLoader, Ownership.NONE), width, height);
         }
     }
 }

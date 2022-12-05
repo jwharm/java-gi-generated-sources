@@ -8,31 +8,43 @@ import org.jetbrains.annotations.*;
 /**
  * See also gtk_print_settings_set_paper_width().
  */
-public class Unit extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "GtkUnit";
-    
+public enum Unit implements io.github.jwharm.javagi.Enumeration {
     /**
      * No units.
      */
-    public static final Unit NONE = new Unit(0);
-    
+    NONE(0),
     /**
      * Dimensions in points.
      */
-    public static final Unit POINTS = new Unit(1);
-    
+    POINTS(1),
     /**
      * Dimensions in inches.
      */
-    public static final Unit INCH = new Unit(2);
-    
+    INCH(2),
     /**
      * Dimensions in millimeters
      */
-    public static final Unit MM = new Unit(3);
+    MM(3);
     
-    public Unit(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "GtkUnit";
+    
+    private final int value;
+    Unit(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static Unit of(int value) {
+        return switch (value) {
+            case 0 -> NONE;
+            case 1 -> POINTS;
+            case 2 -> INCH;
+            case 3 -> MM;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

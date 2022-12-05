@@ -9,26 +9,38 @@ import org.jetbrains.annotations.*;
  * {@link DataStreamByteOrder} is used to ensure proper endianness of streaming data sources
  * across various machine architectures.
  */
-public class DataStreamByteOrder extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "GDataStreamByteOrder";
-    
+public enum DataStreamByteOrder implements io.github.jwharm.javagi.Enumeration {
     /**
      * Selects Big Endian byte order.
      */
-    public static final DataStreamByteOrder BIG_ENDIAN = new DataStreamByteOrder(0);
-    
+    BIG_ENDIAN(0),
     /**
      * Selects Little Endian byte order.
      */
-    public static final DataStreamByteOrder LITTLE_ENDIAN = new DataStreamByteOrder(1);
-    
+    LITTLE_ENDIAN(1),
     /**
      * Selects endianness based on host machine's architecture.
      */
-    public static final DataStreamByteOrder HOST_ENDIAN = new DataStreamByteOrder(2);
+    HOST_ENDIAN(2);
     
-    public DataStreamByteOrder(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "GDataStreamByteOrder";
+    
+    private final int value;
+    DataStreamByteOrder(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static DataStreamByteOrder of(int value) {
+        return switch (value) {
+            case 0 -> BIG_ENDIAN;
+            case 1 -> LITTLE_ENDIAN;
+            case 2 -> HOST_ENDIAN;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

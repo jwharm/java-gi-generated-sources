@@ -8,62 +8,74 @@ import org.jetbrains.annotations.*;
 /**
  * Defines the reference point of a surface and is used in {@code GdkPopupLayout}.
  */
-public class Gravity extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "GdkGravity";
-    
+public enum Gravity implements io.github.jwharm.javagi.Enumeration {
     /**
      * the reference point is at the top left corner.
      */
-    public static final Gravity NORTH_WEST = new Gravity(1);
-    
+    NORTH_WEST(1),
     /**
      * the reference point is in the middle of the top edge.
      */
-    public static final Gravity NORTH = new Gravity(2);
-    
+    NORTH(2),
     /**
      * the reference point is at the top right corner.
      */
-    public static final Gravity NORTH_EAST = new Gravity(3);
-    
+    NORTH_EAST(3),
     /**
      * the reference point is at the middle of the left edge.
      */
-    public static final Gravity WEST = new Gravity(4);
-    
+    WEST(4),
     /**
      * the reference point is at the center of the surface.
      */
-    public static final Gravity CENTER = new Gravity(5);
-    
+    CENTER(5),
     /**
      * the reference point is at the middle of the right edge.
      */
-    public static final Gravity EAST = new Gravity(6);
-    
+    EAST(6),
     /**
      * the reference point is at the lower left corner.
      */
-    public static final Gravity SOUTH_WEST = new Gravity(7);
-    
+    SOUTH_WEST(7),
     /**
      * the reference point is at the middle of the lower edge.
      */
-    public static final Gravity SOUTH = new Gravity(8);
-    
+    SOUTH(8),
     /**
      * the reference point is at the lower right corner.
      */
-    public static final Gravity SOUTH_EAST = new Gravity(9);
-    
+    SOUTH_EAST(9),
     /**
      * the reference point is at the top left corner of the
      *  surface itself, ignoring window manager decorations.
      */
-    public static final Gravity STATIC = new Gravity(10);
+    STATIC(10);
     
-    public Gravity(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "GdkGravity";
+    
+    private final int value;
+    Gravity(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static Gravity of(int value) {
+        return switch (value) {
+            case 1 -> NORTH_WEST;
+            case 2 -> NORTH;
+            case 3 -> NORTH_EAST;
+            case 4 -> WEST;
+            case 5 -> CENTER;
+            case 6 -> EAST;
+            case 7 -> SOUTH_WEST;
+            case 8 -> SOUTH;
+            case 9 -> SOUTH_EAST;
+            case 10 -> STATIC;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

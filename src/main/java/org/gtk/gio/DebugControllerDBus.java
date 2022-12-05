@@ -158,7 +158,11 @@ public class DebugControllerDBus extends org.gtk.gobject.Object implements org.g
      * @throws ClassCastException If the GType is not derived from "GDebugControllerDBus", a ClassCastException will be thrown.
      */
     public static DebugControllerDBus castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), DebugControllerDBus.getType())) {
             return new DebugControllerDBus(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GDebugControllerDBus");
+        }
     }
     
     private static Addressable constructNew(@NotNull org.gtk.gio.DBusConnection connection, @Nullable org.gtk.gio.Cancellable cancellable) throws GErrorException {
@@ -238,7 +242,7 @@ public class DebugControllerDBus extends org.gtk.gobject.Object implements org.g
     
     @FunctionalInterface
     public interface Authorize {
-        boolean signalReceived(DebugControllerDBus source, @NotNull org.gtk.gio.DBusMethodInvocation invocation);
+        boolean signalReceived(DebugControllerDBus sourceDebugControllerDBus, @NotNull org.gtk.gio.DBusMethodInvocation invocation);
     }
     
     /**
@@ -353,10 +357,10 @@ public class DebugControllerDBus extends org.gtk.gobject.Object implements org.g
     
     private static class Callbacks {
         
-        public static boolean signalDebugControllerDBusAuthorize(MemoryAddress source, MemoryAddress invocation, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static boolean signalDebugControllerDBusAuthorize(MemoryAddress sourceDebugControllerDBus, MemoryAddress invocation, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (DebugControllerDBus.Authorize) Interop.signalRegistry.get(HASH);
-            return HANDLER.signalReceived(new DebugControllerDBus(source, Ownership.NONE), new org.gtk.gio.DBusMethodInvocation(invocation, Ownership.NONE));
+            return HANDLER.signalReceived(new DebugControllerDBus(sourceDebugControllerDBus, Ownership.NONE), new org.gtk.gio.DBusMethodInvocation(invocation, Ownership.NONE));
         }
     }
 }

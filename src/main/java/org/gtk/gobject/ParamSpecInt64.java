@@ -55,7 +55,11 @@ public class ParamSpecInt64 extends org.gtk.gobject.ParamSpec {
      * @throws ClassCastException If the GType is not derived from "GParamSpecInt64", a ClassCastException will be thrown.
      */
     public static ParamSpecInt64 castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), ParamSpecInt64.getType())) {
             return new ParamSpecInt64(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GParamSpecInt64");
+        }
     }
     
     /**

@@ -96,7 +96,11 @@ public class Animation extends org.gtk.gobject.Object {
      * @throws ClassCastException If the GType is not derived from "AdwAnimation", a ClassCastException will be thrown.
      */
     public static Animation castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), Animation.getType())) {
             return new Animation(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of AdwAnimation");
+        }
     }
     
     /**
@@ -114,7 +118,7 @@ public class Animation extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gnome.adw.AnimationState(RESULT);
+        return org.gnome.adw.AnimationState.of(RESULT);
     }
     
     /**
@@ -291,7 +295,7 @@ public class Animation extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface Done {
-        void signalReceived(Animation source);
+        void signalReceived(Animation sourceAnimation);
     }
     
     /**
@@ -478,10 +482,10 @@ public class Animation extends org.gtk.gobject.Object {
     
     private static class Callbacks {
         
-        public static void signalAnimationDone(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalAnimationDone(MemoryAddress sourceAnimation, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (Animation.Done) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Animation(source, Ownership.NONE));
+            HANDLER.signalReceived(new Animation(sourceAnimation, Ownership.NONE));
         }
     }
 }

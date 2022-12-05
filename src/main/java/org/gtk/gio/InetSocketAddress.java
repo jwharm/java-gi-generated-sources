@@ -54,7 +54,11 @@ public class InetSocketAddress extends org.gtk.gio.SocketAddress implements org.
      * @throws ClassCastException If the GType is not derived from "GInetSocketAddress", a ClassCastException will be thrown.
      */
     public static InetSocketAddress castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), InetSocketAddress.getType())) {
             return new InetSocketAddress(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GInetSocketAddress");
+        }
     }
     
     private static Addressable constructNew(@NotNull org.gtk.gio.InetAddress address, short port) {

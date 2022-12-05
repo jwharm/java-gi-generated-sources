@@ -70,12 +70,19 @@ public class FlowBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
     
     /**
      * Create a FlowBox proxy instance for the provided memory address.
+     * <p>
+     * Because FlowBox is an {@code InitiallyUnowned} instance, when 
+     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
+     * and a call to {@code refSink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
     @ApiStatus.Internal
     public FlowBox(Addressable address, Ownership ownership) {
-        super(address, ownership);
+        super(address, Ownership.FULL);
+        if (ownership == Ownership.NONE) {
+            refSink();
+        }
     }
     
     /**
@@ -91,7 +98,11 @@ public class FlowBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      * @throws ClassCastException If the GType is not derived from "GtkFlowBox", a ClassCastException will be thrown.
      */
     public static FlowBox castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), FlowBox.getType())) {
             return new FlowBox(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkFlowBox");
+        }
     }
     
     private static Addressable constructNew() {
@@ -329,7 +340,7 @@ public class FlowBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.SelectionMode(RESULT);
+        return org.gtk.gtk.SelectionMode.of(RESULT);
     }
     
     /**
@@ -743,7 +754,7 @@ public class FlowBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
     
     @FunctionalInterface
     public interface ActivateCursorChild {
-        void signalReceived(FlowBox source);
+        void signalReceived(FlowBox sourceFlowBox);
     }
     
     /**
@@ -773,7 +784,7 @@ public class FlowBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
     
     @FunctionalInterface
     public interface ChildActivated {
-        void signalReceived(FlowBox source, @NotNull org.gtk.gtk.FlowBoxChild child);
+        void signalReceived(FlowBox sourceFlowBox, @NotNull org.gtk.gtk.FlowBoxChild child);
     }
     
     /**
@@ -801,7 +812,7 @@ public class FlowBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
     
     @FunctionalInterface
     public interface MoveCursor {
-        boolean signalReceived(FlowBox source, @NotNull org.gtk.gtk.MovementStep step, int count, boolean extend, boolean modify);
+        boolean signalReceived(FlowBox sourceFlowBox, @NotNull org.gtk.gtk.MovementStep step, int count, boolean extend, boolean modify);
     }
     
     /**
@@ -845,7 +856,7 @@ public class FlowBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
     
     @FunctionalInterface
     public interface SelectAll {
-        void signalReceived(FlowBox source);
+        void signalReceived(FlowBox sourceFlowBox);
     }
     
     /**
@@ -878,7 +889,7 @@ public class FlowBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
     
     @FunctionalInterface
     public interface SelectedChildrenChanged {
-        void signalReceived(FlowBox source);
+        void signalReceived(FlowBox sourceFlowBox);
     }
     
     /**
@@ -910,7 +921,7 @@ public class FlowBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
     
     @FunctionalInterface
     public interface ToggleCursorChild {
-        void signalReceived(FlowBox source);
+        void signalReceived(FlowBox sourceFlowBox);
     }
     
     /**
@@ -942,7 +953,7 @@ public class FlowBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
     
     @FunctionalInterface
     public interface UnselectAll {
-        void signalReceived(FlowBox source);
+        void signalReceived(FlowBox sourceFlowBox);
     }
     
     /**
@@ -1314,46 +1325,46 @@ public class FlowBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
     
     private static class Callbacks {
         
-        public static void signalFlowBoxActivateCursorChild(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalFlowBoxActivateCursorChild(MemoryAddress sourceFlowBox, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (FlowBox.ActivateCursorChild) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new FlowBox(source, Ownership.NONE));
+            HANDLER.signalReceived(new FlowBox(sourceFlowBox, Ownership.NONE));
         }
         
-        public static void signalFlowBoxChildActivated(MemoryAddress source, MemoryAddress child, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalFlowBoxChildActivated(MemoryAddress sourceFlowBox, MemoryAddress child, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (FlowBox.ChildActivated) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new FlowBox(source, Ownership.NONE), new org.gtk.gtk.FlowBoxChild(child, Ownership.NONE));
+            HANDLER.signalReceived(new FlowBox(sourceFlowBox, Ownership.NONE), new org.gtk.gtk.FlowBoxChild(child, Ownership.NONE));
         }
         
-        public static boolean signalFlowBoxMoveCursor(MemoryAddress source, int step, int count, int extend, int modify, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static boolean signalFlowBoxMoveCursor(MemoryAddress sourceFlowBox, int step, int count, int extend, int modify, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (FlowBox.MoveCursor) Interop.signalRegistry.get(HASH);
-            return HANDLER.signalReceived(new FlowBox(source, Ownership.NONE), new org.gtk.gtk.MovementStep(step), count, extend != 0, modify != 0);
+            return HANDLER.signalReceived(new FlowBox(sourceFlowBox, Ownership.NONE), org.gtk.gtk.MovementStep.of(step), count, extend != 0, modify != 0);
         }
         
-        public static void signalFlowBoxSelectAll(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalFlowBoxSelectAll(MemoryAddress sourceFlowBox, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (FlowBox.SelectAll) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new FlowBox(source, Ownership.NONE));
+            HANDLER.signalReceived(new FlowBox(sourceFlowBox, Ownership.NONE));
         }
         
-        public static void signalFlowBoxSelectedChildrenChanged(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalFlowBoxSelectedChildrenChanged(MemoryAddress sourceFlowBox, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (FlowBox.SelectedChildrenChanged) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new FlowBox(source, Ownership.NONE));
+            HANDLER.signalReceived(new FlowBox(sourceFlowBox, Ownership.NONE));
         }
         
-        public static void signalFlowBoxToggleCursorChild(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalFlowBoxToggleCursorChild(MemoryAddress sourceFlowBox, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (FlowBox.ToggleCursorChild) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new FlowBox(source, Ownership.NONE));
+            HANDLER.signalReceived(new FlowBox(sourceFlowBox, Ownership.NONE));
         }
         
-        public static void signalFlowBoxUnselectAll(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalFlowBoxUnselectAll(MemoryAddress sourceFlowBox, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (FlowBox.UnselectAll) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new FlowBox(source, Ownership.NONE));
+            HANDLER.signalReceived(new FlowBox(sourceFlowBox, Ownership.NONE));
         }
     }
 }

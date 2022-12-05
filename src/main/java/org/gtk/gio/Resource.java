@@ -520,32 +520,4 @@ public class Resource extends Struct {
             false
         );
     }
-
-    /**
-     * Inner class implementing a builder pattern to construct 
-     * a struct and set its values.
-     */
-    public static class Build {
-        
-        private Resource struct;
-        
-         /**
-         * A {@link Resource.Build} object constructs a {@link Resource} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
-            struct = Resource.allocate();
-        }
-        
-         /**
-         * Finish building the {@link Resource} struct.
-         * @return A new instance of {@code Resource} with the fields 
-         *         that were set in the Build object.
-         */
-        public Resource construct() {
-            return struct;
-        }
-    }
 }

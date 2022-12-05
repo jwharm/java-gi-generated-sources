@@ -8,33 +8,45 @@ import org.jetbrains.annotations.*;
 /**
  * The different kind of clocks.
  */
-public class ClockType extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "GstClockType";
-    
+public enum ClockType implements io.github.jwharm.javagi.Enumeration {
     /**
      * time since Epoch
      */
-    public static final ClockType REALTIME = new ClockType(0);
-    
+    REALTIME(0),
     /**
      * monotonic time since some unspecified starting
      *                            point
      */
-    public static final ClockType MONOTONIC = new ClockType(1);
-    
+    MONOTONIC(1),
     /**
      * some other time source is used (Since: 1.0.5)
      */
-    public static final ClockType OTHER = new ClockType(2);
-    
+    OTHER(2),
     /**
      * time since Epoch, but using International Atomic Time
      *                      as reference (Since: 1.18)
      */
-    public static final ClockType TAI = new ClockType(3);
+    TAI(3);
     
-    public ClockType(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "GstClockType";
+    
+    private final int value;
+    ClockType(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static ClockType of(int value) {
+        return switch (value) {
+            case 0 -> REALTIME;
+            case 1 -> MONOTONIC;
+            case 2 -> OTHER;
+            case 3 -> TAI;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

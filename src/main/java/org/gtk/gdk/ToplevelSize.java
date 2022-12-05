@@ -172,32 +172,4 @@ public class ToplevelSize extends Struct {
             false
         );
     }
-
-    /**
-     * Inner class implementing a builder pattern to construct 
-     * a struct and set its values.
-     */
-    public static class Build {
-        
-        private ToplevelSize struct;
-        
-         /**
-         * A {@link ToplevelSize.Build} object constructs a {@link ToplevelSize} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
-            struct = ToplevelSize.allocate();
-        }
-        
-         /**
-         * Finish building the {@link ToplevelSize} struct.
-         * @return A new instance of {@code ToplevelSize} with the fields 
-         *         that were set in the Build object.
-         */
-        public ToplevelSize construct() {
-            return struct;
-        }
-    }
 }

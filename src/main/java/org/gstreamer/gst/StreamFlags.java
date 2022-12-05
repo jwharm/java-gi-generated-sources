@@ -46,9 +46,8 @@ public class StreamFlags extends io.github.jwharm.javagi.Bitfield {
      * @param mask the value to combine with
      * @return the combined value by calculating {@code this | mask} 
      */
-    public StreamFlags combined(StreamFlags mask) {
-        this.setValue(this.getValue() | mask.getValue());
-        return this;
+    public StreamFlags or(StreamFlags mask) {
+        return new StreamFlags(this.getValue() | mask.getValue());
     }
     
     /**
@@ -58,9 +57,9 @@ public class StreamFlags extends io.github.jwharm.javagi.Bitfield {
      * @return the combined value by calculating {@code mask | masks[0] | masks[1] | ...} 
      */
     public static StreamFlags combined(StreamFlags mask, StreamFlags... masks) {
-        for (StreamFlags arg : masks) {
-            mask.setValue(mask.getValue() | arg.getValue());
+        int value = mask.getValue();        for (StreamFlags arg : masks) {
+            value |= arg.getValue();
         }
-        return mask;
+        return new StreamFlags(value);
     }
 }

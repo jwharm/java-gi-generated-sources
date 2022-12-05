@@ -8,80 +8,92 @@ import org.jetbrains.annotations.*;
 /**
  * The widget attributes that can be used when creating a {@link Constraint}.
  */
-public class ConstraintAttribute extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "GtkConstraintAttribute";
-    
+public enum ConstraintAttribute implements io.github.jwharm.javagi.Enumeration {
     /**
      * No attribute, used for constant
      *   relations
      */
-    public static final ConstraintAttribute NONE = new ConstraintAttribute(0);
-    
+    NONE(0),
     /**
      * The left edge of a widget, regardless of
      *   text direction
      */
-    public static final ConstraintAttribute LEFT = new ConstraintAttribute(1);
-    
+    LEFT(1),
     /**
      * The right edge of a widget, regardless
      *   of text direction
      */
-    public static final ConstraintAttribute RIGHT = new ConstraintAttribute(2);
-    
+    RIGHT(2),
     /**
      * The top edge of a widget
      */
-    public static final ConstraintAttribute TOP = new ConstraintAttribute(3);
-    
+    TOP(3),
     /**
      * The bottom edge of a widget
      */
-    public static final ConstraintAttribute BOTTOM = new ConstraintAttribute(4);
-    
+    BOTTOM(4),
     /**
      * The leading edge of a widget, depending
      *   on text direction; equivalent to {@link ConstraintAttribute#LEFT} for LTR
      *   languages, and {@link ConstraintAttribute#RIGHT} for RTL ones
      */
-    public static final ConstraintAttribute START = new ConstraintAttribute(5);
-    
+    START(5),
     /**
      * The trailing edge of a widget, depending
      *   on text direction; equivalent to {@link ConstraintAttribute#RIGHT} for LTR
      *   languages, and {@link ConstraintAttribute#LEFT} for RTL ones
      */
-    public static final ConstraintAttribute END = new ConstraintAttribute(6);
-    
+    END(6),
     /**
      * The width of a widget
      */
-    public static final ConstraintAttribute WIDTH = new ConstraintAttribute(7);
-    
+    WIDTH(7),
     /**
      * The height of a widget
      */
-    public static final ConstraintAttribute HEIGHT = new ConstraintAttribute(8);
-    
+    HEIGHT(8),
     /**
      * The center of a widget, on the
      *   horizontal axis
      */
-    public static final ConstraintAttribute CENTER_X = new ConstraintAttribute(9);
-    
+    CENTER_X(9),
     /**
      * The center of a widget, on the
      *   vertical axis
      */
-    public static final ConstraintAttribute CENTER_Y = new ConstraintAttribute(10);
-    
+    CENTER_Y(10),
     /**
      * The baseline of a widget
      */
-    public static final ConstraintAttribute BASELINE = new ConstraintAttribute(11);
+    BASELINE(11);
     
-    public ConstraintAttribute(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "GtkConstraintAttribute";
+    
+    private final int value;
+    ConstraintAttribute(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static ConstraintAttribute of(int value) {
+        return switch (value) {
+            case 0 -> NONE;
+            case 1 -> LEFT;
+            case 2 -> RIGHT;
+            case 3 -> TOP;
+            case 4 -> BOTTOM;
+            case 5 -> START;
+            case 6 -> END;
+            case 7 -> WIDTH;
+            case 8 -> HEIGHT;
+            case 9 -> CENTER_X;
+            case 10 -> CENTER_Y;
+            case 11 -> BASELINE;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

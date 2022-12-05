@@ -56,7 +56,11 @@ public class Printer extends org.gtk.gobject.Object {
      * @throws ClassCastException If the GType is not derived from "GtkPrinter", a ClassCastException will be thrown.
      */
     public static Printer castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), Printer.getType())) {
             return new Printer(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkPrinter");
+        }
     }
     
     private static Addressable constructNew(@NotNull java.lang.String name, @NotNull org.gtk.gtk.PrintBackend backend, boolean virtual) {
@@ -515,7 +519,7 @@ public class Printer extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface DetailsAcquired {
-        void signalReceived(Printer source, boolean success);
+        void signalReceived(Printer sourcePrinter, boolean success);
     }
     
     /**
@@ -853,10 +857,10 @@ public class Printer extends org.gtk.gobject.Object {
     
     private static class Callbacks {
         
-        public static void signalPrinterDetailsAcquired(MemoryAddress source, int success, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalPrinterDetailsAcquired(MemoryAddress sourcePrinter, int success, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (Printer.DetailsAcquired) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Printer(source, Ownership.NONE), success != 0);
+            HANDLER.signalReceived(new Printer(sourcePrinter, Ownership.NONE), success != 0);
         }
     }
 }

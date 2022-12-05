@@ -5,69 +5,81 @@ import java.lang.foreign.*;
 import java.lang.invoke.*;
 import org.jetbrains.annotations.*;
 
-public class Operator extends io.github.jwharm.javagi.Enumeration {
+public enum Operator implements io.github.jwharm.javagi.Enumeration {
+    CLEAR(0),
+    SOURCE(1),
+    OVER(2),
+    IN(3),
+    OUT(4),
+    ATOP(5),
+    DEST(6),
+    DEST_OVER(7),
+    DEST_IN(8),
+    DEST_OUT(9),
+    DEST_ATOP(10),
+    XOR(11),
+    ADD(12),
+    SATURATE(13),
+    MULTIPLY(14),
+    SCREEN(15),
+    OVERLAY(16),
+    DARKEN(17),
+    LIGHTEN(18),
+    COLOR_DODGE(19),
+    COLOR_BURN(20),
+    HARD_LIGHT(21),
+    SOFT_LIGHT(22),
+    DIFFERENCE(23),
+    EXCLUSION(24),
+    HSL_HUE(25),
+    HSL_SATURATION(26),
+    HSL_COLOR(27),
+    HSL_LUMINOSITY(28);
     
     private static final java.lang.String C_TYPE_NAME = "cairo_operator_t";
     
-    public static final Operator CLEAR = new Operator(0);
+    private final int value;
+    Operator(int value) {
+        this.value = value;
+    }
     
-    public static final Operator SOURCE = new Operator(1);
+    @Override
+    public int getValue() {
+        return value;
+    }
     
-    public static final Operator OVER = new Operator(2);
-    
-    public static final Operator IN = new Operator(3);
-    
-    public static final Operator OUT = new Operator(4);
-    
-    public static final Operator ATOP = new Operator(5);
-    
-    public static final Operator DEST = new Operator(6);
-    
-    public static final Operator DEST_OVER = new Operator(7);
-    
-    public static final Operator DEST_IN = new Operator(8);
-    
-    public static final Operator DEST_OUT = new Operator(9);
-    
-    public static final Operator DEST_ATOP = new Operator(10);
-    
-    public static final Operator XOR = new Operator(11);
-    
-    public static final Operator ADD = new Operator(12);
-    
-    public static final Operator SATURATE = new Operator(13);
-    
-    public static final Operator MULTIPLY = new Operator(14);
-    
-    public static final Operator SCREEN = new Operator(15);
-    
-    public static final Operator OVERLAY = new Operator(16);
-    
-    public static final Operator DARKEN = new Operator(17);
-    
-    public static final Operator LIGHTEN = new Operator(18);
-    
-    public static final Operator COLOR_DODGE = new Operator(19);
-    
-    public static final Operator COLOR_BURN = new Operator(20);
-    
-    public static final Operator HARD_LIGHT = new Operator(21);
-    
-    public static final Operator SOFT_LIGHT = new Operator(22);
-    
-    public static final Operator DIFFERENCE = new Operator(23);
-    
-    public static final Operator EXCLUSION = new Operator(24);
-    
-    public static final Operator HSL_HUE = new Operator(25);
-    
-    public static final Operator HSL_SATURATION = new Operator(26);
-    
-    public static final Operator HSL_COLOR = new Operator(27);
-    
-    public static final Operator HSL_LUMINOSITY = new Operator(28);
-    
-    public Operator(int value) {
-        super(value);
+    public static Operator of(int value) {
+        return switch (value) {
+            case 0 -> CLEAR;
+            case 1 -> SOURCE;
+            case 2 -> OVER;
+            case 3 -> IN;
+            case 4 -> OUT;
+            case 5 -> ATOP;
+            case 6 -> DEST;
+            case 7 -> DEST_OVER;
+            case 8 -> DEST_IN;
+            case 9 -> DEST_OUT;
+            case 10 -> DEST_ATOP;
+            case 11 -> XOR;
+            case 12 -> ADD;
+            case 13 -> SATURATE;
+            case 14 -> MULTIPLY;
+            case 15 -> SCREEN;
+            case 16 -> OVERLAY;
+            case 17 -> DARKEN;
+            case 18 -> LIGHTEN;
+            case 19 -> COLOR_DODGE;
+            case 20 -> COLOR_BURN;
+            case 21 -> HARD_LIGHT;
+            case 22 -> SOFT_LIGHT;
+            case 23 -> DIFFERENCE;
+            case 24 -> EXCLUSION;
+            case 25 -> HSL_HUE;
+            case 26 -> HSL_SATURATION;
+            case 27 -> HSL_COLOR;
+            case 28 -> HSL_LUMINOSITY;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

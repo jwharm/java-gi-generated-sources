@@ -61,7 +61,11 @@ public class FileInputStream extends org.gtk.gio.InputStream implements org.gtk.
      * @throws ClassCastException If the GType is not derived from "GFileInputStream", a ClassCastException will be thrown.
      */
     public static FileInputStream castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), FileInputStream.getType())) {
             return new FileInputStream(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GFileInputStream");
+        }
     }
     
     /**

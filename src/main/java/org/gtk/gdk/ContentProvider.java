@@ -60,7 +60,11 @@ public class ContentProvider extends org.gtk.gobject.Object {
      * @throws ClassCastException If the GType is not derived from "GdkContentProvider", a ClassCastException will be thrown.
      */
     public static ContentProvider castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), ContentProvider.getType())) {
             return new ContentProvider(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GdkContentProvider");
+        }
     }
     
     private static Addressable constructNewForBytes(@NotNull java.lang.String mimeType, @NotNull org.gtk.glib.Bytes bytes) {
@@ -333,7 +337,7 @@ public class ContentProvider extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface ContentChanged {
-        void signalReceived(ContentProvider source);
+        void signalReceived(ContentProvider sourceContentProvider);
     }
     
     /**
@@ -487,10 +491,10 @@ public class ContentProvider extends org.gtk.gobject.Object {
     
     private static class Callbacks {
         
-        public static void signalContentProviderContentChanged(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalContentProviderContentChanged(MemoryAddress sourceContentProvider, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (ContentProvider.ContentChanged) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new ContentProvider(source, Ownership.NONE));
+            HANDLER.signalReceived(new ContentProvider(sourceContentProvider, Ownership.NONE));
         }
     }
 }

@@ -9,51 +9,63 @@ import org.jetbrains.annotations.*;
  * The possible errors, used in the {@code v_error} field
  * of {@link TokenValue}, when the token is a {@link TokenType#ERROR}.
  */
-public class ErrorType extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "GErrorType";
-    
+public enum ErrorType implements io.github.jwharm.javagi.Enumeration {
     /**
      * unknown error
      */
-    public static final ErrorType UNKNOWN = new ErrorType(0);
-    
+    UNKNOWN(0),
     /**
      * unexpected end of file
      */
-    public static final ErrorType UNEXP_EOF = new ErrorType(1);
-    
+    UNEXP_EOF(1),
     /**
      * unterminated string constant
      */
-    public static final ErrorType UNEXP_EOF_IN_STRING = new ErrorType(2);
-    
+    UNEXP_EOF_IN_STRING(2),
     /**
      * unterminated comment
      */
-    public static final ErrorType UNEXP_EOF_IN_COMMENT = new ErrorType(3);
-    
+    UNEXP_EOF_IN_COMMENT(3),
     /**
      * non-digit character in a number
      */
-    public static final ErrorType NON_DIGIT_IN_CONST = new ErrorType(4);
-    
+    NON_DIGIT_IN_CONST(4),
     /**
      * digit beyond radix in a number
      */
-    public static final ErrorType DIGIT_RADIX = new ErrorType(5);
-    
+    DIGIT_RADIX(5),
     /**
      * non-decimal floating point number
      */
-    public static final ErrorType FLOAT_RADIX = new ErrorType(6);
-    
+    FLOAT_RADIX(6),
     /**
      * malformed floating point number
      */
-    public static final ErrorType FLOAT_MALFORMED = new ErrorType(7);
+    FLOAT_MALFORMED(7);
     
-    public ErrorType(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "GErrorType";
+    
+    private final int value;
+    ErrorType(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static ErrorType of(int value) {
+        return switch (value) {
+            case 0 -> UNKNOWN;
+            case 1 -> UNEXP_EOF;
+            case 2 -> UNEXP_EOF_IN_STRING;
+            case 3 -> UNEXP_EOF_IN_COMMENT;
+            case 4 -> NON_DIGIT_IN_CONST;
+            case 5 -> DIGIT_RADIX;
+            case 6 -> FLOAT_RADIX;
+            case 7 -> FLOAT_MALFORMED;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

@@ -37,9 +37,8 @@ public class HookFlagMask extends io.github.jwharm.javagi.Bitfield {
      * @param mask the value to combine with
      * @return the combined value by calculating {@code this | mask} 
      */
-    public HookFlagMask combined(HookFlagMask mask) {
-        this.setValue(this.getValue() | mask.getValue());
-        return this;
+    public HookFlagMask or(HookFlagMask mask) {
+        return new HookFlagMask(this.getValue() | mask.getValue());
     }
     
     /**
@@ -49,9 +48,9 @@ public class HookFlagMask extends io.github.jwharm.javagi.Bitfield {
      * @return the combined value by calculating {@code mask | masks[0] | masks[1] | ...} 
      */
     public static HookFlagMask combined(HookFlagMask mask, HookFlagMask... masks) {
-        for (HookFlagMask arg : masks) {
-            mask.setValue(mask.getValue() | arg.getValue());
+        int value = mask.getValue();        for (HookFlagMask arg : masks) {
+            value |= arg.getValue();
         }
-        return mask;
+        return new HookFlagMask(value);
     }
 }

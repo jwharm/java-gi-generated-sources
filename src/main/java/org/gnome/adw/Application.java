@@ -81,7 +81,11 @@ public class Application extends org.gtk.gtk.Application implements org.gtk.gio.
      * @throws ClassCastException If the GType is not derived from "AdwApplication", a ClassCastException will be thrown.
      */
     public static Application castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), Application.getType())) {
             return new Application(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of AdwApplication");
+        }
     }
     
     private static Addressable constructNew(@Nullable java.lang.String applicationId, @NotNull org.gtk.gio.ApplicationFlags flags) {

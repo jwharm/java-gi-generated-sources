@@ -9,103 +9,115 @@ import org.jetbrains.annotations.*;
  * The range of possible top-level types of {@link Variant} instances.
  * @version 2.24
  */
-public class VariantClass extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "GVariantClass";
-    
+public enum VariantClass implements io.github.jwharm.javagi.Enumeration {
     /**
      * The {@link Variant} is a boolean.
      */
-    public static final VariantClass BOOLEAN = new VariantClass(98);
-    
+    BOOLEAN(98),
     /**
      * The {@link Variant} is a byte.
      */
-    public static final VariantClass BYTE = new VariantClass(121);
-    
+    BYTE(121),
     /**
      * The {@link Variant} is a signed 16 bit integer.
      */
-    public static final VariantClass INT16 = new VariantClass(110);
-    
+    INT16(110),
     /**
      * The {@link Variant} is an unsigned 16 bit integer.
      */
-    public static final VariantClass UINT16 = new VariantClass(113);
-    
+    UINT16(113),
     /**
      * The {@link Variant} is a signed 32 bit integer.
      */
-    public static final VariantClass INT32 = new VariantClass(105);
-    
+    INT32(105),
     /**
      * The {@link Variant} is an unsigned 32 bit integer.
      */
-    public static final VariantClass UINT32 = new VariantClass(117);
-    
+    UINT32(117),
     /**
      * The {@link Variant} is a signed 64 bit integer.
      */
-    public static final VariantClass INT64 = new VariantClass(120);
-    
+    INT64(120),
     /**
      * The {@link Variant} is an unsigned 64 bit integer.
      */
-    public static final VariantClass UINT64 = new VariantClass(116);
-    
+    UINT64(116),
     /**
      * The {@link Variant} is a file handle index.
      */
-    public static final VariantClass HANDLE = new VariantClass(104);
-    
+    HANDLE(104),
     /**
      * The {@link Variant} is a double precision floating
      *                          point value.
      */
-    public static final VariantClass DOUBLE = new VariantClass(100);
-    
+    DOUBLE(100),
     /**
      * The {@link Variant} is a normal string.
      */
-    public static final VariantClass STRING = new VariantClass(115);
-    
+    STRING(115),
     /**
      * The {@link Variant} is a D-Bus object path
      *                               string.
      */
-    public static final VariantClass OBJECT_PATH = new VariantClass(111);
-    
+    OBJECT_PATH(111),
     /**
      * The {@link Variant} is a D-Bus signature string.
      */
-    public static final VariantClass SIGNATURE = new VariantClass(103);
-    
+    SIGNATURE(103),
     /**
      * The {@link Variant} is a variant.
      */
-    public static final VariantClass VARIANT = new VariantClass(118);
-    
+    VARIANT(118),
     /**
      * The {@link Variant} is a maybe-typed value.
      */
-    public static final VariantClass MAYBE = new VariantClass(109);
-    
+    MAYBE(109),
     /**
      * The {@link Variant} is an array.
      */
-    public static final VariantClass ARRAY = new VariantClass(97);
-    
+    ARRAY(97),
     /**
      * The {@link Variant} is a tuple.
      */
-    public static final VariantClass TUPLE = new VariantClass(40);
-    
+    TUPLE(40),
     /**
      * The {@link Variant} is a dictionary entry.
      */
-    public static final VariantClass DICT_ENTRY = new VariantClass(123);
+    DICT_ENTRY(123);
     
-    public VariantClass(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "GVariantClass";
+    
+    private final int value;
+    VariantClass(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static VariantClass of(int value) {
+        return switch (value) {
+            case 98 -> BOOLEAN;
+            case 121 -> BYTE;
+            case 110 -> INT16;
+            case 113 -> UINT16;
+            case 105 -> INT32;
+            case 117 -> UINT32;
+            case 120 -> INT64;
+            case 116 -> UINT64;
+            case 104 -> HANDLE;
+            case 100 -> DOUBLE;
+            case 115 -> STRING;
+            case 111 -> OBJECT_PATH;
+            case 103 -> SIGNATURE;
+            case 118 -> VARIANT;
+            case 109 -> MAYBE;
+            case 97 -> ARRAY;
+            case 40 -> TUPLE;
+            case 123 -> DICT_ENTRY;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

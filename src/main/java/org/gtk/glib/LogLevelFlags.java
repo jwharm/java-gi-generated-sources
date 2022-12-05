@@ -62,7 +62,7 @@ public class LogLevelFlags extends io.github.jwharm.javagi.Bitfield {
     /**
      * a mask including all log levels
      */
-    public static final LogLevelFlags LEVEL_MASK = new LogLevelFlags(0);
+    public static final LogLevelFlags LEVEL_MASK = new LogLevelFlags(-4);
     
     public LogLevelFlags(int value) {
         super(value);
@@ -73,9 +73,8 @@ public class LogLevelFlags extends io.github.jwharm.javagi.Bitfield {
      * @param mask the value to combine with
      * @return the combined value by calculating {@code this | mask} 
      */
-    public LogLevelFlags combined(LogLevelFlags mask) {
-        this.setValue(this.getValue() | mask.getValue());
-        return this;
+    public LogLevelFlags or(LogLevelFlags mask) {
+        return new LogLevelFlags(this.getValue() | mask.getValue());
     }
     
     /**
@@ -85,9 +84,9 @@ public class LogLevelFlags extends io.github.jwharm.javagi.Bitfield {
      * @return the combined value by calculating {@code mask | masks[0] | masks[1] | ...} 
      */
     public static LogLevelFlags combined(LogLevelFlags mask, LogLevelFlags... masks) {
-        for (LogLevelFlags arg : masks) {
-            mask.setValue(mask.getValue() | arg.getValue());
+        int value = mask.getValue();        for (LogLevelFlags arg : masks) {
+            value |= arg.getValue();
         }
-        return mask;
+        return new LogLevelFlags(value);
     }
 }

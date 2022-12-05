@@ -56,7 +56,11 @@ public class DataQueue extends org.gtk.gobject.Object {
      * @throws ClassCastException If the GType is not derived from "GstDataQueue", a ClassCastException will be thrown.
      */
     public static DataQueue castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), DataQueue.getType())) {
             return new DataQueue(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GstDataQueue");
+        }
     }
     
     private static Addressable constructNew(@NotNull org.gstreamer.base.DataQueueCheckFullFunction checkfull, @NotNull org.gstreamer.base.DataQueueFullCallback fullcallback, @NotNull org.gstreamer.base.DataQueueEmptyCallback emptycallback) {
@@ -329,7 +333,7 @@ public class DataQueue extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface Empty {
-        void signalReceived(DataQueue source);
+        void signalReceived(DataQueue sourceDataQueue);
     }
     
     /**
@@ -360,7 +364,7 @@ public class DataQueue extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface Full {
-        void signalReceived(DataQueue source);
+        void signalReceived(DataQueue sourceDataQueue);
     }
     
     /**
@@ -525,16 +529,16 @@ public class DataQueue extends org.gtk.gobject.Object {
     
     private static class Callbacks {
         
-        public static void signalDataQueueEmpty(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalDataQueueEmpty(MemoryAddress sourceDataQueue, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (DataQueue.Empty) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new DataQueue(source, Ownership.NONE));
+            HANDLER.signalReceived(new DataQueue(sourceDataQueue, Ownership.NONE));
         }
         
-        public static void signalDataQueueFull(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalDataQueueFull(MemoryAddress sourceDataQueue, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (DataQueue.Full) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new DataQueue(source, Ownership.NONE));
+            HANDLER.signalReceived(new DataQueue(sourceDataQueue, Ownership.NONE));
         }
     }
 }

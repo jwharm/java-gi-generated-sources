@@ -48,7 +48,11 @@ public class CClosureExpression extends org.gtk.gtk.Expression {
      * @throws ClassCastException If the GType is not derived from "GtkCClosureExpression", a ClassCastException will be thrown.
      */
     public static CClosureExpression castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), CClosureExpression.getType())) {
             return new CClosureExpression(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkCClosureExpression");
+        }
     }
     
     private static Addressable constructNew(@NotNull org.gtk.glib.Type valueType, @Nullable org.gtk.gobject.ClosureMarshal marshal, int nParams, @NotNull org.gtk.gtk.Expression[] params, @NotNull org.gtk.gobject.Callback callbackFunc, @Nullable org.gtk.gobject.ClosureNotify userDestroy) {

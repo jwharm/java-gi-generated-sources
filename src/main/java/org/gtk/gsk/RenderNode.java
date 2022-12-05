@@ -60,7 +60,11 @@ public class RenderNode extends io.github.jwharm.javagi.ObjectBase {
      * @throws ClassCastException If the GType is not derived from "GskRenderNode", a ClassCastException will be thrown.
      */
     public static RenderNode castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), RenderNode.getType())) {
             return new RenderNode(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GskRenderNode");
+        }
     }
     
     /**
@@ -114,7 +118,7 @@ public class RenderNode extends io.github.jwharm.javagi.ObjectBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gsk.RenderNodeType(RESULT);
+        return org.gtk.gsk.RenderNodeType.of(RESULT);
     }
     
     /**

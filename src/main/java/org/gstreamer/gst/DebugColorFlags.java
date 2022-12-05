@@ -112,9 +112,8 @@ public class DebugColorFlags extends io.github.jwharm.javagi.Bitfield {
      * @param mask the value to combine with
      * @return the combined value by calculating {@code this | mask} 
      */
-    public DebugColorFlags combined(DebugColorFlags mask) {
-        this.setValue(this.getValue() | mask.getValue());
-        return this;
+    public DebugColorFlags or(DebugColorFlags mask) {
+        return new DebugColorFlags(this.getValue() | mask.getValue());
     }
     
     /**
@@ -124,9 +123,9 @@ public class DebugColorFlags extends io.github.jwharm.javagi.Bitfield {
      * @return the combined value by calculating {@code mask | masks[0] | masks[1] | ...} 
      */
     public static DebugColorFlags combined(DebugColorFlags mask, DebugColorFlags... masks) {
-        for (DebugColorFlags arg : masks) {
-            mask.setValue(mask.getValue() | arg.getValue());
+        int value = mask.getValue();        for (DebugColorFlags arg : masks) {
+            value |= arg.getValue();
         }
-        return mask;
+        return new DebugColorFlags(value);
     }
 }

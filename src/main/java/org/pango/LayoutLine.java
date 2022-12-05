@@ -286,7 +286,7 @@ public class LayoutLine extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.Direction(RESULT);
+        return org.pango.Direction.of(RESULT);
     }
     
     /**

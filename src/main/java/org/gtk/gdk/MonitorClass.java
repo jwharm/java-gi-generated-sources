@@ -44,32 +44,4 @@ public class MonitorClass extends Struct {
     public MonitorClass(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
-
-    /**
-     * Inner class implementing a builder pattern to construct 
-     * a struct and set its values.
-     */
-    public static class Build {
-        
-        private MonitorClass struct;
-        
-         /**
-         * A {@link MonitorClass.Build} object constructs a {@link MonitorClass} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
-            struct = MonitorClass.allocate();
-        }
-        
-         /**
-         * Finish building the {@link MonitorClass} struct.
-         * @return A new instance of {@code MonitorClass} with the fields 
-         *         that were set in the Build object.
-         */
-        public MonitorClass construct() {
-            return struct;
-        }
-    }
 }

@@ -24,33 +24,40 @@ import org.jetbrains.annotations.*;
  * {@code HB_BUFFER_CLUSTER_LEVEL_MONOTONE_CHARACTERS} instead of the default.
  * @version 0.9.42
  */
-public class BufferClusterLevelT extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "hb_buffer_cluster_level_t";
-    
+public enum BufferClusterLevelT implements io.github.jwharm.javagi.Enumeration {
     /**
      * Return cluster values grouped by graphemes into
      *   monotone order.
      */
-    public static final BufferClusterLevelT MONOTONE_GRAPHEMES = new BufferClusterLevelT(0);
-    
+    MONOTONE_GRAPHEMES(0),
     /**
      * Return cluster values grouped into monotone order.
      */
-    public static final BufferClusterLevelT MONOTONE_CHARACTERS = new BufferClusterLevelT(1);
-    
+    MONOTONE_CHARACTERS(1),
     /**
      * Don't group cluster values.
      */
-    public static final BufferClusterLevelT CHARACTERS = new BufferClusterLevelT(2);
+    CHARACTERS(2);
+    public static final BufferClusterLevelT DEFAULT = MONOTONE_GRAPHEMES;
     
-    /**
-     * Default cluster level,
-     *   equal to {@code HB_BUFFER_CLUSTER_LEVEL_MONOTONE_GRAPHEMES}.
-     */
-    public static final BufferClusterLevelT DEFAULT = new BufferClusterLevelT(0);
+    private static final java.lang.String C_TYPE_NAME = "hb_buffer_cluster_level_t";
     
-    public BufferClusterLevelT(int value) {
-        super(value);
+    private final int value;
+    BufferClusterLevelT(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static BufferClusterLevelT of(int value) {
+        return switch (value) {
+            case 0 -> MONOTONE_GRAPHEMES;
+            case 1 -> MONOTONE_CHARACTERS;
+            case 2 -> CHARACTERS;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

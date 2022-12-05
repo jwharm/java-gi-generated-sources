@@ -44,32 +44,4 @@ public class BufferPoolPrivate extends Struct {
     public BufferPoolPrivate(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
-
-    /**
-     * Inner class implementing a builder pattern to construct 
-     * a struct and set its values.
-     */
-    public static class Build {
-        
-        private BufferPoolPrivate struct;
-        
-         /**
-         * A {@link BufferPoolPrivate.Build} object constructs a {@link BufferPoolPrivate} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
-            struct = BufferPoolPrivate.allocate();
-        }
-        
-         /**
-         * Finish building the {@link BufferPoolPrivate} struct.
-         * @return A new instance of {@code BufferPoolPrivate} with the fields 
-         *         that were set in the Build object.
-         */
-        public BufferPoolPrivate construct() {
-            return struct;
-        }
-    }
 }

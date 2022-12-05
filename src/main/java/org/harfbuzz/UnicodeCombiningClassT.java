@@ -13,296 +13,308 @@ import org.jetbrains.annotations.*;
  * Client programs should be ready to handle any value in the 0..254 range
  * being returned from hb_unicode_combining_class().&lt;/note&gt;
  */
-public class UnicodeCombiningClassT extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "hb_unicode_combining_class_t";
-    
+public enum UnicodeCombiningClassT implements io.github.jwharm.javagi.Enumeration {
     /**
      * Spacing and enclosing marks; also many vowel and consonant signs, even if nonspacing
      */
-    public static final UnicodeCombiningClassT NOT_REORDERED = new UnicodeCombiningClassT(0);
-    
+    NOT_REORDERED(0),
     /**
      * Marks which overlay a base letter or symbol
      */
-    public static final UnicodeCombiningClassT OVERLAY = new UnicodeCombiningClassT(1);
-    
+    OVERLAY(1),
     /**
      * Diacritic nukta marks in Brahmi-derived scripts
      */
-    public static final UnicodeCombiningClassT NUKTA = new UnicodeCombiningClassT(7);
-    
+    NUKTA(7),
     /**
      * Hiragana/Katakana voicing marks
      */
-    public static final UnicodeCombiningClassT KANA_VOICING = new UnicodeCombiningClassT(8);
-    
+    KANA_VOICING(8),
     /**
      * Viramas
      */
-    public static final UnicodeCombiningClassT VIRAMA = new UnicodeCombiningClassT(9);
-    
+    VIRAMA(9),
     /**
      * [Hebrew]
      */
-    public static final UnicodeCombiningClassT CCC10 = new UnicodeCombiningClassT(10);
-    
+    CCC10(10),
     /**
      * [Hebrew]
      */
-    public static final UnicodeCombiningClassT CCC11 = new UnicodeCombiningClassT(11);
-    
+    CCC11(11),
     /**
      * [Hebrew]
      */
-    public static final UnicodeCombiningClassT CCC12 = new UnicodeCombiningClassT(12);
-    
+    CCC12(12),
     /**
      * [Hebrew]
      */
-    public static final UnicodeCombiningClassT CCC13 = new UnicodeCombiningClassT(13);
-    
+    CCC13(13),
     /**
      * [Hebrew]
      */
-    public static final UnicodeCombiningClassT CCC14 = new UnicodeCombiningClassT(14);
-    
+    CCC14(14),
     /**
      * [Hebrew]
      */
-    public static final UnicodeCombiningClassT CCC15 = new UnicodeCombiningClassT(15);
-    
+    CCC15(15),
     /**
      * [Hebrew]
      */
-    public static final UnicodeCombiningClassT CCC16 = new UnicodeCombiningClassT(16);
-    
+    CCC16(16),
     /**
      * [Hebrew]
      */
-    public static final UnicodeCombiningClassT CCC17 = new UnicodeCombiningClassT(17);
-    
+    CCC17(17),
     /**
      * [Hebrew]
      */
-    public static final UnicodeCombiningClassT CCC18 = new UnicodeCombiningClassT(18);
-    
+    CCC18(18),
     /**
      * [Hebrew]
      */
-    public static final UnicodeCombiningClassT CCC19 = new UnicodeCombiningClassT(19);
-    
+    CCC19(19),
     /**
      * [Hebrew]
      */
-    public static final UnicodeCombiningClassT CCC20 = new UnicodeCombiningClassT(20);
-    
+    CCC20(20),
     /**
      * [Hebrew]
      */
-    public static final UnicodeCombiningClassT CCC21 = new UnicodeCombiningClassT(21);
-    
+    CCC21(21),
     /**
      * [Hebrew]
      */
-    public static final UnicodeCombiningClassT CCC22 = new UnicodeCombiningClassT(22);
-    
+    CCC22(22),
     /**
      * [Hebrew]
      */
-    public static final UnicodeCombiningClassT CCC23 = new UnicodeCombiningClassT(23);
-    
+    CCC23(23),
     /**
      * [Hebrew]
      */
-    public static final UnicodeCombiningClassT CCC24 = new UnicodeCombiningClassT(24);
-    
+    CCC24(24),
     /**
      * [Hebrew]
      */
-    public static final UnicodeCombiningClassT CCC25 = new UnicodeCombiningClassT(25);
-    
+    CCC25(25),
     /**
      * [Hebrew]
      */
-    public static final UnicodeCombiningClassT CCC26 = new UnicodeCombiningClassT(26);
-    
+    CCC26(26),
     /**
      * [Arabic]
      */
-    public static final UnicodeCombiningClassT CCC27 = new UnicodeCombiningClassT(27);
-    
+    CCC27(27),
     /**
      * [Arabic]
      */
-    public static final UnicodeCombiningClassT CCC28 = new UnicodeCombiningClassT(28);
-    
+    CCC28(28),
     /**
      * [Arabic]
      */
-    public static final UnicodeCombiningClassT CCC29 = new UnicodeCombiningClassT(29);
-    
+    CCC29(29),
     /**
      * [Arabic]
      */
-    public static final UnicodeCombiningClassT CCC30 = new UnicodeCombiningClassT(30);
-    
+    CCC30(30),
     /**
      * [Arabic]
      */
-    public static final UnicodeCombiningClassT CCC31 = new UnicodeCombiningClassT(31);
-    
+    CCC31(31),
     /**
      * [Arabic]
      */
-    public static final UnicodeCombiningClassT CCC32 = new UnicodeCombiningClassT(32);
-    
+    CCC32(32),
     /**
      * [Arabic]
      */
-    public static final UnicodeCombiningClassT CCC33 = new UnicodeCombiningClassT(33);
-    
+    CCC33(33),
     /**
      * [Arabic]
      */
-    public static final UnicodeCombiningClassT CCC34 = new UnicodeCombiningClassT(34);
-    
+    CCC34(34),
     /**
      * [Arabic]
      */
-    public static final UnicodeCombiningClassT CCC35 = new UnicodeCombiningClassT(35);
-    
+    CCC35(35),
     /**
      * [Syriac]
      */
-    public static final UnicodeCombiningClassT CCC36 = new UnicodeCombiningClassT(36);
-    
+    CCC36(36),
     /**
      * [Telugu]
      */
-    public static final UnicodeCombiningClassT CCC84 = new UnicodeCombiningClassT(84);
-    
+    CCC84(84),
     /**
      * [Telugu]
      */
-    public static final UnicodeCombiningClassT CCC91 = new UnicodeCombiningClassT(91);
-    
+    CCC91(91),
     /**
      * [Thai]
      */
-    public static final UnicodeCombiningClassT CCC103 = new UnicodeCombiningClassT(103);
-    
+    CCC103(103),
     /**
      * [Thai]
      */
-    public static final UnicodeCombiningClassT CCC107 = new UnicodeCombiningClassT(107);
-    
+    CCC107(107),
     /**
      * [Lao]
      */
-    public static final UnicodeCombiningClassT CCC118 = new UnicodeCombiningClassT(118);
-    
+    CCC118(118),
     /**
      * [Lao]
      */
-    public static final UnicodeCombiningClassT CCC122 = new UnicodeCombiningClassT(122);
-    
+    CCC122(122),
     /**
      * [Tibetan]
      */
-    public static final UnicodeCombiningClassT CCC129 = new UnicodeCombiningClassT(129);
-    
+    CCC129(129),
     /**
      * [Tibetan]
      */
-    public static final UnicodeCombiningClassT CCC130 = new UnicodeCombiningClassT(130);
-    
+    CCC130(130),
     /**
      * [Tibetan]
      */
-    public static final UnicodeCombiningClassT CCC133 = new UnicodeCombiningClassT(132);
-    
+    CCC133(132),
     /**
      * Marks attached at the bottom left
      */
-    public static final UnicodeCombiningClassT ATTACHED_BELOW_LEFT = new UnicodeCombiningClassT(200);
-    
+    ATTACHED_BELOW_LEFT(200),
     /**
      * Marks attached directly below
      */
-    public static final UnicodeCombiningClassT ATTACHED_BELOW = new UnicodeCombiningClassT(202);
-    
+    ATTACHED_BELOW(202),
     /**
      * Marks attached directly above
      */
-    public static final UnicodeCombiningClassT ATTACHED_ABOVE = new UnicodeCombiningClassT(214);
-    
+    ATTACHED_ABOVE(214),
     /**
      * Marks attached at the top right
      */
-    public static final UnicodeCombiningClassT ATTACHED_ABOVE_RIGHT = new UnicodeCombiningClassT(216);
-    
+    ATTACHED_ABOVE_RIGHT(216),
     /**
      * Distinct marks at the bottom left
      */
-    public static final UnicodeCombiningClassT BELOW_LEFT = new UnicodeCombiningClassT(218);
-    
+    BELOW_LEFT(218),
     /**
      * Distinct marks directly below
      */
-    public static final UnicodeCombiningClassT BELOW = new UnicodeCombiningClassT(220);
-    
+    BELOW(220),
     /**
      * Distinct marks at the bottom right
      */
-    public static final UnicodeCombiningClassT BELOW_RIGHT = new UnicodeCombiningClassT(222);
-    
+    BELOW_RIGHT(222),
     /**
      * Distinct marks to the left
      */
-    public static final UnicodeCombiningClassT LEFT = new UnicodeCombiningClassT(224);
-    
+    LEFT(224),
     /**
      * Distinct marks to the right
      */
-    public static final UnicodeCombiningClassT RIGHT = new UnicodeCombiningClassT(226);
-    
+    RIGHT(226),
     /**
      * Distinct marks at the top left
      */
-    public static final UnicodeCombiningClassT ABOVE_LEFT = new UnicodeCombiningClassT(228);
-    
+    ABOVE_LEFT(228),
     /**
      * Distinct marks directly above
      */
-    public static final UnicodeCombiningClassT ABOVE = new UnicodeCombiningClassT(230);
-    
+    ABOVE(230),
     /**
      * Distinct marks at the top right
      */
-    public static final UnicodeCombiningClassT ABOVE_RIGHT = new UnicodeCombiningClassT(232);
-    
+    ABOVE_RIGHT(232),
     /**
      * Distinct marks subtending two bases
      */
-    public static final UnicodeCombiningClassT DOUBLE_BELOW = new UnicodeCombiningClassT(233);
-    
+    DOUBLE_BELOW(233),
     /**
      * Distinct marks extending above two bases
      */
-    public static final UnicodeCombiningClassT DOUBLE_ABOVE = new UnicodeCombiningClassT(234);
-    
+    DOUBLE_ABOVE(234),
     /**
      * Greek iota subscript only
      */
-    public static final UnicodeCombiningClassT IOTA_SUBSCRIPT = new UnicodeCombiningClassT(240);
-    
+    IOTA_SUBSCRIPT(240),
     /**
      * Invalid combining class
      */
-    public static final UnicodeCombiningClassT INVALID = new UnicodeCombiningClassT(255);
+    INVALID(255);
     
-    public UnicodeCombiningClassT(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "hb_unicode_combining_class_t";
+    
+    private final int value;
+    UnicodeCombiningClassT(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static UnicodeCombiningClassT of(int value) {
+        return switch (value) {
+            case 0 -> NOT_REORDERED;
+            case 1 -> OVERLAY;
+            case 7 -> NUKTA;
+            case 8 -> KANA_VOICING;
+            case 9 -> VIRAMA;
+            case 10 -> CCC10;
+            case 11 -> CCC11;
+            case 12 -> CCC12;
+            case 13 -> CCC13;
+            case 14 -> CCC14;
+            case 15 -> CCC15;
+            case 16 -> CCC16;
+            case 17 -> CCC17;
+            case 18 -> CCC18;
+            case 19 -> CCC19;
+            case 20 -> CCC20;
+            case 21 -> CCC21;
+            case 22 -> CCC22;
+            case 23 -> CCC23;
+            case 24 -> CCC24;
+            case 25 -> CCC25;
+            case 26 -> CCC26;
+            case 27 -> CCC27;
+            case 28 -> CCC28;
+            case 29 -> CCC29;
+            case 30 -> CCC30;
+            case 31 -> CCC31;
+            case 32 -> CCC32;
+            case 33 -> CCC33;
+            case 34 -> CCC34;
+            case 35 -> CCC35;
+            case 36 -> CCC36;
+            case 84 -> CCC84;
+            case 91 -> CCC91;
+            case 103 -> CCC103;
+            case 107 -> CCC107;
+            case 118 -> CCC118;
+            case 122 -> CCC122;
+            case 129 -> CCC129;
+            case 130 -> CCC130;
+            case 132 -> CCC133;
+            case 200 -> ATTACHED_BELOW_LEFT;
+            case 202 -> ATTACHED_BELOW;
+            case 214 -> ATTACHED_ABOVE;
+            case 216 -> ATTACHED_ABOVE_RIGHT;
+            case 218 -> BELOW_LEFT;
+            case 220 -> BELOW;
+            case 222 -> BELOW_RIGHT;
+            case 224 -> LEFT;
+            case 226 -> RIGHT;
+            case 228 -> ABOVE_LEFT;
+            case 230 -> ABOVE;
+            case 232 -> ABOVE_RIGHT;
+            case 233 -> DOUBLE_BELOW;
+            case 234 -> DOUBLE_ABOVE;
+            case 240 -> IOTA_SUBSCRIPT;
+            case 255 -> INVALID;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

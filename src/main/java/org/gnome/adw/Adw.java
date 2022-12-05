@@ -17,6 +17,13 @@ public final class Adw {
     @ApiStatus.Internal static void javagi$ensureInitialized() {}
     
     /**
+     * Indicates an {@link Animation} with an infinite duration.
+     * <p>
+     * This value is mostly used internally.
+     */
+    public static final int DURATION_INFINITE = -1;
+    
+    /**
      * Adwaita major version component (e.g. 1 if the version is 1.2.3).
      */
     public static final int MAJOR_VERSION = 1;

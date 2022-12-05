@@ -28,7 +28,11 @@ public interface FontChooser extends io.github.jwharm.javagi.Proxy {
      * @throws ClassCastException If the GType is not derived from "GtkFontChooser", a ClassCastException will be thrown.
      */
     public static FontChooser castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), FontChooser.getType())) {
             return new FontChooserImpl(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkFontChooser");
+        }
     }
     
     /**
@@ -395,7 +399,7 @@ public interface FontChooser extends io.github.jwharm.javagi.Proxy {
     
     @FunctionalInterface
     public interface FontActivated {
-        void signalReceived(FontChooser source, @NotNull java.lang.String fontname);
+        void signalReceived(FontChooser sourceFontChooser, @NotNull java.lang.String fontname);
     }
     
     /**
@@ -572,10 +576,10 @@ public interface FontChooser extends io.github.jwharm.javagi.Proxy {
     @ApiStatus.Internal
     static class Callbacks {
         
-        public static void signalFontChooserFontActivated(MemoryAddress source, MemoryAddress fontname, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalFontChooserFontActivated(MemoryAddress sourceFontChooser, MemoryAddress fontname, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (FontChooser.FontActivated) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new FontChooser.FontChooserImpl(source, Ownership.NONE), Interop.getStringFrom(fontname));
+            HANDLER.signalReceived(new FontChooser.FontChooserImpl(sourceFontChooser, Ownership.NONE), Interop.getStringFrom(fontname));
         }
     }
     

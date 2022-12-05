@@ -44,32 +44,4 @@ public class SurfaceClass extends Struct {
     public SurfaceClass(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
-
-    /**
-     * Inner class implementing a builder pattern to construct 
-     * a struct and set its values.
-     */
-    public static class Build {
-        
-        private SurfaceClass struct;
-        
-         /**
-         * A {@link SurfaceClass.Build} object constructs a {@link SurfaceClass} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
-            struct = SurfaceClass.allocate();
-        }
-        
-         /**
-         * Finish building the {@link SurfaceClass} struct.
-         * @return A new instance of {@code SurfaceClass} with the fields 
-         *         that were set in the Build object.
-         */
-        public SurfaceClass construct() {
-            return struct;
-        }
-    }
 }

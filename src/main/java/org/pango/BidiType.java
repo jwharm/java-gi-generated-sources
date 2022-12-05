@@ -13,127 +13,139 @@ import org.jetbrains.annotations.*;
  * <a href="http://www.unicode.org/reports/tr9/">Unicode bidirectional algorithm</a>.
  * @version 1.22
  */
-public class BidiType extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "PangoBidiType";
-    
+public enum BidiType implements io.github.jwharm.javagi.Enumeration {
     /**
      * Left-to-Right
      */
-    public static final BidiType L = new BidiType(0);
-    
+    L(0),
     /**
      * Left-to-Right Embedding
      */
-    public static final BidiType LRE = new BidiType(1);
-    
+    LRE(1),
     /**
      * Left-to-Right Override
      */
-    public static final BidiType LRO = new BidiType(2);
-    
+    LRO(2),
     /**
      * Right-to-Left
      */
-    public static final BidiType R = new BidiType(3);
-    
+    R(3),
     /**
      * Right-to-Left Arabic
      */
-    public static final BidiType AL = new BidiType(4);
-    
+    AL(4),
     /**
      * Right-to-Left Embedding
      */
-    public static final BidiType RLE = new BidiType(5);
-    
+    RLE(5),
     /**
      * Right-to-Left Override
      */
-    public static final BidiType RLO = new BidiType(6);
-    
+    RLO(6),
     /**
      * Pop Directional Format
      */
-    public static final BidiType PDF = new BidiType(7);
-    
+    PDF(7),
     /**
      * European Number
      */
-    public static final BidiType EN = new BidiType(8);
-    
+    EN(8),
     /**
      * European Number Separator
      */
-    public static final BidiType ES = new BidiType(9);
-    
+    ES(9),
     /**
      * European Number Terminator
      */
-    public static final BidiType ET = new BidiType(10);
-    
+    ET(10),
     /**
      * Arabic Number
      */
-    public static final BidiType AN = new BidiType(11);
-    
+    AN(11),
     /**
      * Common Number Separator
      */
-    public static final BidiType CS = new BidiType(12);
-    
+    CS(12),
     /**
      * Nonspacing Mark
      */
-    public static final BidiType NSM = new BidiType(13);
-    
+    NSM(13),
     /**
      * Boundary Neutral
      */
-    public static final BidiType BN = new BidiType(14);
-    
+    BN(14),
     /**
      * Paragraph Separator
      */
-    public static final BidiType B = new BidiType(15);
-    
+    B(15),
     /**
      * Segment Separator
      */
-    public static final BidiType S = new BidiType(16);
-    
+    S(16),
     /**
      * Whitespace
      */
-    public static final BidiType WS = new BidiType(17);
-    
+    WS(17),
     /**
      * Other Neutrals
      */
-    public static final BidiType ON = new BidiType(18);
-    
+    ON(18),
     /**
      * Left-to-Right isolate. Since 1.48.6
      */
-    public static final BidiType LRI = new BidiType(19);
-    
+    LRI(19),
     /**
      * Right-to-Left isolate. Since 1.48.6
      */
-    public static final BidiType RLI = new BidiType(20);
-    
+    RLI(20),
     /**
      * First strong isolate. Since 1.48.6
      */
-    public static final BidiType FSI = new BidiType(21);
-    
+    FSI(21),
     /**
      * Pop directional isolate. Since 1.48.6
      */
-    public static final BidiType PDI = new BidiType(22);
+    PDI(22);
     
-    public BidiType(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "PangoBidiType";
+    
+    private final int value;
+    BidiType(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static BidiType of(int value) {
+        return switch (value) {
+            case 0 -> L;
+            case 1 -> LRE;
+            case 2 -> LRO;
+            case 3 -> R;
+            case 4 -> AL;
+            case 5 -> RLE;
+            case 6 -> RLO;
+            case 7 -> PDF;
+            case 8 -> EN;
+            case 9 -> ES;
+            case 10 -> ET;
+            case 11 -> AN;
+            case 12 -> CS;
+            case 13 -> NSM;
+            case 14 -> BN;
+            case 15 -> B;
+            case 16 -> S;
+            case 17 -> WS;
+            case 18 -> ON;
+            case 19 -> LRI;
+            case 20 -> RLI;
+            case 21 -> FSI;
+            case 22 -> PDI;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
     
     /**
@@ -154,7 +166,7 @@ public class BidiType extends io.github.jwharm.javagi.Enumeration {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.BidiType(RESULT);
+        return org.pango.BidiType.of(RESULT);
     }
     
     private static class DowncallHandles {

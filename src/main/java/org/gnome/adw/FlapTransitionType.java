@@ -15,30 +15,42 @@ import org.jetbrains.annotations.*;
  * New values may be added to this enum over time.
  * @version 1.0
  */
-public class FlapTransitionType extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "AdwFlapTransitionType";
-    
+public enum FlapTransitionType implements io.github.jwharm.javagi.Enumeration {
     /**
      * The flap slides over the content, which is
      *   dimmed. When folded, only the flap can be swiped.
      */
-    public static final FlapTransitionType OVER = new FlapTransitionType(0);
-    
+    OVER(0),
     /**
      * The content slides over the flap. Only the
      *   content can be swiped.
      */
-    public static final FlapTransitionType UNDER = new FlapTransitionType(1);
-    
+    UNDER(1),
     /**
      * The flap slides offscreen when hidden,
      *   neither the flap nor content overlap each other. Both widgets can be
      *   swiped.
      */
-    public static final FlapTransitionType SLIDE = new FlapTransitionType(2);
+    SLIDE(2);
     
-    public FlapTransitionType(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "AdwFlapTransitionType";
+    
+    private final int value;
+    FlapTransitionType(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static FlapTransitionType of(int value) {
+        return switch (value) {
+            case 0 -> OVER;
+            case 1 -> UNDER;
+            case 2 -> SLIDE;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

@@ -8,10 +8,7 @@ import org.jetbrains.annotations.*;
 /**
  * Different return values for the {@link PadProbeCallback}.
  */
-public class PadProbeReturn extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "GstPadProbeReturn";
-    
+public enum PadProbeReturn implements io.github.jwharm.javagi.Enumeration {
     /**
      * drop data in data probes. For push mode this means that
      *        the data item is not sent downstream. For pull mode, it means that
@@ -19,8 +16,7 @@ public class PadProbeReturn extends io.github.jwharm.javagi.Enumeration {
      *        are called for this item and {@link FlowReturn#OK} or {@code true} is returned to the
      *        caller.
      */
-    public static final PadProbeReturn DROP = new PadProbeReturn(0);
-    
+    DROP(0),
     /**
      * normal probe return value. This leaves the probe in
      *        place, and defers decisions about dropping or passing data to other
@@ -28,22 +24,19 @@ public class PadProbeReturn extends io.github.jwharm.javagi.Enumeration {
      *        for the probe type applies ('block' for blocking probes,
      *        and 'pass' for non-blocking probes).
      */
-    public static final PadProbeReturn OK = new PadProbeReturn(1);
-    
+    OK(1),
     /**
      * remove this probe, passing the data. For blocking probes
      *        this will cause data flow to unblock, unless there are also other
      *        blocking probes installed.
      */
-    public static final PadProbeReturn REMOVE = new PadProbeReturn(2);
-    
+    REMOVE(2),
     /**
      * pass the data item in the block probe and block on the
      *        next item. Note, that if there are multiple pad probes installed and
      *        any probe returns PASS, the data will be passed.
      */
-    public static final PadProbeReturn PASS = new PadProbeReturn(3);
-    
+    PASS(3),
     /**
      * Data has been handled in the probe and will not be
      *        forwarded further. For events and buffers this is the same behaviour as
@@ -54,9 +47,28 @@ public class PadProbeReturn extends io.github.jwharm.javagi.Enumeration {
      *        Note that the resulting query must contain valid entries.
      *        Since: 1.6
      */
-    public static final PadProbeReturn HANDLED = new PadProbeReturn(4);
+    HANDLED(4);
     
-    public PadProbeReturn(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "GstPadProbeReturn";
+    
+    private final int value;
+    PadProbeReturn(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static PadProbeReturn of(int value) {
+        return switch (value) {
+            case 0 -> DROP;
+            case 1 -> OK;
+            case 2 -> REMOVE;
+            case 3 -> PASS;
+            case 4 -> HANDLED;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

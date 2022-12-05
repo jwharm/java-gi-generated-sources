@@ -1,0 +1,47 @@
+package org.vulkan;
+
+import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
+
+public class ImageSubresourceLayers extends Struct {
+    
+    static {
+        Vulkan.javagi$ensureInitialized();
+    }
+    
+    private static final java.lang.String C_TYPE_NAME = "VkImageSubresourceLayers";
+    
+    /**
+     * Memory layout of the native struct is unknown.
+     * @return always {@code Interop.valueLayout.ADDRESS}
+     */
+    @ApiStatus.Internal
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
+    private MemorySegment allocatedMemorySegment;
+    
+    /**
+     * Allocate a new {@link ImageSubresourceLayers}
+     * @return A new, uninitialized @{link ImageSubresourceLayers}
+     */
+    public static ImageSubresourceLayers allocate() {
+        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
+        ImageSubresourceLayers newInstance = new ImageSubresourceLayers(segment.address(), Ownership.NONE);
+        newInstance.allocatedMemorySegment = segment;
+        return newInstance;
+    }
+    
+    /**
+     * Create a ImageSubresourceLayers proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
+    @ApiStatus.Internal
+    public ImageSubresourceLayers(Addressable address, Ownership ownership) {
+        super(address, ownership);
+    }
+}

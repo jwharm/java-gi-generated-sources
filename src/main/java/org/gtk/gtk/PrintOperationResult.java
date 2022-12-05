@@ -10,33 +10,45 @@ import org.jetbrains.annotations.*;
  * <p>
  * A value of this type is returned by {@link PrintOperation#run}.
  */
-public class PrintOperationResult extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "GtkPrintOperationResult";
-    
+public enum PrintOperationResult implements io.github.jwharm.javagi.Enumeration {
     /**
      * An error has occurred.
      */
-    public static final PrintOperationResult ERROR = new PrintOperationResult(0);
-    
+    ERROR(0),
     /**
      * The print settings should be stored.
      */
-    public static final PrintOperationResult APPLY = new PrintOperationResult(1);
-    
+    APPLY(1),
     /**
      * The print operation has been canceled,
      *   the print settings should not be stored.
      */
-    public static final PrintOperationResult CANCEL = new PrintOperationResult(2);
-    
+    CANCEL(2),
     /**
      * The print operation is not complete
      *   yet. This value will only be returned when running asynchronously.
      */
-    public static final PrintOperationResult IN_PROGRESS = new PrintOperationResult(3);
+    IN_PROGRESS(3);
     
-    public PrintOperationResult(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "GtkPrintOperationResult";
+    
+    private final int value;
+    PrintOperationResult(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static PrintOperationResult of(int value) {
+        return switch (value) {
+            case 0 -> ERROR;
+            case 1 -> APPLY;
+            case 2 -> CANCEL;
+            case 3 -> IN_PROGRESS;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

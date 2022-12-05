@@ -227,32 +227,4 @@ public class IOExtensionPoint extends Struct {
             false
         );
     }
-
-    /**
-     * Inner class implementing a builder pattern to construct 
-     * a struct and set its values.
-     */
-    public static class Build {
-        
-        private IOExtensionPoint struct;
-        
-         /**
-         * A {@link IOExtensionPoint.Build} object constructs a {@link IOExtensionPoint} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
-            struct = IOExtensionPoint.allocate();
-        }
-        
-         /**
-         * Finish building the {@link IOExtensionPoint} struct.
-         * @return A new instance of {@code IOExtensionPoint} with the fields 
-         *         that were set in the Build object.
-         */
-        public IOExtensionPoint construct() {
-            return struct;
-        }
-    }
 }

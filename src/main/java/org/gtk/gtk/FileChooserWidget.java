@@ -34,12 +34,19 @@ public class FileChooserWidget extends org.gtk.gtk.Widget implements org.gtk.gtk
     
     /**
      * Create a FileChooserWidget proxy instance for the provided memory address.
+     * <p>
+     * Because FileChooserWidget is an {@code InitiallyUnowned} instance, when 
+     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
+     * and a call to {@code refSink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
     @ApiStatus.Internal
     public FileChooserWidget(Addressable address, Ownership ownership) {
-        super(address, ownership);
+        super(address, Ownership.FULL);
+        if (ownership == Ownership.NONE) {
+            refSink();
+        }
     }
     
     /**
@@ -55,7 +62,11 @@ public class FileChooserWidget extends org.gtk.gtk.Widget implements org.gtk.gtk
      * @throws ClassCastException If the GType is not derived from "GtkFileChooserWidget", a ClassCastException will be thrown.
      */
     public static FileChooserWidget castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), FileChooserWidget.getType())) {
             return new FileChooserWidget(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkFileChooserWidget");
+        }
     }
     
     private static Addressable constructNew(@NotNull org.gtk.gtk.FileChooserAction action) {
@@ -98,7 +109,7 @@ public class FileChooserWidget extends org.gtk.gtk.Widget implements org.gtk.gtk
     
     @FunctionalInterface
     public interface DesktopFolder {
-        void signalReceived(FileChooserWidget source);
+        void signalReceived(FileChooserWidget sourceFileChooserWidget);
     }
     
     /**
@@ -133,7 +144,7 @@ public class FileChooserWidget extends org.gtk.gtk.Widget implements org.gtk.gtk
     
     @FunctionalInterface
     public interface DownFolder {
-        void signalReceived(FileChooserWidget source);
+        void signalReceived(FileChooserWidget sourceFileChooserWidget);
     }
     
     /**
@@ -172,7 +183,7 @@ public class FileChooserWidget extends org.gtk.gtk.Widget implements org.gtk.gtk
     
     @FunctionalInterface
     public interface HomeFolder {
-        void signalReceived(FileChooserWidget source);
+        void signalReceived(FileChooserWidget sourceFileChooserWidget);
     }
     
     /**
@@ -207,7 +218,7 @@ public class FileChooserWidget extends org.gtk.gtk.Widget implements org.gtk.gtk
     
     @FunctionalInterface
     public interface LocationPopup {
-        void signalReceived(FileChooserWidget source, @NotNull java.lang.String path);
+        void signalReceived(FileChooserWidget sourceFileChooserWidget, @NotNull java.lang.String path);
     }
     
     /**
@@ -247,7 +258,7 @@ public class FileChooserWidget extends org.gtk.gtk.Widget implements org.gtk.gtk
     
     @FunctionalInterface
     public interface LocationPopupOnPaste {
-        void signalReceived(FileChooserWidget source);
+        void signalReceived(FileChooserWidget sourceFileChooserWidget);
     }
     
     /**
@@ -282,7 +293,7 @@ public class FileChooserWidget extends org.gtk.gtk.Widget implements org.gtk.gtk
     
     @FunctionalInterface
     public interface LocationTogglePopup {
-        void signalReceived(FileChooserWidget source);
+        void signalReceived(FileChooserWidget sourceFileChooserWidget);
     }
     
     /**
@@ -318,7 +329,7 @@ public class FileChooserWidget extends org.gtk.gtk.Widget implements org.gtk.gtk
     
     @FunctionalInterface
     public interface PlacesShortcut {
-        void signalReceived(FileChooserWidget source);
+        void signalReceived(FileChooserWidget sourceFileChooserWidget);
     }
     
     /**
@@ -352,7 +363,7 @@ public class FileChooserWidget extends org.gtk.gtk.Widget implements org.gtk.gtk
     
     @FunctionalInterface
     public interface QuickBookmark {
-        void signalReceived(FileChooserWidget source, int bookmarkIndex);
+        void signalReceived(FileChooserWidget sourceFileChooserWidget, int bookmarkIndex);
     }
     
     /**
@@ -393,7 +404,7 @@ public class FileChooserWidget extends org.gtk.gtk.Widget implements org.gtk.gtk
     
     @FunctionalInterface
     public interface RecentShortcut {
-        void signalReceived(FileChooserWidget source);
+        void signalReceived(FileChooserWidget sourceFileChooserWidget);
     }
     
     /**
@@ -427,7 +438,7 @@ public class FileChooserWidget extends org.gtk.gtk.Widget implements org.gtk.gtk
     
     @FunctionalInterface
     public interface SearchShortcut {
-        void signalReceived(FileChooserWidget source);
+        void signalReceived(FileChooserWidget sourceFileChooserWidget);
     }
     
     /**
@@ -461,7 +472,7 @@ public class FileChooserWidget extends org.gtk.gtk.Widget implements org.gtk.gtk
     
     @FunctionalInterface
     public interface ShowHidden {
-        void signalReceived(FileChooserWidget source);
+        void signalReceived(FileChooserWidget sourceFileChooserWidget);
     }
     
     /**
@@ -495,7 +506,7 @@ public class FileChooserWidget extends org.gtk.gtk.Widget implements org.gtk.gtk
     
     @FunctionalInterface
     public interface UpFolder {
-        void signalReceived(FileChooserWidget source);
+        void signalReceived(FileChooserWidget sourceFileChooserWidget);
     }
     
     /**
@@ -592,76 +603,76 @@ public class FileChooserWidget extends org.gtk.gtk.Widget implements org.gtk.gtk
     
     private static class Callbacks {
         
-        public static void signalFileChooserWidgetDesktopFolder(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalFileChooserWidgetDesktopFolder(MemoryAddress sourceFileChooserWidget, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (FileChooserWidget.DesktopFolder) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new FileChooserWidget(source, Ownership.NONE));
+            HANDLER.signalReceived(new FileChooserWidget(sourceFileChooserWidget, Ownership.NONE));
         }
         
-        public static void signalFileChooserWidgetDownFolder(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalFileChooserWidgetDownFolder(MemoryAddress sourceFileChooserWidget, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (FileChooserWidget.DownFolder) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new FileChooserWidget(source, Ownership.NONE));
+            HANDLER.signalReceived(new FileChooserWidget(sourceFileChooserWidget, Ownership.NONE));
         }
         
-        public static void signalFileChooserWidgetHomeFolder(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalFileChooserWidgetHomeFolder(MemoryAddress sourceFileChooserWidget, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (FileChooserWidget.HomeFolder) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new FileChooserWidget(source, Ownership.NONE));
+            HANDLER.signalReceived(new FileChooserWidget(sourceFileChooserWidget, Ownership.NONE));
         }
         
-        public static void signalFileChooserWidgetLocationPopup(MemoryAddress source, MemoryAddress path, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalFileChooserWidgetLocationPopup(MemoryAddress sourceFileChooserWidget, MemoryAddress path, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (FileChooserWidget.LocationPopup) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new FileChooserWidget(source, Ownership.NONE), Interop.getStringFrom(path));
+            HANDLER.signalReceived(new FileChooserWidget(sourceFileChooserWidget, Ownership.NONE), Interop.getStringFrom(path));
         }
         
-        public static void signalFileChooserWidgetLocationPopupOnPaste(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalFileChooserWidgetLocationPopupOnPaste(MemoryAddress sourceFileChooserWidget, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (FileChooserWidget.LocationPopupOnPaste) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new FileChooserWidget(source, Ownership.NONE));
+            HANDLER.signalReceived(new FileChooserWidget(sourceFileChooserWidget, Ownership.NONE));
         }
         
-        public static void signalFileChooserWidgetLocationTogglePopup(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalFileChooserWidgetLocationTogglePopup(MemoryAddress sourceFileChooserWidget, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (FileChooserWidget.LocationTogglePopup) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new FileChooserWidget(source, Ownership.NONE));
+            HANDLER.signalReceived(new FileChooserWidget(sourceFileChooserWidget, Ownership.NONE));
         }
         
-        public static void signalFileChooserWidgetPlacesShortcut(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalFileChooserWidgetPlacesShortcut(MemoryAddress sourceFileChooserWidget, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (FileChooserWidget.PlacesShortcut) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new FileChooserWidget(source, Ownership.NONE));
+            HANDLER.signalReceived(new FileChooserWidget(sourceFileChooserWidget, Ownership.NONE));
         }
         
-        public static void signalFileChooserWidgetQuickBookmark(MemoryAddress source, int bookmarkIndex, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalFileChooserWidgetQuickBookmark(MemoryAddress sourceFileChooserWidget, int bookmarkIndex, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (FileChooserWidget.QuickBookmark) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new FileChooserWidget(source, Ownership.NONE), bookmarkIndex);
+            HANDLER.signalReceived(new FileChooserWidget(sourceFileChooserWidget, Ownership.NONE), bookmarkIndex);
         }
         
-        public static void signalFileChooserWidgetRecentShortcut(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalFileChooserWidgetRecentShortcut(MemoryAddress sourceFileChooserWidget, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (FileChooserWidget.RecentShortcut) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new FileChooserWidget(source, Ownership.NONE));
+            HANDLER.signalReceived(new FileChooserWidget(sourceFileChooserWidget, Ownership.NONE));
         }
         
-        public static void signalFileChooserWidgetSearchShortcut(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalFileChooserWidgetSearchShortcut(MemoryAddress sourceFileChooserWidget, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (FileChooserWidget.SearchShortcut) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new FileChooserWidget(source, Ownership.NONE));
+            HANDLER.signalReceived(new FileChooserWidget(sourceFileChooserWidget, Ownership.NONE));
         }
         
-        public static void signalFileChooserWidgetShowHidden(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalFileChooserWidgetShowHidden(MemoryAddress sourceFileChooserWidget, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (FileChooserWidget.ShowHidden) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new FileChooserWidget(source, Ownership.NONE));
+            HANDLER.signalReceived(new FileChooserWidget(sourceFileChooserWidget, Ownership.NONE));
         }
         
-        public static void signalFileChooserWidgetUpFolder(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalFileChooserWidgetUpFolder(MemoryAddress sourceFileChooserWidget, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (FileChooserWidget.UpFolder) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new FileChooserWidget(source, Ownership.NONE));
+            HANDLER.signalReceived(new FileChooserWidget(sourceFileChooserWidget, Ownership.NONE));
         }
     }
 }

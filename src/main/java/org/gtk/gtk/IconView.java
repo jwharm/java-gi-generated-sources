@@ -48,12 +48,19 @@ public class IconView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     
     /**
      * Create a IconView proxy instance for the provided memory address.
+     * <p>
+     * Because IconView is an {@code InitiallyUnowned} instance, when 
+     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
+     * and a call to {@code refSink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
     @ApiStatus.Internal
     public IconView(Addressable address, Ownership ownership) {
-        super(address, ownership);
+        super(address, Ownership.FULL);
+        if (ownership == Ownership.NONE) {
+            refSink();
+        }
     }
     
     /**
@@ -69,7 +76,11 @@ public class IconView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * @throws ClassCastException If the GType is not derived from "GtkIconView", a ClassCastException will be thrown.
      */
     public static IconView castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), IconView.getType())) {
             return new IconView(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkIconView");
+        }
     }
     
     private static Addressable constructNew() {
@@ -321,7 +332,7 @@ public class IconView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         path.set(new org.gtk.gtk.TreePath(pathPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
-        pos.set(new org.gtk.gtk.IconViewDropPosition(posPOINTER.get(Interop.valueLayout.C_INT, 0)));
+        pos.set(org.gtk.gtk.IconViewDropPosition.of(posPOINTER.get(Interop.valueLayout.C_INT, 0)));
         return RESULT != 0;
     }
     
@@ -344,7 +355,7 @@ public class IconView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         if (path != null) path.set(new org.gtk.gtk.TreePath(pathPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
-        pos.set(new org.gtk.gtk.IconViewDropPosition(posPOINTER.get(Interop.valueLayout.C_INT, 0)));
+        pos.set(org.gtk.gtk.IconViewDropPosition.of(posPOINTER.get(Interop.valueLayout.C_INT, 0)));
     }
     
     /**
@@ -409,7 +420,7 @@ public class IconView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.Orientation(RESULT);
+        return org.gtk.gtk.Orientation.of(RESULT);
     }
     
     /**
@@ -615,7 +626,7 @@ public class IconView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.SelectionMode(RESULT);
+        return org.gtk.gtk.SelectionMode.of(RESULT);
     }
     
     /**
@@ -1277,7 +1288,7 @@ public class IconView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     
     @FunctionalInterface
     public interface ActivateCursorItem {
-        boolean signalReceived(IconView source);
+        boolean signalReceived(IconView sourceIconView);
     }
     
     /**
@@ -1313,7 +1324,7 @@ public class IconView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     
     @FunctionalInterface
     public interface ItemActivated {
-        void signalReceived(IconView source, @NotNull org.gtk.gtk.TreePath path);
+        void signalReceived(IconView sourceIconView, @NotNull org.gtk.gtk.TreePath path);
     }
     
     /**
@@ -1347,7 +1358,7 @@ public class IconView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     
     @FunctionalInterface
     public interface MoveCursor {
-        boolean signalReceived(IconView source, @NotNull org.gtk.gtk.MovementStep step, int count, boolean extend, boolean modify);
+        boolean signalReceived(IconView sourceIconView, @NotNull org.gtk.gtk.MovementStep step, int count, boolean extend, boolean modify);
     }
     
     /**
@@ -1390,7 +1401,7 @@ public class IconView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     
     @FunctionalInterface
     public interface SelectAll {
-        void signalReceived(IconView source);
+        void signalReceived(IconView sourceIconView);
     }
     
     /**
@@ -1425,7 +1436,7 @@ public class IconView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     
     @FunctionalInterface
     public interface SelectCursorItem {
-        void signalReceived(IconView source);
+        void signalReceived(IconView sourceIconView);
     }
     
     /**
@@ -1461,7 +1472,7 @@ public class IconView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     
     @FunctionalInterface
     public interface SelectionChanged {
-        void signalReceived(IconView source);
+        void signalReceived(IconView sourceIconView);
     }
     
     /**
@@ -1490,7 +1501,7 @@ public class IconView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     
     @FunctionalInterface
     public interface ToggleCursorItem {
-        void signalReceived(IconView source);
+        void signalReceived(IconView sourceIconView);
     }
     
     /**
@@ -1527,7 +1538,7 @@ public class IconView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     
     @FunctionalInterface
     public interface UnselectAll {
-        void signalReceived(IconView source);
+        void signalReceived(IconView sourceIconView);
     }
     
     /**
@@ -2188,52 +2199,52 @@ public class IconView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     
     private static class Callbacks {
         
-        public static boolean signalIconViewActivateCursorItem(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static boolean signalIconViewActivateCursorItem(MemoryAddress sourceIconView, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (IconView.ActivateCursorItem) Interop.signalRegistry.get(HASH);
-            return HANDLER.signalReceived(new IconView(source, Ownership.NONE));
+            return HANDLER.signalReceived(new IconView(sourceIconView, Ownership.NONE));
         }
         
-        public static void signalIconViewItemActivated(MemoryAddress source, MemoryAddress path, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalIconViewItemActivated(MemoryAddress sourceIconView, MemoryAddress path, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (IconView.ItemActivated) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new IconView(source, Ownership.NONE), new org.gtk.gtk.TreePath(path, Ownership.NONE));
+            HANDLER.signalReceived(new IconView(sourceIconView, Ownership.NONE), new org.gtk.gtk.TreePath(path, Ownership.NONE));
         }
         
-        public static boolean signalIconViewMoveCursor(MemoryAddress source, int step, int count, int extend, int modify, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static boolean signalIconViewMoveCursor(MemoryAddress sourceIconView, int step, int count, int extend, int modify, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (IconView.MoveCursor) Interop.signalRegistry.get(HASH);
-            return HANDLER.signalReceived(new IconView(source, Ownership.NONE), new org.gtk.gtk.MovementStep(step), count, extend != 0, modify != 0);
+            return HANDLER.signalReceived(new IconView(sourceIconView, Ownership.NONE), org.gtk.gtk.MovementStep.of(step), count, extend != 0, modify != 0);
         }
         
-        public static void signalIconViewSelectAll(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalIconViewSelectAll(MemoryAddress sourceIconView, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (IconView.SelectAll) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new IconView(source, Ownership.NONE));
+            HANDLER.signalReceived(new IconView(sourceIconView, Ownership.NONE));
         }
         
-        public static void signalIconViewSelectCursorItem(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalIconViewSelectCursorItem(MemoryAddress sourceIconView, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (IconView.SelectCursorItem) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new IconView(source, Ownership.NONE));
+            HANDLER.signalReceived(new IconView(sourceIconView, Ownership.NONE));
         }
         
-        public static void signalIconViewSelectionChanged(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalIconViewSelectionChanged(MemoryAddress sourceIconView, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (IconView.SelectionChanged) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new IconView(source, Ownership.NONE));
+            HANDLER.signalReceived(new IconView(sourceIconView, Ownership.NONE));
         }
         
-        public static void signalIconViewToggleCursorItem(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalIconViewToggleCursorItem(MemoryAddress sourceIconView, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (IconView.ToggleCursorItem) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new IconView(source, Ownership.NONE));
+            HANDLER.signalReceived(new IconView(sourceIconView, Ownership.NONE));
         }
         
-        public static void signalIconViewUnselectAll(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalIconViewUnselectAll(MemoryAddress sourceIconView, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (IconView.UnselectAll) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new IconView(source, Ownership.NONE));
+            HANDLER.signalReceived(new IconView(sourceIconView, Ownership.NONE));
         }
     }
 }

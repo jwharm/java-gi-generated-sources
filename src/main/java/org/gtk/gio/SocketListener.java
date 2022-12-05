@@ -67,7 +67,11 @@ public class SocketListener extends org.gtk.gobject.Object {
      * @throws ClassCastException If the GType is not derived from "GSocketListener", a ClassCastException will be thrown.
      */
     public static SocketListener castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), SocketListener.getType())) {
             return new SocketListener(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GSocketListener");
+        }
     }
     
     private static Addressable constructNew() {
@@ -483,7 +487,7 @@ public class SocketListener extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface Event {
-        void signalReceived(SocketListener source, @NotNull org.gtk.gio.SocketListenerEvent event, @NotNull org.gtk.gio.Socket socket);
+        void signalReceived(SocketListener sourceSocketListener, @NotNull org.gtk.gio.SocketListenerEvent event, @NotNull org.gtk.gio.Socket socket);
     }
     
     /**
@@ -642,10 +646,10 @@ public class SocketListener extends org.gtk.gobject.Object {
     
     private static class Callbacks {
         
-        public static void signalSocketListenerEvent(MemoryAddress source, int event, MemoryAddress socket, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalSocketListenerEvent(MemoryAddress sourceSocketListener, int event, MemoryAddress socket, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (SocketListener.Event) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new SocketListener(source, Ownership.NONE), new org.gtk.gio.SocketListenerEvent(event), new org.gtk.gio.Socket(socket, Ownership.NONE));
+            HANDLER.signalReceived(new SocketListener(sourceSocketListener, Ownership.NONE), org.gtk.gio.SocketListenerEvent.of(event), new org.gtk.gio.Socket(socket, Ownership.NONE));
         }
     }
 }

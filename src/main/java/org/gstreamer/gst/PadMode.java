@@ -10,27 +10,39 @@ import org.jetbrains.annotations.*;
  * parent element goes from READY to PAUSED, the GstPadMode defines if the
  * pad operates in push or pull mode.
  */
-public class PadMode extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "GstPadMode";
-    
+public enum PadMode implements io.github.jwharm.javagi.Enumeration {
     /**
      * Pad will not handle dataflow
      */
-    public static final PadMode NONE = new PadMode(0);
-    
+    NONE(0),
     /**
      * Pad handles dataflow in downstream push mode
      */
-    public static final PadMode PUSH = new PadMode(1);
-    
+    PUSH(1),
     /**
      * Pad handles dataflow in upstream pull mode
      */
-    public static final PadMode PULL = new PadMode(2);
+    PULL(2);
     
-    public PadMode(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "GstPadMode";
+    
+    private final int value;
+    PadMode(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static PadMode of(int value) {
+        return switch (value) {
+            case 0 -> NONE;
+            case 1 -> PUSH;
+            case 2 -> PULL;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
     
     /**

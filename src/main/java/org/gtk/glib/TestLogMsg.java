@@ -52,7 +52,7 @@ public class TestLogMsg extends Struct {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("log_type"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new org.gtk.glib.TestLogType(RESULT);
+        return org.gtk.glib.TestLogType.of(RESULT);
     }
     
     /**

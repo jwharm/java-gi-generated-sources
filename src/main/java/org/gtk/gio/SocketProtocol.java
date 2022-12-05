@@ -15,36 +15,48 @@ import org.jetbrains.annotations.*;
  * use protocols not listed here.
  * @version 2.22
  */
-public class SocketProtocol extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "GSocketProtocol";
-    
+public enum SocketProtocol implements io.github.jwharm.javagi.Enumeration {
     /**
      * The protocol type is unknown
      */
-    public static final SocketProtocol UNKNOWN = new SocketProtocol(0);
-    
+    UNKNOWN(-1),
     /**
      * The default protocol for the family/type
      */
-    public static final SocketProtocol DEFAULT = new SocketProtocol(0);
-    
+    DEFAULT(0),
     /**
      * TCP over IP
      */
-    public static final SocketProtocol TCP = new SocketProtocol(6);
-    
+    TCP(6),
     /**
      * UDP over IP
      */
-    public static final SocketProtocol UDP = new SocketProtocol(17);
-    
+    UDP(17),
     /**
      * SCTP over IP
      */
-    public static final SocketProtocol SCTP = new SocketProtocol(132);
+    SCTP(132);
     
-    public SocketProtocol(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "GSocketProtocol";
+    
+    private final int value;
+    SocketProtocol(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static SocketProtocol of(int value) {
+        return switch (value) {
+            case -1 -> UNKNOWN;
+            case 0 -> DEFAULT;
+            case 6 -> TCP;
+            case 17 -> UDP;
+            case 132 -> SCTP;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

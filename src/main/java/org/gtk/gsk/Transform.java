@@ -99,7 +99,7 @@ public class Transform extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gsk.TransformCategory(RESULT);
+        return org.gtk.gsk.TransformCategory.of(RESULT);
     }
     
     /**
@@ -848,33 +848,5 @@ public class Transform extends Struct {
             FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
-    }
-
-    /**
-     * Inner class implementing a builder pattern to construct 
-     * a struct and set its values.
-     */
-    public static class Build {
-        
-        private Transform struct;
-        
-         /**
-         * A {@link Transform.Build} object constructs a {@link Transform} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
-            struct = Transform.allocate();
-        }
-        
-         /**
-         * Finish building the {@link Transform} struct.
-         * @return A new instance of {@code Transform} with the fields 
-         *         that were set in the Build object.
-         */
-        public Transform construct() {
-            return struct;
-        }
     }
 }

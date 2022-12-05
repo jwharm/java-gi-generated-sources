@@ -38,9 +38,8 @@ public class TreeModelFlags extends io.github.jwharm.javagi.Bitfield {
      * @param mask the value to combine with
      * @return the combined value by calculating {@code this | mask} 
      */
-    public TreeModelFlags combined(TreeModelFlags mask) {
-        this.setValue(this.getValue() | mask.getValue());
-        return this;
+    public TreeModelFlags or(TreeModelFlags mask) {
+        return new TreeModelFlags(this.getValue() | mask.getValue());
     }
     
     /**
@@ -50,9 +49,9 @@ public class TreeModelFlags extends io.github.jwharm.javagi.Bitfield {
      * @return the combined value by calculating {@code mask | masks[0] | masks[1] | ...} 
      */
     public static TreeModelFlags combined(TreeModelFlags mask, TreeModelFlags... masks) {
-        for (TreeModelFlags arg : masks) {
-            mask.setValue(mask.getValue() | arg.getValue());
+        int value = mask.getValue();        for (TreeModelFlags arg : masks) {
+            value |= arg.getValue();
         }
-        return mask;
+        return new TreeModelFlags(value);
     }
 }

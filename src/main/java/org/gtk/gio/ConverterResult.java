@@ -9,31 +9,43 @@ import org.jetbrains.annotations.*;
  * Results returned from g_converter_convert().
  * @version 2.24
  */
-public class ConverterResult extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "GConverterResult";
-    
+public enum ConverterResult implements io.github.jwharm.javagi.Enumeration {
     /**
      * There was an error during conversion.
      */
-    public static final ConverterResult ERROR = new ConverterResult(0);
-    
+    ERROR(0),
     /**
      * Some data was consumed or produced
      */
-    public static final ConverterResult CONVERTED = new ConverterResult(1);
-    
+    CONVERTED(1),
     /**
      * The conversion is finished
      */
-    public static final ConverterResult FINISHED = new ConverterResult(2);
-    
+    FINISHED(2),
     /**
      * Flushing is finished
      */
-    public static final ConverterResult FLUSHED = new ConverterResult(3);
+    FLUSHED(3);
     
-    public ConverterResult(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "GConverterResult";
+    
+    private final int value;
+    ConverterResult(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static ConverterResult of(int value) {
+        return switch (value) {
+            case 0 -> ERROR;
+            case 1 -> CONVERTED;
+            case 2 -> FINISHED;
+            case 3 -> FLUSHED;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

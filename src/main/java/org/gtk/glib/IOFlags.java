@@ -84,9 +84,8 @@ public class IOFlags extends io.github.jwharm.javagi.Bitfield {
      * @param mask the value to combine with
      * @return the combined value by calculating {@code this | mask} 
      */
-    public IOFlags combined(IOFlags mask) {
-        this.setValue(this.getValue() | mask.getValue());
-        return this;
+    public IOFlags or(IOFlags mask) {
+        return new IOFlags(this.getValue() | mask.getValue());
     }
     
     /**
@@ -96,9 +95,9 @@ public class IOFlags extends io.github.jwharm.javagi.Bitfield {
      * @return the combined value by calculating {@code mask | masks[0] | masks[1] | ...} 
      */
     public static IOFlags combined(IOFlags mask, IOFlags... masks) {
-        for (IOFlags arg : masks) {
-            mask.setValue(mask.getValue() | arg.getValue());
+        int value = mask.getValue();        for (IOFlags arg : masks) {
+            value |= arg.getValue();
         }
-        return mask;
+        return new IOFlags(value);
     }
 }

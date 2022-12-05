@@ -8,31 +8,43 @@ import org.jetbrains.annotations.*;
 /**
  * Statuses returned by most of the {@link IOFuncs} functions.
  */
-public class IOStatus extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "GIOStatus";
-    
+public enum IOStatus implements io.github.jwharm.javagi.Enumeration {
     /**
      * An error occurred.
      */
-    public static final IOStatus ERROR = new IOStatus(0);
-    
+    ERROR(0),
     /**
      * Success.
      */
-    public static final IOStatus NORMAL = new IOStatus(1);
-    
+    NORMAL(1),
     /**
      * End of file.
      */
-    public static final IOStatus EOF = new IOStatus(2);
-    
+    EOF(2),
     /**
      * Resource temporarily unavailable.
      */
-    public static final IOStatus AGAIN = new IOStatus(3);
+    AGAIN(3);
     
-    public IOStatus(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "GIOStatus";
+    
+    private final int value;
+    IOStatus(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static IOStatus of(int value) {
+        return switch (value) {
+            case 0 -> ERROR;
+            case 1 -> NORMAL;
+            case 2 -> EOF;
+            case 3 -> AGAIN;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

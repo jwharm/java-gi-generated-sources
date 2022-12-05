@@ -73,7 +73,11 @@ public class Settings extends org.gtk.gobject.Object implements org.gtk.gtk.Styl
      * @throws ClassCastException If the GType is not derived from "GtkSettings", a ClassCastException will be thrown.
      */
     public static Settings castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), Settings.getType())) {
             return new Settings(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkSettings");
+        }
     }
     
     /**

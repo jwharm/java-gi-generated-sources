@@ -49,7 +49,11 @@ public class EnumListItem extends org.gtk.gobject.Object {
      * @throws ClassCastException If the GType is not derived from "AdwEnumListItem", a ClassCastException will be thrown.
      */
     public static EnumListItem castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), EnumListItem.getType())) {
             return new EnumListItem(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of AdwEnumListItem");
+        }
     }
     
     /**

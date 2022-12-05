@@ -9,21 +9,33 @@ import org.jetbrains.annotations.*;
  * Errors returned by g_module_open_full().
  * @version 2.70
  */
-public class ModuleError extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "GModuleError";
-    
+public enum ModuleError implements io.github.jwharm.javagi.Enumeration {
     /**
      * there was an error loading or opening a module file
      */
-    public static final ModuleError FAILED = new ModuleError(0);
-    
+    FAILED(0),
     /**
      * a module returned an error from its {@code g_module_check_init()} function
      */
-    public static final ModuleError CHECK_FAILED = new ModuleError(1);
+    CHECK_FAILED(1);
     
-    public ModuleError(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "GModuleError";
+    
+    private final int value;
+    ModuleError(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static ModuleError of(int value) {
+        return switch (value) {
+            case 0 -> FAILED;
+            case 1 -> CHECK_FAILED;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

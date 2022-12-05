@@ -188,7 +188,7 @@ public class IOChannel extends Struct {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new org.gtk.glib.IOStatus(RESULT);
+        return org.gtk.glib.IOStatus.of(RESULT);
     }
     
     /**
@@ -357,7 +357,7 @@ public class IOChannel extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.IOError(RESULT);
+        return org.gtk.glib.IOError.of(RESULT);
     }
     
     /**
@@ -395,7 +395,7 @@ public class IOChannel extends Struct {
         }
         bytesRead.set(bytesReadPOINTER.get(Interop.valueLayout.C_LONG, 0));
         buf.set(MemorySegment.ofAddress(bufPOINTER.get(Interop.valueLayout.ADDRESS, 0), count * Interop.valueLayout.C_BYTE.byteSize(), Interop.getScope()).toArray(Interop.valueLayout.C_BYTE));
-        return new org.gtk.glib.IOStatus(RESULT);
+        return org.gtk.glib.IOStatus.of(RESULT);
     }
     
     /**
@@ -437,7 +437,7 @@ public class IOChannel extends Struct {
         strReturn.set(Interop.getStringFrom(strReturnPOINTER.get(Interop.valueLayout.ADDRESS, 0)));
         length.set(lengthPOINTER.get(Interop.valueLayout.C_LONG, 0));
         terminatorPos.set(terminatorPosPOINTER.get(Interop.valueLayout.C_LONG, 0));
-        return new org.gtk.glib.IOStatus(RESULT);
+        return org.gtk.glib.IOStatus.of(RESULT);
     }
     
     /**
@@ -465,7 +465,7 @@ public class IOChannel extends Struct {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new org.gtk.glib.IOStatus(RESULT);
+        return org.gtk.glib.IOStatus.of(RESULT);
     }
     
     /**
@@ -501,7 +501,7 @@ public class IOChannel extends Struct {
         }
         length.set(lengthPOINTER.get(Interop.valueLayout.C_LONG, 0));
         strReturn.set(MemorySegment.ofAddress(strReturnPOINTER.get(Interop.valueLayout.ADDRESS, 0), length.get().intValue() * Interop.valueLayout.C_BYTE.byteSize(), Interop.getScope()).toArray(Interop.valueLayout.C_BYTE));
-        return new org.gtk.glib.IOStatus(RESULT);
+        return org.gtk.glib.IOStatus.of(RESULT);
     }
     
     /**
@@ -528,7 +528,7 @@ public class IOChannel extends Struct {
             throw new GErrorException(GERROR);
         }
         thechar.set(thecharPOINTER.get(Interop.valueLayout.C_INT, 0));
-        return new org.gtk.glib.IOStatus(RESULT);
+        return org.gtk.glib.IOStatus.of(RESULT);
     }
     
     /**
@@ -569,7 +569,7 @@ public class IOChannel extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.IOError(RESULT);
+        return org.gtk.glib.IOError.of(RESULT);
     }
     
     /**
@@ -598,7 +598,7 @@ public class IOChannel extends Struct {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new org.gtk.glib.IOStatus(RESULT);
+        return org.gtk.glib.IOStatus.of(RESULT);
     }
     
     /**
@@ -726,7 +726,7 @@ public class IOChannel extends Struct {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new org.gtk.glib.IOStatus(RESULT);
+        return org.gtk.glib.IOStatus.of(RESULT);
     }
     
     /**
@@ -750,7 +750,7 @@ public class IOChannel extends Struct {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new org.gtk.glib.IOStatus(RESULT);
+        return org.gtk.glib.IOStatus.of(RESULT);
     }
     
     /**
@@ -797,7 +797,7 @@ public class IOChannel extends Struct {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new org.gtk.glib.IOStatus(RESULT);
+        return org.gtk.glib.IOStatus.of(RESULT);
     }
     
     /**
@@ -852,7 +852,7 @@ public class IOChannel extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.IOError(RESULT);
+        return org.gtk.glib.IOError.of(RESULT);
     }
     
     /**
@@ -893,7 +893,7 @@ public class IOChannel extends Struct {
             throw new GErrorException(GERROR);
         }
         bytesWritten.set(bytesWrittenPOINTER.get(Interop.valueLayout.C_LONG, 0));
-        return new org.gtk.glib.IOStatus(RESULT);
+        return org.gtk.glib.IOStatus.of(RESULT);
     }
     
     /**
@@ -917,7 +917,7 @@ public class IOChannel extends Struct {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new org.gtk.glib.IOStatus(RESULT);
+        return org.gtk.glib.IOStatus.of(RESULT);
     }
     
     /**
@@ -934,7 +934,7 @@ public class IOChannel extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.IOChannelError(RESULT);
+        return org.gtk.glib.IOChannelError.of(RESULT);
     }
     
     public static @NotNull org.gtk.glib.Quark errorQuark() {

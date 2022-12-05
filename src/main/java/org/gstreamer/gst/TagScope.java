@@ -9,21 +9,33 @@ import org.jetbrains.annotations.*;
  * GstTagScope specifies if a taglist applies to the complete
  * medium or only to one single stream.
  */
-public class TagScope extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "GstTagScope";
-    
+public enum TagScope implements io.github.jwharm.javagi.Enumeration {
     /**
      * tags specific to this single stream
      */
-    public static final TagScope STREAM = new TagScope(0);
-    
+    STREAM(0),
     /**
      * global tags for the complete medium
      */
-    public static final TagScope GLOBAL = new TagScope(1);
+    GLOBAL(1);
     
-    public TagScope(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "GstTagScope";
+    
+    private final int value;
+    TagScope(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static TagScope of(int value) {
+        return switch (value) {
+            case 0 -> STREAM;
+            case 1 -> GLOBAL;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

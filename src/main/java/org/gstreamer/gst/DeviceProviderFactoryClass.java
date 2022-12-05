@@ -48,32 +48,4 @@ public class DeviceProviderFactoryClass extends Struct {
     public DeviceProviderFactoryClass(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
-
-    /**
-     * Inner class implementing a builder pattern to construct 
-     * a struct and set its values.
-     */
-    public static class Build {
-        
-        private DeviceProviderFactoryClass struct;
-        
-         /**
-         * A {@link DeviceProviderFactoryClass.Build} object constructs a {@link DeviceProviderFactoryClass} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
-            struct = DeviceProviderFactoryClass.allocate();
-        }
-        
-         /**
-         * Finish building the {@link DeviceProviderFactoryClass} struct.
-         * @return A new instance of {@code DeviceProviderFactoryClass} with the fields 
-         *         that were set in the Build object.
-         */
-        public DeviceProviderFactoryClass construct() {
-            return struct;
-        }
-    }
 }

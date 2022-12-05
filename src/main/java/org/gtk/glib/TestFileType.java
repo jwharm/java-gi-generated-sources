@@ -24,21 +24,33 @@ import org.jetbrains.annotations.*;
  * build from git) and are considered as distributed files.
  * @version 2.38
  */
-public class TestFileType extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "GTestFileType";
-    
+public enum TestFileType implements io.github.jwharm.javagi.Enumeration {
     /**
      * a file that was included in the distribution tarball
      */
-    public static final TestFileType DIST = new TestFileType(0);
-    
+    DIST(0),
     /**
      * a file that was built on the compiling machine
      */
-    public static final TestFileType BUILT = new TestFileType(1);
+    BUILT(1);
     
-    public TestFileType(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "GTestFileType";
+    
+    private final int value;
+    TestFileType(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static TestFileType of(int value) {
+        return switch (value) {
+            case 0 -> DIST;
+            case 1 -> BUILT;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

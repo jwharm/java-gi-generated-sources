@@ -48,7 +48,11 @@ public class Bitmask extends io.github.jwharm.javagi.ObjectBase {
      * @throws ClassCastException If the GType is not derived from "Bitmask", a ClassCastException will be thrown.
      */
     public static Bitmask castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), Bitmask.getType())) {
             return new Bitmask(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of Bitmask");
+        }
     }
     
     /**

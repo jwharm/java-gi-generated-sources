@@ -8,31 +8,43 @@ import org.jetbrains.annotations.*;
 /**
  * See also gtk_print_job_set_pages()
  */
-public class PrintPages extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "GtkPrintPages";
-    
+public enum PrintPages implements io.github.jwharm.javagi.Enumeration {
     /**
      * All pages.
      */
-    public static final PrintPages ALL = new PrintPages(0);
-    
+    ALL(0),
     /**
      * Current page.
      */
-    public static final PrintPages CURRENT = new PrintPages(1);
-    
+    CURRENT(1),
     /**
      * Range of pages.
      */
-    public static final PrintPages RANGES = new PrintPages(2);
-    
+    RANGES(2),
     /**
      * Selected pages.
      */
-    public static final PrintPages SELECTION = new PrintPages(3);
+    SELECTION(3);
     
-    public PrintPages(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "GtkPrintPages";
+    
+    private final int value;
+    PrintPages(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static PrintPages of(int value) {
+        return switch (value) {
+            case 0 -> ALL;
+            case 1 -> CURRENT;
+            case 2 -> RANGES;
+            case 3 -> SELECTION;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

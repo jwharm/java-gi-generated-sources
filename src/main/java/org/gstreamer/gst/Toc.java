@@ -179,7 +179,7 @@ public class Toc extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.TocScope(RESULT);
+        return org.gstreamer.gst.TocScope.of(RESULT);
     }
     
     /**
@@ -284,33 +284,5 @@ public class Toc extends Struct {
             FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
-    }
-
-    /**
-     * Inner class implementing a builder pattern to construct 
-     * a struct and set its values.
-     */
-    public static class Build {
-        
-        private Toc struct;
-        
-         /**
-         * A {@link Toc.Build} object constructs a {@link Toc} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
-            struct = Toc.allocate();
-        }
-        
-         /**
-         * Finish building the {@link Toc} struct.
-         * @return A new instance of {@code Toc} with the fields 
-         *         that were set in the Build object.
-         */
-        public Toc construct() {
-            return struct;
-        }
     }
 }

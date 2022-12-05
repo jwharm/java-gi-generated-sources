@@ -71,12 +71,19 @@ public class Bus extends org.gstreamer.gst.Object {
     
     /**
      * Create a Bus proxy instance for the provided memory address.
+     * <p>
+     * Because Bus is an {@code InitiallyUnowned} instance, when 
+     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
+     * and a call to {@code refSink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
     @ApiStatus.Internal
     public Bus(Addressable address, Ownership ownership) {
-        super(address, ownership);
+        super(address, Ownership.FULL);
+        if (ownership == Ownership.NONE) {
+            refSink();
+        }
     }
     
     /**
@@ -92,7 +99,11 @@ public class Bus extends org.gstreamer.gst.Object {
      * @throws ClassCastException If the GType is not derived from "GstBus", a ClassCastException will be thrown.
      */
     public static Bus castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), Bus.getType())) {
             return new Bus(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GstBus");
+        }
     }
     
     private static Addressable constructNew() {
@@ -597,7 +608,7 @@ public class Bus extends org.gstreamer.gst.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.BusSyncReply(RESULT);
+        return org.gstreamer.gst.BusSyncReply.of(RESULT);
     }
     
     /**
@@ -669,7 +680,7 @@ public class Bus extends org.gstreamer.gst.Object {
     
     @FunctionalInterface
     public interface Message {
-        void signalReceived(Bus source, @NotNull org.gstreamer.gst.Message message);
+        void signalReceived(Bus sourceBus, @NotNull org.gstreamer.gst.Message message);
     }
     
     /**
@@ -700,7 +711,7 @@ public class Bus extends org.gstreamer.gst.Object {
     
     @FunctionalInterface
     public interface SyncMessage {
-        void signalReceived(Bus source, @NotNull org.gstreamer.gst.Message message);
+        void signalReceived(Bus sourceBus, @NotNull org.gstreamer.gst.Message message);
     }
     
     /**
@@ -931,16 +942,16 @@ public class Bus extends org.gstreamer.gst.Object {
     
     private static class Callbacks {
         
-        public static void signalBusMessage(MemoryAddress source, MemoryAddress message, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalBusMessage(MemoryAddress sourceBus, MemoryAddress message, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (Bus.Message) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Bus(source, Ownership.NONE), new org.gstreamer.gst.Message(message, Ownership.NONE));
+            HANDLER.signalReceived(new Bus(sourceBus, Ownership.NONE), new org.gstreamer.gst.Message(message, Ownership.NONE));
         }
         
-        public static void signalBusSyncMessage(MemoryAddress source, MemoryAddress message, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalBusSyncMessage(MemoryAddress sourceBus, MemoryAddress message, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (Bus.SyncMessage) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Bus(source, Ownership.NONE), new org.gstreamer.gst.Message(message, Ownership.NONE));
+            HANDLER.signalReceived(new Bus(sourceBus, Ownership.NONE), new org.gstreamer.gst.Message(message, Ownership.NONE));
         }
     }
 }

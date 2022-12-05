@@ -11,22 +11,34 @@ import org.jetbrains.annotations.*;
  * and g_tls_database_lookup_certificates_issued_by().
  * @version 2.30
  */
-public class TlsDatabaseLookupFlags extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "GTlsDatabaseLookupFlags";
-    
+public enum TlsDatabaseLookupFlags implements io.github.jwharm.javagi.Enumeration {
     /**
      * No lookup flags
      */
-    public static final TlsDatabaseLookupFlags NONE = new TlsDatabaseLookupFlags(0);
-    
+    NONE(0),
     /**
      * Restrict lookup to certificates that have
      *     a private key.
      */
-    public static final TlsDatabaseLookupFlags KEYPAIR = new TlsDatabaseLookupFlags(1);
+    KEYPAIR(1);
     
-    public TlsDatabaseLookupFlags(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "GTlsDatabaseLookupFlags";
+    
+    private final int value;
+    TlsDatabaseLookupFlags(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static TlsDatabaseLookupFlags of(int value) {
+        return switch (value) {
+            case 0 -> NONE;
+            case 1 -> KEYPAIR;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

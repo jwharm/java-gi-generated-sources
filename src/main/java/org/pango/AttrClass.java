@@ -58,7 +58,7 @@ public class AttrClass extends Struct {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("type"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new org.pango.AttrType(RESULT);
+        return org.pango.AttrType.of(RESULT);
     }
     
     /**

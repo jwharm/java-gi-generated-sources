@@ -8,26 +8,38 @@ import org.jetbrains.annotations.*;
 /**
  * The different search modes.
  */
-public class SearchMode extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "GstSearchMode";
-    
+public enum SearchMode implements io.github.jwharm.javagi.Enumeration {
     /**
      * Only search for exact matches.
      */
-    public static final SearchMode EXACT = new SearchMode(0);
-    
+    EXACT(0),
     /**
      * Search for an exact match or the element just before.
      */
-    public static final SearchMode BEFORE = new SearchMode(1);
-    
+    BEFORE(1),
     /**
      * Search for an exact match or the element just after.
      */
-    public static final SearchMode AFTER = new SearchMode(2);
+    AFTER(2);
     
-    public SearchMode(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "GstSearchMode";
+    
+    private final int value;
+    SearchMode(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static SearchMode of(int value) {
+        return switch (value) {
+            case 0 -> EXACT;
+            case 1 -> BEFORE;
+            case 2 -> AFTER;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

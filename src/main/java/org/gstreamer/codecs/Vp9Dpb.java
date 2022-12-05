@@ -1,0 +1,167 @@
+package org.gstreamer.codecs;
+
+import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
+
+public class Vp9Dpb extends Struct {
+    
+    static {
+        GstCodecs.javagi$ensureInitialized();
+    }
+    
+    private static final java.lang.String C_TYPE_NAME = "GstVp9Dpb";
+    
+    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
+        MemoryLayout.sequenceLayout(8, Interop.valueLayout.ADDRESS).withName("pic_list")
+    ).withName(C_TYPE_NAME);
+    
+    /**
+     * The memory layout of the native struct.
+     * @return the memory layout
+     */
+    @ApiStatus.Internal
+    public static MemoryLayout getMemoryLayout() {
+        return memoryLayout;
+    }
+    
+    private MemorySegment allocatedMemorySegment;
+    
+    /**
+     * Allocate a new {@link Vp9Dpb}
+     * @return A new, uninitialized @{link Vp9Dpb}
+     */
+    public static Vp9Dpb allocate() {
+        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
+        Vp9Dpb newInstance = new Vp9Dpb(segment.address(), Ownership.NONE);
+        newInstance.allocatedMemorySegment = segment;
+        return newInstance;
+    }
+    
+    /**
+     * Create a Vp9Dpb proxy instance for the provided memory address.
+     * @param address   The memory address of the native object
+     * @param ownership The ownership indicator used for ref-counted objects
+     */
+    @ApiStatus.Internal
+    public Vp9Dpb(Addressable address, Ownership ownership) {
+        super(address, ownership);
+    }
+    
+    /**
+     * Store the {@code picture}
+     * @param picture a {@link Vp9Picture}
+     */
+    public void add(@NotNull org.gstreamer.codecs.Vp9Picture picture) {
+        java.util.Objects.requireNonNull(picture, "Parameter 'picture' must not be null");
+        try {
+            DowncallHandles.gst_vp9_dpb_add.invokeExact(
+                    handle(),
+                    picture.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        picture.yieldOwnership();
+    }
+    
+    /**
+     * Clear all stored {@link Vp9Picture}
+     */
+    public void clear() {
+        try {
+            DowncallHandles.gst_vp9_dpb_clear.invokeExact(
+                    handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+    }
+    
+    /**
+     * Free the {@code dpb}
+     */
+    public void free() {
+        try {
+            DowncallHandles.gst_vp9_dpb_free.invokeExact(
+                    handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+    }
+    
+    /**
+     * Create new {@link Vp9Dpb}
+     * @return a new {@link Vp9Dpb}
+     */
+    public static @NotNull org.gstreamer.codecs.Vp9Dpb new_() {
+        MemoryAddress RESULT;
+        try {
+            RESULT = (MemoryAddress) DowncallHandles.gst_vp9_dpb_new.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gstreamer.codecs.Vp9Dpb(RESULT, Ownership.UNKNOWN);
+    }
+    
+    private static class DowncallHandles {
+        
+        private static final MethodHandle gst_vp9_dpb_add = Interop.downcallHandle(
+            "gst_vp9_dpb_add",
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+            false
+        );
+        
+        private static final MethodHandle gst_vp9_dpb_clear = Interop.downcallHandle(
+            "gst_vp9_dpb_clear",
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+            false
+        );
+        
+        private static final MethodHandle gst_vp9_dpb_free = Interop.downcallHandle(
+            "gst_vp9_dpb_free",
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+            false
+        );
+        
+        private static final MethodHandle gst_vp9_dpb_new = Interop.downcallHandle(
+            "gst_vp9_dpb_new",
+            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+            false
+        );
+    }
+
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Build {
+        
+        private Vp9Dpb struct;
+        
+         /**
+         * A {@link Vp9Dpb.Build} object constructs a {@link Vp9Dpb} 
+         * struct using the <em>builder pattern</em> to set the field values. 
+         * Use the various {@code set...()} methods to set field values, 
+         * and finish construction with {@link #construct()}. 
+         */
+        public Build() {
+            struct = Vp9Dpb.allocate();
+        }
+        
+         /**
+         * Finish building the {@link Vp9Dpb} struct.
+         * @return A new instance of {@code Vp9Dpb} with the fields 
+         *         that were set in the Build object.
+         */
+        public Vp9Dpb construct() {
+            return struct;
+        }
+        
+        public Build setPicList(org.gstreamer.codecs.Vp9Picture[] picList) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("pic_list"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (picList == null ? MemoryAddress.NULL : Interop.allocateNativeArray(picList, false)));
+            return this;
+        }
+    }
+}

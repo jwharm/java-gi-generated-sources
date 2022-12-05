@@ -30,7 +30,11 @@ public interface URIHandler extends io.github.jwharm.javagi.Proxy {
      * @throws ClassCastException If the GType is not derived from "GstURIHandler", a ClassCastException will be thrown.
      */
     public static URIHandler castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), URIHandler.getType())) {
             return new URIHandlerImpl(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GstURIHandler");
+        }
     }
     
     /**
@@ -83,7 +87,7 @@ public interface URIHandler extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.URIType(RESULT);
+        return org.gstreamer.gst.URIType.of(RESULT);
     }
     
     /**

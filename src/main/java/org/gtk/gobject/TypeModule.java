@@ -86,7 +86,11 @@ public class TypeModule extends org.gtk.gobject.Object implements org.gtk.gobjec
      * @throws ClassCastException If the GType is not derived from "GTypeModule", a ClassCastException will be thrown.
      */
     public static TypeModule castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), TypeModule.getType())) {
             return new TypeModule(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GTypeModule");
+        }
     }
     
     /**

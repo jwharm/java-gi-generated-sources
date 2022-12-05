@@ -40,9 +40,8 @@ public class TracerValueFlags extends io.github.jwharm.javagi.Bitfield {
      * @param mask the value to combine with
      * @return the combined value by calculating {@code this | mask} 
      */
-    public TracerValueFlags combined(TracerValueFlags mask) {
-        this.setValue(this.getValue() | mask.getValue());
-        return this;
+    public TracerValueFlags or(TracerValueFlags mask) {
+        return new TracerValueFlags(this.getValue() | mask.getValue());
     }
     
     /**
@@ -52,9 +51,9 @@ public class TracerValueFlags extends io.github.jwharm.javagi.Bitfield {
      * @return the combined value by calculating {@code mask | masks[0] | masks[1] | ...} 
      */
     public static TracerValueFlags combined(TracerValueFlags mask, TracerValueFlags... masks) {
-        for (TracerValueFlags arg : masks) {
-            mask.setValue(mask.getValue() | arg.getValue());
+        int value = mask.getValue();        for (TracerValueFlags arg : masks) {
+            value |= arg.getValue();
         }
-        return mask;
+        return new TracerValueFlags(value);
     }
 }

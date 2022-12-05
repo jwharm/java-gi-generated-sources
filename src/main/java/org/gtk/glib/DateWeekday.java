@@ -9,51 +9,63 @@ import org.jetbrains.annotations.*;
  * Enumeration representing a day of the week; {@link DateWeekday#MONDAY},
  * {@link DateWeekday#TUESDAY}, etc. {@link DateWeekday#BAD_WEEKDAY} is an invalid weekday.
  */
-public class DateWeekday extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "GDateWeekday";
-    
+public enum DateWeekday implements io.github.jwharm.javagi.Enumeration {
     /**
      * invalid value
      */
-    public static final DateWeekday BAD_WEEKDAY = new DateWeekday(0);
-    
+    BAD_WEEKDAY(0),
     /**
      * Monday
      */
-    public static final DateWeekday MONDAY = new DateWeekday(1);
-    
+    MONDAY(1),
     /**
      * Tuesday
      */
-    public static final DateWeekday TUESDAY = new DateWeekday(2);
-    
+    TUESDAY(2),
     /**
      * Wednesday
      */
-    public static final DateWeekday WEDNESDAY = new DateWeekday(3);
-    
+    WEDNESDAY(3),
     /**
      * Thursday
      */
-    public static final DateWeekday THURSDAY = new DateWeekday(4);
-    
+    THURSDAY(4),
     /**
      * Friday
      */
-    public static final DateWeekday FRIDAY = new DateWeekday(5);
-    
+    FRIDAY(5),
     /**
      * Saturday
      */
-    public static final DateWeekday SATURDAY = new DateWeekday(6);
-    
+    SATURDAY(6),
     /**
      * Sunday
      */
-    public static final DateWeekday SUNDAY = new DateWeekday(7);
+    SUNDAY(7);
     
-    public DateWeekday(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "GDateWeekday";
+    
+    private final int value;
+    DateWeekday(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static DateWeekday of(int value) {
+        return switch (value) {
+            case 0 -> BAD_WEEKDAY;
+            case 1 -> MONDAY;
+            case 2 -> TUESDAY;
+            case 3 -> WEDNESDAY;
+            case 4 -> THURSDAY;
+            case 5 -> FRIDAY;
+            case 6 -> SATURDAY;
+            case 7 -> SUNDAY;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

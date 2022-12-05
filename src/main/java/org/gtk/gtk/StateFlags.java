@@ -105,9 +105,8 @@ public class StateFlags extends io.github.jwharm.javagi.Bitfield {
      * @param mask the value to combine with
      * @return the combined value by calculating {@code this | mask} 
      */
-    public StateFlags combined(StateFlags mask) {
-        this.setValue(this.getValue() | mask.getValue());
-        return this;
+    public StateFlags or(StateFlags mask) {
+        return new StateFlags(this.getValue() | mask.getValue());
     }
     
     /**
@@ -117,9 +116,9 @@ public class StateFlags extends io.github.jwharm.javagi.Bitfield {
      * @return the combined value by calculating {@code mask | masks[0] | masks[1] | ...} 
      */
     public static StateFlags combined(StateFlags mask, StateFlags... masks) {
-        for (StateFlags arg : masks) {
-            mask.setValue(mask.getValue() | arg.getValue());
+        int value = mask.getValue();        for (StateFlags arg : masks) {
+            value |= arg.getValue();
         }
-        return mask;
+        return new StateFlags(value);
     }
 }

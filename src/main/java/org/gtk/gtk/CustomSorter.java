@@ -49,7 +49,11 @@ public class CustomSorter extends org.gtk.gtk.Sorter {
      * @throws ClassCastException If the GType is not derived from "GtkCustomSorter", a ClassCastException will be thrown.
      */
     public static CustomSorter castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), CustomSorter.getType())) {
             return new CustomSorter(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkCustomSorter");
+        }
     }
     
     private static Addressable constructNew(@Nullable org.gtk.glib.CompareDataFunc sortFunc) {

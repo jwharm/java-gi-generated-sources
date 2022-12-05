@@ -25,33 +25,45 @@ import org.jetbrains.annotations.*;
  * to undo any visible/permanent changes that were done throughout the
  * progress of the gesture.
  */
-public class TouchpadGesturePhase extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "GdkTouchpadGesturePhase";
-    
+public enum TouchpadGesturePhase implements io.github.jwharm.javagi.Enumeration {
     /**
      * The gesture has begun.
      */
-    public static final TouchpadGesturePhase BEGIN = new TouchpadGesturePhase(0);
-    
+    BEGIN(0),
     /**
      * The gesture has been updated.
      */
-    public static final TouchpadGesturePhase UPDATE = new TouchpadGesturePhase(1);
-    
+    UPDATE(1),
     /**
      * The gesture was finished, changes
      *   should be permanently applied.
      */
-    public static final TouchpadGesturePhase END = new TouchpadGesturePhase(2);
-    
+    END(2),
     /**
      * The gesture was cancelled, all
      *   changes should be undone.
      */
-    public static final TouchpadGesturePhase CANCEL = new TouchpadGesturePhase(3);
+    CANCEL(3);
     
-    public TouchpadGesturePhase(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "GdkTouchpadGesturePhase";
+    
+    private final int value;
+    TouchpadGesturePhase(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static TouchpadGesturePhase of(int value) {
+        return switch (value) {
+            case 0 -> BEGIN;
+            case 1 -> UPDATE;
+            case 2 -> END;
+            case 3 -> CANCEL;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

@@ -124,7 +124,11 @@ public interface CellLayout extends io.github.jwharm.javagi.Proxy {
      * @throws ClassCastException If the GType is not derived from "GtkCellLayout", a ClassCastException will be thrown.
      */
     public static CellLayout castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), CellLayout.getType())) {
             return new CellLayoutImpl(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkCellLayout");
+        }
     }
     
     /**

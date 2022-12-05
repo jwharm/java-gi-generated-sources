@@ -41,9 +41,8 @@ public class AppInfoCreateFlags extends io.github.jwharm.javagi.Bitfield {
      * @param mask the value to combine with
      * @return the combined value by calculating {@code this | mask} 
      */
-    public AppInfoCreateFlags combined(AppInfoCreateFlags mask) {
-        this.setValue(this.getValue() | mask.getValue());
-        return this;
+    public AppInfoCreateFlags or(AppInfoCreateFlags mask) {
+        return new AppInfoCreateFlags(this.getValue() | mask.getValue());
     }
     
     /**
@@ -53,9 +52,9 @@ public class AppInfoCreateFlags extends io.github.jwharm.javagi.Bitfield {
      * @return the combined value by calculating {@code mask | masks[0] | masks[1] | ...} 
      */
     public static AppInfoCreateFlags combined(AppInfoCreateFlags mask, AppInfoCreateFlags... masks) {
-        for (AppInfoCreateFlags arg : masks) {
-            mask.setValue(mask.getValue() | arg.getValue());
+        int value = mask.getValue();        for (AppInfoCreateFlags arg : masks) {
+            value |= arg.getValue();
         }
-        return mask;
+        return new AppInfoCreateFlags(value);
     }
 }

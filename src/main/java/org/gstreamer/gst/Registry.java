@@ -88,12 +88,19 @@ public class Registry extends org.gstreamer.gst.Object {
     
     /**
      * Create a Registry proxy instance for the provided memory address.
+     * <p>
+     * Because Registry is an {@code InitiallyUnowned} instance, when 
+     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
+     * and a call to {@code refSink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
     @ApiStatus.Internal
     public Registry(Addressable address, Ownership ownership) {
-        super(address, ownership);
+        super(address, Ownership.FULL);
+        if (ownership == Ownership.NONE) {
+            refSink();
+        }
     }
     
     /**
@@ -109,7 +116,11 @@ public class Registry extends org.gstreamer.gst.Object {
      * @throws ClassCastException If the GType is not derived from "GstRegistry", a ClassCastException will be thrown.
      */
     public static Registry castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), Registry.getType())) {
             return new Registry(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GstRegistry");
+        }
     }
     
     /**
@@ -532,7 +543,7 @@ public class Registry extends org.gstreamer.gst.Object {
     
     @FunctionalInterface
     public interface FeatureAdded {
-        void signalReceived(Registry source, @NotNull org.gstreamer.gst.PluginFeature feature);
+        void signalReceived(Registry sourceRegistry, @NotNull org.gstreamer.gst.PluginFeature feature);
     }
     
     /**
@@ -561,7 +572,7 @@ public class Registry extends org.gstreamer.gst.Object {
     
     @FunctionalInterface
     public interface PluginAdded {
-        void signalReceived(Registry source, @NotNull org.gstreamer.gst.Plugin plugin);
+        void signalReceived(Registry sourceRegistry, @NotNull org.gstreamer.gst.Plugin plugin);
     }
     
     /**
@@ -748,16 +759,16 @@ public class Registry extends org.gstreamer.gst.Object {
     
     private static class Callbacks {
         
-        public static void signalRegistryFeatureAdded(MemoryAddress source, MemoryAddress feature, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalRegistryFeatureAdded(MemoryAddress sourceRegistry, MemoryAddress feature, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (Registry.FeatureAdded) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Registry(source, Ownership.NONE), new org.gstreamer.gst.PluginFeature(feature, Ownership.NONE));
+            HANDLER.signalReceived(new Registry(sourceRegistry, Ownership.NONE), new org.gstreamer.gst.PluginFeature(feature, Ownership.NONE));
         }
         
-        public static void signalRegistryPluginAdded(MemoryAddress source, MemoryAddress plugin, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalRegistryPluginAdded(MemoryAddress sourceRegistry, MemoryAddress plugin, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (Registry.PluginAdded) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Registry(source, Ownership.NONE), new org.gstreamer.gst.Plugin(plugin, Ownership.NONE));
+            HANDLER.signalReceived(new Registry(sourceRegistry, Ownership.NONE), new org.gstreamer.gst.Plugin(plugin, Ownership.NONE));
         }
     }
 }

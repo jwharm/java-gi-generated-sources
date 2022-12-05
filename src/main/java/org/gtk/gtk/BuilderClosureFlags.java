@@ -32,9 +32,8 @@ public class BuilderClosureFlags extends io.github.jwharm.javagi.Bitfield {
      * @param mask the value to combine with
      * @return the combined value by calculating {@code this | mask} 
      */
-    public BuilderClosureFlags combined(BuilderClosureFlags mask) {
-        this.setValue(this.getValue() | mask.getValue());
-        return this;
+    public BuilderClosureFlags or(BuilderClosureFlags mask) {
+        return new BuilderClosureFlags(this.getValue() | mask.getValue());
     }
     
     /**
@@ -44,9 +43,9 @@ public class BuilderClosureFlags extends io.github.jwharm.javagi.Bitfield {
      * @return the combined value by calculating {@code mask | masks[0] | masks[1] | ...} 
      */
     public static BuilderClosureFlags combined(BuilderClosureFlags mask, BuilderClosureFlags... masks) {
-        for (BuilderClosureFlags arg : masks) {
-            mask.setValue(mask.getValue() | arg.getValue());
+        int value = mask.getValue();        for (BuilderClosureFlags arg : masks) {
+            value |= arg.getValue();
         }
-        return mask;
+        return new BuilderClosureFlags(value);
     }
 }

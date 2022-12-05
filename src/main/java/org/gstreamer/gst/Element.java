@@ -104,12 +104,19 @@ public class Element extends org.gstreamer.gst.Object {
     
     /**
      * Create a Element proxy instance for the provided memory address.
+     * <p>
+     * Because Element is an {@code InitiallyUnowned} instance, when 
+     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
+     * and a call to {@code refSink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
     @ApiStatus.Internal
     public Element(Addressable address, Ownership ownership) {
-        super(address, ownership);
+        super(address, Ownership.FULL);
+        if (ownership == Ownership.NONE) {
+            refSink();
+        }
     }
     
     /**
@@ -125,7 +132,11 @@ public class Element extends org.gstreamer.gst.Object {
      * @throws ClassCastException If the GType is not derived from "GstElement", a ClassCastException will be thrown.
      */
     public static Element castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), Element.getType())) {
             return new Element(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GstElement");
+        }
     }
     
     /**
@@ -250,7 +261,7 @@ public class Element extends org.gstreamer.gst.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.StateChangeReturn(RESULT);
+        return org.gstreamer.gst.StateChangeReturn.of(RESULT);
     }
     
     /**
@@ -282,7 +293,7 @@ public class Element extends org.gstreamer.gst.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.StateChangeReturn(RESULT);
+        return org.gstreamer.gst.StateChangeReturn.of(RESULT);
     }
     
     /**
@@ -751,9 +762,9 @@ public class Element extends org.gstreamer.gst.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        state.set(new org.gstreamer.gst.State(statePOINTER.get(Interop.valueLayout.C_INT, 0)));
-        pending.set(new org.gstreamer.gst.State(pendingPOINTER.get(Interop.valueLayout.C_INT, 0)));
-        return new org.gstreamer.gst.StateChangeReturn(RESULT);
+        state.set(org.gstreamer.gst.State.of(statePOINTER.get(Interop.valueLayout.C_INT, 0)));
+        pending.set(org.gstreamer.gst.State.of(pendingPOINTER.get(Interop.valueLayout.C_INT, 0)));
+        return org.gstreamer.gst.StateChangeReturn.of(RESULT);
     }
     
     /**
@@ -1709,7 +1720,7 @@ public class Element extends org.gstreamer.gst.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.StateChangeReturn(RESULT);
+        return org.gstreamer.gst.StateChangeReturn.of(RESULT);
     }
     
     /**
@@ -1925,7 +1936,7 @@ public class Element extends org.gstreamer.gst.Object {
     
     @FunctionalInterface
     public interface NoMorePads {
-        void signalReceived(Element source);
+        void signalReceived(Element sourceElement);
     }
     
     /**
@@ -1955,7 +1966,7 @@ public class Element extends org.gstreamer.gst.Object {
     
     @FunctionalInterface
     public interface PadAdded {
-        void signalReceived(Element source, @NotNull org.gstreamer.gst.Pad newPad);
+        void signalReceived(Element sourceElement, @NotNull org.gstreamer.gst.Pad newPad);
     }
     
     /**
@@ -1987,7 +1998,7 @@ public class Element extends org.gstreamer.gst.Object {
     
     @FunctionalInterface
     public interface PadRemoved {
-        void signalReceived(Element source, @NotNull org.gstreamer.gst.Pad oldPad);
+        void signalReceived(Element sourceElement, @NotNull org.gstreamer.gst.Pad oldPad);
     }
     
     /**
@@ -2497,22 +2508,22 @@ public class Element extends org.gstreamer.gst.Object {
     
     private static class Callbacks {
         
-        public static void signalElementNoMorePads(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalElementNoMorePads(MemoryAddress sourceElement, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (Element.NoMorePads) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Element(source, Ownership.NONE));
+            HANDLER.signalReceived(new Element(sourceElement, Ownership.NONE));
         }
         
-        public static void signalElementPadAdded(MemoryAddress source, MemoryAddress newPad, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalElementPadAdded(MemoryAddress sourceElement, MemoryAddress newPad, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (Element.PadAdded) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Element(source, Ownership.NONE), new org.gstreamer.gst.Pad(newPad, Ownership.NONE));
+            HANDLER.signalReceived(new Element(sourceElement, Ownership.NONE), new org.gstreamer.gst.Pad(newPad, Ownership.NONE));
         }
         
-        public static void signalElementPadRemoved(MemoryAddress source, MemoryAddress oldPad, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalElementPadRemoved(MemoryAddress sourceElement, MemoryAddress oldPad, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (Element.PadRemoved) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Element(source, Ownership.NONE), new org.gstreamer.gst.Pad(oldPad, Ownership.NONE));
+            HANDLER.signalReceived(new Element(sourceElement, Ownership.NONE), new org.gstreamer.gst.Pad(oldPad, Ownership.NONE));
         }
     }
 }

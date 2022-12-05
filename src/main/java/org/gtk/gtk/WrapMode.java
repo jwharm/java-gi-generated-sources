@@ -8,34 +8,46 @@ import org.jetbrains.annotations.*;
 /**
  * Describes a type of line wrapping.
  */
-public class WrapMode extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "GtkWrapMode";
-    
+public enum WrapMode implements io.github.jwharm.javagi.Enumeration {
     /**
      * do not wrap lines; just make the text area wider
      */
-    public static final WrapMode NONE = new WrapMode(0);
-    
+    NONE(0),
     /**
      * wrap text, breaking lines anywhere the cursor can
      *   appear (between characters, usually - if you want to be technical,
      *   between graphemes, see pango_get_log_attrs())
      */
-    public static final WrapMode CHAR = new WrapMode(1);
-    
+    CHAR(1),
     /**
      * wrap text, breaking lines in between words
      */
-    public static final WrapMode WORD = new WrapMode(2);
-    
+    WORD(2),
     /**
      * wrap text, breaking lines in between words, or if
      *   that is not enough, also between graphemes
      */
-    public static final WrapMode WORD_CHAR = new WrapMode(3);
+    WORD_CHAR(3);
     
-    public WrapMode(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "GtkWrapMode";
+    
+    private final int value;
+    WrapMode(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static WrapMode of(int value) {
+        return switch (value) {
+            case 0 -> NONE;
+            case 1 -> CHAR;
+            case 2 -> WORD;
+            case 3 -> WORD_CHAR;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

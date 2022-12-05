@@ -50,7 +50,11 @@ public class EveryFilter extends org.gtk.gtk.MultiFilter implements org.gtk.gio.
      * @throws ClassCastException If the GType is not derived from "GtkEveryFilter", a ClassCastException will be thrown.
      */
     public static EveryFilter castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), EveryFilter.getType())) {
             return new EveryFilter(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkEveryFilter");
+        }
     }
     
     private static Addressable constructNew() {

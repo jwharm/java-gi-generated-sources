@@ -29,7 +29,11 @@ public interface DBusObjectManager extends io.github.jwharm.javagi.Proxy {
      * @throws ClassCastException If the GType is not derived from "GDBusObjectManager", a ClassCastException will be thrown.
      */
     public static DBusObjectManager castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), DBusObjectManager.getType())) {
             return new DBusObjectManagerImpl(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GDBusObjectManager");
+        }
     }
     
     /**
@@ -123,7 +127,7 @@ public interface DBusObjectManager extends io.github.jwharm.javagi.Proxy {
     
     @FunctionalInterface
     public interface InterfaceAdded {
-        void signalReceived(DBusObjectManager source, @NotNull org.gtk.gio.DBusObject object, @NotNull org.gtk.gio.DBusInterface interface_);
+        void signalReceived(DBusObjectManager sourceDBusObjectManager, @NotNull org.gtk.gio.DBusObject object, @NotNull org.gtk.gio.DBusInterface interface_);
     }
     
     /**
@@ -154,7 +158,7 @@ public interface DBusObjectManager extends io.github.jwharm.javagi.Proxy {
     
     @FunctionalInterface
     public interface InterfaceRemoved {
-        void signalReceived(DBusObjectManager source, @NotNull org.gtk.gio.DBusObject object, @NotNull org.gtk.gio.DBusInterface interface_);
+        void signalReceived(DBusObjectManager sourceDBusObjectManager, @NotNull org.gtk.gio.DBusObject object, @NotNull org.gtk.gio.DBusInterface interface_);
     }
     
     /**
@@ -185,7 +189,7 @@ public interface DBusObjectManager extends io.github.jwharm.javagi.Proxy {
     
     @FunctionalInterface
     public interface ObjectAdded {
-        void signalReceived(DBusObjectManager source, @NotNull org.gtk.gio.DBusObject object);
+        void signalReceived(DBusObjectManager sourceDBusObjectManager, @NotNull org.gtk.gio.DBusObject object);
     }
     
     /**
@@ -213,7 +217,7 @@ public interface DBusObjectManager extends io.github.jwharm.javagi.Proxy {
     
     @FunctionalInterface
     public interface ObjectRemoved {
-        void signalReceived(DBusObjectManager source, @NotNull org.gtk.gio.DBusObject object);
+        void signalReceived(DBusObjectManager sourceDBusObjectManager, @NotNull org.gtk.gio.DBusObject object);
     }
     
     /**
@@ -281,28 +285,28 @@ public interface DBusObjectManager extends io.github.jwharm.javagi.Proxy {
     @ApiStatus.Internal
     static class Callbacks {
         
-        public static void signalDBusObjectManagerInterfaceAdded(MemoryAddress source, MemoryAddress object, MemoryAddress interface_, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalDBusObjectManagerInterfaceAdded(MemoryAddress sourceDBusObjectManager, MemoryAddress object, MemoryAddress interface_, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (DBusObjectManager.InterfaceAdded) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new DBusObjectManager.DBusObjectManagerImpl(source, Ownership.NONE), new org.gtk.gio.DBusObject.DBusObjectImpl(object, Ownership.NONE), new org.gtk.gio.DBusInterface.DBusInterfaceImpl(interface_, Ownership.NONE));
+            HANDLER.signalReceived(new DBusObjectManager.DBusObjectManagerImpl(sourceDBusObjectManager, Ownership.NONE), new org.gtk.gio.DBusObject.DBusObjectImpl(object, Ownership.NONE), new org.gtk.gio.DBusInterface.DBusInterfaceImpl(interface_, Ownership.NONE));
         }
         
-        public static void signalDBusObjectManagerInterfaceRemoved(MemoryAddress source, MemoryAddress object, MemoryAddress interface_, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalDBusObjectManagerInterfaceRemoved(MemoryAddress sourceDBusObjectManager, MemoryAddress object, MemoryAddress interface_, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (DBusObjectManager.InterfaceRemoved) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new DBusObjectManager.DBusObjectManagerImpl(source, Ownership.NONE), new org.gtk.gio.DBusObject.DBusObjectImpl(object, Ownership.NONE), new org.gtk.gio.DBusInterface.DBusInterfaceImpl(interface_, Ownership.NONE));
+            HANDLER.signalReceived(new DBusObjectManager.DBusObjectManagerImpl(sourceDBusObjectManager, Ownership.NONE), new org.gtk.gio.DBusObject.DBusObjectImpl(object, Ownership.NONE), new org.gtk.gio.DBusInterface.DBusInterfaceImpl(interface_, Ownership.NONE));
         }
         
-        public static void signalDBusObjectManagerObjectAdded(MemoryAddress source, MemoryAddress object, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalDBusObjectManagerObjectAdded(MemoryAddress sourceDBusObjectManager, MemoryAddress object, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (DBusObjectManager.ObjectAdded) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new DBusObjectManager.DBusObjectManagerImpl(source, Ownership.NONE), new org.gtk.gio.DBusObject.DBusObjectImpl(object, Ownership.NONE));
+            HANDLER.signalReceived(new DBusObjectManager.DBusObjectManagerImpl(sourceDBusObjectManager, Ownership.NONE), new org.gtk.gio.DBusObject.DBusObjectImpl(object, Ownership.NONE));
         }
         
-        public static void signalDBusObjectManagerObjectRemoved(MemoryAddress source, MemoryAddress object, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalDBusObjectManagerObjectRemoved(MemoryAddress sourceDBusObjectManager, MemoryAddress object, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (DBusObjectManager.ObjectRemoved) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new DBusObjectManager.DBusObjectManagerImpl(source, Ownership.NONE), new org.gtk.gio.DBusObject.DBusObjectImpl(object, Ownership.NONE));
+            HANDLER.signalReceived(new DBusObjectManager.DBusObjectManagerImpl(sourceDBusObjectManager, Ownership.NONE), new org.gtk.gio.DBusObject.DBusObjectImpl(object, Ownership.NONE));
         }
     }
     

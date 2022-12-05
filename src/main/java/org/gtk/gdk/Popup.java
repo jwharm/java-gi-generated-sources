@@ -29,7 +29,11 @@ public interface Popup extends io.github.jwharm.javagi.Proxy {
      * @throws ClassCastException If the GType is not derived from "GdkPopup", a ClassCastException will be thrown.
      */
     public static Popup castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), Popup.getType())) {
             return new PopupImpl(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GdkPopup");
+        }
     }
     
     /**
@@ -107,7 +111,7 @@ public interface Popup extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gdk.Gravity(RESULT);
+        return org.gtk.gdk.Gravity.of(RESULT);
     }
     
     /**
@@ -125,7 +129,7 @@ public interface Popup extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gdk.Gravity(RESULT);
+        return org.gtk.gdk.Gravity.of(RESULT);
     }
     
     /**

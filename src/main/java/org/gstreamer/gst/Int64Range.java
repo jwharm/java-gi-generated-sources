@@ -48,7 +48,11 @@ public class Int64Range extends io.github.jwharm.javagi.ObjectBase {
      * @throws ClassCastException If the GType is not derived from "Int64Range", a ClassCastException will be thrown.
      */
     public static Int64Range castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), Int64Range.getType())) {
             return new Int64Range(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of Int64Range");
+        }
     }
     
     /**

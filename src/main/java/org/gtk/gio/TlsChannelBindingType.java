@@ -12,29 +12,41 @@ import org.jetbrains.annotations.*;
  * binding type is not currently implemented.
  * @version 2.66
  */
-public class TlsChannelBindingType extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "GTlsChannelBindingType";
-    
+public enum TlsChannelBindingType implements io.github.jwharm.javagi.Enumeration {
     /**
      * <a href="https://tools.ietf.org/html/rfc5929#section-3">`tls-unique`</a> binding
      *    type
      */
-    public static final TlsChannelBindingType UNIQUE = new TlsChannelBindingType(0);
-    
+    UNIQUE(0),
     /**
      * <a href="https://tools.ietf.org/html/rfc5929#section-4">`tls-server-end-point`</a>
      *    binding type
      */
-    public static final TlsChannelBindingType SERVER_END_POINT = new TlsChannelBindingType(1);
-    
+    SERVER_END_POINT(1),
     /**
      * <a href="https://www.rfc-editor.org/rfc/rfc9266.html">`tls-exporter`</a> binding
      *    type. Since: 2.74
      */
-    public static final TlsChannelBindingType EXPORTER = new TlsChannelBindingType(2);
+    EXPORTER(2);
     
-    public TlsChannelBindingType(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "GTlsChannelBindingType";
+    
+    private final int value;
+    TlsChannelBindingType(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static TlsChannelBindingType of(int value) {
+        return switch (value) {
+            case 0 -> UNIQUE;
+            case 1 -> SERVER_END_POINT;
+            case 2 -> EXPORTER;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

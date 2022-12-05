@@ -10,31 +10,43 @@ import org.jetbrains.annotations.*;
  * and subscript positioning and for (emulated) Small Caps.
  * @version 1.50
  */
-public class FontScale extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "PangoFontScale";
-    
+public enum FontScale implements io.github.jwharm.javagi.Enumeration {
     /**
      * Leave the font size unchanged
      */
-    public static final FontScale NONE = new FontScale(0);
-    
+    NONE(0),
     /**
      * Change the font to a size suitable for superscripts
      */
-    public static final FontScale SUPERSCRIPT = new FontScale(1);
-    
+    SUPERSCRIPT(1),
     /**
      * Change the font to a size suitable for subscripts
      */
-    public static final FontScale SUBSCRIPT = new FontScale(2);
-    
+    SUBSCRIPT(2),
     /**
      * Change the font to a size suitable for Small Caps
      */
-    public static final FontScale SMALL_CAPS = new FontScale(3);
+    SMALL_CAPS(3);
     
-    public FontScale(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "PangoFontScale";
+    
+    private final int value;
+    FontScale(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static FontScale of(int value) {
+        return switch (value) {
+            case 0 -> NONE;
+            case 1 -> SUPERSCRIPT;
+            case 2 -> SUBSCRIPT;
+            case 3 -> SMALL_CAPS;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

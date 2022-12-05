@@ -15,31 +15,43 @@ import org.jetbrains.annotations.*;
  * For empty images, you can request any storage type (call any of the "get"
  * functions), but they will all return {@code null} values.
  */
-public class ImageType extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "GtkImageType";
-    
+public enum ImageType implements io.github.jwharm.javagi.Enumeration {
     /**
      * there is no image displayed by the widget
      */
-    public static final ImageType EMPTY = new ImageType(0);
-    
+    EMPTY(0),
     /**
      * the widget contains a named icon
      */
-    public static final ImageType ICON_NAME = new ImageType(1);
-    
+    ICON_NAME(1),
     /**
      * the widget contains a {@code GIcon}
      */
-    public static final ImageType GICON = new ImageType(2);
-    
+    GICON(2),
     /**
      * the widget contains a {@code GdkPaintable}
      */
-    public static final ImageType PAINTABLE = new ImageType(3);
+    PAINTABLE(3);
     
-    public ImageType(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "GtkImageType";
+    
+    private final int value;
+    ImageType(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static ImageType of(int value) {
+        return switch (value) {
+            case 0 -> EMPTY;
+            case 1 -> ICON_NAME;
+            case 2 -> GICON;
+            case 3 -> PAINTABLE;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

@@ -11,421 +11,433 @@ import org.jetbrains.annotations.*;
  * Abstract roles are only used as part of the ontology; application
  * developers must not use abstract roles in their code.
  */
-public class AccessibleRole extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "GtkAccessibleRole";
-    
+public enum AccessibleRole implements io.github.jwharm.javagi.Enumeration {
     /**
      * An element with important, and usually
      *   time-sensitive, information
      */
-    public static final AccessibleRole ALERT = new AccessibleRole(0);
-    
+    ALERT(0),
     /**
      * A type of dialog that contains an
      *   alert message
      */
-    public static final AccessibleRole ALERT_DIALOG = new AccessibleRole(1);
-    
+    ALERT_DIALOG(1),
     /**
      * Unused
      */
-    public static final AccessibleRole BANNER = new AccessibleRole(2);
-    
+    BANNER(2),
     /**
      * An input element that allows for
      *   user-triggered actions when clicked or pressed
      */
-    public static final AccessibleRole BUTTON = new AccessibleRole(3);
-    
+    BUTTON(3),
     /**
      * Unused
      */
-    public static final AccessibleRole CAPTION = new AccessibleRole(4);
-    
+    CAPTION(4),
     /**
      * Unused
      */
-    public static final AccessibleRole CELL = new AccessibleRole(5);
-    
+    CELL(5),
     /**
      * A checkable input element that has
      *   three possible values: {@code true}, {@code false}, or {@code mixed}
      */
-    public static final AccessibleRole CHECKBOX = new AccessibleRole(6);
-    
+    CHECKBOX(6),
     /**
      * A header in a columned list.
      */
-    public static final AccessibleRole COLUMN_HEADER = new AccessibleRole(7);
-    
+    COLUMN_HEADER(7),
     /**
      * An input that controls another element,
      *   such as a list or a grid, that can dynamically pop up to help the user
      *   set the value of the input
      */
-    public static final AccessibleRole COMBO_BOX = new AccessibleRole(8);
-    
+    COMBO_BOX(8),
     /**
      * Abstract role.
      */
-    public static final AccessibleRole COMMAND = new AccessibleRole(9);
-    
+    COMMAND(9),
     /**
      * Abstract role.
      */
-    public static final AccessibleRole COMPOSITE = new AccessibleRole(10);
-    
+    COMPOSITE(10),
     /**
      * A dialog is a window that is designed to interrupt
      *    the current processing of an application in order to prompt the user to enter
      *    information or require a response.
      */
-    public static final AccessibleRole DIALOG = new AccessibleRole(11);
-    
+    DIALOG(11),
     /**
      * Unused
      */
-    public static final AccessibleRole DOCUMENT = new AccessibleRole(12);
-    
+    DOCUMENT(12),
     /**
      * Unused
      */
-    public static final AccessibleRole FEED = new AccessibleRole(13);
-    
+    FEED(13),
     /**
      * Unused
      */
-    public static final AccessibleRole FORM = new AccessibleRole(14);
-    
+    FORM(14),
     /**
      * Unused
      */
-    public static final AccessibleRole GENERIC = new AccessibleRole(15);
-    
+    GENERIC(15),
     /**
      * A grid of items.
      */
-    public static final AccessibleRole GRID = new AccessibleRole(16);
-    
+    GRID(16),
     /**
      * An item in a grid or tree grid.
      */
-    public static final AccessibleRole GRID_CELL = new AccessibleRole(17);
-    
+    GRID_CELL(17),
     /**
      * An element that groups multiple widgets. GTK uses
      *   this role for various containers, like {@link Box}, and {@link HeaderBar}.
      */
-    public static final AccessibleRole GROUP = new AccessibleRole(18);
-    
+    GROUP(18),
     /**
      * Unused
      */
-    public static final AccessibleRole HEADING = new AccessibleRole(19);
-    
+    HEADING(19),
     /**
      * An image.
      */
-    public static final AccessibleRole IMG = new AccessibleRole(20);
-    
+    IMG(20),
     /**
      * Abstract role.
      */
-    public static final AccessibleRole INPUT = new AccessibleRole(21);
-    
+    INPUT(21),
     /**
      * A visible name or caption for a user interface component.
      */
-    public static final AccessibleRole LABEL = new AccessibleRole(22);
-    
+    LABEL(22),
     /**
      * Abstract role.
      */
-    public static final AccessibleRole LANDMARK = new AccessibleRole(23);
-    
+    LANDMARK(23),
     /**
      * Unused
      */
-    public static final AccessibleRole LEGEND = new AccessibleRole(24);
-    
+    LEGEND(24),
     /**
      * A clickable link.
      */
-    public static final AccessibleRole LINK = new AccessibleRole(25);
-    
+    LINK(25),
     /**
      * A list of items.
      */
-    public static final AccessibleRole LIST = new AccessibleRole(26);
-    
+    LIST(26),
     /**
      * Unused.
      */
-    public static final AccessibleRole LIST_BOX = new AccessibleRole(27);
-    
+    LIST_BOX(27),
     /**
      * An item in a list.
      */
-    public static final AccessibleRole LIST_ITEM = new AccessibleRole(28);
-    
+    LIST_ITEM(28),
     /**
      * Unused
      */
-    public static final AccessibleRole LOG = new AccessibleRole(29);
-    
+    LOG(29),
     /**
      * Unused
      */
-    public static final AccessibleRole MAIN = new AccessibleRole(30);
-    
+    MAIN(30),
     /**
      * Unused
      */
-    public static final AccessibleRole MARQUEE = new AccessibleRole(31);
-    
+    MARQUEE(31),
     /**
      * Unused
      */
-    public static final AccessibleRole MATH = new AccessibleRole(32);
-    
+    MATH(32),
     /**
      * An element that represents a value within a known range.
      */
-    public static final AccessibleRole METER = new AccessibleRole(33);
-    
+    METER(33),
     /**
      * A menu.
      */
-    public static final AccessibleRole MENU = new AccessibleRole(34);
-    
+    MENU(34),
     /**
      * A menubar.
      */
-    public static final AccessibleRole MENU_BAR = new AccessibleRole(35);
-    
+    MENU_BAR(35),
     /**
      * An item in a menu.
      */
-    public static final AccessibleRole MENU_ITEM = new AccessibleRole(36);
-    
+    MENU_ITEM(36),
     /**
      * A check item in a menu.
      */
-    public static final AccessibleRole MENU_ITEM_CHECKBOX = new AccessibleRole(37);
-    
+    MENU_ITEM_CHECKBOX(37),
     /**
      * A radio item in a menu.
      */
-    public static final AccessibleRole MENU_ITEM_RADIO = new AccessibleRole(38);
-    
+    MENU_ITEM_RADIO(38),
     /**
      * Unused
      */
-    public static final AccessibleRole NAVIGATION = new AccessibleRole(39);
-    
+    NAVIGATION(39),
     /**
      * An element that is not represented to accessibility technologies.
      */
-    public static final AccessibleRole NONE = new AccessibleRole(40);
-    
+    NONE(40),
     /**
      * Unused
      */
-    public static final AccessibleRole NOTE = new AccessibleRole(41);
-    
+    NOTE(41),
     /**
      * Unused
      */
-    public static final AccessibleRole OPTION = new AccessibleRole(42);
-    
+    OPTION(42),
     /**
      * An element that is not represented to accessibility technologies.
      */
-    public static final AccessibleRole PRESENTATION = new AccessibleRole(43);
-    
+    PRESENTATION(43),
     /**
      * An element that displays the progress
      *    status for tasks that take a long time.
      */
-    public static final AccessibleRole PROGRESS_BAR = new AccessibleRole(44);
-    
+    PROGRESS_BAR(44),
     /**
      * A checkable input in a group of radio roles,
      *    only one of which can be checked at a time.
      */
-    public static final AccessibleRole RADIO = new AccessibleRole(45);
-    
+    RADIO(45),
     /**
      * Unused
      */
-    public static final AccessibleRole RADIO_GROUP = new AccessibleRole(46);
-    
+    RADIO_GROUP(46),
     /**
      * Abstract role.
      */
-    public static final AccessibleRole RANGE = new AccessibleRole(47);
-    
+    RANGE(47),
     /**
      * Unused
      */
-    public static final AccessibleRole REGION = new AccessibleRole(48);
-    
+    REGION(48),
     /**
      * A row in a columned list.
      */
-    public static final AccessibleRole ROW = new AccessibleRole(49);
-    
+    ROW(49),
     /**
      * Unused
      */
-    public static final AccessibleRole ROW_GROUP = new AccessibleRole(50);
-    
+    ROW_GROUP(50),
     /**
      * Unused
      */
-    public static final AccessibleRole ROW_HEADER = new AccessibleRole(51);
-    
+    ROW_HEADER(51),
     /**
      * A graphical object that controls the scrolling
      *    of content within a viewing area, regardless of whether the content is fully
      *    displayed within the viewing area.
      */
-    public static final AccessibleRole SCROLLBAR = new AccessibleRole(52);
-    
+    SCROLLBAR(52),
     /**
      * Unused
      */
-    public static final AccessibleRole SEARCH = new AccessibleRole(53);
-    
+    SEARCH(53),
     /**
      * A type of textbox intended for specifying
      *    search criteria.
      */
-    public static final AccessibleRole SEARCH_BOX = new AccessibleRole(54);
-    
+    SEARCH_BOX(54),
     /**
      * Abstract role.
      */
-    public static final AccessibleRole SECTION = new AccessibleRole(55);
-    
+    SECTION(55),
     /**
      * Abstract role.
      */
-    public static final AccessibleRole SECTION_HEAD = new AccessibleRole(56);
-    
+    SECTION_HEAD(56),
     /**
      * Abstract role.
      */
-    public static final AccessibleRole SELECT = new AccessibleRole(57);
-    
+    SELECT(57),
     /**
      * A divider that separates and distinguishes
      *    sections of content or groups of menuitems.
      */
-    public static final AccessibleRole SEPARATOR = new AccessibleRole(58);
-    
+    SEPARATOR(58),
     /**
      * A user input where the user selects a value
      *    from within a given range.
      */
-    public static final AccessibleRole SLIDER = new AccessibleRole(59);
-    
+    SLIDER(59),
     /**
      * A form of range that expects the user to
      *    select from among discrete choices.
      */
-    public static final AccessibleRole SPIN_BUTTON = new AccessibleRole(60);
-    
+    SPIN_BUTTON(60),
     /**
      * Unused
      */
-    public static final AccessibleRole STATUS = new AccessibleRole(61);
-    
+    STATUS(61),
     /**
      * Abstract role.
      */
-    public static final AccessibleRole STRUCTURE = new AccessibleRole(62);
-    
+    STRUCTURE(62),
     /**
      * A type of checkbox that represents on/off values,
      *    as opposed to checked/unchecked values.
      */
-    public static final AccessibleRole SWITCH = new AccessibleRole(63);
-    
+    SWITCH(63),
     /**
      * An item in a list of tab used for switching pages.
      */
-    public static final AccessibleRole TAB = new AccessibleRole(64);
-    
+    TAB(64),
     /**
      * Unused
      */
-    public static final AccessibleRole TABLE = new AccessibleRole(65);
-    
+    TABLE(65),
     /**
      * A list of tabs for switching pages.
      */
-    public static final AccessibleRole TAB_LIST = new AccessibleRole(66);
-    
+    TAB_LIST(66),
     /**
      * A page in a notebook or stack.
      */
-    public static final AccessibleRole TAB_PANEL = new AccessibleRole(67);
-    
+    TAB_PANEL(67),
     /**
      * A type of input that allows free-form text
      *    as its value.
      */
-    public static final AccessibleRole TEXT_BOX = new AccessibleRole(68);
-    
+    TEXT_BOX(68),
     /**
      * Unused
      */
-    public static final AccessibleRole TIME = new AccessibleRole(69);
-    
+    TIME(69),
     /**
      * Unused
      */
-    public static final AccessibleRole TIMER = new AccessibleRole(70);
-    
+    TIMER(70),
     /**
      * Unused
      */
-    public static final AccessibleRole TOOLBAR = new AccessibleRole(71);
-    
+    TOOLBAR(71),
     /**
      * Unused
      */
-    public static final AccessibleRole TOOLTIP = new AccessibleRole(72);
-    
+    TOOLTIP(72),
     /**
      * Unused
      */
-    public static final AccessibleRole TREE = new AccessibleRole(73);
-    
+    TREE(73),
     /**
      * A treeview-like, columned list.
      */
-    public static final AccessibleRole TREE_GRID = new AccessibleRole(74);
-    
+    TREE_GRID(74),
     /**
      * Unused
      */
-    public static final AccessibleRole TREE_ITEM = new AccessibleRole(75);
-    
+    TREE_ITEM(75),
     /**
      * An interactive component of a graphical user
      *    interface. This is the role that GTK uses by default for widgets.
      */
-    public static final AccessibleRole WIDGET = new AccessibleRole(76);
-    
+    WIDGET(76),
     /**
      * An application window.
      */
-    public static final AccessibleRole WINDOW = new AccessibleRole(77);
+    WINDOW(77);
     
-    public AccessibleRole(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "GtkAccessibleRole";
+    
+    private final int value;
+    AccessibleRole(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static AccessibleRole of(int value) {
+        return switch (value) {
+            case 0 -> ALERT;
+            case 1 -> ALERT_DIALOG;
+            case 2 -> BANNER;
+            case 3 -> BUTTON;
+            case 4 -> CAPTION;
+            case 5 -> CELL;
+            case 6 -> CHECKBOX;
+            case 7 -> COLUMN_HEADER;
+            case 8 -> COMBO_BOX;
+            case 9 -> COMMAND;
+            case 10 -> COMPOSITE;
+            case 11 -> DIALOG;
+            case 12 -> DOCUMENT;
+            case 13 -> FEED;
+            case 14 -> FORM;
+            case 15 -> GENERIC;
+            case 16 -> GRID;
+            case 17 -> GRID_CELL;
+            case 18 -> GROUP;
+            case 19 -> HEADING;
+            case 20 -> IMG;
+            case 21 -> INPUT;
+            case 22 -> LABEL;
+            case 23 -> LANDMARK;
+            case 24 -> LEGEND;
+            case 25 -> LINK;
+            case 26 -> LIST;
+            case 27 -> LIST_BOX;
+            case 28 -> LIST_ITEM;
+            case 29 -> LOG;
+            case 30 -> MAIN;
+            case 31 -> MARQUEE;
+            case 32 -> MATH;
+            case 33 -> METER;
+            case 34 -> MENU;
+            case 35 -> MENU_BAR;
+            case 36 -> MENU_ITEM;
+            case 37 -> MENU_ITEM_CHECKBOX;
+            case 38 -> MENU_ITEM_RADIO;
+            case 39 -> NAVIGATION;
+            case 40 -> NONE;
+            case 41 -> NOTE;
+            case 42 -> OPTION;
+            case 43 -> PRESENTATION;
+            case 44 -> PROGRESS_BAR;
+            case 45 -> RADIO;
+            case 46 -> RADIO_GROUP;
+            case 47 -> RANGE;
+            case 48 -> REGION;
+            case 49 -> ROW;
+            case 50 -> ROW_GROUP;
+            case 51 -> ROW_HEADER;
+            case 52 -> SCROLLBAR;
+            case 53 -> SEARCH;
+            case 54 -> SEARCH_BOX;
+            case 55 -> SECTION;
+            case 56 -> SECTION_HEAD;
+            case 57 -> SELECT;
+            case 58 -> SEPARATOR;
+            case 59 -> SLIDER;
+            case 60 -> SPIN_BUTTON;
+            case 61 -> STATUS;
+            case 62 -> STRUCTURE;
+            case 63 -> SWITCH;
+            case 64 -> TAB;
+            case 65 -> TABLE;
+            case 66 -> TAB_LIST;
+            case 67 -> TAB_PANEL;
+            case 68 -> TEXT_BOX;
+            case 69 -> TIME;
+            case 70 -> TIMER;
+            case 71 -> TOOLBAR;
+            case 72 -> TOOLTIP;
+            case 73 -> TREE;
+            case 74 -> TREE_GRID;
+            case 75 -> TREE_ITEM;
+            case 76 -> WIDGET;
+            case 77 -> WINDOW;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

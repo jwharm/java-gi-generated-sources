@@ -139,32 +139,4 @@ public class IOExtension extends Struct {
             false
         );
     }
-
-    /**
-     * Inner class implementing a builder pattern to construct 
-     * a struct and set its values.
-     */
-    public static class Build {
-        
-        private IOExtension struct;
-        
-         /**
-         * A {@link IOExtension.Build} object constructs a {@link IOExtension} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
-            struct = IOExtension.allocate();
-        }
-        
-         /**
-         * Finish building the {@link IOExtension} struct.
-         * @return A new instance of {@code IOExtension} with the fields 
-         *         that were set in the Build object.
-         */
-        public IOExtension construct() {
-            return struct;
-        }
-    }
 }

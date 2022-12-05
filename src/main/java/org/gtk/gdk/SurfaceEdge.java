@@ -8,51 +8,63 @@ import org.jetbrains.annotations.*;
 /**
  * Determines a surface edge or corner.
  */
-public class SurfaceEdge extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "GdkSurfaceEdge";
-    
+public enum SurfaceEdge implements io.github.jwharm.javagi.Enumeration {
     /**
      * the top left corner.
      */
-    public static final SurfaceEdge NORTH_WEST = new SurfaceEdge(0);
-    
+    NORTH_WEST(0),
     /**
      * the top edge.
      */
-    public static final SurfaceEdge NORTH = new SurfaceEdge(1);
-    
+    NORTH(1),
     /**
      * the top right corner.
      */
-    public static final SurfaceEdge NORTH_EAST = new SurfaceEdge(2);
-    
+    NORTH_EAST(2),
     /**
      * the left edge.
      */
-    public static final SurfaceEdge WEST = new SurfaceEdge(3);
-    
+    WEST(3),
     /**
      * the right edge.
      */
-    public static final SurfaceEdge EAST = new SurfaceEdge(4);
-    
+    EAST(4),
     /**
      * the lower left corner.
      */
-    public static final SurfaceEdge SOUTH_WEST = new SurfaceEdge(5);
-    
+    SOUTH_WEST(5),
     /**
      * the lower edge.
      */
-    public static final SurfaceEdge SOUTH = new SurfaceEdge(6);
-    
+    SOUTH(6),
     /**
      * the lower right corner.
      */
-    public static final SurfaceEdge SOUTH_EAST = new SurfaceEdge(7);
+    SOUTH_EAST(7);
     
-    public SurfaceEdge(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "GdkSurfaceEdge";
+    
+    private final int value;
+    SurfaceEdge(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static SurfaceEdge of(int value) {
+        return switch (value) {
+            case 0 -> NORTH_WEST;
+            case 1 -> NORTH;
+            case 2 -> NORTH_EAST;
+            case 3 -> WEST;
+            case 4 -> EAST;
+            case 5 -> SOUTH_WEST;
+            case 6 -> SOUTH;
+            case 7 -> SOUTH_EAST;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

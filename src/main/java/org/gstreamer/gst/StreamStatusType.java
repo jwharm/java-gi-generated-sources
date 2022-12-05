@@ -9,46 +9,58 @@ import org.jetbrains.annotations.*;
  * The type of a {@link MessageType#STREAM_STATUS}. The stream status messages inform the
  * application of new streaming threads and their status.
  */
-public class StreamStatusType extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "GstStreamStatusType";
-    
+public enum StreamStatusType implements io.github.jwharm.javagi.Enumeration {
     /**
      * A new thread need to be created.
      */
-    public static final StreamStatusType CREATE = new StreamStatusType(0);
-    
+    CREATE(0),
     /**
      * a thread entered its loop function
      */
-    public static final StreamStatusType ENTER = new StreamStatusType(1);
-    
+    ENTER(1),
     /**
      * a thread left its loop function
      */
-    public static final StreamStatusType LEAVE = new StreamStatusType(2);
-    
+    LEAVE(2),
     /**
      * a thread is destroyed
      */
-    public static final StreamStatusType DESTROY = new StreamStatusType(3);
-    
+    DESTROY(3),
     /**
      * a thread is started
      */
-    public static final StreamStatusType START = new StreamStatusType(8);
-    
+    START(8),
     /**
      * a thread is paused
      */
-    public static final StreamStatusType PAUSE = new StreamStatusType(9);
-    
+    PAUSE(9),
     /**
      * a thread is stopped
      */
-    public static final StreamStatusType STOP = new StreamStatusType(10);
+    STOP(10);
     
-    public StreamStatusType(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "GstStreamStatusType";
+    
+    private final int value;
+    StreamStatusType(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static StreamStatusType of(int value) {
+        return switch (value) {
+            case 0 -> CREATE;
+            case 1 -> ENTER;
+            case 2 -> LEAVE;
+            case 3 -> DESTROY;
+            case 8 -> START;
+            case 9 -> PAUSE;
+            case 10 -> STOP;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

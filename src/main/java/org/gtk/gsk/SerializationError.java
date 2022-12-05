@@ -8,29 +8,41 @@ import org.jetbrains.annotations.*;
 /**
  * Errors that can happen during (de)serialization.
  */
-public class SerializationError extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "GskSerializationError";
-    
+public enum SerializationError implements io.github.jwharm.javagi.Enumeration {
     /**
      * The format can not be identified
      */
-    public static final SerializationError UNSUPPORTED_FORMAT = new SerializationError(0);
-    
+    UNSUPPORTED_FORMAT(0),
     /**
      * The version of the data is not
      *   understood
      */
-    public static final SerializationError UNSUPPORTED_VERSION = new SerializationError(1);
-    
+    UNSUPPORTED_VERSION(1),
     /**
      * The given data may not exist in
      *   a proper serialization
      */
-    public static final SerializationError INVALID_DATA = new SerializationError(2);
+    INVALID_DATA(2);
     
-    public SerializationError(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "GskSerializationError";
+    
+    private final int value;
+    SerializationError(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static SerializationError of(int value) {
+        return switch (value) {
+            case 0 -> UNSUPPORTED_FORMAT;
+            case 1 -> UNSUPPORTED_VERSION;
+            case 2 -> INVALID_DATA;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
     
     public static @NotNull org.gtk.glib.Quark quark() {

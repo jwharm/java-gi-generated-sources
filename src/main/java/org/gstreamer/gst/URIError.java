@@ -8,34 +8,46 @@ import org.jetbrains.annotations.*;
 /**
  * Different URI-related errors that can occur.
  */
-public class URIError extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "GstURIError";
-    
+public enum URIError implements io.github.jwharm.javagi.Enumeration {
     /**
      * The protocol is not supported
      */
-    public static final URIError UNSUPPORTED_PROTOCOL = new URIError(0);
-    
+    UNSUPPORTED_PROTOCOL(0),
     /**
      * There was a problem with the URI
      */
-    public static final URIError BAD_URI = new URIError(1);
-    
+    BAD_URI(1),
     /**
      * Could not set or change the URI because the
      *     URI handler was in a state where that is not possible or not permitted
      */
-    public static final URIError BAD_STATE = new URIError(2);
-    
+    BAD_STATE(2),
     /**
      * There was a problem with the entity that
      *     the URI references
      */
-    public static final URIError BAD_REFERENCE = new URIError(3);
+    BAD_REFERENCE(3);
     
-    public URIError(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "GstURIError";
+    
+    private final int value;
+    URIError(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static URIError of(int value) {
+        return switch (value) {
+            case 0 -> UNSUPPORTED_PROTOCOL;
+            case 1 -> BAD_URI;
+            case 2 -> BAD_STATE;
+            case 3 -> BAD_REFERENCE;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
     
     public static @NotNull org.gtk.glib.Quark quark() {

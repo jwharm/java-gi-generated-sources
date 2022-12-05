@@ -299,7 +299,7 @@ public class Ray extends Struct {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         tOut.set(tOutPOINTER.get(Interop.valueLayout.C_FLOAT, 0));
-        return new org.gtk.graphene.RayIntersectionKind(RESULT);
+        return org.gtk.graphene.RayIntersectionKind.of(RESULT);
     }
     
     /**
@@ -323,7 +323,7 @@ public class Ray extends Struct {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         tOut.set(tOutPOINTER.get(Interop.valueLayout.C_FLOAT, 0));
-        return new org.gtk.graphene.RayIntersectionKind(RESULT);
+        return org.gtk.graphene.RayIntersectionKind.of(RESULT);
     }
     
     /**
@@ -347,7 +347,7 @@ public class Ray extends Struct {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         tOut.set(tOutPOINTER.get(Interop.valueLayout.C_FLOAT, 0));
-        return new org.gtk.graphene.RayIntersectionKind(RESULT);
+        return org.gtk.graphene.RayIntersectionKind.of(RESULT);
     }
     
     /**

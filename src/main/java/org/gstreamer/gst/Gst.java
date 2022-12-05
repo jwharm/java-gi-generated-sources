@@ -33,9 +33,19 @@ public final class Gst {
      */
     public static final org.gstreamer.gst.BufferCopyFlags BUFFER_COPY_METADATA = new org.gstreamer.gst.BufferCopyFlags(7);
     
+    /**
+     * Constant for no-offset return results.
+     */
+    public static final long BUFFER_OFFSET_NONE = -1L;
+    
     public static final int CAN_INLINE = 1;
     
     public static final java.lang.String CAPS_FEATURE_MEMORY_SYSTEM_MEMORY = "memory:SystemMemory";
+    
+    /**
+     * Constant to define an undefined clock time.
+     */
+    public static final org.gstreamer.gst.ClockTime CLOCK_TIME_NONE = new org.gstreamer.gst.ClockTime(-1L);
     
     public static final int DEBUG_BG_MASK = 240;
     
@@ -122,6 +132,15 @@ public final class Gst {
     
     public static final org.gstreamer.gst.ElementFactoryListType ELEMENT_FACTORY_TYPE_MAX_ELEMENTS = new org.gstreamer.gst.ElementFactoryListType(281474976710656L);
     
+    /**
+     * Elements matching any of the defined GST_ELEMENT_FACTORY_TYPE_MEDIA types
+     * <p>
+     * Note: Do not use this if you wish to not filter against any of the defined
+     * media types. If you wish to do this, simply don't specify any
+     * GST_ELEMENT_FACTORY_TYPE_MEDIA flag.
+     */
+    public static final org.gstreamer.gst.ElementFactoryListType ELEMENT_FACTORY_TYPE_MEDIA_ANY = new org.gstreamer.gst.ElementFactoryListType(-281474976710656L);
+    
     public static final org.gstreamer.gst.ElementFactoryListType ELEMENT_FACTORY_TYPE_MEDIA_AUDIO = new org.gstreamer.gst.ElementFactoryListType(1125899906842624L);
     
     public static final org.gstreamer.gst.ElementFactoryListType ELEMENT_FACTORY_TYPE_MEDIA_IMAGE = new org.gstreamer.gst.ElementFactoryListType(2251799813685248L);
@@ -197,6 +216,13 @@ public final class Gst {
      * The same thing as {@code GST_EVENT_TYPE_UPSTREAM} | {@code GST_EVENT_TYPE_DOWNSTREAM}.
      */
     public static final org.gstreamer.gst.EventTypeFlags EVENT_TYPE_BOTH = new org.gstreamer.gst.EventTypeFlags(3);
+    
+    /**
+     * A mask value with all bits set, for use as a
+     * GstFlagSet mask where all flag bits must match
+     * exactly
+     */
+    public static final int FLAG_SET_MASK_EXACT = -1;
     
     /**
      * The PERCENT format is between 0 and this value
@@ -1379,7 +1405,7 @@ public final class Gst {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.DebugColorMode(RESULT);
+        return org.gstreamer.gst.DebugColorMode.of(RESULT);
     }
     
     /**
@@ -1393,7 +1419,7 @@ public final class Gst {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.DebugLevel(RESULT);
+        return org.gstreamer.gst.DebugLevel.of(RESULT);
     }
     
     public static @Nullable java.lang.String debugGetStackTrace(@NotNull org.gstreamer.gst.StackTraceFlags flags) {
@@ -2021,7 +2047,7 @@ public final class Gst {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Format(RESULT);
+        return org.gstreamer.gst.Format.of(RESULT);
     }
     
     /**
@@ -2098,7 +2124,7 @@ public final class Gst {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Format(RESULT);
+        return org.gstreamer.gst.Format.of(RESULT);
     }
     
     /**
@@ -2131,7 +2157,7 @@ public final class Gst {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_formats_contains.invokeExact(
-                    Interop.allocateNativeArray(org.gstreamer.gst.Format.getValues(formats), false),
+                    Interop.allocateNativeArray(Enumeration.getValues(formats), false),
                     format.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -3538,7 +3564,7 @@ public final class Gst {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.TagFlag(RESULT);
+        return org.gstreamer.gst.TagFlag.of(RESULT);
     }
     
     /**
@@ -7126,7 +7152,7 @@ public final class Gst {
         public static void cbLogFunction(MemoryAddress category, int level, MemoryAddress file, MemoryAddress function, int line, MemoryAddress object, MemoryAddress message, MemoryAddress userData) {
             int HASH = userData.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (LogFunction) Interop.signalRegistry.get(HASH);
-            HANDLER.onLogFunction(new org.gstreamer.gst.DebugCategory(category, Ownership.NONE), new org.gstreamer.gst.DebugLevel(level), Interop.getStringFrom(file), Interop.getStringFrom(function), line, new org.gtk.gobject.Object(object, Ownership.NONE), new org.gstreamer.gst.DebugMessage(message, Ownership.NONE));
+            HANDLER.onLogFunction(new org.gstreamer.gst.DebugCategory(category, Ownership.NONE), org.gstreamer.gst.DebugLevel.of(level), Interop.getStringFrom(file), Interop.getStringFrom(function), line, new org.gtk.gobject.Object(object, Ownership.NONE), new org.gstreamer.gst.DebugMessage(message, Ownership.NONE));
         }
         
         public static int cbBufferForeachMetaFunc(MemoryAddress buffer, MemoryAddress meta, MemoryAddress userData) {

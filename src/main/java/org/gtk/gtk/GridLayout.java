@@ -61,7 +61,11 @@ public class GridLayout extends org.gtk.gtk.LayoutManager {
      * @throws ClassCastException If the GType is not derived from "GtkGridLayout", a ClassCastException will be thrown.
      */
     public static GridLayout castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), GridLayout.getType())) {
             return new GridLayout(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkGridLayout");
+        }
     }
     
     private static Addressable constructNew() {
@@ -145,7 +149,7 @@ public class GridLayout extends org.gtk.gtk.LayoutManager {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.BaselinePosition(RESULT);
+        return org.gtk.gtk.BaselinePosition.of(RESULT);
     }
     
     /**

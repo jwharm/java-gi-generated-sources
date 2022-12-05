@@ -81,7 +81,11 @@ public class DropTargetAsync extends org.gtk.gtk.EventController {
      * @throws ClassCastException If the GType is not derived from "GtkDropTargetAsync", a ClassCastException will be thrown.
      */
     public static DropTargetAsync castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), DropTargetAsync.getType())) {
             return new DropTargetAsync(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkDropTargetAsync");
+        }
     }
     
     private static Addressable constructNew(@Nullable org.gtk.gdk.ContentFormats formats, @NotNull org.gtk.gdk.DragAction actions) {
@@ -203,7 +207,7 @@ public class DropTargetAsync extends org.gtk.gtk.EventController {
     
     @FunctionalInterface
     public interface Accept {
-        boolean signalReceived(DropTargetAsync source, @NotNull org.gtk.gdk.Drop drop);
+        boolean signalReceived(DropTargetAsync sourceDropTargetAsync, @NotNull org.gtk.gdk.Drop drop);
     }
     
     /**
@@ -245,7 +249,7 @@ public class DropTargetAsync extends org.gtk.gtk.EventController {
     
     @FunctionalInterface
     public interface DragEnter {
-        void signalReceived(DropTargetAsync source, @NotNull org.gtk.gdk.Drop drop, double x, double y);
+        void signalReceived(DropTargetAsync sourceDropTargetAsync, @NotNull org.gtk.gdk.Drop drop, double x, double y);
     }
     
     /**
@@ -275,7 +279,7 @@ public class DropTargetAsync extends org.gtk.gtk.EventController {
     
     @FunctionalInterface
     public interface DragLeave {
-        void signalReceived(DropTargetAsync source, @NotNull org.gtk.gdk.Drop drop);
+        void signalReceived(DropTargetAsync sourceDropTargetAsync, @NotNull org.gtk.gdk.Drop drop);
     }
     
     /**
@@ -306,7 +310,7 @@ public class DropTargetAsync extends org.gtk.gtk.EventController {
     
     @FunctionalInterface
     public interface DragMotion {
-        void signalReceived(DropTargetAsync source, @NotNull org.gtk.gdk.Drop drop, double x, double y);
+        void signalReceived(DropTargetAsync sourceDropTargetAsync, @NotNull org.gtk.gdk.Drop drop, double x, double y);
     }
     
     /**
@@ -334,7 +338,7 @@ public class DropTargetAsync extends org.gtk.gtk.EventController {
     
     @FunctionalInterface
     public interface Drop {
-        boolean signalReceived(DropTargetAsync source, @NotNull org.gtk.gdk.Drop drop, double x, double y);
+        boolean signalReceived(DropTargetAsync sourceDropTargetAsync, @NotNull org.gtk.gdk.Drop drop, double x, double y);
     }
     
     /**
@@ -477,34 +481,34 @@ public class DropTargetAsync extends org.gtk.gtk.EventController {
     
     private static class Callbacks {
         
-        public static boolean signalDropTargetAsyncAccept(MemoryAddress source, MemoryAddress drop, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static boolean signalDropTargetAsyncAccept(MemoryAddress sourceDropTargetAsync, MemoryAddress drop, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (DropTargetAsync.Accept) Interop.signalRegistry.get(HASH);
-            return HANDLER.signalReceived(new DropTargetAsync(source, Ownership.NONE), new org.gtk.gdk.Drop(drop, Ownership.NONE));
+            return HANDLER.signalReceived(new DropTargetAsync(sourceDropTargetAsync, Ownership.NONE), new org.gtk.gdk.Drop(drop, Ownership.NONE));
         }
         
-        public static void signalDropTargetAsyncDragEnter(MemoryAddress source, MemoryAddress drop, double x, double y, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalDropTargetAsyncDragEnter(MemoryAddress sourceDropTargetAsync, MemoryAddress drop, double x, double y, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (DropTargetAsync.DragEnter) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new DropTargetAsync(source, Ownership.NONE), new org.gtk.gdk.Drop(drop, Ownership.NONE), x, y);
+            HANDLER.signalReceived(new DropTargetAsync(sourceDropTargetAsync, Ownership.NONE), new org.gtk.gdk.Drop(drop, Ownership.NONE), x, y);
         }
         
-        public static void signalDropTargetAsyncDragLeave(MemoryAddress source, MemoryAddress drop, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalDropTargetAsyncDragLeave(MemoryAddress sourceDropTargetAsync, MemoryAddress drop, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (DropTargetAsync.DragLeave) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new DropTargetAsync(source, Ownership.NONE), new org.gtk.gdk.Drop(drop, Ownership.NONE));
+            HANDLER.signalReceived(new DropTargetAsync(sourceDropTargetAsync, Ownership.NONE), new org.gtk.gdk.Drop(drop, Ownership.NONE));
         }
         
-        public static void signalDropTargetAsyncDragMotion(MemoryAddress source, MemoryAddress drop, double x, double y, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalDropTargetAsyncDragMotion(MemoryAddress sourceDropTargetAsync, MemoryAddress drop, double x, double y, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (DropTargetAsync.DragMotion) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new DropTargetAsync(source, Ownership.NONE), new org.gtk.gdk.Drop(drop, Ownership.NONE), x, y);
+            HANDLER.signalReceived(new DropTargetAsync(sourceDropTargetAsync, Ownership.NONE), new org.gtk.gdk.Drop(drop, Ownership.NONE), x, y);
         }
         
-        public static boolean signalDropTargetAsyncDrop(MemoryAddress source, MemoryAddress drop, double x, double y, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static boolean signalDropTargetAsyncDrop(MemoryAddress sourceDropTargetAsync, MemoryAddress drop, double x, double y, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (DropTargetAsync.Drop) Interop.signalRegistry.get(HASH);
-            return HANDLER.signalReceived(new DropTargetAsync(source, Ownership.NONE), new org.gtk.gdk.Drop(drop, Ownership.NONE), x, y);
+            return HANDLER.signalReceived(new DropTargetAsync(sourceDropTargetAsync, Ownership.NONE), new org.gtk.gdk.Drop(drop, Ownership.NONE), x, y);
         }
     }
 }

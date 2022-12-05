@@ -44,32 +44,4 @@ public class DBusObjectManagerClientPrivate extends Struct {
     public DBusObjectManagerClientPrivate(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
-
-    /**
-     * Inner class implementing a builder pattern to construct 
-     * a struct and set its values.
-     */
-    public static class Build {
-        
-        private DBusObjectManagerClientPrivate struct;
-        
-         /**
-         * A {@link DBusObjectManagerClientPrivate.Build} object constructs a {@link DBusObjectManagerClientPrivate} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
-            struct = DBusObjectManagerClientPrivate.allocate();
-        }
-        
-         /**
-         * Finish building the {@link DBusObjectManagerClientPrivate} struct.
-         * @return A new instance of {@code DBusObjectManagerClientPrivate} with the fields 
-         *         that were set in the Build object.
-         */
-        public DBusObjectManagerClientPrivate construct() {
-            return struct;
-        }
-    }
 }

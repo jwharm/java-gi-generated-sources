@@ -9,21 +9,33 @@ import org.jetbrains.annotations.*;
  * Describes title centering behavior of a {@link HeaderBar} widget.
  * @version 1.0
  */
-public class CenteringPolicy extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "AdwCenteringPolicy";
-    
+public enum CenteringPolicy implements io.github.jwharm.javagi.Enumeration {
     /**
      * Keep the title centered when possible
      */
-    public static final CenteringPolicy LOOSE = new CenteringPolicy(0);
-    
+    LOOSE(0),
     /**
      * Keep the title centered at all cost
      */
-    public static final CenteringPolicy STRICT = new CenteringPolicy(1);
+    STRICT(1);
     
-    public CenteringPolicy(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "AdwCenteringPolicy";
+    
+    private final int value;
+    CenteringPolicy(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static CenteringPolicy of(int value) {
+        return switch (value) {
+            case 0 -> LOOSE;
+            case 1 -> STRICT;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

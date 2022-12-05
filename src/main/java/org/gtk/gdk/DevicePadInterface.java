@@ -44,32 +44,4 @@ public class DevicePadInterface extends Struct {
     public DevicePadInterface(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
-
-    /**
-     * Inner class implementing a builder pattern to construct 
-     * a struct and set its values.
-     */
-    public static class Build {
-        
-        private DevicePadInterface struct;
-        
-         /**
-         * A {@link DevicePadInterface.Build} object constructs a {@link DevicePadInterface} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
-            struct = DevicePadInterface.allocate();
-        }
-        
-         /**
-         * Finish building the {@link DevicePadInterface} struct.
-         * @return A new instance of {@code DevicePadInterface} with the fields 
-         *         that were set in the Build object.
-         */
-        public DevicePadInterface construct() {
-            return struct;
-        }
-    }
 }

@@ -335,7 +335,11 @@ public class Settings extends org.gtk.gobject.Object {
      * @throws ClassCastException If the GType is not derived from "GSettings", a ClassCastException will be thrown.
      */
     public static Settings castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), Settings.getType())) {
             return new Settings(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GSettings");
+        }
     }
     
     private static Addressable constructNew(@NotNull java.lang.String schemaId) {
@@ -1742,7 +1746,7 @@ public class Settings extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface ChangeEvent {
-        boolean signalReceived(Settings source, @Nullable org.gtk.glib.Quark[] keys, int nKeys);
+        boolean signalReceived(Settings sourceSettings, @Nullable org.gtk.glib.Quark[] keys, int nKeys);
     }
     
     /**
@@ -1770,7 +1774,7 @@ public class Settings extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface Changed {
-        void signalReceived(Settings source, @NotNull java.lang.String key);
+        void signalReceived(Settings sourceSettings, @NotNull java.lang.String key);
     }
     
     /**
@@ -1808,7 +1812,7 @@ public class Settings extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface WritableChangeEvent {
-        boolean signalReceived(Settings source, int key);
+        boolean signalReceived(Settings sourceSettings, int key);
     }
     
     /**
@@ -1853,7 +1857,7 @@ public class Settings extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface WritableChanged {
-        void signalReceived(Settings source, @NotNull java.lang.String key);
+        void signalReceived(Settings sourceSettings, @NotNull java.lang.String key);
     }
     
     /**
@@ -2332,27 +2336,27 @@ public class Settings extends org.gtk.gobject.Object {
     
     private static class Callbacks {
         
-        public static boolean signalSettingsChangeEvent(MemoryAddress source, MemoryAddress keys, int nKeys, MemoryAddress data) {
+        public static boolean signalSettingsChangeEvent(MemoryAddress sourceSettings, MemoryAddress keys, int nKeys, MemoryAddress DATA) {
         // Operation not supported yet
     return false;
     }
         
-        public static void signalSettingsChanged(MemoryAddress source, MemoryAddress key, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalSettingsChanged(MemoryAddress sourceSettings, MemoryAddress key, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (Settings.Changed) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Settings(source, Ownership.NONE), Interop.getStringFrom(key));
+            HANDLER.signalReceived(new Settings(sourceSettings, Ownership.NONE), Interop.getStringFrom(key));
         }
         
-        public static boolean signalSettingsWritableChangeEvent(MemoryAddress source, int key, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static boolean signalSettingsWritableChangeEvent(MemoryAddress sourceSettings, int key, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (Settings.WritableChangeEvent) Interop.signalRegistry.get(HASH);
-            return HANDLER.signalReceived(new Settings(source, Ownership.NONE), key);
+            return HANDLER.signalReceived(new Settings(sourceSettings, Ownership.NONE), key);
         }
         
-        public static void signalSettingsWritableChanged(MemoryAddress source, MemoryAddress key, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalSettingsWritableChanged(MemoryAddress sourceSettings, MemoryAddress key, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (Settings.WritableChanged) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Settings(source, Ownership.NONE), Interop.getStringFrom(key));
+            HANDLER.signalReceived(new Settings(sourceSettings, Ownership.NONE), Interop.getStringFrom(key));
         }
     }
 }

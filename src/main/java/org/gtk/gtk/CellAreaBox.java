@@ -45,12 +45,19 @@ public class CellAreaBox extends org.gtk.gtk.CellArea implements org.gtk.gtk.Bui
     
     /**
      * Create a CellAreaBox proxy instance for the provided memory address.
+     * <p>
+     * Because CellAreaBox is an {@code InitiallyUnowned} instance, when 
+     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
+     * and a call to {@code refSink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
     @ApiStatus.Internal
     public CellAreaBox(Addressable address, Ownership ownership) {
-        super(address, ownership);
+        super(address, Ownership.FULL);
+        if (ownership == Ownership.NONE) {
+            refSink();
+        }
     }
     
     /**
@@ -66,7 +73,11 @@ public class CellAreaBox extends org.gtk.gtk.CellArea implements org.gtk.gtk.Bui
      * @throws ClassCastException If the GType is not derived from "GtkCellAreaBox", a ClassCastException will be thrown.
      */
     public static CellAreaBox castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), CellAreaBox.getType())) {
             return new CellAreaBox(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkCellAreaBox");
+        }
     }
     
     private static Addressable constructNew() {

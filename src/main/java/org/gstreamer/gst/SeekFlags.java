@@ -165,9 +165,8 @@ public class SeekFlags extends io.github.jwharm.javagi.Bitfield {
      * @param mask the value to combine with
      * @return the combined value by calculating {@code this | mask} 
      */
-    public SeekFlags combined(SeekFlags mask) {
-        this.setValue(this.getValue() | mask.getValue());
-        return this;
+    public SeekFlags or(SeekFlags mask) {
+        return new SeekFlags(this.getValue() | mask.getValue());
     }
     
     /**
@@ -177,9 +176,9 @@ public class SeekFlags extends io.github.jwharm.javagi.Bitfield {
      * @return the combined value by calculating {@code mask | masks[0] | masks[1] | ...} 
      */
     public static SeekFlags combined(SeekFlags mask, SeekFlags... masks) {
-        for (SeekFlags arg : masks) {
-            mask.setValue(mask.getValue() | arg.getValue());
+        int value = mask.getValue();        for (SeekFlags arg : masks) {
+            value |= arg.getValue();
         }
-        return mask;
+        return new SeekFlags(value);
     }
 }

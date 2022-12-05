@@ -82,7 +82,7 @@ public class Query extends Struct {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("type"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new org.gstreamer.gst.QueryType(RESULT);
+        return org.gstreamer.gst.QueryType.of(RESULT);
     }
     
     /**
@@ -918,7 +918,7 @@ public class Query extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        format.set(new org.gstreamer.gst.Format(formatPOINTER.get(Interop.valueLayout.C_INT, 0)));
+        format.set(org.gstreamer.gst.Format.of(formatPOINTER.get(Interop.valueLayout.C_INT, 0)));
         start.set(startPOINTER.get(Interop.valueLayout.C_LONG, 0));
         stop.set(stopPOINTER.get(Interop.valueLayout.C_LONG, 0));
         estimatedTotal.set(estimatedTotalPOINTER.get(Interop.valueLayout.C_LONG, 0));
@@ -951,7 +951,7 @@ public class Query extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        mode.set(new org.gstreamer.gst.BufferingMode(modePOINTER.get(Interop.valueLayout.C_INT, 0)));
+        mode.set(org.gstreamer.gst.BufferingMode.of(modePOINTER.get(Interop.valueLayout.C_INT, 0)));
         avgIn.set(avgInPOINTER.get(Interop.valueLayout.C_INT, 0));
         avgOut.set(avgOutPOINTER.get(Interop.valueLayout.C_INT, 0));
         bufferingLeft.set(bufferingLeftPOINTER.get(Interop.valueLayout.C_LONG, 0));
@@ -1061,9 +1061,9 @@ public class Query extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        srcFormat.set(new org.gstreamer.gst.Format(srcFormatPOINTER.get(Interop.valueLayout.C_INT, 0)));
+        srcFormat.set(org.gstreamer.gst.Format.of(srcFormatPOINTER.get(Interop.valueLayout.C_INT, 0)));
         srcValue.set(srcValuePOINTER.get(Interop.valueLayout.C_LONG, 0));
-        destFormat.set(new org.gstreamer.gst.Format(destFormatPOINTER.get(Interop.valueLayout.C_INT, 0)));
+        destFormat.set(org.gstreamer.gst.Format.of(destFormatPOINTER.get(Interop.valueLayout.C_INT, 0)));
         destValue.set(destValuePOINTER.get(Interop.valueLayout.C_LONG, 0));
     }
     
@@ -1087,7 +1087,7 @@ public class Query extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        format.set(new org.gstreamer.gst.Format(formatPOINTER.get(Interop.valueLayout.C_INT, 0)));
+        format.set(org.gstreamer.gst.Format.of(formatPOINTER.get(Interop.valueLayout.C_INT, 0)));
         duration.set(durationPOINTER.get(Interop.valueLayout.C_LONG, 0));
     }
     
@@ -1263,7 +1263,7 @@ public class Query extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        format.set(new org.gstreamer.gst.Format(formatPOINTER.get(Interop.valueLayout.C_INT, 0)));
+        format.set(org.gstreamer.gst.Format.of(formatPOINTER.get(Interop.valueLayout.C_INT, 0)));
     }
     
     /**
@@ -1281,7 +1281,7 @@ public class Query extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.PadMode(RESULT);
+        return org.gstreamer.gst.PadMode.of(RESULT);
     }
     
     /**
@@ -1304,7 +1304,7 @@ public class Query extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        format.set(new org.gstreamer.gst.Format(formatPOINTER.get(Interop.valueLayout.C_INT, 0)));
+        format.set(org.gstreamer.gst.Format.of(formatPOINTER.get(Interop.valueLayout.C_INT, 0)));
         cur.set(curPOINTER.get(Interop.valueLayout.C_LONG, 0));
     }
     
@@ -1369,7 +1369,7 @@ public class Query extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        format.set(new org.gstreamer.gst.Format(formatPOINTER.get(Interop.valueLayout.C_INT, 0)));
+        format.set(org.gstreamer.gst.Format.of(formatPOINTER.get(Interop.valueLayout.C_INT, 0)));
         seekable.set(seekablePOINTER.get(Interop.valueLayout.C_INT, 0) != 0);
         segmentStart.set(segmentStartPOINTER.get(Interop.valueLayout.C_LONG, 0));
         segmentEnd.set(segmentEndPOINTER.get(Interop.valueLayout.C_LONG, 0));
@@ -1406,7 +1406,7 @@ public class Query extends Struct {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         rate.set(ratePOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
-        format.set(new org.gstreamer.gst.Format(formatPOINTER.get(Interop.valueLayout.C_INT, 0)));
+        format.set(org.gstreamer.gst.Format.of(formatPOINTER.get(Interop.valueLayout.C_INT, 0)));
         startValue.set(startValuePOINTER.get(Interop.valueLayout.C_LONG, 0));
         stopValue.set(stopValuePOINTER.get(Interop.valueLayout.C_LONG, 0));
     }
@@ -1703,7 +1703,7 @@ public class Query extends Struct {
             DowncallHandles.gst_query_set_formatsv.invokeExact(
                     handle(),
                     nFormats,
-                    Interop.allocateNativeArray(org.gstreamer.gst.Format.getValues(formats), false));
+                    Interop.allocateNativeArray(Enumeration.getValues(formats), false));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

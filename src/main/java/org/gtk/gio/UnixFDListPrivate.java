@@ -44,32 +44,4 @@ public class UnixFDListPrivate extends Struct {
     public UnixFDListPrivate(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
-
-    /**
-     * Inner class implementing a builder pattern to construct 
-     * a struct and set its values.
-     */
-    public static class Build {
-        
-        private UnixFDListPrivate struct;
-        
-         /**
-         * A {@link UnixFDListPrivate.Build} object constructs a {@link UnixFDListPrivate} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
-            struct = UnixFDListPrivate.allocate();
-        }
-        
-         /**
-         * Finish building the {@link UnixFDListPrivate} struct.
-         * @return A new instance of {@code UnixFDListPrivate} with the fields 
-         *         that were set in the Build object.
-         */
-        public UnixFDListPrivate construct() {
-            return struct;
-        }
-    }
 }

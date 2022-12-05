@@ -32,12 +32,19 @@ public class CellRendererToggle extends org.gtk.gtk.CellRenderer {
     
     /**
      * Create a CellRendererToggle proxy instance for the provided memory address.
+     * <p>
+     * Because CellRendererToggle is an {@code InitiallyUnowned} instance, when 
+     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
+     * and a call to {@code refSink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
     @ApiStatus.Internal
     public CellRendererToggle(Addressable address, Ownership ownership) {
-        super(address, ownership);
+        super(address, Ownership.FULL);
+        if (ownership == Ownership.NONE) {
+            refSink();
+        }
     }
     
     /**
@@ -53,7 +60,11 @@ public class CellRendererToggle extends org.gtk.gtk.CellRenderer {
      * @throws ClassCastException If the GType is not derived from "GtkCellRendererToggle", a ClassCastException will be thrown.
      */
     public static CellRendererToggle castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), CellRendererToggle.getType())) {
             return new CellRendererToggle(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkCellRendererToggle");
+        }
     }
     
     private static Addressable constructNew() {
@@ -190,7 +201,7 @@ public class CellRendererToggle extends org.gtk.gtk.CellRenderer {
     
     @FunctionalInterface
     public interface Toggled {
-        void signalReceived(CellRendererToggle source, @NotNull java.lang.String path);
+        void signalReceived(CellRendererToggle sourceCellRendererToggle, @NotNull java.lang.String path);
     }
     
     /**
@@ -332,10 +343,10 @@ public class CellRendererToggle extends org.gtk.gtk.CellRenderer {
     
     private static class Callbacks {
         
-        public static void signalCellRendererToggleToggled(MemoryAddress source, MemoryAddress path, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalCellRendererToggleToggled(MemoryAddress sourceCellRendererToggle, MemoryAddress path, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (CellRendererToggle.Toggled) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new CellRendererToggle(source, Ownership.NONE), Interop.getStringFrom(path));
+            HANDLER.signalReceived(new CellRendererToggle(sourceCellRendererToggle, Ownership.NONE), Interop.getStringFrom(path));
         }
     }
 }

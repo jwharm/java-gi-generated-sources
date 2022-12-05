@@ -39,12 +39,19 @@ public class ShortcutsSection extends org.gtk.gtk.Box implements org.gtk.gtk.Acc
     
     /**
      * Create a ShortcutsSection proxy instance for the provided memory address.
+     * <p>
+     * Because ShortcutsSection is an {@code InitiallyUnowned} instance, when 
+     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
+     * and a call to {@code refSink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
     @ApiStatus.Internal
     public ShortcutsSection(Addressable address, Ownership ownership) {
-        super(address, ownership);
+        super(address, Ownership.FULL);
+        if (ownership == Ownership.NONE) {
+            refSink();
+        }
     }
     
     /**
@@ -60,7 +67,11 @@ public class ShortcutsSection extends org.gtk.gtk.Box implements org.gtk.gtk.Acc
      * @throws ClassCastException If the GType is not derived from "GtkShortcutsSection", a ClassCastException will be thrown.
      */
     public static ShortcutsSection castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), ShortcutsSection.getType())) {
             return new ShortcutsSection(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkShortcutsSection");
+        }
     }
     
     /**
@@ -79,7 +90,7 @@ public class ShortcutsSection extends org.gtk.gtk.Box implements org.gtk.gtk.Acc
     
     @FunctionalInterface
     public interface ChangeCurrentPage {
-        boolean signalReceived(ShortcutsSection source, int object);
+        boolean signalReceived(ShortcutsSection sourceShortcutsSection, int object);
     }
     
     public Signal<ShortcutsSection.ChangeCurrentPage> onChangeCurrentPage(ShortcutsSection.ChangeCurrentPage handler) {
@@ -208,10 +219,10 @@ public class ShortcutsSection extends org.gtk.gtk.Box implements org.gtk.gtk.Acc
     
     private static class Callbacks {
         
-        public static boolean signalShortcutsSectionChangeCurrentPage(MemoryAddress source, int object, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static boolean signalShortcutsSectionChangeCurrentPage(MemoryAddress sourceShortcutsSection, int object, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (ShortcutsSection.ChangeCurrentPage) Interop.signalRegistry.get(HASH);
-            return HANDLER.signalReceived(new ShortcutsSection(source, Ownership.NONE), object);
+            return HANDLER.signalReceived(new ShortcutsSection(sourceShortcutsSection, Ownership.NONE), object);
         }
     }
 }

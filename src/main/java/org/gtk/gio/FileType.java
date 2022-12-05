@@ -17,48 +17,60 @@ import org.jetbrains.annotations.*;
  * which is why all Windows symlinks will continue to be reported as
  * {@link FileType#REGULAR} or {@link FileType#DIRECTORY}.
  */
-public class FileType extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "GFileType";
-    
+public enum FileType implements io.github.jwharm.javagi.Enumeration {
     /**
      * File's type is unknown.
      */
-    public static final FileType UNKNOWN = new FileType(0);
-    
+    UNKNOWN(0),
     /**
      * File handle represents a regular file.
      */
-    public static final FileType REGULAR = new FileType(1);
-    
+    REGULAR(1),
     /**
      * File handle represents a directory.
      */
-    public static final FileType DIRECTORY = new FileType(2);
-    
+    DIRECTORY(2),
     /**
      * File handle represents a symbolic link
      *    (Unix systems).
      */
-    public static final FileType SYMBOLIC_LINK = new FileType(3);
-    
+    SYMBOLIC_LINK(3),
     /**
      * File is a "special" file, such as a socket, fifo,
      *    block device, or character device.
      */
-    public static final FileType SPECIAL = new FileType(4);
-    
+    SPECIAL(4),
     /**
      * File is a shortcut (Windows systems).
      */
-    public static final FileType SHORTCUT = new FileType(5);
-    
+    SHORTCUT(5),
     /**
      * File is a mountable location.
      */
-    public static final FileType MOUNTABLE = new FileType(6);
+    MOUNTABLE(6);
     
-    public FileType(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "GFileType";
+    
+    private final int value;
+    FileType(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static FileType of(int value) {
+        return switch (value) {
+            case 0 -> UNKNOWN;
+            case 1 -> REGULAR;
+            case 2 -> DIRECTORY;
+            case 3 -> SYMBOLIC_LINK;
+            case 4 -> SPECIAL;
+            case 5 -> SHORTCUT;
+            case 6 -> MOUNTABLE;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

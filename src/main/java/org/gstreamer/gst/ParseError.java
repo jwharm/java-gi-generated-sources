@@ -8,52 +8,64 @@ import org.jetbrains.annotations.*;
 /**
  * The different parsing errors that can occur.
  */
-public class ParseError extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "GstParseError";
-    
+public enum ParseError implements io.github.jwharm.javagi.Enumeration {
     /**
      * A syntax error occurred.
      */
-    public static final ParseError SYNTAX = new ParseError(0);
-    
+    SYNTAX(0),
     /**
      * The description contained an unknown element
      */
-    public static final ParseError NO_SUCH_ELEMENT = new ParseError(1);
-    
+    NO_SUCH_ELEMENT(1),
     /**
      * An element did not have a specified property
      */
-    public static final ParseError NO_SUCH_PROPERTY = new ParseError(2);
-    
+    NO_SUCH_PROPERTY(2),
     /**
      * There was an error linking two pads.
      */
-    public static final ParseError LINK = new ParseError(3);
-    
+    LINK(3),
     /**
      * There was an error setting a property
      */
-    public static final ParseError COULD_NOT_SET_PROPERTY = new ParseError(4);
-    
+    COULD_NOT_SET_PROPERTY(4),
     /**
      * An empty bin was specified.
      */
-    public static final ParseError EMPTY_BIN = new ParseError(5);
-    
+    EMPTY_BIN(5),
     /**
      * An empty description was specified
      */
-    public static final ParseError EMPTY = new ParseError(6);
-    
+    EMPTY(6),
     /**
      * A delayed link did not get resolved.
      */
-    public static final ParseError DELAYED_LINK = new ParseError(7);
+    DELAYED_LINK(7);
     
-    public ParseError(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "GstParseError";
+    
+    private final int value;
+    ParseError(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static ParseError of(int value) {
+        return switch (value) {
+            case 0 -> SYNTAX;
+            case 1 -> NO_SUCH_ELEMENT;
+            case 2 -> NO_SUCH_PROPERTY;
+            case 3 -> LINK;
+            case 4 -> COULD_NOT_SET_PROPERTY;
+            case 5 -> EMPTY_BIN;
+            case 6 -> EMPTY;
+            case 7 -> DELAYED_LINK;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
     
     /**

@@ -5,17 +5,29 @@ import java.lang.foreign.*;
 import java.lang.invoke.*;
 import org.jetbrains.annotations.*;
 
-public class FontSlant extends io.github.jwharm.javagi.Enumeration {
+public enum FontSlant implements io.github.jwharm.javagi.Enumeration {
+    NORMAL(0),
+    ITALIC(1),
+    OBLIQUE(2);
     
     private static final java.lang.String C_TYPE_NAME = "cairo_font_slant_t";
     
-    public static final FontSlant NORMAL = new FontSlant(0);
+    private final int value;
+    FontSlant(int value) {
+        this.value = value;
+    }
     
-    public static final FontSlant ITALIC = new FontSlant(1);
+    @Override
+    public int getValue() {
+        return value;
+    }
     
-    public static final FontSlant OBLIQUE = new FontSlant(2);
-    
-    public FontSlant(int value) {
-        super(value);
+    public static FontSlant of(int value) {
+        return switch (value) {
+            case 0 -> NORMAL;
+            case 1 -> ITALIC;
+            case 2 -> OBLIQUE;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

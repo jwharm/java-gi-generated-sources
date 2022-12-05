@@ -115,12 +115,19 @@ public class MessageDialog extends org.gtk.gtk.Window implements org.gtk.gtk.Acc
     
     /**
      * Create a MessageDialog proxy instance for the provided memory address.
+     * <p>
+     * Because MessageDialog is an {@code InitiallyUnowned} instance, when 
+     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
+     * and a call to {@code refSink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
     @ApiStatus.Internal
     public MessageDialog(Addressable address, Ownership ownership) {
-        super(address, ownership);
+        super(address, Ownership.FULL);
+        if (ownership == Ownership.NONE) {
+            refSink();
+        }
     }
     
     /**
@@ -136,7 +143,11 @@ public class MessageDialog extends org.gtk.gtk.Window implements org.gtk.gtk.Acc
      * @throws ClassCastException If the GType is not derived from "AdwMessageDialog", a ClassCastException will be thrown.
      */
     public static MessageDialog castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), MessageDialog.getType())) {
             return new MessageDialog(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of AdwMessageDialog");
+        }
     }
     
     private static Addressable constructNew(@Nullable org.gtk.gtk.Window parent, @Nullable java.lang.String heading, @Nullable java.lang.String body) {
@@ -447,7 +458,7 @@ public class MessageDialog extends org.gtk.gtk.Window implements org.gtk.gtk.Acc
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gnome.adw.ResponseAppearance(RESULT);
+        return org.gnome.adw.ResponseAppearance.of(RESULT);
     }
     
     /**
@@ -740,7 +751,7 @@ public class MessageDialog extends org.gtk.gtk.Window implements org.gtk.gtk.Acc
     
     @FunctionalInterface
     public interface Response {
-        void signalReceived(MessageDialog source, @NotNull java.lang.String response);
+        void signalReceived(MessageDialog sourceMessageDialog, @NotNull java.lang.String response);
     }
     
     /**
@@ -1089,10 +1100,10 @@ public class MessageDialog extends org.gtk.gtk.Window implements org.gtk.gtk.Acc
     
     private static class Callbacks {
         
-        public static void signalMessageDialogResponse(MemoryAddress source, MemoryAddress response, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalMessageDialogResponse(MemoryAddress sourceMessageDialog, MemoryAddress response, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (MessageDialog.Response) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new MessageDialog(source, Ownership.NONE), Interop.getStringFrom(response));
+            HANDLER.signalReceived(new MessageDialog(sourceMessageDialog, Ownership.NONE), Interop.getStringFrom(response));
         }
     }
 }

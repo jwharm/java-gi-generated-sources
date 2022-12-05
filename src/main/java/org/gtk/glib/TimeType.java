@@ -15,26 +15,38 @@ import org.jetbrains.annotations.*;
  * where the same local time occurs twice (during daylight savings time
  * transitions, for example).
  */
-public class TimeType extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "GTimeType";
-    
+public enum TimeType implements io.github.jwharm.javagi.Enumeration {
     /**
      * the time is in local standard time
      */
-    public static final TimeType STANDARD = new TimeType(0);
-    
+    STANDARD(0),
     /**
      * the time is in local daylight time
      */
-    public static final TimeType DAYLIGHT = new TimeType(1);
-    
+    DAYLIGHT(1),
     /**
      * the time is in UTC
      */
-    public static final TimeType UNIVERSAL = new TimeType(2);
+    UNIVERSAL(2);
     
-    public TimeType(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "GTimeType";
+    
+    private final int value;
+    TimeType(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static TimeType of(int value) {
+        return switch (value) {
+            case 0 -> STANDARD;
+            case 1 -> DAYLIGHT;
+            case 2 -> UNIVERSAL;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

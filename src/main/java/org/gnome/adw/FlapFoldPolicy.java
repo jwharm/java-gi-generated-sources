@@ -9,28 +9,40 @@ import org.jetbrains.annotations.*;
  * Describes the possible folding behavior of a {@link Flap} widget.
  * @version 1.0
  */
-public class FlapFoldPolicy extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "AdwFlapFoldPolicy";
-    
+public enum FlapFoldPolicy implements io.github.jwharm.javagi.Enumeration {
     /**
      * Disable folding, the flap cannot reach narrow
      *   sizes.
      */
-    public static final FlapFoldPolicy NEVER = new FlapFoldPolicy(0);
-    
+    NEVER(0),
     /**
      * Keep the flap always folded.
      */
-    public static final FlapFoldPolicy ALWAYS = new FlapFoldPolicy(1);
-    
+    ALWAYS(1),
     /**
      * Fold and unfold the flap based on available
      *   space.
      */
-    public static final FlapFoldPolicy AUTO = new FlapFoldPolicy(2);
+    AUTO(2);
     
-    public FlapFoldPolicy(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "AdwFlapFoldPolicy";
+    
+    private final int value;
+    FlapFoldPolicy(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static FlapFoldPolicy of(int value) {
+        return switch (value) {
+            case 0 -> NEVER;
+            case 1 -> ALWAYS;
+            case 2 -> AUTO;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

@@ -8,21 +8,33 @@ import org.jetbrains.annotations.*;
 /**
  * The parameter used in the action signals of {@code GtkNotebook}.
  */
-public class NotebookTab extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "GtkNotebookTab";
-    
+public enum NotebookTab implements io.github.jwharm.javagi.Enumeration {
     /**
      * the first tab in the notebook
      */
-    public static final NotebookTab FIRST = new NotebookTab(0);
-    
+    FIRST(0),
     /**
      * the last tab in the notebook
      */
-    public static final NotebookTab LAST = new NotebookTab(1);
+    LAST(1);
     
-    public NotebookTab(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "GtkNotebookTab";
+    
+    private final int value;
+    NotebookTab(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static NotebookTab of(int value) {
+        return switch (value) {
+            case 0 -> FIRST;
+            case 1 -> LAST;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

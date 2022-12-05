@@ -25,48 +25,60 @@ import org.jetbrains.annotations.*;
  * directly. {@code PangoDirection} is only retained because it is used in some
  * public apis.
  */
-public class Direction extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "PangoDirection";
-    
+public enum Direction implements io.github.jwharm.javagi.Enumeration {
     /**
      * A strong left-to-right direction
      */
-    public static final Direction LTR = new Direction(0);
-    
+    LTR(0),
     /**
      * A strong right-to-left direction
      */
-    public static final Direction RTL = new Direction(1);
-    
+    RTL(1),
     /**
      * Deprecated value; treated the
      *   same as {@code PANGO_DIRECTION_RTL}.
      */
-    public static final Direction TTB_LTR = new Direction(2);
-    
+    TTB_LTR(2),
     /**
      * Deprecated value; treated the
      *   same as {@code PANGO_DIRECTION_LTR}
      */
-    public static final Direction TTB_RTL = new Direction(3);
-    
+    TTB_RTL(3),
     /**
      * A weak left-to-right direction
      */
-    public static final Direction WEAK_LTR = new Direction(4);
-    
+    WEAK_LTR(4),
     /**
      * A weak right-to-left direction
      */
-    public static final Direction WEAK_RTL = new Direction(5);
-    
+    WEAK_RTL(5),
     /**
      * No direction specified
      */
-    public static final Direction NEUTRAL = new Direction(6);
+    NEUTRAL(6);
     
-    public Direction(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "PangoDirection";
+    
+    private final int value;
+    Direction(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static Direction of(int value) {
+        return switch (value) {
+            case 0 -> LTR;
+            case 1 -> RTL;
+            case 2 -> TTB_LTR;
+            case 3 -> TTB_RTL;
+            case 4 -> WEAK_LTR;
+            case 5 -> WEAK_RTL;
+            case 6 -> NEUTRAL;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

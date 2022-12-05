@@ -9,32 +9,44 @@ import org.jetbrains.annotations.*;
  * The possible values for the {@link AccessibleProperty#SORT}
  * accessible property.
  */
-public class AccessibleSort extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "GtkAccessibleSort";
-    
+public enum AccessibleSort implements io.github.jwharm.javagi.Enumeration {
     /**
      * There is no defined sort applied to the column.
      */
-    public static final AccessibleSort NONE = new AccessibleSort(0);
-    
+    NONE(0),
     /**
      * Items are sorted in ascending order by this column.
      */
-    public static final AccessibleSort ASCENDING = new AccessibleSort(1);
-    
+    ASCENDING(1),
     /**
      * Items are sorted in descending order by this column.
      */
-    public static final AccessibleSort DESCENDING = new AccessibleSort(2);
-    
+    DESCENDING(2),
     /**
      * A sort algorithm other than ascending or
      *    descending has been applied.
      */
-    public static final AccessibleSort OTHER = new AccessibleSort(3);
+    OTHER(3);
     
-    public AccessibleSort(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "GtkAccessibleSort";
+    
+    private final int value;
+    AccessibleSort(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static AccessibleSort of(int value) {
+        return switch (value) {
+            case 0 -> NONE;
+            case 1 -> ASCENDING;
+            case 2 -> DESCENDING;
+            case 3 -> OTHER;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

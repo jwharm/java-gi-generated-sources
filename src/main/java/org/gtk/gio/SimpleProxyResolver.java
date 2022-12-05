@@ -61,7 +61,11 @@ public class SimpleProxyResolver extends org.gtk.gobject.Object implements org.g
      * @throws ClassCastException If the GType is not derived from "GSimpleProxyResolver", a ClassCastException will be thrown.
      */
     public static SimpleProxyResolver castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), SimpleProxyResolver.getType())) {
             return new SimpleProxyResolver(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GSimpleProxyResolver");
+        }
     }
     
     /**

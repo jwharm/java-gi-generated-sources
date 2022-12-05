@@ -53,7 +53,11 @@ public class ParamSpecParam extends org.gtk.gobject.ParamSpec {
      * @throws ClassCastException If the GType is not derived from "GParamSpecParam", a ClassCastException will be thrown.
      */
     public static ParamSpecParam castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), ParamSpecParam.getType())) {
             return new ParamSpecParam(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GParamSpecParam");
+        }
     }
     
     /**

@@ -55,7 +55,11 @@ public class StringSorter extends org.gtk.gtk.Sorter {
      * @throws ClassCastException If the GType is not derived from "GtkStringSorter", a ClassCastException will be thrown.
      */
     public static StringSorter castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), StringSorter.getType())) {
             return new StringSorter(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkStringSorter");
+        }
     }
     
     private static Addressable constructNew(@Nullable org.gtk.gtk.Expression expression) {

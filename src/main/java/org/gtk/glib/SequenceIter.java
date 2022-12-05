@@ -235,32 +235,4 @@ public class SequenceIter extends Struct {
             false
         );
     }
-
-    /**
-     * Inner class implementing a builder pattern to construct 
-     * a struct and set its values.
-     */
-    public static class Build {
-        
-        private SequenceIter struct;
-        
-         /**
-         * A {@link SequenceIter.Build} object constructs a {@link SequenceIter} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
-            struct = SequenceIter.allocate();
-        }
-        
-         /**
-         * Finish building the {@link SequenceIter} struct.
-         * @return A new instance of {@code SequenceIter} with the fields 
-         *         that were set in the Build object.
-         */
-        public SequenceIter construct() {
-            return struct;
-        }
-    }
 }

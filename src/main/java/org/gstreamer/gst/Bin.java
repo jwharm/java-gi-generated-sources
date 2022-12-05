@@ -149,12 +149,19 @@ public class Bin extends org.gstreamer.gst.Element implements org.gstreamer.gst.
     
     /**
      * Create a Bin proxy instance for the provided memory address.
+     * <p>
+     * Because Bin is an {@code InitiallyUnowned} instance, when 
+     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
+     * and a call to {@code refSink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
     @ApiStatus.Internal
     public Bin(Addressable address, Ownership ownership) {
-        super(address, ownership);
+        super(address, Ownership.FULL);
+        if (ownership == Ownership.NONE) {
+            refSink();
+        }
     }
     
     /**
@@ -170,7 +177,11 @@ public class Bin extends org.gstreamer.gst.Element implements org.gstreamer.gst.
      * @throws ClassCastException If the GType is not derived from "GstBin", a ClassCastException will be thrown.
      */
     public static Bin castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), Bin.getType())) {
             return new Bin(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GstBin");
+        }
     }
     
     private static Addressable constructNew(@Nullable java.lang.String name) {
@@ -583,7 +594,7 @@ public class Bin extends org.gstreamer.gst.Element implements org.gstreamer.gst.
     
     @FunctionalInterface
     public interface DeepElementAdded {
-        void signalReceived(Bin source, @NotNull org.gstreamer.gst.Bin subBin, @NotNull org.gstreamer.gst.Element element);
+        void signalReceived(Bin sourceBin, @NotNull org.gstreamer.gst.Bin subBin, @NotNull org.gstreamer.gst.Element element);
     }
     
     /**
@@ -611,7 +622,7 @@ public class Bin extends org.gstreamer.gst.Element implements org.gstreamer.gst.
     
     @FunctionalInterface
     public interface DeepElementRemoved {
-        void signalReceived(Bin source, @NotNull org.gstreamer.gst.Bin subBin, @NotNull org.gstreamer.gst.Element element);
+        void signalReceived(Bin sourceBin, @NotNull org.gstreamer.gst.Bin subBin, @NotNull org.gstreamer.gst.Element element);
     }
     
     /**
@@ -639,7 +650,7 @@ public class Bin extends org.gstreamer.gst.Element implements org.gstreamer.gst.
     
     @FunctionalInterface
     public interface DoLatency {
-        boolean signalReceived(Bin source);
+        boolean signalReceived(Bin sourceBin);
     }
     
     /**
@@ -677,7 +688,7 @@ public class Bin extends org.gstreamer.gst.Element implements org.gstreamer.gst.
     
     @FunctionalInterface
     public interface ElementAdded {
-        void signalReceived(Bin source, @NotNull org.gstreamer.gst.Element element);
+        void signalReceived(Bin sourceBin, @NotNull org.gstreamer.gst.Element element);
     }
     
     /**
@@ -705,7 +716,7 @@ public class Bin extends org.gstreamer.gst.Element implements org.gstreamer.gst.
     
     @FunctionalInterface
     public interface ElementRemoved {
-        void signalReceived(Bin source, @NotNull org.gstreamer.gst.Element element);
+        void signalReceived(Bin sourceBin, @NotNull org.gstreamer.gst.Element element);
     }
     
     /**
@@ -927,34 +938,34 @@ public class Bin extends org.gstreamer.gst.Element implements org.gstreamer.gst.
     
     private static class Callbacks {
         
-        public static void signalBinDeepElementAdded(MemoryAddress source, MemoryAddress subBin, MemoryAddress element, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalBinDeepElementAdded(MemoryAddress sourceBin, MemoryAddress subBin, MemoryAddress element, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (Bin.DeepElementAdded) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Bin(source, Ownership.NONE), new org.gstreamer.gst.Bin(subBin, Ownership.NONE), new org.gstreamer.gst.Element(element, Ownership.NONE));
+            HANDLER.signalReceived(new Bin(sourceBin, Ownership.NONE), new org.gstreamer.gst.Bin(subBin, Ownership.NONE), new org.gstreamer.gst.Element(element, Ownership.NONE));
         }
         
-        public static void signalBinDeepElementRemoved(MemoryAddress source, MemoryAddress subBin, MemoryAddress element, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalBinDeepElementRemoved(MemoryAddress sourceBin, MemoryAddress subBin, MemoryAddress element, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (Bin.DeepElementRemoved) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Bin(source, Ownership.NONE), new org.gstreamer.gst.Bin(subBin, Ownership.NONE), new org.gstreamer.gst.Element(element, Ownership.NONE));
+            HANDLER.signalReceived(new Bin(sourceBin, Ownership.NONE), new org.gstreamer.gst.Bin(subBin, Ownership.NONE), new org.gstreamer.gst.Element(element, Ownership.NONE));
         }
         
-        public static boolean signalBinDoLatency(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static boolean signalBinDoLatency(MemoryAddress sourceBin, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (Bin.DoLatency) Interop.signalRegistry.get(HASH);
-            return HANDLER.signalReceived(new Bin(source, Ownership.NONE));
+            return HANDLER.signalReceived(new Bin(sourceBin, Ownership.NONE));
         }
         
-        public static void signalBinElementAdded(MemoryAddress source, MemoryAddress element, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalBinElementAdded(MemoryAddress sourceBin, MemoryAddress element, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (Bin.ElementAdded) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Bin(source, Ownership.NONE), new org.gstreamer.gst.Element(element, Ownership.NONE));
+            HANDLER.signalReceived(new Bin(sourceBin, Ownership.NONE), new org.gstreamer.gst.Element(element, Ownership.NONE));
         }
         
-        public static void signalBinElementRemoved(MemoryAddress source, MemoryAddress element, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalBinElementRemoved(MemoryAddress sourceBin, MemoryAddress element, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (Bin.ElementRemoved) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Bin(source, Ownership.NONE), new org.gstreamer.gst.Element(element, Ownership.NONE));
+            HANDLER.signalReceived(new Bin(sourceBin, Ownership.NONE), new org.gstreamer.gst.Element(element, Ownership.NONE));
         }
     }
 }

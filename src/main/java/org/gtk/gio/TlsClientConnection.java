@@ -25,7 +25,11 @@ public interface TlsClientConnection extends io.github.jwharm.javagi.Proxy {
      * @throws ClassCastException If the GType is not derived from "GTlsClientConnection", a ClassCastException will be thrown.
      */
     public static TlsClientConnection castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), TlsClientConnection.getType())) {
             return new TlsClientConnectionImpl(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GTlsClientConnection");
+        }
     }
     
     /**

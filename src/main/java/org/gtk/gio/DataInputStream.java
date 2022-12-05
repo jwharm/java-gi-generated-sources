@@ -54,7 +54,11 @@ public class DataInputStream extends org.gtk.gio.BufferedInputStream implements 
      * @throws ClassCastException If the GType is not derived from "GDataInputStream", a ClassCastException will be thrown.
      */
     public static DataInputStream castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), DataInputStream.getType())) {
             return new DataInputStream(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GDataInputStream");
+        }
     }
     
     private static Addressable constructNew(@NotNull org.gtk.gio.InputStream baseStream) {
@@ -89,7 +93,7 @@ public class DataInputStream extends org.gtk.gio.BufferedInputStream implements 
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.DataStreamByteOrder(RESULT);
+        return org.gtk.gio.DataStreamByteOrder.of(RESULT);
     }
     
     /**
@@ -104,7 +108,7 @@ public class DataInputStream extends org.gtk.gio.BufferedInputStream implements 
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.DataStreamNewlineType(RESULT);
+        return org.gtk.gio.DataStreamNewlineType.of(RESULT);
     }
     
     /**

@@ -50,7 +50,11 @@ public class DBusMenuModel extends org.gtk.gio.MenuModel {
      * @throws ClassCastException If the GType is not derived from "GDBusMenuModel", a ClassCastException will be thrown.
      */
     public static DBusMenuModel castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), DBusMenuModel.getType())) {
             return new DBusMenuModel(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GDBusMenuModel");
+        }
     }
     
     /**

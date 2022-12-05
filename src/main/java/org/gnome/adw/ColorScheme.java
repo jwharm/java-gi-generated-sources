@@ -9,40 +9,52 @@ import org.jetbrains.annotations.*;
  * Application color schemes for {@code StyleManager:color-scheme}.
  * @version 1.0
  */
-public class ColorScheme extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "AdwColorScheme";
-    
+public enum ColorScheme implements io.github.jwharm.javagi.Enumeration {
     /**
      * Inherit the parent color-scheme. When set on the
      *   {@code AdwStyleManager} returned by {@code StyleManager.StyleManager#getDefault}, it's
      *   equivalent to {@code ADW_COLOR_SCHEME_PREFER_LIGHT}.
      */
-    public static final ColorScheme DEFAULT = new ColorScheme(0);
-    
+    DEFAULT(0),
     /**
      * Always use light appearance.
      */
-    public static final ColorScheme FORCE_LIGHT = new ColorScheme(1);
-    
+    FORCE_LIGHT(1),
     /**
      * Use light appearance unless the system
      *   prefers dark colors.
      */
-    public static final ColorScheme PREFER_LIGHT = new ColorScheme(2);
-    
+    PREFER_LIGHT(2),
     /**
      * Use dark appearance unless the system prefers
      *   prefers light colors.
      */
-    public static final ColorScheme PREFER_DARK = new ColorScheme(3);
-    
+    PREFER_DARK(3),
     /**
      * Always use dark appearance.
      */
-    public static final ColorScheme FORCE_DARK = new ColorScheme(4);
+    FORCE_DARK(4);
     
-    public ColorScheme(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "AdwColorScheme";
+    
+    private final int value;
+    ColorScheme(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static ColorScheme of(int value) {
+        return switch (value) {
+            case 0 -> DEFAULT;
+            case 1 -> FORCE_LIGHT;
+            case 2 -> PREFER_LIGHT;
+            case 3 -> PREFER_DARK;
+            case 4 -> FORCE_DARK;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

@@ -44,32 +44,4 @@ public class WindowGroupPrivate extends Struct {
     public WindowGroupPrivate(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
-
-    /**
-     * Inner class implementing a builder pattern to construct 
-     * a struct and set its values.
-     */
-    public static class Build {
-        
-        private WindowGroupPrivate struct;
-        
-         /**
-         * A {@link WindowGroupPrivate.Build} object constructs a {@link WindowGroupPrivate} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
-            struct = WindowGroupPrivate.allocate();
-        }
-        
-         /**
-         * Finish building the {@link WindowGroupPrivate} struct.
-         * @return A new instance of {@code WindowGroupPrivate} with the fields 
-         *         that were set in the Build object.
-         */
-        public WindowGroupPrivate construct() {
-            return struct;
-        }
-    }
 }

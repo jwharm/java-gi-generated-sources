@@ -53,7 +53,11 @@ public class ATContext extends org.gtk.gobject.Object {
      * @throws ClassCastException If the GType is not derived from "GtkATContext", a ClassCastException will be thrown.
      */
     public static ATContext castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), ATContext.getType())) {
             return new ATContext(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkATContext");
+        }
     }
     
     private static Addressable constructCreate(@NotNull org.gtk.gtk.AccessibleRole accessibleRole, @NotNull org.gtk.gtk.Accessible accessible, @NotNull org.gtk.gdk.Display display) {
@@ -114,7 +118,7 @@ public class ATContext extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.AccessibleRole(RESULT);
+        return org.gtk.gtk.AccessibleRole.of(RESULT);
     }
     
     /**
@@ -133,7 +137,7 @@ public class ATContext extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface StateChange {
-        void signalReceived(ATContext source);
+        void signalReceived(ATContext sourceATContext);
     }
     
     /**
@@ -260,10 +264,10 @@ public class ATContext extends org.gtk.gobject.Object {
     
     private static class Callbacks {
         
-        public static void signalATContextStateChange(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalATContextStateChange(MemoryAddress sourceATContext, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (ATContext.StateChange) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new ATContext(source, Ownership.NONE));
+            HANDLER.signalReceived(new ATContext(sourceATContext, Ownership.NONE));
         }
     }
 }

@@ -10,26 +10,38 @@ import org.jetbrains.annotations.*;
  * that {@link TreeViewColumnSizing#AUTOSIZE} are inefficient for large views, and
  * can make columns appear choppy.
  */
-public class TreeViewColumnSizing extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "GtkTreeViewColumnSizing";
-    
+public enum TreeViewColumnSizing implements io.github.jwharm.javagi.Enumeration {
     /**
      * Columns only get bigger in reaction to changes in the model
      */
-    public static final TreeViewColumnSizing GROW_ONLY = new TreeViewColumnSizing(0);
-    
+    GROW_ONLY(0),
     /**
      * Columns resize to be the optimal size every time the model changes.
      */
-    public static final TreeViewColumnSizing AUTOSIZE = new TreeViewColumnSizing(1);
-    
+    AUTOSIZE(1),
     /**
      * Columns are a fixed numbers of pixels wide.
      */
-    public static final TreeViewColumnSizing FIXED = new TreeViewColumnSizing(2);
+    FIXED(2);
     
-    public TreeViewColumnSizing(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "GtkTreeViewColumnSizing";
+    
+    private final int value;
+    TreeViewColumnSizing(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static TreeViewColumnSizing of(int value) {
+        return switch (value) {
+            case 0 -> GROW_ONLY;
+            case 1 -> AUTOSIZE;
+            case 2 -> FIXED;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

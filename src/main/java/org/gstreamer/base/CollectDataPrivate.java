@@ -44,32 +44,4 @@ public class CollectDataPrivate extends Struct {
     public CollectDataPrivate(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
-
-    /**
-     * Inner class implementing a builder pattern to construct 
-     * a struct and set its values.
-     */
-    public static class Build {
-        
-        private CollectDataPrivate struct;
-        
-         /**
-         * A {@link CollectDataPrivate.Build} object constructs a {@link CollectDataPrivate} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
-            struct = CollectDataPrivate.allocate();
-        }
-        
-         /**
-         * Finish building the {@link CollectDataPrivate} struct.
-         * @return A new instance of {@code CollectDataPrivate} with the fields 
-         *         that were set in the Build object.
-         */
-        public CollectDataPrivate construct() {
-            return struct;
-        }
-    }
 }

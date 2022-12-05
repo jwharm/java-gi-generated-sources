@@ -46,9 +46,8 @@ public class MetaFlags extends io.github.jwharm.javagi.Bitfield {
      * @param mask the value to combine with
      * @return the combined value by calculating {@code this | mask} 
      */
-    public MetaFlags combined(MetaFlags mask) {
-        this.setValue(this.getValue() | mask.getValue());
-        return this;
+    public MetaFlags or(MetaFlags mask) {
+        return new MetaFlags(this.getValue() | mask.getValue());
     }
     
     /**
@@ -58,9 +57,9 @@ public class MetaFlags extends io.github.jwharm.javagi.Bitfield {
      * @return the combined value by calculating {@code mask | masks[0] | masks[1] | ...} 
      */
     public static MetaFlags combined(MetaFlags mask, MetaFlags... masks) {
-        for (MetaFlags arg : masks) {
-            mask.setValue(mask.getValue() | arg.getValue());
+        int value = mask.getValue();        for (MetaFlags arg : masks) {
+            value |= arg.getValue();
         }
-        return mask;
+        return new MetaFlags(value);
     }
 }

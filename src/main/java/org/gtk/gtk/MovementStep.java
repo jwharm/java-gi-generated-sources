@@ -9,61 +9,73 @@ import org.jetbrains.annotations.*;
  * Passed as argument to various keybinding signals for moving the
  * cursor position.
  */
-public class MovementStep extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "GtkMovementStep";
-    
+public enum MovementStep implements io.github.jwharm.javagi.Enumeration {
     /**
      * Move forward or back by graphemes
      */
-    public static final MovementStep LOGICAL_POSITIONS = new MovementStep(0);
-    
+    LOGICAL_POSITIONS(0),
     /**
      * Move left or right by graphemes
      */
-    public static final MovementStep VISUAL_POSITIONS = new MovementStep(1);
-    
+    VISUAL_POSITIONS(1),
     /**
      * Move forward or back by words
      */
-    public static final MovementStep WORDS = new MovementStep(2);
-    
+    WORDS(2),
     /**
      * Move up or down lines (wrapped lines)
      */
-    public static final MovementStep DISPLAY_LINES = new MovementStep(3);
-    
+    DISPLAY_LINES(3),
     /**
      * Move to either end of a line
      */
-    public static final MovementStep DISPLAY_LINE_ENDS = new MovementStep(4);
-    
+    DISPLAY_LINE_ENDS(4),
     /**
      * Move up or down paragraphs (newline-ended lines)
      */
-    public static final MovementStep PARAGRAPHS = new MovementStep(5);
-    
+    PARAGRAPHS(5),
     /**
      * Move to either end of a paragraph
      */
-    public static final MovementStep PARAGRAPH_ENDS = new MovementStep(6);
-    
+    PARAGRAPH_ENDS(6),
     /**
      * Move by pages
      */
-    public static final MovementStep PAGES = new MovementStep(7);
-    
+    PAGES(7),
     /**
      * Move to ends of the buffer
      */
-    public static final MovementStep BUFFER_ENDS = new MovementStep(8);
-    
+    BUFFER_ENDS(8),
     /**
      * Move horizontally by pages
      */
-    public static final MovementStep HORIZONTAL_PAGES = new MovementStep(9);
+    HORIZONTAL_PAGES(9);
     
-    public MovementStep(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "GtkMovementStep";
+    
+    private final int value;
+    MovementStep(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static MovementStep of(int value) {
+        return switch (value) {
+            case 0 -> LOGICAL_POSITIONS;
+            case 1 -> VISUAL_POSITIONS;
+            case 2 -> WORDS;
+            case 3 -> DISPLAY_LINES;
+            case 4 -> DISPLAY_LINE_ENDS;
+            case 5 -> PARAGRAPHS;
+            case 6 -> PARAGRAPH_ENDS;
+            case 7 -> PAGES;
+            case 8 -> BUFFER_ENDS;
+            case 9 -> HORIZONTAL_PAGES;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

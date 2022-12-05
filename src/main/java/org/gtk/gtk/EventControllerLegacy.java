@@ -52,7 +52,11 @@ public class EventControllerLegacy extends org.gtk.gtk.EventController {
      * @throws ClassCastException If the GType is not derived from "GtkEventControllerLegacy", a ClassCastException will be thrown.
      */
     public static EventControllerLegacy castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), EventControllerLegacy.getType())) {
             return new EventControllerLegacy(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkEventControllerLegacy");
+        }
     }
     
     private static Addressable constructNew() {
@@ -88,7 +92,7 @@ public class EventControllerLegacy extends org.gtk.gtk.EventController {
     
     @FunctionalInterface
     public interface Event {
-        boolean signalReceived(EventControllerLegacy source, @NotNull org.gtk.gdk.Event event);
+        boolean signalReceived(EventControllerLegacy sourceEventControllerLegacy, @NotNull org.gtk.gdk.Event event);
     }
     
     /**
@@ -166,10 +170,10 @@ public class EventControllerLegacy extends org.gtk.gtk.EventController {
     
     private static class Callbacks {
         
-        public static boolean signalEventControllerLegacyEvent(MemoryAddress source, MemoryAddress event, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static boolean signalEventControllerLegacyEvent(MemoryAddress sourceEventControllerLegacy, MemoryAddress event, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (EventControllerLegacy.Event) Interop.signalRegistry.get(HASH);
-            return HANDLER.signalReceived(new EventControllerLegacy(source, Ownership.NONE), new org.gtk.gdk.Event(event, Ownership.NONE));
+            return HANDLER.signalReceived(new EventControllerLegacy(sourceEventControllerLegacy, Ownership.NONE), new org.gtk.gdk.Event(event, Ownership.NONE));
         }
     }
 }

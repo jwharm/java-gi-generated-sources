@@ -76,7 +76,11 @@ public class FileInfo extends org.gtk.gobject.Object {
      * @throws ClassCastException If the GType is not derived from "GFileInfo", a ClassCastException will be thrown.
      */
     public static FileInfo castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), FileInfo.getType())) {
             return new FileInfo(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GFileInfo");
+        }
     }
     
     private static Addressable constructNew() {
@@ -252,9 +256,9 @@ public class FileInfo extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        type.set(new org.gtk.gio.FileAttributeType(typePOINTER.get(Interop.valueLayout.C_INT, 0)));
+        type.set(org.gtk.gio.FileAttributeType.of(typePOINTER.get(Interop.valueLayout.C_INT, 0)));
         valuePp.set(valuePpPOINTER.get(Interop.valueLayout.ADDRESS, 0));
-        status.set(new org.gtk.gio.FileAttributeStatus(statusPOINTER.get(Interop.valueLayout.C_INT, 0)));
+        status.set(org.gtk.gio.FileAttributeStatus.of(statusPOINTER.get(Interop.valueLayout.C_INT, 0)));
         return RESULT != 0;
     }
     
@@ -334,7 +338,7 @@ public class FileInfo extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.FileAttributeStatus(RESULT);
+        return org.gtk.gio.FileAttributeStatus.of(RESULT);
     }
     
     /**
@@ -393,7 +397,7 @@ public class FileInfo extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.FileAttributeType(RESULT);
+        return org.gtk.gio.FileAttributeType.of(RESULT);
     }
     
     /**
@@ -551,7 +555,7 @@ public class FileInfo extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.FileType(RESULT);
+        return org.gtk.gio.FileType.of(RESULT);
     }
     
     /**

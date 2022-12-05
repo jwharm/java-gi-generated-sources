@@ -11,85 +11,97 @@ import org.jetbrains.annotations.*;
  * Note that the custom return values should not be exposed outside of the
  * element scope.
  */
-public class FlowReturn extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "GstFlowReturn";
-    
+public enum FlowReturn implements io.github.jwharm.javagi.Enumeration {
     /**
      * Pre-defined custom success code.
      */
-    public static final FlowReturn CUSTOM_SUCCESS_2 = new FlowReturn(102);
-    
+    CUSTOM_SUCCESS_2(102),
     /**
      * Pre-defined custom success code (define your
      *                               custom success code to this to avoid compiler
      *                               warnings).
      */
-    public static final FlowReturn CUSTOM_SUCCESS_1 = new FlowReturn(101);
-    
+    CUSTOM_SUCCESS_1(101),
     /**
      * Elements can use values starting from
      *                               this (and higher) to define custom success
      *                               codes.
      */
-    public static final FlowReturn CUSTOM_SUCCESS = new FlowReturn(100);
-    
+    CUSTOM_SUCCESS(100),
     /**
      * Data passing was ok.
      */
-    public static final FlowReturn OK = new FlowReturn(0);
-    
+    OK(0),
     /**
      * Pad is not linked.
      */
-    public static final FlowReturn NOT_LINKED = new FlowReturn(0);
-    
+    NOT_LINKED(-1),
     /**
      * Pad is flushing.
      */
-    public static final FlowReturn FLUSHING = new FlowReturn(0);
-    
+    FLUSHING(-2),
     /**
      * Pad is EOS.
      */
-    public static final FlowReturn EOS = new FlowReturn(0);
-    
+    EOS(-3),
     /**
      * Pad is not negotiated.
      */
-    public static final FlowReturn NOT_NEGOTIATED = new FlowReturn(0);
-    
+    NOT_NEGOTIATED(-4),
     /**
      * Some (fatal) error occurred. Element generating
      *                               this error should post an error message using
      *                               GST_ELEMENT_ERROR() with more details.
      */
-    public static final FlowReturn ERROR = new FlowReturn(0);
-    
+    ERROR(-5),
     /**
      * This operation is not supported.
      */
-    public static final FlowReturn NOT_SUPPORTED = new FlowReturn(0);
-    
+    NOT_SUPPORTED(-6),
     /**
      * Elements can use values starting from
      *                               this (and lower) to define custom error codes.
      */
-    public static final FlowReturn CUSTOM_ERROR = new FlowReturn(0);
-    
+    CUSTOM_ERROR(-100),
     /**
      * Pre-defined custom error code (define your
      *                               custom error code to this to avoid compiler
      *                               warnings).
      */
-    public static final FlowReturn CUSTOM_ERROR_1 = new FlowReturn(0);
-    
+    CUSTOM_ERROR_1(-101),
     /**
      * Pre-defined custom error code.
      */
-    public static final FlowReturn CUSTOM_ERROR_2 = new FlowReturn(0);
+    CUSTOM_ERROR_2(-102);
     
-    public FlowReturn(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "GstFlowReturn";
+    
+    private final int value;
+    FlowReturn(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static FlowReturn of(int value) {
+        return switch (value) {
+            case 102 -> CUSTOM_SUCCESS_2;
+            case 101 -> CUSTOM_SUCCESS_1;
+            case 100 -> CUSTOM_SUCCESS;
+            case 0 -> OK;
+            case -1 -> NOT_LINKED;
+            case -2 -> FLUSHING;
+            case -3 -> EOS;
+            case -4 -> NOT_NEGOTIATED;
+            case -5 -> ERROR;
+            case -6 -> NOT_SUPPORTED;
+            case -100 -> CUSTOM_ERROR;
+            case -101 -> CUSTOM_ERROR_1;
+            case -102 -> CUSTOM_ERROR_2;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

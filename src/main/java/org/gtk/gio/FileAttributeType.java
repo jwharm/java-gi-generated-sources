@@ -8,61 +8,73 @@ import org.jetbrains.annotations.*;
 /**
  * The data types for file attributes.
  */
-public class FileAttributeType extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "GFileAttributeType";
-    
+public enum FileAttributeType implements io.github.jwharm.javagi.Enumeration {
     /**
      * indicates an invalid or uninitialized type.
      */
-    public static final FileAttributeType INVALID = new FileAttributeType(0);
-    
+    INVALID(0),
     /**
      * a null terminated UTF8 string.
      */
-    public static final FileAttributeType STRING = new FileAttributeType(1);
-    
+    STRING(1),
     /**
      * a zero terminated string of non-zero bytes.
      */
-    public static final FileAttributeType BYTE_STRING = new FileAttributeType(2);
-    
+    BYTE_STRING(2),
     /**
      * a boolean value.
      */
-    public static final FileAttributeType BOOLEAN = new FileAttributeType(3);
-    
+    BOOLEAN(3),
     /**
      * an unsigned 4-byte/32-bit integer.
      */
-    public static final FileAttributeType UINT32 = new FileAttributeType(4);
-    
+    UINT32(4),
     /**
      * a signed 4-byte/32-bit integer.
      */
-    public static final FileAttributeType INT32 = new FileAttributeType(5);
-    
+    INT32(5),
     /**
      * an unsigned 8-byte/64-bit integer.
      */
-    public static final FileAttributeType UINT64 = new FileAttributeType(6);
-    
+    UINT64(6),
     /**
      * a signed 8-byte/64-bit integer.
      */
-    public static final FileAttributeType INT64 = new FileAttributeType(7);
-    
+    INT64(7),
     /**
      * a {@link org.gtk.gobject.Object}.
      */
-    public static final FileAttributeType OBJECT = new FileAttributeType(8);
-    
+    OBJECT(8),
     /**
      * a {@code null} terminated char **. Since 2.22
      */
-    public static final FileAttributeType STRINGV = new FileAttributeType(9);
+    STRINGV(9);
     
-    public FileAttributeType(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "GFileAttributeType";
+    
+    private final int value;
+    FileAttributeType(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static FileAttributeType of(int value) {
+        return switch (value) {
+            case 0 -> INVALID;
+            case 1 -> STRING;
+            case 2 -> BYTE_STRING;
+            case 3 -> BOOLEAN;
+            case 4 -> UINT32;
+            case 5 -> INT32;
+            case 6 -> UINT64;
+            case 7 -> INT64;
+            case 8 -> OBJECT;
+            case 9 -> STRINGV;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

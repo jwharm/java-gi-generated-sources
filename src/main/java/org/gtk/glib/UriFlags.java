@@ -96,9 +96,8 @@ public class UriFlags extends io.github.jwharm.javagi.Bitfield {
      * @param mask the value to combine with
      * @return the combined value by calculating {@code this | mask} 
      */
-    public UriFlags combined(UriFlags mask) {
-        this.setValue(this.getValue() | mask.getValue());
-        return this;
+    public UriFlags or(UriFlags mask) {
+        return new UriFlags(this.getValue() | mask.getValue());
     }
     
     /**
@@ -108,9 +107,9 @@ public class UriFlags extends io.github.jwharm.javagi.Bitfield {
      * @return the combined value by calculating {@code mask | masks[0] | masks[1] | ...} 
      */
     public static UriFlags combined(UriFlags mask, UriFlags... masks) {
-        for (UriFlags arg : masks) {
-            mask.setValue(mask.getValue() | arg.getValue());
+        int value = mask.getValue();        for (UriFlags arg : masks) {
+            value |= arg.getValue();
         }
-        return mask;
+        return new UriFlags(value);
     }
 }

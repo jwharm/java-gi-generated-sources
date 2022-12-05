@@ -44,32 +44,4 @@ public class PipelinePrivate extends Struct {
     public PipelinePrivate(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
-
-    /**
-     * Inner class implementing a builder pattern to construct 
-     * a struct and set its values.
-     */
-    public static class Build {
-        
-        private PipelinePrivate struct;
-        
-         /**
-         * A {@link PipelinePrivate.Build} object constructs a {@link PipelinePrivate} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
-            struct = PipelinePrivate.allocate();
-        }
-        
-         /**
-         * Finish building the {@link PipelinePrivate} struct.
-         * @return A new instance of {@code PipelinePrivate} with the fields 
-         *         that were set in the Build object.
-         */
-        public PipelinePrivate construct() {
-            return struct;
-        }
-    }
 }

@@ -8,26 +8,38 @@ import org.jetbrains.annotations.*;
 /**
  * Error codes returned by shell functions.
  */
-public class ShellError extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "GShellError";
-    
+public enum ShellError implements io.github.jwharm.javagi.Enumeration {
     /**
      * Mismatched or otherwise mangled quoting.
      */
-    public static final ShellError BAD_QUOTING = new ShellError(0);
-    
+    BAD_QUOTING(0),
     /**
      * String to be parsed was empty.
      */
-    public static final ShellError EMPTY_STRING = new ShellError(1);
-    
+    EMPTY_STRING(1),
     /**
      * Some other error.
      */
-    public static final ShellError FAILED = new ShellError(2);
+    FAILED(2);
     
-    public ShellError(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "GShellError";
+    
+    private final int value;
+    ShellError(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static ShellError of(int value) {
+        return switch (value) {
+            case 0 -> BAD_QUOTING;
+            case 1 -> EMPTY_STRING;
+            case 2 -> FAILED;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

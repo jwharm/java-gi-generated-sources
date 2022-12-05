@@ -9,26 +9,38 @@ import org.jetbrains.annotations.*;
  * The different types of seek events. When constructing a seek event with
  * gst_event_new_seek() or when doing gst_segment_do_seek ().
  */
-public class SeekType extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "GstSeekType";
-    
+public enum SeekType implements io.github.jwharm.javagi.Enumeration {
     /**
      * no change in position is required
      */
-    public static final SeekType NONE = new SeekType(0);
-    
+    NONE(0),
     /**
      * absolute position is requested
      */
-    public static final SeekType SET = new SeekType(1);
-    
+    SET(1),
     /**
      * relative position to duration is requested
      */
-    public static final SeekType END = new SeekType(2);
+    END(2);
     
-    public SeekType(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "GstSeekType";
+    
+    private final int value;
+    SeekType(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static SeekType of(int value) {
+        return switch (value) {
+            case 0 -> NONE;
+            case 1 -> SET;
+            case 2 -> END;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

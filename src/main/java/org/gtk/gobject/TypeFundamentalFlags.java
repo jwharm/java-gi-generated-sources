@@ -42,9 +42,8 @@ public class TypeFundamentalFlags extends io.github.jwharm.javagi.Bitfield {
      * @param mask the value to combine with
      * @return the combined value by calculating {@code this | mask} 
      */
-    public TypeFundamentalFlags combined(TypeFundamentalFlags mask) {
-        this.setValue(this.getValue() | mask.getValue());
-        return this;
+    public TypeFundamentalFlags or(TypeFundamentalFlags mask) {
+        return new TypeFundamentalFlags(this.getValue() | mask.getValue());
     }
     
     /**
@@ -54,9 +53,9 @@ public class TypeFundamentalFlags extends io.github.jwharm.javagi.Bitfield {
      * @return the combined value by calculating {@code mask | masks[0] | masks[1] | ...} 
      */
     public static TypeFundamentalFlags combined(TypeFundamentalFlags mask, TypeFundamentalFlags... masks) {
-        for (TypeFundamentalFlags arg : masks) {
-            mask.setValue(mask.getValue() | arg.getValue());
+        int value = mask.getValue();        for (TypeFundamentalFlags arg : masks) {
+            value |= arg.getValue();
         }
-        return mask;
+        return new TypeFundamentalFlags(value);
     }
 }

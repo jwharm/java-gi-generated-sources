@@ -84,9 +84,8 @@ public class SignalFlags extends io.github.jwharm.javagi.Bitfield {
      * @param mask the value to combine with
      * @return the combined value by calculating {@code this | mask} 
      */
-    public SignalFlags combined(SignalFlags mask) {
-        this.setValue(this.getValue() | mask.getValue());
-        return this;
+    public SignalFlags or(SignalFlags mask) {
+        return new SignalFlags(this.getValue() | mask.getValue());
     }
     
     /**
@@ -96,9 +95,9 @@ public class SignalFlags extends io.github.jwharm.javagi.Bitfield {
      * @return the combined value by calculating {@code mask | masks[0] | masks[1] | ...} 
      */
     public static SignalFlags combined(SignalFlags mask, SignalFlags... masks) {
-        for (SignalFlags arg : masks) {
-            mask.setValue(mask.getValue() | arg.getValue());
+        int value = mask.getValue();        for (SignalFlags arg : masks) {
+            value |= arg.getValue();
         }
-        return mask;
+        return new SignalFlags(value);
     }
 }

@@ -8,16 +8,12 @@ import org.jetbrains.annotations.*;
 /**
  * The scope of a TOC.
  */
-public class TocScope extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "GstTocScope";
-    
+public enum TocScope implements io.github.jwharm.javagi.Enumeration {
     /**
      * global TOC representing all selectable options
      *     (this is what applications are usually interested in)
      */
-    public static final TocScope GLOBAL = new TocScope(1);
-    
+    GLOBAL(1),
     /**
      * TOC for the currently active/selected stream
      *     (this is a TOC representing the current stream from start to EOS,
@@ -26,9 +22,25 @@ public class TocScope extends io.github.jwharm.javagi.Enumeration {
      *     the current title, or the chapters selected for playback from the
      *     current title)
      */
-    public static final TocScope CURRENT = new TocScope(2);
+    CURRENT(2);
     
-    public TocScope(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "GstTocScope";
+    
+    private final int value;
+    TocScope(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static TocScope of(int value) {
+        return switch (value) {
+            case 1 -> GLOBAL;
+            case 2 -> CURRENT;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

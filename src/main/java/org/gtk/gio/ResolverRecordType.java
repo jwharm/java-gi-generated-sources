@@ -38,36 +38,48 @@ import org.jetbrains.annotations.*;
  * {@code (s)}, representing a string of the hostname of the name server.
  * @version 2.34
  */
-public class ResolverRecordType extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "GResolverRecordType";
-    
+public enum ResolverRecordType implements io.github.jwharm.javagi.Enumeration {
     /**
      * look up DNS SRV records for a domain
      */
-    public static final ResolverRecordType SRV = new ResolverRecordType(1);
-    
+    SRV(1),
     /**
      * look up DNS MX records for a domain
      */
-    public static final ResolverRecordType MX = new ResolverRecordType(2);
-    
+    MX(2),
     /**
      * look up DNS TXT records for a name
      */
-    public static final ResolverRecordType TXT = new ResolverRecordType(3);
-    
+    TXT(3),
     /**
      * look up DNS SOA records for a zone
      */
-    public static final ResolverRecordType SOA = new ResolverRecordType(4);
-    
+    SOA(4),
     /**
      * look up DNS NS records for a domain
      */
-    public static final ResolverRecordType NS = new ResolverRecordType(5);
+    NS(5);
     
-    public ResolverRecordType(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "GResolverRecordType";
+    
+    private final int value;
+    ResolverRecordType(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static ResolverRecordType of(int value) {
+        return switch (value) {
+            case 1 -> SRV;
+            case 2 -> MX;
+            case 3 -> TXT;
+            case 4 -> SOA;
+            case 5 -> NS;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

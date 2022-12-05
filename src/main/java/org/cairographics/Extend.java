@@ -5,19 +5,31 @@ import java.lang.foreign.*;
 import java.lang.invoke.*;
 import org.jetbrains.annotations.*;
 
-public class Extend extends io.github.jwharm.javagi.Enumeration {
+public enum Extend implements io.github.jwharm.javagi.Enumeration {
+    NONE(0),
+    REPEAT(1),
+    REFLECT(2),
+    PAD(3);
     
     private static final java.lang.String C_TYPE_NAME = "cairo_extend_t";
     
-    public static final Extend NONE = new Extend(0);
+    private final int value;
+    Extend(int value) {
+        this.value = value;
+    }
     
-    public static final Extend REPEAT = new Extend(1);
+    @Override
+    public int getValue() {
+        return value;
+    }
     
-    public static final Extend REFLECT = new Extend(2);
-    
-    public static final Extend PAD = new Extend(3);
-    
-    public Extend(int value) {
-        super(value);
+    public static Extend of(int value) {
+        return switch (value) {
+            case 0 -> NONE;
+            case 1 -> REPEAT;
+            case 2 -> REFLECT;
+            case 3 -> PAD;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

@@ -48,32 +48,4 @@ public class CredentialsClass extends Struct {
     public CredentialsClass(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
-
-    /**
-     * Inner class implementing a builder pattern to construct 
-     * a struct and set its values.
-     */
-    public static class Build {
-        
-        private CredentialsClass struct;
-        
-         /**
-         * A {@link CredentialsClass.Build} object constructs a {@link CredentialsClass} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
-            struct = CredentialsClass.allocate();
-        }
-        
-         /**
-         * Finish building the {@link CredentialsClass} struct.
-         * @return A new instance of {@code CredentialsClass} with the fields 
-         *         that were set in the Build object.
-         */
-        public CredentialsClass construct() {
-            return struct;
-        }
-    }
 }

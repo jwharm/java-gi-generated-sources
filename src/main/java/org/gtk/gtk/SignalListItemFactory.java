@@ -87,7 +87,11 @@ public class SignalListItemFactory extends org.gtk.gtk.ListItemFactory {
      * @throws ClassCastException If the GType is not derived from "GtkSignalListItemFactory", a ClassCastException will be thrown.
      */
     public static SignalListItemFactory castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), SignalListItemFactory.getType())) {
             return new SignalListItemFactory(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkSignalListItemFactory");
+        }
     }
     
     private static Addressable constructNew() {
@@ -125,7 +129,7 @@ public class SignalListItemFactory extends org.gtk.gtk.ListItemFactory {
     
     @FunctionalInterface
     public interface Bind {
-        void signalReceived(SignalListItemFactory source, @NotNull org.gtk.gobject.Object object);
+        void signalReceived(SignalListItemFactory sourceSignalListItemFactory, @NotNull org.gtk.gobject.Object object);
     }
     
     /**
@@ -162,7 +166,7 @@ public class SignalListItemFactory extends org.gtk.gtk.ListItemFactory {
     
     @FunctionalInterface
     public interface Setup {
-        void signalReceived(SignalListItemFactory source, @NotNull org.gtk.gobject.Object object);
+        void signalReceived(SignalListItemFactory sourceSignalListItemFactory, @NotNull org.gtk.gobject.Object object);
     }
     
     /**
@@ -195,7 +199,7 @@ public class SignalListItemFactory extends org.gtk.gtk.ListItemFactory {
     
     @FunctionalInterface
     public interface Teardown {
-        void signalReceived(SignalListItemFactory source, @NotNull org.gtk.gobject.Object object);
+        void signalReceived(SignalListItemFactory sourceSignalListItemFactory, @NotNull org.gtk.gobject.Object object);
     }
     
     /**
@@ -228,7 +232,7 @@ public class SignalListItemFactory extends org.gtk.gtk.ListItemFactory {
     
     @FunctionalInterface
     public interface Unbind {
-        void signalReceived(SignalListItemFactory source, @NotNull org.gtk.gobject.Object object);
+        void signalReceived(SignalListItemFactory sourceSignalListItemFactory, @NotNull org.gtk.gobject.Object object);
     }
     
     /**
@@ -311,28 +315,28 @@ public class SignalListItemFactory extends org.gtk.gtk.ListItemFactory {
     
     private static class Callbacks {
         
-        public static void signalSignalListItemFactoryBind(MemoryAddress source, MemoryAddress object, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalSignalListItemFactoryBind(MemoryAddress sourceSignalListItemFactory, MemoryAddress object, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (SignalListItemFactory.Bind) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new SignalListItemFactory(source, Ownership.NONE), new org.gtk.gobject.Object(object, Ownership.NONE));
+            HANDLER.signalReceived(new SignalListItemFactory(sourceSignalListItemFactory, Ownership.NONE), new org.gtk.gobject.Object(object, Ownership.NONE));
         }
         
-        public static void signalSignalListItemFactorySetup(MemoryAddress source, MemoryAddress object, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalSignalListItemFactorySetup(MemoryAddress sourceSignalListItemFactory, MemoryAddress object, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (SignalListItemFactory.Setup) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new SignalListItemFactory(source, Ownership.NONE), new org.gtk.gobject.Object(object, Ownership.NONE));
+            HANDLER.signalReceived(new SignalListItemFactory(sourceSignalListItemFactory, Ownership.NONE), new org.gtk.gobject.Object(object, Ownership.NONE));
         }
         
-        public static void signalSignalListItemFactoryTeardown(MemoryAddress source, MemoryAddress object, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalSignalListItemFactoryTeardown(MemoryAddress sourceSignalListItemFactory, MemoryAddress object, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (SignalListItemFactory.Teardown) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new SignalListItemFactory(source, Ownership.NONE), new org.gtk.gobject.Object(object, Ownership.NONE));
+            HANDLER.signalReceived(new SignalListItemFactory(sourceSignalListItemFactory, Ownership.NONE), new org.gtk.gobject.Object(object, Ownership.NONE));
         }
         
-        public static void signalSignalListItemFactoryUnbind(MemoryAddress source, MemoryAddress object, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalSignalListItemFactoryUnbind(MemoryAddress sourceSignalListItemFactory, MemoryAddress object, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (SignalListItemFactory.Unbind) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new SignalListItemFactory(source, Ownership.NONE), new org.gtk.gobject.Object(object, Ownership.NONE));
+            HANDLER.signalReceived(new SignalListItemFactory(sourceSignalListItemFactory, Ownership.NONE), new org.gtk.gobject.Object(object, Ownership.NONE));
         }
     }
 }

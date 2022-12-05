@@ -5,17 +5,29 @@ import java.lang.foreign.*;
 import java.lang.invoke.*;
 import org.jetbrains.annotations.*;
 
-public class LineJoin extends io.github.jwharm.javagi.Enumeration {
+public enum LineJoin implements io.github.jwharm.javagi.Enumeration {
+    MITER(0),
+    ROUND(1),
+    BEVEL(2);
     
     private static final java.lang.String C_TYPE_NAME = "cairo_line_join_t";
     
-    public static final LineJoin MITER = new LineJoin(0);
+    private final int value;
+    LineJoin(int value) {
+        this.value = value;
+    }
     
-    public static final LineJoin ROUND = new LineJoin(1);
+    @Override
+    public int getValue() {
+        return value;
+    }
     
-    public static final LineJoin BEVEL = new LineJoin(2);
-    
-    public LineJoin(int value) {
-        super(value);
+    public static LineJoin of(int value) {
+        return switch (value) {
+            case 0 -> MITER;
+            case 1 -> ROUND;
+            case 2 -> BEVEL;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

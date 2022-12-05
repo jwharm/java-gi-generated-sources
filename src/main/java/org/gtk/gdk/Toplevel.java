@@ -27,7 +27,11 @@ public interface Toplevel extends io.github.jwharm.javagi.Proxy {
      * @throws ClassCastException If the GType is not derived from "GdkToplevel", a ClassCastException will be thrown.
      */
     public static Toplevel castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), Toplevel.getType())) {
             return new ToplevelImpl(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GdkToplevel");
+        }
     }
     
     /**
@@ -434,7 +438,7 @@ public interface Toplevel extends io.github.jwharm.javagi.Proxy {
     
     @FunctionalInterface
     public interface ComputeSize {
-        void signalReceived(Toplevel source, @NotNull org.gtk.gdk.ToplevelSize size);
+        void signalReceived(Toplevel sourceToplevel, @NotNull org.gtk.gdk.ToplevelSize size);
     }
     
     /**
@@ -618,10 +622,10 @@ public interface Toplevel extends io.github.jwharm.javagi.Proxy {
     @ApiStatus.Internal
     static class Callbacks {
         
-        public static void signalToplevelComputeSize(MemoryAddress source, MemoryAddress size, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalToplevelComputeSize(MemoryAddress sourceToplevel, MemoryAddress size, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (Toplevel.ComputeSize) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Toplevel.ToplevelImpl(source, Ownership.NONE), new org.gtk.gdk.ToplevelSize(size, Ownership.NONE));
+            HANDLER.signalReceived(new Toplevel.ToplevelImpl(sourceToplevel, Ownership.NONE), new org.gtk.gdk.ToplevelSize(size, Ownership.NONE));
         }
     }
     

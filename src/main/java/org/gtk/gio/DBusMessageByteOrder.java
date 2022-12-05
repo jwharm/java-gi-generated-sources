@@ -9,21 +9,33 @@ import org.jetbrains.annotations.*;
  * Enumeration used to describe the byte order of a D-Bus message.
  * @version 2.26
  */
-public class DBusMessageByteOrder extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "GDBusMessageByteOrder";
-    
+public enum DBusMessageByteOrder implements io.github.jwharm.javagi.Enumeration {
     /**
      * The byte order is big endian.
      */
-    public static final DBusMessageByteOrder BIG_ENDIAN = new DBusMessageByteOrder(66);
-    
+    BIG_ENDIAN(66),
     /**
      * The byte order is little endian.
      */
-    public static final DBusMessageByteOrder LITTLE_ENDIAN = new DBusMessageByteOrder(108);
+    LITTLE_ENDIAN(108);
     
-    public DBusMessageByteOrder(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "GDBusMessageByteOrder";
+    
+    private final int value;
+    DBusMessageByteOrder(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static DBusMessageByteOrder of(int value) {
+        return switch (value) {
+            case 66 -> BIG_ENDIAN;
+            case 108 -> LITTLE_ENDIAN;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

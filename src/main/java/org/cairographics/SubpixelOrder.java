@@ -5,21 +5,33 @@ import java.lang.foreign.*;
 import java.lang.invoke.*;
 import org.jetbrains.annotations.*;
 
-public class SubpixelOrder extends io.github.jwharm.javagi.Enumeration {
+public enum SubpixelOrder implements io.github.jwharm.javagi.Enumeration {
+    DEFAULT(0),
+    RGB(1),
+    BGR(2),
+    VRGB(3),
+    VBGR(4);
     
     private static final java.lang.String C_TYPE_NAME = "cairo_subpixel_order_t";
     
-    public static final SubpixelOrder DEFAULT = new SubpixelOrder(0);
+    private final int value;
+    SubpixelOrder(int value) {
+        this.value = value;
+    }
     
-    public static final SubpixelOrder RGB = new SubpixelOrder(1);
+    @Override
+    public int getValue() {
+        return value;
+    }
     
-    public static final SubpixelOrder BGR = new SubpixelOrder(2);
-    
-    public static final SubpixelOrder VRGB = new SubpixelOrder(3);
-    
-    public static final SubpixelOrder VBGR = new SubpixelOrder(4);
-    
-    public SubpixelOrder(int value) {
-        super(value);
+    public static SubpixelOrder of(int value) {
+        return switch (value) {
+            case 0 -> DEFAULT;
+            case 1 -> RGB;
+            case 2 -> BGR;
+            case 3 -> VRGB;
+            case 4 -> VBGR;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

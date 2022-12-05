@@ -61,7 +61,11 @@ public class TextBuffer extends org.gtk.gobject.Object {
      * @throws ClassCastException If the GType is not derived from "GtkTextBuffer", a ClassCastException will be thrown.
      */
     public static TextBuffer castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), TextBuffer.getType())) {
             return new TextBuffer(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkTextBuffer");
+        }
     }
     
     private static Addressable constructNew(@Nullable org.gtk.gtk.TextTagTable table) {
@@ -1722,7 +1726,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface ApplyTag {
-        void signalReceived(TextBuffer source, @NotNull org.gtk.gtk.TextTag tag, @NotNull org.gtk.gtk.TextIter start, @NotNull org.gtk.gtk.TextIter end);
+        void signalReceived(TextBuffer sourceTextBuffer, @NotNull org.gtk.gtk.TextTag tag, @NotNull org.gtk.gtk.TextIter start, @NotNull org.gtk.gtk.TextIter end);
     }
     
     /**
@@ -1761,7 +1765,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface BeginUserAction {
-        void signalReceived(TextBuffer source);
+        void signalReceived(TextBuffer sourceTextBuffer);
     }
     
     /**
@@ -1798,7 +1802,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface Changed {
-        void signalReceived(TextBuffer source);
+        void signalReceived(TextBuffer sourceTextBuffer);
     }
     
     /**
@@ -1826,7 +1830,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface DeleteRange {
-        void signalReceived(TextBuffer source, @NotNull org.gtk.gtk.TextIter start, @NotNull org.gtk.gtk.TextIter end);
+        void signalReceived(TextBuffer sourceTextBuffer, @NotNull org.gtk.gtk.TextIter start, @NotNull org.gtk.gtk.TextIter end);
     }
     
     /**
@@ -1864,7 +1868,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface EndUserAction {
-        void signalReceived(TextBuffer source);
+        void signalReceived(TextBuffer sourceTextBuffer);
     }
     
     /**
@@ -1902,7 +1906,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface InsertChildAnchor {
-        void signalReceived(TextBuffer source, @NotNull org.gtk.gtk.TextIter location, @NotNull org.gtk.gtk.TextChildAnchor anchor);
+        void signalReceived(TextBuffer sourceTextBuffer, @NotNull org.gtk.gtk.TextIter location, @NotNull org.gtk.gtk.TextChildAnchor anchor);
     }
     
     /**
@@ -1939,7 +1943,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface InsertPaintable {
-        void signalReceived(TextBuffer source, @NotNull org.gtk.gtk.TextIter location, @NotNull org.gtk.gdk.Paintable paintable);
+        void signalReceived(TextBuffer sourceTextBuffer, @NotNull org.gtk.gtk.TextIter location, @NotNull org.gtk.gdk.Paintable paintable);
     }
     
     /**
@@ -1976,7 +1980,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface InsertText {
-        void signalReceived(TextBuffer source, @NotNull org.gtk.gtk.TextIter location, @NotNull java.lang.String text, int len);
+        void signalReceived(TextBuffer sourceTextBuffer, @NotNull org.gtk.gtk.TextIter location, @NotNull java.lang.String text, int len);
     }
     
     /**
@@ -2014,7 +2018,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface MarkDeleted {
-        void signalReceived(TextBuffer source, @NotNull org.gtk.gtk.TextMark mark);
+        void signalReceived(TextBuffer sourceTextBuffer, @NotNull org.gtk.gtk.TextMark mark);
     }
     
     /**
@@ -2044,7 +2048,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface MarkSet {
-        void signalReceived(TextBuffer source, @NotNull org.gtk.gtk.TextIter location, @NotNull org.gtk.gtk.TextMark mark);
+        void signalReceived(TextBuffer sourceTextBuffer, @NotNull org.gtk.gtk.TextIter location, @NotNull org.gtk.gtk.TextMark mark);
     }
     
     /**
@@ -2076,7 +2080,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface ModifiedChanged {
-        void signalReceived(TextBuffer source);
+        void signalReceived(TextBuffer sourceTextBuffer);
     }
     
     /**
@@ -2106,7 +2110,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface PasteDone {
-        void signalReceived(TextBuffer source, @NotNull org.gtk.gdk.Clipboard clipboard);
+        void signalReceived(TextBuffer sourceTextBuffer, @NotNull org.gtk.gdk.Clipboard clipboard);
     }
     
     /**
@@ -2138,7 +2142,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface Redo {
-        void signalReceived(TextBuffer source);
+        void signalReceived(TextBuffer sourceTextBuffer);
     }
     
     /**
@@ -2167,7 +2171,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface RemoveTag {
-        void signalReceived(TextBuffer source, @NotNull org.gtk.gtk.TextTag tag, @NotNull org.gtk.gtk.TextIter start, @NotNull org.gtk.gtk.TextIter end);
+        void signalReceived(TextBuffer sourceTextBuffer, @NotNull org.gtk.gtk.TextTag tag, @NotNull org.gtk.gtk.TextIter start, @NotNull org.gtk.gtk.TextIter end);
     }
     
     /**
@@ -2204,7 +2208,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface Undo {
-        void signalReceived(TextBuffer source);
+        void signalReceived(TextBuffer sourceTextBuffer);
     }
     
     /**
@@ -2787,94 +2791,94 @@ public class TextBuffer extends org.gtk.gobject.Object {
     
     private static class Callbacks {
         
-        public static void signalTextBufferApplyTag(MemoryAddress source, MemoryAddress tag, MemoryAddress start, MemoryAddress end, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalTextBufferApplyTag(MemoryAddress sourceTextBuffer, MemoryAddress tag, MemoryAddress start, MemoryAddress end, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (TextBuffer.ApplyTag) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new TextBuffer(source, Ownership.NONE), new org.gtk.gtk.TextTag(tag, Ownership.NONE), new org.gtk.gtk.TextIter(start, Ownership.NONE), new org.gtk.gtk.TextIter(end, Ownership.NONE));
+            HANDLER.signalReceived(new TextBuffer(sourceTextBuffer, Ownership.NONE), new org.gtk.gtk.TextTag(tag, Ownership.NONE), new org.gtk.gtk.TextIter(start, Ownership.NONE), new org.gtk.gtk.TextIter(end, Ownership.NONE));
         }
         
-        public static void signalTextBufferBeginUserAction(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalTextBufferBeginUserAction(MemoryAddress sourceTextBuffer, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (TextBuffer.BeginUserAction) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new TextBuffer(source, Ownership.NONE));
+            HANDLER.signalReceived(new TextBuffer(sourceTextBuffer, Ownership.NONE));
         }
         
-        public static void signalTextBufferChanged(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalTextBufferChanged(MemoryAddress sourceTextBuffer, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (TextBuffer.Changed) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new TextBuffer(source, Ownership.NONE));
+            HANDLER.signalReceived(new TextBuffer(sourceTextBuffer, Ownership.NONE));
         }
         
-        public static void signalTextBufferDeleteRange(MemoryAddress source, MemoryAddress start, MemoryAddress end, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalTextBufferDeleteRange(MemoryAddress sourceTextBuffer, MemoryAddress start, MemoryAddress end, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (TextBuffer.DeleteRange) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new TextBuffer(source, Ownership.NONE), new org.gtk.gtk.TextIter(start, Ownership.NONE), new org.gtk.gtk.TextIter(end, Ownership.NONE));
+            HANDLER.signalReceived(new TextBuffer(sourceTextBuffer, Ownership.NONE), new org.gtk.gtk.TextIter(start, Ownership.NONE), new org.gtk.gtk.TextIter(end, Ownership.NONE));
         }
         
-        public static void signalTextBufferEndUserAction(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalTextBufferEndUserAction(MemoryAddress sourceTextBuffer, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (TextBuffer.EndUserAction) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new TextBuffer(source, Ownership.NONE));
+            HANDLER.signalReceived(new TextBuffer(sourceTextBuffer, Ownership.NONE));
         }
         
-        public static void signalTextBufferInsertChildAnchor(MemoryAddress source, MemoryAddress location, MemoryAddress anchor, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalTextBufferInsertChildAnchor(MemoryAddress sourceTextBuffer, MemoryAddress location, MemoryAddress anchor, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (TextBuffer.InsertChildAnchor) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new TextBuffer(source, Ownership.NONE), new org.gtk.gtk.TextIter(location, Ownership.NONE), new org.gtk.gtk.TextChildAnchor(anchor, Ownership.NONE));
+            HANDLER.signalReceived(new TextBuffer(sourceTextBuffer, Ownership.NONE), new org.gtk.gtk.TextIter(location, Ownership.NONE), new org.gtk.gtk.TextChildAnchor(anchor, Ownership.NONE));
         }
         
-        public static void signalTextBufferInsertPaintable(MemoryAddress source, MemoryAddress location, MemoryAddress paintable, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalTextBufferInsertPaintable(MemoryAddress sourceTextBuffer, MemoryAddress location, MemoryAddress paintable, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (TextBuffer.InsertPaintable) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new TextBuffer(source, Ownership.NONE), new org.gtk.gtk.TextIter(location, Ownership.NONE), new org.gtk.gdk.Paintable.PaintableImpl(paintable, Ownership.NONE));
+            HANDLER.signalReceived(new TextBuffer(sourceTextBuffer, Ownership.NONE), new org.gtk.gtk.TextIter(location, Ownership.NONE), new org.gtk.gdk.Paintable.PaintableImpl(paintable, Ownership.NONE));
         }
         
-        public static void signalTextBufferInsertText(MemoryAddress source, MemoryAddress location, MemoryAddress text, int len, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalTextBufferInsertText(MemoryAddress sourceTextBuffer, MemoryAddress location, MemoryAddress text, int len, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (TextBuffer.InsertText) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new TextBuffer(source, Ownership.NONE), new org.gtk.gtk.TextIter(location, Ownership.NONE), Interop.getStringFrom(text), len);
+            HANDLER.signalReceived(new TextBuffer(sourceTextBuffer, Ownership.NONE), new org.gtk.gtk.TextIter(location, Ownership.NONE), Interop.getStringFrom(text), len);
         }
         
-        public static void signalTextBufferMarkDeleted(MemoryAddress source, MemoryAddress mark, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalTextBufferMarkDeleted(MemoryAddress sourceTextBuffer, MemoryAddress mark, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (TextBuffer.MarkDeleted) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new TextBuffer(source, Ownership.NONE), new org.gtk.gtk.TextMark(mark, Ownership.NONE));
+            HANDLER.signalReceived(new TextBuffer(sourceTextBuffer, Ownership.NONE), new org.gtk.gtk.TextMark(mark, Ownership.NONE));
         }
         
-        public static void signalTextBufferMarkSet(MemoryAddress source, MemoryAddress location, MemoryAddress mark, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalTextBufferMarkSet(MemoryAddress sourceTextBuffer, MemoryAddress location, MemoryAddress mark, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (TextBuffer.MarkSet) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new TextBuffer(source, Ownership.NONE), new org.gtk.gtk.TextIter(location, Ownership.NONE), new org.gtk.gtk.TextMark(mark, Ownership.NONE));
+            HANDLER.signalReceived(new TextBuffer(sourceTextBuffer, Ownership.NONE), new org.gtk.gtk.TextIter(location, Ownership.NONE), new org.gtk.gtk.TextMark(mark, Ownership.NONE));
         }
         
-        public static void signalTextBufferModifiedChanged(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalTextBufferModifiedChanged(MemoryAddress sourceTextBuffer, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (TextBuffer.ModifiedChanged) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new TextBuffer(source, Ownership.NONE));
+            HANDLER.signalReceived(new TextBuffer(sourceTextBuffer, Ownership.NONE));
         }
         
-        public static void signalTextBufferPasteDone(MemoryAddress source, MemoryAddress clipboard, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalTextBufferPasteDone(MemoryAddress sourceTextBuffer, MemoryAddress clipboard, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (TextBuffer.PasteDone) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new TextBuffer(source, Ownership.NONE), new org.gtk.gdk.Clipboard(clipboard, Ownership.NONE));
+            HANDLER.signalReceived(new TextBuffer(sourceTextBuffer, Ownership.NONE), new org.gtk.gdk.Clipboard(clipboard, Ownership.NONE));
         }
         
-        public static void signalTextBufferRedo(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalTextBufferRedo(MemoryAddress sourceTextBuffer, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (TextBuffer.Redo) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new TextBuffer(source, Ownership.NONE));
+            HANDLER.signalReceived(new TextBuffer(sourceTextBuffer, Ownership.NONE));
         }
         
-        public static void signalTextBufferRemoveTag(MemoryAddress source, MemoryAddress tag, MemoryAddress start, MemoryAddress end, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalTextBufferRemoveTag(MemoryAddress sourceTextBuffer, MemoryAddress tag, MemoryAddress start, MemoryAddress end, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (TextBuffer.RemoveTag) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new TextBuffer(source, Ownership.NONE), new org.gtk.gtk.TextTag(tag, Ownership.NONE), new org.gtk.gtk.TextIter(start, Ownership.NONE), new org.gtk.gtk.TextIter(end, Ownership.NONE));
+            HANDLER.signalReceived(new TextBuffer(sourceTextBuffer, Ownership.NONE), new org.gtk.gtk.TextTag(tag, Ownership.NONE), new org.gtk.gtk.TextIter(start, Ownership.NONE), new org.gtk.gtk.TextIter(end, Ownership.NONE));
         }
         
-        public static void signalTextBufferUndo(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalTextBufferUndo(MemoryAddress sourceTextBuffer, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (TextBuffer.Undo) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new TextBuffer(source, Ownership.NONE));
+            HANDLER.signalReceived(new TextBuffer(sourceTextBuffer, Ownership.NONE));
         }
     }
 }

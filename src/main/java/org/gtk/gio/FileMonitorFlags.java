@@ -55,9 +55,8 @@ public class FileMonitorFlags extends io.github.jwharm.javagi.Bitfield {
      * @param mask the value to combine with
      * @return the combined value by calculating {@code this | mask} 
      */
-    public FileMonitorFlags combined(FileMonitorFlags mask) {
-        this.setValue(this.getValue() | mask.getValue());
-        return this;
+    public FileMonitorFlags or(FileMonitorFlags mask) {
+        return new FileMonitorFlags(this.getValue() | mask.getValue());
     }
     
     /**
@@ -67,9 +66,9 @@ public class FileMonitorFlags extends io.github.jwharm.javagi.Bitfield {
      * @return the combined value by calculating {@code mask | masks[0] | masks[1] | ...} 
      */
     public static FileMonitorFlags combined(FileMonitorFlags mask, FileMonitorFlags... masks) {
-        for (FileMonitorFlags arg : masks) {
-            mask.setValue(mask.getValue() | arg.getValue());
+        int value = mask.getValue();        for (FileMonitorFlags arg : masks) {
+            value |= arg.getValue();
         }
-        return mask;
+        return new FileMonitorFlags(value);
     }
 }

@@ -8,35 +8,28 @@ import org.jetbrains.annotations.*;
 /**
  * The possible accessible states of a {@code Accessible}.
  */
-public class AccessibleState extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "GtkAccessibleState";
-    
+public enum AccessibleState implements io.github.jwharm.javagi.Enumeration {
     /**
      * A “busy” state. This state has boolean values
      */
-    public static final AccessibleState BUSY = new AccessibleState(0);
-    
+    BUSY(0),
     /**
      * A “checked” state; indicates the current
      *   state of a {@link CheckButton}
      */
-    public static final AccessibleState CHECKED = new AccessibleState(1);
-    
+    CHECKED(1),
     /**
      * A “disabled” state; corresponds to the
      *   {@code Widget:sensitive} property. It indicates a UI element
      *   that is perceivable, but not editable or operable. Value type: boolean
      */
-    public static final AccessibleState DISABLED = new AccessibleState(2);
-    
+    DISABLED(2),
     /**
      * An “expanded” state; corresponds to the
      *   {@code Expander:expanded} property. Value type: boolean
      *   or undefined
      */
-    public static final AccessibleState EXPANDED = new AccessibleState(3);
-    
+    EXPANDED(3),
     /**
      * A “hidden” state; corresponds to the
      *   {@code Widget:visible} property. You can use this state
@@ -44,29 +37,48 @@ public class AccessibleState extends io.github.jwharm.javagi.Enumeration {
      *   technology. Value type: boolean
      *   See also: {@link AccessibleState#DISABLED}
      */
-    public static final AccessibleState HIDDEN = new AccessibleState(4);
-    
+    HIDDEN(4),
     /**
      * An “invalid” state; set when a widget
      *   is showing an error. Value type: {@code AccessibleInvalidState}
      */
-    public static final AccessibleState INVALID = new AccessibleState(5);
-    
+    INVALID(5),
     /**
      * A “pressed” state; indicates the current
      *   state of a {@link ToggleButton}
      *   enumeration
      */
-    public static final AccessibleState PRESSED = new AccessibleState(6);
-    
+    PRESSED(6),
     /**
      * A “selected” state; set when a widget
      *   is selected. Value type: boolean or undefined
      */
-    public static final AccessibleState SELECTED = new AccessibleState(7);
+    SELECTED(7);
     
-    public AccessibleState(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "GtkAccessibleState";
+    
+    private final int value;
+    AccessibleState(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static AccessibleState of(int value) {
+        return switch (value) {
+            case 0 -> BUSY;
+            case 1 -> CHECKED;
+            case 2 -> DISABLED;
+            case 3 -> EXPANDED;
+            case 4 -> HIDDEN;
+            case 5 -> INVALID;
+            case 6 -> PRESSED;
+            case 7 -> SELECTED;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
     
     public static void initValue(@NotNull org.gtk.gtk.AccessibleState state, @NotNull org.gtk.gobject.Value value) {

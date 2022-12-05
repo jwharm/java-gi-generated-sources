@@ -8,61 +8,73 @@ import org.jetbrains.annotations.*;
 /**
  * Specifies the crossing mode for enter and leave events.
  */
-public class CrossingMode extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "GdkCrossingMode";
-    
+public enum CrossingMode implements io.github.jwharm.javagi.Enumeration {
     /**
      * crossing because of pointer motion.
      */
-    public static final CrossingMode NORMAL = new CrossingMode(0);
-    
+    NORMAL(0),
     /**
      * crossing because a grab is activated.
      */
-    public static final CrossingMode GRAB = new CrossingMode(1);
-    
+    GRAB(1),
     /**
      * crossing because a grab is deactivated.
      */
-    public static final CrossingMode UNGRAB = new CrossingMode(2);
-    
+    UNGRAB(2),
     /**
      * crossing because a GTK grab is activated.
      */
-    public static final CrossingMode GTK_GRAB = new CrossingMode(3);
-    
+    GTK_GRAB(3),
     /**
      * crossing because a GTK grab is deactivated.
      */
-    public static final CrossingMode GTK_UNGRAB = new CrossingMode(4);
-    
+    GTK_UNGRAB(4),
     /**
      * crossing because a GTK widget changed
      *   state (e.g. sensitivity).
      */
-    public static final CrossingMode STATE_CHANGED = new CrossingMode(5);
-    
+    STATE_CHANGED(5),
     /**
      * crossing because a touch sequence has begun,
      *   this event is synthetic as the pointer might have not left the surface.
      */
-    public static final CrossingMode TOUCH_BEGIN = new CrossingMode(6);
-    
+    TOUCH_BEGIN(6),
     /**
      * crossing because a touch sequence has ended,
      *   this event is synthetic as the pointer might have not left the surface.
      */
-    public static final CrossingMode TOUCH_END = new CrossingMode(7);
-    
+    TOUCH_END(7),
     /**
      * crossing because of a device switch (i.e.
      *   a mouse taking control of the pointer after a touch device), this event
      *   is synthetic as the pointer didn’t leave the surface.
      */
-    public static final CrossingMode DEVICE_SWITCH = new CrossingMode(8);
+    DEVICE_SWITCH(8);
     
-    public CrossingMode(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "GdkCrossingMode";
+    
+    private final int value;
+    CrossingMode(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static CrossingMode of(int value) {
+        return switch (value) {
+            case 0 -> NORMAL;
+            case 1 -> GRAB;
+            case 2 -> UNGRAB;
+            case 3 -> GTK_GRAB;
+            case 4 -> GTK_UNGRAB;
+            case 5 -> STATE_CHANGED;
+            case 6 -> TOUCH_BEGIN;
+            case 7 -> TOUCH_END;
+            case 8 -> DEVICE_SWITCH;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

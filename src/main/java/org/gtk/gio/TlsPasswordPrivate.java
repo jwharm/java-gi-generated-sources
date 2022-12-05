@@ -44,32 +44,4 @@ public class TlsPasswordPrivate extends Struct {
     public TlsPasswordPrivate(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
-
-    /**
-     * Inner class implementing a builder pattern to construct 
-     * a struct and set its values.
-     */
-    public static class Build {
-        
-        private TlsPasswordPrivate struct;
-        
-         /**
-         * A {@link TlsPasswordPrivate.Build} object constructs a {@link TlsPasswordPrivate} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
-            struct = TlsPasswordPrivate.allocate();
-        }
-        
-         /**
-         * Finish building the {@link TlsPasswordPrivate} struct.
-         * @return A new instance of {@code TlsPasswordPrivate} with the fields 
-         *         that were set in the Build object.
-         */
-        public TlsPasswordPrivate construct() {
-            return struct;
-        }
-    }
 }

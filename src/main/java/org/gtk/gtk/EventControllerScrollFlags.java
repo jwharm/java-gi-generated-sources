@@ -51,9 +51,8 @@ public class EventControllerScrollFlags extends io.github.jwharm.javagi.Bitfield
      * @param mask the value to combine with
      * @return the combined value by calculating {@code this | mask} 
      */
-    public EventControllerScrollFlags combined(EventControllerScrollFlags mask) {
-        this.setValue(this.getValue() | mask.getValue());
-        return this;
+    public EventControllerScrollFlags or(EventControllerScrollFlags mask) {
+        return new EventControllerScrollFlags(this.getValue() | mask.getValue());
     }
     
     /**
@@ -63,9 +62,9 @@ public class EventControllerScrollFlags extends io.github.jwharm.javagi.Bitfield
      * @return the combined value by calculating {@code mask | masks[0] | masks[1] | ...} 
      */
     public static EventControllerScrollFlags combined(EventControllerScrollFlags mask, EventControllerScrollFlags... masks) {
-        for (EventControllerScrollFlags arg : masks) {
-            mask.setValue(mask.getValue() | arg.getValue());
+        int value = mask.getValue();        for (EventControllerScrollFlags arg : masks) {
+            value |= arg.getValue();
         }
-        return mask;
+        return new EventControllerScrollFlags(value);
     }
 }

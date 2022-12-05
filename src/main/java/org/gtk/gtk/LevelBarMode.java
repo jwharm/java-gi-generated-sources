@@ -11,21 +11,33 @@ import org.jetbrains.annotations.*;
  * Note that this enumeration could be extended with additional modes
  * in the future.
  */
-public class LevelBarMode extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "GtkLevelBarMode";
-    
+public enum LevelBarMode implements io.github.jwharm.javagi.Enumeration {
     /**
      * the bar has a continuous mode
      */
-    public static final LevelBarMode CONTINUOUS = new LevelBarMode(0);
-    
+    CONTINUOUS(0),
     /**
      * the bar has a discrete mode
      */
-    public static final LevelBarMode DISCRETE = new LevelBarMode(1);
+    DISCRETE(1);
     
-    public LevelBarMode(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "GtkLevelBarMode";
+    
+    private final int value;
+    LevelBarMode(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static LevelBarMode of(int value) {
+        return switch (value) {
+            case 0 -> CONTINUOUS;
+            case 1 -> DISCRETE;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

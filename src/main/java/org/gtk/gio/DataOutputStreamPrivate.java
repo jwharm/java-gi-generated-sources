@@ -44,32 +44,4 @@ public class DataOutputStreamPrivate extends Struct {
     public DataOutputStreamPrivate(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
-
-    /**
-     * Inner class implementing a builder pattern to construct 
-     * a struct and set its values.
-     */
-    public static class Build {
-        
-        private DataOutputStreamPrivate struct;
-        
-         /**
-         * A {@link DataOutputStreamPrivate.Build} object constructs a {@link DataOutputStreamPrivate} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
-            struct = DataOutputStreamPrivate.allocate();
-        }
-        
-         /**
-         * Finish building the {@link DataOutputStreamPrivate} struct.
-         * @return A new instance of {@code DataOutputStreamPrivate} with the fields 
-         *         that were set in the Build object.
-         */
-        public DataOutputStreamPrivate construct() {
-            return struct;
-        }
-    }
 }

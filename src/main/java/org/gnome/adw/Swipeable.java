@@ -28,7 +28,11 @@ public interface Swipeable extends io.github.jwharm.javagi.Proxy {
      * @throws ClassCastException If the GType is not derived from "AdwSwipeable", a ClassCastException will be thrown.
      */
     public static Swipeable castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), Swipeable.getType())) {
             return new SwipeableImpl(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of AdwSwipeable");
+        }
     }
     
     /**

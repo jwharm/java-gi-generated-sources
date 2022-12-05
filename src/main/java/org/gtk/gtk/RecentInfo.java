@@ -666,32 +666,4 @@ public class RecentInfo extends Struct {
             false
         );
     }
-
-    /**
-     * Inner class implementing a builder pattern to construct 
-     * a struct and set its values.
-     */
-    public static class Build {
-        
-        private RecentInfo struct;
-        
-         /**
-         * A {@link RecentInfo.Build} object constructs a {@link RecentInfo} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
-            struct = RecentInfo.allocate();
-        }
-        
-         /**
-         * Finish building the {@link RecentInfo} struct.
-         * @return A new instance of {@code RecentInfo} with the fields 
-         *         that were set in the Build object.
-         */
-        public RecentInfo construct() {
-            return struct;
-        }
-    }
 }

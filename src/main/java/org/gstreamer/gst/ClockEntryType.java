@@ -8,21 +8,33 @@ import org.jetbrains.annotations.*;
 /**
  * The type of the clock entry
  */
-public class ClockEntryType extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "GstClockEntryType";
-    
+public enum ClockEntryType implements io.github.jwharm.javagi.Enumeration {
     /**
      * a single shot timeout
      */
-    public static final ClockEntryType SINGLE = new ClockEntryType(0);
-    
+    SINGLE(0),
     /**
      * a periodic timeout request
      */
-    public static final ClockEntryType PERIODIC = new ClockEntryType(1);
+    PERIODIC(1);
     
-    public ClockEntryType(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "GstClockEntryType";
+    
+    private final int value;
+    ClockEntryType(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static ClockEntryType of(int value) {
+        return switch (value) {
+            case 0 -> SINGLE;
+            case 1 -> PERIODIC;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

@@ -8,91 +8,103 @@ import org.jetbrains.annotations.*;
 /**
  * Scrolling types.
  */
-public class ScrollType extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "GtkScrollType";
-    
+public enum ScrollType implements io.github.jwharm.javagi.Enumeration {
     /**
      * No scrolling.
      */
-    public static final ScrollType NONE = new ScrollType(0);
-    
+    NONE(0),
     /**
      * Jump to new location.
      */
-    public static final ScrollType JUMP = new ScrollType(1);
-    
+    JUMP(1),
     /**
      * Step backward.
      */
-    public static final ScrollType STEP_BACKWARD = new ScrollType(2);
-    
+    STEP_BACKWARD(2),
     /**
      * Step forward.
      */
-    public static final ScrollType STEP_FORWARD = new ScrollType(3);
-    
+    STEP_FORWARD(3),
     /**
      * Page backward.
      */
-    public static final ScrollType PAGE_BACKWARD = new ScrollType(4);
-    
+    PAGE_BACKWARD(4),
     /**
      * Page forward.
      */
-    public static final ScrollType PAGE_FORWARD = new ScrollType(5);
-    
+    PAGE_FORWARD(5),
     /**
      * Step up.
      */
-    public static final ScrollType STEP_UP = new ScrollType(6);
-    
+    STEP_UP(6),
     /**
      * Step down.
      */
-    public static final ScrollType STEP_DOWN = new ScrollType(7);
-    
+    STEP_DOWN(7),
     /**
      * Page up.
      */
-    public static final ScrollType PAGE_UP = new ScrollType(8);
-    
+    PAGE_UP(8),
     /**
      * Page down.
      */
-    public static final ScrollType PAGE_DOWN = new ScrollType(9);
-    
+    PAGE_DOWN(9),
     /**
      * Step to the left.
      */
-    public static final ScrollType STEP_LEFT = new ScrollType(10);
-    
+    STEP_LEFT(10),
     /**
      * Step to the right.
      */
-    public static final ScrollType STEP_RIGHT = new ScrollType(11);
-    
+    STEP_RIGHT(11),
     /**
      * Page to the left.
      */
-    public static final ScrollType PAGE_LEFT = new ScrollType(12);
-    
+    PAGE_LEFT(12),
     /**
      * Page to the right.
      */
-    public static final ScrollType PAGE_RIGHT = new ScrollType(13);
-    
+    PAGE_RIGHT(13),
     /**
      * Scroll to start.
      */
-    public static final ScrollType START = new ScrollType(14);
-    
+    START(14),
     /**
      * Scroll to end.
      */
-    public static final ScrollType END = new ScrollType(15);
+    END(15);
     
-    public ScrollType(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "GtkScrollType";
+    
+    private final int value;
+    ScrollType(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static ScrollType of(int value) {
+        return switch (value) {
+            case 0 -> NONE;
+            case 1 -> JUMP;
+            case 2 -> STEP_BACKWARD;
+            case 3 -> STEP_FORWARD;
+            case 4 -> PAGE_BACKWARD;
+            case 5 -> PAGE_FORWARD;
+            case 6 -> STEP_UP;
+            case 7 -> STEP_DOWN;
+            case 8 -> PAGE_UP;
+            case 9 -> PAGE_DOWN;
+            case 10 -> STEP_LEFT;
+            case 11 -> STEP_RIGHT;
+            case 12 -> PAGE_LEFT;
+            case 13 -> PAGE_RIGHT;
+            case 14 -> START;
+            case 15 -> END;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

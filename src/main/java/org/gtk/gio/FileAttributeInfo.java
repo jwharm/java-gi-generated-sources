@@ -73,7 +73,7 @@ public class FileAttributeInfo extends Struct {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("type"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new org.gtk.gio.FileAttributeType(RESULT);
+        return org.gtk.gio.FileAttributeType.of(RESULT);
     }
     
     /**

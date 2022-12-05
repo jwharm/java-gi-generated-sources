@@ -52,9 +52,8 @@ public class TestSubprocessFlags extends io.github.jwharm.javagi.Bitfield {
      * @param mask the value to combine with
      * @return the combined value by calculating {@code this | mask} 
      */
-    public TestSubprocessFlags combined(TestSubprocessFlags mask) {
-        this.setValue(this.getValue() | mask.getValue());
-        return this;
+    public TestSubprocessFlags or(TestSubprocessFlags mask) {
+        return new TestSubprocessFlags(this.getValue() | mask.getValue());
     }
     
     /**
@@ -64,9 +63,9 @@ public class TestSubprocessFlags extends io.github.jwharm.javagi.Bitfield {
      * @return the combined value by calculating {@code mask | masks[0] | masks[1] | ...} 
      */
     public static TestSubprocessFlags combined(TestSubprocessFlags mask, TestSubprocessFlags... masks) {
-        for (TestSubprocessFlags arg : masks) {
-            mask.setValue(mask.getValue() | arg.getValue());
+        int value = mask.getValue();        for (TestSubprocessFlags arg : masks) {
+            value |= arg.getValue();
         }
-        return mask;
+        return new TestSubprocessFlags(value);
     }
 }

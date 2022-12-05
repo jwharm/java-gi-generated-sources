@@ -8,42 +8,54 @@ import org.jetbrains.annotations.*;
 /**
  * Domain for VFL parsing errors.
  */
-public class ConstraintVflParserError extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "GtkConstraintVflParserError";
-    
+public enum ConstraintVflParserError implements io.github.jwharm.javagi.Enumeration {
     /**
      * Invalid or unknown symbol
      */
-    public static final ConstraintVflParserError SYMBOL = new ConstraintVflParserError(0);
-    
+    SYMBOL(0),
     /**
      * Invalid or unknown attribute
      */
-    public static final ConstraintVflParserError ATTRIBUTE = new ConstraintVflParserError(1);
-    
+    ATTRIBUTE(1),
     /**
      * Invalid or unknown view
      */
-    public static final ConstraintVflParserError VIEW = new ConstraintVflParserError(2);
-    
+    VIEW(2),
     /**
      * Invalid or unknown metric
      */
-    public static final ConstraintVflParserError METRIC = new ConstraintVflParserError(3);
-    
+    METRIC(3),
     /**
      * Invalid or unknown priority
      */
-    public static final ConstraintVflParserError PRIORITY = new ConstraintVflParserError(4);
-    
+    PRIORITY(4),
     /**
      * Invalid or unknown relation
      */
-    public static final ConstraintVflParserError RELATION = new ConstraintVflParserError(5);
+    RELATION(5);
     
-    public ConstraintVflParserError(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "GtkConstraintVflParserError";
+    
+    private final int value;
+    ConstraintVflParserError(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static ConstraintVflParserError of(int value) {
+        return switch (value) {
+            case 0 -> SYMBOL;
+            case 1 -> ATTRIBUTE;
+            case 2 -> VIEW;
+            case 3 -> METRIC;
+            case 4 -> PRIORITY;
+            case 5 -> RELATION;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
     
     public static @NotNull org.gtk.glib.Quark quark() {

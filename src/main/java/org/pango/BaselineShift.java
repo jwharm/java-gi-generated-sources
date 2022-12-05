@@ -9,28 +9,40 @@ import org.jetbrains.annotations.*;
  * An enumeration that affects baseline shifts between runs.
  * @version 1.50
  */
-public class BaselineShift extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "PangoBaselineShift";
-    
+public enum BaselineShift implements io.github.jwharm.javagi.Enumeration {
     /**
      * Leave the baseline unchanged
      */
-    public static final BaselineShift NONE = new BaselineShift(0);
-    
+    NONE(0),
     /**
      * Shift the baseline to the superscript position,
      *   relative to the previous run
      */
-    public static final BaselineShift SUPERSCRIPT = new BaselineShift(1);
-    
+    SUPERSCRIPT(1),
     /**
      * Shift the baseline to the subscript position,
      *   relative to the previous run
      */
-    public static final BaselineShift SUBSCRIPT = new BaselineShift(2);
+    SUBSCRIPT(2);
     
-    public BaselineShift(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "PangoBaselineShift";
+    
+    private final int value;
+    BaselineShift(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static BaselineShift of(int value) {
+        return switch (value) {
+            case 0 -> NONE;
+            case 1 -> SUPERSCRIPT;
+            case 2 -> SUBSCRIPT;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

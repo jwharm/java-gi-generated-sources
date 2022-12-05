@@ -66,7 +66,11 @@ public class Object extends io.github.jwharm.javagi.ObjectBase {
      * @throws ClassCastException If the GType is not derived from "GObject", a ClassCastException will be thrown.
      */
     public static Object castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), Object.getType())) {
             return new Object(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GObject");
+        }
     }
     
     private static Addressable constructNew(@NotNull org.gtk.glib.Type objectType, @NotNull java.lang.String firstPropertyName, java.lang.Object... varargs) {
@@ -1598,7 +1602,7 @@ public class Object extends io.github.jwharm.javagi.ObjectBase {
     
     @FunctionalInterface
     public interface Notify {
-        void signalReceived(Object source, @NotNull org.gtk.gobject.ParamSpec pspec);
+        void signalReceived(Object sourceObject, @NotNull org.gtk.gobject.ParamSpec pspec);
     }
     
     /**
@@ -2000,10 +2004,10 @@ public class Object extends io.github.jwharm.javagi.ObjectBase {
     
     private static class Callbacks {
         
-        public static void signalObjectNotify(MemoryAddress source, MemoryAddress pspec, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalObjectNotify(MemoryAddress sourceObject, MemoryAddress pspec, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (Object.Notify) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Object(source, Ownership.NONE), new org.gtk.gobject.ParamSpec(pspec, Ownership.NONE));
+            HANDLER.signalReceived(new Object(sourceObject, Ownership.NONE), new org.gtk.gobject.ParamSpec(pspec, Ownership.NONE));
         }
     }
 }

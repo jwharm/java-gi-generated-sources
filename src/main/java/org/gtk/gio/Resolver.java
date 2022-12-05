@@ -60,7 +60,11 @@ public class Resolver extends org.gtk.gobject.Object {
      * @throws ClassCastException If the GType is not derived from "GResolver", a ClassCastException will be thrown.
      */
     public static Resolver castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), Resolver.getType())) {
             return new Resolver(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GResolver");
+        }
     }
     
     /**
@@ -669,7 +673,7 @@ public class Resolver extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface Reload {
-        void signalReceived(Resolver source);
+        void signalReceived(Resolver sourceResolver);
     }
     
     /**
@@ -856,10 +860,10 @@ public class Resolver extends org.gtk.gobject.Object {
     
     private static class Callbacks {
         
-        public static void signalResolverReload(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalResolverReload(MemoryAddress sourceResolver, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (Resolver.Reload) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Resolver(source, Ownership.NONE));
+            HANDLER.signalReceived(new Resolver(sourceResolver, Ownership.NONE));
         }
     }
 }

@@ -705,32 +705,4 @@ public class PaperSize extends Struct {
             false
         );
     }
-
-    /**
-     * Inner class implementing a builder pattern to construct 
-     * a struct and set its values.
-     */
-    public static class Build {
-        
-        private PaperSize struct;
-        
-         /**
-         * A {@link PaperSize.Build} object constructs a {@link PaperSize} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
-            struct = PaperSize.allocate();
-        }
-        
-         /**
-         * Finish building the {@link PaperSize} struct.
-         * @return A new instance of {@code PaperSize} with the fields 
-         *         that were set in the Build object.
-         */
-        public PaperSize construct() {
-            return struct;
-        }
-    }
 }

@@ -44,32 +44,4 @@ public class AggregatorPadPrivate extends Struct {
     public AggregatorPadPrivate(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
-
-    /**
-     * Inner class implementing a builder pattern to construct 
-     * a struct and set its values.
-     */
-    public static class Build {
-        
-        private AggregatorPadPrivate struct;
-        
-         /**
-         * A {@link AggregatorPadPrivate.Build} object constructs a {@link AggregatorPadPrivate} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
-            struct = AggregatorPadPrivate.allocate();
-        }
-        
-         /**
-         * Finish building the {@link AggregatorPadPrivate} struct.
-         * @return A new instance of {@code AggregatorPadPrivate} with the fields 
-         *         that were set in the Build object.
-         */
-        public AggregatorPadPrivate construct() {
-            return struct;
-        }
-    }
 }

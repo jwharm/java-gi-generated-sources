@@ -10,29 +10,41 @@ import org.jetbrains.annotations.*;
  * when finishing an interaction request.
  * @version 2.30
  */
-public class TlsInteractionResult extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "GTlsInteractionResult";
-    
+public enum TlsInteractionResult implements io.github.jwharm.javagi.Enumeration {
     /**
      * The interaction was unhandled (i.e. not
      *     implemented).
      */
-    public static final TlsInteractionResult UNHANDLED = new TlsInteractionResult(0);
-    
+    UNHANDLED(0),
     /**
      * The interaction completed, and resulting data
      *     is available.
      */
-    public static final TlsInteractionResult HANDLED = new TlsInteractionResult(1);
-    
+    HANDLED(1),
     /**
      * The interaction has failed, or was cancelled.
      *     and the operation should be aborted.
      */
-    public static final TlsInteractionResult FAILED = new TlsInteractionResult(2);
+    FAILED(2);
     
-    public TlsInteractionResult(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "GTlsInteractionResult";
+    
+    private final int value;
+    TlsInteractionResult(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static TlsInteractionResult of(int value) {
+        return switch (value) {
+            case 0 -> UNHANDLED;
+            case 1 -> HANDLED;
+            case 2 -> FAILED;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

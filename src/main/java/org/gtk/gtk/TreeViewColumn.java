@@ -36,12 +36,19 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
     
     /**
      * Create a TreeViewColumn proxy instance for the provided memory address.
+     * <p>
+     * Because TreeViewColumn is an {@code InitiallyUnowned} instance, when 
+     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
+     * and a call to {@code refSink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
     @ApiStatus.Internal
     public TreeViewColumn(Addressable address, Ownership ownership) {
-        super(address, ownership);
+        super(address, Ownership.FULL);
+        if (ownership == Ownership.NONE) {
+            refSink();
+        }
     }
     
     /**
@@ -57,7 +64,11 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
      * @throws ClassCastException If the GType is not derived from "GtkTreeViewColumn", a ClassCastException will be thrown.
      */
     public static TreeViewColumn castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), TreeViewColumn.getType())) {
             return new TreeViewColumn(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkTreeViewColumn");
+        }
     }
     
     private static Addressable constructNew() {
@@ -485,7 +496,7 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.TreeViewColumnSizing(RESULT);
+        return org.gtk.gtk.TreeViewColumnSizing.of(RESULT);
     }
     
     /**
@@ -534,7 +545,7 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.SortType(RESULT);
+        return org.gtk.gtk.SortType.of(RESULT);
     }
     
     /**
@@ -1039,7 +1050,7 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
     
     @FunctionalInterface
     public interface Clicked {
-        void signalReceived(TreeViewColumn source);
+        void signalReceived(TreeViewColumn sourceTreeViewColumn);
     }
     
     /**
@@ -1557,10 +1568,10 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
     
     private static class Callbacks {
         
-        public static void signalTreeViewColumnClicked(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalTreeViewColumnClicked(MemoryAddress sourceTreeViewColumn, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (TreeViewColumn.Clicked) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new TreeViewColumn(source, Ownership.NONE));
+            HANDLER.signalReceived(new TreeViewColumn(sourceTreeViewColumn, Ownership.NONE));
         }
     }
 }

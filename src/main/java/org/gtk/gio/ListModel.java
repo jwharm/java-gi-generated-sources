@@ -84,7 +84,11 @@ public interface ListModel extends io.github.jwharm.javagi.Proxy {
      * @throws ClassCastException If the GType is not derived from "GListModel", a ClassCastException will be thrown.
      */
     public static ListModel castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), ListModel.getType())) {
             return new ListModelImpl(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GListModel");
+        }
     }
     
     /**
@@ -234,7 +238,7 @@ public interface ListModel extends io.github.jwharm.javagi.Proxy {
     
     @FunctionalInterface
     public interface ItemsChanged {
-        void signalReceived(ListModel source, int position, int removed, int added);
+        void signalReceived(ListModel sourceListModel, int position, int removed, int added);
     }
     
     /**
@@ -314,10 +318,10 @@ public interface ListModel extends io.github.jwharm.javagi.Proxy {
     @ApiStatus.Internal
     static class Callbacks {
         
-        public static void signalListModelItemsChanged(MemoryAddress source, int position, int removed, int added, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalListModelItemsChanged(MemoryAddress sourceListModel, int position, int removed, int added, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (ListModel.ItemsChanged) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new ListModel.ListModelImpl(source, Ownership.NONE), position, removed, added);
+            HANDLER.signalReceived(new ListModel.ListModelImpl(sourceListModel, Ownership.NONE), position, removed, added);
         }
     }
     

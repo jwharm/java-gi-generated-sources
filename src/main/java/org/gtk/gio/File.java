@@ -108,7 +108,11 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      * @throws ClassCastException If the GType is not derived from "GFile", a ClassCastException will be thrown.
      */
     public static File castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), File.getType())) {
             return new FileImpl(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GFile");
+        }
     }
     
     /**
@@ -2875,7 +2879,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.FileType(RESULT);
+        return org.gtk.gio.FileType.of(RESULT);
     }
     
     /**

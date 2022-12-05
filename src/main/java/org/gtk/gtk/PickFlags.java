@@ -36,9 +36,8 @@ public class PickFlags extends io.github.jwharm.javagi.Bitfield {
      * @param mask the value to combine with
      * @return the combined value by calculating {@code this | mask} 
      */
-    public PickFlags combined(PickFlags mask) {
-        this.setValue(this.getValue() | mask.getValue());
-        return this;
+    public PickFlags or(PickFlags mask) {
+        return new PickFlags(this.getValue() | mask.getValue());
     }
     
     /**
@@ -48,9 +47,9 @@ public class PickFlags extends io.github.jwharm.javagi.Bitfield {
      * @return the combined value by calculating {@code mask | masks[0] | masks[1] | ...} 
      */
     public static PickFlags combined(PickFlags mask, PickFlags... masks) {
-        for (PickFlags arg : masks) {
-            mask.setValue(mask.getValue() | arg.getValue());
+        int value = mask.getValue();        for (PickFlags arg : masks) {
+            value |= arg.getValue();
         }
-        return mask;
+        return new PickFlags(value);
     }
 }

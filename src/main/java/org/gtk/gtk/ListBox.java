@@ -73,12 +73,19 @@ public class ListBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
     
     /**
      * Create a ListBox proxy instance for the provided memory address.
+     * <p>
+     * Because ListBox is an {@code InitiallyUnowned} instance, when 
+     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
+     * and a call to {@code refSink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
     @ApiStatus.Internal
     public ListBox(Addressable address, Ownership ownership) {
-        super(address, ownership);
+        super(address, Ownership.FULL);
+        if (ownership == Ownership.NONE) {
+            refSink();
+        }
     }
     
     /**
@@ -94,7 +101,11 @@ public class ListBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      * @throws ClassCastException If the GType is not derived from "GtkListBox", a ClassCastException will be thrown.
      */
     public static ListBox castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), ListBox.getType())) {
             return new ListBox(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkListBox");
+        }
     }
     
     private static Addressable constructNew() {
@@ -320,7 +331,7 @@ public class ListBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.SelectionMode(RESULT);
+        return org.gtk.gtk.SelectionMode.of(RESULT);
     }
     
     /**
@@ -726,7 +737,7 @@ public class ListBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
     
     @FunctionalInterface
     public interface ActivateCursorRow {
-        void signalReceived(ListBox source);
+        void signalReceived(ListBox sourceListBox);
     }
     
     public Signal<ListBox.ActivateCursorRow> onActivateCursorRow(ListBox.ActivateCursorRow handler) {
@@ -749,7 +760,7 @@ public class ListBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
     
     @FunctionalInterface
     public interface MoveCursor {
-        void signalReceived(ListBox source, @NotNull org.gtk.gtk.MovementStep object, int p0, boolean p1, boolean p2);
+        void signalReceived(ListBox sourceListBox, @NotNull org.gtk.gtk.MovementStep object, int p0, boolean p1, boolean p2);
     }
     
     public Signal<ListBox.MoveCursor> onMoveCursor(ListBox.MoveCursor handler) {
@@ -772,7 +783,7 @@ public class ListBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
     
     @FunctionalInterface
     public interface RowActivated {
-        void signalReceived(ListBox source, @NotNull org.gtk.gtk.ListBoxRow row);
+        void signalReceived(ListBox sourceListBox, @NotNull org.gtk.gtk.ListBoxRow row);
     }
     
     /**
@@ -800,7 +811,7 @@ public class ListBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
     
     @FunctionalInterface
     public interface RowSelected {
-        void signalReceived(ListBox source, @Nullable org.gtk.gtk.ListBoxRow row);
+        void signalReceived(ListBox sourceListBox, @Nullable org.gtk.gtk.ListBoxRow row);
     }
     
     /**
@@ -833,7 +844,7 @@ public class ListBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
     
     @FunctionalInterface
     public interface SelectAll {
-        void signalReceived(ListBox source);
+        void signalReceived(ListBox sourceListBox);
     }
     
     /**
@@ -866,7 +877,7 @@ public class ListBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
     
     @FunctionalInterface
     public interface SelectedRowsChanged {
-        void signalReceived(ListBox source);
+        void signalReceived(ListBox sourceListBox);
     }
     
     /**
@@ -894,7 +905,7 @@ public class ListBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
     
     @FunctionalInterface
     public interface ToggleCursorRow {
-        void signalReceived(ListBox source);
+        void signalReceived(ListBox sourceListBox);
     }
     
     public Signal<ListBox.ToggleCursorRow> onToggleCursorRow(ListBox.ToggleCursorRow handler) {
@@ -917,7 +928,7 @@ public class ListBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
     
     @FunctionalInterface
     public interface UnselectAll {
-        void signalReceived(ListBox source);
+        void signalReceived(ListBox sourceListBox);
     }
     
     /**
@@ -1232,52 +1243,52 @@ public class ListBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
     
     private static class Callbacks {
         
-        public static void signalListBoxActivateCursorRow(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalListBoxActivateCursorRow(MemoryAddress sourceListBox, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (ListBox.ActivateCursorRow) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new ListBox(source, Ownership.NONE));
+            HANDLER.signalReceived(new ListBox(sourceListBox, Ownership.NONE));
         }
         
-        public static void signalListBoxMoveCursor(MemoryAddress source, int object, int p0, int p1, int p2, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalListBoxMoveCursor(MemoryAddress sourceListBox, int object, int p0, int p1, int p2, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (ListBox.MoveCursor) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new ListBox(source, Ownership.NONE), new org.gtk.gtk.MovementStep(object), p0, p1 != 0, p2 != 0);
+            HANDLER.signalReceived(new ListBox(sourceListBox, Ownership.NONE), org.gtk.gtk.MovementStep.of(object), p0, p1 != 0, p2 != 0);
         }
         
-        public static void signalListBoxRowActivated(MemoryAddress source, MemoryAddress row, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalListBoxRowActivated(MemoryAddress sourceListBox, MemoryAddress row, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (ListBox.RowActivated) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new ListBox(source, Ownership.NONE), new org.gtk.gtk.ListBoxRow(row, Ownership.NONE));
+            HANDLER.signalReceived(new ListBox(sourceListBox, Ownership.NONE), new org.gtk.gtk.ListBoxRow(row, Ownership.NONE));
         }
         
-        public static void signalListBoxRowSelected(MemoryAddress source, MemoryAddress row, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalListBoxRowSelected(MemoryAddress sourceListBox, MemoryAddress row, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (ListBox.RowSelected) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new ListBox(source, Ownership.NONE), new org.gtk.gtk.ListBoxRow(row, Ownership.NONE));
+            HANDLER.signalReceived(new ListBox(sourceListBox, Ownership.NONE), new org.gtk.gtk.ListBoxRow(row, Ownership.NONE));
         }
         
-        public static void signalListBoxSelectAll(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalListBoxSelectAll(MemoryAddress sourceListBox, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (ListBox.SelectAll) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new ListBox(source, Ownership.NONE));
+            HANDLER.signalReceived(new ListBox(sourceListBox, Ownership.NONE));
         }
         
-        public static void signalListBoxSelectedRowsChanged(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalListBoxSelectedRowsChanged(MemoryAddress sourceListBox, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (ListBox.SelectedRowsChanged) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new ListBox(source, Ownership.NONE));
+            HANDLER.signalReceived(new ListBox(sourceListBox, Ownership.NONE));
         }
         
-        public static void signalListBoxToggleCursorRow(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalListBoxToggleCursorRow(MemoryAddress sourceListBox, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (ListBox.ToggleCursorRow) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new ListBox(source, Ownership.NONE));
+            HANDLER.signalReceived(new ListBox(sourceListBox, Ownership.NONE));
         }
         
-        public static void signalListBoxUnselectAll(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalListBoxUnselectAll(MemoryAddress sourceListBox, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (ListBox.UnselectAll) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new ListBox(source, Ownership.NONE));
+            HANDLER.signalReceived(new ListBox(sourceListBox, Ownership.NONE));
         }
     }
 }

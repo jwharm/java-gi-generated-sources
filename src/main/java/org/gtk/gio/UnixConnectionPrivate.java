@@ -44,32 +44,4 @@ public class UnixConnectionPrivate extends Struct {
     public UnixConnectionPrivate(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
-
-    /**
-     * Inner class implementing a builder pattern to construct 
-     * a struct and set its values.
-     */
-    public static class Build {
-        
-        private UnixConnectionPrivate struct;
-        
-         /**
-         * A {@link UnixConnectionPrivate.Build} object constructs a {@link UnixConnectionPrivate} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
-            struct = UnixConnectionPrivate.allocate();
-        }
-        
-         /**
-         * Finish building the {@link UnixConnectionPrivate} struct.
-         * @return A new instance of {@code UnixConnectionPrivate} with the fields 
-         *         that were set in the Build object.
-         */
-        public UnixConnectionPrivate construct() {
-            return struct;
-        }
-    }
 }

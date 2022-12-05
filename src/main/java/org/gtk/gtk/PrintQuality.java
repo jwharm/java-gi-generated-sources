@@ -8,31 +8,43 @@ import org.jetbrains.annotations.*;
 /**
  * See also gtk_print_settings_set_quality().
  */
-public class PrintQuality extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "GtkPrintQuality";
-    
+public enum PrintQuality implements io.github.jwharm.javagi.Enumeration {
     /**
      * Low quality.
      */
-    public static final PrintQuality LOW = new PrintQuality(0);
-    
+    LOW(0),
     /**
      * Normal quality.
      */
-    public static final PrintQuality NORMAL = new PrintQuality(1);
-    
+    NORMAL(1),
     /**
      * High quality.
      */
-    public static final PrintQuality HIGH = new PrintQuality(2);
-    
+    HIGH(2),
     /**
      * Draft quality.
      */
-    public static final PrintQuality DRAFT = new PrintQuality(3);
+    DRAFT(3);
     
-    public PrintQuality(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "GtkPrintQuality";
+    
+    private final int value;
+    PrintQuality(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static PrintQuality of(int value) {
+        return switch (value) {
+            case 0 -> LOW;
+            case 1 -> NORMAL;
+            case 2 -> HIGH;
+            case 3 -> DRAFT;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

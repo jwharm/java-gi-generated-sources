@@ -21,37 +21,49 @@ import org.jetbrains.annotations.*;
  * See also: {@code Pango.GravityHint}
  * @version 1.16
  */
-public class Gravity extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "PangoGravity";
-    
+public enum Gravity implements io.github.jwharm.javagi.Enumeration {
     /**
      * Glyphs stand upright (default) &lt;img align="right" valign="center" src="m-south.png"&gt;
      */
-    public static final Gravity SOUTH = new Gravity(0);
-    
+    SOUTH(0),
     /**
      * Glyphs are rotated 90 degrees counter-clockwise. &lt;img align="right" valign="center" src="m-east.png"&gt;
      */
-    public static final Gravity EAST = new Gravity(1);
-    
+    EAST(1),
     /**
      * Glyphs are upside-down. &lt;img align="right" valign="cener" src="m-north.png"&gt;
      */
-    public static final Gravity NORTH = new Gravity(2);
-    
+    NORTH(2),
     /**
      * Glyphs are rotated 90 degrees clockwise. &lt;img align="right" valign="center" src="m-west.png"&gt;
      */
-    public static final Gravity WEST = new Gravity(3);
-    
+    WEST(3),
     /**
      * Gravity is resolved from the context matrix
      */
-    public static final Gravity AUTO = new Gravity(4);
+    AUTO(4);
     
-    public Gravity(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "PangoGravity";
+    
+    private final int value;
+    Gravity(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static Gravity of(int value) {
+        return switch (value) {
+            case 0 -> SOUTH;
+            case 1 -> EAST;
+            case 2 -> NORTH;
+            case 3 -> WEST;
+            case 4 -> AUTO;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
     
     /**
@@ -69,7 +81,7 @@ public class Gravity extends io.github.jwharm.javagi.Enumeration {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.Gravity(RESULT);
+        return org.pango.Gravity.of(RESULT);
     }
     
     /**
@@ -99,7 +111,7 @@ public class Gravity extends io.github.jwharm.javagi.Enumeration {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.Gravity(RESULT);
+        return org.pango.Gravity.of(RESULT);
     }
     
     /**
@@ -139,7 +151,7 @@ public class Gravity extends io.github.jwharm.javagi.Enumeration {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.Gravity(RESULT);
+        return org.pango.Gravity.of(RESULT);
     }
     
     /**

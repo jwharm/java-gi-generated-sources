@@ -115,12 +115,19 @@ public class Notebook extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     
     /**
      * Create a Notebook proxy instance for the provided memory address.
+     * <p>
+     * Because Notebook is an {@code InitiallyUnowned} instance, when 
+     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
+     * and a call to {@code refSink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
     @ApiStatus.Internal
     public Notebook(Addressable address, Ownership ownership) {
-        super(address, ownership);
+        super(address, Ownership.FULL);
+        if (ownership == Ownership.NONE) {
+            refSink();
+        }
     }
     
     /**
@@ -136,7 +143,11 @@ public class Notebook extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * @throws ClassCastException If the GType is not derived from "GtkNotebook", a ClassCastException will be thrown.
      */
     public static Notebook castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), Notebook.getType())) {
             return new Notebook(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkNotebook");
+        }
     }
     
     private static Addressable constructNew() {
@@ -514,7 +525,7 @@ public class Notebook extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.PositionType(RESULT);
+        return org.gtk.gtk.PositionType.of(RESULT);
     }
     
     /**
@@ -1048,7 +1059,7 @@ public class Notebook extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     
     @FunctionalInterface
     public interface ChangeCurrentPage {
-        boolean signalReceived(Notebook source, int object);
+        boolean signalReceived(Notebook sourceNotebook, int object);
     }
     
     public Signal<Notebook.ChangeCurrentPage> onChangeCurrentPage(Notebook.ChangeCurrentPage handler) {
@@ -1071,7 +1082,7 @@ public class Notebook extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     
     @FunctionalInterface
     public interface CreateWindow {
-        void signalReceived(Notebook source, @NotNull org.gtk.gtk.Widget page);
+        void signalReceived(Notebook sourceNotebook, @NotNull org.gtk.gtk.Widget page);
     }
     
     /**
@@ -1106,7 +1117,7 @@ public class Notebook extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     
     @FunctionalInterface
     public interface FocusTab {
-        boolean signalReceived(Notebook source, @NotNull org.gtk.gtk.NotebookTab object);
+        boolean signalReceived(Notebook sourceNotebook, @NotNull org.gtk.gtk.NotebookTab object);
     }
     
     public Signal<Notebook.FocusTab> onFocusTab(Notebook.FocusTab handler) {
@@ -1129,7 +1140,7 @@ public class Notebook extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     
     @FunctionalInterface
     public interface MoveFocusOut {
-        void signalReceived(Notebook source, @NotNull org.gtk.gtk.DirectionType object);
+        void signalReceived(Notebook sourceNotebook, @NotNull org.gtk.gtk.DirectionType object);
     }
     
     public Signal<Notebook.MoveFocusOut> onMoveFocusOut(Notebook.MoveFocusOut handler) {
@@ -1152,7 +1163,7 @@ public class Notebook extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     
     @FunctionalInterface
     public interface PageAdded {
-        void signalReceived(Notebook source, @NotNull org.gtk.gtk.Widget child, int pageNum);
+        void signalReceived(Notebook sourceNotebook, @NotNull org.gtk.gtk.Widget child, int pageNum);
     }
     
     /**
@@ -1181,7 +1192,7 @@ public class Notebook extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     
     @FunctionalInterface
     public interface PageRemoved {
-        void signalReceived(Notebook source, @NotNull org.gtk.gtk.Widget child, int pageNum);
+        void signalReceived(Notebook sourceNotebook, @NotNull org.gtk.gtk.Widget child, int pageNum);
     }
     
     /**
@@ -1210,7 +1221,7 @@ public class Notebook extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     
     @FunctionalInterface
     public interface PageReordered {
-        void signalReceived(Notebook source, @NotNull org.gtk.gtk.Widget child, int pageNum);
+        void signalReceived(Notebook sourceNotebook, @NotNull org.gtk.gtk.Widget child, int pageNum);
     }
     
     /**
@@ -1239,7 +1250,7 @@ public class Notebook extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     
     @FunctionalInterface
     public interface ReorderTab {
-        boolean signalReceived(Notebook source, @NotNull org.gtk.gtk.DirectionType object, boolean p0);
+        boolean signalReceived(Notebook sourceNotebook, @NotNull org.gtk.gtk.DirectionType object, boolean p0);
     }
     
     public Signal<Notebook.ReorderTab> onReorderTab(Notebook.ReorderTab handler) {
@@ -1262,7 +1273,7 @@ public class Notebook extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     
     @FunctionalInterface
     public interface SelectPage {
-        boolean signalReceived(Notebook source, boolean object);
+        boolean signalReceived(Notebook sourceNotebook, boolean object);
     }
     
     public Signal<Notebook.SelectPage> onSelectPage(Notebook.SelectPage handler) {
@@ -1285,7 +1296,7 @@ public class Notebook extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     
     @FunctionalInterface
     public interface SwitchPage {
-        void signalReceived(Notebook source, @NotNull org.gtk.gtk.Widget page, int pageNum);
+        void signalReceived(Notebook sourceNotebook, @NotNull org.gtk.gtk.Widget page, int pageNum);
     }
     
     /**
@@ -1715,64 +1726,64 @@ public class Notebook extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     
     private static class Callbacks {
         
-        public static boolean signalNotebookChangeCurrentPage(MemoryAddress source, int object, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static boolean signalNotebookChangeCurrentPage(MemoryAddress sourceNotebook, int object, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (Notebook.ChangeCurrentPage) Interop.signalRegistry.get(HASH);
-            return HANDLER.signalReceived(new Notebook(source, Ownership.NONE), object);
+            return HANDLER.signalReceived(new Notebook(sourceNotebook, Ownership.NONE), object);
         }
         
-        public static void signalNotebookCreateWindow(MemoryAddress source, MemoryAddress page, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalNotebookCreateWindow(MemoryAddress sourceNotebook, MemoryAddress page, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (Notebook.CreateWindow) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Notebook(source, Ownership.NONE), new org.gtk.gtk.Widget(page, Ownership.NONE));
+            HANDLER.signalReceived(new Notebook(sourceNotebook, Ownership.NONE), new org.gtk.gtk.Widget(page, Ownership.NONE));
         }
         
-        public static boolean signalNotebookFocusTab(MemoryAddress source, int object, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static boolean signalNotebookFocusTab(MemoryAddress sourceNotebook, int object, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (Notebook.FocusTab) Interop.signalRegistry.get(HASH);
-            return HANDLER.signalReceived(new Notebook(source, Ownership.NONE), new org.gtk.gtk.NotebookTab(object));
+            return HANDLER.signalReceived(new Notebook(sourceNotebook, Ownership.NONE), org.gtk.gtk.NotebookTab.of(object));
         }
         
-        public static void signalNotebookMoveFocusOut(MemoryAddress source, int object, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalNotebookMoveFocusOut(MemoryAddress sourceNotebook, int object, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (Notebook.MoveFocusOut) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Notebook(source, Ownership.NONE), new org.gtk.gtk.DirectionType(object));
+            HANDLER.signalReceived(new Notebook(sourceNotebook, Ownership.NONE), org.gtk.gtk.DirectionType.of(object));
         }
         
-        public static void signalNotebookPageAdded(MemoryAddress source, MemoryAddress child, int pageNum, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalNotebookPageAdded(MemoryAddress sourceNotebook, MemoryAddress child, int pageNum, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (Notebook.PageAdded) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Notebook(source, Ownership.NONE), new org.gtk.gtk.Widget(child, Ownership.NONE), pageNum);
+            HANDLER.signalReceived(new Notebook(sourceNotebook, Ownership.NONE), new org.gtk.gtk.Widget(child, Ownership.NONE), pageNum);
         }
         
-        public static void signalNotebookPageRemoved(MemoryAddress source, MemoryAddress child, int pageNum, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalNotebookPageRemoved(MemoryAddress sourceNotebook, MemoryAddress child, int pageNum, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (Notebook.PageRemoved) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Notebook(source, Ownership.NONE), new org.gtk.gtk.Widget(child, Ownership.NONE), pageNum);
+            HANDLER.signalReceived(new Notebook(sourceNotebook, Ownership.NONE), new org.gtk.gtk.Widget(child, Ownership.NONE), pageNum);
         }
         
-        public static void signalNotebookPageReordered(MemoryAddress source, MemoryAddress child, int pageNum, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalNotebookPageReordered(MemoryAddress sourceNotebook, MemoryAddress child, int pageNum, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (Notebook.PageReordered) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Notebook(source, Ownership.NONE), new org.gtk.gtk.Widget(child, Ownership.NONE), pageNum);
+            HANDLER.signalReceived(new Notebook(sourceNotebook, Ownership.NONE), new org.gtk.gtk.Widget(child, Ownership.NONE), pageNum);
         }
         
-        public static boolean signalNotebookReorderTab(MemoryAddress source, int object, int p0, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static boolean signalNotebookReorderTab(MemoryAddress sourceNotebook, int object, int p0, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (Notebook.ReorderTab) Interop.signalRegistry.get(HASH);
-            return HANDLER.signalReceived(new Notebook(source, Ownership.NONE), new org.gtk.gtk.DirectionType(object), p0 != 0);
+            return HANDLER.signalReceived(new Notebook(sourceNotebook, Ownership.NONE), org.gtk.gtk.DirectionType.of(object), p0 != 0);
         }
         
-        public static boolean signalNotebookSelectPage(MemoryAddress source, int object, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static boolean signalNotebookSelectPage(MemoryAddress sourceNotebook, int object, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (Notebook.SelectPage) Interop.signalRegistry.get(HASH);
-            return HANDLER.signalReceived(new Notebook(source, Ownership.NONE), object != 0);
+            return HANDLER.signalReceived(new Notebook(sourceNotebook, Ownership.NONE), object != 0);
         }
         
-        public static void signalNotebookSwitchPage(MemoryAddress source, MemoryAddress page, int pageNum, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalNotebookSwitchPage(MemoryAddress sourceNotebook, MemoryAddress page, int pageNum, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (Notebook.SwitchPage) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Notebook(source, Ownership.NONE), new org.gtk.gtk.Widget(page, Ownership.NONE), pageNum);
+            HANDLER.signalReceived(new Notebook(sourceNotebook, Ownership.NONE), new org.gtk.gtk.Widget(page, Ownership.NONE), pageNum);
         }
     }
 }

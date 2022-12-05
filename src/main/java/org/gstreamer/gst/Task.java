@@ -81,12 +81,19 @@ public class Task extends org.gstreamer.gst.Object {
     
     /**
      * Create a Task proxy instance for the provided memory address.
+     * <p>
+     * Because Task is an {@code InitiallyUnowned} instance, when 
+     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
+     * and a call to {@code refSink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
     @ApiStatus.Internal
     public Task(Addressable address, Ownership ownership) {
-        super(address, ownership);
+        super(address, Ownership.FULL);
+        if (ownership == Ownership.NONE) {
+            refSink();
+        }
     }
     
     /**
@@ -102,7 +109,11 @@ public class Task extends org.gstreamer.gst.Object {
      * @throws ClassCastException If the GType is not derived from "GstTask", a ClassCastException will be thrown.
      */
     public static Task castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), Task.getType())) {
             return new Task(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GstTask");
+        }
     }
     
     private static Addressable constructNew(@NotNull org.gstreamer.gst.TaskFunction func) {
@@ -176,7 +187,7 @@ public class Task extends org.gstreamer.gst.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.TaskState(RESULT);
+        return org.gstreamer.gst.TaskState.of(RESULT);
     }
     
     /**

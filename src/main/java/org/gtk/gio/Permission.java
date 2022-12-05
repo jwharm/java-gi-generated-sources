@@ -67,7 +67,11 @@ public class Permission extends org.gtk.gobject.Object {
      * @throws ClassCastException If the GType is not derived from "GPermission", a ClassCastException will be thrown.
      */
     public static Permission castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), Permission.getType())) {
             return new Permission(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GPermission");
+        }
     }
     
     /**

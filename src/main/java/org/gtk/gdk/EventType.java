@@ -8,169 +8,181 @@ import org.jetbrains.annotations.*;
 /**
  * Specifies the type of the event.
  */
-public class EventType extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "GdkEventType";
-    
+public enum EventType implements io.github.jwharm.javagi.Enumeration {
     /**
      * the window manager has requested that the toplevel surface be
      *   hidden or destroyed, usually when the user clicks on a special icon in the
      *   title bar.
      */
-    public static final EventType DELETE = new EventType(0);
-    
+    DELETE(0),
     /**
      * the pointer (usually a mouse) has moved.
      */
-    public static final EventType MOTION_NOTIFY = new EventType(1);
-    
+    MOTION_NOTIFY(1),
     /**
      * a mouse button has been pressed.
      */
-    public static final EventType BUTTON_PRESS = new EventType(2);
-    
+    BUTTON_PRESS(2),
     /**
      * a mouse button has been released.
      */
-    public static final EventType BUTTON_RELEASE = new EventType(3);
-    
+    BUTTON_RELEASE(3),
     /**
      * a key has been pressed.
      */
-    public static final EventType KEY_PRESS = new EventType(4);
-    
+    KEY_PRESS(4),
     /**
      * a key has been released.
      */
-    public static final EventType KEY_RELEASE = new EventType(5);
-    
+    KEY_RELEASE(5),
     /**
      * the pointer has entered the surface.
      */
-    public static final EventType ENTER_NOTIFY = new EventType(6);
-    
+    ENTER_NOTIFY(6),
     /**
      * the pointer has left the surface.
      */
-    public static final EventType LEAVE_NOTIFY = new EventType(7);
-    
+    LEAVE_NOTIFY(7),
     /**
      * the keyboard focus has entered or left the surface.
      */
-    public static final EventType FOCUS_CHANGE = new EventType(8);
-    
+    FOCUS_CHANGE(8),
     /**
      * an input device has moved into contact with a sensing
      *   surface (e.g. a touchscreen or graphics tablet).
      */
-    public static final EventType PROXIMITY_IN = new EventType(9);
-    
+    PROXIMITY_IN(9),
     /**
      * an input device has moved out of contact with a sensing
      *   surface.
      */
-    public static final EventType PROXIMITY_OUT = new EventType(10);
-    
+    PROXIMITY_OUT(10),
     /**
      * the mouse has entered the surface while a drag is in progress.
      */
-    public static final EventType DRAG_ENTER = new EventType(11);
-    
+    DRAG_ENTER(11),
     /**
      * the mouse has left the surface while a drag is in progress.
      */
-    public static final EventType DRAG_LEAVE = new EventType(12);
-    
+    DRAG_LEAVE(12),
     /**
      * the mouse has moved in the surface while a drag is in
      *   progress.
      */
-    public static final EventType DRAG_MOTION = new EventType(13);
-    
+    DRAG_MOTION(13),
     /**
      * a drop operation onto the surface has started.
      */
-    public static final EventType DROP_START = new EventType(14);
-    
+    DROP_START(14),
     /**
      * the scroll wheel was turned
      */
-    public static final EventType SCROLL = new EventType(15);
-    
+    SCROLL(15),
     /**
      * a pointer or keyboard grab was broken.
      */
-    public static final EventType GRAB_BROKEN = new EventType(16);
-    
+    GRAB_BROKEN(16),
     /**
      * A new touch event sequence has just started.
      */
-    public static final EventType TOUCH_BEGIN = new EventType(17);
-    
+    TOUCH_BEGIN(17),
     /**
      * A touch event sequence has been updated.
      */
-    public static final EventType TOUCH_UPDATE = new EventType(18);
-    
+    TOUCH_UPDATE(18),
     /**
      * A touch event sequence has finished.
      */
-    public static final EventType TOUCH_END = new EventType(19);
-    
+    TOUCH_END(19),
     /**
      * A touch event sequence has been canceled.
      */
-    public static final EventType TOUCH_CANCEL = new EventType(20);
-    
+    TOUCH_CANCEL(20),
     /**
      * A touchpad swipe gesture event, the current state
      *   is determined by its phase field.
      */
-    public static final EventType TOUCHPAD_SWIPE = new EventType(21);
-    
+    TOUCHPAD_SWIPE(21),
     /**
      * A touchpad pinch gesture event, the current state
      *   is determined by its phase field.
      */
-    public static final EventType TOUCHPAD_PINCH = new EventType(22);
-    
+    TOUCHPAD_PINCH(22),
     /**
      * A tablet pad button press event.
      */
-    public static final EventType PAD_BUTTON_PRESS = new EventType(23);
-    
+    PAD_BUTTON_PRESS(23),
     /**
      * A tablet pad button release event.
      */
-    public static final EventType PAD_BUTTON_RELEASE = new EventType(24);
-    
+    PAD_BUTTON_RELEASE(24),
     /**
      * A tablet pad axis event from a "ring".
      */
-    public static final EventType PAD_RING = new EventType(25);
-    
+    PAD_RING(25),
     /**
      * A tablet pad axis event from a "strip".
      */
-    public static final EventType PAD_STRIP = new EventType(26);
-    
+    PAD_STRIP(26),
     /**
      * A tablet pad group mode change.
      */
-    public static final EventType PAD_GROUP_MODE = new EventType(27);
-    
+    PAD_GROUP_MODE(27),
     /**
      * A touchpad hold gesture event, the current state
      *   is determined by its phase field. Since: 4.6
      */
-    public static final EventType TOUCHPAD_HOLD = new EventType(28);
-    
+    TOUCHPAD_HOLD(28),
     /**
      * marks the end of the GdkEventType enumeration.
      */
-    public static final EventType EVENT_LAST = new EventType(29);
+    EVENT_LAST(29);
     
-    public EventType(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "GdkEventType";
+    
+    private final int value;
+    EventType(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static EventType of(int value) {
+        return switch (value) {
+            case 0 -> DELETE;
+            case 1 -> MOTION_NOTIFY;
+            case 2 -> BUTTON_PRESS;
+            case 3 -> BUTTON_RELEASE;
+            case 4 -> KEY_PRESS;
+            case 5 -> KEY_RELEASE;
+            case 6 -> ENTER_NOTIFY;
+            case 7 -> LEAVE_NOTIFY;
+            case 8 -> FOCUS_CHANGE;
+            case 9 -> PROXIMITY_IN;
+            case 10 -> PROXIMITY_OUT;
+            case 11 -> DRAG_ENTER;
+            case 12 -> DRAG_LEAVE;
+            case 13 -> DRAG_MOTION;
+            case 14 -> DROP_START;
+            case 15 -> SCROLL;
+            case 16 -> GRAB_BROKEN;
+            case 17 -> TOUCH_BEGIN;
+            case 18 -> TOUCH_UPDATE;
+            case 19 -> TOUCH_END;
+            case 20 -> TOUCH_CANCEL;
+            case 21 -> TOUCHPAD_SWIPE;
+            case 22 -> TOUCHPAD_PINCH;
+            case 23 -> PAD_BUTTON_PRESS;
+            case 24 -> PAD_BUTTON_RELEASE;
+            case 25 -> PAD_RING;
+            case 26 -> PAD_STRIP;
+            case 27 -> PAD_GROUP_MODE;
+            case 28 -> TOUCHPAD_HOLD;
+            case 29 -> EVENT_LAST;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

@@ -44,32 +44,4 @@ public class TextBufferPrivate extends Struct {
     public TextBufferPrivate(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
-
-    /**
-     * Inner class implementing a builder pattern to construct 
-     * a struct and set its values.
-     */
-    public static class Build {
-        
-        private TextBufferPrivate struct;
-        
-         /**
-         * A {@link TextBufferPrivate.Build} object constructs a {@link TextBufferPrivate} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
-            struct = TextBufferPrivate.allocate();
-        }
-        
-         /**
-         * Finish building the {@link TextBufferPrivate} struct.
-         * @return A new instance of {@code TextBufferPrivate} with the fields 
-         *         that were set in the Build object.
-         */
-        public TextBufferPrivate construct() {
-            return struct;
-        }
-    }
 }

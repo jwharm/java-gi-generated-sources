@@ -70,7 +70,11 @@ public class BuilderListItemFactory extends org.gtk.gtk.ListItemFactory {
      * @throws ClassCastException If the GType is not derived from "GtkBuilderListItemFactory", a ClassCastException will be thrown.
      */
     public static BuilderListItemFactory castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), BuilderListItemFactory.getType())) {
             return new BuilderListItemFactory(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkBuilderListItemFactory");
+        }
     }
     
     private static Addressable constructNewFromBytes(@Nullable org.gtk.gtk.BuilderScope scope, @NotNull org.gtk.glib.Bytes bytes) {

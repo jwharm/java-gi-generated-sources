@@ -42,7 +42,11 @@ public interface DtlsConnection extends io.github.jwharm.javagi.Proxy {
      * @throws ClassCastException If the GType is not derived from "GDtlsConnection", a ClassCastException will be thrown.
      */
     public static DtlsConnection castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), DtlsConnection.getType())) {
             return new DtlsConnectionImpl(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GDtlsConnection");
+        }
     }
     
     /**
@@ -324,7 +328,7 @@ public interface DtlsConnection extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.TlsProtocolVersion(RESULT);
+        return org.gtk.gio.TlsProtocolVersion.of(RESULT);
     }
     
     /**
@@ -344,7 +348,7 @@ public interface DtlsConnection extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.TlsRehandshakeMode(RESULT);
+        return org.gtk.gio.TlsRehandshakeMode.of(RESULT);
     }
     
     /**
@@ -733,7 +737,7 @@ public interface DtlsConnection extends io.github.jwharm.javagi.Proxy {
     
     @FunctionalInterface
     public interface AcceptCertificate {
-        boolean signalReceived(DtlsConnection source, @NotNull org.gtk.gio.TlsCertificate peerCert, @NotNull org.gtk.gio.TlsCertificateFlags errors);
+        boolean signalReceived(DtlsConnection sourceDtlsConnection, @NotNull org.gtk.gio.TlsCertificate peerCert, @NotNull org.gtk.gio.TlsCertificateFlags errors);
     }
     
     /**
@@ -1003,10 +1007,10 @@ public interface DtlsConnection extends io.github.jwharm.javagi.Proxy {
     @ApiStatus.Internal
     static class Callbacks {
         
-        public static boolean signalDtlsConnectionAcceptCertificate(MemoryAddress source, MemoryAddress peerCert, int errors, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static boolean signalDtlsConnectionAcceptCertificate(MemoryAddress sourceDtlsConnection, MemoryAddress peerCert, int errors, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (DtlsConnection.AcceptCertificate) Interop.signalRegistry.get(HASH);
-            return HANDLER.signalReceived(new DtlsConnection.DtlsConnectionImpl(source, Ownership.NONE), new org.gtk.gio.TlsCertificate(peerCert, Ownership.NONE), new org.gtk.gio.TlsCertificateFlags(errors));
+            return HANDLER.signalReceived(new DtlsConnection.DtlsConnectionImpl(sourceDtlsConnection, Ownership.NONE), new org.gtk.gio.TlsCertificate(peerCert, Ownership.NONE), new org.gtk.gio.TlsCertificateFlags(errors));
         }
     }
     

@@ -39,12 +39,19 @@ public class FontChooserDialog extends org.gtk.gtk.Dialog implements org.gtk.gtk
     
     /**
      * Create a FontChooserDialog proxy instance for the provided memory address.
+     * <p>
+     * Because FontChooserDialog is an {@code InitiallyUnowned} instance, when 
+     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
+     * and a call to {@code refSink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
     @ApiStatus.Internal
     public FontChooserDialog(Addressable address, Ownership ownership) {
-        super(address, ownership);
+        super(address, Ownership.FULL);
+        if (ownership == Ownership.NONE) {
+            refSink();
+        }
     }
     
     /**
@@ -60,7 +67,11 @@ public class FontChooserDialog extends org.gtk.gtk.Dialog implements org.gtk.gtk
      * @throws ClassCastException If the GType is not derived from "GtkFontChooserDialog", a ClassCastException will be thrown.
      */
     public static FontChooserDialog castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), FontChooserDialog.getType())) {
             return new FontChooserDialog(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkFontChooserDialog");
+        }
     }
     
     private static Addressable constructNew(@Nullable java.lang.String title, @Nullable org.gtk.gtk.Window parent) {

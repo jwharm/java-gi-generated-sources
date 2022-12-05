@@ -17,41 +17,53 @@ import org.jetbrains.annotations.*;
  *  <a href="http://library.gnome.org/devel/hig-book/stable/">GNOME Human Interface Guidelines</a>.
  * </blockquote>
  */
-public class ButtonsType extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "GtkButtonsType";
-    
+public enum ButtonsType implements io.github.jwharm.javagi.Enumeration {
     /**
      * no buttons at all
      */
-    public static final ButtonsType NONE = new ButtonsType(0);
-    
+    NONE(0),
     /**
      * an OK button
      */
-    public static final ButtonsType OK = new ButtonsType(1);
-    
+    OK(1),
     /**
      * a Close button
      */
-    public static final ButtonsType CLOSE = new ButtonsType(2);
-    
+    CLOSE(2),
     /**
      * a Cancel button
      */
-    public static final ButtonsType CANCEL = new ButtonsType(3);
-    
+    CANCEL(3),
     /**
      * Yes and No buttons
      */
-    public static final ButtonsType YES_NO = new ButtonsType(4);
-    
+    YES_NO(4),
     /**
      * OK and Cancel buttons
      */
-    public static final ButtonsType OK_CANCEL = new ButtonsType(5);
+    OK_CANCEL(5);
     
-    public ButtonsType(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "GtkButtonsType";
+    
+    private final int value;
+    ButtonsType(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static ButtonsType of(int value) {
+        return switch (value) {
+            case 0 -> NONE;
+            case 1 -> OK;
+            case 2 -> CLOSE;
+            case 3 -> CANCEL;
+            case 4 -> YES_NO;
+            case 5 -> OK_CANCEL;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

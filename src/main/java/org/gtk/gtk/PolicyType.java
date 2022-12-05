@@ -9,36 +9,48 @@ import org.jetbrains.annotations.*;
  * Determines how the size should be computed to achieve the one of the
  * visibility mode for the scrollbars.
  */
-public class PolicyType extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "GtkPolicyType";
-    
+public enum PolicyType implements io.github.jwharm.javagi.Enumeration {
     /**
      * The scrollbar is always visible. The view size is
      *   independent of the content.
      */
-    public static final PolicyType ALWAYS = new PolicyType(0);
-    
+    ALWAYS(0),
     /**
      * The scrollbar will appear and disappear as necessary.
      *   For example, when all of a {@code GtkTreeView} can not be seen.
      */
-    public static final PolicyType AUTOMATIC = new PolicyType(1);
-    
+    AUTOMATIC(1),
     /**
      * The scrollbar should never appear. In this mode the
      *   content determines the size.
      */
-    public static final PolicyType NEVER = new PolicyType(2);
-    
+    NEVER(2),
     /**
      * Don't show a scrollbar, but don't force the
      *   size to follow the content. This can be used e.g. to make multiple
      *   scrolled windows share a scrollbar.
      */
-    public static final PolicyType EXTERNAL = new PolicyType(3);
+    EXTERNAL(3);
     
-    public PolicyType(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "GtkPolicyType";
+    
+    private final int value;
+    PolicyType(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static PolicyType of(int value) {
+        return switch (value) {
+            case 0 -> ALWAYS;
+            case 1 -> AUTOMATIC;
+            case 2 -> NEVER;
+            case 3 -> EXTERNAL;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

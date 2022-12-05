@@ -8,56 +8,68 @@ import org.jetbrains.annotations.*;
 /**
  * Error codes returned by {@link IOChannel} operations.
  */
-public class IOChannelError extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "GIOChannelError";
-    
+public enum IOChannelError implements io.github.jwharm.javagi.Enumeration {
     /**
      * File too large.
      */
-    public static final IOChannelError FBIG = new IOChannelError(0);
-    
+    FBIG(0),
     /**
      * Invalid argument.
      */
-    public static final IOChannelError INVAL = new IOChannelError(1);
-    
+    INVAL(1),
     /**
      * IO error.
      */
-    public static final IOChannelError IO = new IOChannelError(2);
-    
+    IO(2),
     /**
      * File is a directory.
      */
-    public static final IOChannelError ISDIR = new IOChannelError(3);
-    
+    ISDIR(3),
     /**
      * No space left on device.
      */
-    public static final IOChannelError NOSPC = new IOChannelError(4);
-    
+    NOSPC(4),
     /**
      * No such device or address.
      */
-    public static final IOChannelError NXIO = new IOChannelError(5);
-    
+    NXIO(5),
     /**
      * Value too large for defined datatype.
      */
-    public static final IOChannelError OVERFLOW = new IOChannelError(6);
-    
+    OVERFLOW(6),
     /**
      * Broken pipe.
      */
-    public static final IOChannelError PIPE = new IOChannelError(7);
-    
+    PIPE(7),
     /**
      * Some other error.
      */
-    public static final IOChannelError FAILED = new IOChannelError(8);
+    FAILED(8);
     
-    public IOChannelError(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "GIOChannelError";
+    
+    private final int value;
+    IOChannelError(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static IOChannelError of(int value) {
+        return switch (value) {
+            case 0 -> FBIG;
+            case 1 -> INVAL;
+            case 2 -> IO;
+            case 3 -> ISDIR;
+            case 4 -> NOSPC;
+            case 5 -> NXIO;
+            case 6 -> OVERFLOW;
+            case 7 -> PIPE;
+            case 8 -> FAILED;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

@@ -44,32 +44,4 @@ public class PtpClockPrivate extends Struct {
     public PtpClockPrivate(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
-
-    /**
-     * Inner class implementing a builder pattern to construct 
-     * a struct and set its values.
-     */
-    public static class Build {
-        
-        private PtpClockPrivate struct;
-        
-         /**
-         * A {@link PtpClockPrivate.Build} object constructs a {@link PtpClockPrivate} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
-            struct = PtpClockPrivate.allocate();
-        }
-        
-         /**
-         * Finish building the {@link PtpClockPrivate} struct.
-         * @return A new instance of {@code PtpClockPrivate} with the fields 
-         *         that were set in the Build object.
-         */
-        public PtpClockPrivate construct() {
-            return struct;
-        }
-    }
 }

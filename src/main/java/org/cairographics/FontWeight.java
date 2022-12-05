@@ -5,15 +5,27 @@ import java.lang.foreign.*;
 import java.lang.invoke.*;
 import org.jetbrains.annotations.*;
 
-public class FontWeight extends io.github.jwharm.javagi.Enumeration {
+public enum FontWeight implements io.github.jwharm.javagi.Enumeration {
+    NORMAL(0),
+    BOLD(1);
     
     private static final java.lang.String C_TYPE_NAME = "cairo_font_weight_t";
     
-    public static final FontWeight NORMAL = new FontWeight(0);
+    private final int value;
+    FontWeight(int value) {
+        this.value = value;
+    }
     
-    public static final FontWeight BOLD = new FontWeight(1);
+    @Override
+    public int getValue() {
+        return value;
+    }
     
-    public FontWeight(int value) {
-        super(value);
+    public static FontWeight of(int value) {
+        return switch (value) {
+            case 0 -> NORMAL;
+            case 1 -> BOLD;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

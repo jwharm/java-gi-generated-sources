@@ -35,7 +35,11 @@ public interface Buildable extends io.github.jwharm.javagi.Proxy {
      * @throws ClassCastException If the GType is not derived from "GtkBuildable", a ClassCastException will be thrown.
      */
     public static Buildable castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), Buildable.getType())) {
             return new BuildableImpl(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkBuildable");
+        }
     }
     
     /**

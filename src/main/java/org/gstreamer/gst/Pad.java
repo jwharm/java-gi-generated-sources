@@ -134,12 +134,19 @@ public class Pad extends org.gstreamer.gst.Object {
     
     /**
      * Create a Pad proxy instance for the provided memory address.
+     * <p>
+     * Because Pad is an {@code InitiallyUnowned} instance, when 
+     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
+     * and a call to {@code refSink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
     @ApiStatus.Internal
     public Pad(Addressable address, Ownership ownership) {
-        super(address, ownership);
+        super(address, Ownership.FULL);
+        if (ownership == Ownership.NONE) {
+            refSink();
+        }
     }
     
     /**
@@ -155,7 +162,11 @@ public class Pad extends org.gstreamer.gst.Object {
      * @throws ClassCastException If the GType is not derived from "GstPad", a ClassCastException will be thrown.
      */
     public static Pad castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), Pad.getType())) {
             return new Pad(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GstPad");
+        }
     }
     
     private static Addressable constructNew(@Nullable java.lang.String name, @NotNull org.gstreamer.gst.PadDirection direction) {
@@ -354,7 +365,7 @@ public class Pad extends org.gstreamer.gst.Object {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         buffer.yieldOwnership();
-        return new org.gstreamer.gst.FlowReturn(RESULT);
+        return org.gstreamer.gst.FlowReturn.of(RESULT);
     }
     
     /**
@@ -389,7 +400,7 @@ public class Pad extends org.gstreamer.gst.Object {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         list.yieldOwnership();
-        return new org.gstreamer.gst.FlowReturn(RESULT);
+        return org.gstreamer.gst.FlowReturn.of(RESULT);
     }
     
     /**
@@ -624,7 +635,7 @@ public class Pad extends org.gstreamer.gst.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.PadDirection(RESULT);
+        return org.gstreamer.gst.PadDirection.of(RESULT);
     }
     
     /**
@@ -654,7 +665,7 @@ public class Pad extends org.gstreamer.gst.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.FlowReturn(RESULT);
+        return org.gstreamer.gst.FlowReturn.of(RESULT);
     }
     
     /**
@@ -793,7 +804,7 @@ public class Pad extends org.gstreamer.gst.Object {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         buffer.set(new org.gstreamer.gst.Buffer(bufferPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
-        return new org.gstreamer.gst.FlowReturn(RESULT);
+        return org.gstreamer.gst.FlowReturn.of(RESULT);
     }
     
     /**
@@ -894,7 +905,7 @@ public class Pad extends org.gstreamer.gst.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.TaskState(RESULT);
+        return org.gstreamer.gst.TaskState.of(RESULT);
     }
     
     /**
@@ -1047,7 +1058,7 @@ public class Pad extends org.gstreamer.gst.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.PadLinkReturn(RESULT);
+        return org.gstreamer.gst.PadLinkReturn.of(RESULT);
     }
     
     /**
@@ -1077,7 +1088,7 @@ public class Pad extends org.gstreamer.gst.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.PadLinkReturn(RESULT);
+        return org.gstreamer.gst.PadLinkReturn.of(RESULT);
     }
     
     /**
@@ -1420,7 +1431,7 @@ public class Pad extends org.gstreamer.gst.Object {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         buffer.set(new org.gstreamer.gst.Buffer(bufferPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
-        return new org.gstreamer.gst.FlowReturn(RESULT);
+        return org.gstreamer.gst.FlowReturn.of(RESULT);
     }
     
     /**
@@ -1452,7 +1463,7 @@ public class Pad extends org.gstreamer.gst.Object {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         buffer.yieldOwnership();
-        return new org.gstreamer.gst.FlowReturn(RESULT);
+        return org.gstreamer.gst.FlowReturn.of(RESULT);
     }
     
     /**
@@ -1512,7 +1523,7 @@ public class Pad extends org.gstreamer.gst.Object {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         list.yieldOwnership();
-        return new org.gstreamer.gst.FlowReturn(RESULT);
+        return org.gstreamer.gst.FlowReturn.of(RESULT);
     }
     
     /**
@@ -2145,7 +2156,7 @@ public class Pad extends org.gstreamer.gst.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.FlowReturn(RESULT);
+        return org.gstreamer.gst.FlowReturn.of(RESULT);
     }
     
     /**
@@ -2221,7 +2232,7 @@ public class Pad extends org.gstreamer.gst.Object {
     
     @FunctionalInterface
     public interface Linked {
-        void signalReceived(Pad source, @NotNull org.gstreamer.gst.Pad peer);
+        void signalReceived(Pad sourcePad, @NotNull org.gstreamer.gst.Pad peer);
     }
     
     /**
@@ -2249,7 +2260,7 @@ public class Pad extends org.gstreamer.gst.Object {
     
     @FunctionalInterface
     public interface Unlinked {
-        void signalReceived(Pad source, @NotNull org.gstreamer.gst.Pad peer);
+        void signalReceived(Pad sourcePad, @NotNull org.gstreamer.gst.Pad peer);
     }
     
     /**
@@ -2866,16 +2877,16 @@ public class Pad extends org.gstreamer.gst.Object {
     
     private static class Callbacks {
         
-        public static void signalPadLinked(MemoryAddress source, MemoryAddress peer, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalPadLinked(MemoryAddress sourcePad, MemoryAddress peer, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (Pad.Linked) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Pad(source, Ownership.NONE), new org.gstreamer.gst.Pad(peer, Ownership.NONE));
+            HANDLER.signalReceived(new Pad(sourcePad, Ownership.NONE), new org.gstreamer.gst.Pad(peer, Ownership.NONE));
         }
         
-        public static void signalPadUnlinked(MemoryAddress source, MemoryAddress peer, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalPadUnlinked(MemoryAddress sourcePad, MemoryAddress peer, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (Pad.Unlinked) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Pad(source, Ownership.NONE), new org.gstreamer.gst.Pad(peer, Ownership.NONE));
+            HANDLER.signalReceived(new Pad(sourcePad, Ownership.NONE), new org.gstreamer.gst.Pad(peer, Ownership.NONE));
         }
     }
 }

@@ -38,12 +38,19 @@ public class CellRendererText extends org.gtk.gtk.CellRenderer {
     
     /**
      * Create a CellRendererText proxy instance for the provided memory address.
+     * <p>
+     * Because CellRendererText is an {@code InitiallyUnowned} instance, when 
+     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
+     * and a call to {@code refSink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
     @ApiStatus.Internal
     public CellRendererText(Addressable address, Ownership ownership) {
-        super(address, ownership);
+        super(address, Ownership.FULL);
+        if (ownership == Ownership.NONE) {
+            refSink();
+        }
     }
     
     /**
@@ -59,7 +66,11 @@ public class CellRendererText extends org.gtk.gtk.CellRenderer {
      * @throws ClassCastException If the GType is not derived from "GtkCellRendererText", a ClassCastException will be thrown.
      */
     public static CellRendererText castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), CellRendererText.getType())) {
             return new CellRendererText(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkCellRendererText");
+        }
     }
     
     private static Addressable constructNew() {
@@ -121,7 +132,7 @@ public class CellRendererText extends org.gtk.gtk.CellRenderer {
     
     @FunctionalInterface
     public interface Edited {
-        void signalReceived(CellRendererText source, @NotNull java.lang.String path, @NotNull java.lang.String newText);
+        void signalReceived(CellRendererText sourceCellRendererText, @NotNull java.lang.String path, @NotNull java.lang.String newText);
     }
     
     /**
@@ -550,10 +561,10 @@ public class CellRendererText extends org.gtk.gtk.CellRenderer {
     
     private static class Callbacks {
         
-        public static void signalCellRendererTextEdited(MemoryAddress source, MemoryAddress path, MemoryAddress newText, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalCellRendererTextEdited(MemoryAddress sourceCellRendererText, MemoryAddress path, MemoryAddress newText, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (CellRendererText.Edited) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new CellRendererText(source, Ownership.NONE), Interop.getStringFrom(path), Interop.getStringFrom(newText));
+            HANDLER.signalReceived(new CellRendererText(sourceCellRendererText, Ownership.NONE), Interop.getStringFrom(path), Interop.getStringFrom(newText));
         }
     }
 }

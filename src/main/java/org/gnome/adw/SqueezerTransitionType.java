@@ -9,21 +9,33 @@ import org.jetbrains.annotations.*;
  * Describes the possible transitions in a {@link Squeezer} widget.
  * @version 1.0
  */
-public class SqueezerTransitionType extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "AdwSqueezerTransitionType";
-    
+public enum SqueezerTransitionType implements io.github.jwharm.javagi.Enumeration {
     /**
      * No transition
      */
-    public static final SqueezerTransitionType NONE = new SqueezerTransitionType(0);
-    
+    NONE(0),
     /**
      * A cross-fade
      */
-    public static final SqueezerTransitionType CROSSFADE = new SqueezerTransitionType(1);
+    CROSSFADE(1);
     
-    public SqueezerTransitionType(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "AdwSqueezerTransitionType";
+    
+    private final int value;
+    SqueezerTransitionType(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static SqueezerTransitionType of(int value) {
+        return switch (value) {
+            case 0 -> NONE;
+            case 1 -> CROSSFADE;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

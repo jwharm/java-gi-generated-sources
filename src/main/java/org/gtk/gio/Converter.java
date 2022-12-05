@@ -30,7 +30,11 @@ public interface Converter extends io.github.jwharm.javagi.Proxy {
      * @throws ClassCastException If the GType is not derived from "GConverter", a ClassCastException will be thrown.
      */
     public static Converter castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), Converter.getType())) {
             return new ConverterImpl(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GConverter");
+        }
     }
     
     /**
@@ -157,7 +161,7 @@ public interface Converter extends io.github.jwharm.javagi.Proxy {
         }
         bytesRead.set(bytesReadPOINTER.get(Interop.valueLayout.C_LONG, 0));
         bytesWritten.set(bytesWrittenPOINTER.get(Interop.valueLayout.C_LONG, 0));
-        return new org.gtk.gio.ConverterResult(RESULT);
+        return org.gtk.gio.ConverterResult.of(RESULT);
     }
     
     /**

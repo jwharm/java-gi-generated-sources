@@ -535,32 +535,4 @@ public class TreePath extends Struct {
             false
         );
     }
-
-    /**
-     * Inner class implementing a builder pattern to construct 
-     * a struct and set its values.
-     */
-    public static class Build {
-        
-        private TreePath struct;
-        
-         /**
-         * A {@link TreePath.Build} object constructs a {@link TreePath} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
-            struct = TreePath.allocate();
-        }
-        
-         /**
-         * Finish building the {@link TreePath} struct.
-         * @return A new instance of {@code TreePath} with the fields 
-         *         that were set in the Build object.
-         */
-        public TreePath construct() {
-            return struct;
-        }
-    }
 }

@@ -11,291 +11,303 @@ import org.jetbrains.annotations.*;
  * For more explanations.
  * @version 1.3.3
  */
-public class OtMathConstantT extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "hb_ot_math_constant_t";
-    
+public enum OtMathConstantT implements io.github.jwharm.javagi.Enumeration {
     /**
      * scriptPercentScaleDown
      */
-    public static final OtMathConstantT SCRIPT_PERCENT_SCALE_DOWN = new OtMathConstantT(0);
-    
+    SCRIPT_PERCENT_SCALE_DOWN(0),
     /**
      * scriptScriptPercentScaleDown
      */
-    public static final OtMathConstantT SCRIPT_SCRIPT_PERCENT_SCALE_DOWN = new OtMathConstantT(1);
-    
+    SCRIPT_SCRIPT_PERCENT_SCALE_DOWN(1),
     /**
      * delimitedSubFormulaMinHeight
      */
-    public static final OtMathConstantT DELIMITED_SUB_FORMULA_MIN_HEIGHT = new OtMathConstantT(2);
-    
+    DELIMITED_SUB_FORMULA_MIN_HEIGHT(2),
     /**
      * displayOperatorMinHeight
      */
-    public static final OtMathConstantT DISPLAY_OPERATOR_MIN_HEIGHT = new OtMathConstantT(3);
-    
+    DISPLAY_OPERATOR_MIN_HEIGHT(3),
     /**
      * mathLeading
      */
-    public static final OtMathConstantT MATH_LEADING = new OtMathConstantT(4);
-    
+    MATH_LEADING(4),
     /**
      * axisHeight
      */
-    public static final OtMathConstantT AXIS_HEIGHT = new OtMathConstantT(5);
-    
+    AXIS_HEIGHT(5),
     /**
      * accentBaseHeight
      */
-    public static final OtMathConstantT ACCENT_BASE_HEIGHT = new OtMathConstantT(6);
-    
+    ACCENT_BASE_HEIGHT(6),
     /**
      * flattenedAccentBaseHeight
      */
-    public static final OtMathConstantT FLATTENED_ACCENT_BASE_HEIGHT = new OtMathConstantT(7);
-    
+    FLATTENED_ACCENT_BASE_HEIGHT(7),
     /**
      * subscriptShiftDown
      */
-    public static final OtMathConstantT SUBSCRIPT_SHIFT_DOWN = new OtMathConstantT(8);
-    
+    SUBSCRIPT_SHIFT_DOWN(8),
     /**
      * subscriptTopMax
      */
-    public static final OtMathConstantT SUBSCRIPT_TOP_MAX = new OtMathConstantT(9);
-    
+    SUBSCRIPT_TOP_MAX(9),
     /**
      * subscriptBaselineDropMin
      */
-    public static final OtMathConstantT SUBSCRIPT_BASELINE_DROP_MIN = new OtMathConstantT(10);
-    
+    SUBSCRIPT_BASELINE_DROP_MIN(10),
     /**
      * superscriptShiftUp
      */
-    public static final OtMathConstantT SUPERSCRIPT_SHIFT_UP = new OtMathConstantT(11);
-    
+    SUPERSCRIPT_SHIFT_UP(11),
     /**
      * superscriptShiftUpCramped
      */
-    public static final OtMathConstantT SUPERSCRIPT_SHIFT_UP_CRAMPED = new OtMathConstantT(12);
-    
+    SUPERSCRIPT_SHIFT_UP_CRAMPED(12),
     /**
      * superscriptBottomMin
      */
-    public static final OtMathConstantT SUPERSCRIPT_BOTTOM_MIN = new OtMathConstantT(13);
-    
+    SUPERSCRIPT_BOTTOM_MIN(13),
     /**
      * superscriptBaselineDropMax
      */
-    public static final OtMathConstantT SUPERSCRIPT_BASELINE_DROP_MAX = new OtMathConstantT(14);
-    
+    SUPERSCRIPT_BASELINE_DROP_MAX(14),
     /**
      * subSuperscriptGapMin
      */
-    public static final OtMathConstantT SUB_SUPERSCRIPT_GAP_MIN = new OtMathConstantT(15);
-    
+    SUB_SUPERSCRIPT_GAP_MIN(15),
     /**
      * superscriptBottomMaxWithSubscript
      */
-    public static final OtMathConstantT SUPERSCRIPT_BOTTOM_MAX_WITH_SUBSCRIPT = new OtMathConstantT(16);
-    
+    SUPERSCRIPT_BOTTOM_MAX_WITH_SUBSCRIPT(16),
     /**
      * spaceAfterScript
      */
-    public static final OtMathConstantT SPACE_AFTER_SCRIPT = new OtMathConstantT(17);
-    
+    SPACE_AFTER_SCRIPT(17),
     /**
      * upperLimitGapMin
      */
-    public static final OtMathConstantT UPPER_LIMIT_GAP_MIN = new OtMathConstantT(18);
-    
+    UPPER_LIMIT_GAP_MIN(18),
     /**
      * upperLimitBaselineRiseMin
      */
-    public static final OtMathConstantT UPPER_LIMIT_BASELINE_RISE_MIN = new OtMathConstantT(19);
-    
+    UPPER_LIMIT_BASELINE_RISE_MIN(19),
     /**
      * lowerLimitGapMin
      */
-    public static final OtMathConstantT LOWER_LIMIT_GAP_MIN = new OtMathConstantT(20);
-    
+    LOWER_LIMIT_GAP_MIN(20),
     /**
      * lowerLimitBaselineDropMin
      */
-    public static final OtMathConstantT LOWER_LIMIT_BASELINE_DROP_MIN = new OtMathConstantT(21);
-    
+    LOWER_LIMIT_BASELINE_DROP_MIN(21),
     /**
      * stackTopShiftUp
      */
-    public static final OtMathConstantT STACK_TOP_SHIFT_UP = new OtMathConstantT(22);
-    
+    STACK_TOP_SHIFT_UP(22),
     /**
      * stackTopDisplayStyleShiftUp
      */
-    public static final OtMathConstantT STACK_TOP_DISPLAY_STYLE_SHIFT_UP = new OtMathConstantT(23);
-    
+    STACK_TOP_DISPLAY_STYLE_SHIFT_UP(23),
     /**
      * stackBottomShiftDown
      */
-    public static final OtMathConstantT STACK_BOTTOM_SHIFT_DOWN = new OtMathConstantT(24);
-    
+    STACK_BOTTOM_SHIFT_DOWN(24),
     /**
      * stackBottomDisplayStyleShiftDown
      */
-    public static final OtMathConstantT STACK_BOTTOM_DISPLAY_STYLE_SHIFT_DOWN = new OtMathConstantT(25);
-    
+    STACK_BOTTOM_DISPLAY_STYLE_SHIFT_DOWN(25),
     /**
      * stackGapMin
      */
-    public static final OtMathConstantT STACK_GAP_MIN = new OtMathConstantT(26);
-    
+    STACK_GAP_MIN(26),
     /**
      * stackDisplayStyleGapMin
      */
-    public static final OtMathConstantT STACK_DISPLAY_STYLE_GAP_MIN = new OtMathConstantT(27);
-    
+    STACK_DISPLAY_STYLE_GAP_MIN(27),
     /**
      * stretchStackTopShiftUp
      */
-    public static final OtMathConstantT STRETCH_STACK_TOP_SHIFT_UP = new OtMathConstantT(28);
-    
+    STRETCH_STACK_TOP_SHIFT_UP(28),
     /**
      * stretchStackBottomShiftDown
      */
-    public static final OtMathConstantT STRETCH_STACK_BOTTOM_SHIFT_DOWN = new OtMathConstantT(29);
-    
+    STRETCH_STACK_BOTTOM_SHIFT_DOWN(29),
     /**
      * stretchStackGapAboveMin
      */
-    public static final OtMathConstantT STRETCH_STACK_GAP_ABOVE_MIN = new OtMathConstantT(30);
-    
+    STRETCH_STACK_GAP_ABOVE_MIN(30),
     /**
      * stretchStackGapBelowMin
      */
-    public static final OtMathConstantT STRETCH_STACK_GAP_BELOW_MIN = new OtMathConstantT(31);
-    
+    STRETCH_STACK_GAP_BELOW_MIN(31),
     /**
      * fractionNumeratorShiftUp
      */
-    public static final OtMathConstantT FRACTION_NUMERATOR_SHIFT_UP = new OtMathConstantT(32);
-    
+    FRACTION_NUMERATOR_SHIFT_UP(32),
     /**
      * fractionNumeratorDisplayStyleShiftUp
      */
-    public static final OtMathConstantT FRACTION_NUMERATOR_DISPLAY_STYLE_SHIFT_UP = new OtMathConstantT(33);
-    
+    FRACTION_NUMERATOR_DISPLAY_STYLE_SHIFT_UP(33),
     /**
      * fractionDenominatorShiftDown
      */
-    public static final OtMathConstantT FRACTION_DENOMINATOR_SHIFT_DOWN = new OtMathConstantT(34);
-    
+    FRACTION_DENOMINATOR_SHIFT_DOWN(34),
     /**
      * fractionDenominatorDisplayStyleShiftDown
      */
-    public static final OtMathConstantT FRACTION_DENOMINATOR_DISPLAY_STYLE_SHIFT_DOWN = new OtMathConstantT(35);
-    
+    FRACTION_DENOMINATOR_DISPLAY_STYLE_SHIFT_DOWN(35),
     /**
      * fractionNumeratorGapMin
      */
-    public static final OtMathConstantT FRACTION_NUMERATOR_GAP_MIN = new OtMathConstantT(36);
-    
+    FRACTION_NUMERATOR_GAP_MIN(36),
     /**
      * fractionNumDisplayStyleGapMin
      */
-    public static final OtMathConstantT FRACTION_NUM_DISPLAY_STYLE_GAP_MIN = new OtMathConstantT(37);
-    
+    FRACTION_NUM_DISPLAY_STYLE_GAP_MIN(37),
     /**
      * fractionRuleThickness
      */
-    public static final OtMathConstantT FRACTION_RULE_THICKNESS = new OtMathConstantT(38);
-    
+    FRACTION_RULE_THICKNESS(38),
     /**
      * fractionDenominatorGapMin
      */
-    public static final OtMathConstantT FRACTION_DENOMINATOR_GAP_MIN = new OtMathConstantT(39);
-    
+    FRACTION_DENOMINATOR_GAP_MIN(39),
     /**
      * fractionDenomDisplayStyleGapMin
      */
-    public static final OtMathConstantT FRACTION_DENOM_DISPLAY_STYLE_GAP_MIN = new OtMathConstantT(40);
-    
+    FRACTION_DENOM_DISPLAY_STYLE_GAP_MIN(40),
     /**
      * skewedFractionHorizontalGap
      */
-    public static final OtMathConstantT SKEWED_FRACTION_HORIZONTAL_GAP = new OtMathConstantT(41);
-    
+    SKEWED_FRACTION_HORIZONTAL_GAP(41),
     /**
      * skewedFractionVerticalGap
      */
-    public static final OtMathConstantT SKEWED_FRACTION_VERTICAL_GAP = new OtMathConstantT(42);
-    
+    SKEWED_FRACTION_VERTICAL_GAP(42),
     /**
      * overbarVerticalGap
      */
-    public static final OtMathConstantT OVERBAR_VERTICAL_GAP = new OtMathConstantT(43);
-    
+    OVERBAR_VERTICAL_GAP(43),
     /**
      * overbarRuleThickness
      */
-    public static final OtMathConstantT OVERBAR_RULE_THICKNESS = new OtMathConstantT(44);
-    
+    OVERBAR_RULE_THICKNESS(44),
     /**
      * overbarExtraAscender
      */
-    public static final OtMathConstantT OVERBAR_EXTRA_ASCENDER = new OtMathConstantT(45);
-    
+    OVERBAR_EXTRA_ASCENDER(45),
     /**
      * underbarVerticalGap
      */
-    public static final OtMathConstantT UNDERBAR_VERTICAL_GAP = new OtMathConstantT(46);
-    
+    UNDERBAR_VERTICAL_GAP(46),
     /**
      * underbarRuleThickness
      */
-    public static final OtMathConstantT UNDERBAR_RULE_THICKNESS = new OtMathConstantT(47);
-    
+    UNDERBAR_RULE_THICKNESS(47),
     /**
      * underbarExtraDescender
      */
-    public static final OtMathConstantT UNDERBAR_EXTRA_DESCENDER = new OtMathConstantT(48);
-    
+    UNDERBAR_EXTRA_DESCENDER(48),
     /**
      * radicalVerticalGap
      */
-    public static final OtMathConstantT RADICAL_VERTICAL_GAP = new OtMathConstantT(49);
-    
+    RADICAL_VERTICAL_GAP(49),
     /**
      * radicalDisplayStyleVerticalGap
      */
-    public static final OtMathConstantT RADICAL_DISPLAY_STYLE_VERTICAL_GAP = new OtMathConstantT(50);
-    
+    RADICAL_DISPLAY_STYLE_VERTICAL_GAP(50),
     /**
      * radicalRuleThickness
      */
-    public static final OtMathConstantT RADICAL_RULE_THICKNESS = new OtMathConstantT(51);
-    
+    RADICAL_RULE_THICKNESS(51),
     /**
      * radicalExtraAscender
      */
-    public static final OtMathConstantT RADICAL_EXTRA_ASCENDER = new OtMathConstantT(52);
-    
+    RADICAL_EXTRA_ASCENDER(52),
     /**
      * radicalKernBeforeDegree
      */
-    public static final OtMathConstantT RADICAL_KERN_BEFORE_DEGREE = new OtMathConstantT(53);
-    
+    RADICAL_KERN_BEFORE_DEGREE(53),
     /**
      * radicalKernAfterDegree
      */
-    public static final OtMathConstantT RADICAL_KERN_AFTER_DEGREE = new OtMathConstantT(54);
-    
+    RADICAL_KERN_AFTER_DEGREE(54),
     /**
      * radicalDegreeBottomRaisePercent
      */
-    public static final OtMathConstantT RADICAL_DEGREE_BOTTOM_RAISE_PERCENT = new OtMathConstantT(55);
+    RADICAL_DEGREE_BOTTOM_RAISE_PERCENT(55);
     
-    public OtMathConstantT(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "hb_ot_math_constant_t";
+    
+    private final int value;
+    OtMathConstantT(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static OtMathConstantT of(int value) {
+        return switch (value) {
+            case 0 -> SCRIPT_PERCENT_SCALE_DOWN;
+            case 1 -> SCRIPT_SCRIPT_PERCENT_SCALE_DOWN;
+            case 2 -> DELIMITED_SUB_FORMULA_MIN_HEIGHT;
+            case 3 -> DISPLAY_OPERATOR_MIN_HEIGHT;
+            case 4 -> MATH_LEADING;
+            case 5 -> AXIS_HEIGHT;
+            case 6 -> ACCENT_BASE_HEIGHT;
+            case 7 -> FLATTENED_ACCENT_BASE_HEIGHT;
+            case 8 -> SUBSCRIPT_SHIFT_DOWN;
+            case 9 -> SUBSCRIPT_TOP_MAX;
+            case 10 -> SUBSCRIPT_BASELINE_DROP_MIN;
+            case 11 -> SUPERSCRIPT_SHIFT_UP;
+            case 12 -> SUPERSCRIPT_SHIFT_UP_CRAMPED;
+            case 13 -> SUPERSCRIPT_BOTTOM_MIN;
+            case 14 -> SUPERSCRIPT_BASELINE_DROP_MAX;
+            case 15 -> SUB_SUPERSCRIPT_GAP_MIN;
+            case 16 -> SUPERSCRIPT_BOTTOM_MAX_WITH_SUBSCRIPT;
+            case 17 -> SPACE_AFTER_SCRIPT;
+            case 18 -> UPPER_LIMIT_GAP_MIN;
+            case 19 -> UPPER_LIMIT_BASELINE_RISE_MIN;
+            case 20 -> LOWER_LIMIT_GAP_MIN;
+            case 21 -> LOWER_LIMIT_BASELINE_DROP_MIN;
+            case 22 -> STACK_TOP_SHIFT_UP;
+            case 23 -> STACK_TOP_DISPLAY_STYLE_SHIFT_UP;
+            case 24 -> STACK_BOTTOM_SHIFT_DOWN;
+            case 25 -> STACK_BOTTOM_DISPLAY_STYLE_SHIFT_DOWN;
+            case 26 -> STACK_GAP_MIN;
+            case 27 -> STACK_DISPLAY_STYLE_GAP_MIN;
+            case 28 -> STRETCH_STACK_TOP_SHIFT_UP;
+            case 29 -> STRETCH_STACK_BOTTOM_SHIFT_DOWN;
+            case 30 -> STRETCH_STACK_GAP_ABOVE_MIN;
+            case 31 -> STRETCH_STACK_GAP_BELOW_MIN;
+            case 32 -> FRACTION_NUMERATOR_SHIFT_UP;
+            case 33 -> FRACTION_NUMERATOR_DISPLAY_STYLE_SHIFT_UP;
+            case 34 -> FRACTION_DENOMINATOR_SHIFT_DOWN;
+            case 35 -> FRACTION_DENOMINATOR_DISPLAY_STYLE_SHIFT_DOWN;
+            case 36 -> FRACTION_NUMERATOR_GAP_MIN;
+            case 37 -> FRACTION_NUM_DISPLAY_STYLE_GAP_MIN;
+            case 38 -> FRACTION_RULE_THICKNESS;
+            case 39 -> FRACTION_DENOMINATOR_GAP_MIN;
+            case 40 -> FRACTION_DENOM_DISPLAY_STYLE_GAP_MIN;
+            case 41 -> SKEWED_FRACTION_HORIZONTAL_GAP;
+            case 42 -> SKEWED_FRACTION_VERTICAL_GAP;
+            case 43 -> OVERBAR_VERTICAL_GAP;
+            case 44 -> OVERBAR_RULE_THICKNESS;
+            case 45 -> OVERBAR_EXTRA_ASCENDER;
+            case 46 -> UNDERBAR_VERTICAL_GAP;
+            case 47 -> UNDERBAR_RULE_THICKNESS;
+            case 48 -> UNDERBAR_EXTRA_DESCENDER;
+            case 49 -> RADICAL_VERTICAL_GAP;
+            case 50 -> RADICAL_DISPLAY_STYLE_VERTICAL_GAP;
+            case 51 -> RADICAL_RULE_THICKNESS;
+            case 52 -> RADICAL_EXTRA_ASCENDER;
+            case 53 -> RADICAL_KERN_BEFORE_DEGREE;
+            case 54 -> RADICAL_KERN_AFTER_DEGREE;
+            case 55 -> RADICAL_DEGREE_BOTTOM_RAISE_PERCENT;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

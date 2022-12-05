@@ -15,832 +15,844 @@ import org.jetbrains.annotations.*;
  * should be ready to handle unknown values.
  * See <a href="http://www.unicode.org/reports/tr24/">Unicode Standard Annex #24: Script names</a>.
  */
-public class UnicodeScript extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "GUnicodeScript";
-    
+public enum UnicodeScript implements io.github.jwharm.javagi.Enumeration {
     /**
      * a value never returned from g_unichar_get_script()
      */
-    public static final UnicodeScript INVALID_CODE = new UnicodeScript(0);
-    
+    INVALID_CODE(-1),
     /**
      * a character used by multiple different scripts
      */
-    public static final UnicodeScript COMMON = new UnicodeScript(0);
-    
+    COMMON(0),
     /**
      * a mark glyph that takes its script from the
      *                               base glyph to which it is attached
      */
-    public static final UnicodeScript INHERITED = new UnicodeScript(1);
-    
+    INHERITED(1),
     /**
      * Arabic
      */
-    public static final UnicodeScript ARABIC = new UnicodeScript(2);
-    
+    ARABIC(2),
     /**
      * Armenian
      */
-    public static final UnicodeScript ARMENIAN = new UnicodeScript(3);
-    
+    ARMENIAN(3),
     /**
      * Bengali
      */
-    public static final UnicodeScript BENGALI = new UnicodeScript(4);
-    
+    BENGALI(4),
     /**
      * Bopomofo
      */
-    public static final UnicodeScript BOPOMOFO = new UnicodeScript(5);
-    
+    BOPOMOFO(5),
     /**
      * Cherokee
      */
-    public static final UnicodeScript CHEROKEE = new UnicodeScript(6);
-    
+    CHEROKEE(6),
     /**
      * Coptic
      */
-    public static final UnicodeScript COPTIC = new UnicodeScript(7);
-    
+    COPTIC(7),
     /**
      * Cyrillic
      */
-    public static final UnicodeScript CYRILLIC = new UnicodeScript(8);
-    
+    CYRILLIC(8),
     /**
      * Deseret
      */
-    public static final UnicodeScript DESERET = new UnicodeScript(9);
-    
+    DESERET(9),
     /**
      * Devanagari
      */
-    public static final UnicodeScript DEVANAGARI = new UnicodeScript(10);
-    
+    DEVANAGARI(10),
     /**
      * Ethiopic
      */
-    public static final UnicodeScript ETHIOPIC = new UnicodeScript(11);
-    
+    ETHIOPIC(11),
     /**
      * Georgian
      */
-    public static final UnicodeScript GEORGIAN = new UnicodeScript(12);
-    
+    GEORGIAN(12),
     /**
      * Gothic
      */
-    public static final UnicodeScript GOTHIC = new UnicodeScript(13);
-    
+    GOTHIC(13),
     /**
      * Greek
      */
-    public static final UnicodeScript GREEK = new UnicodeScript(14);
-    
+    GREEK(14),
     /**
      * Gujarati
      */
-    public static final UnicodeScript GUJARATI = new UnicodeScript(15);
-    
+    GUJARATI(15),
     /**
      * Gurmukhi
      */
-    public static final UnicodeScript GURMUKHI = new UnicodeScript(16);
-    
+    GURMUKHI(16),
     /**
      * Han
      */
-    public static final UnicodeScript HAN = new UnicodeScript(17);
-    
+    HAN(17),
     /**
      * Hangul
      */
-    public static final UnicodeScript HANGUL = new UnicodeScript(18);
-    
+    HANGUL(18),
     /**
      * Hebrew
      */
-    public static final UnicodeScript HEBREW = new UnicodeScript(19);
-    
+    HEBREW(19),
     /**
      * Hiragana
      */
-    public static final UnicodeScript HIRAGANA = new UnicodeScript(20);
-    
+    HIRAGANA(20),
     /**
      * Kannada
      */
-    public static final UnicodeScript KANNADA = new UnicodeScript(21);
-    
+    KANNADA(21),
     /**
      * Katakana
      */
-    public static final UnicodeScript KATAKANA = new UnicodeScript(22);
-    
+    KATAKANA(22),
     /**
      * Khmer
      */
-    public static final UnicodeScript KHMER = new UnicodeScript(23);
-    
+    KHMER(23),
     /**
      * Lao
      */
-    public static final UnicodeScript LAO = new UnicodeScript(24);
-    
+    LAO(24),
     /**
      * Latin
      */
-    public static final UnicodeScript LATIN = new UnicodeScript(25);
-    
+    LATIN(25),
     /**
      * Malayalam
      */
-    public static final UnicodeScript MALAYALAM = new UnicodeScript(26);
-    
+    MALAYALAM(26),
     /**
      * Mongolian
      */
-    public static final UnicodeScript MONGOLIAN = new UnicodeScript(27);
-    
+    MONGOLIAN(27),
     /**
      * Myanmar
      */
-    public static final UnicodeScript MYANMAR = new UnicodeScript(28);
-    
+    MYANMAR(28),
     /**
      * Ogham
      */
-    public static final UnicodeScript OGHAM = new UnicodeScript(29);
-    
+    OGHAM(29),
     /**
      * Old Italic
      */
-    public static final UnicodeScript OLD_ITALIC = new UnicodeScript(30);
-    
+    OLD_ITALIC(30),
     /**
      * Oriya
      */
-    public static final UnicodeScript ORIYA = new UnicodeScript(31);
-    
+    ORIYA(31),
     /**
      * Runic
      */
-    public static final UnicodeScript RUNIC = new UnicodeScript(32);
-    
+    RUNIC(32),
     /**
      * Sinhala
      */
-    public static final UnicodeScript SINHALA = new UnicodeScript(33);
-    
+    SINHALA(33),
     /**
      * Syriac
      */
-    public static final UnicodeScript SYRIAC = new UnicodeScript(34);
-    
+    SYRIAC(34),
     /**
      * Tamil
      */
-    public static final UnicodeScript TAMIL = new UnicodeScript(35);
-    
+    TAMIL(35),
     /**
      * Telugu
      */
-    public static final UnicodeScript TELUGU = new UnicodeScript(36);
-    
+    TELUGU(36),
     /**
      * Thaana
      */
-    public static final UnicodeScript THAANA = new UnicodeScript(37);
-    
+    THAANA(37),
     /**
      * Thai
      */
-    public static final UnicodeScript THAI = new UnicodeScript(38);
-    
+    THAI(38),
     /**
      * Tibetan
      */
-    public static final UnicodeScript TIBETAN = new UnicodeScript(39);
-    
+    TIBETAN(39),
     /**
      * Canadian Aboriginal
      */
-    public static final UnicodeScript CANADIAN_ABORIGINAL = new UnicodeScript(40);
-    
+    CANADIAN_ABORIGINAL(40),
     /**
      * Yi
      */
-    public static final UnicodeScript YI = new UnicodeScript(41);
-    
+    YI(41),
     /**
      * Tagalog
      */
-    public static final UnicodeScript TAGALOG = new UnicodeScript(42);
-    
+    TAGALOG(42),
     /**
      * Hanunoo
      */
-    public static final UnicodeScript HANUNOO = new UnicodeScript(43);
-    
+    HANUNOO(43),
     /**
      * Buhid
      */
-    public static final UnicodeScript BUHID = new UnicodeScript(44);
-    
+    BUHID(44),
     /**
      * Tagbanwa
      */
-    public static final UnicodeScript TAGBANWA = new UnicodeScript(45);
-    
+    TAGBANWA(45),
     /**
      * Braille
      */
-    public static final UnicodeScript BRAILLE = new UnicodeScript(46);
-    
+    BRAILLE(46),
     /**
      * Cypriot
      */
-    public static final UnicodeScript CYPRIOT = new UnicodeScript(47);
-    
+    CYPRIOT(47),
     /**
      * Limbu
      */
-    public static final UnicodeScript LIMBU = new UnicodeScript(48);
-    
+    LIMBU(48),
     /**
      * Osmanya
      */
-    public static final UnicodeScript OSMANYA = new UnicodeScript(49);
-    
+    OSMANYA(49),
     /**
      * Shavian
      */
-    public static final UnicodeScript SHAVIAN = new UnicodeScript(50);
-    
+    SHAVIAN(50),
     /**
      * Linear B
      */
-    public static final UnicodeScript LINEAR_B = new UnicodeScript(51);
-    
+    LINEAR_B(51),
     /**
      * Tai Le
      */
-    public static final UnicodeScript TAI_LE = new UnicodeScript(52);
-    
+    TAI_LE(52),
     /**
      * Ugaritic
      */
-    public static final UnicodeScript UGARITIC = new UnicodeScript(53);
-    
+    UGARITIC(53),
     /**
      * New Tai Lue
      */
-    public static final UnicodeScript NEW_TAI_LUE = new UnicodeScript(54);
-    
+    NEW_TAI_LUE(54),
     /**
      * Buginese
      */
-    public static final UnicodeScript BUGINESE = new UnicodeScript(55);
-    
+    BUGINESE(55),
     /**
      * Glagolitic
      */
-    public static final UnicodeScript GLAGOLITIC = new UnicodeScript(56);
-    
+    GLAGOLITIC(56),
     /**
      * Tifinagh
      */
-    public static final UnicodeScript TIFINAGH = new UnicodeScript(57);
-    
+    TIFINAGH(57),
     /**
      * Syloti Nagri
      */
-    public static final UnicodeScript SYLOTI_NAGRI = new UnicodeScript(58);
-    
+    SYLOTI_NAGRI(58),
     /**
      * Old Persian
      */
-    public static final UnicodeScript OLD_PERSIAN = new UnicodeScript(59);
-    
+    OLD_PERSIAN(59),
     /**
      * Kharoshthi
      */
-    public static final UnicodeScript KHAROSHTHI = new UnicodeScript(60);
-    
+    KHAROSHTHI(60),
     /**
      * an unassigned code point
      */
-    public static final UnicodeScript UNKNOWN = new UnicodeScript(61);
-    
+    UNKNOWN(61),
     /**
      * Balinese
      */
-    public static final UnicodeScript BALINESE = new UnicodeScript(62);
-    
+    BALINESE(62),
     /**
      * Cuneiform
      */
-    public static final UnicodeScript CUNEIFORM = new UnicodeScript(63);
-    
+    CUNEIFORM(63),
     /**
      * Phoenician
      */
-    public static final UnicodeScript PHOENICIAN = new UnicodeScript(64);
-    
+    PHOENICIAN(64),
     /**
      * Phags-pa
      */
-    public static final UnicodeScript PHAGS_PA = new UnicodeScript(65);
-    
+    PHAGS_PA(65),
     /**
      * N'Ko
      */
-    public static final UnicodeScript NKO = new UnicodeScript(66);
-    
+    NKO(66),
     /**
      * Kayah Li. Since 2.16.3
      */
-    public static final UnicodeScript KAYAH_LI = new UnicodeScript(67);
-    
+    KAYAH_LI(67),
     /**
      * Lepcha. Since 2.16.3
      */
-    public static final UnicodeScript LEPCHA = new UnicodeScript(68);
-    
+    LEPCHA(68),
     /**
      * Rejang. Since 2.16.3
      */
-    public static final UnicodeScript REJANG = new UnicodeScript(69);
-    
+    REJANG(69),
     /**
      * Sundanese. Since 2.16.3
      */
-    public static final UnicodeScript SUNDANESE = new UnicodeScript(70);
-    
+    SUNDANESE(70),
     /**
      * Saurashtra. Since 2.16.3
      */
-    public static final UnicodeScript SAURASHTRA = new UnicodeScript(71);
-    
+    SAURASHTRA(71),
     /**
      * Cham. Since 2.16.3
      */
-    public static final UnicodeScript CHAM = new UnicodeScript(72);
-    
+    CHAM(72),
     /**
      * Ol Chiki. Since 2.16.3
      */
-    public static final UnicodeScript OL_CHIKI = new UnicodeScript(73);
-    
+    OL_CHIKI(73),
     /**
      * Vai. Since 2.16.3
      */
-    public static final UnicodeScript VAI = new UnicodeScript(74);
-    
+    VAI(74),
     /**
      * Carian. Since 2.16.3
      */
-    public static final UnicodeScript CARIAN = new UnicodeScript(75);
-    
+    CARIAN(75),
     /**
      * Lycian. Since 2.16.3
      */
-    public static final UnicodeScript LYCIAN = new UnicodeScript(76);
-    
+    LYCIAN(76),
     /**
      * Lydian. Since 2.16.3
      */
-    public static final UnicodeScript LYDIAN = new UnicodeScript(77);
-    
+    LYDIAN(77),
     /**
      * Avestan. Since 2.26
      */
-    public static final UnicodeScript AVESTAN = new UnicodeScript(78);
-    
+    AVESTAN(78),
     /**
      * Bamum. Since 2.26
      */
-    public static final UnicodeScript BAMUM = new UnicodeScript(79);
-    
+    BAMUM(79),
     /**
      * Egyptian Hieroglpyhs. Since 2.26
      */
-    public static final UnicodeScript EGYPTIAN_HIEROGLYPHS = new UnicodeScript(80);
-    
+    EGYPTIAN_HIEROGLYPHS(80),
     /**
      * Imperial Aramaic. Since 2.26
      */
-    public static final UnicodeScript IMPERIAL_ARAMAIC = new UnicodeScript(81);
-    
+    IMPERIAL_ARAMAIC(81),
     /**
      * Inscriptional Pahlavi. Since 2.26
      */
-    public static final UnicodeScript INSCRIPTIONAL_PAHLAVI = new UnicodeScript(82);
-    
+    INSCRIPTIONAL_PAHLAVI(82),
     /**
      * Inscriptional Parthian. Since 2.26
      */
-    public static final UnicodeScript INSCRIPTIONAL_PARTHIAN = new UnicodeScript(83);
-    
+    INSCRIPTIONAL_PARTHIAN(83),
     /**
      * Javanese. Since 2.26
      */
-    public static final UnicodeScript JAVANESE = new UnicodeScript(84);
-    
+    JAVANESE(84),
     /**
      * Kaithi. Since 2.26
      */
-    public static final UnicodeScript KAITHI = new UnicodeScript(85);
-    
+    KAITHI(85),
     /**
      * Lisu. Since 2.26
      */
-    public static final UnicodeScript LISU = new UnicodeScript(86);
-    
+    LISU(86),
     /**
      * Meetei Mayek. Since 2.26
      */
-    public static final UnicodeScript MEETEI_MAYEK = new UnicodeScript(87);
-    
+    MEETEI_MAYEK(87),
     /**
      * Old South Arabian. Since 2.26
      */
-    public static final UnicodeScript OLD_SOUTH_ARABIAN = new UnicodeScript(88);
-    
+    OLD_SOUTH_ARABIAN(88),
     /**
      * Old Turkic. Since 2.28
      */
-    public static final UnicodeScript OLD_TURKIC = new UnicodeScript(89);
-    
+    OLD_TURKIC(89),
     /**
      * Samaritan. Since 2.26
      */
-    public static final UnicodeScript SAMARITAN = new UnicodeScript(90);
-    
+    SAMARITAN(90),
     /**
      * Tai Tham. Since 2.26
      */
-    public static final UnicodeScript TAI_THAM = new UnicodeScript(91);
-    
+    TAI_THAM(91),
     /**
      * Tai Viet. Since 2.26
      */
-    public static final UnicodeScript TAI_VIET = new UnicodeScript(92);
-    
+    TAI_VIET(92),
     /**
      * Batak. Since 2.28
      */
-    public static final UnicodeScript BATAK = new UnicodeScript(93);
-    
+    BATAK(93),
     /**
      * Brahmi. Since 2.28
      */
-    public static final UnicodeScript BRAHMI = new UnicodeScript(94);
-    
+    BRAHMI(94),
     /**
      * Mandaic. Since 2.28
      */
-    public static final UnicodeScript MANDAIC = new UnicodeScript(95);
-    
+    MANDAIC(95),
     /**
      * Chakma. Since: 2.32
      */
-    public static final UnicodeScript CHAKMA = new UnicodeScript(96);
-    
+    CHAKMA(96),
     /**
      * Meroitic Cursive. Since: 2.32
      */
-    public static final UnicodeScript MEROITIC_CURSIVE = new UnicodeScript(97);
-    
+    MEROITIC_CURSIVE(97),
     /**
      * Meroitic Hieroglyphs. Since: 2.32
      */
-    public static final UnicodeScript MEROITIC_HIEROGLYPHS = new UnicodeScript(98);
-    
+    MEROITIC_HIEROGLYPHS(98),
     /**
      * Miao. Since: 2.32
      */
-    public static final UnicodeScript MIAO = new UnicodeScript(99);
-    
+    MIAO(99),
     /**
      * Sharada. Since: 2.32
      */
-    public static final UnicodeScript SHARADA = new UnicodeScript(100);
-    
+    SHARADA(100),
     /**
      * Sora Sompeng. Since: 2.32
      */
-    public static final UnicodeScript SORA_SOMPENG = new UnicodeScript(101);
-    
+    SORA_SOMPENG(101),
     /**
      * Takri. Since: 2.32
      */
-    public static final UnicodeScript TAKRI = new UnicodeScript(102);
-    
+    TAKRI(102),
     /**
      * Bassa. Since: 2.42
      */
-    public static final UnicodeScript BASSA_VAH = new UnicodeScript(103);
-    
+    BASSA_VAH(103),
     /**
      * Caucasian Albanian. Since: 2.42
      */
-    public static final UnicodeScript CAUCASIAN_ALBANIAN = new UnicodeScript(104);
-    
+    CAUCASIAN_ALBANIAN(104),
     /**
      * Duployan. Since: 2.42
      */
-    public static final UnicodeScript DUPLOYAN = new UnicodeScript(105);
-    
+    DUPLOYAN(105),
     /**
      * Elbasan. Since: 2.42
      */
-    public static final UnicodeScript ELBASAN = new UnicodeScript(106);
-    
+    ELBASAN(106),
     /**
      * Grantha. Since: 2.42
      */
-    public static final UnicodeScript GRANTHA = new UnicodeScript(107);
-    
+    GRANTHA(107),
     /**
      * Kjohki. Since: 2.42
      */
-    public static final UnicodeScript KHOJKI = new UnicodeScript(108);
-    
+    KHOJKI(108),
     /**
      * Khudawadi, Sindhi. Since: 2.42
      */
-    public static final UnicodeScript KHUDAWADI = new UnicodeScript(109);
-    
+    KHUDAWADI(109),
     /**
      * Linear A. Since: 2.42
      */
-    public static final UnicodeScript LINEAR_A = new UnicodeScript(110);
-    
+    LINEAR_A(110),
     /**
      * Mahajani. Since: 2.42
      */
-    public static final UnicodeScript MAHAJANI = new UnicodeScript(111);
-    
+    MAHAJANI(111),
     /**
      * Manichaean. Since: 2.42
      */
-    public static final UnicodeScript MANICHAEAN = new UnicodeScript(112);
-    
+    MANICHAEAN(112),
     /**
      * Mende Kikakui. Since: 2.42
      */
-    public static final UnicodeScript MENDE_KIKAKUI = new UnicodeScript(113);
-    
+    MENDE_KIKAKUI(113),
     /**
      * Modi. Since: 2.42
      */
-    public static final UnicodeScript MODI = new UnicodeScript(114);
-    
+    MODI(114),
     /**
      * Mro. Since: 2.42
      */
-    public static final UnicodeScript MRO = new UnicodeScript(115);
-    
+    MRO(115),
     /**
      * Nabataean. Since: 2.42
      */
-    public static final UnicodeScript NABATAEAN = new UnicodeScript(116);
-    
+    NABATAEAN(116),
     /**
      * Old North Arabian. Since: 2.42
      */
-    public static final UnicodeScript OLD_NORTH_ARABIAN = new UnicodeScript(117);
-    
+    OLD_NORTH_ARABIAN(117),
     /**
      * Old Permic. Since: 2.42
      */
-    public static final UnicodeScript OLD_PERMIC = new UnicodeScript(118);
-    
+    OLD_PERMIC(118),
     /**
      * Pahawh Hmong. Since: 2.42
      */
-    public static final UnicodeScript PAHAWH_HMONG = new UnicodeScript(119);
-    
+    PAHAWH_HMONG(119),
     /**
      * Palmyrene. Since: 2.42
      */
-    public static final UnicodeScript PALMYRENE = new UnicodeScript(120);
-    
+    PALMYRENE(120),
     /**
      * Pau Cin Hau. Since: 2.42
      */
-    public static final UnicodeScript PAU_CIN_HAU = new UnicodeScript(121);
-    
+    PAU_CIN_HAU(121),
     /**
      * Psalter Pahlavi. Since: 2.42
      */
-    public static final UnicodeScript PSALTER_PAHLAVI = new UnicodeScript(122);
-    
+    PSALTER_PAHLAVI(122),
     /**
      * Siddham. Since: 2.42
      */
-    public static final UnicodeScript SIDDHAM = new UnicodeScript(123);
-    
+    SIDDHAM(123),
     /**
      * Tirhuta. Since: 2.42
      */
-    public static final UnicodeScript TIRHUTA = new UnicodeScript(124);
-    
+    TIRHUTA(124),
     /**
      * Warang Citi. Since: 2.42
      */
-    public static final UnicodeScript WARANG_CITI = new UnicodeScript(125);
-    
+    WARANG_CITI(125),
     /**
      * Ahom. Since: 2.48
      */
-    public static final UnicodeScript AHOM = new UnicodeScript(126);
-    
+    AHOM(126),
     /**
      * Anatolian Hieroglyphs. Since: 2.48
      */
-    public static final UnicodeScript ANATOLIAN_HIEROGLYPHS = new UnicodeScript(127);
-    
+    ANATOLIAN_HIEROGLYPHS(127),
     /**
      * Hatran. Since: 2.48
      */
-    public static final UnicodeScript HATRAN = new UnicodeScript(128);
-    
+    HATRAN(128),
     /**
      * Multani. Since: 2.48
      */
-    public static final UnicodeScript MULTANI = new UnicodeScript(129);
-    
+    MULTANI(129),
     /**
      * Old Hungarian. Since: 2.48
      */
-    public static final UnicodeScript OLD_HUNGARIAN = new UnicodeScript(130);
-    
+    OLD_HUNGARIAN(130),
     /**
      * Signwriting. Since: 2.48
      */
-    public static final UnicodeScript SIGNWRITING = new UnicodeScript(131);
-    
+    SIGNWRITING(131),
     /**
      * Adlam. Since: 2.50
      */
-    public static final UnicodeScript ADLAM = new UnicodeScript(132);
-    
+    ADLAM(132),
     /**
      * Bhaiksuki. Since: 2.50
      */
-    public static final UnicodeScript BHAIKSUKI = new UnicodeScript(133);
-    
+    BHAIKSUKI(133),
     /**
      * Marchen. Since: 2.50
      */
-    public static final UnicodeScript MARCHEN = new UnicodeScript(134);
-    
+    MARCHEN(134),
     /**
      * Newa. Since: 2.50
      */
-    public static final UnicodeScript NEWA = new UnicodeScript(135);
-    
+    NEWA(135),
     /**
      * Osage. Since: 2.50
      */
-    public static final UnicodeScript OSAGE = new UnicodeScript(136);
-    
+    OSAGE(136),
     /**
      * Tangut. Since: 2.50
      */
-    public static final UnicodeScript TANGUT = new UnicodeScript(137);
-    
+    TANGUT(137),
     /**
      * Masaram Gondi. Since: 2.54
      */
-    public static final UnicodeScript MASARAM_GONDI = new UnicodeScript(138);
-    
+    MASARAM_GONDI(138),
     /**
      * Nushu. Since: 2.54
      */
-    public static final UnicodeScript NUSHU = new UnicodeScript(139);
-    
+    NUSHU(139),
     /**
      * Soyombo. Since: 2.54
      */
-    public static final UnicodeScript SOYOMBO = new UnicodeScript(140);
-    
+    SOYOMBO(140),
     /**
      * Zanabazar Square. Since: 2.54
      */
-    public static final UnicodeScript ZANABAZAR_SQUARE = new UnicodeScript(141);
-    
+    ZANABAZAR_SQUARE(141),
     /**
      * Dogra. Since: 2.58
      */
-    public static final UnicodeScript DOGRA = new UnicodeScript(142);
-    
+    DOGRA(142),
     /**
      * Gunjala Gondi. Since: 2.58
      */
-    public static final UnicodeScript GUNJALA_GONDI = new UnicodeScript(143);
-    
+    GUNJALA_GONDI(143),
     /**
      * Hanifi Rohingya. Since: 2.58
      */
-    public static final UnicodeScript HANIFI_ROHINGYA = new UnicodeScript(144);
-    
+    HANIFI_ROHINGYA(144),
     /**
      * Makasar. Since: 2.58
      */
-    public static final UnicodeScript MAKASAR = new UnicodeScript(145);
-    
+    MAKASAR(145),
     /**
      * Medefaidrin. Since: 2.58
      */
-    public static final UnicodeScript MEDEFAIDRIN = new UnicodeScript(146);
-    
+    MEDEFAIDRIN(146),
     /**
      * Old Sogdian. Since: 2.58
      */
-    public static final UnicodeScript OLD_SOGDIAN = new UnicodeScript(147);
-    
+    OLD_SOGDIAN(147),
     /**
      * Sogdian. Since: 2.58
      */
-    public static final UnicodeScript SOGDIAN = new UnicodeScript(148);
-    
+    SOGDIAN(148),
     /**
      * Elym. Since: 2.62
      */
-    public static final UnicodeScript ELYMAIC = new UnicodeScript(149);
-    
+    ELYMAIC(149),
     /**
      * Nand. Since: 2.62
      */
-    public static final UnicodeScript NANDINAGARI = new UnicodeScript(150);
-    
+    NANDINAGARI(150),
     /**
      * Rohg. Since: 2.62
      */
-    public static final UnicodeScript NYIAKENG_PUACHUE_HMONG = new UnicodeScript(151);
-    
+    NYIAKENG_PUACHUE_HMONG(151),
     /**
      * Wcho. Since: 2.62
      */
-    public static final UnicodeScript WANCHO = new UnicodeScript(152);
-    
+    WANCHO(152),
     /**
      * Chorasmian. Since: 2.66
      */
-    public static final UnicodeScript CHORASMIAN = new UnicodeScript(153);
-    
+    CHORASMIAN(153),
     /**
      * Dives Akuru. Since: 2.66
      */
-    public static final UnicodeScript DIVES_AKURU = new UnicodeScript(154);
-    
+    DIVES_AKURU(154),
     /**
      * Khitan small script. Since: 2.66
      */
-    public static final UnicodeScript KHITAN_SMALL_SCRIPT = new UnicodeScript(155);
-    
+    KHITAN_SMALL_SCRIPT(155),
     /**
      * Yezidi. Since: 2.66
      */
-    public static final UnicodeScript YEZIDI = new UnicodeScript(156);
-    
+    YEZIDI(156),
     /**
      * Cypro-Minoan. Since: 2.72
      */
-    public static final UnicodeScript CYPRO_MINOAN = new UnicodeScript(157);
-    
+    CYPRO_MINOAN(157),
     /**
      * Old Uyghur. Since: 2.72
      */
-    public static final UnicodeScript OLD_UYGHUR = new UnicodeScript(158);
-    
+    OLD_UYGHUR(158),
     /**
      * Tangsa. Since: 2.72
      */
-    public static final UnicodeScript TANGSA = new UnicodeScript(159);
-    
+    TANGSA(159),
     /**
      * Toto. Since: 2.72
      */
-    public static final UnicodeScript TOTO = new UnicodeScript(160);
-    
+    TOTO(160),
     /**
      * Vithkuqi. Since: 2.72
      */
-    public static final UnicodeScript VITHKUQI = new UnicodeScript(161);
-    
+    VITHKUQI(161),
     /**
      * Mathematical notation. Since: 2.72
      */
-    public static final UnicodeScript MATH = new UnicodeScript(162);
+    MATH(162);
     
-    public UnicodeScript(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "GUnicodeScript";
+    
+    private final int value;
+    UnicodeScript(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static UnicodeScript of(int value) {
+        return switch (value) {
+            case -1 -> INVALID_CODE;
+            case 0 -> COMMON;
+            case 1 -> INHERITED;
+            case 2 -> ARABIC;
+            case 3 -> ARMENIAN;
+            case 4 -> BENGALI;
+            case 5 -> BOPOMOFO;
+            case 6 -> CHEROKEE;
+            case 7 -> COPTIC;
+            case 8 -> CYRILLIC;
+            case 9 -> DESERET;
+            case 10 -> DEVANAGARI;
+            case 11 -> ETHIOPIC;
+            case 12 -> GEORGIAN;
+            case 13 -> GOTHIC;
+            case 14 -> GREEK;
+            case 15 -> GUJARATI;
+            case 16 -> GURMUKHI;
+            case 17 -> HAN;
+            case 18 -> HANGUL;
+            case 19 -> HEBREW;
+            case 20 -> HIRAGANA;
+            case 21 -> KANNADA;
+            case 22 -> KATAKANA;
+            case 23 -> KHMER;
+            case 24 -> LAO;
+            case 25 -> LATIN;
+            case 26 -> MALAYALAM;
+            case 27 -> MONGOLIAN;
+            case 28 -> MYANMAR;
+            case 29 -> OGHAM;
+            case 30 -> OLD_ITALIC;
+            case 31 -> ORIYA;
+            case 32 -> RUNIC;
+            case 33 -> SINHALA;
+            case 34 -> SYRIAC;
+            case 35 -> TAMIL;
+            case 36 -> TELUGU;
+            case 37 -> THAANA;
+            case 38 -> THAI;
+            case 39 -> TIBETAN;
+            case 40 -> CANADIAN_ABORIGINAL;
+            case 41 -> YI;
+            case 42 -> TAGALOG;
+            case 43 -> HANUNOO;
+            case 44 -> BUHID;
+            case 45 -> TAGBANWA;
+            case 46 -> BRAILLE;
+            case 47 -> CYPRIOT;
+            case 48 -> LIMBU;
+            case 49 -> OSMANYA;
+            case 50 -> SHAVIAN;
+            case 51 -> LINEAR_B;
+            case 52 -> TAI_LE;
+            case 53 -> UGARITIC;
+            case 54 -> NEW_TAI_LUE;
+            case 55 -> BUGINESE;
+            case 56 -> GLAGOLITIC;
+            case 57 -> TIFINAGH;
+            case 58 -> SYLOTI_NAGRI;
+            case 59 -> OLD_PERSIAN;
+            case 60 -> KHAROSHTHI;
+            case 61 -> UNKNOWN;
+            case 62 -> BALINESE;
+            case 63 -> CUNEIFORM;
+            case 64 -> PHOENICIAN;
+            case 65 -> PHAGS_PA;
+            case 66 -> NKO;
+            case 67 -> KAYAH_LI;
+            case 68 -> LEPCHA;
+            case 69 -> REJANG;
+            case 70 -> SUNDANESE;
+            case 71 -> SAURASHTRA;
+            case 72 -> CHAM;
+            case 73 -> OL_CHIKI;
+            case 74 -> VAI;
+            case 75 -> CARIAN;
+            case 76 -> LYCIAN;
+            case 77 -> LYDIAN;
+            case 78 -> AVESTAN;
+            case 79 -> BAMUM;
+            case 80 -> EGYPTIAN_HIEROGLYPHS;
+            case 81 -> IMPERIAL_ARAMAIC;
+            case 82 -> INSCRIPTIONAL_PAHLAVI;
+            case 83 -> INSCRIPTIONAL_PARTHIAN;
+            case 84 -> JAVANESE;
+            case 85 -> KAITHI;
+            case 86 -> LISU;
+            case 87 -> MEETEI_MAYEK;
+            case 88 -> OLD_SOUTH_ARABIAN;
+            case 89 -> OLD_TURKIC;
+            case 90 -> SAMARITAN;
+            case 91 -> TAI_THAM;
+            case 92 -> TAI_VIET;
+            case 93 -> BATAK;
+            case 94 -> BRAHMI;
+            case 95 -> MANDAIC;
+            case 96 -> CHAKMA;
+            case 97 -> MEROITIC_CURSIVE;
+            case 98 -> MEROITIC_HIEROGLYPHS;
+            case 99 -> MIAO;
+            case 100 -> SHARADA;
+            case 101 -> SORA_SOMPENG;
+            case 102 -> TAKRI;
+            case 103 -> BASSA_VAH;
+            case 104 -> CAUCASIAN_ALBANIAN;
+            case 105 -> DUPLOYAN;
+            case 106 -> ELBASAN;
+            case 107 -> GRANTHA;
+            case 108 -> KHOJKI;
+            case 109 -> KHUDAWADI;
+            case 110 -> LINEAR_A;
+            case 111 -> MAHAJANI;
+            case 112 -> MANICHAEAN;
+            case 113 -> MENDE_KIKAKUI;
+            case 114 -> MODI;
+            case 115 -> MRO;
+            case 116 -> NABATAEAN;
+            case 117 -> OLD_NORTH_ARABIAN;
+            case 118 -> OLD_PERMIC;
+            case 119 -> PAHAWH_HMONG;
+            case 120 -> PALMYRENE;
+            case 121 -> PAU_CIN_HAU;
+            case 122 -> PSALTER_PAHLAVI;
+            case 123 -> SIDDHAM;
+            case 124 -> TIRHUTA;
+            case 125 -> WARANG_CITI;
+            case 126 -> AHOM;
+            case 127 -> ANATOLIAN_HIEROGLYPHS;
+            case 128 -> HATRAN;
+            case 129 -> MULTANI;
+            case 130 -> OLD_HUNGARIAN;
+            case 131 -> SIGNWRITING;
+            case 132 -> ADLAM;
+            case 133 -> BHAIKSUKI;
+            case 134 -> MARCHEN;
+            case 135 -> NEWA;
+            case 136 -> OSAGE;
+            case 137 -> TANGUT;
+            case 138 -> MASARAM_GONDI;
+            case 139 -> NUSHU;
+            case 140 -> SOYOMBO;
+            case 141 -> ZANABAZAR_SQUARE;
+            case 142 -> DOGRA;
+            case 143 -> GUNJALA_GONDI;
+            case 144 -> HANIFI_ROHINGYA;
+            case 145 -> MAKASAR;
+            case 146 -> MEDEFAIDRIN;
+            case 147 -> OLD_SOGDIAN;
+            case 148 -> SOGDIAN;
+            case 149 -> ELYMAIC;
+            case 150 -> NANDINAGARI;
+            case 151 -> NYIAKENG_PUACHUE_HMONG;
+            case 152 -> WANCHO;
+            case 153 -> CHORASMIAN;
+            case 154 -> DIVES_AKURU;
+            case 155 -> KHITAN_SMALL_SCRIPT;
+            case 156 -> YEZIDI;
+            case 157 -> CYPRO_MINOAN;
+            case 158 -> OLD_UYGHUR;
+            case 159 -> TANGSA;
+            case 160 -> TOTO;
+            case 161 -> VITHKUQI;
+            case 162 -> MATH;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

@@ -52,7 +52,11 @@ public class GestureZoom extends org.gtk.gtk.Gesture {
      * @throws ClassCastException If the GType is not derived from "GtkGestureZoom", a ClassCastException will be thrown.
      */
     public static GestureZoom castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), GestureZoom.getType())) {
             return new GestureZoom(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkGestureZoom");
+        }
     }
     
     private static Addressable constructNew() {
@@ -109,7 +113,7 @@ public class GestureZoom extends org.gtk.gtk.Gesture {
     
     @FunctionalInterface
     public interface ScaleChanged {
-        void signalReceived(GestureZoom source, double scale);
+        void signalReceived(GestureZoom sourceGestureZoom, double scale);
     }
     
     /**
@@ -193,10 +197,10 @@ public class GestureZoom extends org.gtk.gtk.Gesture {
     
     private static class Callbacks {
         
-        public static void signalGestureZoomScaleChanged(MemoryAddress source, double scale, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalGestureZoomScaleChanged(MemoryAddress sourceGestureZoom, double scale, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (GestureZoom.ScaleChanged) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new GestureZoom(source, Ownership.NONE), scale);
+            HANDLER.signalReceived(new GestureZoom(sourceGestureZoom, Ownership.NONE), scale);
         }
     }
 }

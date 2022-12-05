@@ -48,7 +48,11 @@ public class KeyEvent extends org.gtk.gdk.Event {
      * @throws ClassCastException If the GType is not derived from "GdkKeyEvent", a ClassCastException will be thrown.
      */
     public static KeyEvent castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), KeyEvent.getType())) {
             return new KeyEvent(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GdkKeyEvent");
+        }
     }
     
     /**
@@ -193,7 +197,7 @@ public class KeyEvent extends org.gtk.gdk.Event {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gdk.KeyMatch(RESULT);
+        return org.gtk.gdk.KeyMatch.of(RESULT);
     }
     
     /**

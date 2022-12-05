@@ -5,15 +5,27 @@ import java.lang.foreign.*;
 import java.lang.invoke.*;
 import org.jetbrains.annotations.*;
 
-public class FillRule extends io.github.jwharm.javagi.Enumeration {
+public enum FillRule implements io.github.jwharm.javagi.Enumeration {
+    WINDING(0),
+    EVEN_ODD(1);
     
     private static final java.lang.String C_TYPE_NAME = "cairo_fill_rule_t";
     
-    public static final FillRule WINDING = new FillRule(0);
+    private final int value;
+    FillRule(int value) {
+        this.value = value;
+    }
     
-    public static final FillRule EVEN_ODD = new FillRule(1);
+    @Override
+    public int getValue() {
+        return value;
+    }
     
-    public FillRule(int value) {
-        super(value);
+    public static FillRule of(int value) {
+        return switch (value) {
+            case 0 -> WINDING;
+            case 1 -> EVEN_ODD;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

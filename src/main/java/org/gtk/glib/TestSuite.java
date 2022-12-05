@@ -110,32 +110,4 @@ public class TestSuite extends Struct {
             false
         );
     }
-
-    /**
-     * Inner class implementing a builder pattern to construct 
-     * a struct and set its values.
-     */
-    public static class Build {
-        
-        private TestSuite struct;
-        
-         /**
-         * A {@link TestSuite.Build} object constructs a {@link TestSuite} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
-            struct = TestSuite.allocate();
-        }
-        
-         /**
-         * Finish building the {@link TestSuite} struct.
-         * @return A new instance of {@code TestSuite} with the fields 
-         *         that were set in the Build object.
-         */
-        public TestSuite construct() {
-            return struct;
-        }
-    }
 }

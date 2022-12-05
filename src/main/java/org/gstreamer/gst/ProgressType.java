@@ -9,37 +9,49 @@ import org.jetbrains.annotations.*;
  * The type of a {@link MessageType#PROGRESS}. The progress messages inform the
  * application of the status of asynchronous tasks.
  */
-public class ProgressType extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "GstProgressType";
-    
+public enum ProgressType implements io.github.jwharm.javagi.Enumeration {
     /**
      * A new task started.
      */
-    public static final ProgressType START = new ProgressType(0);
-    
+    START(0),
     /**
      * A task completed and a new one continues.
      */
-    public static final ProgressType CONTINUE = new ProgressType(1);
-    
+    CONTINUE(1),
     /**
      * A task completed.
      */
-    public static final ProgressType COMPLETE = new ProgressType(2);
-    
+    COMPLETE(2),
     /**
      * A task was canceled.
      */
-    public static final ProgressType CANCELED = new ProgressType(3);
-    
+    CANCELED(3),
     /**
      * A task caused an error. An error message is also
      *          posted on the bus.
      */
-    public static final ProgressType ERROR = new ProgressType(4);
+    ERROR(4);
     
-    public ProgressType(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "GstProgressType";
+    
+    private final int value;
+    ProgressType(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static ProgressType of(int value) {
+        return switch (value) {
+            case 0 -> START;
+            case 1 -> CONTINUE;
+            case 2 -> COMPLETE;
+            case 3 -> CANCELED;
+            case 4 -> ERROR;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

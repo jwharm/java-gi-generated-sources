@@ -44,32 +44,4 @@ public class GesturePanClass extends Struct {
     public GesturePanClass(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
-
-    /**
-     * Inner class implementing a builder pattern to construct 
-     * a struct and set its values.
-     */
-    public static class Build {
-        
-        private GesturePanClass struct;
-        
-         /**
-         * A {@link GesturePanClass.Build} object constructs a {@link GesturePanClass} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
-            struct = GesturePanClass.allocate();
-        }
-        
-         /**
-         * Finish building the {@link GesturePanClass} struct.
-         * @return A new instance of {@code GesturePanClass} with the fields 
-         *         that were set in the Build object.
-         */
-        public GesturePanClass construct() {
-            return struct;
-        }
-    }
 }

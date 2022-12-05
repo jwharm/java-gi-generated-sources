@@ -56,7 +56,7 @@ public class SegmentPropertiesT extends Struct {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("direction"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new org.harfbuzz.DirectionT(RESULT);
+        return org.harfbuzz.DirectionT.of(RESULT);
     }
     
     /**
@@ -77,7 +77,7 @@ public class SegmentPropertiesT extends Struct {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("script"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new org.harfbuzz.ScriptT(RESULT);
+        return org.harfbuzz.ScriptT.of(RESULT);
     }
     
     /**

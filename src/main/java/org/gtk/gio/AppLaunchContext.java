@@ -55,7 +55,11 @@ public class AppLaunchContext extends org.gtk.gobject.Object {
      * @throws ClassCastException If the GType is not derived from "GAppLaunchContext", a ClassCastException will be thrown.
      */
     public static AppLaunchContext castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), AppLaunchContext.getType())) {
             return new AppLaunchContext(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GAppLaunchContext");
+        }
     }
     
     private static Addressable constructNew() {
@@ -210,7 +214,7 @@ public class AppLaunchContext extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface LaunchFailed {
-        void signalReceived(AppLaunchContext source, @NotNull java.lang.String startupNotifyId);
+        void signalReceived(AppLaunchContext sourceAppLaunchContext, @NotNull java.lang.String startupNotifyId);
     }
     
     /**
@@ -244,7 +248,7 @@ public class AppLaunchContext extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface LaunchStarted {
-        void signalReceived(AppLaunchContext source, @NotNull org.gtk.gio.AppInfo info, @Nullable org.gtk.glib.Variant platformData);
+        void signalReceived(AppLaunchContext sourceAppLaunchContext, @NotNull org.gtk.gio.AppInfo info, @Nullable org.gtk.glib.Variant platformData);
     }
     
     /**
@@ -289,7 +293,7 @@ public class AppLaunchContext extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface Launched {
-        void signalReceived(AppLaunchContext source, @NotNull org.gtk.gio.AppInfo info, @NotNull org.gtk.glib.Variant platformData);
+        void signalReceived(AppLaunchContext sourceAppLaunchContext, @NotNull org.gtk.gio.AppInfo info, @NotNull org.gtk.glib.Variant platformData);
     }
     
     /**
@@ -422,22 +426,22 @@ public class AppLaunchContext extends org.gtk.gobject.Object {
     
     private static class Callbacks {
         
-        public static void signalAppLaunchContextLaunchFailed(MemoryAddress source, MemoryAddress startupNotifyId, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalAppLaunchContextLaunchFailed(MemoryAddress sourceAppLaunchContext, MemoryAddress startupNotifyId, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (AppLaunchContext.LaunchFailed) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new AppLaunchContext(source, Ownership.NONE), Interop.getStringFrom(startupNotifyId));
+            HANDLER.signalReceived(new AppLaunchContext(sourceAppLaunchContext, Ownership.NONE), Interop.getStringFrom(startupNotifyId));
         }
         
-        public static void signalAppLaunchContextLaunchStarted(MemoryAddress source, MemoryAddress info, MemoryAddress platformData, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalAppLaunchContextLaunchStarted(MemoryAddress sourceAppLaunchContext, MemoryAddress info, MemoryAddress platformData, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (AppLaunchContext.LaunchStarted) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new AppLaunchContext(source, Ownership.NONE), new org.gtk.gio.AppInfo.AppInfoImpl(info, Ownership.NONE), new org.gtk.glib.Variant(platformData, Ownership.NONE));
+            HANDLER.signalReceived(new AppLaunchContext(sourceAppLaunchContext, Ownership.NONE), new org.gtk.gio.AppInfo.AppInfoImpl(info, Ownership.NONE), new org.gtk.glib.Variant(platformData, Ownership.NONE));
         }
         
-        public static void signalAppLaunchContextLaunched(MemoryAddress source, MemoryAddress info, MemoryAddress platformData, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalAppLaunchContextLaunched(MemoryAddress sourceAppLaunchContext, MemoryAddress info, MemoryAddress platformData, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (AppLaunchContext.Launched) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new AppLaunchContext(source, Ownership.NONE), new org.gtk.gio.AppInfo.AppInfoImpl(info, Ownership.NONE), new org.gtk.glib.Variant(platformData, Ownership.NONE));
+            HANDLER.signalReceived(new AppLaunchContext(sourceAppLaunchContext, Ownership.NONE), new org.gtk.gio.AppInfo.AppInfoImpl(info, Ownership.NONE), new org.gtk.glib.Variant(platformData, Ownership.NONE));
         }
     }
 }

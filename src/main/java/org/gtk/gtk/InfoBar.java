@@ -97,12 +97,19 @@ public class InfoBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
     
     /**
      * Create a InfoBar proxy instance for the provided memory address.
+     * <p>
+     * Because InfoBar is an {@code InitiallyUnowned} instance, when 
+     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
+     * and a call to {@code refSink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
     @ApiStatus.Internal
     public InfoBar(Addressable address, Ownership ownership) {
-        super(address, ownership);
+        super(address, Ownership.FULL);
+        if (ownership == Ownership.NONE) {
+            refSink();
+        }
     }
     
     /**
@@ -118,7 +125,11 @@ public class InfoBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      * @throws ClassCastException If the GType is not derived from "GtkInfoBar", a ClassCastException will be thrown.
      */
     public static InfoBar castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), InfoBar.getType())) {
             return new InfoBar(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkInfoBar");
+        }
     }
     
     private static Addressable constructNew() {
@@ -266,7 +277,7 @@ public class InfoBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.MessageType(RESULT);
+        return org.gtk.gtk.MessageType.of(RESULT);
     }
     
     /**
@@ -456,7 +467,7 @@ public class InfoBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
     
     @FunctionalInterface
     public interface Close {
-        void signalReceived(InfoBar source);
+        void signalReceived(InfoBar sourceInfoBar);
     }
     
     /**
@@ -488,7 +499,7 @@ public class InfoBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
     
     @FunctionalInterface
     public interface Response {
-        void signalReceived(InfoBar source, int responseId);
+        void signalReceived(InfoBar sourceInfoBar, int responseId);
     }
     
     /**
@@ -701,16 +712,16 @@ public class InfoBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
     
     private static class Callbacks {
         
-        public static void signalInfoBarClose(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalInfoBarClose(MemoryAddress sourceInfoBar, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (InfoBar.Close) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new InfoBar(source, Ownership.NONE));
+            HANDLER.signalReceived(new InfoBar(sourceInfoBar, Ownership.NONE));
         }
         
-        public static void signalInfoBarResponse(MemoryAddress source, int responseId, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalInfoBarResponse(MemoryAddress sourceInfoBar, int responseId, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (InfoBar.Response) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new InfoBar(source, Ownership.NONE), responseId);
+            HANDLER.signalReceived(new InfoBar(sourceInfoBar, Ownership.NONE), responseId);
         }
     }
 }

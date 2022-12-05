@@ -56,7 +56,11 @@ public class FontFamily extends org.gtk.gobject.Object implements org.gtk.gio.Li
      * @throws ClassCastException If the GType is not derived from "PangoFontFamily", a ClassCastException will be thrown.
      */
     public static FontFamily castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), FontFamily.getType())) {
             return new FontFamily(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of PangoFontFamily");
+        }
     }
     
     /**

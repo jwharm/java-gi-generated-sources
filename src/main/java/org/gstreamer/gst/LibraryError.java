@@ -9,49 +9,61 @@ import org.jetbrains.annotations.*;
  * Library errors are for errors from the library being used by elements
  * (initializing, finalizing, settings, ...)
  */
-public class LibraryError extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "GstLibraryError";
-    
+public enum LibraryError implements io.github.jwharm.javagi.Enumeration {
     /**
      * a general error which doesn't fit in any other
      * category.  Make sure you add a custom message to the error call.
      */
-    public static final LibraryError FAILED = new LibraryError(1);
-    
+    FAILED(1),
     /**
      * do not use this except as a placeholder for
      * deciding where to go while developing code.
      */
-    public static final LibraryError TOO_LAZY = new LibraryError(2);
-    
+    TOO_LAZY(2),
     /**
      * used when the library could not be opened.
      */
-    public static final LibraryError INIT = new LibraryError(3);
-    
+    INIT(3),
     /**
      * used when the library could not be closed.
      */
-    public static final LibraryError SHUTDOWN = new LibraryError(4);
-    
+    SHUTDOWN(4),
     /**
      * used when the library doesn't accept settings.
      */
-    public static final LibraryError SETTINGS = new LibraryError(5);
-    
+    SETTINGS(5),
     /**
      * used when the library generated an encoding error.
      */
-    public static final LibraryError ENCODE = new LibraryError(6);
-    
+    ENCODE(6),
     /**
      * the number of library error types.
      */
-    public static final LibraryError NUM_ERRORS = new LibraryError(7);
+    NUM_ERRORS(7);
     
-    public LibraryError(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "GstLibraryError";
+    
+    private final int value;
+    LibraryError(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static LibraryError of(int value) {
+        return switch (value) {
+            case 1 -> FAILED;
+            case 2 -> TOO_LAZY;
+            case 3 -> INIT;
+            case 4 -> SHUTDOWN;
+            case 5 -> SETTINGS;
+            case 6 -> ENCODE;
+            case 7 -> NUM_ERRORS;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
     
     public static @NotNull org.gtk.glib.Quark quark() {

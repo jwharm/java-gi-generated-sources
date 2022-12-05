@@ -114,7 +114,11 @@ public class SizeGroup extends org.gtk.gobject.Object implements org.gtk.gtk.Bui
      * @throws ClassCastException If the GType is not derived from "GtkSizeGroup", a ClassCastException will be thrown.
      */
     public static SizeGroup castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), SizeGroup.getType())) {
             return new SizeGroup(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkSizeGroup");
+        }
     }
     
     private static Addressable constructNew(@NotNull org.gtk.gtk.SizeGroupMode mode) {
@@ -174,7 +178,7 @@ public class SizeGroup extends org.gtk.gobject.Object implements org.gtk.gtk.Bui
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.SizeGroupMode(RESULT);
+        return org.gtk.gtk.SizeGroupMode.of(RESULT);
     }
     
     /**

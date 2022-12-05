@@ -50,12 +50,19 @@ public class Switch extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
     
     /**
      * Create a Switch proxy instance for the provided memory address.
+     * <p>
+     * Because Switch is an {@code InitiallyUnowned} instance, when 
+     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
+     * and a call to {@code refSink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
     @ApiStatus.Internal
     public Switch(Addressable address, Ownership ownership) {
-        super(address, ownership);
+        super(address, Ownership.FULL);
+        if (ownership == Ownership.NONE) {
+            refSink();
+        }
     }
     
     /**
@@ -71,7 +78,11 @@ public class Switch extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
      * @throws ClassCastException If the GType is not derived from "GtkSwitch", a ClassCastException will be thrown.
      */
     public static Switch castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), Switch.getType())) {
             return new Switch(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkSwitch");
+        }
     }
     
     private static Addressable constructNew() {
@@ -171,7 +182,7 @@ public class Switch extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
     
     @FunctionalInterface
     public interface Activate {
-        void signalReceived(Switch source);
+        void signalReceived(Switch sourceSwitch_);
     }
     
     /**
@@ -202,7 +213,7 @@ public class Switch extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
     
     @FunctionalInterface
     public interface StateSet {
-        boolean signalReceived(Switch source, boolean state);
+        boolean signalReceived(Switch sourceSwitch_, boolean state);
     }
     
     /**
@@ -342,16 +353,16 @@ public class Switch extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
     
     private static class Callbacks {
         
-        public static void signalSwitchActivate(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalSwitchActivate(MemoryAddress sourceSwitch_, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (Switch.Activate) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Switch(source, Ownership.NONE));
+            HANDLER.signalReceived(new Switch(sourceSwitch_, Ownership.NONE));
         }
         
-        public static boolean signalSwitchStateSet(MemoryAddress source, int state, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static boolean signalSwitchStateSet(MemoryAddress sourceSwitch_, int state, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (Switch.StateSet) Interop.signalRegistry.get(HASH);
-            return HANDLER.signalReceived(new Switch(source, Ownership.NONE), state != 0);
+            return HANDLER.signalReceived(new Switch(sourceSwitch_, Ownership.NONE), state != 0);
         }
     }
 }

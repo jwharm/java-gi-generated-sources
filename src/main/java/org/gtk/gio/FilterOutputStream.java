@@ -56,7 +56,11 @@ public class FilterOutputStream extends org.gtk.gio.OutputStream {
      * @throws ClassCastException If the GType is not derived from "GFilterOutputStream", a ClassCastException will be thrown.
      */
     public static FilterOutputStream castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), FilterOutputStream.getType())) {
             return new FilterOutputStream(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GFilterOutputStream");
+        }
     }
     
     /**

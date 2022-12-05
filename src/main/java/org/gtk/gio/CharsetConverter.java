@@ -49,7 +49,11 @@ public class CharsetConverter extends org.gtk.gobject.Object implements org.gtk.
      * @throws ClassCastException If the GType is not derived from "GCharsetConverter", a ClassCastException will be thrown.
      */
     public static CharsetConverter castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), CharsetConverter.getType())) {
             return new CharsetConverter(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GCharsetConverter");
+        }
     }
     
     private static Addressable constructNew(@NotNull java.lang.String toCharset, @NotNull java.lang.String fromCharset) throws GErrorException {

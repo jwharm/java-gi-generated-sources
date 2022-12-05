@@ -56,7 +56,11 @@ public class EventControllerMotion extends org.gtk.gtk.EventController {
      * @throws ClassCastException If the GType is not derived from "GtkEventControllerMotion", a ClassCastException will be thrown.
      */
     public static EventControllerMotion castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), EventControllerMotion.getType())) {
             return new EventControllerMotion(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkEventControllerMotion");
+        }
     }
     
     private static Addressable constructNew() {
@@ -122,7 +126,7 @@ public class EventControllerMotion extends org.gtk.gtk.EventController {
     
     @FunctionalInterface
     public interface Enter {
-        void signalReceived(EventControllerMotion source, double x, double y);
+        void signalReceived(EventControllerMotion sourceEventControllerMotion, double x, double y);
     }
     
     /**
@@ -150,7 +154,7 @@ public class EventControllerMotion extends org.gtk.gtk.EventController {
     
     @FunctionalInterface
     public interface Leave {
-        void signalReceived(EventControllerMotion source);
+        void signalReceived(EventControllerMotion sourceEventControllerMotion);
     }
     
     /**
@@ -178,7 +182,7 @@ public class EventControllerMotion extends org.gtk.gtk.EventController {
     
     @FunctionalInterface
     public interface Motion {
-        void signalReceived(EventControllerMotion source, double x, double y);
+        void signalReceived(EventControllerMotion sourceEventControllerMotion, double x, double y);
     }
     
     /**
@@ -303,22 +307,22 @@ public class EventControllerMotion extends org.gtk.gtk.EventController {
     
     private static class Callbacks {
         
-        public static void signalEventControllerMotionEnter(MemoryAddress source, double x, double y, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalEventControllerMotionEnter(MemoryAddress sourceEventControllerMotion, double x, double y, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (EventControllerMotion.Enter) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new EventControllerMotion(source, Ownership.NONE), x, y);
+            HANDLER.signalReceived(new EventControllerMotion(sourceEventControllerMotion, Ownership.NONE), x, y);
         }
         
-        public static void signalEventControllerMotionLeave(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalEventControllerMotionLeave(MemoryAddress sourceEventControllerMotion, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (EventControllerMotion.Leave) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new EventControllerMotion(source, Ownership.NONE));
+            HANDLER.signalReceived(new EventControllerMotion(sourceEventControllerMotion, Ownership.NONE));
         }
         
-        public static void signalEventControllerMotionMotion(MemoryAddress source, double x, double y, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalEventControllerMotionMotion(MemoryAddress sourceEventControllerMotion, double x, double y, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (EventControllerMotion.Motion) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new EventControllerMotion(source, Ownership.NONE), x, y);
+            HANDLER.signalReceived(new EventControllerMotion(sourceEventControllerMotion, Ownership.NONE), x, y);
         }
     }
 }

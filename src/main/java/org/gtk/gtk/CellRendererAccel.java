@@ -31,12 +31,19 @@ public class CellRendererAccel extends org.gtk.gtk.CellRendererText {
     
     /**
      * Create a CellRendererAccel proxy instance for the provided memory address.
+     * <p>
+     * Because CellRendererAccel is an {@code InitiallyUnowned} instance, when 
+     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
+     * and a call to {@code refSink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
     @ApiStatus.Internal
     public CellRendererAccel(Addressable address, Ownership ownership) {
-        super(address, ownership);
+        super(address, Ownership.FULL);
+        if (ownership == Ownership.NONE) {
+            refSink();
+        }
     }
     
     /**
@@ -52,7 +59,11 @@ public class CellRendererAccel extends org.gtk.gtk.CellRendererText {
      * @throws ClassCastException If the GType is not derived from "GtkCellRendererAccel", a ClassCastException will be thrown.
      */
     public static CellRendererAccel castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), CellRendererAccel.getType())) {
             return new CellRendererAccel(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkCellRendererAccel");
+        }
     }
     
     private static Addressable constructNew() {
@@ -88,7 +99,7 @@ public class CellRendererAccel extends org.gtk.gtk.CellRendererText {
     
     @FunctionalInterface
     public interface AccelCleared {
-        void signalReceived(CellRendererAccel source, @NotNull java.lang.String pathString);
+        void signalReceived(CellRendererAccel sourceCellRendererAccel, @NotNull java.lang.String pathString);
     }
     
     /**
@@ -116,7 +127,7 @@ public class CellRendererAccel extends org.gtk.gtk.CellRendererText {
     
     @FunctionalInterface
     public interface AccelEdited {
-        void signalReceived(CellRendererAccel source, @NotNull java.lang.String pathString, int accelKey, @NotNull org.gtk.gdk.ModifierType accelMods, int hardwareKeycode);
+        void signalReceived(CellRendererAccel sourceCellRendererAccel, @NotNull java.lang.String pathString, int accelKey, @NotNull org.gtk.gdk.ModifierType accelMods, int hardwareKeycode);
     }
     
     /**
@@ -243,16 +254,16 @@ public class CellRendererAccel extends org.gtk.gtk.CellRendererText {
     
     private static class Callbacks {
         
-        public static void signalCellRendererAccelAccelCleared(MemoryAddress source, MemoryAddress pathString, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalCellRendererAccelAccelCleared(MemoryAddress sourceCellRendererAccel, MemoryAddress pathString, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (CellRendererAccel.AccelCleared) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new CellRendererAccel(source, Ownership.NONE), Interop.getStringFrom(pathString));
+            HANDLER.signalReceived(new CellRendererAccel(sourceCellRendererAccel, Ownership.NONE), Interop.getStringFrom(pathString));
         }
         
-        public static void signalCellRendererAccelAccelEdited(MemoryAddress source, MemoryAddress pathString, int accelKey, int accelMods, int hardwareKeycode, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalCellRendererAccelAccelEdited(MemoryAddress sourceCellRendererAccel, MemoryAddress pathString, int accelKey, int accelMods, int hardwareKeycode, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (CellRendererAccel.AccelEdited) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new CellRendererAccel(source, Ownership.NONE), Interop.getStringFrom(pathString), accelKey, new org.gtk.gdk.ModifierType(accelMods), hardwareKeycode);
+            HANDLER.signalReceived(new CellRendererAccel(sourceCellRendererAccel, Ownership.NONE), Interop.getStringFrom(pathString), accelKey, new org.gtk.gdk.ModifierType(accelMods), hardwareKeycode);
         }
     }
 }

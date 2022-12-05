@@ -16,17 +16,13 @@ import org.jetbrains.annotations.*;
  * <strong>Note</strong>: Cubic filtering is missing from the list; hyperbolic
  * interpolation is just as fast and results in higher quality.
  */
-public class InterpType extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "GdkInterpType";
-    
+public enum InterpType implements io.github.jwharm.javagi.Enumeration {
     /**
      * Nearest neighbor sampling; this is the fastest
      *  and lowest quality mode. Quality is normally unacceptable when scaling
      *  down, but may be OK when scaling up.
      */
-    public static final InterpType NEAREST = new InterpType(0);
-    
+    NEAREST(0),
     /**
      * This is an accurate simulation of the PostScript
      *  image operator without any interpolation enabled.  Each pixel is
@@ -34,8 +30,7 @@ public class InterpType extends io.github.jwharm.javagi.Enumeration {
      *  are implemented with antialiasing.  It resembles nearest neighbor for
      *  enlargement, and bilinear for reduction.
      */
-    public static final InterpType TILES = new InterpType(1);
-    
+    TILES(1),
     /**
      * Best quality/speed balance; use this mode by
      *  default. Bilinear interpolation.  For enlargement, it is
@@ -43,8 +38,7 @@ public class InterpType extends io.github.jwharm.javagi.Enumeration {
      *  For reduction, it is equivalent to laying down small tiles and
      *  integrating over the coverage area.
      */
-    public static final InterpType BILINEAR = new InterpType(2);
-    
+    BILINEAR(2),
     /**
      * This is the slowest and highest quality
      *  reconstruction function. It is derived from the hyperbolic filters in
@@ -55,9 +49,27 @@ public class InterpType extends io.github.jwharm.javagi.Enumeration {
      *  it has a lower quality than the {@code GDK_INTERP_BILINEAR} filter
      *  (Since: 2.38)
      */
-    public static final InterpType HYPER = new InterpType(3);
+    HYPER(3);
     
-    public InterpType(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "GdkInterpType";
+    
+    private final int value;
+    InterpType(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static InterpType of(int value) {
+        return switch (value) {
+            case 0 -> NEAREST;
+            case 1 -> TILES;
+            case 2 -> BILINEAR;
+            case 3 -> HYPER;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

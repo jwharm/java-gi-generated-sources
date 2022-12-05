@@ -12,36 +12,48 @@ import org.jetbrains.annotations.*;
  * orientation (irrespective of specific direction) with
  * HB_DIRECTION_IS_HORIZONTAL() or HB_DIRECTION_IS_VERTICAL().
  */
-public class DirectionT extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "hb_direction_t";
-    
+public enum DirectionT implements io.github.jwharm.javagi.Enumeration {
     /**
      * Initial, unset direction.
      */
-    public static final DirectionT INVALID = new DirectionT(0);
-    
+    INVALID(0),
     /**
      * Text is set horizontally from left to right.
      */
-    public static final DirectionT LTR = new DirectionT(4);
-    
+    LTR(4),
     /**
      * Text is set horizontally from right to left.
      */
-    public static final DirectionT RTL = new DirectionT(5);
-    
+    RTL(5),
     /**
      * Text is set vertically from top to bottom.
      */
-    public static final DirectionT TTB = new DirectionT(6);
-    
+    TTB(6),
     /**
      * Text is set vertically from bottom to top.
      */
-    public static final DirectionT BTT = new DirectionT(7);
+    BTT(7);
     
-    public DirectionT(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "hb_direction_t";
+    
+    private final int value;
+    DirectionT(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static DirectionT of(int value) {
+        return switch (value) {
+            case 0 -> INVALID;
+            case 4 -> LTR;
+            case 5 -> RTL;
+            case 6 -> TTB;
+            case 7 -> BTT;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

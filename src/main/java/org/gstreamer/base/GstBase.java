@@ -10,6 +10,10 @@ import org.jetbrains.annotations.*;
  */
 public final class GstBase {
     
+    static {
+        System.loadLibrary("gstbase-1.0");
+    }
+    
     @ApiStatus.Internal static void javagi$ensureInitialized() {}
     
     public static final int BASE_PARSE_FLAG_DRAINING = 2;
@@ -285,7 +289,7 @@ public final class GstBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        prob.set(new org.gstreamer.gst.TypeFindProbability(probPOINTER.get(Interop.valueLayout.C_INT, 0)));
+        prob.set(org.gstreamer.gst.TypeFindProbability.of(probPOINTER.get(Interop.valueLayout.C_INT, 0)));
         return new org.gstreamer.gst.Caps(RESULT, Ownership.FULL);
     }
     
@@ -329,7 +333,7 @@ public final class GstBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        prob.set(new org.gstreamer.gst.TypeFindProbability(probPOINTER.get(Interop.valueLayout.C_INT, 0)));
+        prob.set(org.gstreamer.gst.TypeFindProbability.of(probPOINTER.get(Interop.valueLayout.C_INT, 0)));
         return new org.gstreamer.gst.Caps(RESULT, Ownership.FULL);
     }
     
@@ -369,7 +373,7 @@ public final class GstBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        prob.set(new org.gstreamer.gst.TypeFindProbability(probPOINTER.get(Interop.valueLayout.C_INT, 0)));
+        prob.set(org.gstreamer.gst.TypeFindProbability.of(probPOINTER.get(Interop.valueLayout.C_INT, 0)));
         return new org.gstreamer.gst.Caps(RESULT, Ownership.FULL);
     }
     
@@ -415,7 +419,7 @@ public final class GstBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        prob.set(new org.gstreamer.gst.TypeFindProbability(probPOINTER.get(Interop.valueLayout.C_INT, 0)));
+        prob.set(org.gstreamer.gst.TypeFindProbability.of(probPOINTER.get(Interop.valueLayout.C_INT, 0)));
         return new org.gstreamer.gst.Caps(RESULT, Ownership.FULL);
     }
     

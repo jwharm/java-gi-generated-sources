@@ -8,27 +8,39 @@ import org.jetbrains.annotations.*;
 /**
  * The plugin loading errors
  */
-public class PluginError extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "GstPluginError";
-    
+public enum PluginError implements io.github.jwharm.javagi.Enumeration {
     /**
      * The plugin could not be loaded
      */
-    public static final PluginError MODULE = new PluginError(0);
-    
+    MODULE(0),
     /**
      * The plugin has unresolved dependencies
      */
-    public static final PluginError DEPENDENCIES = new PluginError(1);
-    
+    DEPENDENCIES(1),
     /**
      * The plugin has already be loaded from a different file
      */
-    public static final PluginError NAME_MISMATCH = new PluginError(2);
+    NAME_MISMATCH(2);
     
-    public PluginError(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "GstPluginError";
+    
+    private final int value;
+    PluginError(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static PluginError of(int value) {
+        return switch (value) {
+            case 0 -> MODULE;
+            case 1 -> DEPENDENCIES;
+            case 2 -> NAME_MISMATCH;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
     
     /**

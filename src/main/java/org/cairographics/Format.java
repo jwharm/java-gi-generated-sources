@@ -5,25 +5,37 @@ import java.lang.foreign.*;
 import java.lang.invoke.*;
 import org.jetbrains.annotations.*;
 
-public class Format extends io.github.jwharm.javagi.Enumeration {
+public enum Format implements io.github.jwharm.javagi.Enumeration {
+    INVALID(-1),
+    ARGB32(0),
+    RGB24(1),
+    A8(2),
+    A1(3),
+    RGB16_565(4),
+    RGB30(5);
     
     private static final java.lang.String C_TYPE_NAME = "cairo_format_t";
     
-    public static final Format INVALID = new Format(0);
+    private final int value;
+    Format(int value) {
+        this.value = value;
+    }
     
-    public static final Format ARGB32 = new Format(0);
+    @Override
+    public int getValue() {
+        return value;
+    }
     
-    public static final Format RGB24 = new Format(1);
-    
-    public static final Format A8 = new Format(2);
-    
-    public static final Format A1 = new Format(3);
-    
-    public static final Format RGB16_565 = new Format(4);
-    
-    public static final Format RGB30 = new Format(5);
-    
-    public Format(int value) {
-        super(value);
+    public static Format of(int value) {
+        return switch (value) {
+            case -1 -> INVALID;
+            case 0 -> ARGB32;
+            case 1 -> RGB24;
+            case 2 -> A8;
+            case 3 -> A1;
+            case 4 -> RGB16_565;
+            case 5 -> RGB30;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

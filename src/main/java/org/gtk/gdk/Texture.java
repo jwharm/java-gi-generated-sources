@@ -61,7 +61,11 @@ public class Texture extends org.gtk.gobject.Object implements org.gtk.gdk.Paint
      * @throws ClassCastException If the GType is not derived from "GdkTexture", a ClassCastException will be thrown.
      */
     public static Texture castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), Texture.getType())) {
             return new Texture(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GdkTexture");
+        }
     }
     
     private static Addressable constructNewForPixbuf(@NotNull org.gtk.gdkpixbuf.Pixbuf pixbuf) {

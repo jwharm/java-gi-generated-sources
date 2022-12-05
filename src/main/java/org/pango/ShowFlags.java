@@ -44,9 +44,8 @@ public class ShowFlags extends io.github.jwharm.javagi.Bitfield {
      * @param mask the value to combine with
      * @return the combined value by calculating {@code this | mask} 
      */
-    public ShowFlags combined(ShowFlags mask) {
-        this.setValue(this.getValue() | mask.getValue());
-        return this;
+    public ShowFlags or(ShowFlags mask) {
+        return new ShowFlags(this.getValue() | mask.getValue());
     }
     
     /**
@@ -56,9 +55,9 @@ public class ShowFlags extends io.github.jwharm.javagi.Bitfield {
      * @return the combined value by calculating {@code mask | masks[0] | masks[1] | ...} 
      */
     public static ShowFlags combined(ShowFlags mask, ShowFlags... masks) {
-        for (ShowFlags arg : masks) {
-            mask.setValue(mask.getValue() | arg.getValue());
+        int value = mask.getValue();        for (ShowFlags arg : masks) {
+            value |= arg.getValue();
         }
-        return mask;
+        return new ShowFlags(value);
     }
 }

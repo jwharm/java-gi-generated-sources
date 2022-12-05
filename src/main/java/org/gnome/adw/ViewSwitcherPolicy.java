@@ -8,21 +8,33 @@ import org.jetbrains.annotations.*;
 /**
  * Describes the adaptive modes of {@link ViewSwitcher}.
  */
-public class ViewSwitcherPolicy extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "AdwViewSwitcherPolicy";
-    
+public enum ViewSwitcherPolicy implements io.github.jwharm.javagi.Enumeration {
     /**
      * Force the narrow mode
      */
-    public static final ViewSwitcherPolicy NARROW = new ViewSwitcherPolicy(0);
-    
+    NARROW(0),
     /**
      * Force the wide mode
      */
-    public static final ViewSwitcherPolicy WIDE = new ViewSwitcherPolicy(1);
+    WIDE(1);
     
-    public ViewSwitcherPolicy(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "AdwViewSwitcherPolicy";
+    
+    private final int value;
+    ViewSwitcherPolicy(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static ViewSwitcherPolicy of(int value) {
+        return switch (value) {
+            case 0 -> NARROW;
+            case 1 -> WIDE;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

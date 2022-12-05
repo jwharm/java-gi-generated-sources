@@ -58,12 +58,19 @@ public class Button extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
     
     /**
      * Create a Button proxy instance for the provided memory address.
+     * <p>
+     * Because Button is an {@code InitiallyUnowned} instance, when 
+     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
+     * and a call to {@code refSink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
     @ApiStatus.Internal
     public Button(Addressable address, Ownership ownership) {
-        super(address, ownership);
+        super(address, Ownership.FULL);
+        if (ownership == Ownership.NONE) {
+            refSink();
+        }
     }
     
     /**
@@ -79,7 +86,11 @@ public class Button extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
      * @throws ClassCastException If the GType is not derived from "GtkButton", a ClassCastException will be thrown.
      */
     public static Button castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), Button.getType())) {
             return new Button(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkButton");
+        }
     }
     
     private static Addressable constructNew() {
@@ -364,7 +375,7 @@ public class Button extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
     
     @FunctionalInterface
     public interface Activate {
-        void signalReceived(Button source);
+        void signalReceived(Button sourceButton);
     }
     
     /**
@@ -395,7 +406,7 @@ public class Button extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
     
     @FunctionalInterface
     public interface Clicked {
-        void signalReceived(Button source);
+        void signalReceived(Button sourceButton);
     }
     
     /**
@@ -607,16 +618,16 @@ public class Button extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
     
     private static class Callbacks {
         
-        public static void signalButtonActivate(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalButtonActivate(MemoryAddress sourceButton, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (Button.Activate) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Button(source, Ownership.NONE));
+            HANDLER.signalReceived(new Button(sourceButton, Ownership.NONE));
         }
         
-        public static void signalButtonClicked(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalButtonClicked(MemoryAddress sourceButton, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (Button.Clicked) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Button(source, Ownership.NONE));
+            HANDLER.signalReceived(new Button(sourceButton, Ownership.NONE));
         }
     }
 }

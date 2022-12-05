@@ -100,9 +100,8 @@ public class ParamFlags extends io.github.jwharm.javagi.Bitfield {
      * @param mask the value to combine with
      * @return the combined value by calculating {@code this | mask} 
      */
-    public ParamFlags combined(ParamFlags mask) {
-        this.setValue(this.getValue() | mask.getValue());
-        return this;
+    public ParamFlags or(ParamFlags mask) {
+        return new ParamFlags(this.getValue() | mask.getValue());
     }
     
     /**
@@ -112,9 +111,9 @@ public class ParamFlags extends io.github.jwharm.javagi.Bitfield {
      * @return the combined value by calculating {@code mask | masks[0] | masks[1] | ...} 
      */
     public static ParamFlags combined(ParamFlags mask, ParamFlags... masks) {
-        for (ParamFlags arg : masks) {
-            mask.setValue(mask.getValue() | arg.getValue());
+        int value = mask.getValue();        for (ParamFlags arg : masks) {
+            value |= arg.getValue();
         }
-        return mask;
+        return new ParamFlags(value);
     }
 }

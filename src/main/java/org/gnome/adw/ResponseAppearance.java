@@ -11,29 +11,41 @@ import org.jetbrains.annotations.*;
  * See {@code MessageDialog#setResponseAppearance}.
  * @version 1.2
  */
-public class ResponseAppearance extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "AdwResponseAppearance";
-    
+public enum ResponseAppearance implements io.github.jwharm.javagi.Enumeration {
     /**
      * the default appearance.
      */
-    public static final ResponseAppearance DEFAULT = new ResponseAppearance(0);
-    
+    DEFAULT(0),
     /**
      * used to denote important responses such as the
      *     affirmative action.
      */
-    public static final ResponseAppearance SUGGESTED = new ResponseAppearance(1);
-    
+    SUGGESTED(1),
     /**
      * used to draw attention to the potentially damaging
      *     consequences of using the response. This appearance acts as a warning to
      *     the user.
      */
-    public static final ResponseAppearance DESTRUCTIVE = new ResponseAppearance(2);
+    DESTRUCTIVE(2);
     
-    public ResponseAppearance(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "AdwResponseAppearance";
+    
+    private final int value;
+    ResponseAppearance(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static ResponseAppearance of(int value) {
+        return switch (value) {
+            case 0 -> DEFAULT;
+            case 1 -> SUGGESTED;
+            case 2 -> DESTRUCTIVE;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

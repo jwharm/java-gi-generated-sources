@@ -56,12 +56,19 @@ public class Overlay extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
     
     /**
      * Create a Overlay proxy instance for the provided memory address.
+     * <p>
+     * Because Overlay is an {@code InitiallyUnowned} instance, when 
+     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
+     * and a call to {@code refSink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
     @ApiStatus.Internal
     public Overlay(Addressable address, Ownership ownership) {
-        super(address, ownership);
+        super(address, Ownership.FULL);
+        if (ownership == Ownership.NONE) {
+            refSink();
+        }
     }
     
     /**
@@ -77,7 +84,11 @@ public class Overlay extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      * @throws ClassCastException If the GType is not derived from "GtkOverlay", a ClassCastException will be thrown.
      */
     public static Overlay castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), Overlay.getType())) {
             return new Overlay(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkOverlay");
+        }
     }
     
     private static Addressable constructNew() {
@@ -254,7 +265,7 @@ public class Overlay extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
     
     @FunctionalInterface
     public interface GetChildPosition {
-        boolean signalReceived(Overlay source, @NotNull org.gtk.gtk.Widget widget, @NotNull org.gtk.gdk.Rectangle allocation);
+        boolean signalReceived(Overlay sourceOverlay, @NotNull org.gtk.gtk.Widget widget, @NotNull org.gtk.gdk.Rectangle allocation);
     }
     
     /**
@@ -399,10 +410,10 @@ public class Overlay extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
     
     private static class Callbacks {
         
-        public static boolean signalOverlayGetChildPosition(MemoryAddress source, MemoryAddress widget, MemoryAddress allocation, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static boolean signalOverlayGetChildPosition(MemoryAddress sourceOverlay, MemoryAddress widget, MemoryAddress allocation, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (Overlay.GetChildPosition) Interop.signalRegistry.get(HASH);
-            return HANDLER.signalReceived(new Overlay(source, Ownership.NONE), new org.gtk.gtk.Widget(widget, Ownership.NONE), new org.gtk.gdk.Rectangle(allocation, Ownership.NONE));
+            return HANDLER.signalReceived(new Overlay(sourceOverlay, Ownership.NONE), new org.gtk.gtk.Widget(widget, Ownership.NONE), new org.gtk.gdk.Rectangle(allocation, Ownership.NONE));
         }
     }
 }

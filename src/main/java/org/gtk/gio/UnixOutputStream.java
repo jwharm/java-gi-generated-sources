@@ -61,7 +61,11 @@ public class UnixOutputStream extends org.gtk.gio.OutputStream implements org.gt
      * @throws ClassCastException If the GType is not derived from "GUnixOutputStream", a ClassCastException will be thrown.
      */
     public static UnixOutputStream castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), UnixOutputStream.getType())) {
             return new UnixOutputStream(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GUnixOutputStream");
+        }
     }
     
     private static Addressable constructNew(int fd, boolean closeFd) {

@@ -9,51 +9,63 @@ import org.jetbrains.annotations.*;
  * Used to determine the layout of pages on a sheet when printing
  * multiple pages per sheet.
  */
-public class NumberUpLayout extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "GtkNumberUpLayout";
-    
+public enum NumberUpLayout implements io.github.jwharm.javagi.Enumeration {
     /**
      * <img src="./doc-files/layout-lrtb.png" alt="">
      */
-    public static final NumberUpLayout LRTB = new NumberUpLayout(0);
-    
+    LRTB(0),
     /**
      * <img src="./doc-files/layout-lrbt.png" alt="">
      */
-    public static final NumberUpLayout LRBT = new NumberUpLayout(1);
-    
+    LRBT(1),
     /**
      * <img src="./doc-files/layout-rltb.png" alt="">
      */
-    public static final NumberUpLayout RLTB = new NumberUpLayout(2);
-    
+    RLTB(2),
     /**
      * <img src="./doc-files/layout-rlbt.png" alt="">
      */
-    public static final NumberUpLayout RLBT = new NumberUpLayout(3);
-    
+    RLBT(3),
     /**
      * <img src="./doc-files/layout-tblr.png" alt="">
      */
-    public static final NumberUpLayout TBLR = new NumberUpLayout(4);
-    
+    TBLR(4),
     /**
      * <img src="./doc-files/layout-tbrl.png" alt="">
      */
-    public static final NumberUpLayout TBRL = new NumberUpLayout(5);
-    
+    TBRL(5),
     /**
      * <img src="./doc-files/layout-btlr.png" alt="">
      */
-    public static final NumberUpLayout BTLR = new NumberUpLayout(6);
-    
+    BTLR(6),
     /**
      * <img src="./doc-files/layout-btrl.png" alt="">
      */
-    public static final NumberUpLayout BTRL = new NumberUpLayout(7);
+    BTRL(7);
     
-    public NumberUpLayout(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "GtkNumberUpLayout";
+    
+    private final int value;
+    NumberUpLayout(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static NumberUpLayout of(int value) {
+        return switch (value) {
+            case 0 -> LRTB;
+            case 1 -> LRBT;
+            case 2 -> RLTB;
+            case 3 -> RLBT;
+            case 4 -> TBLR;
+            case 5 -> TBRL;
+            case 6 -> BTLR;
+            case 7 -> BTRL;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

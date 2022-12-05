@@ -11,26 +11,38 @@ import org.jetbrains.annotations.*;
  * {@code Gvfs} stores passwords in the Gnome keyring when this flag allows it
  * to, and later retrieves it again from there.
  */
-public class PasswordSave extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "GPasswordSave";
-    
+public enum PasswordSave implements io.github.jwharm.javagi.Enumeration {
     /**
      * never save a password.
      */
-    public static final PasswordSave NEVER = new PasswordSave(0);
-    
+    NEVER(0),
     /**
      * save a password for the session.
      */
-    public static final PasswordSave FOR_SESSION = new PasswordSave(1);
-    
+    FOR_SESSION(1),
     /**
      * save a password permanently.
      */
-    public static final PasswordSave PERMANENTLY = new PasswordSave(2);
+    PERMANENTLY(2);
     
-    public PasswordSave(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "GPasswordSave";
+    
+    private final int value;
+    PasswordSave(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static PasswordSave of(int value) {
+        return switch (value) {
+            case 0 -> NEVER;
+            case 1 -> FOR_SESSION;
+            case 2 -> PERMANENTLY;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

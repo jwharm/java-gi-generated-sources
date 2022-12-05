@@ -38,9 +38,8 @@ public class OutputStreamSpliceFlags extends io.github.jwharm.javagi.Bitfield {
      * @param mask the value to combine with
      * @return the combined value by calculating {@code this | mask} 
      */
-    public OutputStreamSpliceFlags combined(OutputStreamSpliceFlags mask) {
-        this.setValue(this.getValue() | mask.getValue());
-        return this;
+    public OutputStreamSpliceFlags or(OutputStreamSpliceFlags mask) {
+        return new OutputStreamSpliceFlags(this.getValue() | mask.getValue());
     }
     
     /**
@@ -50,9 +49,9 @@ public class OutputStreamSpliceFlags extends io.github.jwharm.javagi.Bitfield {
      * @return the combined value by calculating {@code mask | masks[0] | masks[1] | ...} 
      */
     public static OutputStreamSpliceFlags combined(OutputStreamSpliceFlags mask, OutputStreamSpliceFlags... masks) {
-        for (OutputStreamSpliceFlags arg : masks) {
-            mask.setValue(mask.getValue() | arg.getValue());
+        int value = mask.getValue();        for (OutputStreamSpliceFlags arg : masks) {
+            value |= arg.getValue();
         }
-        return mask;
+        return new OutputStreamSpliceFlags(value);
     }
 }

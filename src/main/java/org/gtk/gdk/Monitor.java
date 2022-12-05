@@ -54,7 +54,11 @@ public class Monitor extends org.gtk.gobject.Object {
      * @throws ClassCastException If the GType is not derived from "GdkMonitor", a ClassCastException will be thrown.
      */
     public static Monitor castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), Monitor.getType())) {
             return new Monitor(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GdkMonitor");
+        }
     }
     
     /**
@@ -211,7 +215,7 @@ public class Monitor extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gdk.SubpixelLayout(RESULT);
+        return org.gtk.gdk.SubpixelLayout.of(RESULT);
     }
     
     /**
@@ -264,7 +268,7 @@ public class Monitor extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface Invalidate {
-        void signalReceived(Monitor source);
+        void signalReceived(Monitor sourceMonitor);
     }
     
     /**
@@ -523,10 +527,10 @@ public class Monitor extends org.gtk.gobject.Object {
     
     private static class Callbacks {
         
-        public static void signalMonitorInvalidate(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalMonitorInvalidate(MemoryAddress sourceMonitor, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (Monitor.Invalidate) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Monitor(source, Ownership.NONE));
+            HANDLER.signalReceived(new Monitor(sourceMonitor, Ownership.NONE));
         }
     }
 }

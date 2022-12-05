@@ -42,12 +42,19 @@ public class TimedValueControlSource extends org.gstreamer.gst.ControlSource {
     
     /**
      * Create a TimedValueControlSource proxy instance for the provided memory address.
+     * <p>
+     * Because TimedValueControlSource is an {@code InitiallyUnowned} instance, when 
+     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
+     * and a call to {@code refSink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
     @ApiStatus.Internal
     public TimedValueControlSource(Addressable address, Ownership ownership) {
-        super(address, ownership);
+        super(address, Ownership.FULL);
+        if (ownership == Ownership.NONE) {
+            refSink();
+        }
     }
     
     /**
@@ -63,7 +70,11 @@ public class TimedValueControlSource extends org.gstreamer.gst.ControlSource {
      * @throws ClassCastException If the GType is not derived from "GstTimedValueControlSource", a ClassCastException will be thrown.
      */
     public static TimedValueControlSource castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), TimedValueControlSource.getType())) {
             return new TimedValueControlSource(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GstTimedValueControlSource");
+        }
     }
     
     /**
@@ -206,7 +217,7 @@ public class TimedValueControlSource extends org.gstreamer.gst.ControlSource {
     
     @FunctionalInterface
     public interface ValueAdded {
-        void signalReceived(TimedValueControlSource source, @NotNull org.gstreamer.controller.ControlPoint timedValue);
+        void signalReceived(TimedValueControlSource sourceTimedValueControlSource, @NotNull org.gstreamer.controller.ControlPoint timedValue);
     }
     
     /**
@@ -234,7 +245,7 @@ public class TimedValueControlSource extends org.gstreamer.gst.ControlSource {
     
     @FunctionalInterface
     public interface ValueChanged {
-        void signalReceived(TimedValueControlSource source, @NotNull org.gstreamer.controller.ControlPoint timedValue);
+        void signalReceived(TimedValueControlSource sourceTimedValueControlSource, @NotNull org.gstreamer.controller.ControlPoint timedValue);
     }
     
     /**
@@ -262,7 +273,7 @@ public class TimedValueControlSource extends org.gstreamer.gst.ControlSource {
     
     @FunctionalInterface
     public interface ValueRemoved {
-        void signalReceived(TimedValueControlSource source, @NotNull org.gstreamer.controller.ControlPoint timedValue);
+        void signalReceived(TimedValueControlSource sourceTimedValueControlSource, @NotNull org.gstreamer.controller.ControlPoint timedValue);
     }
     
     /**
@@ -376,22 +387,22 @@ public class TimedValueControlSource extends org.gstreamer.gst.ControlSource {
     
     private static class Callbacks {
         
-        public static void signalTimedValueControlSourceValueAdded(MemoryAddress source, MemoryAddress timedValue, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalTimedValueControlSourceValueAdded(MemoryAddress sourceTimedValueControlSource, MemoryAddress timedValue, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (TimedValueControlSource.ValueAdded) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new TimedValueControlSource(source, Ownership.NONE), new org.gstreamer.controller.ControlPoint(timedValue, Ownership.NONE));
+            HANDLER.signalReceived(new TimedValueControlSource(sourceTimedValueControlSource, Ownership.NONE), new org.gstreamer.controller.ControlPoint(timedValue, Ownership.NONE));
         }
         
-        public static void signalTimedValueControlSourceValueChanged(MemoryAddress source, MemoryAddress timedValue, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalTimedValueControlSourceValueChanged(MemoryAddress sourceTimedValueControlSource, MemoryAddress timedValue, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (TimedValueControlSource.ValueChanged) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new TimedValueControlSource(source, Ownership.NONE), new org.gstreamer.controller.ControlPoint(timedValue, Ownership.NONE));
+            HANDLER.signalReceived(new TimedValueControlSource(sourceTimedValueControlSource, Ownership.NONE), new org.gstreamer.controller.ControlPoint(timedValue, Ownership.NONE));
         }
         
-        public static void signalTimedValueControlSourceValueRemoved(MemoryAddress source, MemoryAddress timedValue, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalTimedValueControlSourceValueRemoved(MemoryAddress sourceTimedValueControlSource, MemoryAddress timedValue, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (TimedValueControlSource.ValueRemoved) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new TimedValueControlSource(source, Ownership.NONE), new org.gstreamer.controller.ControlPoint(timedValue, Ownership.NONE));
+            HANDLER.signalReceived(new TimedValueControlSource(sourceTimedValueControlSource, Ownership.NONE), new org.gstreamer.controller.ControlPoint(timedValue, Ownership.NONE));
         }
     }
 }

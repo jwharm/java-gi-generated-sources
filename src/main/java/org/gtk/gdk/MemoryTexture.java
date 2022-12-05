@@ -48,7 +48,11 @@ public class MemoryTexture extends org.gtk.gdk.Texture implements org.gtk.gdk.Pa
      * @throws ClassCastException If the GType is not derived from "GdkMemoryTexture", a ClassCastException will be thrown.
      */
     public static MemoryTexture castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), MemoryTexture.getType())) {
             return new MemoryTexture(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GdkMemoryTexture");
+        }
     }
     
     private static Addressable constructNew(int width, int height, @NotNull org.gtk.gdk.MemoryFormat format, @NotNull org.gtk.glib.Bytes bytes, long stride) {

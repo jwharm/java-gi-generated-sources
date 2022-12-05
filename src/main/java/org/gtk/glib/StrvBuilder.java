@@ -218,32 +218,4 @@ public class StrvBuilder extends Struct {
             false
         );
     }
-
-    /**
-     * Inner class implementing a builder pattern to construct 
-     * a struct and set its values.
-     */
-    public static class Build {
-        
-        private StrvBuilder struct;
-        
-         /**
-         * A {@link StrvBuilder.Build} object constructs a {@link StrvBuilder} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
-            struct = StrvBuilder.allocate();
-        }
-        
-         /**
-         * Finish building the {@link StrvBuilder} struct.
-         * @return A new instance of {@code StrvBuilder} with the fields 
-         *         that were set in the Build object.
-         */
-        public StrvBuilder construct() {
-            return struct;
-        }
-    }
 }

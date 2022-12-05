@@ -56,9 +56,8 @@ public class ElementFlags extends io.github.jwharm.javagi.Bitfield {
      * @param mask the value to combine with
      * @return the combined value by calculating {@code this | mask} 
      */
-    public ElementFlags combined(ElementFlags mask) {
-        this.setValue(this.getValue() | mask.getValue());
-        return this;
+    public ElementFlags or(ElementFlags mask) {
+        return new ElementFlags(this.getValue() | mask.getValue());
     }
     
     /**
@@ -68,9 +67,9 @@ public class ElementFlags extends io.github.jwharm.javagi.Bitfield {
      * @return the combined value by calculating {@code mask | masks[0] | masks[1] | ...} 
      */
     public static ElementFlags combined(ElementFlags mask, ElementFlags... masks) {
-        for (ElementFlags arg : masks) {
-            mask.setValue(mask.getValue() | arg.getValue());
+        int value = mask.getValue();        for (ElementFlags arg : masks) {
+            value |= arg.getValue();
         }
-        return mask;
+        return new ElementFlags(value);
     }
 }

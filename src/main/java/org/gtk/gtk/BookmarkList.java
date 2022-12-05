@@ -55,7 +55,11 @@ public class BookmarkList extends org.gtk.gobject.Object implements org.gtk.gio.
      * @throws ClassCastException If the GType is not derived from "GtkBookmarkList", a ClassCastException will be thrown.
      */
     public static BookmarkList castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), BookmarkList.getType())) {
             return new BookmarkList(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkBookmarkList");
+        }
     }
     
     private static Addressable constructNew(@Nullable java.lang.String filename, @Nullable java.lang.String attributes) {

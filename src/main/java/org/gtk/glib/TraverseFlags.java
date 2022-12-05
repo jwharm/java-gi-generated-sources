@@ -56,9 +56,8 @@ public class TraverseFlags extends io.github.jwharm.javagi.Bitfield {
      * @param mask the value to combine with
      * @return the combined value by calculating {@code this | mask} 
      */
-    public TraverseFlags combined(TraverseFlags mask) {
-        this.setValue(this.getValue() | mask.getValue());
-        return this;
+    public TraverseFlags or(TraverseFlags mask) {
+        return new TraverseFlags(this.getValue() | mask.getValue());
     }
     
     /**
@@ -68,9 +67,9 @@ public class TraverseFlags extends io.github.jwharm.javagi.Bitfield {
      * @return the combined value by calculating {@code mask | masks[0] | masks[1] | ...} 
      */
     public static TraverseFlags combined(TraverseFlags mask, TraverseFlags... masks) {
-        for (TraverseFlags arg : masks) {
-            mask.setValue(mask.getValue() | arg.getValue());
+        int value = mask.getValue();        for (TraverseFlags arg : masks) {
+            value |= arg.getValue();
         }
-        return mask;
+        return new TraverseFlags(value);
     }
 }

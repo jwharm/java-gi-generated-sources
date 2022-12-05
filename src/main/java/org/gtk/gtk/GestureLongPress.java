@@ -62,7 +62,11 @@ public class GestureLongPress extends org.gtk.gtk.GestureSingle {
      * @throws ClassCastException If the GType is not derived from "GtkGestureLongPress", a ClassCastException will be thrown.
      */
     public static GestureLongPress castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), GestureLongPress.getType())) {
             return new GestureLongPress(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkGestureLongPress");
+        }
     }
     
     private static Addressable constructNew() {
@@ -130,7 +134,7 @@ public class GestureLongPress extends org.gtk.gtk.GestureSingle {
     
     @FunctionalInterface
     public interface Cancelled {
-        void signalReceived(GestureLongPress source);
+        void signalReceived(GestureLongPress sourceGestureLongPress);
     }
     
     /**
@@ -159,7 +163,7 @@ public class GestureLongPress extends org.gtk.gtk.GestureSingle {
     
     @FunctionalInterface
     public interface Pressed {
-        void signalReceived(GestureLongPress source, double x, double y);
+        void signalReceived(GestureLongPress sourceGestureLongPress, double x, double y);
     }
     
     /**
@@ -261,16 +265,16 @@ public class GestureLongPress extends org.gtk.gtk.GestureSingle {
     
     private static class Callbacks {
         
-        public static void signalGestureLongPressCancelled(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalGestureLongPressCancelled(MemoryAddress sourceGestureLongPress, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (GestureLongPress.Cancelled) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new GestureLongPress(source, Ownership.NONE));
+            HANDLER.signalReceived(new GestureLongPress(sourceGestureLongPress, Ownership.NONE));
         }
         
-        public static void signalGestureLongPressPressed(MemoryAddress source, double x, double y, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalGestureLongPressPressed(MemoryAddress sourceGestureLongPress, double x, double y, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (GestureLongPress.Pressed) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new GestureLongPress(source, Ownership.NONE), x, y);
+            HANDLER.signalReceived(new GestureLongPress(sourceGestureLongPress, Ownership.NONE), x, y);
         }
     }
 }

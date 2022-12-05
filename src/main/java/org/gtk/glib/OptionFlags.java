@@ -76,9 +76,8 @@ public class OptionFlags extends io.github.jwharm.javagi.Bitfield {
      * @param mask the value to combine with
      * @return the combined value by calculating {@code this | mask} 
      */
-    public OptionFlags combined(OptionFlags mask) {
-        this.setValue(this.getValue() | mask.getValue());
-        return this;
+    public OptionFlags or(OptionFlags mask) {
+        return new OptionFlags(this.getValue() | mask.getValue());
     }
     
     /**
@@ -88,9 +87,9 @@ public class OptionFlags extends io.github.jwharm.javagi.Bitfield {
      * @return the combined value by calculating {@code mask | masks[0] | masks[1] | ...} 
      */
     public static OptionFlags combined(OptionFlags mask, OptionFlags... masks) {
-        for (OptionFlags arg : masks) {
-            mask.setValue(mask.getValue() | arg.getValue());
+        int value = mask.getValue();        for (OptionFlags arg : masks) {
+            value |= arg.getValue();
         }
-        return mask;
+        return new OptionFlags(value);
     }
 }

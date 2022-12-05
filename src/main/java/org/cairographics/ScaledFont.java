@@ -44,32 +44,4 @@ public class ScaledFont extends Struct {
     public ScaledFont(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
-
-    /**
-     * Inner class implementing a builder pattern to construct 
-     * a struct and set its values.
-     */
-    public static class Build {
-        
-        private ScaledFont struct;
-        
-         /**
-         * A {@link ScaledFont.Build} object constructs a {@link ScaledFont} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
-            struct = ScaledFont.allocate();
-        }
-        
-         /**
-         * Finish building the {@link ScaledFont} struct.
-         * @return A new instance of {@code ScaledFont} with the fields 
-         *         that were set in the Build object.
-         */
-        public ScaledFont construct() {
-            return struct;
-        }
-    }
 }

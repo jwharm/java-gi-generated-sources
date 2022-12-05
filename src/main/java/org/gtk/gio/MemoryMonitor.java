@@ -69,7 +69,11 @@ public interface MemoryMonitor extends io.github.jwharm.javagi.Proxy {
      * @throws ClassCastException If the GType is not derived from "GMemoryMonitor", a ClassCastException will be thrown.
      */
     public static MemoryMonitor castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), MemoryMonitor.getType())) {
             return new MemoryMonitorImpl(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GMemoryMonitor");
+        }
     }
     
     /**
@@ -102,7 +106,7 @@ public interface MemoryMonitor extends io.github.jwharm.javagi.Proxy {
     
     @FunctionalInterface
     public interface LowMemoryWarning {
-        void signalReceived(MemoryMonitor source, @NotNull org.gtk.gio.MemoryMonitorWarningLevel level);
+        void signalReceived(MemoryMonitor sourceMemoryMonitor, @NotNull org.gtk.gio.MemoryMonitorWarningLevel level);
     }
     
     /**
@@ -152,10 +156,10 @@ public interface MemoryMonitor extends io.github.jwharm.javagi.Proxy {
     @ApiStatus.Internal
     static class Callbacks {
         
-        public static void signalMemoryMonitorLowMemoryWarning(MemoryAddress source, int level, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalMemoryMonitorLowMemoryWarning(MemoryAddress sourceMemoryMonitor, int level, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (MemoryMonitor.LowMemoryWarning) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new MemoryMonitor.MemoryMonitorImpl(source, Ownership.NONE), new org.gtk.gio.MemoryMonitorWarningLevel(level));
+            HANDLER.signalReceived(new MemoryMonitor.MemoryMonitorImpl(sourceMemoryMonitor, Ownership.NONE), org.gtk.gio.MemoryMonitorWarningLevel.of(level));
         }
     }
     

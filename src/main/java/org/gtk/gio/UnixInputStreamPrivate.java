@@ -44,32 +44,4 @@ public class UnixInputStreamPrivate extends Struct {
     public UnixInputStreamPrivate(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
-
-    /**
-     * Inner class implementing a builder pattern to construct 
-     * a struct and set its values.
-     */
-    public static class Build {
-        
-        private UnixInputStreamPrivate struct;
-        
-         /**
-         * A {@link UnixInputStreamPrivate.Build} object constructs a {@link UnixInputStreamPrivate} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
-            struct = UnixInputStreamPrivate.allocate();
-        }
-        
-         /**
-         * Finish building the {@link UnixInputStreamPrivate} struct.
-         * @return A new instance of {@code UnixInputStreamPrivate} with the fields 
-         *         that were set in the Build object.
-         */
-        public UnixInputStreamPrivate construct() {
-            return struct;
-        }
-    }
 }

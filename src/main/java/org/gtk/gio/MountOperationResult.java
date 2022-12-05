@@ -9,29 +9,41 @@ import org.jetbrains.annotations.*;
  * {@link MountOperationResult} is returned as a result when a request for
  * information is send by the mounting operation.
  */
-public class MountOperationResult extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "GMountOperationResult";
-    
+public enum MountOperationResult implements io.github.jwharm.javagi.Enumeration {
     /**
      * The request was fulfilled and the
      *     user specified data is now available
      */
-    public static final MountOperationResult HANDLED = new MountOperationResult(0);
-    
+    HANDLED(0),
     /**
      * The user requested the mount operation
      *     to be aborted
      */
-    public static final MountOperationResult ABORTED = new MountOperationResult(1);
-    
+    ABORTED(1),
     /**
      * The request was unhandled (i.e. not
      *     implemented)
      */
-    public static final MountOperationResult UNHANDLED = new MountOperationResult(2);
+    UNHANDLED(2);
     
-    public MountOperationResult(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "GMountOperationResult";
+    
+    private final int value;
+    MountOperationResult(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static MountOperationResult of(int value) {
+        return switch (value) {
+            case 0 -> HANDLED;
+            case 1 -> ABORTED;
+            case 2 -> UNHANDLED;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

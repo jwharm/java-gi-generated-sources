@@ -179,7 +179,7 @@ public class Euler extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.graphene.EulerOrder(RESULT);
+        return org.gtk.graphene.EulerOrder.of(RESULT);
     }
     
     /**

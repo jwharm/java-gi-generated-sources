@@ -9,29 +9,41 @@ import org.jetbrains.annotations.*;
  * Errors that can be returned by {@link Layout#deserialize}.
  * @version 1.50
  */
-public class LayoutDeserializeError extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "PangoLayoutDeserializeError";
-    
+public enum LayoutDeserializeError implements io.github.jwharm.javagi.Enumeration {
     /**
      * Unspecified error
      */
-    public static final LayoutDeserializeError INVALID = new LayoutDeserializeError(0);
-    
+    INVALID(0),
     /**
      * A JSon value could not be
      *   interpreted
      */
-    public static final LayoutDeserializeError INVALID_VALUE = new LayoutDeserializeError(1);
-    
+    INVALID_VALUE(1),
     /**
      * A required JSon member was
      *   not found
      */
-    public static final LayoutDeserializeError MISSING_VALUE = new LayoutDeserializeError(2);
+    MISSING_VALUE(2);
     
-    public LayoutDeserializeError(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "PangoLayoutDeserializeError";
+    
+    private final int value;
+    LayoutDeserializeError(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static LayoutDeserializeError of(int value) {
+        return switch (value) {
+            case 0 -> INVALID;
+            case 1 -> INVALID_VALUE;
+            case 2 -> MISSING_VALUE;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
     
     public static @NotNull org.gtk.glib.Quark quark() {

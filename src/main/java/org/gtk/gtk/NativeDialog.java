@@ -68,7 +68,11 @@ public class NativeDialog extends org.gtk.gobject.Object {
      * @throws ClassCastException If the GType is not derived from "GtkNativeDialog", a ClassCastException will be thrown.
      */
     public static NativeDialog castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), NativeDialog.getType())) {
             return new NativeDialog(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkNativeDialog");
+        }
     }
     
     /**
@@ -263,7 +267,7 @@ public class NativeDialog extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface Response {
-        void signalReceived(NativeDialog source, int responseId);
+        void signalReceived(NativeDialog sourceNativeDialog, int responseId);
     }
     
     /**
@@ -444,10 +448,10 @@ public class NativeDialog extends org.gtk.gobject.Object {
     
     private static class Callbacks {
         
-        public static void signalNativeDialogResponse(MemoryAddress source, int responseId, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalNativeDialogResponse(MemoryAddress sourceNativeDialog, int responseId, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (NativeDialog.Response) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new NativeDialog(source, Ownership.NONE), responseId);
+            HANDLER.signalReceived(new NativeDialog(sourceNativeDialog, Ownership.NONE), responseId);
         }
     }
 }

@@ -10,161 +10,173 @@ import org.jetbrains.annotations.*;
  * Unicode specification.
  * See <a href="http://www.unicode.org/reports/tr44/#General_Category_Values">Unicode Character Database</a>.
  */
-public class UnicodeType extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "GUnicodeType";
-    
+public enum UnicodeType implements io.github.jwharm.javagi.Enumeration {
     /**
      * General category "Other, Control" (Cc)
      */
-    public static final UnicodeType CONTROL = new UnicodeType(0);
-    
+    CONTROL(0),
     /**
      * General category "Other, Format" (Cf)
      */
-    public static final UnicodeType FORMAT = new UnicodeType(1);
-    
+    FORMAT(1),
     /**
      * General category "Other, Not Assigned" (Cn)
      */
-    public static final UnicodeType UNASSIGNED = new UnicodeType(2);
-    
+    UNASSIGNED(2),
     /**
      * General category "Other, Private Use" (Co)
      */
-    public static final UnicodeType PRIVATE_USE = new UnicodeType(3);
-    
+    PRIVATE_USE(3),
     /**
      * General category "Other, Surrogate" (Cs)
      */
-    public static final UnicodeType SURROGATE = new UnicodeType(4);
-    
+    SURROGATE(4),
     /**
      * General category "Letter, Lowercase" (Ll)
      */
-    public static final UnicodeType LOWERCASE_LETTER = new UnicodeType(5);
-    
+    LOWERCASE_LETTER(5),
     /**
      * General category "Letter, Modifier" (Lm)
      */
-    public static final UnicodeType MODIFIER_LETTER = new UnicodeType(6);
-    
+    MODIFIER_LETTER(6),
     /**
      * General category "Letter, Other" (Lo)
      */
-    public static final UnicodeType OTHER_LETTER = new UnicodeType(7);
-    
+    OTHER_LETTER(7),
     /**
      * General category "Letter, Titlecase" (Lt)
      */
-    public static final UnicodeType TITLECASE_LETTER = new UnicodeType(8);
-    
+    TITLECASE_LETTER(8),
     /**
      * General category "Letter, Uppercase" (Lu)
      */
-    public static final UnicodeType UPPERCASE_LETTER = new UnicodeType(9);
-    
+    UPPERCASE_LETTER(9),
     /**
      * General category "Mark, Spacing" (Mc)
      */
-    public static final UnicodeType SPACING_MARK = new UnicodeType(10);
-    
+    SPACING_MARK(10),
     /**
      * General category "Mark, Enclosing" (Me)
      */
-    public static final UnicodeType ENCLOSING_MARK = new UnicodeType(11);
-    
+    ENCLOSING_MARK(11),
     /**
      * General category "Mark, Nonspacing" (Mn)
      */
-    public static final UnicodeType NON_SPACING_MARK = new UnicodeType(12);
-    
+    NON_SPACING_MARK(12),
     /**
      * General category "Number, Decimal Digit" (Nd)
      */
-    public static final UnicodeType DECIMAL_NUMBER = new UnicodeType(13);
-    
+    DECIMAL_NUMBER(13),
     /**
      * General category "Number, Letter" (Nl)
      */
-    public static final UnicodeType LETTER_NUMBER = new UnicodeType(14);
-    
+    LETTER_NUMBER(14),
     /**
      * General category "Number, Other" (No)
      */
-    public static final UnicodeType OTHER_NUMBER = new UnicodeType(15);
-    
+    OTHER_NUMBER(15),
     /**
      * General category "Punctuation, Connector" (Pc)
      */
-    public static final UnicodeType CONNECT_PUNCTUATION = new UnicodeType(16);
-    
+    CONNECT_PUNCTUATION(16),
     /**
      * General category "Punctuation, Dash" (Pd)
      */
-    public static final UnicodeType DASH_PUNCTUATION = new UnicodeType(17);
-    
+    DASH_PUNCTUATION(17),
     /**
      * General category "Punctuation, Close" (Pe)
      */
-    public static final UnicodeType CLOSE_PUNCTUATION = new UnicodeType(18);
-    
+    CLOSE_PUNCTUATION(18),
     /**
      * General category "Punctuation, Final quote" (Pf)
      */
-    public static final UnicodeType FINAL_PUNCTUATION = new UnicodeType(19);
-    
+    FINAL_PUNCTUATION(19),
     /**
      * General category "Punctuation, Initial quote" (Pi)
      */
-    public static final UnicodeType INITIAL_PUNCTUATION = new UnicodeType(20);
-    
+    INITIAL_PUNCTUATION(20),
     /**
      * General category "Punctuation, Other" (Po)
      */
-    public static final UnicodeType OTHER_PUNCTUATION = new UnicodeType(21);
-    
+    OTHER_PUNCTUATION(21),
     /**
      * General category "Punctuation, Open" (Ps)
      */
-    public static final UnicodeType OPEN_PUNCTUATION = new UnicodeType(22);
-    
+    OPEN_PUNCTUATION(22),
     /**
      * General category "Symbol, Currency" (Sc)
      */
-    public static final UnicodeType CURRENCY_SYMBOL = new UnicodeType(23);
-    
+    CURRENCY_SYMBOL(23),
     /**
      * General category "Symbol, Modifier" (Sk)
      */
-    public static final UnicodeType MODIFIER_SYMBOL = new UnicodeType(24);
-    
+    MODIFIER_SYMBOL(24),
     /**
      * General category "Symbol, Math" (Sm)
      */
-    public static final UnicodeType MATH_SYMBOL = new UnicodeType(25);
-    
+    MATH_SYMBOL(25),
     /**
      * General category "Symbol, Other" (So)
      */
-    public static final UnicodeType OTHER_SYMBOL = new UnicodeType(26);
-    
+    OTHER_SYMBOL(26),
     /**
      * General category "Separator, Line" (Zl)
      */
-    public static final UnicodeType LINE_SEPARATOR = new UnicodeType(27);
-    
+    LINE_SEPARATOR(27),
     /**
      * General category "Separator, Paragraph" (Zp)
      */
-    public static final UnicodeType PARAGRAPH_SEPARATOR = new UnicodeType(28);
-    
+    PARAGRAPH_SEPARATOR(28),
     /**
      * General category "Separator, Space" (Zs)
      */
-    public static final UnicodeType SPACE_SEPARATOR = new UnicodeType(29);
+    SPACE_SEPARATOR(29);
     
-    public UnicodeType(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "GUnicodeType";
+    
+    private final int value;
+    UnicodeType(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static UnicodeType of(int value) {
+        return switch (value) {
+            case 0 -> CONTROL;
+            case 1 -> FORMAT;
+            case 2 -> UNASSIGNED;
+            case 3 -> PRIVATE_USE;
+            case 4 -> SURROGATE;
+            case 5 -> LOWERCASE_LETTER;
+            case 6 -> MODIFIER_LETTER;
+            case 7 -> OTHER_LETTER;
+            case 8 -> TITLECASE_LETTER;
+            case 9 -> UPPERCASE_LETTER;
+            case 10 -> SPACING_MARK;
+            case 11 -> ENCLOSING_MARK;
+            case 12 -> NON_SPACING_MARK;
+            case 13 -> DECIMAL_NUMBER;
+            case 14 -> LETTER_NUMBER;
+            case 15 -> OTHER_NUMBER;
+            case 16 -> CONNECT_PUNCTUATION;
+            case 17 -> DASH_PUNCTUATION;
+            case 18 -> CLOSE_PUNCTUATION;
+            case 19 -> FINAL_PUNCTUATION;
+            case 20 -> INITIAL_PUNCTUATION;
+            case 21 -> OTHER_PUNCTUATION;
+            case 22 -> OPEN_PUNCTUATION;
+            case 23 -> CURRENCY_SYMBOL;
+            case 24 -> MODIFIER_SYMBOL;
+            case 25 -> MATH_SYMBOL;
+            case 26 -> OTHER_SYMBOL;
+            case 27 -> LINE_SEPARATOR;
+            case 28 -> PARAGRAPH_SEPARATOR;
+            case 29 -> SPACE_SEPARATOR;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

@@ -31,7 +31,11 @@ public interface StyleProvider extends io.github.jwharm.javagi.Proxy {
      * @throws ClassCastException If the GType is not derived from "GtkStyleProvider", a ClassCastException will be thrown.
      */
     public static StyleProvider castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), StyleProvider.getType())) {
             return new StyleProviderImpl(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkStyleProvider");
+        }
     }
     
     /**
@@ -50,7 +54,7 @@ public interface StyleProvider extends io.github.jwharm.javagi.Proxy {
     
     @FunctionalInterface
     public interface GtkPrivateChanged {
-        void signalReceived(StyleProvider source);
+        void signalReceived(StyleProvider sourceStyleProvider);
     }
     
     public default Signal<StyleProvider.GtkPrivateChanged> onGtkPrivateChanged(StyleProvider.GtkPrivateChanged handler) {
@@ -85,10 +89,10 @@ public interface StyleProvider extends io.github.jwharm.javagi.Proxy {
     @ApiStatus.Internal
     static class Callbacks {
         
-        public static void signalStyleProviderGtkPrivateChanged(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalStyleProviderGtkPrivateChanged(MemoryAddress sourceStyleProvider, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (StyleProvider.GtkPrivateChanged) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new StyleProvider.StyleProviderImpl(source, Ownership.NONE));
+            HANDLER.signalReceived(new StyleProvider.StyleProviderImpl(sourceStyleProvider, Ownership.NONE));
         }
     }
     

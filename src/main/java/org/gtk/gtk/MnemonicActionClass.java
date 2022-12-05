@@ -44,32 +44,4 @@ public class MnemonicActionClass extends Struct {
     public MnemonicActionClass(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
-
-    /**
-     * Inner class implementing a builder pattern to construct 
-     * a struct and set its values.
-     */
-    public static class Build {
-        
-        private MnemonicActionClass struct;
-        
-         /**
-         * A {@link MnemonicActionClass.Build} object constructs a {@link MnemonicActionClass} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
-            struct = MnemonicActionClass.allocate();
-        }
-        
-         /**
-         * Finish building the {@link MnemonicActionClass} struct.
-         * @return A new instance of {@code MnemonicActionClass} with the fields 
-         *         that were set in the Build object.
-         */
-        public MnemonicActionClass construct() {
-            return struct;
-        }
-    }
 }

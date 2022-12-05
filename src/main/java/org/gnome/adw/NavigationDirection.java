@@ -9,21 +9,33 @@ import org.jetbrains.annotations.*;
  * Describes the direction of a swipe navigation gesture.
  * @version 1.0
  */
-public class NavigationDirection extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "AdwNavigationDirection";
-    
+public enum NavigationDirection implements io.github.jwharm.javagi.Enumeration {
     /**
      * Corresponds to start or top, depending on orientation and text direction
      */
-    public static final NavigationDirection BACK = new NavigationDirection(0);
-    
+    BACK(0),
     /**
      * Corresponds to end or bottom, depending on orientation and text direction
      */
-    public static final NavigationDirection FORWARD = new NavigationDirection(1);
+    FORWARD(1);
     
-    public NavigationDirection(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "AdwNavigationDirection";
+    
+    private final int value;
+    NavigationDirection(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static NavigationDirection of(int value) {
+        return switch (value) {
+            case 0 -> BACK;
+            case 1 -> FORWARD;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

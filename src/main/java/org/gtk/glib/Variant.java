@@ -1290,7 +1290,7 @@ public class Variant extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.VariantClass(RESULT);
+        return org.gtk.glib.VariantClass.of(RESULT);
     }
     
     /**
@@ -3379,33 +3379,5 @@ public class Variant extends Struct {
             FunctionDescriptor.of(Interop.valueLayout.C_INT),
             false
         );
-    }
-
-    /**
-     * Inner class implementing a builder pattern to construct 
-     * a struct and set its values.
-     */
-    public static class Build {
-        
-        private Variant struct;
-        
-         /**
-         * A {@link Variant.Build} object constructs a {@link Variant} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
-            struct = Variant.allocate();
-        }
-        
-         /**
-         * Finish building the {@link Variant} struct.
-         * @return A new instance of {@code Variant} with the fields 
-         *         that were set in the Build object.
-         */
-        public Variant construct() {
-            return struct;
-        }
     }
 }

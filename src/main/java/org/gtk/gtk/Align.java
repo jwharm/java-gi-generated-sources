@@ -22,38 +22,50 @@ import org.jetbrains.annotations.*;
  * it is only supported for vertical alignment.  When it's not supported by
  * a child or a container it is treated as {@link Align#FILL}.
  */
-public class Align extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "GtkAlign";
-    
+public enum Align implements io.github.jwharm.javagi.Enumeration {
     /**
      * stretch to fill all space if possible, center if
      *   no meaningful way to stretch
      */
-    public static final Align FILL = new Align(0);
-    
+    FILL(0),
     /**
      * snap to left or top side, leaving space on right or bottom
      */
-    public static final Align START = new Align(1);
-    
+    START(1),
     /**
      * snap to right or bottom side, leaving space on left or top
      */
-    public static final Align END = new Align(2);
-    
+    END(2),
     /**
      * center natural width of widget inside the allocation
      */
-    public static final Align CENTER = new Align(3);
-    
+    CENTER(3),
     /**
      * align the widget according to the baseline.
      *   See {@link Widget}.
      */
-    public static final Align BASELINE = new Align(4);
+    BASELINE(4);
     
-    public Align(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "GtkAlign";
+    
+    private final int value;
+    Align(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static Align of(int value) {
+        return switch (value) {
+            case 0 -> FILL;
+            case 1 -> START;
+            case 2 -> END;
+            case 3 -> CENTER;
+            case 4 -> BASELINE;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

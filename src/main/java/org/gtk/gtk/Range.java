@@ -39,12 +39,19 @@ public class Range extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     
     /**
      * Create a Range proxy instance for the provided memory address.
+     * <p>
+     * Because Range is an {@code InitiallyUnowned} instance, when 
+     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
+     * and a call to {@code refSink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
     @ApiStatus.Internal
     public Range(Addressable address, Ownership ownership) {
-        super(address, ownership);
+        super(address, Ownership.FULL);
+        if (ownership == Ownership.NONE) {
+            refSink();
+        }
     }
     
     /**
@@ -60,7 +67,11 @@ public class Range extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      * @throws ClassCastException If the GType is not derived from "GtkRange", a ClassCastException will be thrown.
      */
     public static Range castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), Range.getType())) {
             return new Range(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkRange");
+        }
     }
     
     /**
@@ -483,7 +494,7 @@ public class Range extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     
     @FunctionalInterface
     public interface AdjustBounds {
-        void signalReceived(Range source, double value);
+        void signalReceived(Range sourceRange, double value);
     }
     
     /**
@@ -512,7 +523,7 @@ public class Range extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     
     @FunctionalInterface
     public interface ChangeValue {
-        boolean signalReceived(Range source, @NotNull org.gtk.gtk.ScrollType scroll, double value);
+        boolean signalReceived(Range sourceRange, @NotNull org.gtk.gtk.ScrollType scroll, double value);
     }
     
     /**
@@ -551,7 +562,7 @@ public class Range extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     
     @FunctionalInterface
     public interface MoveSlider {
-        void signalReceived(Range source, @NotNull org.gtk.gtk.ScrollType step);
+        void signalReceived(Range sourceRange, @NotNull org.gtk.gtk.ScrollType step);
     }
     
     /**
@@ -581,7 +592,7 @@ public class Range extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     
     @FunctionalInterface
     public interface ValueChanged {
-        void signalReceived(Range source);
+        void signalReceived(Range sourceRange);
     }
     
     /**
@@ -856,28 +867,28 @@ public class Range extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     
     private static class Callbacks {
         
-        public static void signalRangeAdjustBounds(MemoryAddress source, double value, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalRangeAdjustBounds(MemoryAddress sourceRange, double value, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (Range.AdjustBounds) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Range(source, Ownership.NONE), value);
+            HANDLER.signalReceived(new Range(sourceRange, Ownership.NONE), value);
         }
         
-        public static boolean signalRangeChangeValue(MemoryAddress source, int scroll, double value, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static boolean signalRangeChangeValue(MemoryAddress sourceRange, int scroll, double value, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (Range.ChangeValue) Interop.signalRegistry.get(HASH);
-            return HANDLER.signalReceived(new Range(source, Ownership.NONE), new org.gtk.gtk.ScrollType(scroll), value);
+            return HANDLER.signalReceived(new Range(sourceRange, Ownership.NONE), org.gtk.gtk.ScrollType.of(scroll), value);
         }
         
-        public static void signalRangeMoveSlider(MemoryAddress source, int step, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalRangeMoveSlider(MemoryAddress sourceRange, int step, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (Range.MoveSlider) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Range(source, Ownership.NONE), new org.gtk.gtk.ScrollType(step));
+            HANDLER.signalReceived(new Range(sourceRange, Ownership.NONE), org.gtk.gtk.ScrollType.of(step));
         }
         
-        public static void signalRangeValueChanged(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalRangeValueChanged(MemoryAddress sourceRange, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (Range.ValueChanged) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Range(source, Ownership.NONE));
+            HANDLER.signalReceived(new Range(sourceRange, Ownership.NONE));
         }
     }
 }

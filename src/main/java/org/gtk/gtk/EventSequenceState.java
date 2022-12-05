@@ -8,26 +8,38 @@ import org.jetbrains.annotations.*;
 /**
  * Describes the state of a {@code Gdk.EventSequence] in a [class@Gesture}.
  */
-public class EventSequenceState extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "GtkEventSequenceState";
-    
+public enum EventSequenceState implements io.github.jwharm.javagi.Enumeration {
     /**
      * The sequence is handled, but not grabbed.
      */
-    public static final EventSequenceState NONE = new EventSequenceState(0);
-    
+    NONE(0),
     /**
      * The sequence is handled and grabbed.
      */
-    public static final EventSequenceState CLAIMED = new EventSequenceState(1);
-    
+    CLAIMED(1),
     /**
      * The sequence is denied.
      */
-    public static final EventSequenceState DENIED = new EventSequenceState(2);
+    DENIED(2);
     
-    public EventSequenceState(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "GtkEventSequenceState";
+    
+    private final int value;
+    EventSequenceState(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static EventSequenceState of(int value) {
+        return switch (value) {
+            case 0 -> NONE;
+            case 1 -> CLAIMED;
+            case 2 -> DENIED;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

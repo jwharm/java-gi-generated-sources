@@ -44,32 +44,4 @@ public class CssProviderPrivate extends Struct {
     public CssProviderPrivate(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
-
-    /**
-     * Inner class implementing a builder pattern to construct 
-     * a struct and set its values.
-     */
-    public static class Build {
-        
-        private CssProviderPrivate struct;
-        
-         /**
-         * A {@link CssProviderPrivate.Build} object constructs a {@link CssProviderPrivate} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
-            struct = CssProviderPrivate.allocate();
-        }
-        
-         /**
-         * Finish building the {@link CssProviderPrivate} struct.
-         * @return A new instance of {@code CssProviderPrivate} with the fields 
-         *         that were set in the Build object.
-         */
-        public CssProviderPrivate construct() {
-            return struct;
-        }
-    }
 }

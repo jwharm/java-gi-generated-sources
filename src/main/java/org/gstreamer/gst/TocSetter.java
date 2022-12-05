@@ -36,7 +36,11 @@ public interface TocSetter extends io.github.jwharm.javagi.Proxy {
      * @throws ClassCastException If the GType is not derived from "GstTocSetter", a ClassCastException will be thrown.
      */
     public static TocSetter castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), TocSetter.getType())) {
             return new TocSetterImpl(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GstTocSetter");
+        }
     }
     
     /**

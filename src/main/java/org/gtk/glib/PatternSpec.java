@@ -212,32 +212,4 @@ public class PatternSpec extends Struct {
             false
         );
     }
-
-    /**
-     * Inner class implementing a builder pattern to construct 
-     * a struct and set its values.
-     */
-    public static class Build {
-        
-        private PatternSpec struct;
-        
-         /**
-         * A {@link PatternSpec.Build} object constructs a {@link PatternSpec} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
-            struct = PatternSpec.allocate();
-        }
-        
-         /**
-         * Finish building the {@link PatternSpec} struct.
-         * @return A new instance of {@code PatternSpec} with the fields 
-         *         that were set in the Build object.
-         */
-        public PatternSpec construct() {
-            return struct;
-        }
-    }
 }

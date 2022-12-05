@@ -8,26 +8,38 @@ import org.jetbrains.annotations.*;
 /**
  * Reading directions for text.
  */
-public class TextDirection extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "GtkTextDirection";
-    
+public enum TextDirection implements io.github.jwharm.javagi.Enumeration {
     /**
      * No direction.
      */
-    public static final TextDirection NONE = new TextDirection(0);
-    
+    NONE(0),
     /**
      * Left to right text direction.
      */
-    public static final TextDirection LTR = new TextDirection(1);
-    
+    LTR(1),
     /**
      * Right to left text direction.
      */
-    public static final TextDirection RTL = new TextDirection(2);
+    RTL(2);
     
-    public TextDirection(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "GtkTextDirection";
+    
+    private final int value;
+    TextDirection(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static TextDirection of(int value) {
+        return switch (value) {
+            case 0 -> NONE;
+            case 1 -> LTR;
+            case 2 -> RTL;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

@@ -17,26 +17,38 @@ import org.jetbrains.annotations.*;
  * operation to give details about the error that happened.
  * @version 2.60
  */
-public class PollableReturn extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "GPollableReturn";
-    
+public enum PollableReturn implements io.github.jwharm.javagi.Enumeration {
     /**
      * Generic error condition for when an operation fails.
      */
-    public static final PollableReturn FAILED = new PollableReturn(0);
-    
+    FAILED(0),
     /**
      * The operation was successfully finished.
      */
-    public static final PollableReturn OK = new PollableReturn(1);
-    
+    OK(1),
     /**
      * The operation would block.
      */
-    public static final PollableReturn WOULD_BLOCK = new PollableReturn(0);
+    WOULD_BLOCK(-27);
     
-    public PollableReturn(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "GPollableReturn";
+    
+    private final int value;
+    PollableReturn(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static PollableReturn of(int value) {
+        return switch (value) {
+            case 0 -> FAILED;
+            case 1 -> OK;
+            case -27 -> WOULD_BLOCK;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

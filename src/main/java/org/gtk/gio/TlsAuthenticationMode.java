@@ -9,26 +9,38 @@ import org.jetbrains.annotations.*;
  * The client authentication mode for a {@link TlsServerConnection}.
  * @version 2.28
  */
-public class TlsAuthenticationMode extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "GTlsAuthenticationMode";
-    
+public enum TlsAuthenticationMode implements io.github.jwharm.javagi.Enumeration {
     /**
      * client authentication not required
      */
-    public static final TlsAuthenticationMode NONE = new TlsAuthenticationMode(0);
-    
+    NONE(0),
     /**
      * client authentication is requested
      */
-    public static final TlsAuthenticationMode REQUESTED = new TlsAuthenticationMode(1);
-    
+    REQUESTED(1),
     /**
      * client authentication is required
      */
-    public static final TlsAuthenticationMode REQUIRED = new TlsAuthenticationMode(2);
+    REQUIRED(2);
     
-    public TlsAuthenticationMode(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "GTlsAuthenticationMode";
+    
+    private final int value;
+    TlsAuthenticationMode(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static TlsAuthenticationMode of(int value) {
+        return switch (value) {
+            case 0 -> NONE;
+            case 1 -> REQUESTED;
+            case 2 -> REQUIRED;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

@@ -99,9 +99,8 @@ public class BufferFlagsT extends io.github.jwharm.javagi.Bitfield {
      * @param mask the value to combine with
      * @return the combined value by calculating {@code this | mask} 
      */
-    public BufferFlagsT combined(BufferFlagsT mask) {
-        this.setValue(this.getValue() | mask.getValue());
-        return this;
+    public BufferFlagsT or(BufferFlagsT mask) {
+        return new BufferFlagsT(this.getValue() | mask.getValue());
     }
     
     /**
@@ -111,9 +110,9 @@ public class BufferFlagsT extends io.github.jwharm.javagi.Bitfield {
      * @return the combined value by calculating {@code mask | masks[0] | masks[1] | ...} 
      */
     public static BufferFlagsT combined(BufferFlagsT mask, BufferFlagsT... masks) {
-        for (BufferFlagsT arg : masks) {
-            mask.setValue(mask.getValue() | arg.getValue());
+        int value = mask.getValue();        for (BufferFlagsT arg : masks) {
+            value |= arg.getValue();
         }
-        return mask;
+        return new BufferFlagsT(value);
     }
 }

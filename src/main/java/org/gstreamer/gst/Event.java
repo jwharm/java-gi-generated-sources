@@ -103,7 +103,7 @@ public class Event extends Struct {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("type"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new org.gstreamer.gst.EventType(RESULT);
+        return org.gstreamer.gst.EventType.of(RESULT);
     }
     
     /**
@@ -1210,7 +1210,7 @@ public class Event extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        format.set(new org.gstreamer.gst.Format(formatPOINTER.get(Interop.valueLayout.C_INT, 0)));
+        format.set(org.gstreamer.gst.Format.of(formatPOINTER.get(Interop.valueLayout.C_INT, 0)));
         minsize.set(minsizePOINTER.get(Interop.valueLayout.C_LONG, 0));
         maxsize.set(maxsizePOINTER.get(Interop.valueLayout.C_LONG, 0));
         async.set(asyncPOINTER.get(Interop.valueLayout.C_INT, 0) != 0);
@@ -1441,7 +1441,7 @@ public class Event extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        type.set(new org.gstreamer.gst.QOSType(typePOINTER.get(Interop.valueLayout.C_INT, 0)));
+        type.set(org.gstreamer.gst.QOSType.of(typePOINTER.get(Interop.valueLayout.C_INT, 0)));
         proportion.set(proportionPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
         diff.set(new org.gstreamer.gst.ClockTimeDiff(diffPOINTER.get(Interop.valueLayout.C_LONG, 0)));
         timestamp.set(new org.gstreamer.gst.ClockTime(timestampPOINTER.get(Interop.valueLayout.C_LONG, 0)));
@@ -1486,11 +1486,11 @@ public class Event extends Struct {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         rate.set(ratePOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
-        format.set(new org.gstreamer.gst.Format(formatPOINTER.get(Interop.valueLayout.C_INT, 0)));
+        format.set(org.gstreamer.gst.Format.of(formatPOINTER.get(Interop.valueLayout.C_INT, 0)));
         flags.set(new org.gstreamer.gst.SeekFlags(flagsPOINTER.get(Interop.valueLayout.C_INT, 0)));
-        startType.set(new org.gstreamer.gst.SeekType(startTypePOINTER.get(Interop.valueLayout.C_INT, 0)));
+        startType.set(org.gstreamer.gst.SeekType.of(startTypePOINTER.get(Interop.valueLayout.C_INT, 0)));
         start.set(startPOINTER.get(Interop.valueLayout.C_LONG, 0));
-        stopType.set(new org.gstreamer.gst.SeekType(stopTypePOINTER.get(Interop.valueLayout.C_INT, 0)));
+        stopType.set(org.gstreamer.gst.SeekType.of(stopTypePOINTER.get(Interop.valueLayout.C_INT, 0)));
         stop.set(stopPOINTER.get(Interop.valueLayout.C_LONG, 0));
     }
     
@@ -1548,7 +1548,7 @@ public class Event extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        format.set(new org.gstreamer.gst.Format(formatPOINTER.get(Interop.valueLayout.C_INT, 0)));
+        format.set(org.gstreamer.gst.Format.of(formatPOINTER.get(Interop.valueLayout.C_INT, 0)));
         position.set(positionPOINTER.get(Interop.valueLayout.C_LONG, 0));
     }
     
@@ -1617,7 +1617,7 @@ public class Event extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        format.set(new org.gstreamer.gst.Format(formatPOINTER.get(Interop.valueLayout.C_INT, 0)));
+        format.set(org.gstreamer.gst.Format.of(formatPOINTER.get(Interop.valueLayout.C_INT, 0)));
         amount.set(amountPOINTER.get(Interop.valueLayout.C_LONG, 0));
         rate.set(ratePOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
         flush.set(flushPOINTER.get(Interop.valueLayout.C_INT, 0) != 0);

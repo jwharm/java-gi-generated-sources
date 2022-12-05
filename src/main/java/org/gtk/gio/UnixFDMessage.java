@@ -65,7 +65,11 @@ public class UnixFDMessage extends org.gtk.gio.SocketControlMessage {
      * @throws ClassCastException If the GType is not derived from "GUnixFDMessage", a ClassCastException will be thrown.
      */
     public static UnixFDMessage castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), UnixFDMessage.getType())) {
             return new UnixFDMessage(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GUnixFDMessage");
+        }
     }
     
     private static Addressable constructNew() {

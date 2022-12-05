@@ -8,26 +8,38 @@ import org.jetbrains.annotations.*;
 /**
  * The direction of a pad.
  */
-public class PadDirection extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "GstPadDirection";
-    
+public enum PadDirection implements io.github.jwharm.javagi.Enumeration {
     /**
      * direction is unknown.
      */
-    public static final PadDirection UNKNOWN = new PadDirection(0);
-    
+    UNKNOWN(0),
     /**
      * the pad is a source pad.
      */
-    public static final PadDirection SRC = new PadDirection(1);
-    
+    SRC(1),
     /**
      * the pad is a sink pad.
      */
-    public static final PadDirection SINK = new PadDirection(2);
+    SINK(2);
     
-    public PadDirection(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "GstPadDirection";
+    
+    private final int value;
+    PadDirection(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static PadDirection of(int value) {
+        return switch (value) {
+            case 0 -> UNKNOWN;
+            case 1 -> SRC;
+            case 2 -> SINK;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

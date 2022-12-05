@@ -147,12 +147,19 @@ public class Dialog extends org.gtk.gtk.Window implements org.gtk.gtk.Accessible
     
     /**
      * Create a Dialog proxy instance for the provided memory address.
+     * <p>
+     * Because Dialog is an {@code InitiallyUnowned} instance, when 
+     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
+     * and a call to {@code refSink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
     @ApiStatus.Internal
     public Dialog(Addressable address, Ownership ownership) {
-        super(address, ownership);
+        super(address, Ownership.FULL);
+        if (ownership == Ownership.NONE) {
+            refSink();
+        }
     }
     
     /**
@@ -168,7 +175,11 @@ public class Dialog extends org.gtk.gtk.Window implements org.gtk.gtk.Accessible
      * @throws ClassCastException If the GType is not derived from "GtkDialog", a ClassCastException will be thrown.
      */
     public static Dialog castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), Dialog.getType())) {
             return new Dialog(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkDialog");
+        }
     }
     
     private static Addressable constructNew() {
@@ -464,7 +475,7 @@ public class Dialog extends org.gtk.gtk.Window implements org.gtk.gtk.Accessible
     
     @FunctionalInterface
     public interface Close {
-        void signalReceived(Dialog source);
+        void signalReceived(Dialog sourceDialog);
     }
     
     /**
@@ -496,7 +507,7 @@ public class Dialog extends org.gtk.gtk.Window implements org.gtk.gtk.Accessible
     
     @FunctionalInterface
     public interface Response {
-        void signalReceived(Dialog source, int responseId);
+        void signalReceived(Dialog sourceDialog, int responseId);
     }
     
     /**
@@ -671,16 +682,16 @@ public class Dialog extends org.gtk.gtk.Window implements org.gtk.gtk.Accessible
     
     private static class Callbacks {
         
-        public static void signalDialogClose(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalDialogClose(MemoryAddress sourceDialog, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (Dialog.Close) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Dialog(source, Ownership.NONE));
+            HANDLER.signalReceived(new Dialog(sourceDialog, Ownership.NONE));
         }
         
-        public static void signalDialogResponse(MemoryAddress source, int responseId, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalDialogResponse(MemoryAddress sourceDialog, int responseId, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (Dialog.Response) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Dialog(source, Ownership.NONE), responseId);
+            HANDLER.signalReceived(new Dialog(sourceDialog, Ownership.NONE), responseId);
         }
     }
 }

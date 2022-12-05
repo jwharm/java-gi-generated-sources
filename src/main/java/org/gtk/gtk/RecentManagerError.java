@@ -8,52 +8,64 @@ import org.jetbrains.annotations.*;
 /**
  * Error codes for {@code GtkRecentManager} operations
  */
-public class RecentManagerError extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "GtkRecentManagerError";
-    
+public enum RecentManagerError implements io.github.jwharm.javagi.Enumeration {
     /**
      * the URI specified does not exists in
      *   the recently used resources list.
      */
-    public static final RecentManagerError NOT_FOUND = new RecentManagerError(0);
-    
+    NOT_FOUND(0),
     /**
      * the URI specified is not valid.
      */
-    public static final RecentManagerError INVALID_URI = new RecentManagerError(1);
-    
+    INVALID_URI(1),
     /**
      * the supplied string is not
      *   UTF-8 encoded.
      */
-    public static final RecentManagerError INVALID_ENCODING = new RecentManagerError(2);
-    
+    INVALID_ENCODING(2),
     /**
      * no application has registered
      *   the specified item.
      */
-    public static final RecentManagerError NOT_REGISTERED = new RecentManagerError(3);
-    
+    NOT_REGISTERED(3),
     /**
      * failure while reading the recently used
      *   resources file.
      */
-    public static final RecentManagerError READ = new RecentManagerError(4);
-    
+    READ(4),
     /**
      * failure while writing the recently used
      *   resources file.
      */
-    public static final RecentManagerError WRITE = new RecentManagerError(5);
-    
+    WRITE(5),
     /**
      * unspecified error.
      */
-    public static final RecentManagerError UNKNOWN = new RecentManagerError(6);
+    UNKNOWN(6);
     
-    public RecentManagerError(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "GtkRecentManagerError";
+    
+    private final int value;
+    RecentManagerError(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static RecentManagerError of(int value) {
+        return switch (value) {
+            case 0 -> NOT_FOUND;
+            case 1 -> INVALID_URI;
+            case 2 -> INVALID_ENCODING;
+            case 3 -> NOT_REGISTERED;
+            case 4 -> READ;
+            case 5 -> WRITE;
+            case 6 -> UNKNOWN;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
     
     public static @NotNull org.gtk.glib.Quark quark() {

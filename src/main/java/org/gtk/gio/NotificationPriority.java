@@ -9,39 +9,51 @@ import org.jetbrains.annotations.*;
  * Priority levels for {@code GNotifications}.
  * @version 2.42
  */
-public class NotificationPriority extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "GNotificationPriority";
-    
+public enum NotificationPriority implements io.github.jwharm.javagi.Enumeration {
     /**
      * the default priority, to be used for the
      *   majority of notifications (for example email messages, software updates,
      *   completed download/sync operations)
      */
-    public static final NotificationPriority NORMAL = new NotificationPriority(0);
-    
+    NORMAL(0),
     /**
      * for notifications that do not require
      *   immediate attention - typically used for contextual background
      *   information, such as contact birthdays or local weather
      */
-    public static final NotificationPriority LOW = new NotificationPriority(1);
-    
+    LOW(1),
     /**
      * for events that require more attention,
      *   usually because responses are time-sensitive (for example chat and SMS
      *   messages or alarms)
      */
-    public static final NotificationPriority HIGH = new NotificationPriority(2);
-    
+    HIGH(2),
     /**
      * for urgent notifications, or notifications
      *   that require a response in a short space of time (for example phone calls
      *   or emergency warnings)
      */
-    public static final NotificationPriority URGENT = new NotificationPriority(3);
+    URGENT(3);
     
-    public NotificationPriority(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "GNotificationPriority";
+    
+    private final int value;
+    NotificationPriority(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static NotificationPriority of(int value) {
+        return switch (value) {
+            case 0 -> NORMAL;
+            case 1 -> LOW;
+            case 2 -> HIGH;
+            case 3 -> URGENT;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

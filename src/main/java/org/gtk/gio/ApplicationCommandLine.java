@@ -212,7 +212,11 @@ public class ApplicationCommandLine extends org.gtk.gobject.Object {
      * @throws ClassCastException If the GType is not derived from "GApplicationCommandLine", a ClassCastException will be thrown.
      */
     public static ApplicationCommandLine castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), ApplicationCommandLine.getType())) {
             return new ApplicationCommandLine(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GApplicationCommandLine");
+        }
     }
     
     /**

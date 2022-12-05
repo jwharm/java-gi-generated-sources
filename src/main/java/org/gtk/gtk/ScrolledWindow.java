@@ -105,12 +105,19 @@ public class ScrolledWindow extends org.gtk.gtk.Widget implements org.gtk.gtk.Ac
     
     /**
      * Create a ScrolledWindow proxy instance for the provided memory address.
+     * <p>
+     * Because ScrolledWindow is an {@code InitiallyUnowned} instance, when 
+     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
+     * and a call to {@code refSink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
     @ApiStatus.Internal
     public ScrolledWindow(Addressable address, Ownership ownership) {
-        super(address, ownership);
+        super(address, Ownership.FULL);
+        if (ownership == Ownership.NONE) {
+            refSink();
+        }
     }
     
     /**
@@ -126,7 +133,11 @@ public class ScrolledWindow extends org.gtk.gtk.Widget implements org.gtk.gtk.Ac
      * @throws ClassCastException If the GType is not derived from "GtkScrolledWindow", a ClassCastException will be thrown.
      */
     public static ScrolledWindow castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), ScrolledWindow.getType())) {
             return new ScrolledWindow(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkScrolledWindow");
+        }
     }
     
     private static Addressable constructNew() {
@@ -311,7 +322,7 @@ public class ScrolledWindow extends org.gtk.gtk.Widget implements org.gtk.gtk.Ac
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.CornerType(RESULT);
+        return org.gtk.gtk.CornerType.of(RESULT);
     }
     
     /**
@@ -337,8 +348,8 @@ public class ScrolledWindow extends org.gtk.gtk.Widget implements org.gtk.gtk.Ac
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        hscrollbarPolicy.set(new org.gtk.gtk.PolicyType(hscrollbarPolicyPOINTER.get(Interop.valueLayout.C_INT, 0)));
-        vscrollbarPolicy.set(new org.gtk.gtk.PolicyType(vscrollbarPolicyPOINTER.get(Interop.valueLayout.C_INT, 0)));
+        hscrollbarPolicy.set(org.gtk.gtk.PolicyType.of(hscrollbarPolicyPOINTER.get(Interop.valueLayout.C_INT, 0)));
+        vscrollbarPolicy.set(org.gtk.gtk.PolicyType.of(vscrollbarPolicyPOINTER.get(Interop.valueLayout.C_INT, 0)));
     }
     
     /**
@@ -683,7 +694,7 @@ public class ScrolledWindow extends org.gtk.gtk.Widget implements org.gtk.gtk.Ac
     
     @FunctionalInterface
     public interface EdgeOvershot {
-        void signalReceived(ScrolledWindow source, @NotNull org.gtk.gtk.PositionType pos);
+        void signalReceived(ScrolledWindow sourceScrolledWindow, @NotNull org.gtk.gtk.PositionType pos);
     }
     
     /**
@@ -719,7 +730,7 @@ public class ScrolledWindow extends org.gtk.gtk.Widget implements org.gtk.gtk.Ac
     
     @FunctionalInterface
     public interface EdgeReached {
-        void signalReceived(ScrolledWindow source, @NotNull org.gtk.gtk.PositionType pos);
+        void signalReceived(ScrolledWindow sourceScrolledWindow, @NotNull org.gtk.gtk.PositionType pos);
     }
     
     /**
@@ -755,7 +766,7 @@ public class ScrolledWindow extends org.gtk.gtk.Widget implements org.gtk.gtk.Ac
     
     @FunctionalInterface
     public interface MoveFocusOut {
-        void signalReceived(ScrolledWindow source, @NotNull org.gtk.gtk.DirectionType directionType);
+        void signalReceived(ScrolledWindow sourceScrolledWindow, @NotNull org.gtk.gtk.DirectionType directionType);
     }
     
     /**
@@ -790,7 +801,7 @@ public class ScrolledWindow extends org.gtk.gtk.Widget implements org.gtk.gtk.Ac
     
     @FunctionalInterface
     public interface ScrollChild {
-        boolean signalReceived(ScrolledWindow source, @NotNull org.gtk.gtk.ScrollType scroll, boolean horizontal);
+        boolean signalReceived(ScrolledWindow sourceScrolledWindow, @NotNull org.gtk.gtk.ScrollType scroll, boolean horizontal);
     }
     
     /**
@@ -1237,28 +1248,28 @@ public class ScrolledWindow extends org.gtk.gtk.Widget implements org.gtk.gtk.Ac
     
     private static class Callbacks {
         
-        public static void signalScrolledWindowEdgeOvershot(MemoryAddress source, int pos, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalScrolledWindowEdgeOvershot(MemoryAddress sourceScrolledWindow, int pos, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (ScrolledWindow.EdgeOvershot) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new ScrolledWindow(source, Ownership.NONE), new org.gtk.gtk.PositionType(pos));
+            HANDLER.signalReceived(new ScrolledWindow(sourceScrolledWindow, Ownership.NONE), org.gtk.gtk.PositionType.of(pos));
         }
         
-        public static void signalScrolledWindowEdgeReached(MemoryAddress source, int pos, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalScrolledWindowEdgeReached(MemoryAddress sourceScrolledWindow, int pos, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (ScrolledWindow.EdgeReached) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new ScrolledWindow(source, Ownership.NONE), new org.gtk.gtk.PositionType(pos));
+            HANDLER.signalReceived(new ScrolledWindow(sourceScrolledWindow, Ownership.NONE), org.gtk.gtk.PositionType.of(pos));
         }
         
-        public static void signalScrolledWindowMoveFocusOut(MemoryAddress source, int directionType, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalScrolledWindowMoveFocusOut(MemoryAddress sourceScrolledWindow, int directionType, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (ScrolledWindow.MoveFocusOut) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new ScrolledWindow(source, Ownership.NONE), new org.gtk.gtk.DirectionType(directionType));
+            HANDLER.signalReceived(new ScrolledWindow(sourceScrolledWindow, Ownership.NONE), org.gtk.gtk.DirectionType.of(directionType));
         }
         
-        public static boolean signalScrolledWindowScrollChild(MemoryAddress source, int scroll, int horizontal, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static boolean signalScrolledWindowScrollChild(MemoryAddress sourceScrolledWindow, int scroll, int horizontal, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (ScrolledWindow.ScrollChild) Interop.signalRegistry.get(HASH);
-            return HANDLER.signalReceived(new ScrolledWindow(source, Ownership.NONE), new org.gtk.gtk.ScrollType(scroll), horizontal != 0);
+            return HANDLER.signalReceived(new ScrolledWindow(sourceScrolledWindow, Ownership.NONE), org.gtk.gtk.ScrollType.of(scroll), horizontal != 0);
         }
     }
 }

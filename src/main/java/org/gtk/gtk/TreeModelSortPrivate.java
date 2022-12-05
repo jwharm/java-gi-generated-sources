@@ -44,32 +44,4 @@ public class TreeModelSortPrivate extends Struct {
     public TreeModelSortPrivate(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
-
-    /**
-     * Inner class implementing a builder pattern to construct 
-     * a struct and set its values.
-     */
-    public static class Build {
-        
-        private TreeModelSortPrivate struct;
-        
-         /**
-         * A {@link TreeModelSortPrivate.Build} object constructs a {@link TreeModelSortPrivate} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
-            struct = TreeModelSortPrivate.allocate();
-        }
-        
-         /**
-         * Finish building the {@link TreeModelSortPrivate} struct.
-         * @return A new instance of {@code TreeModelSortPrivate} with the fields 
-         *         that were set in the Build object.
-         */
-        public TreeModelSortPrivate construct() {
-            return struct;
-        }
-    }
 }

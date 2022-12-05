@@ -523,7 +523,7 @@ public class Date extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.DateMonth(RESULT);
+        return org.gtk.glib.DateMonth.of(RESULT);
     }
     
     /**
@@ -555,7 +555,7 @@ public class Date extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.DateWeekday(RESULT);
+        return org.gtk.glib.DateWeekday.of(RESULT);
     }
     
     /**

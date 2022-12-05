@@ -44,32 +44,4 @@ public class MenuModelPrivate extends Struct {
     public MenuModelPrivate(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
-
-    /**
-     * Inner class implementing a builder pattern to construct 
-     * a struct and set its values.
-     */
-    public static class Build {
-        
-        private MenuModelPrivate struct;
-        
-         /**
-         * A {@link MenuModelPrivate.Build} object constructs a {@link MenuModelPrivate} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
-            struct = MenuModelPrivate.allocate();
-        }
-        
-         /**
-         * Finish building the {@link MenuModelPrivate} struct.
-         * @return A new instance of {@code MenuModelPrivate} with the fields 
-         *         that were set in the Build object.
-         */
-        public MenuModelPrivate construct() {
-            return struct;
-        }
-    }
 }

@@ -54,7 +54,11 @@ public class SingleSelection extends org.gtk.gobject.Object implements org.gtk.g
      * @throws ClassCastException If the GType is not derived from "GtkSingleSelection", a ClassCastException will be thrown.
      */
     public static SingleSelection castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), SingleSelection.getType())) {
             return new SingleSelection(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkSingleSelection");
+        }
     }
     
     private static Addressable constructNew(@Nullable org.gtk.gio.ListModel model) {

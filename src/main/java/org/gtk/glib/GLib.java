@@ -541,6 +541,26 @@ public final class GLib {
     public static final byte MAXINT8 = 127;
     
     /**
+     * The maximum value which can be held in a {@code guint16}.
+     */
+    public static final short MAXUINT16 = -1;
+    
+    /**
+     * The maximum value which can be held in a {@code guint32}.
+     */
+    public static final int MAXUINT32 = -1;
+    
+    /**
+     * The maximum value which can be held in a {@code guint64}.
+     */
+    public static final long MAXUINT64 = -1L;
+    
+    /**
+     * The maximum value which can be held in a {@code guint8}.
+     */
+    public static final byte MAXUINT8 = -1;
+    
+    /**
      * The micro version number of the GLib library.
      * <p>
      * Like {@code gtk_micro_version}, but from the headers used at
@@ -4774,7 +4794,7 @@ public final class GLib {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.FileError(RESULT);
+        return org.gtk.glib.FileError.of(RESULT);
     }
     
     public static @NotNull org.gtk.glib.Quark fileErrorQuark() {
@@ -7309,7 +7329,7 @@ public final class GLib {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.IOChannelError(RESULT);
+        return org.gtk.glib.IOChannelError.of(RESULT);
     }
     
     public static @NotNull org.gtk.glib.Quark ioChannelErrorQuark() {
@@ -8068,7 +8088,7 @@ public final class GLib {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.LogWriterOutput(RESULT);
+        return org.gtk.glib.LogWriterOutput.of(RESULT);
     }
     
     /**
@@ -8233,7 +8253,7 @@ public final class GLib {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.LogWriterOutput(RESULT);
+        return org.gtk.glib.LogWriterOutput.of(RESULT);
     }
     
     /**
@@ -8272,7 +8292,7 @@ public final class GLib {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.LogWriterOutput(RESULT);
+        return org.gtk.glib.LogWriterOutput.of(RESULT);
     }
     
     /**
@@ -15380,7 +15400,7 @@ public final class GLib {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.UnicodeBreakType(RESULT);
+        return org.gtk.glib.UnicodeBreakType.of(RESULT);
     }
     
     /**
@@ -15592,7 +15612,7 @@ public final class GLib {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.UnicodeScript(RESULT);
+        return org.gtk.glib.UnicodeScript.of(RESULT);
     }
     
     /**
@@ -16014,7 +16034,7 @@ public final class GLib {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.UnicodeType(RESULT);
+        return org.gtk.glib.UnicodeType.of(RESULT);
     }
     
     /**
@@ -16118,7 +16138,7 @@ public final class GLib {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.UnicodeScript(RESULT);
+        return org.gtk.glib.UnicodeScript.of(RESULT);
     }
     
     /**

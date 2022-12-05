@@ -48,7 +48,11 @@ public class DeleteEvent extends org.gtk.gdk.Event {
      * @throws ClassCastException If the GType is not derived from "GdkDeleteEvent", a ClassCastException will be thrown.
      */
     public static DeleteEvent castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), DeleteEvent.getType())) {
             return new DeleteEvent(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GdkDeleteEvent");
+        }
     }
     
     /**

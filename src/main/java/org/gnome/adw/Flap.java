@@ -82,12 +82,19 @@ public class Flap extends org.gtk.gtk.Widget implements org.gnome.adw.Swipeable,
     
     /**
      * Create a Flap proxy instance for the provided memory address.
+     * <p>
+     * Because Flap is an {@code InitiallyUnowned} instance, when 
+     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
+     * and a call to {@code refSink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
     @ApiStatus.Internal
     public Flap(Addressable address, Ownership ownership) {
-        super(address, ownership);
+        super(address, Ownership.FULL);
+        if (ownership == Ownership.NONE) {
+            refSink();
+        }
     }
     
     /**
@@ -103,7 +110,11 @@ public class Flap extends org.gtk.gtk.Widget implements org.gnome.adw.Swipeable,
      * @throws ClassCastException If the GType is not derived from "AdwFlap", a ClassCastException will be thrown.
      */
     public static Flap castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), Flap.getType())) {
             return new Flap(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of AdwFlap");
+        }
     }
     
     private static Addressable constructNew() {
@@ -165,7 +176,7 @@ public class Flap extends org.gtk.gtk.Widget implements org.gnome.adw.Swipeable,
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.PackType(RESULT);
+        return org.gtk.gtk.PackType.of(RESULT);
     }
     
     /**
@@ -195,7 +206,7 @@ public class Flap extends org.gtk.gtk.Widget implements org.gnome.adw.Swipeable,
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gnome.adw.FlapFoldPolicy(RESULT);
+        return org.gnome.adw.FlapFoldPolicy.of(RESULT);
     }
     
     /**
@@ -209,7 +220,7 @@ public class Flap extends org.gtk.gtk.Widget implements org.gnome.adw.Swipeable,
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gnome.adw.FoldThresholdPolicy(RESULT);
+        return org.gnome.adw.FoldThresholdPolicy.of(RESULT);
     }
     
     /**
@@ -365,7 +376,7 @@ public class Flap extends org.gtk.gtk.Widget implements org.gnome.adw.Swipeable,
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gnome.adw.FlapTransitionType(RESULT);
+        return org.gnome.adw.FlapTransitionType.of(RESULT);
     }
     
     /**

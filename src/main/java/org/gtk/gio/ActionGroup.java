@@ -67,7 +67,11 @@ public interface ActionGroup extends io.github.jwharm.javagi.Proxy {
      * @throws ClassCastException If the GType is not derived from "GActionGroup", a ClassCastException will be thrown.
      */
     public static ActionGroup castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), ActionGroup.getType())) {
             return new ActionGroupImpl(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GActionGroup");
+        }
     }
     
     /**
@@ -485,7 +489,7 @@ public interface ActionGroup extends io.github.jwharm.javagi.Proxy {
     
     @FunctionalInterface
     public interface ActionAdded {
-        void signalReceived(ActionGroup source, @NotNull java.lang.String actionName);
+        void signalReceived(ActionGroup sourceActionGroup, @NotNull java.lang.String actionName);
     }
     
     /**
@@ -516,7 +520,7 @@ public interface ActionGroup extends io.github.jwharm.javagi.Proxy {
     
     @FunctionalInterface
     public interface ActionEnabledChanged {
-        void signalReceived(ActionGroup source, @NotNull java.lang.String actionName, boolean enabled);
+        void signalReceived(ActionGroup sourceActionGroup, @NotNull java.lang.String actionName, boolean enabled);
     }
     
     /**
@@ -545,7 +549,7 @@ public interface ActionGroup extends io.github.jwharm.javagi.Proxy {
     
     @FunctionalInterface
     public interface ActionRemoved {
-        void signalReceived(ActionGroup source, @NotNull java.lang.String actionName);
+        void signalReceived(ActionGroup sourceActionGroup, @NotNull java.lang.String actionName);
     }
     
     /**
@@ -576,7 +580,7 @@ public interface ActionGroup extends io.github.jwharm.javagi.Proxy {
     
     @FunctionalInterface
     public interface ActionStateChanged {
-        void signalReceived(ActionGroup source, @NotNull java.lang.String actionName, @NotNull org.gtk.glib.Variant value);
+        void signalReceived(ActionGroup sourceActionGroup, @NotNull java.lang.String actionName, @NotNull org.gtk.glib.Variant value);
     }
     
     /**
@@ -715,28 +719,28 @@ public interface ActionGroup extends io.github.jwharm.javagi.Proxy {
     @ApiStatus.Internal
     static class Callbacks {
         
-        public static void signalActionGroupActionAdded(MemoryAddress source, MemoryAddress actionName, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalActionGroupActionAdded(MemoryAddress sourceActionGroup, MemoryAddress actionName, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (ActionGroup.ActionAdded) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new ActionGroup.ActionGroupImpl(source, Ownership.NONE), Interop.getStringFrom(actionName));
+            HANDLER.signalReceived(new ActionGroup.ActionGroupImpl(sourceActionGroup, Ownership.NONE), Interop.getStringFrom(actionName));
         }
         
-        public static void signalActionGroupActionEnabledChanged(MemoryAddress source, MemoryAddress actionName, int enabled, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalActionGroupActionEnabledChanged(MemoryAddress sourceActionGroup, MemoryAddress actionName, int enabled, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (ActionGroup.ActionEnabledChanged) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new ActionGroup.ActionGroupImpl(source, Ownership.NONE), Interop.getStringFrom(actionName), enabled != 0);
+            HANDLER.signalReceived(new ActionGroup.ActionGroupImpl(sourceActionGroup, Ownership.NONE), Interop.getStringFrom(actionName), enabled != 0);
         }
         
-        public static void signalActionGroupActionRemoved(MemoryAddress source, MemoryAddress actionName, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalActionGroupActionRemoved(MemoryAddress sourceActionGroup, MemoryAddress actionName, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (ActionGroup.ActionRemoved) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new ActionGroup.ActionGroupImpl(source, Ownership.NONE), Interop.getStringFrom(actionName));
+            HANDLER.signalReceived(new ActionGroup.ActionGroupImpl(sourceActionGroup, Ownership.NONE), Interop.getStringFrom(actionName));
         }
         
-        public static void signalActionGroupActionStateChanged(MemoryAddress source, MemoryAddress actionName, MemoryAddress value, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalActionGroupActionStateChanged(MemoryAddress sourceActionGroup, MemoryAddress actionName, MemoryAddress value, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (ActionGroup.ActionStateChanged) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new ActionGroup.ActionGroupImpl(source, Ownership.NONE), Interop.getStringFrom(actionName), new org.gtk.glib.Variant(value, Ownership.NONE));
+            HANDLER.signalReceived(new ActionGroup.ActionGroupImpl(sourceActionGroup, Ownership.NONE), Interop.getStringFrom(actionName), new org.gtk.glib.Variant(value, Ownership.NONE));
         }
     }
     

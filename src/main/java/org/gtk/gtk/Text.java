@@ -90,12 +90,19 @@ public class Text extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, 
     
     /**
      * Create a Text proxy instance for the provided memory address.
+     * <p>
+     * Because Text is an {@code InitiallyUnowned} instance, when 
+     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
+     * and a call to {@code refSink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
     @ApiStatus.Internal
     public Text(Addressable address, Ownership ownership) {
-        super(address, ownership);
+        super(address, Ownership.FULL);
+        if (ownership == Ownership.NONE) {
+            refSink();
+        }
     }
     
     /**
@@ -111,7 +118,11 @@ public class Text extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, 
      * @throws ClassCastException If the GType is not derived from "GtkText", a ClassCastException will be thrown.
      */
     public static Text castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), Text.getType())) {
             return new Text(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkText");
+        }
     }
     
     private static Addressable constructNew() {
@@ -290,7 +301,7 @@ public class Text extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, 
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.InputPurpose(RESULT);
+        return org.gtk.gtk.InputPurpose.of(RESULT);
     }
     
     /**
@@ -765,7 +776,7 @@ public class Text extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, 
     
     @FunctionalInterface
     public interface Activate {
-        void signalReceived(Text source);
+        void signalReceived(Text sourceText);
     }
     
     /**
@@ -796,7 +807,7 @@ public class Text extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, 
     
     @FunctionalInterface
     public interface Backspace {
-        void signalReceived(Text source);
+        void signalReceived(Text sourceText);
     }
     
     /**
@@ -829,7 +840,7 @@ public class Text extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, 
     
     @FunctionalInterface
     public interface CopyClipboard {
-        void signalReceived(Text source);
+        void signalReceived(Text sourceText);
     }
     
     /**
@@ -863,7 +874,7 @@ public class Text extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, 
     
     @FunctionalInterface
     public interface CutClipboard {
-        void signalReceived(Text source);
+        void signalReceived(Text sourceText);
     }
     
     /**
@@ -897,7 +908,7 @@ public class Text extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, 
     
     @FunctionalInterface
     public interface DeleteFromCursor {
-        void signalReceived(Text source, @NotNull org.gtk.gtk.DeleteType type, int count);
+        void signalReceived(Text sourceText, @NotNull org.gtk.gtk.DeleteType type, int count);
     }
     
     /**
@@ -935,7 +946,7 @@ public class Text extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, 
     
     @FunctionalInterface
     public interface InsertAtCursor {
-        void signalReceived(Text source, @NotNull java.lang.String string);
+        void signalReceived(Text sourceText, @NotNull java.lang.String string);
     }
     
     /**
@@ -968,7 +979,7 @@ public class Text extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, 
     
     @FunctionalInterface
     public interface InsertEmoji {
-        void signalReceived(Text source);
+        void signalReceived(Text sourceText);
     }
     
     /**
@@ -1002,7 +1013,7 @@ public class Text extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, 
     
     @FunctionalInterface
     public interface MoveCursor {
-        void signalReceived(Text source, @NotNull org.gtk.gtk.MovementStep step, int count, boolean extend);
+        void signalReceived(Text sourceText, @NotNull org.gtk.gtk.MovementStep step, int count, boolean extend);
     }
     
     /**
@@ -1050,7 +1061,7 @@ public class Text extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, 
     
     @FunctionalInterface
     public interface PasteClipboard {
-        void signalReceived(Text source);
+        void signalReceived(Text sourceText);
     }
     
     /**
@@ -1083,7 +1094,7 @@ public class Text extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, 
     
     @FunctionalInterface
     public interface PreeditChanged {
-        void signalReceived(Text source, @NotNull java.lang.String preedit);
+        void signalReceived(Text sourceText, @NotNull java.lang.String preedit);
     }
     
     /**
@@ -1115,7 +1126,7 @@ public class Text extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, 
     
     @FunctionalInterface
     public interface ToggleOverwrite {
-        void signalReceived(Text source);
+        void signalReceived(Text sourceText);
     }
     
     /**
@@ -1628,70 +1639,70 @@ public class Text extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, 
     
     private static class Callbacks {
         
-        public static void signalTextActivate(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalTextActivate(MemoryAddress sourceText, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (Text.Activate) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Text(source, Ownership.NONE));
+            HANDLER.signalReceived(new Text(sourceText, Ownership.NONE));
         }
         
-        public static void signalTextBackspace(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalTextBackspace(MemoryAddress sourceText, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (Text.Backspace) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Text(source, Ownership.NONE));
+            HANDLER.signalReceived(new Text(sourceText, Ownership.NONE));
         }
         
-        public static void signalTextCopyClipboard(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalTextCopyClipboard(MemoryAddress sourceText, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (Text.CopyClipboard) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Text(source, Ownership.NONE));
+            HANDLER.signalReceived(new Text(sourceText, Ownership.NONE));
         }
         
-        public static void signalTextCutClipboard(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalTextCutClipboard(MemoryAddress sourceText, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (Text.CutClipboard) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Text(source, Ownership.NONE));
+            HANDLER.signalReceived(new Text(sourceText, Ownership.NONE));
         }
         
-        public static void signalTextDeleteFromCursor(MemoryAddress source, int type, int count, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalTextDeleteFromCursor(MemoryAddress sourceText, int type, int count, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (Text.DeleteFromCursor) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Text(source, Ownership.NONE), new org.gtk.gtk.DeleteType(type), count);
+            HANDLER.signalReceived(new Text(sourceText, Ownership.NONE), org.gtk.gtk.DeleteType.of(type), count);
         }
         
-        public static void signalTextInsertAtCursor(MemoryAddress source, MemoryAddress string, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalTextInsertAtCursor(MemoryAddress sourceText, MemoryAddress string, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (Text.InsertAtCursor) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Text(source, Ownership.NONE), Interop.getStringFrom(string));
+            HANDLER.signalReceived(new Text(sourceText, Ownership.NONE), Interop.getStringFrom(string));
         }
         
-        public static void signalTextInsertEmoji(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalTextInsertEmoji(MemoryAddress sourceText, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (Text.InsertEmoji) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Text(source, Ownership.NONE));
+            HANDLER.signalReceived(new Text(sourceText, Ownership.NONE));
         }
         
-        public static void signalTextMoveCursor(MemoryAddress source, int step, int count, int extend, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalTextMoveCursor(MemoryAddress sourceText, int step, int count, int extend, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (Text.MoveCursor) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Text(source, Ownership.NONE), new org.gtk.gtk.MovementStep(step), count, extend != 0);
+            HANDLER.signalReceived(new Text(sourceText, Ownership.NONE), org.gtk.gtk.MovementStep.of(step), count, extend != 0);
         }
         
-        public static void signalTextPasteClipboard(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalTextPasteClipboard(MemoryAddress sourceText, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (Text.PasteClipboard) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Text(source, Ownership.NONE));
+            HANDLER.signalReceived(new Text(sourceText, Ownership.NONE));
         }
         
-        public static void signalTextPreeditChanged(MemoryAddress source, MemoryAddress preedit, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalTextPreeditChanged(MemoryAddress sourceText, MemoryAddress preedit, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (Text.PreeditChanged) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Text(source, Ownership.NONE), Interop.getStringFrom(preedit));
+            HANDLER.signalReceived(new Text(sourceText, Ownership.NONE), Interop.getStringFrom(preedit));
         }
         
-        public static void signalTextToggleOverwrite(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalTextToggleOverwrite(MemoryAddress sourceText, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (Text.ToggleOverwrite) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Text(source, Ownership.NONE));
+            HANDLER.signalReceived(new Text(sourceText, Ownership.NONE));
         }
     }
 }

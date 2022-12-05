@@ -68,12 +68,19 @@ public class BufferPool extends org.gstreamer.gst.Object {
     
     /**
      * Create a BufferPool proxy instance for the provided memory address.
+     * <p>
+     * Because BufferPool is an {@code InitiallyUnowned} instance, when 
+     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
+     * and a call to {@code refSink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
     @ApiStatus.Internal
     public BufferPool(Addressable address, Ownership ownership) {
-        super(address, ownership);
+        super(address, Ownership.FULL);
+        if (ownership == Ownership.NONE) {
+            refSink();
+        }
     }
     
     /**
@@ -89,7 +96,11 @@ public class BufferPool extends org.gstreamer.gst.Object {
      * @throws ClassCastException If the GType is not derived from "GstBufferPool", a ClassCastException will be thrown.
      */
     public static BufferPool castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), BufferPool.getType())) {
             return new BufferPool(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GstBufferPool");
+        }
     }
     
     private static Addressable constructNew() {
@@ -132,7 +143,7 @@ public class BufferPool extends org.gstreamer.gst.Object {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         buffer.set(new org.gstreamer.gst.Buffer(bufferPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
-        return new org.gstreamer.gst.FlowReturn(RESULT);
+        return org.gstreamer.gst.FlowReturn.of(RESULT);
     }
     
     /**

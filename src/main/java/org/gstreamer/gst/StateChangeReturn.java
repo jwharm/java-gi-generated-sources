@@ -9,33 +9,45 @@ import org.jetbrains.annotations.*;
  * The possible return values from a state change function such as
  * gst_element_set_state(). Only {@code GST_STATE_CHANGE_FAILURE} is a real failure.
  */
-public class StateChangeReturn extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "GstStateChangeReturn";
-    
+public enum StateChangeReturn implements io.github.jwharm.javagi.Enumeration {
     /**
      * the state change failed
      */
-    public static final StateChangeReturn FAILURE = new StateChangeReturn(0);
-    
+    FAILURE(0),
     /**
      * the state change succeeded
      */
-    public static final StateChangeReturn SUCCESS = new StateChangeReturn(1);
-    
+    SUCCESS(1),
     /**
      * the state change will happen asynchronously
      */
-    public static final StateChangeReturn ASYNC = new StateChangeReturn(2);
-    
+    ASYNC(2),
     /**
      * the state change succeeded but the element
      *                               cannot produce data in {@link State#PAUSED}.
      *                               This typically happens with live sources.
      */
-    public static final StateChangeReturn NO_PREROLL = new StateChangeReturn(3);
+    NO_PREROLL(3);
     
-    public StateChangeReturn(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "GstStateChangeReturn";
+    
+    private final int value;
+    StateChangeReturn(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static StateChangeReturn of(int value) {
+        return switch (value) {
+            case 0 -> FAILURE;
+            case 1 -> SUCCESS;
+            case 2 -> ASYNC;
+            case 3 -> NO_PREROLL;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

@@ -10,33 +10,45 @@ import org.jetbrains.annotations.*;
  * <p>
  * A parameter of this typs is passed to {@link PrintOperation#run}.
  */
-public class PrintOperationAction extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "GtkPrintOperationAction";
-    
+public enum PrintOperationAction implements io.github.jwharm.javagi.Enumeration {
     /**
      * Show the print dialog.
      */
-    public static final PrintOperationAction PRINT_DIALOG = new PrintOperationAction(0);
-    
+    PRINT_DIALOG(0),
     /**
      * Start to print without showing
      *   the print dialog, based on the current print settings.
      */
-    public static final PrintOperationAction PRINT = new PrintOperationAction(1);
-    
+    PRINT(1),
     /**
      * Show the print preview.
      */
-    public static final PrintOperationAction PREVIEW = new PrintOperationAction(2);
-    
+    PREVIEW(2),
     /**
      * Export to a file. This requires
      *   the export-filename property to be set.
      */
-    public static final PrintOperationAction EXPORT = new PrintOperationAction(3);
+    EXPORT(3);
     
-    public PrintOperationAction(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "GtkPrintOperationAction";
+    
+    private final int value;
+    PrintOperationAction(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static PrintOperationAction of(int value) {
+        return switch (value) {
+            case 0 -> PRINT_DIALOG;
+            case 1 -> PRINT;
+            case 2 -> PREVIEW;
+            case 3 -> EXPORT;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

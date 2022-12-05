@@ -85,7 +85,11 @@ public class TextMark extends org.gtk.gobject.Object {
      * @throws ClassCastException If the GType is not derived from "GtkTextMark", a ClassCastException will be thrown.
      */
     public static TextMark castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), TextMark.getType())) {
             return new TextMark(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkTextMark");
+        }
     }
     
     private static Addressable constructNew(@Nullable java.lang.String name, boolean leftGravity) {

@@ -12,16 +12,12 @@ import org.jetbrains.annotations.*;
  * Since 1.44, only {@link CoverageLevel#NONE} and {@link CoverageLevel#EXACT}
  * will be returned.
  */
-public class CoverageLevel extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "PangoCoverageLevel";
-    
+public enum CoverageLevel implements io.github.jwharm.javagi.Enumeration {
     /**
      * The character is not representable with
      *   the font.
      */
-    public static final CoverageLevel NONE = new CoverageLevel(0);
-    
+    NONE(0),
     /**
      * The character is represented in a
      *   way that may be comprehensible but is not the correct
@@ -29,22 +25,38 @@ public class CoverageLevel extends io.github.jwharm.javagi.Enumeration {
      *   as a a sequence of Jamos, or a Latin transliteration of a
      *   Cyrillic word.
      */
-    public static final CoverageLevel FALLBACK = new CoverageLevel(1);
-    
+    FALLBACK(1),
     /**
      * The character is represented as
      *   basically the correct graphical form, but with a stylistic
      *   variant inappropriate for the current script.
      */
-    public static final CoverageLevel APPROXIMATE = new CoverageLevel(2);
-    
+    APPROXIMATE(2),
     /**
      * The character is represented as the
      *   correct graphical form.
      */
-    public static final CoverageLevel EXACT = new CoverageLevel(3);
+    EXACT(3);
     
-    public CoverageLevel(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "PangoCoverageLevel";
+    
+    private final int value;
+    CoverageLevel(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static CoverageLevel of(int value) {
+        return switch (value) {
+            case 0 -> NONE;
+            case 1 -> FALLBACK;
+            case 2 -> APPROXIMATE;
+            case 3 -> EXACT;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

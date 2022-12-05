@@ -15,26 +15,38 @@ import org.jetbrains.annotations.*;
  * See {@link Layout#setAutoDir} for how text direction affects
  * the interpretation of {@code PangoAlignment} values.
  */
-public class Alignment extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "PangoAlignment";
-    
+public enum Alignment implements io.github.jwharm.javagi.Enumeration {
     /**
      * Put all available space on the right
      */
-    public static final Alignment LEFT = new Alignment(0);
-    
+    LEFT(0),
     /**
      * Center the line within the available space
      */
-    public static final Alignment CENTER = new Alignment(1);
-    
+    CENTER(1),
     /**
      * Put all available space on the left
      */
-    public static final Alignment RIGHT = new Alignment(2);
+    RIGHT(2);
     
-    public Alignment(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "PangoAlignment";
+    
+    private final int value;
+    Alignment(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static Alignment of(int value) {
+        return switch (value) {
+            case 0 -> LEFT;
+            case 1 -> CENTER;
+            case 2 -> RIGHT;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

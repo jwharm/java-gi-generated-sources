@@ -9,33 +9,45 @@ import org.jetbrains.annotations.*;
  * Error codes that identify various errors that can occur while
  * using the GTK printing support.
  */
-public class PrintError extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "GtkPrintError";
-    
+public enum PrintError implements io.github.jwharm.javagi.Enumeration {
     /**
      * An unspecified error occurred.
      */
-    public static final PrintError GENERAL = new PrintError(0);
-    
+    GENERAL(0),
     /**
      * An internal error occurred.
      */
-    public static final PrintError INTERNAL_ERROR = new PrintError(1);
-    
+    INTERNAL_ERROR(1),
     /**
      * A memory allocation failed.
      */
-    public static final PrintError NOMEM = new PrintError(2);
-    
+    NOMEM(2),
     /**
      * An error occurred while loading a page setup
      *   or paper size from a key file.
      */
-    public static final PrintError INVALID_FILE = new PrintError(3);
+    INVALID_FILE(3);
     
-    public PrintError(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "GtkPrintError";
+    
+    private final int value;
+    PrintError(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static PrintError of(int value) {
+        return switch (value) {
+            case 0 -> GENERAL;
+            case 1 -> INTERNAL_ERROR;
+            case 2 -> NOMEM;
+            case 3 -> INVALID_FILE;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
     
     /**

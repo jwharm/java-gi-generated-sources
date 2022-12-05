@@ -85,7 +85,11 @@ public class EntryCompletion extends org.gtk.gobject.Object implements org.gtk.g
      * @throws ClassCastException If the GType is not derived from "GtkEntryCompletion", a ClassCastException will be thrown.
      */
     public static EntryCompletion castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), EntryCompletion.getType())) {
             return new EntryCompletion(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkEntryCompletion");
+        }
     }
     
     private static Addressable constructNew() {
@@ -517,7 +521,7 @@ public class EntryCompletion extends org.gtk.gobject.Object implements org.gtk.g
     
     @FunctionalInterface
     public interface CursorOnMatch {
-        boolean signalReceived(EntryCompletion source, @NotNull org.gtk.gtk.TreeModel model, @NotNull org.gtk.gtk.TreeIter iter);
+        boolean signalReceived(EntryCompletion sourceEntryCompletion, @NotNull org.gtk.gtk.TreeModel model, @NotNull org.gtk.gtk.TreeIter iter);
     }
     
     /**
@@ -552,7 +556,7 @@ public class EntryCompletion extends org.gtk.gobject.Object implements org.gtk.g
     
     @FunctionalInterface
     public interface InsertPrefix {
-        boolean signalReceived(EntryCompletion source, @NotNull java.lang.String prefix);
+        boolean signalReceived(EntryCompletion sourceEntryCompletion, @NotNull java.lang.String prefix);
     }
     
     /**
@@ -588,7 +592,7 @@ public class EntryCompletion extends org.gtk.gobject.Object implements org.gtk.g
     
     @FunctionalInterface
     public interface MatchSelected {
-        boolean signalReceived(EntryCompletion source, @NotNull org.gtk.gtk.TreeModel model, @NotNull org.gtk.gtk.TreeIter iter);
+        boolean signalReceived(EntryCompletion sourceEntryCompletion, @NotNull org.gtk.gtk.TreeModel model, @NotNull org.gtk.gtk.TreeIter iter);
     }
     
     /**
@@ -623,7 +627,7 @@ public class EntryCompletion extends org.gtk.gobject.Object implements org.gtk.g
     
     @FunctionalInterface
     public interface NoMatches {
-        void signalReceived(EntryCompletion source);
+        void signalReceived(EntryCompletion sourceEntryCompletion);
     }
     
     /**
@@ -948,28 +952,28 @@ public class EntryCompletion extends org.gtk.gobject.Object implements org.gtk.g
     
     private static class Callbacks {
         
-        public static boolean signalEntryCompletionCursorOnMatch(MemoryAddress source, MemoryAddress model, MemoryAddress iter, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static boolean signalEntryCompletionCursorOnMatch(MemoryAddress sourceEntryCompletion, MemoryAddress model, MemoryAddress iter, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (EntryCompletion.CursorOnMatch) Interop.signalRegistry.get(HASH);
-            return HANDLER.signalReceived(new EntryCompletion(source, Ownership.NONE), new org.gtk.gtk.TreeModel.TreeModelImpl(model, Ownership.NONE), new org.gtk.gtk.TreeIter(iter, Ownership.NONE));
+            return HANDLER.signalReceived(new EntryCompletion(sourceEntryCompletion, Ownership.NONE), new org.gtk.gtk.TreeModel.TreeModelImpl(model, Ownership.NONE), new org.gtk.gtk.TreeIter(iter, Ownership.NONE));
         }
         
-        public static boolean signalEntryCompletionInsertPrefix(MemoryAddress source, MemoryAddress prefix, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static boolean signalEntryCompletionInsertPrefix(MemoryAddress sourceEntryCompletion, MemoryAddress prefix, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (EntryCompletion.InsertPrefix) Interop.signalRegistry.get(HASH);
-            return HANDLER.signalReceived(new EntryCompletion(source, Ownership.NONE), Interop.getStringFrom(prefix));
+            return HANDLER.signalReceived(new EntryCompletion(sourceEntryCompletion, Ownership.NONE), Interop.getStringFrom(prefix));
         }
         
-        public static boolean signalEntryCompletionMatchSelected(MemoryAddress source, MemoryAddress model, MemoryAddress iter, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static boolean signalEntryCompletionMatchSelected(MemoryAddress sourceEntryCompletion, MemoryAddress model, MemoryAddress iter, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (EntryCompletion.MatchSelected) Interop.signalRegistry.get(HASH);
-            return HANDLER.signalReceived(new EntryCompletion(source, Ownership.NONE), new org.gtk.gtk.TreeModel.TreeModelImpl(model, Ownership.NONE), new org.gtk.gtk.TreeIter(iter, Ownership.NONE));
+            return HANDLER.signalReceived(new EntryCompletion(sourceEntryCompletion, Ownership.NONE), new org.gtk.gtk.TreeModel.TreeModelImpl(model, Ownership.NONE), new org.gtk.gtk.TreeIter(iter, Ownership.NONE));
         }
         
-        public static void signalEntryCompletionNoMatches(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalEntryCompletionNoMatches(MemoryAddress sourceEntryCompletion, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (EntryCompletion.NoMatches) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new EntryCompletion(source, Ownership.NONE));
+            HANDLER.signalReceived(new EntryCompletion(sourceEntryCompletion, Ownership.NONE));
         }
     }
 }

@@ -44,32 +44,4 @@ public class HarnessPrivate extends Struct {
     public HarnessPrivate(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
-
-    /**
-     * Inner class implementing a builder pattern to construct 
-     * a struct and set its values.
-     */
-    public static class Build {
-        
-        private HarnessPrivate struct;
-        
-         /**
-         * A {@link HarnessPrivate.Build} object constructs a {@link HarnessPrivate} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
-            struct = HarnessPrivate.allocate();
-        }
-        
-         /**
-         * Finish building the {@link HarnessPrivate} struct.
-         * @return A new instance of {@code HarnessPrivate} with the fields 
-         *         that were set in the Build object.
-         */
-        public HarnessPrivate construct() {
-            return struct;
-        }
-    }
 }

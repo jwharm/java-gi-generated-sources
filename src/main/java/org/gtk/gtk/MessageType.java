@@ -8,36 +8,48 @@ import org.jetbrains.annotations.*;
 /**
  * The type of message being displayed in a {@link MessageDialog}.
  */
-public class MessageType extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "GtkMessageType";
-    
+public enum MessageType implements io.github.jwharm.javagi.Enumeration {
     /**
      * Informational message
      */
-    public static final MessageType INFO = new MessageType(0);
-    
+    INFO(0),
     /**
      * Non-fatal warning message
      */
-    public static final MessageType WARNING = new MessageType(1);
-    
+    WARNING(1),
     /**
      * Question requiring a choice
      */
-    public static final MessageType QUESTION = new MessageType(2);
-    
+    QUESTION(2),
     /**
      * Fatal error message
      */
-    public static final MessageType ERROR = new MessageType(3);
-    
+    ERROR(3),
     /**
      * None of the above
      */
-    public static final MessageType OTHER = new MessageType(4);
+    OTHER(4);
     
-    public MessageType(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "GtkMessageType";
+    
+    private final int value;
+    MessageType(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static MessageType of(int value) {
+        return switch (value) {
+            case 0 -> INFO;
+            case 1 -> WARNING;
+            case 2 -> QUESTION;
+            case 3 -> ERROR;
+            case 4 -> OTHER;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

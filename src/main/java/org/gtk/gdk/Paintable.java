@@ -67,7 +67,11 @@ public interface Paintable extends io.github.jwharm.javagi.Proxy {
      * @throws ClassCastException If the GType is not derived from "GdkPaintable", a ClassCastException will be thrown.
      */
     public static Paintable castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), Paintable.getType())) {
             return new PaintableImpl(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GdkPaintable");
+        }
     }
     
     /**
@@ -336,7 +340,7 @@ public interface Paintable extends io.github.jwharm.javagi.Proxy {
     
     @FunctionalInterface
     public interface InvalidateContents {
-        void signalReceived(Paintable source);
+        void signalReceived(Paintable sourcePaintable);
     }
     
     /**
@@ -367,7 +371,7 @@ public interface Paintable extends io.github.jwharm.javagi.Proxy {
     
     @FunctionalInterface
     public interface InvalidateSize {
-        void signalReceived(Paintable source);
+        void signalReceived(Paintable sourcePaintable);
     }
     
     /**
@@ -486,16 +490,16 @@ public interface Paintable extends io.github.jwharm.javagi.Proxy {
     @ApiStatus.Internal
     static class Callbacks {
         
-        public static void signalPaintableInvalidateContents(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalPaintableInvalidateContents(MemoryAddress sourcePaintable, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (Paintable.InvalidateContents) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Paintable.PaintableImpl(source, Ownership.NONE));
+            HANDLER.signalReceived(new Paintable.PaintableImpl(sourcePaintable, Ownership.NONE));
         }
         
-        public static void signalPaintableInvalidateSize(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalPaintableInvalidateSize(MemoryAddress sourcePaintable, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (Paintable.InvalidateSize) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Paintable.PaintableImpl(source, Ownership.NONE));
+            HANDLER.signalReceived(new Paintable.PaintableImpl(sourcePaintable, Ownership.NONE));
         }
     }
     

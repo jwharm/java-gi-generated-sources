@@ -9,161 +9,173 @@ import org.jetbrains.annotations.*;
  * Data type for the "General_Category" (gc) property from
  * the Unicode Character Database.
  */
-public class UnicodeGeneralCategoryT extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "hb_unicode_general_category_t";
-    
+public enum UnicodeGeneralCategoryT implements io.github.jwharm.javagi.Enumeration {
     /**
      * [Cc]
      */
-    public static final UnicodeGeneralCategoryT CONTROL = new UnicodeGeneralCategoryT(0);
-    
+    CONTROL(0),
     /**
      * [Cf]
      */
-    public static final UnicodeGeneralCategoryT FORMAT = new UnicodeGeneralCategoryT(1);
-    
+    FORMAT(1),
     /**
      * [Cn]
      */
-    public static final UnicodeGeneralCategoryT UNASSIGNED = new UnicodeGeneralCategoryT(2);
-    
+    UNASSIGNED(2),
     /**
      * [Co]
      */
-    public static final UnicodeGeneralCategoryT PRIVATE_USE = new UnicodeGeneralCategoryT(3);
-    
+    PRIVATE_USE(3),
     /**
      * [Cs]
      */
-    public static final UnicodeGeneralCategoryT SURROGATE = new UnicodeGeneralCategoryT(4);
-    
+    SURROGATE(4),
     /**
      * [Ll]
      */
-    public static final UnicodeGeneralCategoryT LOWERCASE_LETTER = new UnicodeGeneralCategoryT(5);
-    
+    LOWERCASE_LETTER(5),
     /**
      * [Lm]
      */
-    public static final UnicodeGeneralCategoryT MODIFIER_LETTER = new UnicodeGeneralCategoryT(6);
-    
+    MODIFIER_LETTER(6),
     /**
      * [Lo]
      */
-    public static final UnicodeGeneralCategoryT OTHER_LETTER = new UnicodeGeneralCategoryT(7);
-    
+    OTHER_LETTER(7),
     /**
      * [Lt]
      */
-    public static final UnicodeGeneralCategoryT TITLECASE_LETTER = new UnicodeGeneralCategoryT(8);
-    
+    TITLECASE_LETTER(8),
     /**
      * [Lu]
      */
-    public static final UnicodeGeneralCategoryT UPPERCASE_LETTER = new UnicodeGeneralCategoryT(9);
-    
+    UPPERCASE_LETTER(9),
     /**
      * [Mc]
      */
-    public static final UnicodeGeneralCategoryT SPACING_MARK = new UnicodeGeneralCategoryT(10);
-    
+    SPACING_MARK(10),
     /**
      * [Me]
      */
-    public static final UnicodeGeneralCategoryT ENCLOSING_MARK = new UnicodeGeneralCategoryT(11);
-    
+    ENCLOSING_MARK(11),
     /**
      * [Mn]
      */
-    public static final UnicodeGeneralCategoryT NON_SPACING_MARK = new UnicodeGeneralCategoryT(12);
-    
+    NON_SPACING_MARK(12),
     /**
      * [Nd]
      */
-    public static final UnicodeGeneralCategoryT DECIMAL_NUMBER = new UnicodeGeneralCategoryT(13);
-    
+    DECIMAL_NUMBER(13),
     /**
      * [Nl]
      */
-    public static final UnicodeGeneralCategoryT LETTER_NUMBER = new UnicodeGeneralCategoryT(14);
-    
+    LETTER_NUMBER(14),
     /**
      * [No]
      */
-    public static final UnicodeGeneralCategoryT OTHER_NUMBER = new UnicodeGeneralCategoryT(15);
-    
+    OTHER_NUMBER(15),
     /**
      * [Pc]
      */
-    public static final UnicodeGeneralCategoryT CONNECT_PUNCTUATION = new UnicodeGeneralCategoryT(16);
-    
+    CONNECT_PUNCTUATION(16),
     /**
      * [Pd]
      */
-    public static final UnicodeGeneralCategoryT DASH_PUNCTUATION = new UnicodeGeneralCategoryT(17);
-    
+    DASH_PUNCTUATION(17),
     /**
      * [Pe]
      */
-    public static final UnicodeGeneralCategoryT CLOSE_PUNCTUATION = new UnicodeGeneralCategoryT(18);
-    
+    CLOSE_PUNCTUATION(18),
     /**
      * [Pf]
      */
-    public static final UnicodeGeneralCategoryT FINAL_PUNCTUATION = new UnicodeGeneralCategoryT(19);
-    
+    FINAL_PUNCTUATION(19),
     /**
      * [Pi]
      */
-    public static final UnicodeGeneralCategoryT INITIAL_PUNCTUATION = new UnicodeGeneralCategoryT(20);
-    
+    INITIAL_PUNCTUATION(20),
     /**
      * [Po]
      */
-    public static final UnicodeGeneralCategoryT OTHER_PUNCTUATION = new UnicodeGeneralCategoryT(21);
-    
+    OTHER_PUNCTUATION(21),
     /**
      * [Ps]
      */
-    public static final UnicodeGeneralCategoryT OPEN_PUNCTUATION = new UnicodeGeneralCategoryT(22);
-    
+    OPEN_PUNCTUATION(22),
     /**
      * [Sc]
      */
-    public static final UnicodeGeneralCategoryT CURRENCY_SYMBOL = new UnicodeGeneralCategoryT(23);
-    
+    CURRENCY_SYMBOL(23),
     /**
      * [Sk]
      */
-    public static final UnicodeGeneralCategoryT MODIFIER_SYMBOL = new UnicodeGeneralCategoryT(24);
-    
+    MODIFIER_SYMBOL(24),
     /**
      * [Sm]
      */
-    public static final UnicodeGeneralCategoryT MATH_SYMBOL = new UnicodeGeneralCategoryT(25);
-    
+    MATH_SYMBOL(25),
     /**
      * [So]
      */
-    public static final UnicodeGeneralCategoryT OTHER_SYMBOL = new UnicodeGeneralCategoryT(26);
-    
+    OTHER_SYMBOL(26),
     /**
      * [Zl]
      */
-    public static final UnicodeGeneralCategoryT LINE_SEPARATOR = new UnicodeGeneralCategoryT(27);
-    
+    LINE_SEPARATOR(27),
     /**
      * [Zp]
      */
-    public static final UnicodeGeneralCategoryT PARAGRAPH_SEPARATOR = new UnicodeGeneralCategoryT(28);
-    
+    PARAGRAPH_SEPARATOR(28),
     /**
      * [Zs]
      */
-    public static final UnicodeGeneralCategoryT SPACE_SEPARATOR = new UnicodeGeneralCategoryT(29);
+    SPACE_SEPARATOR(29);
     
-    public UnicodeGeneralCategoryT(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "hb_unicode_general_category_t";
+    
+    private final int value;
+    UnicodeGeneralCategoryT(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static UnicodeGeneralCategoryT of(int value) {
+        return switch (value) {
+            case 0 -> CONTROL;
+            case 1 -> FORMAT;
+            case 2 -> UNASSIGNED;
+            case 3 -> PRIVATE_USE;
+            case 4 -> SURROGATE;
+            case 5 -> LOWERCASE_LETTER;
+            case 6 -> MODIFIER_LETTER;
+            case 7 -> OTHER_LETTER;
+            case 8 -> TITLECASE_LETTER;
+            case 9 -> UPPERCASE_LETTER;
+            case 10 -> SPACING_MARK;
+            case 11 -> ENCLOSING_MARK;
+            case 12 -> NON_SPACING_MARK;
+            case 13 -> DECIMAL_NUMBER;
+            case 14 -> LETTER_NUMBER;
+            case 15 -> OTHER_NUMBER;
+            case 16 -> CONNECT_PUNCTUATION;
+            case 17 -> DASH_PUNCTUATION;
+            case 18 -> CLOSE_PUNCTUATION;
+            case 19 -> FINAL_PUNCTUATION;
+            case 20 -> INITIAL_PUNCTUATION;
+            case 21 -> OTHER_PUNCTUATION;
+            case 22 -> OPEN_PUNCTUATION;
+            case 23 -> CURRENCY_SYMBOL;
+            case 24 -> MODIFIER_SYMBOL;
+            case 25 -> MATH_SYMBOL;
+            case 26 -> OTHER_SYMBOL;
+            case 27 -> LINE_SEPARATOR;
+            case 28 -> PARAGRAPH_SEPARATOR;
+            case 29 -> SPACE_SEPARATOR;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

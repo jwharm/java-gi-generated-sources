@@ -50,12 +50,19 @@ public class StreamCollection extends org.gstreamer.gst.Object {
     
     /**
      * Create a StreamCollection proxy instance for the provided memory address.
+     * <p>
+     * Because StreamCollection is an {@code InitiallyUnowned} instance, when 
+     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
+     * and a call to {@code refSink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
     @ApiStatus.Internal
     public StreamCollection(Addressable address, Ownership ownership) {
-        super(address, ownership);
+        super(address, Ownership.FULL);
+        if (ownership == Ownership.NONE) {
+            refSink();
+        }
     }
     
     /**
@@ -71,7 +78,11 @@ public class StreamCollection extends org.gstreamer.gst.Object {
      * @throws ClassCastException If the GType is not derived from "GstStreamCollection", a ClassCastException will be thrown.
      */
     public static StreamCollection castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), StreamCollection.getType())) {
             return new StreamCollection(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GstStreamCollection");
+        }
     }
     
     private static Addressable constructNew(@Nullable java.lang.String upstreamId) {
@@ -177,7 +188,7 @@ public class StreamCollection extends org.gstreamer.gst.Object {
     
     @FunctionalInterface
     public interface StreamNotify {
-        void signalReceived(StreamCollection source, @NotNull org.gstreamer.gst.Stream object, @NotNull org.gtk.gobject.ParamSpec p0);
+        void signalReceived(StreamCollection sourceStreamCollection, @NotNull org.gstreamer.gst.Stream object, @NotNull org.gtk.gobject.ParamSpec p0);
     }
     
     public Signal<StreamCollection.StreamNotify> onStreamNotify(@Nullable String detail, StreamCollection.StreamNotify handler) {
@@ -280,10 +291,10 @@ public class StreamCollection extends org.gstreamer.gst.Object {
     
     private static class Callbacks {
         
-        public static void signalStreamCollectionStreamNotify(MemoryAddress source, MemoryAddress object, MemoryAddress p0, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalStreamCollectionStreamNotify(MemoryAddress sourceStreamCollection, MemoryAddress object, MemoryAddress p0, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (StreamCollection.StreamNotify) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new StreamCollection(source, Ownership.NONE), new org.gstreamer.gst.Stream(object, Ownership.NONE), new org.gtk.gobject.ParamSpec(p0, Ownership.NONE));
+            HANDLER.signalReceived(new StreamCollection(sourceStreamCollection, Ownership.NONE), new org.gstreamer.gst.Stream(object, Ownership.NONE), new org.gtk.gobject.ParamSpec(p0, Ownership.NONE));
         }
     }
 }

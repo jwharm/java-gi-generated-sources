@@ -44,32 +44,4 @@ public class NativeInterface extends Struct {
     public NativeInterface(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
-
-    /**
-     * Inner class implementing a builder pattern to construct 
-     * a struct and set its values.
-     */
-    public static class Build {
-        
-        private NativeInterface struct;
-        
-         /**
-         * A {@link NativeInterface.Build} object constructs a {@link NativeInterface} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
-            struct = NativeInterface.allocate();
-        }
-        
-         /**
-         * Finish building the {@link NativeInterface} struct.
-         * @return A new instance of {@code NativeInterface} with the fields 
-         *         that were set in the Build object.
-         */
-        public NativeInterface construct() {
-            return struct;
-        }
-    }
 }

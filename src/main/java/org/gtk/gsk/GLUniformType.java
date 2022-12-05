@@ -12,51 +12,63 @@ import org.jetbrains.annotations.*;
  * It defines both what the type is called in the GLSL shader
  * code, and what the corresponding C type is on the Gtk side.
  */
-public class GLUniformType extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "GskGLUniformType";
-    
+public enum GLUniformType implements io.github.jwharm.javagi.Enumeration {
     /**
      * No type, used for uninitialized or unspecified values.
      */
-    public static final GLUniformType NONE = new GLUniformType(0);
-    
+    NONE(0),
     /**
      * A float uniform
      */
-    public static final GLUniformType FLOAT = new GLUniformType(1);
-    
+    FLOAT(1),
     /**
      * A GLSL int / gint32 uniform
      */
-    public static final GLUniformType INT = new GLUniformType(2);
-    
+    INT(2),
     /**
      * A GLSL uint / guint32 uniform
      */
-    public static final GLUniformType UINT = new GLUniformType(3);
-    
+    UINT(3),
     /**
      * A GLSL bool / gboolean uniform
      */
-    public static final GLUniformType BOOL = new GLUniformType(4);
-    
+    BOOL(4),
     /**
      * A GLSL vec2 / graphene_vec2_t uniform
      */
-    public static final GLUniformType VEC2 = new GLUniformType(5);
-    
+    VEC2(5),
     /**
      * A GLSL vec3 / graphene_vec3_t uniform
      */
-    public static final GLUniformType VEC3 = new GLUniformType(6);
-    
+    VEC3(6),
     /**
      * A GLSL vec4 / graphene_vec4_t uniform
      */
-    public static final GLUniformType VEC4 = new GLUniformType(7);
+    VEC4(7);
     
-    public GLUniformType(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "GskGLUniformType";
+    
+    private final int value;
+    GLUniformType(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static GLUniformType of(int value) {
+        return switch (value) {
+            case 0 -> NONE;
+            case 1 -> FLOAT;
+            case 2 -> INT;
+            case 3 -> UINT;
+            case 4 -> BOOL;
+            case 5 -> VEC2;
+            case 6 -> VEC3;
+            case 7 -> VEC4;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

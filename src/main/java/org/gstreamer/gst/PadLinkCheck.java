@@ -67,9 +67,8 @@ public class PadLinkCheck extends io.github.jwharm.javagi.Bitfield {
      * @param mask the value to combine with
      * @return the combined value by calculating {@code this | mask} 
      */
-    public PadLinkCheck combined(PadLinkCheck mask) {
-        this.setValue(this.getValue() | mask.getValue());
-        return this;
+    public PadLinkCheck or(PadLinkCheck mask) {
+        return new PadLinkCheck(this.getValue() | mask.getValue());
     }
     
     /**
@@ -79,9 +78,9 @@ public class PadLinkCheck extends io.github.jwharm.javagi.Bitfield {
      * @return the combined value by calculating {@code mask | masks[0] | masks[1] | ...} 
      */
     public static PadLinkCheck combined(PadLinkCheck mask, PadLinkCheck... masks) {
-        for (PadLinkCheck arg : masks) {
-            mask.setValue(mask.getValue() | arg.getValue());
+        int value = mask.getValue();        for (PadLinkCheck arg : masks) {
+            value |= arg.getValue();
         }
-        return mask;
+        return new PadLinkCheck(value);
     }
 }

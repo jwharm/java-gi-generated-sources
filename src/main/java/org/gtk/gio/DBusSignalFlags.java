@@ -47,9 +47,8 @@ public class DBusSignalFlags extends io.github.jwharm.javagi.Bitfield {
      * @param mask the value to combine with
      * @return the combined value by calculating {@code this | mask} 
      */
-    public DBusSignalFlags combined(DBusSignalFlags mask) {
-        this.setValue(this.getValue() | mask.getValue());
-        return this;
+    public DBusSignalFlags or(DBusSignalFlags mask) {
+        return new DBusSignalFlags(this.getValue() | mask.getValue());
     }
     
     /**
@@ -59,9 +58,9 @@ public class DBusSignalFlags extends io.github.jwharm.javagi.Bitfield {
      * @return the combined value by calculating {@code mask | masks[0] | masks[1] | ...} 
      */
     public static DBusSignalFlags combined(DBusSignalFlags mask, DBusSignalFlags... masks) {
-        for (DBusSignalFlags arg : masks) {
-            mask.setValue(mask.getValue() | arg.getValue());
+        int value = mask.getValue();        for (DBusSignalFlags arg : masks) {
+            value |= arg.getValue();
         }
-        return mask;
+        return new DBusSignalFlags(value);
     }
 }

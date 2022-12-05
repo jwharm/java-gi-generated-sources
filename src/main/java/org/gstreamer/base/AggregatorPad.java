@@ -37,12 +37,19 @@ public class AggregatorPad extends org.gstreamer.gst.Pad {
     
     /**
      * Create a AggregatorPad proxy instance for the provided memory address.
+     * <p>
+     * Because AggregatorPad is an {@code InitiallyUnowned} instance, when 
+     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
+     * and a call to {@code refSink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
     @ApiStatus.Internal
     public AggregatorPad(Addressable address, Ownership ownership) {
-        super(address, ownership);
+        super(address, Ownership.FULL);
+        if (ownership == Ownership.NONE) {
+            refSink();
+        }
     }
     
     /**
@@ -58,7 +65,11 @@ public class AggregatorPad extends org.gstreamer.gst.Pad {
      * @throws ClassCastException If the GType is not derived from "GstAggregatorPad", a ClassCastException will be thrown.
      */
     public static AggregatorPad castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), AggregatorPad.getType())) {
             return new AggregatorPad(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GstAggregatorPad");
+        }
     }
     
     /**
@@ -163,7 +174,7 @@ public class AggregatorPad extends org.gstreamer.gst.Pad {
     
     @FunctionalInterface
     public interface BufferConsumed {
-        void signalReceived(AggregatorPad source, @NotNull org.gstreamer.gst.Buffer object);
+        void signalReceived(AggregatorPad sourceAggregatorPad, @NotNull org.gstreamer.gst.Buffer object);
     }
     
     public Signal<AggregatorPad.BufferConsumed> onBufferConsumed(AggregatorPad.BufferConsumed handler) {
@@ -277,10 +288,10 @@ public class AggregatorPad extends org.gstreamer.gst.Pad {
     
     private static class Callbacks {
         
-        public static void signalAggregatorPadBufferConsumed(MemoryAddress source, MemoryAddress object, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalAggregatorPadBufferConsumed(MemoryAddress sourceAggregatorPad, MemoryAddress object, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (AggregatorPad.BufferConsumed) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new AggregatorPad(source, Ownership.NONE), new org.gstreamer.gst.Buffer(object, Ownership.NONE));
+            HANDLER.signalReceived(new AggregatorPad(sourceAggregatorPad, Ownership.NONE), new org.gstreamer.gst.Buffer(object, Ownership.NONE));
         }
     }
 }

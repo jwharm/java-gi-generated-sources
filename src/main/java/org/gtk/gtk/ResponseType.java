@@ -11,67 +11,79 @@ import org.jetbrains.annotations.*;
  * All predefined values are negative; GTK leaves values of 0 or greater for
  * application-defined response ids.
  */
-public class ResponseType extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "GtkResponseType";
-    
+public enum ResponseType implements io.github.jwharm.javagi.Enumeration {
     /**
      * Returned if an action widget has no response id,
      *   or if the dialog gets programmatically hidden or destroyed
      */
-    public static final ResponseType NONE = new ResponseType(0);
-    
+    NONE(-1),
     /**
      * Generic response id, not used by GTK dialogs
      */
-    public static final ResponseType REJECT = new ResponseType(0);
-    
+    REJECT(-2),
     /**
      * Generic response id, not used by GTK dialogs
      */
-    public static final ResponseType ACCEPT = new ResponseType(0);
-    
+    ACCEPT(-3),
     /**
      * Returned if the dialog is deleted
      */
-    public static final ResponseType DELETE_EVENT = new ResponseType(0);
-    
+    DELETE_EVENT(-4),
     /**
      * Returned by OK buttons in GTK dialogs
      */
-    public static final ResponseType OK = new ResponseType(0);
-    
+    OK(-5),
     /**
      * Returned by Cancel buttons in GTK dialogs
      */
-    public static final ResponseType CANCEL = new ResponseType(0);
-    
+    CANCEL(-6),
     /**
      * Returned by Close buttons in GTK dialogs
      */
-    public static final ResponseType CLOSE = new ResponseType(0);
-    
+    CLOSE(-7),
     /**
      * Returned by Yes buttons in GTK dialogs
      */
-    public static final ResponseType YES = new ResponseType(0);
-    
+    YES(-8),
     /**
      * Returned by No buttons in GTK dialogs
      */
-    public static final ResponseType NO = new ResponseType(0);
-    
+    NO(-9),
     /**
      * Returned by Apply buttons in GTK dialogs
      */
-    public static final ResponseType APPLY = new ResponseType(0);
-    
+    APPLY(-10),
     /**
      * Returned by Help buttons in GTK dialogs
      */
-    public static final ResponseType HELP = new ResponseType(0);
+    HELP(-11);
     
-    public ResponseType(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "GtkResponseType";
+    
+    private final int value;
+    ResponseType(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static ResponseType of(int value) {
+        return switch (value) {
+            case -1 -> NONE;
+            case -2 -> REJECT;
+            case -3 -> ACCEPT;
+            case -4 -> DELETE_EVENT;
+            case -5 -> OK;
+            case -6 -> CANCEL;
+            case -7 -> CLOSE;
+            case -8 -> YES;
+            case -9 -> NO;
+            case -10 -> APPLY;
+            case -11 -> HELP;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

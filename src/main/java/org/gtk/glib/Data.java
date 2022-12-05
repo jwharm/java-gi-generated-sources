@@ -49,32 +49,4 @@ public class Data extends Struct {
     public Data(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
-
-    /**
-     * Inner class implementing a builder pattern to construct 
-     * a struct and set its values.
-     */
-    public static class Build {
-        
-        private Data struct;
-        
-         /**
-         * A {@link Data.Build} object constructs a {@link Data} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
-            struct = Data.allocate();
-        }
-        
-         /**
-         * Finish building the {@link Data} struct.
-         * @return A new instance of {@code Data} with the fields 
-         *         that were set in the Build object.
-         */
-        public Data construct() {
-            return struct;
-        }
-    }
 }

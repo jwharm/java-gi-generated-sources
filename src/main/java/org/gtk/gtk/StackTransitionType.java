@@ -10,126 +10,138 @@ import org.jetbrains.annotations.*;
  * <p>
  * New values may be added to this enumeration over time.
  */
-public class StackTransitionType extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "GtkStackTransitionType";
-    
+public enum StackTransitionType implements io.github.jwharm.javagi.Enumeration {
     /**
      * No transition
      */
-    public static final StackTransitionType NONE = new StackTransitionType(0);
-    
+    NONE(0),
     /**
      * A cross-fade
      */
-    public static final StackTransitionType CROSSFADE = new StackTransitionType(1);
-    
+    CROSSFADE(1),
     /**
      * Slide from left to right
      */
-    public static final StackTransitionType SLIDE_RIGHT = new StackTransitionType(2);
-    
+    SLIDE_RIGHT(2),
     /**
      * Slide from right to left
      */
-    public static final StackTransitionType SLIDE_LEFT = new StackTransitionType(3);
-    
+    SLIDE_LEFT(3),
     /**
      * Slide from bottom up
      */
-    public static final StackTransitionType SLIDE_UP = new StackTransitionType(4);
-    
+    SLIDE_UP(4),
     /**
      * Slide from top down
      */
-    public static final StackTransitionType SLIDE_DOWN = new StackTransitionType(5);
-    
+    SLIDE_DOWN(5),
     /**
      * Slide from left or right according to the children order
      */
-    public static final StackTransitionType SLIDE_LEFT_RIGHT = new StackTransitionType(6);
-    
+    SLIDE_LEFT_RIGHT(6),
     /**
      * Slide from top down or bottom up according to the order
      */
-    public static final StackTransitionType SLIDE_UP_DOWN = new StackTransitionType(7);
-    
+    SLIDE_UP_DOWN(7),
     /**
      * Cover the old page by sliding up
      */
-    public static final StackTransitionType OVER_UP = new StackTransitionType(8);
-    
+    OVER_UP(8),
     /**
      * Cover the old page by sliding down
      */
-    public static final StackTransitionType OVER_DOWN = new StackTransitionType(9);
-    
+    OVER_DOWN(9),
     /**
      * Cover the old page by sliding to the left
      */
-    public static final StackTransitionType OVER_LEFT = new StackTransitionType(10);
-    
+    OVER_LEFT(10),
     /**
      * Cover the old page by sliding to the right
      */
-    public static final StackTransitionType OVER_RIGHT = new StackTransitionType(11);
-    
+    OVER_RIGHT(11),
     /**
      * Uncover the new page by sliding up
      */
-    public static final StackTransitionType UNDER_UP = new StackTransitionType(12);
-    
+    UNDER_UP(12),
     /**
      * Uncover the new page by sliding down
      */
-    public static final StackTransitionType UNDER_DOWN = new StackTransitionType(13);
-    
+    UNDER_DOWN(13),
     /**
      * Uncover the new page by sliding to the left
      */
-    public static final StackTransitionType UNDER_LEFT = new StackTransitionType(14);
-    
+    UNDER_LEFT(14),
     /**
      * Uncover the new page by sliding to the right
      */
-    public static final StackTransitionType UNDER_RIGHT = new StackTransitionType(15);
-    
+    UNDER_RIGHT(15),
     /**
      * Cover the old page sliding up or uncover the new page sliding down, according to order
      */
-    public static final StackTransitionType OVER_UP_DOWN = new StackTransitionType(16);
-    
+    OVER_UP_DOWN(16),
     /**
      * Cover the old page sliding down or uncover the new page sliding up, according to order
      */
-    public static final StackTransitionType OVER_DOWN_UP = new StackTransitionType(17);
-    
+    OVER_DOWN_UP(17),
     /**
      * Cover the old page sliding left or uncover the new page sliding right, according to order
      */
-    public static final StackTransitionType OVER_LEFT_RIGHT = new StackTransitionType(18);
-    
+    OVER_LEFT_RIGHT(18),
     /**
      * Cover the old page sliding right or uncover the new page sliding left, according to order
      */
-    public static final StackTransitionType OVER_RIGHT_LEFT = new StackTransitionType(19);
-    
+    OVER_RIGHT_LEFT(19),
     /**
      * Pretend the pages are sides of a cube and rotate that cube to the left
      */
-    public static final StackTransitionType ROTATE_LEFT = new StackTransitionType(20);
-    
+    ROTATE_LEFT(20),
     /**
      * Pretend the pages are sides of a cube and rotate that cube to the right
      */
-    public static final StackTransitionType ROTATE_RIGHT = new StackTransitionType(21);
-    
+    ROTATE_RIGHT(21),
     /**
      * Pretend the pages are sides of a cube and rotate that cube to the left or right according to the children order
      */
-    public static final StackTransitionType ROTATE_LEFT_RIGHT = new StackTransitionType(22);
+    ROTATE_LEFT_RIGHT(22);
     
-    public StackTransitionType(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "GtkStackTransitionType";
+    
+    private final int value;
+    StackTransitionType(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static StackTransitionType of(int value) {
+        return switch (value) {
+            case 0 -> NONE;
+            case 1 -> CROSSFADE;
+            case 2 -> SLIDE_RIGHT;
+            case 3 -> SLIDE_LEFT;
+            case 4 -> SLIDE_UP;
+            case 5 -> SLIDE_DOWN;
+            case 6 -> SLIDE_LEFT_RIGHT;
+            case 7 -> SLIDE_UP_DOWN;
+            case 8 -> OVER_UP;
+            case 9 -> OVER_DOWN;
+            case 10 -> OVER_LEFT;
+            case 11 -> OVER_RIGHT;
+            case 12 -> UNDER_UP;
+            case 13 -> UNDER_DOWN;
+            case 14 -> UNDER_LEFT;
+            case 15 -> UNDER_RIGHT;
+            case 16 -> OVER_UP_DOWN;
+            case 17 -> OVER_DOWN_UP;
+            case 18 -> OVER_LEFT_RIGHT;
+            case 19 -> OVER_RIGHT_LEFT;
+            case 20 -> ROTATE_LEFT;
+            case 21 -> ROTATE_RIGHT;
+            case 22 -> ROTATE_LEFT_RIGHT;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

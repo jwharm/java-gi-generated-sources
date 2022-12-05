@@ -10,67 +10,79 @@ import org.jetbrains.annotations.*;
  * TLS-related routine.
  * @version 2.28
  */
-public class TlsError extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "GTlsError";
-    
+public enum TlsError implements io.github.jwharm.javagi.Enumeration {
     /**
      * No TLS provider is available
      */
-    public static final TlsError UNAVAILABLE = new TlsError(0);
-    
+    UNAVAILABLE(0),
     /**
      * Miscellaneous TLS error
      */
-    public static final TlsError MISC = new TlsError(1);
-    
+    MISC(1),
     /**
      * The certificate presented could not
      *   be parsed or failed validation.
      */
-    public static final TlsError BAD_CERTIFICATE = new TlsError(2);
-    
+    BAD_CERTIFICATE(2),
     /**
      * The TLS handshake failed because the
      *   peer does not seem to be a TLS server.
      */
-    public static final TlsError NOT_TLS = new TlsError(3);
-    
+    NOT_TLS(3),
     /**
      * The TLS handshake failed because the
      *   peer's certificate was not acceptable.
      */
-    public static final TlsError HANDSHAKE = new TlsError(4);
-    
+    HANDSHAKE(4),
     /**
      * The TLS handshake failed because
      *   the server requested a client-side certificate, but none was
      *   provided. See g_tls_connection_set_certificate().
      */
-    public static final TlsError CERTIFICATE_REQUIRED = new TlsError(5);
-    
+    CERTIFICATE_REQUIRED(5),
     /**
      * The TLS connection was closed without proper
      *   notice, which may indicate an attack. See
      *   g_tls_connection_set_require_close_notify().
      */
-    public static final TlsError EOF = new TlsError(6);
-    
+    EOF(6),
     /**
      * The TLS handshake failed
      *   because the client sent the fallback SCSV, indicating a protocol
      *   downgrade attack. Since: 2.60
      */
-    public static final TlsError INAPPROPRIATE_FALLBACK = new TlsError(7);
-    
+    INAPPROPRIATE_FALLBACK(7),
     /**
      * The certificate failed
      *   to load because a password was incorrect. Since: 2.72
      */
-    public static final TlsError BAD_CERTIFICATE_PASSWORD = new TlsError(8);
+    BAD_CERTIFICATE_PASSWORD(8);
     
-    public TlsError(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "GTlsError";
+    
+    private final int value;
+    TlsError(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static TlsError of(int value) {
+        return switch (value) {
+            case 0 -> UNAVAILABLE;
+            case 1 -> MISC;
+            case 2 -> BAD_CERTIFICATE;
+            case 3 -> NOT_TLS;
+            case 4 -> HANDSHAKE;
+            case 5 -> CERTIFICATE_REQUIRED;
+            case 6 -> EOF;
+            case 7 -> INAPPROPRIATE_FALLBACK;
+            case 8 -> BAD_CERTIFICATE_PASSWORD;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
     
     /**

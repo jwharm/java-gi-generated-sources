@@ -74,12 +74,19 @@ public class Calendar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     
     /**
      * Create a Calendar proxy instance for the provided memory address.
+     * <p>
+     * Because Calendar is an {@code InitiallyUnowned} instance, when 
+     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
+     * and a call to {@code refSink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
     @ApiStatus.Internal
     public Calendar(Addressable address, Ownership ownership) {
-        super(address, ownership);
+        super(address, Ownership.FULL);
+        if (ownership == Ownership.NONE) {
+            refSink();
+        }
     }
     
     /**
@@ -95,7 +102,11 @@ public class Calendar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * @throws ClassCastException If the GType is not derived from "GtkCalendar", a ClassCastException will be thrown.
      */
     public static Calendar castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), Calendar.getType())) {
             return new Calendar(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkCalendar");
+        }
     }
     
     private static Addressable constructNew() {
@@ -322,7 +333,7 @@ public class Calendar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     
     @FunctionalInterface
     public interface DaySelected {
-        void signalReceived(Calendar source);
+        void signalReceived(Calendar sourceCalendar);
     }
     
     /**
@@ -350,7 +361,7 @@ public class Calendar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     
     @FunctionalInterface
     public interface NextMonth {
-        void signalReceived(Calendar source);
+        void signalReceived(Calendar sourceCalendar);
     }
     
     /**
@@ -378,7 +389,7 @@ public class Calendar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     
     @FunctionalInterface
     public interface NextYear {
-        void signalReceived(Calendar source);
+        void signalReceived(Calendar sourceCalendar);
     }
     
     /**
@@ -406,7 +417,7 @@ public class Calendar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     
     @FunctionalInterface
     public interface PrevMonth {
-        void signalReceived(Calendar source);
+        void signalReceived(Calendar sourceCalendar);
     }
     
     /**
@@ -434,7 +445,7 @@ public class Calendar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     
     @FunctionalInterface
     public interface PrevYear {
-        void signalReceived(Calendar source);
+        void signalReceived(Calendar sourceCalendar);
     }
     
     /**
@@ -654,34 +665,34 @@ public class Calendar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     
     private static class Callbacks {
         
-        public static void signalCalendarDaySelected(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalCalendarDaySelected(MemoryAddress sourceCalendar, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (Calendar.DaySelected) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Calendar(source, Ownership.NONE));
+            HANDLER.signalReceived(new Calendar(sourceCalendar, Ownership.NONE));
         }
         
-        public static void signalCalendarNextMonth(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalCalendarNextMonth(MemoryAddress sourceCalendar, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (Calendar.NextMonth) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Calendar(source, Ownership.NONE));
+            HANDLER.signalReceived(new Calendar(sourceCalendar, Ownership.NONE));
         }
         
-        public static void signalCalendarNextYear(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalCalendarNextYear(MemoryAddress sourceCalendar, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (Calendar.NextYear) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Calendar(source, Ownership.NONE));
+            HANDLER.signalReceived(new Calendar(sourceCalendar, Ownership.NONE));
         }
         
-        public static void signalCalendarPrevMonth(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalCalendarPrevMonth(MemoryAddress sourceCalendar, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (Calendar.PrevMonth) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Calendar(source, Ownership.NONE));
+            HANDLER.signalReceived(new Calendar(sourceCalendar, Ownership.NONE));
         }
         
-        public static void signalCalendarPrevYear(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalCalendarPrevYear(MemoryAddress sourceCalendar, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (Calendar.PrevYear) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Calendar(source, Ownership.NONE));
+            HANDLER.signalReceived(new Calendar(sourceCalendar, Ownership.NONE));
         }
     }
 }

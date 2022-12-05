@@ -9,26 +9,38 @@ import org.jetbrains.annotations.*;
  * This enumeration isn't used in the API, but may be useful if you need
  * to mark a number as a day, month, or year.
  */
-public class DateDMY extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "GDateDMY";
-    
+public enum DateDMY implements io.github.jwharm.javagi.Enumeration {
     /**
      * a day
      */
-    public static final DateDMY DAY = new DateDMY(0);
-    
+    DAY(0),
     /**
      * a month
      */
-    public static final DateDMY MONTH = new DateDMY(1);
-    
+    MONTH(1),
     /**
      * a year
      */
-    public static final DateDMY YEAR = new DateDMY(2);
+    YEAR(2);
     
-    public DateDMY(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "GDateDMY";
+    
+    private final int value;
+    DateDMY(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static DateDMY of(int value) {
+        return switch (value) {
+            case 0 -> DAY;
+            case 1 -> MONTH;
+            case 2 -> YEAR;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

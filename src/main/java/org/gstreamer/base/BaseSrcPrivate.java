@@ -44,32 +44,4 @@ public class BaseSrcPrivate extends Struct {
     public BaseSrcPrivate(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
-
-    /**
-     * Inner class implementing a builder pattern to construct 
-     * a struct and set its values.
-     */
-    public static class Build {
-        
-        private BaseSrcPrivate struct;
-        
-         /**
-         * A {@link BaseSrcPrivate.Build} object constructs a {@link BaseSrcPrivate} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
-            struct = BaseSrcPrivate.allocate();
-        }
-        
-         /**
-         * Finish building the {@link BaseSrcPrivate} struct.
-         * @return A new instance of {@code BaseSrcPrivate} with the fields 
-         *         that were set in the Build object.
-         */
-        public BaseSrcPrivate construct() {
-            return struct;
-        }
-    }
 }

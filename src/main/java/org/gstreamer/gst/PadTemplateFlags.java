@@ -26,9 +26,8 @@ public class PadTemplateFlags extends io.github.jwharm.javagi.Bitfield {
      * @param mask the value to combine with
      * @return the combined value by calculating {@code this | mask} 
      */
-    public PadTemplateFlags combined(PadTemplateFlags mask) {
-        this.setValue(this.getValue() | mask.getValue());
-        return this;
+    public PadTemplateFlags or(PadTemplateFlags mask) {
+        return new PadTemplateFlags(this.getValue() | mask.getValue());
     }
     
     /**
@@ -38,9 +37,9 @@ public class PadTemplateFlags extends io.github.jwharm.javagi.Bitfield {
      * @return the combined value by calculating {@code mask | masks[0] | masks[1] | ...} 
      */
     public static PadTemplateFlags combined(PadTemplateFlags mask, PadTemplateFlags... masks) {
-        for (PadTemplateFlags arg : masks) {
-            mask.setValue(mask.getValue() | arg.getValue());
+        int value = mask.getValue();        for (PadTemplateFlags arg : masks) {
+            value |= arg.getValue();
         }
-        return mask;
+        return new PadTemplateFlags(value);
     }
 }

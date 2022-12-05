@@ -54,7 +54,11 @@ public class ParamSpecValueArray extends org.gtk.gobject.ParamSpec {
      * @throws ClassCastException If the GType is not derived from "GParamSpecValueArray", a ClassCastException will be thrown.
      */
     public static ParamSpecValueArray castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), ParamSpecValueArray.getType())) {
             return new ParamSpecValueArray(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GParamSpecValueArray");
+        }
     }
     
     /**

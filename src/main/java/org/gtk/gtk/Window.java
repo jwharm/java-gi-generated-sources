@@ -83,12 +83,19 @@ public class Window extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
     
     /**
      * Create a Window proxy instance for the provided memory address.
+     * <p>
+     * Because Window is an {@code InitiallyUnowned} instance, when 
+     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
+     * and a call to {@code refSink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
     @ApiStatus.Internal
     public Window(Addressable address, Ownership ownership) {
-        super(address, ownership);
+        super(address, Ownership.FULL);
+        if (ownership == Ownership.NONE) {
+            refSink();
+        }
     }
     
     /**
@@ -104,7 +111,11 @@ public class Window extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
      * @throws ClassCastException If the GType is not derived from "GtkWindow", a ClassCastException will be thrown.
      */
     public static Window castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), Window.getType())) {
             return new Window(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkWindow");
+        }
     }
     
     private static Addressable constructNew() {
@@ -1320,7 +1331,7 @@ public class Window extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
     
     @FunctionalInterface
     public interface ActivateDefault {
-        void signalReceived(Window source);
+        void signalReceived(Window sourceWindow);
     }
     
     /**
@@ -1351,7 +1362,7 @@ public class Window extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
     
     @FunctionalInterface
     public interface ActivateFocus {
-        void signalReceived(Window source);
+        void signalReceived(Window sourceWindow);
     }
     
     /**
@@ -1382,7 +1393,7 @@ public class Window extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
     
     @FunctionalInterface
     public interface CloseRequest {
-        boolean signalReceived(Window source);
+        boolean signalReceived(Window sourceWindow);
     }
     
     /**
@@ -1410,7 +1421,7 @@ public class Window extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
     
     @FunctionalInterface
     public interface EnableDebugging {
-        boolean signalReceived(Window source, boolean toggle);
+        boolean signalReceived(Window sourceWindow, boolean toggle);
     }
     
     /**
@@ -1447,7 +1458,7 @@ public class Window extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
     
     @FunctionalInterface
     public interface KeysChanged {
-        void signalReceived(Window source);
+        void signalReceived(Window sourceWindow);
     }
     
     /**
@@ -2179,34 +2190,34 @@ public class Window extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
     
     private static class Callbacks {
         
-        public static void signalWindowActivateDefault(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalWindowActivateDefault(MemoryAddress sourceWindow, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (Window.ActivateDefault) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Window(source, Ownership.NONE));
+            HANDLER.signalReceived(new Window(sourceWindow, Ownership.NONE));
         }
         
-        public static void signalWindowActivateFocus(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalWindowActivateFocus(MemoryAddress sourceWindow, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (Window.ActivateFocus) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Window(source, Ownership.NONE));
+            HANDLER.signalReceived(new Window(sourceWindow, Ownership.NONE));
         }
         
-        public static boolean signalWindowCloseRequest(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static boolean signalWindowCloseRequest(MemoryAddress sourceWindow, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (Window.CloseRequest) Interop.signalRegistry.get(HASH);
-            return HANDLER.signalReceived(new Window(source, Ownership.NONE));
+            return HANDLER.signalReceived(new Window(sourceWindow, Ownership.NONE));
         }
         
-        public static boolean signalWindowEnableDebugging(MemoryAddress source, int toggle, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static boolean signalWindowEnableDebugging(MemoryAddress sourceWindow, int toggle, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (Window.EnableDebugging) Interop.signalRegistry.get(HASH);
-            return HANDLER.signalReceived(new Window(source, Ownership.NONE), toggle != 0);
+            return HANDLER.signalReceived(new Window(sourceWindow, Ownership.NONE), toggle != 0);
         }
         
-        public static void signalWindowKeysChanged(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalWindowKeysChanged(MemoryAddress sourceWindow, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (Window.KeysChanged) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Window(source, Ownership.NONE));
+            HANDLER.signalReceived(new Window(sourceWindow, Ownership.NONE));
         }
     }
 }

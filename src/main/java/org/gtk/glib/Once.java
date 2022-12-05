@@ -55,7 +55,7 @@ public class Once extends Struct {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("status"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new org.gtk.glib.OnceStatus(RESULT);
+        return org.gtk.glib.OnceStatus.of(RESULT);
     }
     
     /**

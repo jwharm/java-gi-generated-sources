@@ -9,51 +9,63 @@ import org.jetbrains.annotations.*;
  * Indicates the specific type of tool being used being a tablet. Such as an
  * airbrush, pencil, etc.
  */
-public class DeviceToolType extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "GdkDeviceToolType";
-    
+public enum DeviceToolType implements io.github.jwharm.javagi.Enumeration {
     /**
      * Tool is of an unknown type.
      */
-    public static final DeviceToolType UNKNOWN = new DeviceToolType(0);
-    
+    UNKNOWN(0),
     /**
      * Tool is a standard tablet stylus.
      */
-    public static final DeviceToolType PEN = new DeviceToolType(1);
-    
+    PEN(1),
     /**
      * Tool is standard tablet eraser.
      */
-    public static final DeviceToolType ERASER = new DeviceToolType(2);
-    
+    ERASER(2),
     /**
      * Tool is a brush stylus.
      */
-    public static final DeviceToolType BRUSH = new DeviceToolType(3);
-    
+    BRUSH(3),
     /**
      * Tool is a pencil stylus.
      */
-    public static final DeviceToolType PENCIL = new DeviceToolType(4);
-    
+    PENCIL(4),
     /**
      * Tool is an airbrush stylus.
      */
-    public static final DeviceToolType AIRBRUSH = new DeviceToolType(5);
-    
+    AIRBRUSH(5),
     /**
      * Tool is a mouse.
      */
-    public static final DeviceToolType MOUSE = new DeviceToolType(6);
-    
+    MOUSE(6),
     /**
      * Tool is a lens cursor.
      */
-    public static final DeviceToolType LENS = new DeviceToolType(7);
+    LENS(7);
     
-    public DeviceToolType(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "GdkDeviceToolType";
+    
+    private final int value;
+    DeviceToolType(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static DeviceToolType of(int value) {
+        return switch (value) {
+            case 0 -> UNKNOWN;
+            case 1 -> PEN;
+            case 2 -> ERASER;
+            case 3 -> BRUSH;
+            case 4 -> PENCIL;
+            case 5 -> AIRBRUSH;
+            case 6 -> MOUSE;
+            case 7 -> LENS;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

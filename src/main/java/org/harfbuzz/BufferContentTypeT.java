@@ -8,26 +8,38 @@ import org.jetbrains.annotations.*;
 /**
  * The type of {@link BufferT} contents.
  */
-public class BufferContentTypeT extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "hb_buffer_content_type_t";
-    
+public enum BufferContentTypeT implements io.github.jwharm.javagi.Enumeration {
     /**
      * Initial value for new buffer.
      */
-    public static final BufferContentTypeT INVALID = new BufferContentTypeT(0);
-    
+    INVALID(0),
     /**
      * The buffer contains input characters (before shaping).
      */
-    public static final BufferContentTypeT UNICODE = new BufferContentTypeT(1);
-    
+    UNICODE(1),
     /**
      * The buffer contains output glyphs (after shaping).
      */
-    public static final BufferContentTypeT GLYPHS = new BufferContentTypeT(2);
+    GLYPHS(2);
     
-    public BufferContentTypeT(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "hb_buffer_content_type_t";
+    
+    private final int value;
+    BufferContentTypeT(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static BufferContentTypeT of(int value) {
+        return switch (value) {
+            case 0 -> INVALID;
+            case 1 -> UNICODE;
+            case 2 -> GLYPHS;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

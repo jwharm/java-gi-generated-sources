@@ -280,7 +280,7 @@ public class WidgetClass extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.AccessibleRole(RESULT);
+        return org.gtk.gtk.AccessibleRole.of(RESULT);
     }
     
     /**

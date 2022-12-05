@@ -9,56 +9,68 @@ import org.jetbrains.annotations.*;
  * An enumeration specifying the width of the font relative to other designs
  * within a family.
  */
-public class Stretch extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "PangoStretch";
-    
+public enum Stretch implements io.github.jwharm.javagi.Enumeration {
     /**
      * ultra condensed width
      */
-    public static final Stretch ULTRA_CONDENSED = new Stretch(0);
-    
+    ULTRA_CONDENSED(0),
     /**
      * extra condensed width
      */
-    public static final Stretch EXTRA_CONDENSED = new Stretch(1);
-    
+    EXTRA_CONDENSED(1),
     /**
      * condensed width
      */
-    public static final Stretch CONDENSED = new Stretch(2);
-    
+    CONDENSED(2),
     /**
      * semi condensed width
      */
-    public static final Stretch SEMI_CONDENSED = new Stretch(3);
-    
+    SEMI_CONDENSED(3),
     /**
      * the normal width
      */
-    public static final Stretch NORMAL = new Stretch(4);
-    
+    NORMAL(4),
     /**
      * semi expanded width
      */
-    public static final Stretch SEMI_EXPANDED = new Stretch(5);
-    
+    SEMI_EXPANDED(5),
     /**
      * expanded width
      */
-    public static final Stretch EXPANDED = new Stretch(6);
-    
+    EXPANDED(6),
     /**
      * extra expanded width
      */
-    public static final Stretch EXTRA_EXPANDED = new Stretch(7);
-    
+    EXTRA_EXPANDED(7),
     /**
      * ultra expanded width
      */
-    public static final Stretch ULTRA_EXPANDED = new Stretch(8);
+    ULTRA_EXPANDED(8);
     
-    public Stretch(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "PangoStretch";
+    
+    private final int value;
+    Stretch(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static Stretch of(int value) {
+        return switch (value) {
+            case 0 -> ULTRA_CONDENSED;
+            case 1 -> EXTRA_CONDENSED;
+            case 2 -> CONDENSED;
+            case 3 -> SEMI_CONDENSED;
+            case 4 -> NORMAL;
+            case 5 -> SEMI_EXPANDED;
+            case 6 -> EXPANDED;
+            case 7 -> EXTRA_EXPANDED;
+            case 8 -> ULTRA_EXPANDED;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

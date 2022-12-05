@@ -48,12 +48,19 @@ public class Squeezer extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     
     /**
      * Create a Squeezer proxy instance for the provided memory address.
+     * <p>
+     * Because Squeezer is an {@code InitiallyUnowned} instance, when 
+     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
+     * and a call to {@code refSink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
     @ApiStatus.Internal
     public Squeezer(Addressable address, Ownership ownership) {
-        super(address, ownership);
+        super(address, Ownership.FULL);
+        if (ownership == Ownership.NONE) {
+            refSink();
+        }
     }
     
     /**
@@ -69,7 +76,11 @@ public class Squeezer extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * @throws ClassCastException If the GType is not derived from "AdwSqueezer", a ClassCastException will be thrown.
      */
     public static Squeezer castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), Squeezer.getType())) {
             return new Squeezer(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of AdwSqueezer");
+        }
     }
     
     private static Addressable constructNew() {
@@ -199,7 +210,7 @@ public class Squeezer extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gnome.adw.FoldThresholdPolicy(RESULT);
+        return org.gnome.adw.FoldThresholdPolicy.of(RESULT);
     }
     
     /**
@@ -248,7 +259,7 @@ public class Squeezer extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gnome.adw.SqueezerTransitionType(RESULT);
+        return org.gnome.adw.SqueezerTransitionType.of(RESULT);
     }
     
     /**

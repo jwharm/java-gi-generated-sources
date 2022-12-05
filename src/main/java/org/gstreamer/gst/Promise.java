@@ -235,7 +235,7 @@ public class Promise extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.PromiseResult(RESULT);
+        return org.gstreamer.gst.PromiseResult.of(RESULT);
     }
     
     private static class DowncallHandles {

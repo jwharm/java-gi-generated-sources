@@ -48,32 +48,4 @@ public class EventSequence extends Struct {
     public EventSequence(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
-
-    /**
-     * Inner class implementing a builder pattern to construct 
-     * a struct and set its values.
-     */
-    public static class Build {
-        
-        private EventSequence struct;
-        
-         /**
-         * A {@link EventSequence.Build} object constructs a {@link EventSequence} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
-            struct = EventSequence.allocate();
-        }
-        
-         /**
-         * Finish building the {@link EventSequence} struct.
-         * @return A new instance of {@code EventSequence} with the fields 
-         *         that were set in the Build object.
-         */
-        public EventSequence construct() {
-            return struct;
-        }
-    }
 }

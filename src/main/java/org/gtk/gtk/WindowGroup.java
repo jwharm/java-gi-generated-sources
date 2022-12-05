@@ -68,7 +68,11 @@ public class WindowGroup extends org.gtk.gobject.Object {
      * @throws ClassCastException If the GType is not derived from "GtkWindowGroup", a ClassCastException will be thrown.
      */
     public static WindowGroup castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), WindowGroup.getType())) {
             return new WindowGroup(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkWindowGroup");
+        }
     }
     
     private static Addressable constructNew() {

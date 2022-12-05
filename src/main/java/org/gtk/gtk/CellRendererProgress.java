@@ -30,12 +30,19 @@ public class CellRendererProgress extends org.gtk.gtk.CellRenderer implements or
     
     /**
      * Create a CellRendererProgress proxy instance for the provided memory address.
+     * <p>
+     * Because CellRendererProgress is an {@code InitiallyUnowned} instance, when 
+     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
+     * and a call to {@code refSink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
     @ApiStatus.Internal
     public CellRendererProgress(Addressable address, Ownership ownership) {
-        super(address, ownership);
+        super(address, Ownership.FULL);
+        if (ownership == Ownership.NONE) {
+            refSink();
+        }
     }
     
     /**
@@ -51,7 +58,11 @@ public class CellRendererProgress extends org.gtk.gtk.CellRenderer implements or
      * @throws ClassCastException If the GType is not derived from "GtkCellRendererProgress", a ClassCastException will be thrown.
      */
     public static CellRendererProgress castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), CellRendererProgress.getType())) {
             return new CellRendererProgress(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkCellRendererProgress");
+        }
     }
     
     private static Addressable constructNew() {

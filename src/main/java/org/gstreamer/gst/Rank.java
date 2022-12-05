@@ -14,31 +14,43 @@ import org.jetbrains.annotations.*;
  * {@link PluginFeature}. Any value is valid, including values bigger than
  * {@code GST_RANK_PRIMARY}.
  */
-public class Rank extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "GstRank";
-    
+public enum Rank implements io.github.jwharm.javagi.Enumeration {
     /**
      * will be chosen last or not at all
      */
-    public static final Rank NONE = new Rank(0);
-    
+    NONE(0),
     /**
      * unlikely to be chosen
      */
-    public static final Rank MARGINAL = new Rank(64);
-    
+    MARGINAL(64),
     /**
      * likely to be chosen
      */
-    public static final Rank SECONDARY = new Rank(128);
-    
+    SECONDARY(128),
     /**
      * will be chosen first
      */
-    public static final Rank PRIMARY = new Rank(256);
+    PRIMARY(256);
     
-    public Rank(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "GstRank";
+    
+    private final int value;
+    Rank(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static Rank of(int value) {
+        return switch (value) {
+            case 0 -> NONE;
+            case 64 -> MARGINAL;
+            case 128 -> SECONDARY;
+            case 256 -> PRIMARY;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

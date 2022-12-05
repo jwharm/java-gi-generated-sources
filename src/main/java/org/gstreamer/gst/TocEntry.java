@@ -92,7 +92,7 @@ public class TocEntry extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.TocEntryType(RESULT);
+        return org.gstreamer.gst.TocEntryType.of(RESULT);
     }
     
     /**
@@ -121,7 +121,7 @@ public class TocEntry extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        loopType.set(new org.gstreamer.gst.TocLoopType(loopTypePOINTER.get(Interop.valueLayout.C_INT, 0)));
+        loopType.set(org.gstreamer.gst.TocLoopType.of(loopTypePOINTER.get(Interop.valueLayout.C_INT, 0)));
         repeatCount.set(repeatCountPOINTER.get(Interop.valueLayout.C_INT, 0));
         return RESULT != 0;
     }
@@ -414,33 +414,5 @@ public class TocEntry extends Struct {
             FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
-    }
-
-    /**
-     * Inner class implementing a builder pattern to construct 
-     * a struct and set its values.
-     */
-    public static class Build {
-        
-        private TocEntry struct;
-        
-         /**
-         * A {@link TocEntry.Build} object constructs a {@link TocEntry} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
-            struct = TocEntry.allocate();
-        }
-        
-         /**
-         * Finish building the {@link TocEntry} struct.
-         * @return A new instance of {@code TocEntry} with the fields 
-         *         that were set in the Build object.
-         */
-        public TocEntry construct() {
-            return struct;
-        }
     }
 }

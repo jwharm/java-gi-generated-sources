@@ -99,12 +99,19 @@ public class ApplicationWindow extends org.gtk.gtk.Window implements org.gtk.gio
     
     /**
      * Create a ApplicationWindow proxy instance for the provided memory address.
+     * <p>
+     * Because ApplicationWindow is an {@code InitiallyUnowned} instance, when 
+     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
+     * and a call to {@code refSink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
     @ApiStatus.Internal
     public ApplicationWindow(Addressable address, Ownership ownership) {
-        super(address, ownership);
+        super(address, Ownership.FULL);
+        if (ownership == Ownership.NONE) {
+            refSink();
+        }
     }
     
     /**
@@ -120,7 +127,11 @@ public class ApplicationWindow extends org.gtk.gtk.Window implements org.gtk.gio
      * @throws ClassCastException If the GType is not derived from "GtkApplicationWindow", a ClassCastException will be thrown.
      */
     public static ApplicationWindow castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), ApplicationWindow.getType())) {
             return new ApplicationWindow(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkApplicationWindow");
+        }
     }
     
     private static Addressable constructNew(@NotNull org.gtk.gtk.Application application) {

@@ -11,31 +11,43 @@ import org.jetbrains.annotations.*;
  * For examples, see the tabs of a {@link Notebook}, or the label
  * of a {@link Scale}.
  */
-public class PositionType extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "GtkPositionType";
-    
+public enum PositionType implements io.github.jwharm.javagi.Enumeration {
     /**
      * The feature is at the left edge.
      */
-    public static final PositionType LEFT = new PositionType(0);
-    
+    LEFT(0),
     /**
      * The feature is at the right edge.
      */
-    public static final PositionType RIGHT = new PositionType(1);
-    
+    RIGHT(1),
     /**
      * The feature is at the top edge.
      */
-    public static final PositionType TOP = new PositionType(2);
-    
+    TOP(2),
     /**
      * The feature is at the bottom edge.
      */
-    public static final PositionType BOTTOM = new PositionType(3);
+    BOTTOM(3);
     
-    public PositionType(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "GtkPositionType";
+    
+    private final int value;
+    PositionType(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static PositionType of(int value) {
+        return switch (value) {
+            case 0 -> LEFT;
+            case 1 -> RIGHT;
+            case 2 -> TOP;
+            case 3 -> BOTTOM;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

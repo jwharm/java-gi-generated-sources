@@ -106,7 +106,11 @@ public class DBusAuthObserver extends org.gtk.gobject.Object {
      * @throws ClassCastException If the GType is not derived from "GDBusAuthObserver", a ClassCastException will be thrown.
      */
     public static DBusAuthObserver castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), DBusAuthObserver.getType())) {
             return new DBusAuthObserver(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GDBusAuthObserver");
+        }
     }
     
     private static Addressable constructNew() {
@@ -180,7 +184,7 @@ public class DBusAuthObserver extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface AllowMechanism {
-        boolean signalReceived(DBusAuthObserver source, @NotNull java.lang.String mechanism);
+        boolean signalReceived(DBusAuthObserver sourceDBusAuthObserver, @NotNull java.lang.String mechanism);
     }
     
     /**
@@ -208,7 +212,7 @@ public class DBusAuthObserver extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface AuthorizeAuthenticatedPeer {
-        boolean signalReceived(DBusAuthObserver source, @NotNull org.gtk.gio.IOStream stream, @Nullable org.gtk.gio.Credentials credentials);
+        boolean signalReceived(DBusAuthObserver sourceDBusAuthObserver, @NotNull org.gtk.gio.IOStream stream, @Nullable org.gtk.gio.Credentials credentials);
     }
     
     /**
@@ -299,16 +303,16 @@ public class DBusAuthObserver extends org.gtk.gobject.Object {
     
     private static class Callbacks {
         
-        public static boolean signalDBusAuthObserverAllowMechanism(MemoryAddress source, MemoryAddress mechanism, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static boolean signalDBusAuthObserverAllowMechanism(MemoryAddress sourceDBusAuthObserver, MemoryAddress mechanism, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (DBusAuthObserver.AllowMechanism) Interop.signalRegistry.get(HASH);
-            return HANDLER.signalReceived(new DBusAuthObserver(source, Ownership.NONE), Interop.getStringFrom(mechanism));
+            return HANDLER.signalReceived(new DBusAuthObserver(sourceDBusAuthObserver, Ownership.NONE), Interop.getStringFrom(mechanism));
         }
         
-        public static boolean signalDBusAuthObserverAuthorizeAuthenticatedPeer(MemoryAddress source, MemoryAddress stream, MemoryAddress credentials, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static boolean signalDBusAuthObserverAuthorizeAuthenticatedPeer(MemoryAddress sourceDBusAuthObserver, MemoryAddress stream, MemoryAddress credentials, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (DBusAuthObserver.AuthorizeAuthenticatedPeer) Interop.signalRegistry.get(HASH);
-            return HANDLER.signalReceived(new DBusAuthObserver(source, Ownership.NONE), new org.gtk.gio.IOStream(stream, Ownership.NONE), new org.gtk.gio.Credentials(credentials, Ownership.NONE));
+            return HANDLER.signalReceived(new DBusAuthObserver(sourceDBusAuthObserver, Ownership.NONE), new org.gtk.gio.IOStream(stream, Ownership.NONE), new org.gtk.gio.Credentials(credentials, Ownership.NONE));
         }
     }
 }

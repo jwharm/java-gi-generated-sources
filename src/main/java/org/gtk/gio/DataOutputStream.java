@@ -54,7 +54,11 @@ public class DataOutputStream extends org.gtk.gio.FilterOutputStream implements 
      * @throws ClassCastException If the GType is not derived from "GDataOutputStream", a ClassCastException will be thrown.
      */
     public static DataOutputStream castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), DataOutputStream.getType())) {
             return new DataOutputStream(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GDataOutputStream");
+        }
     }
     
     private static Addressable constructNew(@NotNull org.gtk.gio.OutputStream baseStream) {
@@ -89,7 +93,7 @@ public class DataOutputStream extends org.gtk.gio.FilterOutputStream implements 
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.DataStreamByteOrder(RESULT);
+        return org.gtk.gio.DataStreamByteOrder.of(RESULT);
     }
     
     /**

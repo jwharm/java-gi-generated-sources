@@ -8,26 +8,38 @@ import org.jetbrains.annotations.*;
 /**
  * Used in {@code GdkDrag} to the reason of a cancelled DND operation.
  */
-public class DragCancelReason extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "GdkDragCancelReason";
-    
+public enum DragCancelReason implements io.github.jwharm.javagi.Enumeration {
     /**
      * There is no suitable drop target.
      */
-    public static final DragCancelReason NO_TARGET = new DragCancelReason(0);
-    
+    NO_TARGET(0),
     /**
      * Drag cancelled by the user
      */
-    public static final DragCancelReason USER_CANCELLED = new DragCancelReason(1);
-    
+    USER_CANCELLED(1),
     /**
      * Unspecified error.
      */
-    public static final DragCancelReason ERROR = new DragCancelReason(2);
+    ERROR(2);
     
-    public DragCancelReason(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "GdkDragCancelReason";
+    
+    private final int value;
+    DragCancelReason(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static DragCancelReason of(int value) {
+        return switch (value) {
+            case 0 -> NO_TARGET;
+            case 1 -> USER_CANCELLED;
+            case 2 -> ERROR;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

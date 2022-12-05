@@ -40,9 +40,8 @@ public class OtColorPaletteFlagsT extends io.github.jwharm.javagi.Bitfield {
      * @param mask the value to combine with
      * @return the combined value by calculating {@code this | mask} 
      */
-    public OtColorPaletteFlagsT combined(OtColorPaletteFlagsT mask) {
-        this.setValue(this.getValue() | mask.getValue());
-        return this;
+    public OtColorPaletteFlagsT or(OtColorPaletteFlagsT mask) {
+        return new OtColorPaletteFlagsT(this.getValue() | mask.getValue());
     }
     
     /**
@@ -52,9 +51,9 @@ public class OtColorPaletteFlagsT extends io.github.jwharm.javagi.Bitfield {
      * @return the combined value by calculating {@code mask | masks[0] | masks[1] | ...} 
      */
     public static OtColorPaletteFlagsT combined(OtColorPaletteFlagsT mask, OtColorPaletteFlagsT... masks) {
-        for (OtColorPaletteFlagsT arg : masks) {
-            mask.setValue(mask.getValue() | arg.getValue());
+        int value = mask.getValue();        for (OtColorPaletteFlagsT arg : masks) {
+            value |= arg.getValue();
         }
-        return mask;
+        return new OtColorPaletteFlagsT(value);
     }
 }

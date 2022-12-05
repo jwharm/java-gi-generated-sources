@@ -8,31 +8,43 @@ import org.jetbrains.annotations.*;
 /**
  * {@link DataStreamNewlineType} is used when checking for or setting the line endings for a given file.
  */
-public class DataStreamNewlineType extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "GDataStreamNewlineType";
-    
+public enum DataStreamNewlineType implements io.github.jwharm.javagi.Enumeration {
     /**
      * Selects "LF" line endings, common on most modern UNIX platforms.
      */
-    public static final DataStreamNewlineType LF = new DataStreamNewlineType(0);
-    
+    LF(0),
     /**
      * Selects "CR" line endings.
      */
-    public static final DataStreamNewlineType CR = new DataStreamNewlineType(1);
-    
+    CR(1),
     /**
      * Selects "CR, LF" line ending, common on Microsoft Windows.
      */
-    public static final DataStreamNewlineType CR_LF = new DataStreamNewlineType(2);
-    
+    CR_LF(2),
     /**
      * Automatically try to handle any line ending type.
      */
-    public static final DataStreamNewlineType ANY = new DataStreamNewlineType(3);
+    ANY(3);
     
-    public DataStreamNewlineType(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "GDataStreamNewlineType";
+    
+    private final int value;
+    DataStreamNewlineType(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static DataStreamNewlineType of(int value) {
+        return switch (value) {
+            case 0 -> LF;
+            case 1 -> CR;
+            case 2 -> CR_LF;
+            case 3 -> ANY;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

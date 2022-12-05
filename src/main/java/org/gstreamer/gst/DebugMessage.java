@@ -69,32 +69,4 @@ public class DebugMessage extends Struct {
             false
         );
     }
-
-    /**
-     * Inner class implementing a builder pattern to construct 
-     * a struct and set its values.
-     */
-    public static class Build {
-        
-        private DebugMessage struct;
-        
-         /**
-         * A {@link DebugMessage.Build} object constructs a {@link DebugMessage} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
-            struct = DebugMessage.allocate();
-        }
-        
-         /**
-         * Finish building the {@link DebugMessage} struct.
-         * @return A new instance of {@code DebugMessage} with the fields 
-         *         that were set in the Build object.
-         */
-        public DebugMessage construct() {
-            return struct;
-        }
-    }
 }

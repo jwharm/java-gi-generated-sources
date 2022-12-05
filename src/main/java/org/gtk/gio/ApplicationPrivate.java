@@ -44,32 +44,4 @@ public class ApplicationPrivate extends Struct {
     public ApplicationPrivate(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
-
-    /**
-     * Inner class implementing a builder pattern to construct 
-     * a struct and set its values.
-     */
-    public static class Build {
-        
-        private ApplicationPrivate struct;
-        
-         /**
-         * A {@link ApplicationPrivate.Build} object constructs a {@link ApplicationPrivate} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
-            struct = ApplicationPrivate.allocate();
-        }
-        
-         /**
-         * Finish building the {@link ApplicationPrivate} struct.
-         * @return A new instance of {@code ApplicationPrivate} with the fields 
-         *         that were set in the Build object.
-         */
-        public ApplicationPrivate construct() {
-            return struct;
-        }
-    }
 }

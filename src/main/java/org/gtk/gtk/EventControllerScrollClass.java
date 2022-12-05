@@ -44,32 +44,4 @@ public class EventControllerScrollClass extends Struct {
     public EventControllerScrollClass(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
-
-    /**
-     * Inner class implementing a builder pattern to construct 
-     * a struct and set its values.
-     */
-    public static class Build {
-        
-        private EventControllerScrollClass struct;
-        
-         /**
-         * A {@link EventControllerScrollClass.Build} object constructs a {@link EventControllerScrollClass} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
-            struct = EventControllerScrollClass.allocate();
-        }
-        
-         /**
-         * Finish building the {@link EventControllerScrollClass} struct.
-         * @return A new instance of {@code EventControllerScrollClass} with the fields 
-         *         that were set in the Build object.
-         */
-        public EventControllerScrollClass construct() {
-            return struct;
-        }
-    }
 }

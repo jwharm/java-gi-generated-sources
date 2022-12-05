@@ -59,7 +59,11 @@ public class MediaFile extends org.gtk.gtk.MediaStream implements org.gtk.gdk.Pa
      * @throws ClassCastException If the GType is not derived from "GtkMediaFile", a ClassCastException will be thrown.
      */
     public static MediaFile castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), MediaFile.getType())) {
             return new MediaFile(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkMediaFile");
+        }
     }
     
     private static Addressable constructNew() {

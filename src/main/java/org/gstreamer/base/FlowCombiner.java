@@ -209,7 +209,7 @@ public class FlowCombiner extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.FlowReturn(RESULT);
+        return org.gstreamer.gst.FlowReturn.of(RESULT);
     }
     
     /**
@@ -236,7 +236,7 @@ public class FlowCombiner extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.FlowReturn(RESULT);
+        return org.gstreamer.gst.FlowReturn.of(RESULT);
     }
     
     private static class DowncallHandles {
@@ -300,33 +300,5 @@ public class FlowCombiner extends Struct {
             FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
             false
         );
-    }
-
-    /**
-     * Inner class implementing a builder pattern to construct 
-     * a struct and set its values.
-     */
-    public static class Build {
-        
-        private FlowCombiner struct;
-        
-         /**
-         * A {@link FlowCombiner.Build} object constructs a {@link FlowCombiner} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
-            struct = FlowCombiner.allocate();
-        }
-        
-         /**
-         * Finish building the {@link FlowCombiner} struct.
-         * @return A new instance of {@code FlowCombiner} with the fields 
-         *         that were set in the Build object.
-         */
-        public FlowCombiner construct() {
-            return struct;
-        }
     }
 }

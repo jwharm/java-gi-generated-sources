@@ -44,32 +44,4 @@ public class WidgetClassPrivate extends Struct {
     public WidgetClassPrivate(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
-
-    /**
-     * Inner class implementing a builder pattern to construct 
-     * a struct and set its values.
-     */
-    public static class Build {
-        
-        private WidgetClassPrivate struct;
-        
-         /**
-         * A {@link WidgetClassPrivate.Build} object constructs a {@link WidgetClassPrivate} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
-            struct = WidgetClassPrivate.allocate();
-        }
-        
-         /**
-         * Finish building the {@link WidgetClassPrivate} struct.
-         * @return A new instance of {@code WidgetClassPrivate} with the fields 
-         *         that were set in the Build object.
-         */
-        public WidgetClassPrivate construct() {
-            return struct;
-        }
-    }
 }

@@ -48,7 +48,11 @@ public class PadEvent extends org.gtk.gdk.Event {
      * @throws ClassCastException If the GType is not derived from "GdkPadEvent", a ClassCastException will be thrown.
      */
     public static PadEvent castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), PadEvent.getType())) {
             return new PadEvent(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GdkPadEvent");
+        }
     }
     
     /**

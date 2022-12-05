@@ -11,16 +11,28 @@ import org.jetbrains.annotations.*;
  * g_tls_interaction_invoke_request_certificate().
  * @version 2.40
  */
-public class TlsCertificateRequestFlags extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "GTlsCertificateRequestFlags";
-    
+public enum TlsCertificateRequestFlags implements io.github.jwharm.javagi.Enumeration {
     /**
      * No flags
      */
-    public static final TlsCertificateRequestFlags NONE = new TlsCertificateRequestFlags(0);
+    NONE(0);
     
-    public TlsCertificateRequestFlags(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "GTlsCertificateRequestFlags";
+    
+    private final int value;
+    TlsCertificateRequestFlags(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static TlsCertificateRequestFlags of(int value) {
+        return switch (value) {
+            case 0 -> NONE;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

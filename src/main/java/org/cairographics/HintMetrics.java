@@ -5,17 +5,29 @@ import java.lang.foreign.*;
 import java.lang.invoke.*;
 import org.jetbrains.annotations.*;
 
-public class HintMetrics extends io.github.jwharm.javagi.Enumeration {
+public enum HintMetrics implements io.github.jwharm.javagi.Enumeration {
+    DEFAULT(0),
+    OFF(1),
+    ON(2);
     
     private static final java.lang.String C_TYPE_NAME = "cairo_hint_metrics_t";
     
-    public static final HintMetrics DEFAULT = new HintMetrics(0);
+    private final int value;
+    HintMetrics(int value) {
+        this.value = value;
+    }
     
-    public static final HintMetrics OFF = new HintMetrics(1);
+    @Override
+    public int getValue() {
+        return value;
+    }
     
-    public static final HintMetrics ON = new HintMetrics(2);
-    
-    public HintMetrics(int value) {
-        super(value);
+    public static HintMetrics of(int value) {
+        return switch (value) {
+            case 0 -> DEFAULT;
+            case 1 -> OFF;
+            case 2 -> ON;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

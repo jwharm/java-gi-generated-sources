@@ -57,7 +57,11 @@ public class MemoryOutputStream extends org.gtk.gio.OutputStream implements org.
      * @throws ClassCastException If the GType is not derived from "GMemoryOutputStream", a ClassCastException will be thrown.
      */
     public static MemoryOutputStream castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), MemoryOutputStream.getType())) {
             return new MemoryOutputStream(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GMemoryOutputStream");
+        }
     }
     
     private static Addressable constructNew(long size, @Nullable org.gtk.gio.ReallocFunc reallocFunction) {

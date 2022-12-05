@@ -133,12 +133,19 @@ public class SpinButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
     
     /**
      * Create a SpinButton proxy instance for the provided memory address.
+     * <p>
+     * Because SpinButton is an {@code InitiallyUnowned} instance, when 
+     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
+     * and a call to {@code refSink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
     @ApiStatus.Internal
     public SpinButton(Addressable address, Ownership ownership) {
-        super(address, ownership);
+        super(address, Ownership.FULL);
+        if (ownership == Ownership.NONE) {
+            refSink();
+        }
     }
     
     /**
@@ -154,7 +161,11 @@ public class SpinButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
      * @throws ClassCastException If the GType is not derived from "GtkSpinButton", a ClassCastException will be thrown.
      */
     public static SpinButton castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), SpinButton.getType())) {
             return new SpinButton(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkSpinButton");
+        }
     }
     
     private static Addressable constructNew(@Nullable org.gtk.gtk.Adjustment adjustment, double climbRate, int digits) {
@@ -377,7 +388,7 @@ public class SpinButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.SpinButtonUpdatePolicy(RESULT);
+        return org.gtk.gtk.SpinButtonUpdatePolicy.of(RESULT);
     }
     
     /**
@@ -637,7 +648,7 @@ public class SpinButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
     
     @FunctionalInterface
     public interface ChangeValue {
-        void signalReceived(SpinButton source, @NotNull org.gtk.gtk.ScrollType scroll);
+        void signalReceived(SpinButton sourceSpinButton, @NotNull org.gtk.gtk.ScrollType scroll);
     }
     
     /**
@@ -673,7 +684,7 @@ public class SpinButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
     
     @FunctionalInterface
     public interface Input {
-        void signalReceived(SpinButton source, Out<Double> newValue);
+        void signalReceived(SpinButton sourceSpinButton, Out<Double> newValue);
     }
     
     /**
@@ -693,7 +704,7 @@ public class SpinButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
     
     @FunctionalInterface
     public interface Output {
-        boolean signalReceived(SpinButton source);
+        boolean signalReceived(SpinButton sourceSpinButton);
     }
     
     /**
@@ -740,7 +751,7 @@ public class SpinButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
     
     @FunctionalInterface
     public interface ValueChanged {
-        void signalReceived(SpinButton source);
+        void signalReceived(SpinButton sourceSpinButton);
     }
     
     /**
@@ -770,7 +781,7 @@ public class SpinButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
     
     @FunctionalInterface
     public interface Wrapped {
-        void signalReceived(SpinButton source);
+        void signalReceived(SpinButton sourceSpinButton);
     }
     
     /**
@@ -1089,32 +1100,32 @@ public class SpinButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
     
     private static class Callbacks {
         
-        public static void signalSpinButtonChangeValue(MemoryAddress source, int scroll, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalSpinButtonChangeValue(MemoryAddress sourceSpinButton, int scroll, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (SpinButton.ChangeValue) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new SpinButton(source, Ownership.NONE), new org.gtk.gtk.ScrollType(scroll));
+            HANDLER.signalReceived(new SpinButton(sourceSpinButton, Ownership.NONE), org.gtk.gtk.ScrollType.of(scroll));
         }
         
-        public static void signalSpinButtonInput(MemoryAddress source, double newValue, MemoryAddress data) {
+        public static void signalSpinButtonInput(MemoryAddress sourceSpinButton, double newValue, MemoryAddress DATA) {
         // Operation not supported yet
     }
         
-        public static boolean signalSpinButtonOutput(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static boolean signalSpinButtonOutput(MemoryAddress sourceSpinButton, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (SpinButton.Output) Interop.signalRegistry.get(HASH);
-            return HANDLER.signalReceived(new SpinButton(source, Ownership.NONE));
+            return HANDLER.signalReceived(new SpinButton(sourceSpinButton, Ownership.NONE));
         }
         
-        public static void signalSpinButtonValueChanged(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalSpinButtonValueChanged(MemoryAddress sourceSpinButton, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (SpinButton.ValueChanged) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new SpinButton(source, Ownership.NONE));
+            HANDLER.signalReceived(new SpinButton(sourceSpinButton, Ownership.NONE));
         }
         
-        public static void signalSpinButtonWrapped(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalSpinButtonWrapped(MemoryAddress sourceSpinButton, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (SpinButton.Wrapped) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new SpinButton(source, Ownership.NONE));
+            HANDLER.signalReceived(new SpinButton(sourceSpinButton, Ownership.NONE));
         }
     }
 }

@@ -349,32 +349,4 @@ public class ShaderArgsBuilder extends Struct {
             false
         );
     }
-
-    /**
-     * Inner class implementing a builder pattern to construct 
-     * a struct and set its values.
-     */
-    public static class Build {
-        
-        private ShaderArgsBuilder struct;
-        
-         /**
-         * A {@link ShaderArgsBuilder.Build} object constructs a {@link ShaderArgsBuilder} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
-            struct = ShaderArgsBuilder.allocate();
-        }
-        
-         /**
-         * Finish building the {@link ShaderArgsBuilder} struct.
-         * @return A new instance of {@code ShaderArgsBuilder} with the fields 
-         *         that were set in the Build object.
-         */
-        public ShaderArgsBuilder construct() {
-            return struct;
-        }
-    }
 }

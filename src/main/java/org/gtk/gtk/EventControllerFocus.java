@@ -56,7 +56,11 @@ public class EventControllerFocus extends org.gtk.gtk.EventController {
      * @throws ClassCastException If the GType is not derived from "GtkEventControllerFocus", a ClassCastException will be thrown.
      */
     public static EventControllerFocus castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), EventControllerFocus.getType())) {
             return new EventControllerFocus(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkEventControllerFocus");
+        }
     }
     
     private static Addressable constructNew() {
@@ -122,7 +126,7 @@ public class EventControllerFocus extends org.gtk.gtk.EventController {
     
     @FunctionalInterface
     public interface Enter {
-        void signalReceived(EventControllerFocus source);
+        void signalReceived(EventControllerFocus sourceEventControllerFocus);
     }
     
     /**
@@ -159,7 +163,7 @@ public class EventControllerFocus extends org.gtk.gtk.EventController {
     
     @FunctionalInterface
     public interface Leave {
-        void signalReceived(EventControllerFocus source);
+        void signalReceived(EventControllerFocus sourceEventControllerFocus);
     }
     
     /**
@@ -293,16 +297,16 @@ public class EventControllerFocus extends org.gtk.gtk.EventController {
     
     private static class Callbacks {
         
-        public static void signalEventControllerFocusEnter(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalEventControllerFocusEnter(MemoryAddress sourceEventControllerFocus, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (EventControllerFocus.Enter) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new EventControllerFocus(source, Ownership.NONE));
+            HANDLER.signalReceived(new EventControllerFocus(sourceEventControllerFocus, Ownership.NONE));
         }
         
-        public static void signalEventControllerFocusLeave(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalEventControllerFocusLeave(MemoryAddress sourceEventControllerFocus, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (EventControllerFocus.Leave) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new EventControllerFocus(source, Ownership.NONE));
+            HANDLER.signalReceived(new EventControllerFocus(sourceEventControllerFocus, Ownership.NONE));
         }
     }
 }

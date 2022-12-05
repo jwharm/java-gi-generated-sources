@@ -30,7 +30,11 @@ public interface ColorChooser extends io.github.jwharm.javagi.Proxy {
      * @throws ClassCastException If the GType is not derived from "GtkColorChooser", a ClassCastException will be thrown.
      */
     public static ColorChooser castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), ColorChooser.getType())) {
             return new ColorChooserImpl(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkColorChooser");
+        }
     }
     
     /**
@@ -147,7 +151,7 @@ public interface ColorChooser extends io.github.jwharm.javagi.Proxy {
     
     @FunctionalInterface
     public interface ColorActivated {
-        void signalReceived(ColorChooser source, @NotNull org.gtk.gdk.RGBA color);
+        void signalReceived(ColorChooser sourceColorChooser, @NotNull org.gtk.gdk.RGBA color);
     }
     
     /**
@@ -226,10 +230,10 @@ public interface ColorChooser extends io.github.jwharm.javagi.Proxy {
     @ApiStatus.Internal
     static class Callbacks {
         
-        public static void signalColorChooserColorActivated(MemoryAddress source, MemoryAddress color, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalColorChooserColorActivated(MemoryAddress sourceColorChooser, MemoryAddress color, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (ColorChooser.ColorActivated) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new ColorChooser.ColorChooserImpl(source, Ownership.NONE), new org.gtk.gdk.RGBA(color, Ownership.NONE));
+            HANDLER.signalReceived(new ColorChooser.ColorChooserImpl(sourceColorChooser, Ownership.NONE), new org.gtk.gdk.RGBA(color, Ownership.NONE));
         }
     }
     

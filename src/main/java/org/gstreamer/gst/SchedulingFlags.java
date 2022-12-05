@@ -36,9 +36,8 @@ public class SchedulingFlags extends io.github.jwharm.javagi.Bitfield {
      * @param mask the value to combine with
      * @return the combined value by calculating {@code this | mask} 
      */
-    public SchedulingFlags combined(SchedulingFlags mask) {
-        this.setValue(this.getValue() | mask.getValue());
-        return this;
+    public SchedulingFlags or(SchedulingFlags mask) {
+        return new SchedulingFlags(this.getValue() | mask.getValue());
     }
     
     /**
@@ -48,9 +47,9 @@ public class SchedulingFlags extends io.github.jwharm.javagi.Bitfield {
      * @return the combined value by calculating {@code mask | masks[0] | masks[1] | ...} 
      */
     public static SchedulingFlags combined(SchedulingFlags mask, SchedulingFlags... masks) {
-        for (SchedulingFlags arg : masks) {
-            mask.setValue(mask.getValue() | arg.getValue());
+        int value = mask.getValue();        for (SchedulingFlags arg : masks) {
+            value |= arg.getValue();
         }
-        return mask;
+        return new SchedulingFlags(value);
     }
 }

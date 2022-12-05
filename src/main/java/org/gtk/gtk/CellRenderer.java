@@ -68,12 +68,19 @@ public class CellRenderer extends org.gtk.gobject.InitiallyUnowned {
     
     /**
      * Create a CellRenderer proxy instance for the provided memory address.
+     * <p>
+     * Because CellRenderer is an {@code InitiallyUnowned} instance, when 
+     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
+     * and a call to {@code refSink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
     @ApiStatus.Internal
     public CellRenderer(Addressable address, Ownership ownership) {
-        super(address, ownership);
+        super(address, Ownership.FULL);
+        if (ownership == Ownership.NONE) {
+            refSink();
+        }
     }
     
     /**
@@ -89,7 +96,11 @@ public class CellRenderer extends org.gtk.gobject.InitiallyUnowned {
      * @throws ClassCastException If the GType is not derived from "GtkCellRenderer", a ClassCastException will be thrown.
      */
     public static CellRenderer castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), CellRenderer.getType())) {
             return new CellRenderer(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkCellRenderer");
+        }
     }
     
     /**
@@ -391,7 +402,7 @@ public class CellRenderer extends org.gtk.gobject.InitiallyUnowned {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.SizeRequestMode(RESULT);
+        return org.gtk.gtk.SizeRequestMode.of(RESULT);
     }
     
     /**
@@ -670,7 +681,7 @@ public class CellRenderer extends org.gtk.gobject.InitiallyUnowned {
     
     @FunctionalInterface
     public interface EditingCanceled {
-        void signalReceived(CellRenderer source);
+        void signalReceived(CellRenderer sourceCellRenderer);
     }
     
     /**
@@ -702,7 +713,7 @@ public class CellRenderer extends org.gtk.gobject.InitiallyUnowned {
     
     @FunctionalInterface
     public interface EditingStarted {
-        void signalReceived(CellRenderer source, @NotNull org.gtk.gtk.CellEditable editable, @NotNull java.lang.String path);
+        void signalReceived(CellRenderer sourceCellRenderer, @NotNull org.gtk.gtk.CellEditable editable, @NotNull java.lang.String path);
     }
     
     /**
@@ -1059,16 +1070,16 @@ public class CellRenderer extends org.gtk.gobject.InitiallyUnowned {
     
     private static class Callbacks {
         
-        public static void signalCellRendererEditingCanceled(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalCellRendererEditingCanceled(MemoryAddress sourceCellRenderer, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (CellRenderer.EditingCanceled) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new CellRenderer(source, Ownership.NONE));
+            HANDLER.signalReceived(new CellRenderer(sourceCellRenderer, Ownership.NONE));
         }
         
-        public static void signalCellRendererEditingStarted(MemoryAddress source, MemoryAddress editable, MemoryAddress path, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalCellRendererEditingStarted(MemoryAddress sourceCellRenderer, MemoryAddress editable, MemoryAddress path, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (CellRenderer.EditingStarted) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new CellRenderer(source, Ownership.NONE), new org.gtk.gtk.CellEditable.CellEditableImpl(editable, Ownership.NONE), Interop.getStringFrom(path));
+            HANDLER.signalReceived(new CellRenderer(sourceCellRenderer, Ownership.NONE), new org.gtk.gtk.CellEditable.CellEditableImpl(editable, Ownership.NONE), Interop.getStringFrom(path));
         }
     }
 }

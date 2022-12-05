@@ -10,31 +10,43 @@ import org.jetbrains.annotations.*;
  * of a glyph.
  * @version 1.3.3
  */
-public class OtMathKernT extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "hb_ot_math_kern_t";
-    
+public enum OtMathKernT implements io.github.jwharm.javagi.Enumeration {
     /**
      * The top right corner of the glyph.
      */
-    public static final OtMathKernT TOP_RIGHT = new OtMathKernT(0);
-    
+    TOP_RIGHT(0),
     /**
      * The top left corner of the glyph.
      */
-    public static final OtMathKernT TOP_LEFT = new OtMathKernT(1);
-    
+    TOP_LEFT(1),
     /**
      * The bottom right corner of the glyph.
      */
-    public static final OtMathKernT BOTTOM_RIGHT = new OtMathKernT(2);
-    
+    BOTTOM_RIGHT(2),
     /**
      * The bottom left corner of the glyph.
      */
-    public static final OtMathKernT BOTTOM_LEFT = new OtMathKernT(3);
+    BOTTOM_LEFT(3);
     
-    public OtMathKernT(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "hb_ot_math_kern_t";
+    
+    private final int value;
+    OtMathKernT(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static OtMathKernT of(int value) {
+        return switch (value) {
+            case 0 -> TOP_RIGHT;
+            case 1 -> TOP_LEFT;
+            case 2 -> BOTTOM_RIGHT;
+            case 3 -> BOTTOM_LEFT;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

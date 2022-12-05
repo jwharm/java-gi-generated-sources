@@ -1654,7 +1654,7 @@ public class Message extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        mode.set(new org.gstreamer.gst.BufferingMode(modePOINTER.get(Interop.valueLayout.C_INT, 0)));
+        mode.set(org.gstreamer.gst.BufferingMode.of(modePOINTER.get(Interop.valueLayout.C_INT, 0)));
         avgIn.set(avgInPOINTER.get(Interop.valueLayout.C_INT, 0));
         avgOut.set(avgOutPOINTER.get(Interop.valueLayout.C_INT, 0));
         bufferingLeft.set(bufferingLeftPOINTER.get(Interop.valueLayout.C_LONG, 0));
@@ -2003,7 +2003,7 @@ public class Message extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        type.set(new org.gstreamer.gst.ProgressType(typePOINTER.get(Interop.valueLayout.C_INT, 0)));
+        type.set(org.gstreamer.gst.ProgressType.of(typePOINTER.get(Interop.valueLayout.C_INT, 0)));
         code.set(Interop.getStringFrom(codePOINTER.get(Interop.valueLayout.ADDRESS, 0)));
         text.set(Interop.getStringFrom(textPOINTER.get(Interop.valueLayout.ADDRESS, 0)));
     }
@@ -2122,7 +2122,7 @@ public class Message extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        format.set(new org.gstreamer.gst.Format(formatPOINTER.get(Interop.valueLayout.C_INT, 0)));
+        format.set(org.gstreamer.gst.Format.of(formatPOINTER.get(Interop.valueLayout.C_INT, 0)));
         processed.set(processedPOINTER.get(Interop.valueLayout.C_LONG, 0));
         dropped.set(droppedPOINTER.get(Interop.valueLayout.C_LONG, 0));
     }
@@ -2210,7 +2210,7 @@ public class Message extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        state.set(new org.gstreamer.gst.State(statePOINTER.get(Interop.valueLayout.C_INT, 0)));
+        state.set(org.gstreamer.gst.State.of(statePOINTER.get(Interop.valueLayout.C_INT, 0)));
     }
     
     /**
@@ -2253,7 +2253,7 @@ public class Message extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        format.set(new org.gstreamer.gst.Format(formatPOINTER.get(Interop.valueLayout.C_INT, 0)));
+        format.set(org.gstreamer.gst.Format.of(formatPOINTER.get(Interop.valueLayout.C_INT, 0)));
         position.set(positionPOINTER.get(Interop.valueLayout.C_LONG, 0));
     }
     
@@ -2277,7 +2277,7 @@ public class Message extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        format.set(new org.gstreamer.gst.Format(formatPOINTER.get(Interop.valueLayout.C_INT, 0)));
+        format.set(org.gstreamer.gst.Format.of(formatPOINTER.get(Interop.valueLayout.C_INT, 0)));
         position.set(positionPOINTER.get(Interop.valueLayout.C_LONG, 0));
     }
     
@@ -2324,9 +2324,9 @@ public class Message extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        oldstate.set(new org.gstreamer.gst.State(oldstatePOINTER.get(Interop.valueLayout.C_INT, 0)));
-        newstate.set(new org.gstreamer.gst.State(newstatePOINTER.get(Interop.valueLayout.C_INT, 0)));
-        pending.set(new org.gstreamer.gst.State(pendingPOINTER.get(Interop.valueLayout.C_INT, 0)));
+        oldstate.set(org.gstreamer.gst.State.of(oldstatePOINTER.get(Interop.valueLayout.C_INT, 0)));
+        newstate.set(org.gstreamer.gst.State.of(newstatePOINTER.get(Interop.valueLayout.C_INT, 0)));
+        pending.set(org.gstreamer.gst.State.of(pendingPOINTER.get(Interop.valueLayout.C_INT, 0)));
     }
     
     /**
@@ -2369,7 +2369,7 @@ public class Message extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        format.set(new org.gstreamer.gst.Format(formatPOINTER.get(Interop.valueLayout.C_INT, 0)));
+        format.set(org.gstreamer.gst.Format.of(formatPOINTER.get(Interop.valueLayout.C_INT, 0)));
         amount.set(amountPOINTER.get(Interop.valueLayout.C_LONG, 0));
         rate.set(ratePOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
         flush.set(flushPOINTER.get(Interop.valueLayout.C_INT, 0) != 0);
@@ -2415,7 +2415,7 @@ public class Message extends Struct {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         active.set(activePOINTER.get(Interop.valueLayout.C_INT, 0) != 0);
-        format.set(new org.gstreamer.gst.Format(formatPOINTER.get(Interop.valueLayout.C_INT, 0)));
+        format.set(org.gstreamer.gst.Format.of(formatPOINTER.get(Interop.valueLayout.C_INT, 0)));
         amount.set(amountPOINTER.get(Interop.valueLayout.C_LONG, 0));
         rate.set(ratePOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
         flush.set(flushPOINTER.get(Interop.valueLayout.C_INT, 0) != 0);
@@ -2462,7 +2462,7 @@ public class Message extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        type.set(new org.gstreamer.gst.StreamStatusType(typePOINTER.get(Interop.valueLayout.C_INT, 0)));
+        type.set(org.gstreamer.gst.StreamStatusType.of(typePOINTER.get(Interop.valueLayout.C_INT, 0)));
         owner.set(new org.gstreamer.gst.Element(ownerPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.NONE));
     }
     
@@ -2510,7 +2510,7 @@ public class Message extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        type.set(new org.gstreamer.gst.StructureChangeType(typePOINTER.get(Interop.valueLayout.C_INT, 0)));
+        type.set(org.gstreamer.gst.StructureChangeType.of(typePOINTER.get(Interop.valueLayout.C_INT, 0)));
         owner.set(new org.gstreamer.gst.Element(ownerPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.NONE));
         busy.set(busyPOINTER.get(Interop.valueLayout.C_INT, 0) != 0);
     }

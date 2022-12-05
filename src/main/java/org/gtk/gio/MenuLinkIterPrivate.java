@@ -44,32 +44,4 @@ public class MenuLinkIterPrivate extends Struct {
     public MenuLinkIterPrivate(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
-
-    /**
-     * Inner class implementing a builder pattern to construct 
-     * a struct and set its values.
-     */
-    public static class Build {
-        
-        private MenuLinkIterPrivate struct;
-        
-         /**
-         * A {@link MenuLinkIterPrivate.Build} object constructs a {@link MenuLinkIterPrivate} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
-            struct = MenuLinkIterPrivate.allocate();
-        }
-        
-         /**
-         * Finish building the {@link MenuLinkIterPrivate} struct.
-         * @return A new instance of {@code MenuLinkIterPrivate} with the fields 
-         *         that were set in the Build object.
-         */
-        public MenuLinkIterPrivate construct() {
-            return struct;
-        }
-    }
 }

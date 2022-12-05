@@ -193,12 +193,19 @@ public class Label extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     
     /**
      * Create a Label proxy instance for the provided memory address.
+     * <p>
+     * Because Label is an {@code InitiallyUnowned} instance, when 
+     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
+     * and a call to {@code refSink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
     @ApiStatus.Internal
     public Label(Addressable address, Ownership ownership) {
-        super(address, ownership);
+        super(address, Ownership.FULL);
+        if (ownership == Ownership.NONE) {
+            refSink();
+        }
     }
     
     /**
@@ -214,7 +221,11 @@ public class Label extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      * @throws ClassCastException If the GType is not derived from "GtkLabel", a ClassCastException will be thrown.
      */
     public static Label castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), Label.getType())) {
             return new Label(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkLabel");
+        }
     }
     
     private static Addressable constructNew(@Nullable java.lang.String str) {
@@ -330,7 +341,7 @@ public class Label extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.EllipsizeMode(RESULT);
+        return org.pango.EllipsizeMode.of(RESULT);
     }
     
     /**
@@ -364,7 +375,7 @@ public class Label extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.Justification(RESULT);
+        return org.gtk.gtk.Justification.of(RESULT);
     }
     
     /**
@@ -522,7 +533,7 @@ public class Label extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.NaturalWrapMode(RESULT);
+        return org.gtk.gtk.NaturalWrapMode.of(RESULT);
     }
     
     /**
@@ -703,7 +714,7 @@ public class Label extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.WrapMode(RESULT);
+        return org.pango.WrapMode.of(RESULT);
     }
     
     /**
@@ -1227,7 +1238,7 @@ public class Label extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     
     @FunctionalInterface
     public interface ActivateCurrentLink {
-        void signalReceived(Label source);
+        void signalReceived(Label sourceLabel);
     }
     
     /**
@@ -1262,7 +1273,7 @@ public class Label extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     
     @FunctionalInterface
     public interface ActivateLink {
-        boolean signalReceived(Label source, @NotNull java.lang.String uri);
+        boolean signalReceived(Label sourceLabel, @NotNull java.lang.String uri);
     }
     
     /**
@@ -1293,7 +1304,7 @@ public class Label extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     
     @FunctionalInterface
     public interface CopyClipboard {
-        void signalReceived(Label source);
+        void signalReceived(Label sourceLabel);
     }
     
     /**
@@ -1325,7 +1336,7 @@ public class Label extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     
     @FunctionalInterface
     public interface MoveCursor {
-        void signalReceived(Label source, @NotNull org.gtk.gtk.MovementStep step, int count, boolean extendSelection);
+        void signalReceived(Label sourceLabel, @NotNull org.gtk.gtk.MovementStep step, int count, boolean extendSelection);
     }
     
     /**
@@ -2006,28 +2017,28 @@ public class Label extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     
     private static class Callbacks {
         
-        public static void signalLabelActivateCurrentLink(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalLabelActivateCurrentLink(MemoryAddress sourceLabel, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (Label.ActivateCurrentLink) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Label(source, Ownership.NONE));
+            HANDLER.signalReceived(new Label(sourceLabel, Ownership.NONE));
         }
         
-        public static boolean signalLabelActivateLink(MemoryAddress source, MemoryAddress uri, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static boolean signalLabelActivateLink(MemoryAddress sourceLabel, MemoryAddress uri, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (Label.ActivateLink) Interop.signalRegistry.get(HASH);
-            return HANDLER.signalReceived(new Label(source, Ownership.NONE), Interop.getStringFrom(uri));
+            return HANDLER.signalReceived(new Label(sourceLabel, Ownership.NONE), Interop.getStringFrom(uri));
         }
         
-        public static void signalLabelCopyClipboard(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalLabelCopyClipboard(MemoryAddress sourceLabel, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (Label.CopyClipboard) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Label(source, Ownership.NONE));
+            HANDLER.signalReceived(new Label(sourceLabel, Ownership.NONE));
         }
         
-        public static void signalLabelMoveCursor(MemoryAddress source, int step, int count, int extendSelection, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalLabelMoveCursor(MemoryAddress sourceLabel, int step, int count, int extendSelection, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (Label.MoveCursor) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Label(source, Ownership.NONE), new org.gtk.gtk.MovementStep(step), count, extendSelection != 0);
+            HANDLER.signalReceived(new Label(sourceLabel, Ownership.NONE), org.gtk.gtk.MovementStep.of(step), count, extendSelection != 0);
         }
     }
 }

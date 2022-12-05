@@ -44,9 +44,8 @@ public class UriParamsFlags extends io.github.jwharm.javagi.Bitfield {
      * @param mask the value to combine with
      * @return the combined value by calculating {@code this | mask} 
      */
-    public UriParamsFlags combined(UriParamsFlags mask) {
-        this.setValue(this.getValue() | mask.getValue());
-        return this;
+    public UriParamsFlags or(UriParamsFlags mask) {
+        return new UriParamsFlags(this.getValue() | mask.getValue());
     }
     
     /**
@@ -56,9 +55,9 @@ public class UriParamsFlags extends io.github.jwharm.javagi.Bitfield {
      * @return the combined value by calculating {@code mask | masks[0] | masks[1] | ...} 
      */
     public static UriParamsFlags combined(UriParamsFlags mask, UriParamsFlags... masks) {
-        for (UriParamsFlags arg : masks) {
-            mask.setValue(mask.getValue() | arg.getValue());
+        int value = mask.getValue();        for (UriParamsFlags arg : masks) {
+            value |= arg.getValue();
         }
-        return mask;
+        return new UriParamsFlags(value);
     }
 }

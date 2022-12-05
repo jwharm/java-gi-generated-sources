@@ -59,7 +59,11 @@ public class GestureSwipe extends org.gtk.gtk.GestureSingle {
      * @throws ClassCastException If the GType is not derived from "GtkGestureSwipe", a ClassCastException will be thrown.
      */
     public static GestureSwipe castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), GestureSwipe.getType())) {
             return new GestureSwipe(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkGestureSwipe");
+        }
     }
     
     private static Addressable constructNew() {
@@ -124,7 +128,7 @@ public class GestureSwipe extends org.gtk.gtk.GestureSingle {
     
     @FunctionalInterface
     public interface Swipe {
-        void signalReceived(GestureSwipe source, double velocityX, double velocityY);
+        void signalReceived(GestureSwipe sourceGestureSwipe, double velocityX, double velocityY);
     }
     
     /**
@@ -210,10 +214,10 @@ public class GestureSwipe extends org.gtk.gtk.GestureSingle {
     
     private static class Callbacks {
         
-        public static void signalGestureSwipeSwipe(MemoryAddress source, double velocityX, double velocityY, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalGestureSwipeSwipe(MemoryAddress sourceGestureSwipe, double velocityX, double velocityY, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (GestureSwipe.Swipe) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new GestureSwipe(source, Ownership.NONE), velocityX, velocityY);
+            HANDLER.signalReceived(new GestureSwipe(sourceGestureSwipe, Ownership.NONE), velocityX, velocityY);
         }
     }
 }

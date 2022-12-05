@@ -9,41 +9,53 @@ import org.jetbrains.annotations.*;
  * The probability of the typefind function. Higher values have more certainty
  * in doing a reliable typefind.
  */
-public class TypeFindProbability extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "GstTypeFindProbability";
-    
+public enum TypeFindProbability implements io.github.jwharm.javagi.Enumeration {
     /**
      * type undetected.
      */
-    public static final TypeFindProbability NONE = new TypeFindProbability(0);
-    
+    NONE(0),
     /**
      * unlikely typefind.
      */
-    public static final TypeFindProbability MINIMUM = new TypeFindProbability(1);
-    
+    MINIMUM(1),
     /**
      * possible type detected.
      */
-    public static final TypeFindProbability POSSIBLE = new TypeFindProbability(50);
-    
+    POSSIBLE(50),
     /**
      * likely a type was detected.
      */
-    public static final TypeFindProbability LIKELY = new TypeFindProbability(80);
-    
+    LIKELY(80),
     /**
      * nearly certain that a type was detected.
      */
-    public static final TypeFindProbability NEARLY_CERTAIN = new TypeFindProbability(99);
-    
+    NEARLY_CERTAIN(99),
     /**
      * very certain a type was detected.
      */
-    public static final TypeFindProbability MAXIMUM = new TypeFindProbability(100);
+    MAXIMUM(100);
     
-    public TypeFindProbability(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "GstTypeFindProbability";
+    
+    private final int value;
+    TypeFindProbability(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static TypeFindProbability of(int value) {
+        return switch (value) {
+            case 0 -> NONE;
+            case 1 -> MINIMUM;
+            case 50 -> POSSIBLE;
+            case 80 -> LIKELY;
+            case 99 -> NEARLY_CERTAIN;
+            case 100 -> MAXIMUM;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

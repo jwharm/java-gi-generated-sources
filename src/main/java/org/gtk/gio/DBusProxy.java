@@ -97,7 +97,11 @@ public class DBusProxy extends org.gtk.gobject.Object implements org.gtk.gio.Asy
      * @throws ClassCastException If the GType is not derived from "GDBusProxy", a ClassCastException will be thrown.
      */
     public static DBusProxy castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), DBusProxy.getType())) {
             return new DBusProxy(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GDBusProxy");
+        }
     }
     
     private static Addressable constructNewFinish(@NotNull org.gtk.gio.AsyncResult res) throws GErrorException {
@@ -926,7 +930,7 @@ public class DBusProxy extends org.gtk.gobject.Object implements org.gtk.gio.Asy
     
     @FunctionalInterface
     public interface GPropertiesChanged {
-        void signalReceived(DBusProxy source, @NotNull org.gtk.glib.Variant changedProperties, @NotNull java.lang.String[] invalidatedProperties);
+        void signalReceived(DBusProxy sourceDBusProxy, @NotNull org.gtk.glib.Variant changedProperties, @NotNull java.lang.String[] invalidatedProperties);
     }
     
     /**
@@ -951,7 +955,7 @@ public class DBusProxy extends org.gtk.gobject.Object implements org.gtk.gio.Asy
     
     @FunctionalInterface
     public interface GSignal {
-        void signalReceived(DBusProxy source, @Nullable java.lang.String senderName, @NotNull java.lang.String signalName, @NotNull org.gtk.glib.Variant parameters);
+        void signalReceived(DBusProxy sourceDBusProxy, @Nullable java.lang.String senderName, @NotNull java.lang.String signalName, @NotNull org.gtk.glib.Variant parameters);
     }
     
     /**
@@ -1316,14 +1320,14 @@ public class DBusProxy extends org.gtk.gobject.Object implements org.gtk.gio.Asy
     
     private static class Callbacks {
         
-        public static void signalDBusProxyGPropertiesChanged(MemoryAddress source, MemoryAddress changedProperties, MemoryAddress invalidatedProperties, MemoryAddress data) {
+        public static void signalDBusProxyGPropertiesChanged(MemoryAddress sourceDBusProxy, MemoryAddress changedProperties, MemoryAddress invalidatedProperties, MemoryAddress DATA) {
         // Operation not supported yet
     }
         
-        public static void signalDBusProxyGSignal(MemoryAddress source, MemoryAddress senderName, MemoryAddress signalName, MemoryAddress parameters, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalDBusProxyGSignal(MemoryAddress sourceDBusProxy, MemoryAddress senderName, MemoryAddress signalName, MemoryAddress parameters, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (DBusProxy.GSignal) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new DBusProxy(source, Ownership.NONE), Interop.getStringFrom(senderName), Interop.getStringFrom(signalName), new org.gtk.glib.Variant(parameters, Ownership.NONE));
+            HANDLER.signalReceived(new DBusProxy(sourceDBusProxy, Ownership.NONE), Interop.getStringFrom(senderName), Interop.getStringFrom(signalName), new org.gtk.glib.Variant(parameters, Ownership.NONE));
         }
     }
 }

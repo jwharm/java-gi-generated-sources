@@ -16,20 +16,15 @@ import org.jetbrains.annotations.*;
  * <p>
  * More values may be added over time.
  */
-public class SystemSetting extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "GtkSystemSetting";
-    
+public enum SystemSetting implements io.github.jwharm.javagi.Enumeration {
     /**
      * the {@code Gtk.Settings:gtk-xft-dpi} setting has changed
      */
-    public static final SystemSetting DPI = new SystemSetting(0);
-    
+    DPI(0),
     /**
      * The {@code Gtk.Settings:gtk-font-name} setting has changed
      */
-    public static final SystemSetting FONT_NAME = new SystemSetting(1);
-    
+    FONT_NAME(1),
     /**
      * The font configuration has changed in a way that
      *   requires text to be redrawn. This can be any of the
@@ -39,20 +34,37 @@ public class SystemSetting extends io.github.jwharm.javagi.Enumeration {
      *   {@code Gtk.Settings:gtk-xft-rgba} or
      *   {@code Gtk.Settings:gtk-fontconfig-timestamp} settings
      */
-    public static final SystemSetting FONT_CONFIG = new SystemSetting(2);
-    
+    FONT_CONFIG(2),
     /**
      * The display has changed
      */
-    public static final SystemSetting DISPLAY = new SystemSetting(3);
-    
+    DISPLAY(3),
     /**
      * The icon theme has changed in a way that requires
      *   icons to be looked up again
      */
-    public static final SystemSetting ICON_THEME = new SystemSetting(4);
+    ICON_THEME(4);
     
-    public SystemSetting(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "GtkSystemSetting";
+    
+    private final int value;
+    SystemSetting(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static SystemSetting of(int value) {
+        return switch (value) {
+            case 0 -> DPI;
+            case 1 -> FONT_NAME;
+            case 2 -> FONT_CONFIG;
+            case 3 -> DISPLAY;
+            case 4 -> ICON_THEME;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

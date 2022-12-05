@@ -64,12 +64,19 @@ public class ShortcutsWindow extends org.gtk.gtk.Window implements org.gtk.gtk.A
     
     /**
      * Create a ShortcutsWindow proxy instance for the provided memory address.
+     * <p>
+     * Because ShortcutsWindow is an {@code InitiallyUnowned} instance, when 
+     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
+     * and a call to {@code refSink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
     @ApiStatus.Internal
     public ShortcutsWindow(Addressable address, Ownership ownership) {
-        super(address, ownership);
+        super(address, Ownership.FULL);
+        if (ownership == Ownership.NONE) {
+            refSink();
+        }
     }
     
     /**
@@ -85,7 +92,11 @@ public class ShortcutsWindow extends org.gtk.gtk.Window implements org.gtk.gtk.A
      * @throws ClassCastException If the GType is not derived from "GtkShortcutsWindow", a ClassCastException will be thrown.
      */
     public static ShortcutsWindow castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), ShortcutsWindow.getType())) {
             return new ShortcutsWindow(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkShortcutsWindow");
+        }
     }
     
     /**
@@ -104,7 +115,7 @@ public class ShortcutsWindow extends org.gtk.gtk.Window implements org.gtk.gtk.A
     
     @FunctionalInterface
     public interface Close {
-        void signalReceived(ShortcutsWindow source);
+        void signalReceived(ShortcutsWindow sourceShortcutsWindow);
     }
     
     /**
@@ -136,7 +147,7 @@ public class ShortcutsWindow extends org.gtk.gtk.Window implements org.gtk.gtk.A
     
     @FunctionalInterface
     public interface Search {
-        void signalReceived(ShortcutsWindow source);
+        void signalReceived(ShortcutsWindow sourceShortcutsWindow);
     }
     
     /**
@@ -243,16 +254,16 @@ public class ShortcutsWindow extends org.gtk.gtk.Window implements org.gtk.gtk.A
     
     private static class Callbacks {
         
-        public static void signalShortcutsWindowClose(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalShortcutsWindowClose(MemoryAddress sourceShortcutsWindow, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (ShortcutsWindow.Close) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new ShortcutsWindow(source, Ownership.NONE));
+            HANDLER.signalReceived(new ShortcutsWindow(sourceShortcutsWindow, Ownership.NONE));
         }
         
-        public static void signalShortcutsWindowSearch(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalShortcutsWindowSearch(MemoryAddress sourceShortcutsWindow, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (ShortcutsWindow.Search) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new ShortcutsWindow(source, Ownership.NONE));
+            HANDLER.signalReceived(new ShortcutsWindow(sourceShortcutsWindow, Ownership.NONE));
         }
     }
 }

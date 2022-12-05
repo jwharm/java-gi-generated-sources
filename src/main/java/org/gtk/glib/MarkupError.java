@@ -8,50 +8,62 @@ import org.jetbrains.annotations.*;
 /**
  * Error codes returned by markup parsing.
  */
-public class MarkupError extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "GMarkupError";
-    
+public enum MarkupError implements io.github.jwharm.javagi.Enumeration {
     /**
      * text being parsed was not valid UTF-8
      */
-    public static final MarkupError BAD_UTF8 = new MarkupError(0);
-    
+    BAD_UTF8(0),
     /**
      * document contained nothing, or only whitespace
      */
-    public static final MarkupError EMPTY = new MarkupError(1);
-    
+    EMPTY(1),
     /**
      * document was ill-formed
      */
-    public static final MarkupError PARSE = new MarkupError(2);
-    
+    PARSE(2),
     /**
      * error should be set by {@link MarkupParser}
      *     functions; element wasn't known
      */
-    public static final MarkupError UNKNOWN_ELEMENT = new MarkupError(3);
-    
+    UNKNOWN_ELEMENT(3),
     /**
      * error should be set by {@link MarkupParser}
      *     functions; attribute wasn't known
      */
-    public static final MarkupError UNKNOWN_ATTRIBUTE = new MarkupError(4);
-    
+    UNKNOWN_ATTRIBUTE(4),
     /**
      * error should be set by {@link MarkupParser}
      *     functions; content was invalid
      */
-    public static final MarkupError INVALID_CONTENT = new MarkupError(5);
-    
+    INVALID_CONTENT(5),
     /**
      * error should be set by {@link MarkupParser}
      *     functions; a required attribute was missing
      */
-    public static final MarkupError MISSING_ATTRIBUTE = new MarkupError(6);
+    MISSING_ATTRIBUTE(6);
     
-    public MarkupError(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "GMarkupError";
+    
+    private final int value;
+    MarkupError(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static MarkupError of(int value) {
+        return switch (value) {
+            case 0 -> BAD_UTF8;
+            case 1 -> EMPTY;
+            case 2 -> PARSE;
+            case 3 -> UNKNOWN_ELEMENT;
+            case 4 -> UNKNOWN_ATTRIBUTE;
+            case 5 -> INVALID_CONTENT;
+            case 6 -> MISSING_ATTRIBUTE;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

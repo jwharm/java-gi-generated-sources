@@ -31,33 +31,45 @@ import org.jetbrains.annotations.*;
  *   correctly is very tricky.  Use {@code HB_MEMORY_MODE_READONLY} instead.
  * </ul>
  */
-public class MemoryModeT extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "hb_memory_mode_t";
-    
+public enum MemoryModeT implements io.github.jwharm.javagi.Enumeration {
     /**
      * HarfBuzz immediately makes a copy of the data.
      */
-    public static final MemoryModeT DUPLICATE = new MemoryModeT(0);
-    
+    DUPLICATE(0),
     /**
      * HarfBuzz client will never modify the data,
      *     and HarfBuzz will never modify the data.
      */
-    public static final MemoryModeT READONLY = new MemoryModeT(1);
-    
+    READONLY(1),
     /**
      * HarfBuzz client made a copy of the data solely
      *     for HarfBuzz, so HarfBuzz may modify the data.
      */
-    public static final MemoryModeT WRITABLE = new MemoryModeT(2);
-    
+    WRITABLE(2),
     /**
      * See above
      */
-    public static final MemoryModeT READONLY_MAY_MAKE_WRITABLE = new MemoryModeT(3);
+    READONLY_MAY_MAKE_WRITABLE(3);
     
-    public MemoryModeT(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "hb_memory_mode_t";
+    
+    private final int value;
+    MemoryModeT(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static MemoryModeT of(int value) {
+        return switch (value) {
+            case 0 -> DUPLICATE;
+            case 1 -> READONLY;
+            case 2 -> WRITABLE;
+            case 3 -> READONLY_MAY_MAKE_WRITABLE;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

@@ -57,7 +57,11 @@ public class Drag extends org.gtk.gobject.Object {
      * @throws ClassCastException If the GType is not derived from "GdkDrag", a ClassCastException will be thrown.
      */
     public static Drag castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), Drag.getType())) {
             return new Drag(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GdkDrag");
+        }
     }
     
     /**
@@ -288,7 +292,7 @@ public class Drag extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface Cancel {
-        void signalReceived(Drag source, @NotNull org.gtk.gdk.DragCancelReason reason);
+        void signalReceived(Drag sourceDrag, @NotNull org.gtk.gdk.DragCancelReason reason);
     }
     
     /**
@@ -316,7 +320,7 @@ public class Drag extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface DndFinished {
-        void signalReceived(Drag source);
+        void signalReceived(Drag sourceDrag);
     }
     
     /**
@@ -346,7 +350,7 @@ public class Drag extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface DropPerformed {
-        void signalReceived(Drag source);
+        void signalReceived(Drag sourceDrag);
     }
     
     /**
@@ -561,22 +565,22 @@ public class Drag extends org.gtk.gobject.Object {
     
     private static class Callbacks {
         
-        public static void signalDragCancel(MemoryAddress source, int reason, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalDragCancel(MemoryAddress sourceDrag, int reason, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (Drag.Cancel) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Drag(source, Ownership.NONE), new org.gtk.gdk.DragCancelReason(reason));
+            HANDLER.signalReceived(new Drag(sourceDrag, Ownership.NONE), org.gtk.gdk.DragCancelReason.of(reason));
         }
         
-        public static void signalDragDndFinished(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalDragDndFinished(MemoryAddress sourceDrag, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (Drag.DndFinished) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Drag(source, Ownership.NONE));
+            HANDLER.signalReceived(new Drag(sourceDrag, Ownership.NONE));
         }
         
-        public static void signalDragDropPerformed(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalDragDropPerformed(MemoryAddress sourceDrag, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (Drag.DropPerformed) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Drag(source, Ownership.NONE));
+            HANDLER.signalReceived(new Drag(sourceDrag, Ownership.NONE));
         }
     }
 }

@@ -52,7 +52,11 @@ public class SimpleAction extends org.gtk.gobject.Object implements org.gtk.gio.
      * @throws ClassCastException If the GType is not derived from "GSimpleAction", a ClassCastException will be thrown.
      */
     public static SimpleAction castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), SimpleAction.getType())) {
             return new SimpleAction(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GSimpleAction");
+        }
     }
     
     private static Addressable constructNew(@NotNull java.lang.String name, @Nullable org.gtk.glib.VariantType parameterType) {
@@ -190,7 +194,7 @@ public class SimpleAction extends org.gtk.gobject.Object implements org.gtk.gio.
     
     @FunctionalInterface
     public interface Activate {
-        void signalReceived(SimpleAction source, @Nullable org.gtk.glib.Variant parameter);
+        void signalReceived(SimpleAction sourceSimpleAction, @Nullable org.gtk.glib.Variant parameter);
     }
     
     /**
@@ -230,7 +234,7 @@ public class SimpleAction extends org.gtk.gobject.Object implements org.gtk.gio.
     
     @FunctionalInterface
     public interface ChangeState {
-        void signalReceived(SimpleAction source, @Nullable org.gtk.glib.Variant value);
+        void signalReceived(SimpleAction sourceSimpleAction, @Nullable org.gtk.glib.Variant value);
     }
     
     /**
@@ -425,16 +429,16 @@ public class SimpleAction extends org.gtk.gobject.Object implements org.gtk.gio.
     
     private static class Callbacks {
         
-        public static void signalSimpleActionActivate(MemoryAddress source, MemoryAddress parameter, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalSimpleActionActivate(MemoryAddress sourceSimpleAction, MemoryAddress parameter, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (SimpleAction.Activate) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new SimpleAction(source, Ownership.NONE), new org.gtk.glib.Variant(parameter, Ownership.NONE));
+            HANDLER.signalReceived(new SimpleAction(sourceSimpleAction, Ownership.NONE), new org.gtk.glib.Variant(parameter, Ownership.NONE));
         }
         
-        public static void signalSimpleActionChangeState(MemoryAddress source, MemoryAddress value, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalSimpleActionChangeState(MemoryAddress sourceSimpleAction, MemoryAddress value, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (SimpleAction.ChangeState) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new SimpleAction(source, Ownership.NONE), new org.gtk.glib.Variant(value, Ownership.NONE));
+            HANDLER.signalReceived(new SimpleAction(sourceSimpleAction, Ownership.NONE), new org.gtk.glib.Variant(value, Ownership.NONE));
         }
     }
 }

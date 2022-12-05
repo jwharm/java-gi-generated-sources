@@ -28,9 +28,8 @@ public class OtMathGlyphPartFlagsT extends io.github.jwharm.javagi.Bitfield {
      * @param mask the value to combine with
      * @return the combined value by calculating {@code this | mask} 
      */
-    public OtMathGlyphPartFlagsT combined(OtMathGlyphPartFlagsT mask) {
-        this.setValue(this.getValue() | mask.getValue());
-        return this;
+    public OtMathGlyphPartFlagsT or(OtMathGlyphPartFlagsT mask) {
+        return new OtMathGlyphPartFlagsT(this.getValue() | mask.getValue());
     }
     
     /**
@@ -40,9 +39,9 @@ public class OtMathGlyphPartFlagsT extends io.github.jwharm.javagi.Bitfield {
      * @return the combined value by calculating {@code mask | masks[0] | masks[1] | ...} 
      */
     public static OtMathGlyphPartFlagsT combined(OtMathGlyphPartFlagsT mask, OtMathGlyphPartFlagsT... masks) {
-        for (OtMathGlyphPartFlagsT arg : masks) {
-            mask.setValue(mask.getValue() | arg.getValue());
+        int value = mask.getValue();        for (OtMathGlyphPartFlagsT arg : masks) {
+            value |= arg.getValue();
         }
-        return mask;
+        return new OtMathGlyphPartFlagsT(value);
     }
 }

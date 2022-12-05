@@ -49,32 +49,4 @@ public class BlobT extends Struct {
     public BlobT(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
-
-    /**
-     * Inner class implementing a builder pattern to construct 
-     * a struct and set its values.
-     */
-    public static class Build {
-        
-        private BlobT struct;
-        
-         /**
-         * A {@link BlobT.Build} object constructs a {@link BlobT} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
-            struct = BlobT.allocate();
-        }
-        
-         /**
-         * Finish building the {@link BlobT} struct.
-         * @return A new instance of {@code BlobT} with the fields 
-         *         that were set in the Build object.
-         */
-        public BlobT construct() {
-            return struct;
-        }
-    }
 }

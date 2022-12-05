@@ -44,32 +44,4 @@ public class BaseSinkPrivate extends Struct {
     public BaseSinkPrivate(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
-
-    /**
-     * Inner class implementing a builder pattern to construct 
-     * a struct and set its values.
-     */
-    public static class Build {
-        
-        private BaseSinkPrivate struct;
-        
-         /**
-         * A {@link BaseSinkPrivate.Build} object constructs a {@link BaseSinkPrivate} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
-            struct = BaseSinkPrivate.allocate();
-        }
-        
-         /**
-         * Finish building the {@link BaseSinkPrivate} struct.
-         * @return A new instance of {@code BaseSinkPrivate} with the fields 
-         *         that were set in the Build object.
-         */
-        public BaseSinkPrivate construct() {
-            return struct;
-        }
-    }
 }

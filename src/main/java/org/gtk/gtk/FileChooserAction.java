@@ -9,31 +9,43 @@ import org.jetbrains.annotations.*;
  * Describes whether a {@code GtkFileChooser} is being used to open existing files
  * or to save to a possibly new file.
  */
-public class FileChooserAction extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "GtkFileChooserAction";
-    
+public enum FileChooserAction implements io.github.jwharm.javagi.Enumeration {
     /**
      * Indicates open mode.  The file chooser
      *  will only let the user pick an existing file.
      */
-    public static final FileChooserAction OPEN = new FileChooserAction(0);
-    
+    OPEN(0),
     /**
      * Indicates save mode.  The file chooser
      *  will let the user pick an existing file, or type in a new
      *  filename.
      */
-    public static final FileChooserAction SAVE = new FileChooserAction(1);
-    
+    SAVE(1),
     /**
      * Indicates an Open mode for
      *  selecting folders.  The file chooser will let the user pick an
      *  existing folder.
      */
-    public static final FileChooserAction SELECT_FOLDER = new FileChooserAction(2);
+    SELECT_FOLDER(2);
     
-    public FileChooserAction(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "GtkFileChooserAction";
+    
+    private final int value;
+    FileChooserAction(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static FileChooserAction of(int value) {
+        return switch (value) {
+            case 0 -> OPEN;
+            case 1 -> SAVE;
+            case 2 -> SELECT_FOLDER;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

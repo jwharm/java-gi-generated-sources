@@ -183,12 +183,19 @@ public class AboutWindow extends org.gnome.adw.Window implements org.gtk.gtk.Acc
     
     /**
      * Create a AboutWindow proxy instance for the provided memory address.
+     * <p>
+     * Because AboutWindow is an {@code InitiallyUnowned} instance, when 
+     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
+     * and a call to {@code refSink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
     @ApiStatus.Internal
     public AboutWindow(Addressable address, Ownership ownership) {
-        super(address, ownership);
+        super(address, Ownership.FULL);
+        if (ownership == Ownership.NONE) {
+            refSink();
+        }
     }
     
     /**
@@ -204,7 +211,11 @@ public class AboutWindow extends org.gnome.adw.Window implements org.gtk.gtk.Acc
      * @throws ClassCastException If the GType is not derived from "AdwAboutWindow", a ClassCastException will be thrown.
      */
     public static AboutWindow castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), AboutWindow.getType())) {
             return new AboutWindow(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of AdwAboutWindow");
+        }
     }
     
     private static Addressable constructNew() {
@@ -579,7 +590,7 @@ public class AboutWindow extends org.gnome.adw.Window implements org.gtk.gtk.Acc
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.License(RESULT);
+        return org.gtk.gtk.License.of(RESULT);
     }
     
     /**
@@ -1174,7 +1185,7 @@ public class AboutWindow extends org.gnome.adw.Window implements org.gtk.gtk.Acc
     
     @FunctionalInterface
     public interface ActivateLink {
-        boolean signalReceived(AboutWindow source, @NotNull java.lang.String uri);
+        boolean signalReceived(AboutWindow sourceAboutWindow, @NotNull java.lang.String uri);
     }
     
     /**
@@ -1833,10 +1844,10 @@ public class AboutWindow extends org.gnome.adw.Window implements org.gtk.gtk.Acc
     
     private static class Callbacks {
         
-        public static boolean signalAboutWindowActivateLink(MemoryAddress source, MemoryAddress uri, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static boolean signalAboutWindowActivateLink(MemoryAddress sourceAboutWindow, MemoryAddress uri, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (AboutWindow.ActivateLink) Interop.signalRegistry.get(HASH);
-            return HANDLER.signalReceived(new AboutWindow(source, Ownership.NONE), Interop.getStringFrom(uri));
+            return HANDLER.signalReceived(new AboutWindow(sourceAboutWindow, Ownership.NONE), Interop.getStringFrom(uri));
         }
     }
 }

@@ -5,61 +5,73 @@ import java.lang.foreign.*;
 import java.lang.invoke.*;
 import org.jetbrains.annotations.*;
 
-public class SurfaceType extends io.github.jwharm.javagi.Enumeration {
+public enum SurfaceType implements io.github.jwharm.javagi.Enumeration {
+    IMAGE(0),
+    PDF(1),
+    PS(2),
+    XLIB(3),
+    XCB(4),
+    GLITZ(5),
+    QUARTZ(6),
+    WIN32(7),
+    BEOS(8),
+    DIRECTFB(9),
+    SVG(10),
+    OS2(11),
+    WIN32_PRINTING(12),
+    QUARTZ_IMAGE(13),
+    SCRIPT(14),
+    QT(15),
+    RECORDING(16),
+    VG(17),
+    GL(18),
+    DRM(19),
+    TEE(20),
+    XML(21),
+    SKIA(22),
+    SUBSURFACE(23),
+    COGL(24);
     
     private static final java.lang.String C_TYPE_NAME = "cairo_surface_type_t";
     
-    public static final SurfaceType IMAGE = new SurfaceType(0);
+    private final int value;
+    SurfaceType(int value) {
+        this.value = value;
+    }
     
-    public static final SurfaceType PDF = new SurfaceType(1);
+    @Override
+    public int getValue() {
+        return value;
+    }
     
-    public static final SurfaceType PS = new SurfaceType(2);
-    
-    public static final SurfaceType XLIB = new SurfaceType(3);
-    
-    public static final SurfaceType XCB = new SurfaceType(4);
-    
-    public static final SurfaceType GLITZ = new SurfaceType(5);
-    
-    public static final SurfaceType QUARTZ = new SurfaceType(6);
-    
-    public static final SurfaceType WIN32 = new SurfaceType(7);
-    
-    public static final SurfaceType BEOS = new SurfaceType(8);
-    
-    public static final SurfaceType DIRECTFB = new SurfaceType(9);
-    
-    public static final SurfaceType SVG = new SurfaceType(10);
-    
-    public static final SurfaceType OS2 = new SurfaceType(11);
-    
-    public static final SurfaceType WIN32_PRINTING = new SurfaceType(12);
-    
-    public static final SurfaceType QUARTZ_IMAGE = new SurfaceType(13);
-    
-    public static final SurfaceType SCRIPT = new SurfaceType(14);
-    
-    public static final SurfaceType QT = new SurfaceType(15);
-    
-    public static final SurfaceType RECORDING = new SurfaceType(16);
-    
-    public static final SurfaceType VG = new SurfaceType(17);
-    
-    public static final SurfaceType GL = new SurfaceType(18);
-    
-    public static final SurfaceType DRM = new SurfaceType(19);
-    
-    public static final SurfaceType TEE = new SurfaceType(20);
-    
-    public static final SurfaceType XML = new SurfaceType(21);
-    
-    public static final SurfaceType SKIA = new SurfaceType(22);
-    
-    public static final SurfaceType SUBSURFACE = new SurfaceType(23);
-    
-    public static final SurfaceType COGL = new SurfaceType(24);
-    
-    public SurfaceType(int value) {
-        super(value);
+    public static SurfaceType of(int value) {
+        return switch (value) {
+            case 0 -> IMAGE;
+            case 1 -> PDF;
+            case 2 -> PS;
+            case 3 -> XLIB;
+            case 4 -> XCB;
+            case 5 -> GLITZ;
+            case 6 -> QUARTZ;
+            case 7 -> WIN32;
+            case 8 -> BEOS;
+            case 9 -> DIRECTFB;
+            case 10 -> SVG;
+            case 11 -> OS2;
+            case 12 -> WIN32_PRINTING;
+            case 13 -> QUARTZ_IMAGE;
+            case 14 -> SCRIPT;
+            case 15 -> QT;
+            case 16 -> RECORDING;
+            case 17 -> VG;
+            case 18 -> GL;
+            case 19 -> DRM;
+            case 20 -> TEE;
+            case 21 -> XML;
+            case 22 -> SKIA;
+            case 23 -> SUBSURFACE;
+            case 24 -> COGL;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

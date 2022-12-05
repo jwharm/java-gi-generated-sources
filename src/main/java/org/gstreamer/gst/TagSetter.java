@@ -61,7 +61,11 @@ public interface TagSetter extends io.github.jwharm.javagi.Proxy {
      * @throws ClassCastException If the GType is not derived from "GstTagSetter", a ClassCastException will be thrown.
      */
     public static TagSetter castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), TagSetter.getType())) {
             return new TagSetterImpl(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GstTagSetter");
+        }
     }
     
     /**
@@ -203,7 +207,7 @@ public interface TagSetter extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.TagMergeMode(RESULT);
+        return org.gstreamer.gst.TagMergeMode.of(RESULT);
     }
     
     /**

@@ -9,27 +9,39 @@ import org.jetbrains.annotations.*;
  * Determines how GTK handles the sensitivity of various controls,
  * such as combo box buttons.
  */
-public class SensitivityType extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "GtkSensitivityType";
-    
+public enum SensitivityType implements io.github.jwharm.javagi.Enumeration {
     /**
      * The control is made insensitive if no
      *   action can be triggered
      */
-    public static final SensitivityType AUTO = new SensitivityType(0);
-    
+    AUTO(0),
     /**
      * The control is always sensitive
      */
-    public static final SensitivityType ON = new SensitivityType(1);
-    
+    ON(1),
     /**
      * The control is always insensitive
      */
-    public static final SensitivityType OFF = new SensitivityType(2);
+    OFF(2);
     
-    public SensitivityType(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "GtkSensitivityType";
+    
+    private final int value;
+    SensitivityType(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static SensitivityType of(int value) {
+        return switch (value) {
+            case 0 -> AUTO;
+            case 1 -> ON;
+            case 2 -> OFF;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

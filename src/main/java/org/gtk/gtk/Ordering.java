@@ -13,27 +13,39 @@ import org.jetbrains.annotations.*;
  * For converting such a value to a {@code GtkOrdering} value, use
  * {@link Ordering#fromCmpfunc}.
  */
-public class Ordering extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "GtkOrdering";
-    
+public enum Ordering implements io.github.jwharm.javagi.Enumeration {
     /**
      * the first value is smaller than the second
      */
-    public static final Ordering SMALLER = new Ordering(0);
-    
+    SMALLER(-1),
     /**
      * the two values are equal
      */
-    public static final Ordering EQUAL = new Ordering(0);
-    
+    EQUAL(0),
     /**
      * the first value is larger than the second
      */
-    public static final Ordering LARGER = new Ordering(1);
+    LARGER(1);
     
-    public Ordering(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "GtkOrdering";
+    
+    private final int value;
+    Ordering(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static Ordering of(int value) {
+        return switch (value) {
+            case -1 -> SMALLER;
+            case 0 -> EQUAL;
+            case 1 -> LARGER;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
     
     /**
@@ -50,7 +62,7 @@ public class Ordering extends io.github.jwharm.javagi.Enumeration {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.Ordering(RESULT);
+        return org.gtk.gtk.Ordering.of(RESULT);
     }
     
     private static class DowncallHandles {

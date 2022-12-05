@@ -9,21 +9,33 @@ import org.jetbrains.annotations.*;
  * Defines the policy to be used in a scrollable widget when updating
  * the scrolled window adjustments in a given orientation.
  */
-public class ScrollablePolicy extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "GtkScrollablePolicy";
-    
+public enum ScrollablePolicy implements io.github.jwharm.javagi.Enumeration {
     /**
      * Scrollable adjustments are based on the minimum size
      */
-    public static final ScrollablePolicy MINIMUM = new ScrollablePolicy(0);
-    
+    MINIMUM(0),
     /**
      * Scrollable adjustments are based on the natural size
      */
-    public static final ScrollablePolicy NATURAL = new ScrollablePolicy(1);
+    NATURAL(1);
     
-    public ScrollablePolicy(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "GtkScrollablePolicy";
+    
+    private final int value;
+    ScrollablePolicy(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static ScrollablePolicy of(int value) {
+        return switch (value) {
+            case 0 -> MINIMUM;
+            case 1 -> NATURAL;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

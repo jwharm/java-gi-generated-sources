@@ -8,26 +8,38 @@ import org.jetbrains.annotations.*;
 /**
  * An enumeration specifying the various slant styles possible for a font.
  */
-public class Style extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "PangoStyle";
-    
+public enum Style implements io.github.jwharm.javagi.Enumeration {
     /**
      * the font is upright.
      */
-    public static final Style NORMAL = new Style(0);
-    
+    NORMAL(0),
     /**
      * the font is slanted, but in a roman style.
      */
-    public static final Style OBLIQUE = new Style(1);
-    
+    OBLIQUE(1),
     /**
      * the font is slanted in an italic style.
      */
-    public static final Style ITALIC = new Style(2);
+    ITALIC(2);
     
-    public Style(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "PangoStyle";
+    
+    private final int value;
+    Style(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static Style of(int value) {
+        return switch (value) {
+            case 0 -> NORMAL;
+            case 1 -> OBLIQUE;
+            case 2 -> ITALIC;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

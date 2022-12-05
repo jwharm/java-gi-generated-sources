@@ -9,26 +9,38 @@ import org.jetbrains.annotations.*;
  * Specifies a preference for height-for-width or
  * width-for-height geometry management.
  */
-public class SizeRequestMode extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "GtkSizeRequestMode";
-    
+public enum SizeRequestMode implements io.github.jwharm.javagi.Enumeration {
     /**
      * Prefer height-for-width geometry management
      */
-    public static final SizeRequestMode HEIGHT_FOR_WIDTH = new SizeRequestMode(0);
-    
+    HEIGHT_FOR_WIDTH(0),
     /**
      * Prefer width-for-height geometry management
      */
-    public static final SizeRequestMode WIDTH_FOR_HEIGHT = new SizeRequestMode(1);
-    
+    WIDTH_FOR_HEIGHT(1),
     /**
      * Don’t trade height-for-width or width-for-height
      */
-    public static final SizeRequestMode CONSTANT_SIZE = new SizeRequestMode(2);
+    CONSTANT_SIZE(2);
     
-    public SizeRequestMode(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "GtkSizeRequestMode";
+    
+    private final int value;
+    SizeRequestMode(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static SizeRequestMode of(int value) {
+        return switch (value) {
+            case 0 -> HEIGHT_FOR_WIDTH;
+            case 1 -> WIDTH_FOR_HEIGHT;
+            case 2 -> CONSTANT_SIZE;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

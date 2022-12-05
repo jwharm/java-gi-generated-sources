@@ -1782,32 +1782,4 @@ public class KeyFile extends Struct {
             false
         );
     }
-
-    /**
-     * Inner class implementing a builder pattern to construct 
-     * a struct and set its values.
-     */
-    public static class Build {
-        
-        private KeyFile struct;
-        
-         /**
-         * A {@link KeyFile.Build} object constructs a {@link KeyFile} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
-            struct = KeyFile.allocate();
-        }
-        
-         /**
-         * Finish building the {@link KeyFile} struct.
-         * @return A new instance of {@code KeyFile} with the fields 
-         *         that were set in the Build object.
-         */
-        public KeyFile construct() {
-            return struct;
-        }
-    }
 }

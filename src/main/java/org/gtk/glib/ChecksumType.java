@@ -13,36 +13,48 @@ import org.jetbrains.annotations.*;
  * date to include new hashing algorithm types.
  * @version 2.16
  */
-public class ChecksumType extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "GChecksumType";
-    
+public enum ChecksumType implements io.github.jwharm.javagi.Enumeration {
     /**
      * Use the MD5 hashing algorithm
      */
-    public static final ChecksumType MD5 = new ChecksumType(0);
-    
+    MD5(0),
     /**
      * Use the SHA-1 hashing algorithm
      */
-    public static final ChecksumType SHA1 = new ChecksumType(1);
-    
+    SHA1(1),
     /**
      * Use the SHA-256 hashing algorithm
      */
-    public static final ChecksumType SHA256 = new ChecksumType(2);
-    
+    SHA256(2),
     /**
      * Use the SHA-512 hashing algorithm (Since: 2.36)
      */
-    public static final ChecksumType SHA512 = new ChecksumType(3);
-    
+    SHA512(3),
     /**
      * Use the SHA-384 hashing algorithm (Since: 2.51)
      */
-    public static final ChecksumType SHA384 = new ChecksumType(4);
+    SHA384(4);
     
-    public ChecksumType(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "GChecksumType";
+    
+    private final int value;
+    ChecksumType(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static ChecksumType of(int value) {
+        return switch (value) {
+            case 0 -> MD5;
+            case 1 -> SHA1;
+            case 2 -> SHA256;
+            case 3 -> SHA512;
+            case 4 -> SHA384;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

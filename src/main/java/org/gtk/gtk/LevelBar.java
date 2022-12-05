@@ -119,12 +119,19 @@ public class LevelBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     
     /**
      * Create a LevelBar proxy instance for the provided memory address.
+     * <p>
+     * Because LevelBar is an {@code InitiallyUnowned} instance, when 
+     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
+     * and a call to {@code refSink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
     @ApiStatus.Internal
     public LevelBar(Addressable address, Ownership ownership) {
-        super(address, ownership);
+        super(address, Ownership.FULL);
+        if (ownership == Ownership.NONE) {
+            refSink();
+        }
     }
     
     /**
@@ -140,7 +147,11 @@ public class LevelBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * @throws ClassCastException If the GType is not derived from "GtkLevelBar", a ClassCastException will be thrown.
      */
     public static LevelBar castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), LevelBar.getType())) {
             return new LevelBar(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkLevelBar");
+        }
     }
     
     private static Addressable constructNew() {
@@ -264,7 +275,7 @@ public class LevelBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.LevelBarMode(RESULT);
+        return org.gtk.gtk.LevelBarMode.of(RESULT);
     }
     
     /**
@@ -416,7 +427,7 @@ public class LevelBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     
     @FunctionalInterface
     public interface OffsetChanged {
-        void signalReceived(LevelBar source, @NotNull java.lang.String name);
+        void signalReceived(LevelBar sourceLevelBar, @NotNull java.lang.String name);
     }
     
     /**
@@ -653,10 +664,10 @@ public class LevelBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     
     private static class Callbacks {
         
-        public static void signalLevelBarOffsetChanged(MemoryAddress source, MemoryAddress name, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalLevelBarOffsetChanged(MemoryAddress sourceLevelBar, MemoryAddress name, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (LevelBar.OffsetChanged) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new LevelBar(source, Ownership.NONE), Interop.getStringFrom(name));
+            HANDLER.signalReceived(new LevelBar(sourceLevelBar, Ownership.NONE), Interop.getStringFrom(name));
         }
     }
 }

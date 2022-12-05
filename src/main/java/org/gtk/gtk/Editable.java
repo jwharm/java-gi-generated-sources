@@ -143,7 +143,11 @@ public interface Editable extends io.github.jwharm.javagi.Proxy {
      * @throws ClassCastException If the GType is not derived from "GtkEditable", a ClassCastException will be thrown.
      */
     public static Editable castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), Editable.getType())) {
             return new EditableImpl(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkEditable");
+        }
     }
     
     /**
@@ -683,7 +687,7 @@ public interface Editable extends io.github.jwharm.javagi.Proxy {
     
     @FunctionalInterface
     public interface Changed {
-        void signalReceived(Editable source);
+        void signalReceived(Editable sourceEditable);
     }
     
     /**
@@ -718,7 +722,7 @@ public interface Editable extends io.github.jwharm.javagi.Proxy {
     
     @FunctionalInterface
     public interface DeleteText {
-        void signalReceived(Editable source, int startPos, int endPos);
+        void signalReceived(Editable sourceEditable, int startPos, int endPos);
     }
     
     /**
@@ -754,7 +758,7 @@ public interface Editable extends io.github.jwharm.javagi.Proxy {
     
     @FunctionalInterface
     public interface InsertText {
-        void signalReceived(Editable source, @NotNull java.lang.String text, int length, Out<Integer> position);
+        void signalReceived(Editable sourceEditable, @NotNull java.lang.String text, int length, Out<Integer> position);
     }
     
     /**
@@ -967,19 +971,19 @@ public interface Editable extends io.github.jwharm.javagi.Proxy {
     @ApiStatus.Internal
     static class Callbacks {
         
-        public static void signalEditableChanged(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalEditableChanged(MemoryAddress sourceEditable, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (Editable.Changed) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Editable.EditableImpl(source, Ownership.NONE));
+            HANDLER.signalReceived(new Editable.EditableImpl(sourceEditable, Ownership.NONE));
         }
         
-        public static void signalEditableDeleteText(MemoryAddress source, int startPos, int endPos, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalEditableDeleteText(MemoryAddress sourceEditable, int startPos, int endPos, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (Editable.DeleteText) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Editable.EditableImpl(source, Ownership.NONE), startPos, endPos);
+            HANDLER.signalReceived(new Editable.EditableImpl(sourceEditable, Ownership.NONE), startPos, endPos);
         }
         
-        public static void signalEditableInsertText(MemoryAddress source, MemoryAddress text, int length, int position, MemoryAddress data) {
+        public static void signalEditableInsertText(MemoryAddress sourceEditable, MemoryAddress text, int length, int position, MemoryAddress DATA) {
         // Operation not supported yet
     }
     }

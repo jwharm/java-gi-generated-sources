@@ -52,7 +52,11 @@ public class Device extends org.gtk.gobject.Object {
      * @throws ClassCastException If the GType is not derived from "GdkDevice", a ClassCastException will be thrown.
      */
     public static Device castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), Device.getType())) {
             return new Device(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GdkDevice");
+        }
     }
     
     /**
@@ -106,7 +110,7 @@ public class Device extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.Direction(RESULT);
+        return org.pango.Direction.of(RESULT);
     }
     
     /**
@@ -268,7 +272,7 @@ public class Device extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gdk.InputSource(RESULT);
+        return org.gtk.gdk.InputSource.of(RESULT);
     }
     
     /**
@@ -397,7 +401,7 @@ public class Device extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface Changed {
-        void signalReceived(Device source);
+        void signalReceived(Device sourceDevice);
     }
     
     /**
@@ -431,7 +435,7 @@ public class Device extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface ToolChanged {
-        void signalReceived(Device source, @NotNull org.gtk.gdk.DeviceTool tool);
+        void signalReceived(Device sourceDevice, @NotNull org.gtk.gdk.DeviceTool tool);
     }
     
     /**
@@ -800,16 +804,16 @@ public class Device extends org.gtk.gobject.Object {
     
     private static class Callbacks {
         
-        public static void signalDeviceChanged(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalDeviceChanged(MemoryAddress sourceDevice, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (Device.Changed) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Device(source, Ownership.NONE));
+            HANDLER.signalReceived(new Device(sourceDevice, Ownership.NONE));
         }
         
-        public static void signalDeviceToolChanged(MemoryAddress source, MemoryAddress tool, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalDeviceToolChanged(MemoryAddress sourceDevice, MemoryAddress tool, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (Device.ToolChanged) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Device(source, Ownership.NONE), new org.gtk.gdk.DeviceTool(tool, Ownership.NONE));
+            HANDLER.signalReceived(new Device(sourceDevice, Ownership.NONE), new org.gtk.gdk.DeviceTool(tool, Ownership.NONE));
         }
     }
 }

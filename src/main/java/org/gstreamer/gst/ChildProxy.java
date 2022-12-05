@@ -35,7 +35,11 @@ public interface ChildProxy extends io.github.jwharm.javagi.Proxy {
      * @throws ClassCastException If the GType is not derived from "GstChildProxy", a ClassCastException will be thrown.
      */
     public static ChildProxy castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), ChildProxy.getType())) {
             return new ChildProxyImpl(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GstChildProxy");
+        }
     }
     
     /**
@@ -285,7 +289,7 @@ public interface ChildProxy extends io.github.jwharm.javagi.Proxy {
     
     @FunctionalInterface
     public interface ChildAdded {
-        void signalReceived(ChildProxy source, @NotNull org.gtk.gobject.Object object, @NotNull java.lang.String name);
+        void signalReceived(ChildProxy sourceChildProxy, @NotNull org.gtk.gobject.Object object, @NotNull java.lang.String name);
     }
     
     /**
@@ -313,7 +317,7 @@ public interface ChildProxy extends io.github.jwharm.javagi.Proxy {
     
     @FunctionalInterface
     public interface ChildRemoved {
-        void signalReceived(ChildProxy source, @NotNull org.gtk.gobject.Object object, @NotNull java.lang.String name);
+        void signalReceived(ChildProxy sourceChildProxy, @NotNull org.gtk.gobject.Object object, @NotNull java.lang.String name);
     }
     
     /**
@@ -437,16 +441,16 @@ public interface ChildProxy extends io.github.jwharm.javagi.Proxy {
     @ApiStatus.Internal
     static class Callbacks {
         
-        public static void signalChildProxyChildAdded(MemoryAddress source, MemoryAddress object, MemoryAddress name, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalChildProxyChildAdded(MemoryAddress sourceChildProxy, MemoryAddress object, MemoryAddress name, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (ChildProxy.ChildAdded) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new ChildProxy.ChildProxyImpl(source, Ownership.NONE), new org.gtk.gobject.Object(object, Ownership.NONE), Interop.getStringFrom(name));
+            HANDLER.signalReceived(new ChildProxy.ChildProxyImpl(sourceChildProxy, Ownership.NONE), new org.gtk.gobject.Object(object, Ownership.NONE), Interop.getStringFrom(name));
         }
         
-        public static void signalChildProxyChildRemoved(MemoryAddress source, MemoryAddress object, MemoryAddress name, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalChildProxyChildRemoved(MemoryAddress sourceChildProxy, MemoryAddress object, MemoryAddress name, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (ChildProxy.ChildRemoved) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new ChildProxy.ChildProxyImpl(source, Ownership.NONE), new org.gtk.gobject.Object(object, Ownership.NONE), Interop.getStringFrom(name));
+            HANDLER.signalReceived(new ChildProxy.ChildProxyImpl(sourceChildProxy, Ownership.NONE), new org.gtk.gobject.Object(object, Ownership.NONE), Interop.getStringFrom(name));
         }
     }
     

@@ -12,32 +12,17 @@ import org.jetbrains.annotations.*;
  * accent or as a single precomposed character. Unicode strings
  * should generally be normalized before comparing them.
  */
-public class NormalizeMode extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "GNormalizeMode";
-    
+public enum NormalizeMode implements io.github.jwharm.javagi.Enumeration {
     /**
      * standardize differences that do not affect the
      *     text content, such as the above-mentioned accent representation
      */
-    public static final NormalizeMode DEFAULT = new NormalizeMode(0);
-    
-    /**
-     * another name for {@link NormalizeMode#DEFAULT}
-     */
-    public static final NormalizeMode NFD = new NormalizeMode(0);
-    
+    DEFAULT(0),
     /**
      * like {@link NormalizeMode#DEFAULT}, but with
      *     composed forms rather than a maximally decomposed form
      */
-    public static final NormalizeMode DEFAULT_COMPOSE = new NormalizeMode(1);
-    
-    /**
-     * another name for {@link NormalizeMode#DEFAULT_COMPOSE}
-     */
-    public static final NormalizeMode NFC = new NormalizeMode(1);
-    
+    DEFAULT_COMPOSE(1),
     /**
      * beyond {@link NormalizeMode#DEFAULT} also standardize the
      *     "compatibility" characters in Unicode, such as SUPERSCRIPT THREE
@@ -45,25 +30,36 @@ public class NormalizeMode extends io.github.jwharm.javagi.Enumeration {
      *     information may be lost but for most text operations such
      *     characters should be considered the same
      */
-    public static final NormalizeMode ALL = new NormalizeMode(2);
-    
-    /**
-     * another name for {@link NormalizeMode#ALL}
-     */
-    public static final NormalizeMode NFKD = new NormalizeMode(2);
-    
+    ALL(2),
     /**
      * like {@link NormalizeMode#ALL}, but with composed
      *     forms rather than a maximally decomposed form
      */
-    public static final NormalizeMode ALL_COMPOSE = new NormalizeMode(3);
+    ALL_COMPOSE(3);
+    public static final NormalizeMode NFD = DEFAULT;
+    public static final NormalizeMode NFC = DEFAULT_COMPOSE;
+    public static final NormalizeMode NFKD = ALL;
+    public static final NormalizeMode NFKC = ALL_COMPOSE;
     
-    /**
-     * another name for {@link NormalizeMode#ALL_COMPOSE}
-     */
-    public static final NormalizeMode NFKC = new NormalizeMode(3);
+    private static final java.lang.String C_TYPE_NAME = "GNormalizeMode";
     
-    public NormalizeMode(int value) {
-        super(value);
+    private final int value;
+    NormalizeMode(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static NormalizeMode of(int value) {
+        return switch (value) {
+            case 0 -> DEFAULT;
+            case 1 -> DEFAULT_COMPOSE;
+            case 2 -> ALL;
+            case 3 -> ALL_COMPOSE;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

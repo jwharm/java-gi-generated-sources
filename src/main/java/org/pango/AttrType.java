@@ -13,199 +13,211 @@ import org.jetbrains.annotations.*;
  * values are given below. The type of structure used to store the attribute is
  * listed in parentheses after the description.
  */
-public class AttrType extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "PangoAttrType";
-    
+public enum AttrType implements io.github.jwharm.javagi.Enumeration {
     /**
      * does not happen
      */
-    public static final AttrType INVALID = new AttrType(0);
-    
+    INVALID(0),
     /**
      * language ({@code Pango.AttrLanguage})
      */
-    public static final AttrType LANGUAGE = new AttrType(1);
-    
+    LANGUAGE(1),
     /**
      * font family name list ({@code Pango.AttrString})
      */
-    public static final AttrType FAMILY = new AttrType(2);
-    
+    FAMILY(2),
     /**
      * font slant style ({@code Pango.AttrInt})
      */
-    public static final AttrType STYLE = new AttrType(3);
-    
+    STYLE(3),
     /**
      * font weight ({@code Pango.AttrInt})
      */
-    public static final AttrType WEIGHT = new AttrType(4);
-    
+    WEIGHT(4),
     /**
      * font variant (normal or small caps) ({@code Pango.AttrInt})
      */
-    public static final AttrType VARIANT = new AttrType(5);
-    
+    VARIANT(5),
     /**
      * font stretch ({@code Pango.AttrInt})
      */
-    public static final AttrType STRETCH = new AttrType(6);
-    
+    STRETCH(6),
     /**
      * font size in points scaled by {@code PANGO_SCALE} ({@code Pango.AttrInt})
      */
-    public static final AttrType SIZE = new AttrType(7);
-    
+    SIZE(7),
     /**
      * font description ({@code Pango.AttrFontDesc})
      */
-    public static final AttrType FONT_DESC = new AttrType(8);
-    
+    FONT_DESC(8),
     /**
      * foreground color ({@code Pango.AttrColor})
      */
-    public static final AttrType FOREGROUND = new AttrType(9);
-    
+    FOREGROUND(9),
     /**
      * background color ({@code Pango.AttrColor})
      */
-    public static final AttrType BACKGROUND = new AttrType(10);
-    
+    BACKGROUND(10),
     /**
      * whether the text has an underline ({@code Pango.AttrInt})
      */
-    public static final AttrType UNDERLINE = new AttrType(11);
-    
+    UNDERLINE(11),
     /**
      * whether the text is struck-through ({@code Pango.AttrInt})
      */
-    public static final AttrType STRIKETHROUGH = new AttrType(12);
-    
+    STRIKETHROUGH(12),
     /**
      * baseline displacement ({@code Pango.AttrInt})
      */
-    public static final AttrType RISE = new AttrType(13);
-    
+    RISE(13),
     /**
      * shape ({@code Pango.AttrShape})
      */
-    public static final AttrType SHAPE = new AttrType(14);
-    
+    SHAPE(14),
     /**
      * font size scale factor ({@code Pango.AttrFloat})
      */
-    public static final AttrType SCALE = new AttrType(15);
-    
+    SCALE(15),
     /**
      * whether fallback is enabled ({@code Pango.AttrInt})
      */
-    public static final AttrType FALLBACK = new AttrType(16);
-    
+    FALLBACK(16),
     /**
      * letter spacing ({@code PangoAttrInt})
      */
-    public static final AttrType LETTER_SPACING = new AttrType(17);
-    
+    LETTER_SPACING(17),
     /**
      * underline color ({@code Pango.AttrColor})
      */
-    public static final AttrType UNDERLINE_COLOR = new AttrType(18);
-    
+    UNDERLINE_COLOR(18),
     /**
      * strikethrough color ({@code Pango.AttrColor})
      */
-    public static final AttrType STRIKETHROUGH_COLOR = new AttrType(19);
-    
+    STRIKETHROUGH_COLOR(19),
     /**
      * font size in pixels scaled by {@code PANGO_SCALE} ({@code Pango.AttrInt})
      */
-    public static final AttrType ABSOLUTE_SIZE = new AttrType(20);
-    
+    ABSOLUTE_SIZE(20),
     /**
      * base text gravity ({@code Pango.AttrInt})
      */
-    public static final AttrType GRAVITY = new AttrType(21);
-    
+    GRAVITY(21),
     /**
      * gravity hint ({@code Pango.AttrInt})
      */
-    public static final AttrType GRAVITY_HINT = new AttrType(22);
-    
+    GRAVITY_HINT(22),
     /**
      * OpenType font features ({@code Pango.AttrFontFeatures}). Since 1.38
      */
-    public static final AttrType FONT_FEATURES = new AttrType(23);
-    
+    FONT_FEATURES(23),
     /**
      * foreground alpha ({@code Pango.AttrInt}). Since 1.38
      */
-    public static final AttrType FOREGROUND_ALPHA = new AttrType(24);
-    
+    FOREGROUND_ALPHA(24),
     /**
      * background alpha ({@code Pango.AttrInt}). Since 1.38
      */
-    public static final AttrType BACKGROUND_ALPHA = new AttrType(25);
-    
+    BACKGROUND_ALPHA(25),
     /**
      * whether breaks are allowed ({@code Pango.AttrInt}). Since 1.44
      */
-    public static final AttrType ALLOW_BREAKS = new AttrType(26);
-    
+    ALLOW_BREAKS(26),
     /**
      * how to render invisible characters ({@code Pango.AttrInt}). Since 1.44
      */
-    public static final AttrType SHOW = new AttrType(27);
-    
+    SHOW(27),
     /**
      * whether to insert hyphens at intra-word line breaks ({@code Pango.AttrInt}). Since 1.44
      */
-    public static final AttrType INSERT_HYPHENS = new AttrType(28);
-    
+    INSERT_HYPHENS(28),
     /**
      * whether the text has an overline ({@code Pango.AttrInt}). Since 1.46
      */
-    public static final AttrType OVERLINE = new AttrType(29);
-    
+    OVERLINE(29),
     /**
      * overline color ({@code Pango.AttrColor}). Since 1.46
      */
-    public static final AttrType OVERLINE_COLOR = new AttrType(30);
-    
+    OVERLINE_COLOR(30),
     /**
      * line height factor ({@code Pango.AttrFloat}). Since: 1.50
      */
-    public static final AttrType LINE_HEIGHT = new AttrType(31);
-    
+    LINE_HEIGHT(31),
     /**
      * line height ({@code Pango.AttrInt}). Since: 1.50
      */
-    public static final AttrType ABSOLUTE_LINE_HEIGHT = new AttrType(32);
-    
-    public static final AttrType TEXT_TRANSFORM = new AttrType(33);
-    
+    ABSOLUTE_LINE_HEIGHT(32),
+    TEXT_TRANSFORM(33),
     /**
      * override segmentation to classify the range of the attribute as a single word ({@code Pango.AttrInt}). Since 1.50
      */
-    public static final AttrType WORD = new AttrType(34);
-    
+    WORD(34),
     /**
      * override segmentation to classify the range of the attribute as a single sentence ({@code Pango.AttrInt}). Since 1.50
      */
-    public static final AttrType SENTENCE = new AttrType(35);
-    
+    SENTENCE(35),
     /**
      * baseline displacement ({@code Pango.AttrInt}). Since 1.50
      */
-    public static final AttrType BASELINE_SHIFT = new AttrType(36);
-    
+    BASELINE_SHIFT(36),
     /**
      * font-relative size change ({@code Pango.AttrInt}). Since 1.50
      */
-    public static final AttrType FONT_SCALE = new AttrType(37);
+    FONT_SCALE(37);
     
-    public AttrType(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "PangoAttrType";
+    
+    private final int value;
+    AttrType(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static AttrType of(int value) {
+        return switch (value) {
+            case 0 -> INVALID;
+            case 1 -> LANGUAGE;
+            case 2 -> FAMILY;
+            case 3 -> STYLE;
+            case 4 -> WEIGHT;
+            case 5 -> VARIANT;
+            case 6 -> STRETCH;
+            case 7 -> SIZE;
+            case 8 -> FONT_DESC;
+            case 9 -> FOREGROUND;
+            case 10 -> BACKGROUND;
+            case 11 -> UNDERLINE;
+            case 12 -> STRIKETHROUGH;
+            case 13 -> RISE;
+            case 14 -> SHAPE;
+            case 15 -> SCALE;
+            case 16 -> FALLBACK;
+            case 17 -> LETTER_SPACING;
+            case 18 -> UNDERLINE_COLOR;
+            case 19 -> STRIKETHROUGH_COLOR;
+            case 20 -> ABSOLUTE_SIZE;
+            case 21 -> GRAVITY;
+            case 22 -> GRAVITY_HINT;
+            case 23 -> FONT_FEATURES;
+            case 24 -> FOREGROUND_ALPHA;
+            case 25 -> BACKGROUND_ALPHA;
+            case 26 -> ALLOW_BREAKS;
+            case 27 -> SHOW;
+            case 28 -> INSERT_HYPHENS;
+            case 29 -> OVERLINE;
+            case 30 -> OVERLINE_COLOR;
+            case 31 -> LINE_HEIGHT;
+            case 32 -> ABSOLUTE_LINE_HEIGHT;
+            case 33 -> TEXT_TRANSFORM;
+            case 34 -> WORD;
+            case 35 -> SENTENCE;
+            case 36 -> BASELINE_SHIFT;
+            case 37 -> FONT_SCALE;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
     
     /**
@@ -252,7 +264,7 @@ public class AttrType extends io.github.jwharm.javagi.Enumeration {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.AttrType(RESULT);
+        return org.pango.AttrType.of(RESULT);
     }
     
     private static class DowncallHandles {

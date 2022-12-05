@@ -223,32 +223,4 @@ public class StringChunk extends Struct {
             false
         );
     }
-
-    /**
-     * Inner class implementing a builder pattern to construct 
-     * a struct and set its values.
-     */
-    public static class Build {
-        
-        private StringChunk struct;
-        
-         /**
-         * A {@link StringChunk.Build} object constructs a {@link StringChunk} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
-            struct = StringChunk.allocate();
-        }
-        
-         /**
-         * Finish building the {@link StringChunk} struct.
-         * @return A new instance of {@code StringChunk} with the fields 
-         *         that were set in the Build object.
-         */
-        public StringChunk construct() {
-            return struct;
-        }
-    }
 }

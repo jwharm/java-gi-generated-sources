@@ -54,7 +54,11 @@ public class SocketAddress extends org.gtk.gobject.Object implements org.gtk.gio
      * @throws ClassCastException If the GType is not derived from "GSocketAddress", a ClassCastException will be thrown.
      */
     public static SocketAddress castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), SocketAddress.getType())) {
             return new SocketAddress(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GSocketAddress");
+        }
     }
     
     private static Addressable constructNewFromNative(@NotNull java.lang.foreign.MemoryAddress native_, long len) {
@@ -94,7 +98,7 @@ public class SocketAddress extends org.gtk.gobject.Object implements org.gtk.gio
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.SocketFamily(RESULT);
+        return org.gtk.gio.SocketFamily.of(RESULT);
     }
     
     /**

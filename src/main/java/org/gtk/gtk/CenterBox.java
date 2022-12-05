@@ -55,12 +55,19 @@ public class CenterBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
     
     /**
      * Create a CenterBox proxy instance for the provided memory address.
+     * <p>
+     * Because CenterBox is an {@code InitiallyUnowned} instance, when 
+     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
+     * and a call to {@code refSink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
     @ApiStatus.Internal
     public CenterBox(Addressable address, Ownership ownership) {
-        super(address, ownership);
+        super(address, Ownership.FULL);
+        if (ownership == Ownership.NONE) {
+            refSink();
+        }
     }
     
     /**
@@ -76,7 +83,11 @@ public class CenterBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
      * @throws ClassCastException If the GType is not derived from "GtkCenterBox", a ClassCastException will be thrown.
      */
     public static CenterBox castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), CenterBox.getType())) {
             return new CenterBox(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkCenterBox");
+        }
     }
     
     private static Addressable constructNew() {
@@ -108,7 +119,7 @@ public class CenterBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.BaselinePosition(RESULT);
+        return org.gtk.gtk.BaselinePosition.of(RESULT);
     }
     
     /**

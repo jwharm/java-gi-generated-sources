@@ -8,26 +8,38 @@ import org.jetbrains.annotations.*;
 /**
  * The relation between two terms of a constraint.
  */
-public class ConstraintRelation extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "GtkConstraintRelation";
-    
+public enum ConstraintRelation implements io.github.jwharm.javagi.Enumeration {
     /**
      * Less than, or equal
      */
-    public static final ConstraintRelation LE = new ConstraintRelation(0);
-    
+    LE(-1),
     /**
      * Equal
      */
-    public static final ConstraintRelation EQ = new ConstraintRelation(0);
-    
+    EQ(0),
     /**
      * Greater than, or equal
      */
-    public static final ConstraintRelation GE = new ConstraintRelation(1);
+    GE(1);
     
-    public ConstraintRelation(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "GtkConstraintRelation";
+    
+    private final int value;
+    ConstraintRelation(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static ConstraintRelation of(int value) {
+        return switch (value) {
+            case -1 -> LE;
+            case 0 -> EQ;
+            case 1 -> GE;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

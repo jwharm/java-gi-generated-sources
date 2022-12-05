@@ -8,31 +8,43 @@ import org.jetbrains.annotations.*;
 /**
  * Used for justifying the text inside a {@link Label} widget.
  */
-public class Justification extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "GtkJustification";
-    
+public enum Justification implements io.github.jwharm.javagi.Enumeration {
     /**
      * The text is placed at the left edge of the label.
      */
-    public static final Justification LEFT = new Justification(0);
-    
+    LEFT(0),
     /**
      * The text is placed at the right edge of the label.
      */
-    public static final Justification RIGHT = new Justification(1);
-    
+    RIGHT(1),
     /**
      * The text is placed in the center of the label.
      */
-    public static final Justification CENTER = new Justification(2);
-    
+    CENTER(2),
     /**
      * The text is placed is distributed across the label.
      */
-    public static final Justification FILL = new Justification(3);
+    FILL(3);
     
-    public Justification(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "GtkJustification";
+    
+    private final int value;
+    Justification(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static Justification of(int value) {
+        return switch (value) {
+            case 0 -> LEFT;
+            case 1 -> RIGHT;
+            case 2 -> CENTER;
+            case 3 -> FILL;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

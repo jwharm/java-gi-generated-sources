@@ -39,12 +39,19 @@ public class ScaleButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
     
     /**
      * Create a ScaleButton proxy instance for the provided memory address.
+     * <p>
+     * Because ScaleButton is an {@code InitiallyUnowned} instance, when 
+     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
+     * and a call to {@code refSink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
     @ApiStatus.Internal
     public ScaleButton(Addressable address, Ownership ownership) {
-        super(address, ownership);
+        super(address, Ownership.FULL);
+        if (ownership == Ownership.NONE) {
+            refSink();
+        }
     }
     
     /**
@@ -60,7 +67,11 @@ public class ScaleButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
      * @throws ClassCastException If the GType is not derived from "GtkScaleButton", a ClassCastException will be thrown.
      */
     public static ScaleButton castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), ScaleButton.getType())) {
             return new ScaleButton(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkScaleButton");
+        }
     }
     
     private static Addressable constructNew(double min, double max, double step, @Nullable java.lang.String[] icons) {
@@ -242,7 +253,7 @@ public class ScaleButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
     
     @FunctionalInterface
     public interface Popdown {
-        void signalReceived(ScaleButton source);
+        void signalReceived(ScaleButton sourceScaleButton);
     }
     
     /**
@@ -274,7 +285,7 @@ public class ScaleButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
     
     @FunctionalInterface
     public interface Popup {
-        void signalReceived(ScaleButton source);
+        void signalReceived(ScaleButton sourceScaleButton);
     }
     
     /**
@@ -307,7 +318,7 @@ public class ScaleButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
     
     @FunctionalInterface
     public interface ValueChanged {
-        void signalReceived(ScaleButton source, double value);
+        void signalReceived(ScaleButton sourceScaleButton, double value);
     }
     
     /**
@@ -455,22 +466,22 @@ public class ScaleButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
     
     private static class Callbacks {
         
-        public static void signalScaleButtonPopdown(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalScaleButtonPopdown(MemoryAddress sourceScaleButton, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (ScaleButton.Popdown) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new ScaleButton(source, Ownership.NONE));
+            HANDLER.signalReceived(new ScaleButton(sourceScaleButton, Ownership.NONE));
         }
         
-        public static void signalScaleButtonPopup(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalScaleButtonPopup(MemoryAddress sourceScaleButton, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (ScaleButton.Popup) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new ScaleButton(source, Ownership.NONE));
+            HANDLER.signalReceived(new ScaleButton(sourceScaleButton, Ownership.NONE));
         }
         
-        public static void signalScaleButtonValueChanged(MemoryAddress source, double value, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalScaleButtonValueChanged(MemoryAddress sourceScaleButton, double value, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (ScaleButton.ValueChanged) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new ScaleButton(source, Ownership.NONE), value);
+            HANDLER.signalReceived(new ScaleButton(sourceScaleButton, Ownership.NONE), value);
         }
     }
 }

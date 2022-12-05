@@ -84,7 +84,11 @@ public class Layout extends org.gtk.gobject.Object {
      * @throws ClassCastException If the GType is not derived from "PangoLayout", a ClassCastException will be thrown.
      */
     public static Layout castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), Layout.getType())) {
             return new Layout(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of PangoLayout");
+        }
     }
     
     private static Addressable constructNew(@NotNull org.pango.Context context) {
@@ -155,7 +159,7 @@ public class Layout extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.Alignment(RESULT);
+        return org.pango.Alignment.of(RESULT);
     }
     
     /**
@@ -329,7 +333,7 @@ public class Layout extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.Direction(RESULT);
+        return org.pango.Direction.of(RESULT);
     }
     
     /**
@@ -349,7 +353,7 @@ public class Layout extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.EllipsizeMode(RESULT);
+        return org.pango.EllipsizeMode.of(RESULT);
     }
     
     /**
@@ -896,7 +900,7 @@ public class Layout extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.WrapMode(RESULT);
+        return org.pango.WrapMode.of(RESULT);
     }
     
     /**

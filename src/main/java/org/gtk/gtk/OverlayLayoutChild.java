@@ -48,7 +48,11 @@ public class OverlayLayoutChild extends org.gtk.gtk.LayoutChild {
      * @throws ClassCastException If the GType is not derived from "GtkOverlayLayoutChild", a ClassCastException will be thrown.
      */
     public static OverlayLayoutChild castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), OverlayLayoutChild.getType())) {
             return new OverlayLayoutChild(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkOverlayLayoutChild");
+        }
     }
     
     /**

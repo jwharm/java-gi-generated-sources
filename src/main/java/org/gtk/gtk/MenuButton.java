@@ -86,12 +86,19 @@ public class MenuButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
     
     /**
      * Create a MenuButton proxy instance for the provided memory address.
+     * <p>
+     * Because MenuButton is an {@code InitiallyUnowned} instance, when 
+     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
+     * and a call to {@code refSink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
     @ApiStatus.Internal
     public MenuButton(Addressable address, Ownership ownership) {
-        super(address, ownership);
+        super(address, Ownership.FULL);
+        if (ownership == Ownership.NONE) {
+            refSink();
+        }
     }
     
     /**
@@ -107,7 +114,11 @@ public class MenuButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
      * @throws ClassCastException If the GType is not derived from "GtkMenuButton", a ClassCastException will be thrown.
      */
     public static MenuButton castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), MenuButton.getType())) {
             return new MenuButton(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkMenuButton");
+        }
     }
     
     private static Addressable constructNew() {
@@ -173,7 +184,7 @@ public class MenuButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.ArrowType(RESULT);
+        return org.gtk.gtk.ArrowType.of(RESULT);
     }
     
     /**
@@ -550,7 +561,7 @@ public class MenuButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
     
     @FunctionalInterface
     public interface Activate {
-        void signalReceived(MenuButton source);
+        void signalReceived(MenuButton sourceMenuButton);
     }
     
     /**
@@ -885,10 +896,10 @@ public class MenuButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
     
     private static class Callbacks {
         
-        public static void signalMenuButtonActivate(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalMenuButtonActivate(MemoryAddress sourceMenuButton, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (MenuButton.Activate) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new MenuButton(source, Ownership.NONE));
+            HANDLER.signalReceived(new MenuButton(sourceMenuButton, Ownership.NONE));
         }
     }
 }

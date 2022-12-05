@@ -44,32 +44,4 @@ public class GestureZoomClass extends Struct {
     public GestureZoomClass(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
-
-    /**
-     * Inner class implementing a builder pattern to construct 
-     * a struct and set its values.
-     */
-    public static class Build {
-        
-        private GestureZoomClass struct;
-        
-         /**
-         * A {@link GestureZoomClass.Build} object constructs a {@link GestureZoomClass} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
-            struct = GestureZoomClass.allocate();
-        }
-        
-         /**
-         * Finish building the {@link GestureZoomClass} struct.
-         * @return A new instance of {@code GestureZoomClass} with the fields 
-         *         that were set in the Build object.
-         */
-        public GestureZoomClass construct() {
-            return struct;
-        }
-    }
 }

@@ -8,41 +8,53 @@ import org.jetbrains.annotations.*;
 /**
  * Focus movement types.
  */
-public class DirectionType extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "GtkDirectionType";
-    
+public enum DirectionType implements io.github.jwharm.javagi.Enumeration {
     /**
      * Move forward.
      */
-    public static final DirectionType TAB_FORWARD = new DirectionType(0);
-    
+    TAB_FORWARD(0),
     /**
      * Move backward.
      */
-    public static final DirectionType TAB_BACKWARD = new DirectionType(1);
-    
+    TAB_BACKWARD(1),
     /**
      * Move up.
      */
-    public static final DirectionType UP = new DirectionType(2);
-    
+    UP(2),
     /**
      * Move down.
      */
-    public static final DirectionType DOWN = new DirectionType(3);
-    
+    DOWN(3),
     /**
      * Move left.
      */
-    public static final DirectionType LEFT = new DirectionType(4);
-    
+    LEFT(4),
     /**
      * Move right.
      */
-    public static final DirectionType RIGHT = new DirectionType(5);
+    RIGHT(5);
     
-    public DirectionType(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "GtkDirectionType";
+    
+    private final int value;
+    DirectionType(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static DirectionType of(int value) {
+        return switch (value) {
+            case 0 -> TAB_FORWARD;
+            case 1 -> TAB_BACKWARD;
+            case 2 -> UP;
+            case 3 -> DOWN;
+            case 4 -> LEFT;
+            case 5 -> RIGHT;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

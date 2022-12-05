@@ -1746,32 +1746,4 @@ public class BookmarkFile extends Struct {
             false
         );
     }
-
-    /**
-     * Inner class implementing a builder pattern to construct 
-     * a struct and set its values.
-     */
-    public static class Build {
-        
-        private BookmarkFile struct;
-        
-         /**
-         * A {@link BookmarkFile.Build} object constructs a {@link BookmarkFile} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
-            struct = BookmarkFile.allocate();
-        }
-        
-         /**
-         * Finish building the {@link BookmarkFile} struct.
-         * @return A new instance of {@code BookmarkFile} with the fields 
-         *         that were set in the Build object.
-         */
-        public BookmarkFile construct() {
-            return struct;
-        }
-    }
 }

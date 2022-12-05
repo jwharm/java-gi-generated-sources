@@ -70,7 +70,11 @@ public class TextTag extends org.gtk.gobject.Object {
      * @throws ClassCastException If the GType is not derived from "GtkTextTag", a ClassCastException will be thrown.
      */
     public static TextTag castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), TextTag.getType())) {
             return new TextTag(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkTextTag");
+        }
     }
     
     private static Addressable constructNew(@Nullable java.lang.String name) {

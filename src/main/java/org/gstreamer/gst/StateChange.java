@@ -10,10 +10,7 @@ import org.jetbrains.annotations.*;
  * {@link State#NULL} &amp;rArr; {@link State#PLAYING} is called an upwards state change
  * and {@link State#PLAYING} &amp;rArr; {@link State#NULL} a downwards state change.
  */
-public class StateChange extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "GstStateChange";
-    
+public enum StateChange implements io.github.jwharm.javagi.Enumeration {
     /**
      * state change from NULL to READY.
      *   * The element must check if the resources it needs are available. Device
@@ -21,8 +18,7 @@ public class StateChange extends io.github.jwharm.javagi.Enumeration {
      *     caps.
      *   * The element opens the device (in case feature need to be probed).
      */
-    public static final StateChange NULL_TO_READY = new StateChange(10);
-    
+    NULL_TO_READY(10),
     /**
      * state change from READY to PAUSED.
      *   * The element pads are activated in order to receive data in PAUSED.
@@ -35,8 +31,7 @@ public class StateChange extends io.github.jwharm.javagi.Enumeration {
      *   * A pipeline resets the running_time to 0.
      *   * Live sources return {@link StateChangeReturn#NO_PREROLL} and don't generate data.
      */
-    public static final StateChange READY_TO_PAUSED = new StateChange(19);
-    
+    READY_TO_PAUSED(19),
     /**
      * state change from PAUSED to PLAYING.
      *   * Most elements ignore this state change.
@@ -54,8 +49,7 @@ public class StateChange extends io.github.jwharm.javagi.Enumeration {
      *     sometimes pads.
      *   * Live sources start generating data and return {@link StateChangeReturn#SUCCESS}.
      */
-    public static final StateChange PAUSED_TO_PLAYING = new StateChange(28);
-    
+    PAUSED_TO_PLAYING(28),
     /**
      * state change from PLAYING to PAUSED.
      *   * Most elements ignore this state change.
@@ -71,8 +65,7 @@ public class StateChange extends io.github.jwharm.javagi.Enumeration {
      *     {@link Bin} containers.
      *   * Live sources stop generating data and return {@link StateChangeReturn#NO_PREROLL}.
      */
-    public static final StateChange PLAYING_TO_PAUSED = new StateChange(35);
-    
+    PLAYING_TO_PAUSED(35),
     /**
      * state change from PAUSED to READY.
      *   * Sinks unblock any waits in the preroll.
@@ -83,41 +76,60 @@ public class StateChange extends io.github.jwharm.javagi.Enumeration {
      *   * The sink forgets all negotiated formats
      *   * Elements remove all sometimes pads
      */
-    public static final StateChange PAUSED_TO_READY = new StateChange(26);
-    
+    PAUSED_TO_READY(26),
     /**
      * state change from READY to NULL.
      *   * Elements close devices
      *   * Elements reset any internal state.
      */
-    public static final StateChange READY_TO_NULL = new StateChange(17);
-    
+    READY_TO_NULL(17),
     /**
      * state change from NULL to NULL. (Since: 1.14)
      */
-    public static final StateChange NULL_TO_NULL = new StateChange(9);
-    
+    NULL_TO_NULL(9),
     /**
      * state change from READY to READY,
      * This might happen when going to PAUSED asynchronously failed, in that case
      * elements should make sure they are in a proper, coherent READY state. (Since: 1.14)
      */
-    public static final StateChange READY_TO_READY = new StateChange(18);
-    
+    READY_TO_READY(18),
     /**
      * state change from PAUSED to PAUSED.
      * This might happen when elements were in PLAYING state and 'lost state',
      * they should make sure to go back to real 'PAUSED' state (prerolling for example). (Since: 1.14)
      */
-    public static final StateChange PAUSED_TO_PAUSED = new StateChange(27);
-    
+    PAUSED_TO_PAUSED(27),
     /**
      * state change from PLAYING to PLAYING. (Since: 1.14)
      */
-    public static final StateChange PLAYING_TO_PLAYING = new StateChange(36);
+    PLAYING_TO_PLAYING(36);
     
-    public StateChange(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "GstStateChange";
+    
+    private final int value;
+    StateChange(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static StateChange of(int value) {
+        return switch (value) {
+            case 10 -> NULL_TO_READY;
+            case 19 -> READY_TO_PAUSED;
+            case 28 -> PAUSED_TO_PLAYING;
+            case 35 -> PLAYING_TO_PAUSED;
+            case 26 -> PAUSED_TO_READY;
+            case 17 -> READY_TO_NULL;
+            case 9 -> NULL_TO_NULL;
+            case 18 -> READY_TO_READY;
+            case 27 -> PAUSED_TO_PAUSED;
+            case 36 -> PLAYING_TO_PLAYING;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
     
     /**

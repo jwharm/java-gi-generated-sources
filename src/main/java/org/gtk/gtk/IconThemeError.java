@@ -8,22 +8,34 @@ import org.jetbrains.annotations.*;
 /**
  * Error codes for {@code GtkIconTheme} operations.
  */
-public class IconThemeError extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "GtkIconThemeError";
-    
+public enum IconThemeError implements io.github.jwharm.javagi.Enumeration {
     /**
      * The icon specified does not exist in the theme
      */
-    public static final IconThemeError NOT_FOUND = new IconThemeError(0);
-    
+    NOT_FOUND(0),
     /**
      * An unspecified error occurred.
      */
-    public static final IconThemeError FAILED = new IconThemeError(1);
+    FAILED(1);
     
-    public IconThemeError(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "GtkIconThemeError";
+    
+    private final int value;
+    IconThemeError(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static IconThemeError of(int value) {
+        return switch (value) {
+            case 0 -> NOT_FOUND;
+            case 1 -> FAILED;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
     
     public static @NotNull org.gtk.glib.Quark quark() {

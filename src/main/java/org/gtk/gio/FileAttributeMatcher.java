@@ -294,32 +294,4 @@ public class FileAttributeMatcher extends Struct {
             false
         );
     }
-
-    /**
-     * Inner class implementing a builder pattern to construct 
-     * a struct and set its values.
-     */
-    public static class Build {
-        
-        private FileAttributeMatcher struct;
-        
-         /**
-         * A {@link FileAttributeMatcher.Build} object constructs a {@link FileAttributeMatcher} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
-            struct = FileAttributeMatcher.allocate();
-        }
-        
-         /**
-         * Finish building the {@link FileAttributeMatcher} struct.
-         * @return A new instance of {@code FileAttributeMatcher} with the fields 
-         *         that were set in the Build object.
-         */
-        public FileAttributeMatcher construct() {
-            return struct;
-        }
-    }
 }

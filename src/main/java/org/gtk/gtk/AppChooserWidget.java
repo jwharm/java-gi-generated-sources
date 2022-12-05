@@ -48,12 +48,19 @@ public class AppChooserWidget extends org.gtk.gtk.Widget implements org.gtk.gtk.
     
     /**
      * Create a AppChooserWidget proxy instance for the provided memory address.
+     * <p>
+     * Because AppChooserWidget is an {@code InitiallyUnowned} instance, when 
+     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
+     * and a call to {@code refSink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
     @ApiStatus.Internal
     public AppChooserWidget(Addressable address, Ownership ownership) {
-        super(address, ownership);
+        super(address, Ownership.FULL);
+        if (ownership == Ownership.NONE) {
+            refSink();
+        }
     }
     
     /**
@@ -69,7 +76,11 @@ public class AppChooserWidget extends org.gtk.gtk.Widget implements org.gtk.gtk.
      * @throws ClassCastException If the GType is not derived from "GtkAppChooserWidget", a ClassCastException will be thrown.
      */
     public static AppChooserWidget castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), AppChooserWidget.getType())) {
             return new AppChooserWidget(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkAppChooserWidget");
+        }
     }
     
     private static Addressable constructNew(@NotNull java.lang.String contentType) {
@@ -296,7 +307,7 @@ public class AppChooserWidget extends org.gtk.gtk.Widget implements org.gtk.gtk.
     
     @FunctionalInterface
     public interface ApplicationActivated {
-        void signalReceived(AppChooserWidget source, @NotNull org.gtk.gio.AppInfo application);
+        void signalReceived(AppChooserWidget sourceAppChooserWidget, @NotNull org.gtk.gio.AppInfo application);
     }
     
     /**
@@ -328,7 +339,7 @@ public class AppChooserWidget extends org.gtk.gtk.Widget implements org.gtk.gtk.
     
     @FunctionalInterface
     public interface ApplicationSelected {
-        void signalReceived(AppChooserWidget source, @NotNull org.gtk.gio.AppInfo application);
+        void signalReceived(AppChooserWidget sourceAppChooserWidget, @NotNull org.gtk.gio.AppInfo application);
     }
     
     /**
@@ -560,16 +571,16 @@ public class AppChooserWidget extends org.gtk.gtk.Widget implements org.gtk.gtk.
     
     private static class Callbacks {
         
-        public static void signalAppChooserWidgetApplicationActivated(MemoryAddress source, MemoryAddress application, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalAppChooserWidgetApplicationActivated(MemoryAddress sourceAppChooserWidget, MemoryAddress application, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (AppChooserWidget.ApplicationActivated) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new AppChooserWidget(source, Ownership.NONE), new org.gtk.gio.AppInfo.AppInfoImpl(application, Ownership.NONE));
+            HANDLER.signalReceived(new AppChooserWidget(sourceAppChooserWidget, Ownership.NONE), new org.gtk.gio.AppInfo.AppInfoImpl(application, Ownership.NONE));
         }
         
-        public static void signalAppChooserWidgetApplicationSelected(MemoryAddress source, MemoryAddress application, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalAppChooserWidgetApplicationSelected(MemoryAddress sourceAppChooserWidget, MemoryAddress application, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (AppChooserWidget.ApplicationSelected) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new AppChooserWidget(source, Ownership.NONE), new org.gtk.gio.AppInfo.AppInfoImpl(application, Ownership.NONE));
+            HANDLER.signalReceived(new AppChooserWidget(sourceAppChooserWidget, Ownership.NONE), new org.gtk.gio.AppInfo.AppInfoImpl(application, Ownership.NONE));
         }
     }
 }

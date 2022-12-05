@@ -80,9 +80,8 @@ public class BufferDiffFlagsT extends io.github.jwharm.javagi.Bitfield {
      * @param mask the value to combine with
      * @return the combined value by calculating {@code this | mask} 
      */
-    public BufferDiffFlagsT combined(BufferDiffFlagsT mask) {
-        this.setValue(this.getValue() | mask.getValue());
-        return this;
+    public BufferDiffFlagsT or(BufferDiffFlagsT mask) {
+        return new BufferDiffFlagsT(this.getValue() | mask.getValue());
     }
     
     /**
@@ -92,9 +91,9 @@ public class BufferDiffFlagsT extends io.github.jwharm.javagi.Bitfield {
      * @return the combined value by calculating {@code mask | masks[0] | masks[1] | ...} 
      */
     public static BufferDiffFlagsT combined(BufferDiffFlagsT mask, BufferDiffFlagsT... masks) {
-        for (BufferDiffFlagsT arg : masks) {
-            mask.setValue(mask.getValue() | arg.getValue());
+        int value = mask.getValue();        for (BufferDiffFlagsT arg : masks) {
+            value |= arg.getValue();
         }
-        return mask;
+        return new BufferDiffFlagsT(value);
     }
 }

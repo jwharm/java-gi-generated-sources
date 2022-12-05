@@ -192,7 +192,7 @@ public class Scanner extends Struct {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("token"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new org.gtk.glib.TokenType(RESULT);
+        return org.gtk.glib.TokenType.of(RESULT);
     }
     
     /**
@@ -276,7 +276,7 @@ public class Scanner extends Struct {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("next_token"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new org.gtk.glib.TokenType(RESULT);
+        return org.gtk.glib.TokenType.of(RESULT);
     }
     
     /**
@@ -420,7 +420,7 @@ public class Scanner extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.TokenType(RESULT);
+        return org.gtk.glib.TokenType.of(RESULT);
     }
     
     /**
@@ -500,7 +500,7 @@ public class Scanner extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.TokenType(RESULT);
+        return org.gtk.glib.TokenType.of(RESULT);
     }
     
     /**
@@ -577,7 +577,7 @@ public class Scanner extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.TokenType(RESULT);
+        return org.gtk.glib.TokenType.of(RESULT);
     }
     
     /**

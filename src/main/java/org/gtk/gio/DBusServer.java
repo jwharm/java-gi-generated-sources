@@ -66,7 +66,11 @@ public class DBusServer extends org.gtk.gobject.Object implements org.gtk.gio.In
      * @throws ClassCastException If the GType is not derived from "GDBusServer", a ClassCastException will be thrown.
      */
     public static DBusServer castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), DBusServer.getType())) {
             return new DBusServer(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GDBusServer");
+        }
     }
     
     private static Addressable constructNewSync(@NotNull java.lang.String address, @NotNull org.gtk.gio.DBusServerFlags flags, @NotNull java.lang.String guid, @Nullable org.gtk.gio.DBusAuthObserver observer, @Nullable org.gtk.gio.Cancellable cancellable) throws GErrorException {
@@ -231,7 +235,7 @@ public class DBusServer extends org.gtk.gobject.Object implements org.gtk.gio.In
     
     @FunctionalInterface
     public interface NewConnection {
-        boolean signalReceived(DBusServer source, @NotNull org.gtk.gio.DBusConnection connection);
+        boolean signalReceived(DBusServer sourceDBusServer, @NotNull org.gtk.gio.DBusConnection connection);
     }
     
     /**
@@ -433,10 +437,10 @@ public class DBusServer extends org.gtk.gobject.Object implements org.gtk.gio.In
     
     private static class Callbacks {
         
-        public static boolean signalDBusServerNewConnection(MemoryAddress source, MemoryAddress connection, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static boolean signalDBusServerNewConnection(MemoryAddress sourceDBusServer, MemoryAddress connection, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (DBusServer.NewConnection) Interop.signalRegistry.get(HASH);
-            return HANDLER.signalReceived(new DBusServer(source, Ownership.NONE), new org.gtk.gio.DBusConnection(connection, Ownership.NONE));
+            return HANDLER.signalReceived(new DBusServer(sourceDBusServer, Ownership.NONE), new org.gtk.gio.DBusConnection(connection, Ownership.NONE));
         }
     }
 }

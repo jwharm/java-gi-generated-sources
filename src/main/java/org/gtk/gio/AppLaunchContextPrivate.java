@@ -44,32 +44,4 @@ public class AppLaunchContextPrivate extends Struct {
     public AppLaunchContextPrivate(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
-
-    /**
-     * Inner class implementing a builder pattern to construct 
-     * a struct and set its values.
-     */
-    public static class Build {
-        
-        private AppLaunchContextPrivate struct;
-        
-         /**
-         * A {@link AppLaunchContextPrivate.Build} object constructs a {@link AppLaunchContextPrivate} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
-            struct = AppLaunchContextPrivate.allocate();
-        }
-        
-         /**
-         * Finish building the {@link AppLaunchContextPrivate} struct.
-         * @return A new instance of {@code AppLaunchContextPrivate} with the fields 
-         *         that were set in the Build object.
-         */
-        public AppLaunchContextPrivate construct() {
-            return struct;
-        }
-    }
 }

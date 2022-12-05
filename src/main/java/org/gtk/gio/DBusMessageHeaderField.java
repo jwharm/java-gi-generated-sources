@@ -9,61 +9,73 @@ import org.jetbrains.annotations.*;
  * Header fields used in {@link DBusMessage}.
  * @version 2.26
  */
-public class DBusMessageHeaderField extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "GDBusMessageHeaderField";
-    
+public enum DBusMessageHeaderField implements io.github.jwharm.javagi.Enumeration {
     /**
      * Not a valid header field.
      */
-    public static final DBusMessageHeaderField INVALID = new DBusMessageHeaderField(0);
-    
+    INVALID(0),
     /**
      * The object path.
      */
-    public static final DBusMessageHeaderField PATH = new DBusMessageHeaderField(1);
-    
+    PATH(1),
     /**
      * The interface name.
      */
-    public static final DBusMessageHeaderField INTERFACE = new DBusMessageHeaderField(2);
-    
+    INTERFACE(2),
     /**
      * The method or signal name.
      */
-    public static final DBusMessageHeaderField MEMBER = new DBusMessageHeaderField(3);
-    
+    MEMBER(3),
     /**
      * The name of the error that occurred.
      */
-    public static final DBusMessageHeaderField ERROR_NAME = new DBusMessageHeaderField(4);
-    
+    ERROR_NAME(4),
     /**
      * The serial number the message is a reply to.
      */
-    public static final DBusMessageHeaderField REPLY_SERIAL = new DBusMessageHeaderField(5);
-    
+    REPLY_SERIAL(5),
     /**
      * The name the message is intended for.
      */
-    public static final DBusMessageHeaderField DESTINATION = new DBusMessageHeaderField(6);
-    
+    DESTINATION(6),
     /**
      * Unique name of the sender of the message (filled in by the bus).
      */
-    public static final DBusMessageHeaderField SENDER = new DBusMessageHeaderField(7);
-    
+    SENDER(7),
     /**
      * The signature of the message body.
      */
-    public static final DBusMessageHeaderField SIGNATURE = new DBusMessageHeaderField(8);
-    
+    SIGNATURE(8),
     /**
      * The number of UNIX file descriptors that accompany the message.
      */
-    public static final DBusMessageHeaderField NUM_UNIX_FDS = new DBusMessageHeaderField(9);
+    NUM_UNIX_FDS(9);
     
-    public DBusMessageHeaderField(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "GDBusMessageHeaderField";
+    
+    private final int value;
+    DBusMessageHeaderField(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static DBusMessageHeaderField of(int value) {
+        return switch (value) {
+            case 0 -> INVALID;
+            case 1 -> PATH;
+            case 2 -> INTERFACE;
+            case 3 -> MEMBER;
+            case 4 -> ERROR_NAME;
+            case 5 -> REPLY_SERIAL;
+            case 6 -> DESTINATION;
+            case 7 -> SENDER;
+            case 8 -> SIGNATURE;
+            case 9 -> NUM_UNIX_FDS;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

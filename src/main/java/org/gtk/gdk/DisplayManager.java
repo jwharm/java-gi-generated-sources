@@ -87,7 +87,11 @@ public class DisplayManager extends org.gtk.gobject.Object {
      * @throws ClassCastException If the GType is not derived from "GdkDisplayManager", a ClassCastException will be thrown.
      */
     public static DisplayManager castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), DisplayManager.getType())) {
             return new DisplayManager(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GdkDisplayManager");
+        }
     }
     
     /**
@@ -193,7 +197,7 @@ public class DisplayManager extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface DisplayOpened {
-        void signalReceived(DisplayManager source, @NotNull org.gtk.gdk.Display display);
+        void signalReceived(DisplayManager sourceDisplayManager, @NotNull org.gtk.gdk.Display display);
     }
     
     /**
@@ -306,10 +310,10 @@ public class DisplayManager extends org.gtk.gobject.Object {
     
     private static class Callbacks {
         
-        public static void signalDisplayManagerDisplayOpened(MemoryAddress source, MemoryAddress display, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalDisplayManagerDisplayOpened(MemoryAddress sourceDisplayManager, MemoryAddress display, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (DisplayManager.DisplayOpened) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new DisplayManager(source, Ownership.NONE), new org.gtk.gdk.Display(display, Ownership.NONE));
+            HANDLER.signalReceived(new DisplayManager(sourceDisplayManager, Ownership.NONE), new org.gtk.gdk.Display(display, Ownership.NONE));
         }
     }
 }

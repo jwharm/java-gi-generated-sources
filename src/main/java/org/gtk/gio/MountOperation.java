@@ -73,7 +73,11 @@ public class MountOperation extends org.gtk.gobject.Object {
      * @throws ClassCastException If the GType is not derived from "GMountOperation", a ClassCastException will be thrown.
      */
     public static MountOperation castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), MountOperation.getType())) {
             return new MountOperation(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GMountOperation");
+        }
     }
     
     private static Addressable constructNew() {
@@ -199,7 +203,7 @@ public class MountOperation extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.PasswordSave(RESULT);
+        return org.gtk.gio.PasswordSave.of(RESULT);
     }
     
     /**
@@ -390,7 +394,7 @@ public class MountOperation extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface Aborted {
-        void signalReceived(MountOperation source);
+        void signalReceived(MountOperation sourceMountOperation);
     }
     
     /**
@@ -422,7 +426,7 @@ public class MountOperation extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface AskPassword {
-        void signalReceived(MountOperation source, @NotNull java.lang.String message, @NotNull java.lang.String defaultUser, @NotNull java.lang.String defaultDomain, @NotNull org.gtk.gio.AskPasswordFlags flags);
+        void signalReceived(MountOperation sourceMountOperation, @NotNull java.lang.String message, @NotNull java.lang.String defaultUser, @NotNull java.lang.String defaultDomain, @NotNull org.gtk.gio.AskPasswordFlags flags);
     }
     
     /**
@@ -454,7 +458,7 @@ public class MountOperation extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface AskQuestion {
-        void signalReceived(MountOperation source, @NotNull java.lang.String message, @NotNull java.lang.String[] choices);
+        void signalReceived(MountOperation sourceMountOperation, @NotNull java.lang.String message, @NotNull java.lang.String[] choices);
     }
     
     /**
@@ -473,7 +477,7 @@ public class MountOperation extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface Reply {
-        void signalReceived(MountOperation source, @NotNull org.gtk.gio.MountOperationResult result);
+        void signalReceived(MountOperation sourceMountOperation, @NotNull org.gtk.gio.MountOperationResult result);
     }
     
     /**
@@ -501,7 +505,7 @@ public class MountOperation extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface ShowProcesses {
-        void signalReceived(MountOperation source, @NotNull java.lang.String message, @NotNull org.gtk.glib.Pid[] processes, @NotNull java.lang.String[] choices);
+        void signalReceived(MountOperation sourceMountOperation, @NotNull java.lang.String message, @NotNull org.gtk.glib.Pid[] processes, @NotNull java.lang.String[] choices);
     }
     
     /**
@@ -526,7 +530,7 @@ public class MountOperation extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface ShowUnmountProgress {
-        void signalReceived(MountOperation source, @NotNull java.lang.String message, long timeLeft, long bytesLeft);
+        void signalReceived(MountOperation sourceMountOperation, @NotNull java.lang.String message, long timeLeft, long bytesLeft);
     }
     
     /**
@@ -841,36 +845,36 @@ public class MountOperation extends org.gtk.gobject.Object {
     
     private static class Callbacks {
         
-        public static void signalMountOperationAborted(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalMountOperationAborted(MemoryAddress sourceMountOperation, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (MountOperation.Aborted) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new MountOperation(source, Ownership.NONE));
+            HANDLER.signalReceived(new MountOperation(sourceMountOperation, Ownership.NONE));
         }
         
-        public static void signalMountOperationAskPassword(MemoryAddress source, MemoryAddress message, MemoryAddress defaultUser, MemoryAddress defaultDomain, int flags, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalMountOperationAskPassword(MemoryAddress sourceMountOperation, MemoryAddress message, MemoryAddress defaultUser, MemoryAddress defaultDomain, int flags, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (MountOperation.AskPassword) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new MountOperation(source, Ownership.NONE), Interop.getStringFrom(message), Interop.getStringFrom(defaultUser), Interop.getStringFrom(defaultDomain), new org.gtk.gio.AskPasswordFlags(flags));
+            HANDLER.signalReceived(new MountOperation(sourceMountOperation, Ownership.NONE), Interop.getStringFrom(message), Interop.getStringFrom(defaultUser), Interop.getStringFrom(defaultDomain), new org.gtk.gio.AskPasswordFlags(flags));
         }
         
-        public static void signalMountOperationAskQuestion(MemoryAddress source, MemoryAddress message, MemoryAddress choices, MemoryAddress data) {
+        public static void signalMountOperationAskQuestion(MemoryAddress sourceMountOperation, MemoryAddress message, MemoryAddress choices, MemoryAddress DATA) {
         // Operation not supported yet
     }
         
-        public static void signalMountOperationReply(MemoryAddress source, int result, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalMountOperationReply(MemoryAddress sourceMountOperation, int result, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (MountOperation.Reply) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new MountOperation(source, Ownership.NONE), new org.gtk.gio.MountOperationResult(result));
+            HANDLER.signalReceived(new MountOperation(sourceMountOperation, Ownership.NONE), org.gtk.gio.MountOperationResult.of(result));
         }
         
-        public static void signalMountOperationShowProcesses(MemoryAddress source, MemoryAddress message, MemoryAddress processes, MemoryAddress choices, MemoryAddress data) {
+        public static void signalMountOperationShowProcesses(MemoryAddress sourceMountOperation, MemoryAddress message, MemoryAddress processes, MemoryAddress choices, MemoryAddress DATA) {
         // Operation not supported yet
     }
         
-        public static void signalMountOperationShowUnmountProgress(MemoryAddress source, MemoryAddress message, long timeLeft, long bytesLeft, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalMountOperationShowUnmountProgress(MemoryAddress sourceMountOperation, MemoryAddress message, long timeLeft, long bytesLeft, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (MountOperation.ShowUnmountProgress) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new MountOperation(source, Ownership.NONE), Interop.getStringFrom(message), timeLeft, bytesLeft);
+            HANDLER.signalReceived(new MountOperation(sourceMountOperation, Ownership.NONE), Interop.getStringFrom(message), timeLeft, bytesLeft);
         }
     }
 }

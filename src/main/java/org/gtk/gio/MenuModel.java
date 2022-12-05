@@ -164,7 +164,11 @@ public class MenuModel extends org.gtk.gobject.Object {
      * @throws ClassCastException If the GType is not derived from "GMenuModel", a ClassCastException will be thrown.
      */
     public static MenuModel castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), MenuModel.getType())) {
             return new MenuModel(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GMenuModel");
+        }
     }
     
     /**
@@ -387,7 +391,7 @@ public class MenuModel extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface ItemsChanged {
-        void signalReceived(MenuModel source, int position, int removed, int added);
+        void signalReceived(MenuModel sourceMenuModel, int position, int removed, int added);
     }
     
     /**
@@ -526,10 +530,10 @@ public class MenuModel extends org.gtk.gobject.Object {
     
     private static class Callbacks {
         
-        public static void signalMenuModelItemsChanged(MemoryAddress source, int position, int removed, int added, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalMenuModelItemsChanged(MemoryAddress sourceMenuModel, int position, int removed, int added, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (MenuModel.ItemsChanged) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new MenuModel(source, Ownership.NONE), position, removed, added);
+            HANDLER.signalReceived(new MenuModel(sourceMenuModel, Ownership.NONE), position, removed, added);
         }
     }
 }

@@ -50,7 +50,11 @@ public class FilenameCompleter extends org.gtk.gobject.Object {
      * @throws ClassCastException If the GType is not derived from "GFilenameCompleter", a ClassCastException will be thrown.
      */
     public static FilenameCompleter castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), FilenameCompleter.getType())) {
             return new FilenameCompleter(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GFilenameCompleter");
+        }
     }
     
     private static Addressable constructNew() {
@@ -140,7 +144,7 @@ public class FilenameCompleter extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface GotCompletionData {
-        void signalReceived(FilenameCompleter source);
+        void signalReceived(FilenameCompleter sourceFilenameCompleter);
     }
     
     /**
@@ -236,10 +240,10 @@ public class FilenameCompleter extends org.gtk.gobject.Object {
     
     private static class Callbacks {
         
-        public static void signalFilenameCompleterGotCompletionData(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalFilenameCompleterGotCompletionData(MemoryAddress sourceFilenameCompleter, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (FilenameCompleter.GotCompletionData) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new FilenameCompleter(source, Ownership.NONE));
+            HANDLER.signalReceived(new FilenameCompleter(sourceFilenameCompleter, Ownership.NONE));
         }
     }
 }

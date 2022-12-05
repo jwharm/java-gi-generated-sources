@@ -8,51 +8,63 @@ import org.jetbrains.annotations.*;
 /**
  * The return value of a clock operation.
  */
-public class ClockReturn extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "GstClockReturn";
-    
+public enum ClockReturn implements io.github.jwharm.javagi.Enumeration {
     /**
      * The operation succeeded.
      */
-    public static final ClockReturn OK = new ClockReturn(0);
-    
+    OK(0),
     /**
      * The operation was scheduled too late.
      */
-    public static final ClockReturn EARLY = new ClockReturn(1);
-    
+    EARLY(1),
     /**
      * The clockID was unscheduled
      */
-    public static final ClockReturn UNSCHEDULED = new ClockReturn(2);
-    
+    UNSCHEDULED(2),
     /**
      * The ClockID is busy
      */
-    public static final ClockReturn BUSY = new ClockReturn(3);
-    
+    BUSY(3),
     /**
      * A bad time was provided to a function.
      */
-    public static final ClockReturn BADTIME = new ClockReturn(4);
-    
+    BADTIME(4),
     /**
      * An error occurred
      */
-    public static final ClockReturn ERROR = new ClockReturn(5);
-    
+    ERROR(5),
     /**
      * Operation is not supported
      */
-    public static final ClockReturn UNSUPPORTED = new ClockReturn(6);
-    
+    UNSUPPORTED(6),
     /**
      * The ClockID is done waiting
      */
-    public static final ClockReturn DONE = new ClockReturn(7);
+    DONE(7);
     
-    public ClockReturn(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "GstClockReturn";
+    
+    private final int value;
+    ClockReturn(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static ClockReturn of(int value) {
+        return switch (value) {
+            case 0 -> OK;
+            case 1 -> EARLY;
+            case 2 -> UNSCHEDULED;
+            case 3 -> BUSY;
+            case 4 -> BADTIME;
+            case 5 -> ERROR;
+            case 6 -> UNSUPPORTED;
+            case 7 -> DONE;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

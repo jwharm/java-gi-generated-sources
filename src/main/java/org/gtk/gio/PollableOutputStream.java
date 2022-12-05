@@ -27,7 +27,11 @@ public interface PollableOutputStream extends io.github.jwharm.javagi.Proxy {
      * @throws ClassCastException If the GType is not derived from "GPollableOutputStream", a ClassCastException will be thrown.
      */
     public static PollableOutputStream castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), PollableOutputStream.getType())) {
             return new PollableOutputStreamImpl(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GPollableOutputStream");
+        }
     }
     
     /**
@@ -193,7 +197,7 @@ public interface PollableOutputStream extends io.github.jwharm.javagi.Proxy {
             throw new GErrorException(GERROR);
         }
         bytesWritten.set(bytesWrittenPOINTER.get(Interop.valueLayout.C_LONG, 0));
-        return new org.gtk.gio.PollableReturn(RESULT);
+        return org.gtk.gio.PollableReturn.of(RESULT);
     }
     
     /**

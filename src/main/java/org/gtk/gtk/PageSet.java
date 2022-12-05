@@ -8,26 +8,38 @@ import org.jetbrains.annotations.*;
 /**
  * See also gtk_print_job_set_page_set().
  */
-public class PageSet extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "GtkPageSet";
-    
+public enum PageSet implements io.github.jwharm.javagi.Enumeration {
     /**
      * All pages.
      */
-    public static final PageSet ALL = new PageSet(0);
-    
+    ALL(0),
     /**
      * Even pages.
      */
-    public static final PageSet EVEN = new PageSet(1);
-    
+    EVEN(1),
     /**
      * Odd pages.
      */
-    public static final PageSet ODD = new PageSet(2);
+    ODD(2);
     
-    public PageSet(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "GtkPageSet";
+    
+    private final int value;
+    PageSet(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static PageSet of(int value) {
+        return switch (value) {
+            case 0 -> ALL;
+            case 1 -> EVEN;
+            case 2 -> ODD;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

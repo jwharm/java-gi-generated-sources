@@ -23,51 +23,63 @@ import org.jetbrains.annotations.*;
  * | KEEP        | A     | A      | B      | ø       |
  * | KEEP_ALL    | A     | A      | ø      | ø       |
  */
-public class TagMergeMode extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "GstTagMergeMode";
-    
+public enum TagMergeMode implements io.github.jwharm.javagi.Enumeration {
     /**
      * undefined merge mode
      */
-    public static final TagMergeMode UNDEFINED = new TagMergeMode(0);
-    
+    UNDEFINED(0),
     /**
      * replace all tags (clear list and append)
      */
-    public static final TagMergeMode REPLACE_ALL = new TagMergeMode(1);
-    
+    REPLACE_ALL(1),
     /**
      * replace tags
      */
-    public static final TagMergeMode REPLACE = new TagMergeMode(2);
-    
+    REPLACE(2),
     /**
      * append tags
      */
-    public static final TagMergeMode APPEND = new TagMergeMode(3);
-    
+    APPEND(3),
     /**
      * prepend tags
      */
-    public static final TagMergeMode PREPEND = new TagMergeMode(4);
-    
+    PREPEND(4),
     /**
      * keep existing tags
      */
-    public static final TagMergeMode KEEP = new TagMergeMode(5);
-    
+    KEEP(5),
     /**
      * keep all existing tags
      */
-    public static final TagMergeMode KEEP_ALL = new TagMergeMode(6);
-    
+    KEEP_ALL(6),
     /**
      * the number of merge modes
      */
-    public static final TagMergeMode COUNT = new TagMergeMode(7);
+    COUNT(7);
     
-    public TagMergeMode(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "GstTagMergeMode";
+    
+    private final int value;
+    TagMergeMode(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static TagMergeMode of(int value) {
+        return switch (value) {
+            case 0 -> UNDEFINED;
+            case 1 -> REPLACE_ALL;
+            case 2 -> REPLACE;
+            case 3 -> APPEND;
+            case 4 -> PREPEND;
+            case 5 -> KEEP;
+            case 6 -> KEEP_ALL;
+            case 7 -> COUNT;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

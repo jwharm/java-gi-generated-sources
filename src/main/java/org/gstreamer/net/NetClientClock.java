@@ -54,12 +54,19 @@ public class NetClientClock extends org.gstreamer.gst.SystemClock {
     
     /**
      * Create a NetClientClock proxy instance for the provided memory address.
+     * <p>
+     * Because NetClientClock is an {@code InitiallyUnowned} instance, when 
+     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
+     * and a call to {@code refSink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
     @ApiStatus.Internal
     public NetClientClock(Addressable address, Ownership ownership) {
-        super(address, ownership);
+        super(address, Ownership.FULL);
+        if (ownership == Ownership.NONE) {
+            refSink();
+        }
     }
     
     /**
@@ -75,7 +82,11 @@ public class NetClientClock extends org.gstreamer.gst.SystemClock {
      * @throws ClassCastException If the GType is not derived from "GstNetClientClock", a ClassCastException will be thrown.
      */
     public static NetClientClock castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), NetClientClock.getType())) {
             return new NetClientClock(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GstNetClientClock");
+        }
     }
     
     private static Addressable constructNew(@NotNull java.lang.String name, @NotNull java.lang.String remoteAddress, int remotePort, @NotNull org.gstreamer.gst.ClockTime baseTime) {

@@ -816,7 +816,7 @@ public class TagList extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.TagScope(RESULT);
+        return org.gstreamer.gst.TagScope.of(RESULT);
     }
     
     /**

@@ -80,7 +80,11 @@ public class CssProvider extends org.gtk.gobject.Object implements org.gtk.gtk.S
      * @throws ClassCastException If the GType is not derived from "GtkCssProvider", a ClassCastException will be thrown.
      */
     public static CssProvider castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), CssProvider.getType())) {
             return new CssProvider(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkCssProvider");
+        }
     }
     
     private static Addressable constructNew() {
@@ -232,7 +236,7 @@ public class CssProvider extends org.gtk.gobject.Object implements org.gtk.gtk.S
     
     @FunctionalInterface
     public interface ParsingError {
-        void signalReceived(CssProvider source, @NotNull org.gtk.gtk.CssSection section, @NotNull org.gtk.glib.Error error);
+        void signalReceived(CssProvider sourceCssProvider, @NotNull org.gtk.gtk.CssSection section, @NotNull org.gtk.glib.Error error);
     }
     
     /**
@@ -358,10 +362,10 @@ public class CssProvider extends org.gtk.gobject.Object implements org.gtk.gtk.S
     
     private static class Callbacks {
         
-        public static void signalCssProviderParsingError(MemoryAddress source, MemoryAddress section, MemoryAddress error, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalCssProviderParsingError(MemoryAddress sourceCssProvider, MemoryAddress section, MemoryAddress error, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (CssProvider.ParsingError) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new CssProvider(source, Ownership.NONE), new org.gtk.gtk.CssSection(section, Ownership.NONE), new org.gtk.glib.Error(error, Ownership.NONE));
+            HANDLER.signalReceived(new CssProvider(sourceCssProvider, Ownership.NONE), new org.gtk.gtk.CssSection(section, Ownership.NONE), new org.gtk.glib.Error(error, Ownership.NONE));
         }
     }
 }

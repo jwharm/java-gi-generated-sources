@@ -55,7 +55,11 @@ public class DropControllerMotion extends org.gtk.gtk.EventController {
      * @throws ClassCastException If the GType is not derived from "GtkDropControllerMotion", a ClassCastException will be thrown.
      */
     public static DropControllerMotion castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), DropControllerMotion.getType())) {
             return new DropControllerMotion(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkDropControllerMotion");
+        }
     }
     
     private static Addressable constructNew() {
@@ -142,7 +146,7 @@ public class DropControllerMotion extends org.gtk.gtk.EventController {
     
     @FunctionalInterface
     public interface Enter {
-        void signalReceived(DropControllerMotion source, double x, double y);
+        void signalReceived(DropControllerMotion sourceDropControllerMotion, double x, double y);
     }
     
     /**
@@ -170,7 +174,7 @@ public class DropControllerMotion extends org.gtk.gtk.EventController {
     
     @FunctionalInterface
     public interface Leave {
-        void signalReceived(DropControllerMotion source);
+        void signalReceived(DropControllerMotion sourceDropControllerMotion);
     }
     
     /**
@@ -198,7 +202,7 @@ public class DropControllerMotion extends org.gtk.gtk.EventController {
     
     @FunctionalInterface
     public interface Motion {
-        void signalReceived(DropControllerMotion source, double x, double y);
+        void signalReceived(DropControllerMotion sourceDropControllerMotion, double x, double y);
     }
     
     /**
@@ -351,22 +355,22 @@ public class DropControllerMotion extends org.gtk.gtk.EventController {
     
     private static class Callbacks {
         
-        public static void signalDropControllerMotionEnter(MemoryAddress source, double x, double y, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalDropControllerMotionEnter(MemoryAddress sourceDropControllerMotion, double x, double y, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (DropControllerMotion.Enter) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new DropControllerMotion(source, Ownership.NONE), x, y);
+            HANDLER.signalReceived(new DropControllerMotion(sourceDropControllerMotion, Ownership.NONE), x, y);
         }
         
-        public static void signalDropControllerMotionLeave(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalDropControllerMotionLeave(MemoryAddress sourceDropControllerMotion, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (DropControllerMotion.Leave) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new DropControllerMotion(source, Ownership.NONE));
+            HANDLER.signalReceived(new DropControllerMotion(sourceDropControllerMotion, Ownership.NONE));
         }
         
-        public static void signalDropControllerMotionMotion(MemoryAddress source, double x, double y, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalDropControllerMotionMotion(MemoryAddress sourceDropControllerMotion, double x, double y, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (DropControllerMotion.Motion) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new DropControllerMotion(source, Ownership.NONE), x, y);
+            HANDLER.signalReceived(new DropControllerMotion(sourceDropControllerMotion, Ownership.NONE), x, y);
         }
     }
 }

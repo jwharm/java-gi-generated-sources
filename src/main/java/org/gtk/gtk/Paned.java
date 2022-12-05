@@ -91,12 +91,19 @@ public class Paned extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     
     /**
      * Create a Paned proxy instance for the provided memory address.
+     * <p>
+     * Because Paned is an {@code InitiallyUnowned} instance, when 
+     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
+     * and a call to {@code refSink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
     @ApiStatus.Internal
     public Paned(Addressable address, Ownership ownership) {
-        super(address, ownership);
+        super(address, Ownership.FULL);
+        if (ownership == Ownership.NONE) {
+            refSink();
+        }
     }
     
     /**
@@ -112,7 +119,11 @@ public class Paned extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      * @throws ClassCastException If the GType is not derived from "GtkPaned", a ClassCastException will be thrown.
      */
     public static Paned castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), Paned.getType())) {
             return new Paned(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkPaned");
+        }
     }
     
     private static Addressable constructNew(@NotNull org.gtk.gtk.Orientation orientation) {
@@ -388,7 +399,7 @@ public class Paned extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     
     @FunctionalInterface
     public interface AcceptPosition {
-        boolean signalReceived(Paned source);
+        boolean signalReceived(Paned sourcePaned);
     }
     
     /**
@@ -422,7 +433,7 @@ public class Paned extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     
     @FunctionalInterface
     public interface CancelPosition {
-        boolean signalReceived(Paned source);
+        boolean signalReceived(Paned sourcePaned);
     }
     
     /**
@@ -458,7 +469,7 @@ public class Paned extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     
     @FunctionalInterface
     public interface CycleChildFocus {
-        boolean signalReceived(Paned source, boolean reversed);
+        boolean signalReceived(Paned sourcePaned, boolean reversed);
     }
     
     /**
@@ -490,7 +501,7 @@ public class Paned extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     
     @FunctionalInterface
     public interface CycleHandleFocus {
-        boolean signalReceived(Paned source, boolean reversed);
+        boolean signalReceived(Paned sourcePaned, boolean reversed);
     }
     
     /**
@@ -523,7 +534,7 @@ public class Paned extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     
     @FunctionalInterface
     public interface MoveHandle {
-        boolean signalReceived(Paned source, @NotNull org.gtk.gtk.ScrollType scrollType);
+        boolean signalReceived(Paned sourcePaned, @NotNull org.gtk.gtk.ScrollType scrollType);
     }
     
     /**
@@ -553,7 +564,7 @@ public class Paned extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     
     @FunctionalInterface
     public interface ToggleHandleFocus {
-        boolean signalReceived(Paned source);
+        boolean signalReceived(Paned sourcePaned);
     }
     
     /**
@@ -868,40 +879,40 @@ public class Paned extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     
     private static class Callbacks {
         
-        public static boolean signalPanedAcceptPosition(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static boolean signalPanedAcceptPosition(MemoryAddress sourcePaned, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (Paned.AcceptPosition) Interop.signalRegistry.get(HASH);
-            return HANDLER.signalReceived(new Paned(source, Ownership.NONE));
+            return HANDLER.signalReceived(new Paned(sourcePaned, Ownership.NONE));
         }
         
-        public static boolean signalPanedCancelPosition(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static boolean signalPanedCancelPosition(MemoryAddress sourcePaned, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (Paned.CancelPosition) Interop.signalRegistry.get(HASH);
-            return HANDLER.signalReceived(new Paned(source, Ownership.NONE));
+            return HANDLER.signalReceived(new Paned(sourcePaned, Ownership.NONE));
         }
         
-        public static boolean signalPanedCycleChildFocus(MemoryAddress source, int reversed, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static boolean signalPanedCycleChildFocus(MemoryAddress sourcePaned, int reversed, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (Paned.CycleChildFocus) Interop.signalRegistry.get(HASH);
-            return HANDLER.signalReceived(new Paned(source, Ownership.NONE), reversed != 0);
+            return HANDLER.signalReceived(new Paned(sourcePaned, Ownership.NONE), reversed != 0);
         }
         
-        public static boolean signalPanedCycleHandleFocus(MemoryAddress source, int reversed, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static boolean signalPanedCycleHandleFocus(MemoryAddress sourcePaned, int reversed, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (Paned.CycleHandleFocus) Interop.signalRegistry.get(HASH);
-            return HANDLER.signalReceived(new Paned(source, Ownership.NONE), reversed != 0);
+            return HANDLER.signalReceived(new Paned(sourcePaned, Ownership.NONE), reversed != 0);
         }
         
-        public static boolean signalPanedMoveHandle(MemoryAddress source, int scrollType, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static boolean signalPanedMoveHandle(MemoryAddress sourcePaned, int scrollType, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (Paned.MoveHandle) Interop.signalRegistry.get(HASH);
-            return HANDLER.signalReceived(new Paned(source, Ownership.NONE), new org.gtk.gtk.ScrollType(scrollType));
+            return HANDLER.signalReceived(new Paned(sourcePaned, Ownership.NONE), org.gtk.gtk.ScrollType.of(scrollType));
         }
         
-        public static boolean signalPanedToggleHandleFocus(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static boolean signalPanedToggleHandleFocus(MemoryAddress sourcePaned, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (Paned.ToggleHandleFocus) Interop.signalRegistry.get(HASH);
-            return HANDLER.signalReceived(new Paned(source, Ownership.NONE));
+            return HANDLER.signalReceived(new Paned(sourcePaned, Ownership.NONE));
         }
     }
 }

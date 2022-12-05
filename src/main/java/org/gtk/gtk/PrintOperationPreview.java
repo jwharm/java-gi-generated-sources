@@ -28,7 +28,11 @@ public interface PrintOperationPreview extends io.github.jwharm.javagi.Proxy {
      * @throws ClassCastException If the GType is not derived from "GtkPrintOperationPreview", a ClassCastException will be thrown.
      */
     public static PrintOperationPreview castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), PrintOperationPreview.getType())) {
             return new PrintOperationPreviewImpl(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkPrintOperationPreview");
+        }
     }
     
     /**
@@ -103,7 +107,7 @@ public interface PrintOperationPreview extends io.github.jwharm.javagi.Proxy {
     
     @FunctionalInterface
     public interface GotPageSize {
-        void signalReceived(PrintOperationPreview source, @NotNull org.gtk.gtk.PrintContext context, @NotNull org.gtk.gtk.PageSetup pageSetup);
+        void signalReceived(PrintOperationPreview sourcePrintOperationPreview, @NotNull org.gtk.gtk.PrintContext context, @NotNull org.gtk.gtk.PageSetup pageSetup);
     }
     
     /**
@@ -135,7 +139,7 @@ public interface PrintOperationPreview extends io.github.jwharm.javagi.Proxy {
     
     @FunctionalInterface
     public interface Ready {
-        void signalReceived(PrintOperationPreview source, @NotNull org.gtk.gtk.PrintContext context);
+        void signalReceived(PrintOperationPreview sourcePrintOperationPreview, @NotNull org.gtk.gtk.PrintContext context);
     }
     
     /**
@@ -199,16 +203,16 @@ public interface PrintOperationPreview extends io.github.jwharm.javagi.Proxy {
     @ApiStatus.Internal
     static class Callbacks {
         
-        public static void signalPrintOperationPreviewGotPageSize(MemoryAddress source, MemoryAddress context, MemoryAddress pageSetup, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalPrintOperationPreviewGotPageSize(MemoryAddress sourcePrintOperationPreview, MemoryAddress context, MemoryAddress pageSetup, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (PrintOperationPreview.GotPageSize) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new PrintOperationPreview.PrintOperationPreviewImpl(source, Ownership.NONE), new org.gtk.gtk.PrintContext(context, Ownership.NONE), new org.gtk.gtk.PageSetup(pageSetup, Ownership.NONE));
+            HANDLER.signalReceived(new PrintOperationPreview.PrintOperationPreviewImpl(sourcePrintOperationPreview, Ownership.NONE), new org.gtk.gtk.PrintContext(context, Ownership.NONE), new org.gtk.gtk.PageSetup(pageSetup, Ownership.NONE));
         }
         
-        public static void signalPrintOperationPreviewReady(MemoryAddress source, MemoryAddress context, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalPrintOperationPreviewReady(MemoryAddress sourcePrintOperationPreview, MemoryAddress context, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (PrintOperationPreview.Ready) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new PrintOperationPreview.PrintOperationPreviewImpl(source, Ownership.NONE), new org.gtk.gtk.PrintContext(context, Ownership.NONE));
+            HANDLER.signalReceived(new PrintOperationPreview.PrintOperationPreviewImpl(sourcePrintOperationPreview, Ownership.NONE), new org.gtk.gtk.PrintContext(context, Ownership.NONE));
         }
     }
     

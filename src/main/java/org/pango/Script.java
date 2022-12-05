@@ -17,603 +17,615 @@ import org.jetbrains.annotations.*;
  * {@code GLib.UnicodeScript} enumeration instead,
  * whose values are interchangeable with {@code PangoScript}.
  */
-public class Script extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "PangoScript";
-    
+public enum Script implements io.github.jwharm.javagi.Enumeration {
     /**
      * a value never returned from pango_script_for_unichar()
      */
-    public static final Script INVALID_CODE = new Script(0);
-    
+    INVALID_CODE(-1),
     /**
      * a character used by multiple different scripts
      */
-    public static final Script COMMON = new Script(0);
-    
+    COMMON(0),
     /**
      * a mark glyph that takes its script from the
      * base glyph to which it is attached
      */
-    public static final Script INHERITED = new Script(1);
-    
+    INHERITED(1),
     /**
      * Arabic
      */
-    public static final Script ARABIC = new Script(2);
-    
+    ARABIC(2),
     /**
      * Armenian
      */
-    public static final Script ARMENIAN = new Script(3);
-    
+    ARMENIAN(3),
     /**
      * Bengali
      */
-    public static final Script BENGALI = new Script(4);
-    
+    BENGALI(4),
     /**
      * Bopomofo
      */
-    public static final Script BOPOMOFO = new Script(5);
-    
+    BOPOMOFO(5),
     /**
      * Cherokee
      */
-    public static final Script CHEROKEE = new Script(6);
-    
+    CHEROKEE(6),
     /**
      * Coptic
      */
-    public static final Script COPTIC = new Script(7);
-    
+    COPTIC(7),
     /**
      * Cyrillic
      */
-    public static final Script CYRILLIC = new Script(8);
-    
+    CYRILLIC(8),
     /**
      * Deseret
      */
-    public static final Script DESERET = new Script(9);
-    
+    DESERET(9),
     /**
      * Devanagari
      */
-    public static final Script DEVANAGARI = new Script(10);
-    
+    DEVANAGARI(10),
     /**
      * Ethiopic
      */
-    public static final Script ETHIOPIC = new Script(11);
-    
+    ETHIOPIC(11),
     /**
      * Georgian
      */
-    public static final Script GEORGIAN = new Script(12);
-    
+    GEORGIAN(12),
     /**
      * Gothic
      */
-    public static final Script GOTHIC = new Script(13);
-    
+    GOTHIC(13),
     /**
      * Greek
      */
-    public static final Script GREEK = new Script(14);
-    
+    GREEK(14),
     /**
      * Gujarati
      */
-    public static final Script GUJARATI = new Script(15);
-    
+    GUJARATI(15),
     /**
      * Gurmukhi
      */
-    public static final Script GURMUKHI = new Script(16);
-    
+    GURMUKHI(16),
     /**
      * Han
      */
-    public static final Script HAN = new Script(17);
-    
+    HAN(17),
     /**
      * Hangul
      */
-    public static final Script HANGUL = new Script(18);
-    
+    HANGUL(18),
     /**
      * Hebrew
      */
-    public static final Script HEBREW = new Script(19);
-    
+    HEBREW(19),
     /**
      * Hiragana
      */
-    public static final Script HIRAGANA = new Script(20);
-    
+    HIRAGANA(20),
     /**
      * Kannada
      */
-    public static final Script KANNADA = new Script(21);
-    
+    KANNADA(21),
     /**
      * Katakana
      */
-    public static final Script KATAKANA = new Script(22);
-    
+    KATAKANA(22),
     /**
      * Khmer
      */
-    public static final Script KHMER = new Script(23);
-    
+    KHMER(23),
     /**
      * Lao
      */
-    public static final Script LAO = new Script(24);
-    
+    LAO(24),
     /**
      * Latin
      */
-    public static final Script LATIN = new Script(25);
-    
+    LATIN(25),
     /**
      * Malayalam
      */
-    public static final Script MALAYALAM = new Script(26);
-    
+    MALAYALAM(26),
     /**
      * Mongolian
      */
-    public static final Script MONGOLIAN = new Script(27);
-    
+    MONGOLIAN(27),
     /**
      * Myanmar
      */
-    public static final Script MYANMAR = new Script(28);
-    
+    MYANMAR(28),
     /**
      * Ogham
      */
-    public static final Script OGHAM = new Script(29);
-    
+    OGHAM(29),
     /**
      * Old Italic
      */
-    public static final Script OLD_ITALIC = new Script(30);
-    
+    OLD_ITALIC(30),
     /**
      * Oriya
      */
-    public static final Script ORIYA = new Script(31);
-    
+    ORIYA(31),
     /**
      * Runic
      */
-    public static final Script RUNIC = new Script(32);
-    
+    RUNIC(32),
     /**
      * Sinhala
      */
-    public static final Script SINHALA = new Script(33);
-    
+    SINHALA(33),
     /**
      * Syriac
      */
-    public static final Script SYRIAC = new Script(34);
-    
+    SYRIAC(34),
     /**
      * Tamil
      */
-    public static final Script TAMIL = new Script(35);
-    
+    TAMIL(35),
     /**
      * Telugu
      */
-    public static final Script TELUGU = new Script(36);
-    
+    TELUGU(36),
     /**
      * Thaana
      */
-    public static final Script THAANA = new Script(37);
-    
+    THAANA(37),
     /**
      * Thai
      */
-    public static final Script THAI = new Script(38);
-    
+    THAI(38),
     /**
      * Tibetan
      */
-    public static final Script TIBETAN = new Script(39);
-    
+    TIBETAN(39),
     /**
      * Canadian Aboriginal
      */
-    public static final Script CANADIAN_ABORIGINAL = new Script(40);
-    
+    CANADIAN_ABORIGINAL(40),
     /**
      * Yi
      */
-    public static final Script YI = new Script(41);
-    
+    YI(41),
     /**
      * Tagalog
      */
-    public static final Script TAGALOG = new Script(42);
-    
+    TAGALOG(42),
     /**
      * Hanunoo
      */
-    public static final Script HANUNOO = new Script(43);
-    
+    HANUNOO(43),
     /**
      * Buhid
      */
-    public static final Script BUHID = new Script(44);
-    
+    BUHID(44),
     /**
      * Tagbanwa
      */
-    public static final Script TAGBANWA = new Script(45);
-    
+    TAGBANWA(45),
     /**
      * Braille
      */
-    public static final Script BRAILLE = new Script(46);
-    
+    BRAILLE(46),
     /**
      * Cypriot
      */
-    public static final Script CYPRIOT = new Script(47);
-    
+    CYPRIOT(47),
     /**
      * Limbu
      */
-    public static final Script LIMBU = new Script(48);
-    
+    LIMBU(48),
     /**
      * Osmanya
      */
-    public static final Script OSMANYA = new Script(49);
-    
+    OSMANYA(49),
     /**
      * Shavian
      */
-    public static final Script SHAVIAN = new Script(50);
-    
+    SHAVIAN(50),
     /**
      * Linear B
      */
-    public static final Script LINEAR_B = new Script(51);
-    
+    LINEAR_B(51),
     /**
      * Tai Le
      */
-    public static final Script TAI_LE = new Script(52);
-    
+    TAI_LE(52),
     /**
      * Ugaritic
      */
-    public static final Script UGARITIC = new Script(53);
-    
+    UGARITIC(53),
     /**
      * New Tai Lue. Since 1.10
      */
-    public static final Script NEW_TAI_LUE = new Script(54);
-    
+    NEW_TAI_LUE(54),
     /**
      * Buginese. Since 1.10
      */
-    public static final Script BUGINESE = new Script(55);
-    
+    BUGINESE(55),
     /**
      * Glagolitic. Since 1.10
      */
-    public static final Script GLAGOLITIC = new Script(56);
-    
+    GLAGOLITIC(56),
     /**
      * Tifinagh. Since 1.10
      */
-    public static final Script TIFINAGH = new Script(57);
-    
+    TIFINAGH(57),
     /**
      * Syloti Nagri. Since 1.10
      */
-    public static final Script SYLOTI_NAGRI = new Script(58);
-    
+    SYLOTI_NAGRI(58),
     /**
      * Old Persian. Since 1.10
      */
-    public static final Script OLD_PERSIAN = new Script(59);
-    
+    OLD_PERSIAN(59),
     /**
      * Kharoshthi. Since 1.10
      */
-    public static final Script KHAROSHTHI = new Script(60);
-    
+    KHAROSHTHI(60),
     /**
      * an unassigned code point. Since 1.14
      */
-    public static final Script UNKNOWN = new Script(61);
-    
+    UNKNOWN(61),
     /**
      * Balinese. Since 1.14
      */
-    public static final Script BALINESE = new Script(62);
-    
+    BALINESE(62),
     /**
      * Cuneiform. Since 1.14
      */
-    public static final Script CUNEIFORM = new Script(63);
-    
+    CUNEIFORM(63),
     /**
      * Phoenician. Since 1.14
      */
-    public static final Script PHOENICIAN = new Script(64);
-    
+    PHOENICIAN(64),
     /**
      * Phags-pa. Since 1.14
      */
-    public static final Script PHAGS_PA = new Script(65);
-    
+    PHAGS_PA(65),
     /**
      * N'Ko. Since 1.14
      */
-    public static final Script NKO = new Script(66);
-    
+    NKO(66),
     /**
      * Kayah Li. Since 1.20.1
      */
-    public static final Script KAYAH_LI = new Script(67);
-    
+    KAYAH_LI(67),
     /**
      * Lepcha. Since 1.20.1
      */
-    public static final Script LEPCHA = new Script(68);
-    
+    LEPCHA(68),
     /**
      * Rejang. Since 1.20.1
      */
-    public static final Script REJANG = new Script(69);
-    
+    REJANG(69),
     /**
      * Sundanese. Since 1.20.1
      */
-    public static final Script SUNDANESE = new Script(70);
-    
+    SUNDANESE(70),
     /**
      * Saurashtra. Since 1.20.1
      */
-    public static final Script SAURASHTRA = new Script(71);
-    
+    SAURASHTRA(71),
     /**
      * Cham. Since 1.20.1
      */
-    public static final Script CHAM = new Script(72);
-    
+    CHAM(72),
     /**
      * Ol Chiki. Since 1.20.1
      */
-    public static final Script OL_CHIKI = new Script(73);
-    
+    OL_CHIKI(73),
     /**
      * Vai. Since 1.20.1
      */
-    public static final Script VAI = new Script(74);
-    
+    VAI(74),
     /**
      * Carian. Since 1.20.1
      */
-    public static final Script CARIAN = new Script(75);
-    
+    CARIAN(75),
     /**
      * Lycian. Since 1.20.1
      */
-    public static final Script LYCIAN = new Script(76);
-    
+    LYCIAN(76),
     /**
      * Lydian. Since 1.20.1
      */
-    public static final Script LYDIAN = new Script(77);
-    
+    LYDIAN(77),
     /**
      * Batak. Since 1.32
      */
-    public static final Script BATAK = new Script(78);
-    
+    BATAK(78),
     /**
      * Brahmi. Since 1.32
      */
-    public static final Script BRAHMI = new Script(79);
-    
+    BRAHMI(79),
     /**
      * Mandaic. Since 1.32
      */
-    public static final Script MANDAIC = new Script(80);
-    
+    MANDAIC(80),
     /**
      * Chakma. Since: 1.32
      */
-    public static final Script CHAKMA = new Script(81);
-    
+    CHAKMA(81),
     /**
      * Meroitic Cursive. Since: 1.32
      */
-    public static final Script MEROITIC_CURSIVE = new Script(82);
-    
+    MEROITIC_CURSIVE(82),
     /**
      * Meroitic Hieroglyphs. Since: 1.32
      */
-    public static final Script MEROITIC_HIEROGLYPHS = new Script(83);
-    
+    MEROITIC_HIEROGLYPHS(83),
     /**
      * Miao. Since: 1.32
      */
-    public static final Script MIAO = new Script(84);
-    
+    MIAO(84),
     /**
      * Sharada. Since: 1.32
      */
-    public static final Script SHARADA = new Script(85);
-    
+    SHARADA(85),
     /**
      * Sora Sompeng. Since: 1.32
      */
-    public static final Script SORA_SOMPENG = new Script(86);
-    
+    SORA_SOMPENG(86),
     /**
      * Takri. Since: 1.32
      */
-    public static final Script TAKRI = new Script(87);
-    
+    TAKRI(87),
     /**
      * Bassa. Since: 1.40
      */
-    public static final Script BASSA_VAH = new Script(88);
-    
+    BASSA_VAH(88),
     /**
      * Caucasian Albanian. Since: 1.40
      */
-    public static final Script CAUCASIAN_ALBANIAN = new Script(89);
-    
+    CAUCASIAN_ALBANIAN(89),
     /**
      * Duployan. Since: 1.40
      */
-    public static final Script DUPLOYAN = new Script(90);
-    
+    DUPLOYAN(90),
     /**
      * Elbasan. Since: 1.40
      */
-    public static final Script ELBASAN = new Script(91);
-    
+    ELBASAN(91),
     /**
      * Grantha. Since: 1.40
      */
-    public static final Script GRANTHA = new Script(92);
-    
+    GRANTHA(92),
     /**
      * Kjohki. Since: 1.40
      */
-    public static final Script KHOJKI = new Script(93);
-    
+    KHOJKI(93),
     /**
      * Khudawadi, Sindhi. Since: 1.40
      */
-    public static final Script KHUDAWADI = new Script(94);
-    
+    KHUDAWADI(94),
     /**
      * Linear A. Since: 1.40
      */
-    public static final Script LINEAR_A = new Script(95);
-    
+    LINEAR_A(95),
     /**
      * Mahajani. Since: 1.40
      */
-    public static final Script MAHAJANI = new Script(96);
-    
+    MAHAJANI(96),
     /**
      * Manichaean. Since: 1.40
      */
-    public static final Script MANICHAEAN = new Script(97);
-    
+    MANICHAEAN(97),
     /**
      * Mende Kikakui. Since: 1.40
      */
-    public static final Script MENDE_KIKAKUI = new Script(98);
-    
+    MENDE_KIKAKUI(98),
     /**
      * Modi. Since: 1.40
      */
-    public static final Script MODI = new Script(99);
-    
+    MODI(99),
     /**
      * Mro. Since: 1.40
      */
-    public static final Script MRO = new Script(100);
-    
+    MRO(100),
     /**
      * Nabataean. Since: 1.40
      */
-    public static final Script NABATAEAN = new Script(101);
-    
+    NABATAEAN(101),
     /**
      * Old North Arabian. Since: 1.40
      */
-    public static final Script OLD_NORTH_ARABIAN = new Script(102);
-    
+    OLD_NORTH_ARABIAN(102),
     /**
      * Old Permic. Since: 1.40
      */
-    public static final Script OLD_PERMIC = new Script(103);
-    
+    OLD_PERMIC(103),
     /**
      * Pahawh Hmong. Since: 1.40
      */
-    public static final Script PAHAWH_HMONG = new Script(104);
-    
+    PAHAWH_HMONG(104),
     /**
      * Palmyrene. Since: 1.40
      */
-    public static final Script PALMYRENE = new Script(105);
-    
+    PALMYRENE(105),
     /**
      * Pau Cin Hau. Since: 1.40
      */
-    public static final Script PAU_CIN_HAU = new Script(106);
-    
+    PAU_CIN_HAU(106),
     /**
      * Psalter Pahlavi. Since: 1.40
      */
-    public static final Script PSALTER_PAHLAVI = new Script(107);
-    
+    PSALTER_PAHLAVI(107),
     /**
      * Siddham. Since: 1.40
      */
-    public static final Script SIDDHAM = new Script(108);
-    
+    SIDDHAM(108),
     /**
      * Tirhuta. Since: 1.40
      */
-    public static final Script TIRHUTA = new Script(109);
-    
+    TIRHUTA(109),
     /**
      * Warang Citi. Since: 1.40
      */
-    public static final Script WARANG_CITI = new Script(110);
-    
+    WARANG_CITI(110),
     /**
      * Ahom. Since: 1.40
      */
-    public static final Script AHOM = new Script(111);
-    
+    AHOM(111),
     /**
      * Anatolian Hieroglyphs. Since: 1.40
      */
-    public static final Script ANATOLIAN_HIEROGLYPHS = new Script(112);
-    
+    ANATOLIAN_HIEROGLYPHS(112),
     /**
      * Hatran. Since: 1.40
      */
-    public static final Script HATRAN = new Script(113);
-    
+    HATRAN(113),
     /**
      * Multani. Since: 1.40
      */
-    public static final Script MULTANI = new Script(114);
-    
+    MULTANI(114),
     /**
      * Old Hungarian. Since: 1.40
      */
-    public static final Script OLD_HUNGARIAN = new Script(115);
-    
+    OLD_HUNGARIAN(115),
     /**
      * Signwriting. Since: 1.40
      */
-    public static final Script SIGNWRITING = new Script(116);
+    SIGNWRITING(116);
     
-    public Script(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "PangoScript";
+    
+    private final int value;
+    Script(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static Script of(int value) {
+        return switch (value) {
+            case -1 -> INVALID_CODE;
+            case 0 -> COMMON;
+            case 1 -> INHERITED;
+            case 2 -> ARABIC;
+            case 3 -> ARMENIAN;
+            case 4 -> BENGALI;
+            case 5 -> BOPOMOFO;
+            case 6 -> CHEROKEE;
+            case 7 -> COPTIC;
+            case 8 -> CYRILLIC;
+            case 9 -> DESERET;
+            case 10 -> DEVANAGARI;
+            case 11 -> ETHIOPIC;
+            case 12 -> GEORGIAN;
+            case 13 -> GOTHIC;
+            case 14 -> GREEK;
+            case 15 -> GUJARATI;
+            case 16 -> GURMUKHI;
+            case 17 -> HAN;
+            case 18 -> HANGUL;
+            case 19 -> HEBREW;
+            case 20 -> HIRAGANA;
+            case 21 -> KANNADA;
+            case 22 -> KATAKANA;
+            case 23 -> KHMER;
+            case 24 -> LAO;
+            case 25 -> LATIN;
+            case 26 -> MALAYALAM;
+            case 27 -> MONGOLIAN;
+            case 28 -> MYANMAR;
+            case 29 -> OGHAM;
+            case 30 -> OLD_ITALIC;
+            case 31 -> ORIYA;
+            case 32 -> RUNIC;
+            case 33 -> SINHALA;
+            case 34 -> SYRIAC;
+            case 35 -> TAMIL;
+            case 36 -> TELUGU;
+            case 37 -> THAANA;
+            case 38 -> THAI;
+            case 39 -> TIBETAN;
+            case 40 -> CANADIAN_ABORIGINAL;
+            case 41 -> YI;
+            case 42 -> TAGALOG;
+            case 43 -> HANUNOO;
+            case 44 -> BUHID;
+            case 45 -> TAGBANWA;
+            case 46 -> BRAILLE;
+            case 47 -> CYPRIOT;
+            case 48 -> LIMBU;
+            case 49 -> OSMANYA;
+            case 50 -> SHAVIAN;
+            case 51 -> LINEAR_B;
+            case 52 -> TAI_LE;
+            case 53 -> UGARITIC;
+            case 54 -> NEW_TAI_LUE;
+            case 55 -> BUGINESE;
+            case 56 -> GLAGOLITIC;
+            case 57 -> TIFINAGH;
+            case 58 -> SYLOTI_NAGRI;
+            case 59 -> OLD_PERSIAN;
+            case 60 -> KHAROSHTHI;
+            case 61 -> UNKNOWN;
+            case 62 -> BALINESE;
+            case 63 -> CUNEIFORM;
+            case 64 -> PHOENICIAN;
+            case 65 -> PHAGS_PA;
+            case 66 -> NKO;
+            case 67 -> KAYAH_LI;
+            case 68 -> LEPCHA;
+            case 69 -> REJANG;
+            case 70 -> SUNDANESE;
+            case 71 -> SAURASHTRA;
+            case 72 -> CHAM;
+            case 73 -> OL_CHIKI;
+            case 74 -> VAI;
+            case 75 -> CARIAN;
+            case 76 -> LYCIAN;
+            case 77 -> LYDIAN;
+            case 78 -> BATAK;
+            case 79 -> BRAHMI;
+            case 80 -> MANDAIC;
+            case 81 -> CHAKMA;
+            case 82 -> MEROITIC_CURSIVE;
+            case 83 -> MEROITIC_HIEROGLYPHS;
+            case 84 -> MIAO;
+            case 85 -> SHARADA;
+            case 86 -> SORA_SOMPENG;
+            case 87 -> TAKRI;
+            case 88 -> BASSA_VAH;
+            case 89 -> CAUCASIAN_ALBANIAN;
+            case 90 -> DUPLOYAN;
+            case 91 -> ELBASAN;
+            case 92 -> GRANTHA;
+            case 93 -> KHOJKI;
+            case 94 -> KHUDAWADI;
+            case 95 -> LINEAR_A;
+            case 96 -> MAHAJANI;
+            case 97 -> MANICHAEAN;
+            case 98 -> MENDE_KIKAKUI;
+            case 99 -> MODI;
+            case 100 -> MRO;
+            case 101 -> NABATAEAN;
+            case 102 -> OLD_NORTH_ARABIAN;
+            case 103 -> OLD_PERMIC;
+            case 104 -> PAHAWH_HMONG;
+            case 105 -> PALMYRENE;
+            case 106 -> PAU_CIN_HAU;
+            case 107 -> PSALTER_PAHLAVI;
+            case 108 -> SIDDHAM;
+            case 109 -> TIRHUTA;
+            case 110 -> WARANG_CITI;
+            case 111 -> AHOM;
+            case 112 -> ANATOLIAN_HIEROGLYPHS;
+            case 113 -> HATRAN;
+            case 114 -> MULTANI;
+            case 115 -> OLD_HUNGARIAN;
+            case 116 -> SIGNWRITING;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
     
     /**
@@ -642,7 +654,7 @@ public class Script extends io.github.jwharm.javagi.Enumeration {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.Script(RESULT);
+        return org.pango.Script.of(RESULT);
     }
     
     /**

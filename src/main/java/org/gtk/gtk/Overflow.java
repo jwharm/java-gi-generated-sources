@@ -12,23 +12,35 @@ import org.jetbrains.annotations.*;
  * {@code Gtk.Widget:overflow} property is modeled after the
  * CSS overflow property, but implements it only partially.
  */
-public class Overflow extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "GtkOverflow";
-    
+public enum Overflow implements io.github.jwharm.javagi.Enumeration {
     /**
      * No change is applied. Content is drawn at the specified
      *   position.
      */
-    public static final Overflow VISIBLE = new Overflow(0);
-    
+    VISIBLE(0),
     /**
      * Content is clipped to the bounds of the area. Content
      *   outside the area is not drawn and cannot be interacted with.
      */
-    public static final Overflow HIDDEN = new Overflow(1);
+    HIDDEN(1);
     
-    public Overflow(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "GtkOverflow";
+    
+    private final int value;
+    Overflow(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static Overflow of(int value) {
+        return switch (value) {
+            case 0 -> VISIBLE;
+            case 1 -> HIDDEN;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

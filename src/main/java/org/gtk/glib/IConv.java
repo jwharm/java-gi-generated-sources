@@ -160,32 +160,4 @@ public class IConv extends Struct {
             false
         );
     }
-
-    /**
-     * Inner class implementing a builder pattern to construct 
-     * a struct and set its values.
-     */
-    public static class Build {
-        
-        private IConv struct;
-        
-         /**
-         * A {@link IConv.Build} object constructs a {@link IConv} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
-            struct = IConv.allocate();
-        }
-        
-         /**
-         * Finish building the {@link IConv} struct.
-         * @return A new instance of {@code IConv} with the fields 
-         *         that were set in the Build object.
-         */
-        public IConv construct() {
-            return struct;
-        }
-    }
 }

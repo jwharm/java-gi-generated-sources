@@ -120,7 +120,11 @@ public class DragSource extends org.gtk.gtk.GestureSingle {
      * @throws ClassCastException If the GType is not derived from "GtkDragSource", a ClassCastException will be thrown.
      */
     public static DragSource castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), DragSource.getType())) {
             return new DragSource(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkDragSource");
+        }
     }
     
     private static Addressable constructNew() {
@@ -287,7 +291,7 @@ public class DragSource extends org.gtk.gtk.GestureSingle {
     
     @FunctionalInterface
     public interface DragBegin {
-        void signalReceived(DragSource source, @NotNull org.gtk.gdk.Drag drag);
+        void signalReceived(DragSource sourceDragSource, @NotNull org.gtk.gdk.Drag drag);
     }
     
     /**
@@ -318,7 +322,7 @@ public class DragSource extends org.gtk.gtk.GestureSingle {
     
     @FunctionalInterface
     public interface DragCancel {
-        boolean signalReceived(DragSource source, @NotNull org.gtk.gdk.Drag drag, @NotNull org.gtk.gdk.DragCancelReason reason);
+        boolean signalReceived(DragSource sourceDragSource, @NotNull org.gtk.gdk.Drag drag, @NotNull org.gtk.gdk.DragCancelReason reason);
     }
     
     /**
@@ -350,7 +354,7 @@ public class DragSource extends org.gtk.gtk.GestureSingle {
     
     @FunctionalInterface
     public interface DragEnd {
-        void signalReceived(DragSource source, @NotNull org.gtk.gdk.Drag drag, boolean deleteData);
+        void signalReceived(DragSource sourceDragSource, @NotNull org.gtk.gdk.Drag drag, boolean deleteData);
     }
     
     /**
@@ -382,7 +386,7 @@ public class DragSource extends org.gtk.gtk.GestureSingle {
     
     @FunctionalInterface
     public interface Prepare {
-        void signalReceived(DragSource source, double x, double y);
+        void signalReceived(DragSource sourceDragSource, double x, double y);
     }
     
     /**
@@ -532,28 +536,28 @@ public class DragSource extends org.gtk.gtk.GestureSingle {
     
     private static class Callbacks {
         
-        public static void signalDragSourceDragBegin(MemoryAddress source, MemoryAddress drag, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalDragSourceDragBegin(MemoryAddress sourceDragSource, MemoryAddress drag, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (DragSource.DragBegin) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new DragSource(source, Ownership.NONE), new org.gtk.gdk.Drag(drag, Ownership.NONE));
+            HANDLER.signalReceived(new DragSource(sourceDragSource, Ownership.NONE), new org.gtk.gdk.Drag(drag, Ownership.NONE));
         }
         
-        public static boolean signalDragSourceDragCancel(MemoryAddress source, MemoryAddress drag, int reason, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static boolean signalDragSourceDragCancel(MemoryAddress sourceDragSource, MemoryAddress drag, int reason, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (DragSource.DragCancel) Interop.signalRegistry.get(HASH);
-            return HANDLER.signalReceived(new DragSource(source, Ownership.NONE), new org.gtk.gdk.Drag(drag, Ownership.NONE), new org.gtk.gdk.DragCancelReason(reason));
+            return HANDLER.signalReceived(new DragSource(sourceDragSource, Ownership.NONE), new org.gtk.gdk.Drag(drag, Ownership.NONE), org.gtk.gdk.DragCancelReason.of(reason));
         }
         
-        public static void signalDragSourceDragEnd(MemoryAddress source, MemoryAddress drag, int deleteData, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalDragSourceDragEnd(MemoryAddress sourceDragSource, MemoryAddress drag, int deleteData, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (DragSource.DragEnd) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new DragSource(source, Ownership.NONE), new org.gtk.gdk.Drag(drag, Ownership.NONE), deleteData != 0);
+            HANDLER.signalReceived(new DragSource(sourceDragSource, Ownership.NONE), new org.gtk.gdk.Drag(drag, Ownership.NONE), deleteData != 0);
         }
         
-        public static void signalDragSourcePrepare(MemoryAddress source, double x, double y, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalDragSourcePrepare(MemoryAddress sourceDragSource, double x, double y, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (DragSource.Prepare) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new DragSource(source, Ownership.NONE), x, y);
+            HANDLER.signalReceived(new DragSource(sourceDragSource, Ownership.NONE), x, y);
         }
     }
 }

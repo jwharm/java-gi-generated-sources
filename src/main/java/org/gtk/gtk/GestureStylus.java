@@ -51,7 +51,11 @@ public class GestureStylus extends org.gtk.gtk.GestureSingle {
      * @throws ClassCastException If the GType is not derived from "GtkGestureStylus", a ClassCastException will be thrown.
      */
     public static GestureStylus castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), GestureStylus.getType())) {
             return new GestureStylus(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkGestureStylus");
+        }
     }
     
     private static Addressable constructNew() {
@@ -192,7 +196,7 @@ public class GestureStylus extends org.gtk.gtk.GestureSingle {
     
     @FunctionalInterface
     public interface Down {
-        void signalReceived(GestureStylus source, double x, double y);
+        void signalReceived(GestureStylus sourceGestureStylus, double x, double y);
     }
     
     /**
@@ -220,7 +224,7 @@ public class GestureStylus extends org.gtk.gtk.GestureSingle {
     
     @FunctionalInterface
     public interface Motion {
-        void signalReceived(GestureStylus source, double x, double y);
+        void signalReceived(GestureStylus sourceGestureStylus, double x, double y);
     }
     
     /**
@@ -248,7 +252,7 @@ public class GestureStylus extends org.gtk.gtk.GestureSingle {
     
     @FunctionalInterface
     public interface Proximity {
-        void signalReceived(GestureStylus source, double x, double y);
+        void signalReceived(GestureStylus sourceGestureStylus, double x, double y);
     }
     
     /**
@@ -276,7 +280,7 @@ public class GestureStylus extends org.gtk.gtk.GestureSingle {
     
     @FunctionalInterface
     public interface Up {
-        void signalReceived(GestureStylus source, double x, double y);
+        void signalReceived(GestureStylus sourceGestureStylus, double x, double y);
     }
     
     /**
@@ -378,28 +382,28 @@ public class GestureStylus extends org.gtk.gtk.GestureSingle {
     
     private static class Callbacks {
         
-        public static void signalGestureStylusDown(MemoryAddress source, double x, double y, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalGestureStylusDown(MemoryAddress sourceGestureStylus, double x, double y, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (GestureStylus.Down) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new GestureStylus(source, Ownership.NONE), x, y);
+            HANDLER.signalReceived(new GestureStylus(sourceGestureStylus, Ownership.NONE), x, y);
         }
         
-        public static void signalGestureStylusMotion(MemoryAddress source, double x, double y, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalGestureStylusMotion(MemoryAddress sourceGestureStylus, double x, double y, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (GestureStylus.Motion) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new GestureStylus(source, Ownership.NONE), x, y);
+            HANDLER.signalReceived(new GestureStylus(sourceGestureStylus, Ownership.NONE), x, y);
         }
         
-        public static void signalGestureStylusProximity(MemoryAddress source, double x, double y, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalGestureStylusProximity(MemoryAddress sourceGestureStylus, double x, double y, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (GestureStylus.Proximity) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new GestureStylus(source, Ownership.NONE), x, y);
+            HANDLER.signalReceived(new GestureStylus(sourceGestureStylus, Ownership.NONE), x, y);
         }
         
-        public static void signalGestureStylusUp(MemoryAddress source, double x, double y, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalGestureStylusUp(MemoryAddress sourceGestureStylus, double x, double y, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (GestureStylus.Up) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new GestureStylus(source, Ownership.NONE), x, y);
+            HANDLER.signalReceived(new GestureStylus(sourceGestureStylus, Ownership.NONE), x, y);
         }
     }
 }

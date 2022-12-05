@@ -39,9 +39,8 @@ public class LayoutSerializeFlags extends io.github.jwharm.javagi.Bitfield {
      * @param mask the value to combine with
      * @return the combined value by calculating {@code this | mask} 
      */
-    public LayoutSerializeFlags combined(LayoutSerializeFlags mask) {
-        this.setValue(this.getValue() | mask.getValue());
-        return this;
+    public LayoutSerializeFlags or(LayoutSerializeFlags mask) {
+        return new LayoutSerializeFlags(this.getValue() | mask.getValue());
     }
     
     /**
@@ -51,9 +50,9 @@ public class LayoutSerializeFlags extends io.github.jwharm.javagi.Bitfield {
      * @return the combined value by calculating {@code mask | masks[0] | masks[1] | ...} 
      */
     public static LayoutSerializeFlags combined(LayoutSerializeFlags mask, LayoutSerializeFlags... masks) {
-        for (LayoutSerializeFlags arg : masks) {
-            mask.setValue(mask.getValue() | arg.getValue());
+        int value = mask.getValue();        for (LayoutSerializeFlags arg : masks) {
+            value |= arg.getValue();
         }
-        return mask;
+        return new LayoutSerializeFlags(value);
     }
 }

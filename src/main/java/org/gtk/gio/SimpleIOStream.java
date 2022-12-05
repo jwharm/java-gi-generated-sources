@@ -56,7 +56,11 @@ public class SimpleIOStream extends org.gtk.gio.IOStream {
      * @throws ClassCastException If the GType is not derived from "GSimpleIOStream", a ClassCastException will be thrown.
      */
     public static SimpleIOStream castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), SimpleIOStream.getType())) {
             return new SimpleIOStream(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GSimpleIOStream");
+        }
     }
     
     private static Addressable constructNew(@NotNull org.gtk.gio.InputStream inputStream, @NotNull org.gtk.gio.OutputStream outputStream) {

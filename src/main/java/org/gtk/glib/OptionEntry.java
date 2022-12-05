@@ -123,7 +123,7 @@ public class OptionEntry extends Struct {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("arg"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new org.gtk.glib.OptionArg(RESULT);
+        return org.gtk.glib.OptionArg.of(RESULT);
     }
     
     /**

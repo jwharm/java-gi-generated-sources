@@ -146,9 +146,8 @@ public class RegexMatchFlags extends io.github.jwharm.javagi.Bitfield {
      * @param mask the value to combine with
      * @return the combined value by calculating {@code this | mask} 
      */
-    public RegexMatchFlags combined(RegexMatchFlags mask) {
-        this.setValue(this.getValue() | mask.getValue());
-        return this;
+    public RegexMatchFlags or(RegexMatchFlags mask) {
+        return new RegexMatchFlags(this.getValue() | mask.getValue());
     }
     
     /**
@@ -158,9 +157,9 @@ public class RegexMatchFlags extends io.github.jwharm.javagi.Bitfield {
      * @return the combined value by calculating {@code mask | masks[0] | masks[1] | ...} 
      */
     public static RegexMatchFlags combined(RegexMatchFlags mask, RegexMatchFlags... masks) {
-        for (RegexMatchFlags arg : masks) {
-            mask.setValue(mask.getValue() | arg.getValue());
+        int value = mask.getValue();        for (RegexMatchFlags arg : masks) {
+            value |= arg.getValue();
         }
-        return mask;
+        return new RegexMatchFlags(value);
     }
 }

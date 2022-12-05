@@ -53,9 +53,8 @@ public class IOCondition extends io.github.jwharm.javagi.Bitfield {
      * @param mask the value to combine with
      * @return the combined value by calculating {@code this | mask} 
      */
-    public IOCondition combined(IOCondition mask) {
-        this.setValue(this.getValue() | mask.getValue());
-        return this;
+    public IOCondition or(IOCondition mask) {
+        return new IOCondition(this.getValue() | mask.getValue());
     }
     
     /**
@@ -65,9 +64,9 @@ public class IOCondition extends io.github.jwharm.javagi.Bitfield {
      * @return the combined value by calculating {@code mask | masks[0] | masks[1] | ...} 
      */
     public static IOCondition combined(IOCondition mask, IOCondition... masks) {
-        for (IOCondition arg : masks) {
-            mask.setValue(mask.getValue() | arg.getValue());
+        int value = mask.getValue();        for (IOCondition arg : masks) {
+            value |= arg.getValue();
         }
-        return mask;
+        return new IOCondition(value);
     }
 }

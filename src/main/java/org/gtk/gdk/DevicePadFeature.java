@@ -8,26 +8,38 @@ import org.jetbrains.annotations.*;
 /**
  * A pad feature.
  */
-public class DevicePadFeature extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "GdkDevicePadFeature";
-    
+public enum DevicePadFeature implements io.github.jwharm.javagi.Enumeration {
     /**
      * a button
      */
-    public static final DevicePadFeature BUTTON = new DevicePadFeature(0);
-    
+    BUTTON(0),
     /**
      * a ring-shaped interactive area
      */
-    public static final DevicePadFeature RING = new DevicePadFeature(1);
-    
+    RING(1),
     /**
      * a straight interactive area
      */
-    public static final DevicePadFeature STRIP = new DevicePadFeature(2);
+    STRIP(2);
     
-    public DevicePadFeature(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "GdkDevicePadFeature";
+    
+    private final int value;
+    DevicePadFeature(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static DevicePadFeature of(int value) {
+        return switch (value) {
+            case 0 -> BUTTON;
+            case 1 -> RING;
+            case 2 -> STRIP;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

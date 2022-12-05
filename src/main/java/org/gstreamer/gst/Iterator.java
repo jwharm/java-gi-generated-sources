@@ -477,7 +477,7 @@ public class Iterator extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.IteratorResult(RESULT);
+        return org.gstreamer.gst.IteratorResult.of(RESULT);
     }
     
     /**
@@ -504,7 +504,7 @@ public class Iterator extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.IteratorResult(RESULT);
+        return org.gstreamer.gst.IteratorResult.of(RESULT);
     }
     
     /**
@@ -553,7 +553,7 @@ public class Iterator extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.IteratorResult(RESULT);
+        return org.gstreamer.gst.IteratorResult.of(RESULT);
     }
     
     /**

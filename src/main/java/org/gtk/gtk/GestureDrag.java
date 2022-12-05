@@ -56,7 +56,11 @@ public class GestureDrag extends org.gtk.gtk.GestureSingle {
      * @throws ClassCastException If the GType is not derived from "GtkGestureDrag", a ClassCastException will be thrown.
      */
     public static GestureDrag castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), GestureDrag.getType())) {
             return new GestureDrag(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkGestureDrag");
+        }
     }
     
     private static Addressable constructNew() {
@@ -146,7 +150,7 @@ public class GestureDrag extends org.gtk.gtk.GestureSingle {
     
     @FunctionalInterface
     public interface DragBegin {
-        void signalReceived(GestureDrag source, double startX, double startY);
+        void signalReceived(GestureDrag sourceGestureDrag, double startX, double startY);
     }
     
     /**
@@ -174,7 +178,7 @@ public class GestureDrag extends org.gtk.gtk.GestureSingle {
     
     @FunctionalInterface
     public interface DragEnd {
-        void signalReceived(GestureDrag source, double offsetX, double offsetY);
+        void signalReceived(GestureDrag sourceGestureDrag, double offsetX, double offsetY);
     }
     
     /**
@@ -202,7 +206,7 @@ public class GestureDrag extends org.gtk.gtk.GestureSingle {
     
     @FunctionalInterface
     public interface DragUpdate {
-        void signalReceived(GestureDrag source, double offsetX, double offsetY);
+        void signalReceived(GestureDrag sourceGestureDrag, double offsetX, double offsetY);
     }
     
     /**
@@ -292,22 +296,22 @@ public class GestureDrag extends org.gtk.gtk.GestureSingle {
     
     private static class Callbacks {
         
-        public static void signalGestureDragDragBegin(MemoryAddress source, double startX, double startY, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalGestureDragDragBegin(MemoryAddress sourceGestureDrag, double startX, double startY, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (GestureDrag.DragBegin) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new GestureDrag(source, Ownership.NONE), startX, startY);
+            HANDLER.signalReceived(new GestureDrag(sourceGestureDrag, Ownership.NONE), startX, startY);
         }
         
-        public static void signalGestureDragDragEnd(MemoryAddress source, double offsetX, double offsetY, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalGestureDragDragEnd(MemoryAddress sourceGestureDrag, double offsetX, double offsetY, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (GestureDrag.DragEnd) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new GestureDrag(source, Ownership.NONE), offsetX, offsetY);
+            HANDLER.signalReceived(new GestureDrag(sourceGestureDrag, Ownership.NONE), offsetX, offsetY);
         }
         
-        public static void signalGestureDragDragUpdate(MemoryAddress source, double offsetX, double offsetY, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalGestureDragDragUpdate(MemoryAddress sourceGestureDrag, double offsetX, double offsetY, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (GestureDrag.DragUpdate) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new GestureDrag(source, Ownership.NONE), offsetX, offsetY);
+            HANDLER.signalReceived(new GestureDrag(sourceGestureDrag, Ownership.NONE), offsetX, offsetY);
         }
     }
 }

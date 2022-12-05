@@ -382,32 +382,4 @@ public class UnixMountPoint extends Struct {
             false
         );
     }
-
-    /**
-     * Inner class implementing a builder pattern to construct 
-     * a struct and set its values.
-     */
-    public static class Build {
-        
-        private UnixMountPoint struct;
-        
-         /**
-         * A {@link UnixMountPoint.Build} object constructs a {@link UnixMountPoint} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
-            struct = UnixMountPoint.allocate();
-        }
-        
-         /**
-         * Finish building the {@link UnixMountPoint} struct.
-         * @return A new instance of {@code UnixMountPoint} with the fields 
-         *         that were set in the Build object.
-         */
-        public UnixMountPoint construct() {
-            return struct;
-        }
-    }
 }

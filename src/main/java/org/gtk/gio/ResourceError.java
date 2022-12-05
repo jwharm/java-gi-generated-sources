@@ -10,22 +10,34 @@ import org.jetbrains.annotations.*;
  * from a {@link Resource} routine.
  * @version 2.32
  */
-public class ResourceError extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "GResourceError";
-    
+public enum ResourceError implements io.github.jwharm.javagi.Enumeration {
     /**
      * no file was found at the requested path
      */
-    public static final ResourceError NOT_FOUND = new ResourceError(0);
-    
+    NOT_FOUND(0),
     /**
      * unknown error
      */
-    public static final ResourceError INTERNAL = new ResourceError(1);
+    INTERNAL(1);
     
-    public ResourceError(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "GResourceError";
+    
+    private final int value;
+    ResourceError(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static ResourceError of(int value) {
+        return switch (value) {
+            case 0 -> NOT_FOUND;
+            case 1 -> INTERNAL;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
     
     /**

@@ -41,7 +41,11 @@ public interface Mount extends io.github.jwharm.javagi.Proxy {
      * @throws ClassCastException If the GType is not derived from "GMount", a ClassCastException will be thrown.
      */
     public static Mount castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), Mount.getType())) {
             return new MountImpl(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GMount");
+        }
     }
     
     /**
@@ -695,7 +699,7 @@ public interface Mount extends io.github.jwharm.javagi.Proxy {
     
     @FunctionalInterface
     public interface Changed {
-        void signalReceived(Mount source);
+        void signalReceived(Mount sourceMount);
     }
     
     /**
@@ -723,7 +727,7 @@ public interface Mount extends io.github.jwharm.javagi.Proxy {
     
     @FunctionalInterface
     public interface PreUnmount {
-        void signalReceived(Mount source);
+        void signalReceived(Mount sourceMount);
     }
     
     /**
@@ -755,7 +759,7 @@ public interface Mount extends io.github.jwharm.javagi.Proxy {
     
     @FunctionalInterface
     public interface Unmounted {
-        void signalReceived(Mount source);
+        void signalReceived(Mount sourceMount);
     }
     
     /**
@@ -987,22 +991,22 @@ public interface Mount extends io.github.jwharm.javagi.Proxy {
     @ApiStatus.Internal
     static class Callbacks {
         
-        public static void signalMountChanged(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalMountChanged(MemoryAddress sourceMount, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (Mount.Changed) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Mount.MountImpl(source, Ownership.NONE));
+            HANDLER.signalReceived(new Mount.MountImpl(sourceMount, Ownership.NONE));
         }
         
-        public static void signalMountPreUnmount(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalMountPreUnmount(MemoryAddress sourceMount, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (Mount.PreUnmount) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Mount.MountImpl(source, Ownership.NONE));
+            HANDLER.signalReceived(new Mount.MountImpl(sourceMount, Ownership.NONE));
         }
         
-        public static void signalMountUnmounted(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalMountUnmounted(MemoryAddress sourceMount, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (Mount.Unmounted) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Mount.MountImpl(source, Ownership.NONE));
+            HANDLER.signalReceived(new Mount.MountImpl(sourceMount, Ownership.NONE));
         }
     }
     

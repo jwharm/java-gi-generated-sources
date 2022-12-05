@@ -39,7 +39,11 @@ public interface Accessible extends io.github.jwharm.javagi.Proxy {
      * @throws ClassCastException If the GType is not derived from "GtkAccessible", a ClassCastException will be thrown.
      */
     public static Accessible castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), Accessible.getType())) {
             return new AccessibleImpl(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkAccessible");
+        }
     }
     
     /**
@@ -54,7 +58,7 @@ public interface Accessible extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.AccessibleRole(RESULT);
+        return org.gtk.gtk.AccessibleRole.of(RESULT);
     }
     
     /**
@@ -152,7 +156,7 @@ public interface Accessible extends io.github.jwharm.javagi.Proxy {
             DowncallHandles.gtk_accessible_update_property_value.invokeExact(
                     handle(),
                     nProperties,
-                    Interop.allocateNativeArray(org.gtk.gtk.AccessibleProperty.getValues(properties), false),
+                    Interop.allocateNativeArray(Enumeration.getValues(properties), false),
                     Interop.allocateNativeArray(values, org.gtk.gobject.Value.getMemoryLayout(), false));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -208,7 +212,7 @@ public interface Accessible extends io.github.jwharm.javagi.Proxy {
             DowncallHandles.gtk_accessible_update_relation_value.invokeExact(
                     handle(),
                     nRelations,
-                    Interop.allocateNativeArray(org.gtk.gtk.AccessibleRelation.getValues(relations), false),
+                    Interop.allocateNativeArray(Enumeration.getValues(relations), false),
                     Interop.allocateNativeArray(values, org.gtk.gobject.Value.getMemoryLayout(), false));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -262,7 +266,7 @@ public interface Accessible extends io.github.jwharm.javagi.Proxy {
             DowncallHandles.gtk_accessible_update_state_value.invokeExact(
                     handle(),
                     nStates,
-                    Interop.allocateNativeArray(org.gtk.gtk.AccessibleState.getValues(states), false),
+                    Interop.allocateNativeArray(Enumeration.getValues(states), false),
                     Interop.allocateNativeArray(values, org.gtk.gobject.Value.getMemoryLayout(), false));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);

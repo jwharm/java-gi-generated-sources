@@ -38,12 +38,19 @@ public class CellRendererCombo extends org.gtk.gtk.CellRendererText {
     
     /**
      * Create a CellRendererCombo proxy instance for the provided memory address.
+     * <p>
+     * Because CellRendererCombo is an {@code InitiallyUnowned} instance, when 
+     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
+     * and a call to {@code refSink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
     @ApiStatus.Internal
     public CellRendererCombo(Addressable address, Ownership ownership) {
-        super(address, ownership);
+        super(address, Ownership.FULL);
+        if (ownership == Ownership.NONE) {
+            refSink();
+        }
     }
     
     /**
@@ -59,7 +66,11 @@ public class CellRendererCombo extends org.gtk.gtk.CellRendererText {
      * @throws ClassCastException If the GType is not derived from "GtkCellRendererCombo", a ClassCastException will be thrown.
      */
     public static CellRendererCombo castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), CellRendererCombo.getType())) {
             return new CellRendererCombo(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkCellRendererCombo");
+        }
     }
     
     private static Addressable constructNew() {
@@ -101,7 +112,7 @@ public class CellRendererCombo extends org.gtk.gtk.CellRendererText {
     
     @FunctionalInterface
     public interface Changed {
-        void signalReceived(CellRendererCombo source, @NotNull java.lang.String pathString, @NotNull org.gtk.gtk.TreeIter newIter);
+        void signalReceived(CellRendererCombo sourceCellRendererCombo, @NotNull java.lang.String pathString, @NotNull org.gtk.gtk.TreeIter newIter);
     }
     
     /**
@@ -232,10 +243,10 @@ public class CellRendererCombo extends org.gtk.gtk.CellRendererText {
     
     private static class Callbacks {
         
-        public static void signalCellRendererComboChanged(MemoryAddress source, MemoryAddress pathString, MemoryAddress newIter, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalCellRendererComboChanged(MemoryAddress sourceCellRendererCombo, MemoryAddress pathString, MemoryAddress newIter, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (CellRendererCombo.Changed) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new CellRendererCombo(source, Ownership.NONE), Interop.getStringFrom(pathString), new org.gtk.gtk.TreeIter(newIter, Ownership.NONE));
+            HANDLER.signalReceived(new CellRendererCombo(sourceCellRendererCombo, Ownership.NONE), Interop.getStringFrom(pathString), new org.gtk.gtk.TreeIter(newIter, Ownership.NONE));
         }
     }
 }

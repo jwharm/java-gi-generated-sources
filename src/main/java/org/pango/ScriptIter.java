@@ -120,7 +120,7 @@ public class ScriptIter extends Struct {
         }
         start.set(Interop.getStringFrom(startPOINTER.get(Interop.valueLayout.ADDRESS, 0)));
         end.set(Interop.getStringFrom(endPOINTER.get(Interop.valueLayout.ADDRESS, 0)));
-        script.set(new org.pango.Script(scriptPOINTER.get(Interop.valueLayout.C_INT, 0)));
+        script.set(org.pango.Script.of(scriptPOINTER.get(Interop.valueLayout.C_INT, 0)));
     }
     
     /**
@@ -166,33 +166,5 @@ public class ScriptIter extends Struct {
             FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
-    }
-
-    /**
-     * Inner class implementing a builder pattern to construct 
-     * a struct and set its values.
-     */
-    public static class Build {
-        
-        private ScriptIter struct;
-        
-         /**
-         * A {@link ScriptIter.Build} object constructs a {@link ScriptIter} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
-            struct = ScriptIter.allocate();
-        }
-        
-         /**
-         * Finish building the {@link ScriptIter} struct.
-         * @return A new instance of {@code ScriptIter} with the fields 
-         *         that were set in the Build object.
-         */
-        public ScriptIter construct() {
-            return struct;
-        }
     }
 }

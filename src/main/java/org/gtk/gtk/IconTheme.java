@@ -78,7 +78,11 @@ public class IconTheme extends org.gtk.gobject.Object {
      * @throws ClassCastException If the GType is not derived from "GtkIconTheme", a ClassCastException will be thrown.
      */
     public static IconTheme castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), IconTheme.getType())) {
             return new IconTheme(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkIconTheme");
+        }
     }
     
     private static Addressable constructNew() {
@@ -480,7 +484,7 @@ public class IconTheme extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface Changed {
-        void signalReceived(IconTheme source);
+        void signalReceived(IconTheme sourceIconTheme);
     }
     
     /**
@@ -684,10 +688,10 @@ public class IconTheme extends org.gtk.gobject.Object {
     
     private static class Callbacks {
         
-        public static void signalIconThemeChanged(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalIconThemeChanged(MemoryAddress sourceIconTheme, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (IconTheme.Changed) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new IconTheme(source, Ownership.NONE));
+            HANDLER.signalReceived(new IconTheme(sourceIconTheme, Ownership.NONE));
         }
     }
 }

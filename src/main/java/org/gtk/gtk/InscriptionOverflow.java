@@ -10,31 +10,43 @@ import org.jetbrains.annotations.*;
  * fit the available space.
  * @version 4.8
  */
-public class InscriptionOverflow extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "GtkInscriptionOverflow";
-    
+public enum InscriptionOverflow implements io.github.jwharm.javagi.Enumeration {
     /**
      * Clip the remaining text
      */
-    public static final InscriptionOverflow CLIP = new InscriptionOverflow(0);
-    
+    CLIP(0),
     /**
      * Omit characters at the start of the text
      */
-    public static final InscriptionOverflow ELLIPSIZE_START = new InscriptionOverflow(1);
-    
+    ELLIPSIZE_START(1),
     /**
      * Omit characters at the middle of the text
      */
-    public static final InscriptionOverflow ELLIPSIZE_MIDDLE = new InscriptionOverflow(2);
-    
+    ELLIPSIZE_MIDDLE(2),
     /**
      * Omit characters at the end of the text
      */
-    public static final InscriptionOverflow ELLIPSIZE_END = new InscriptionOverflow(3);
+    ELLIPSIZE_END(3);
     
-    public InscriptionOverflow(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "GtkInscriptionOverflow";
+    
+    private final int value;
+    InscriptionOverflow(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static InscriptionOverflow of(int value) {
+        return switch (value) {
+            case 0 -> CLIP;
+            case 1 -> ELLIPSIZE_START;
+            case 2 -> ELLIPSIZE_MIDDLE;
+            case 3 -> ELLIPSIZE_END;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

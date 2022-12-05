@@ -53,9 +53,8 @@ public class SignalMatchType extends io.github.jwharm.javagi.Bitfield {
      * @param mask the value to combine with
      * @return the combined value by calculating {@code this | mask} 
      */
-    public SignalMatchType combined(SignalMatchType mask) {
-        this.setValue(this.getValue() | mask.getValue());
-        return this;
+    public SignalMatchType or(SignalMatchType mask) {
+        return new SignalMatchType(this.getValue() | mask.getValue());
     }
     
     /**
@@ -65,9 +64,9 @@ public class SignalMatchType extends io.github.jwharm.javagi.Bitfield {
      * @return the combined value by calculating {@code mask | masks[0] | masks[1] | ...} 
      */
     public static SignalMatchType combined(SignalMatchType mask, SignalMatchType... masks) {
-        for (SignalMatchType arg : masks) {
-            mask.setValue(mask.getValue() | arg.getValue());
+        int value = mask.getValue();        for (SignalMatchType arg : masks) {
+            value |= arg.getValue();
         }
-        return mask;
+        return new SignalMatchType(value);
     }
 }

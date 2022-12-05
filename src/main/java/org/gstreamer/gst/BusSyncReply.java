@@ -8,26 +8,38 @@ import org.jetbrains.annotations.*;
 /**
  * The result values for a GstBusSyncHandler.
  */
-public class BusSyncReply extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "GstBusSyncReply";
-    
+public enum BusSyncReply implements io.github.jwharm.javagi.Enumeration {
     /**
      * drop the message
      */
-    public static final BusSyncReply DROP = new BusSyncReply(0);
-    
+    DROP(0),
     /**
      * pass the message to the async queue
      */
-    public static final BusSyncReply PASS = new BusSyncReply(1);
-    
+    PASS(1),
     /**
      * pass message to async queue, continue if message is handled
      */
-    public static final BusSyncReply ASYNC = new BusSyncReply(2);
+    ASYNC(2);
     
-    public BusSyncReply(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "GstBusSyncReply";
+    
+    private final int value;
+    BusSyncReply(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static BusSyncReply of(int value) {
+        return switch (value) {
+            case 0 -> DROP;
+            case 1 -> PASS;
+            case 2 -> ASYNC;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

@@ -27,9 +27,8 @@ public class DriveStartFlags extends io.github.jwharm.javagi.Bitfield {
      * @param mask the value to combine with
      * @return the combined value by calculating {@code this | mask} 
      */
-    public DriveStartFlags combined(DriveStartFlags mask) {
-        this.setValue(this.getValue() | mask.getValue());
-        return this;
+    public DriveStartFlags or(DriveStartFlags mask) {
+        return new DriveStartFlags(this.getValue() | mask.getValue());
     }
     
     /**
@@ -39,9 +38,9 @@ public class DriveStartFlags extends io.github.jwharm.javagi.Bitfield {
      * @return the combined value by calculating {@code mask | masks[0] | masks[1] | ...} 
      */
     public static DriveStartFlags combined(DriveStartFlags mask, DriveStartFlags... masks) {
-        for (DriveStartFlags arg : masks) {
-            mask.setValue(mask.getValue() | arg.getValue());
+        int value = mask.getValue();        for (DriveStartFlags arg : masks) {
+            value |= arg.getValue();
         }
-        return mask;
+        return new DriveStartFlags(value);
     }
 }

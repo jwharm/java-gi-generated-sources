@@ -8,26 +8,38 @@ import org.jetbrains.annotations.*;
 /**
  * The different types of URI direction.
  */
-public class URIType extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "GstURIType";
-    
+public enum URIType implements io.github.jwharm.javagi.Enumeration {
     /**
      * The URI direction is unknown
      */
-    public static final URIType UNKNOWN = new URIType(0);
-    
+    UNKNOWN(0),
     /**
      * The URI is a consumer.
      */
-    public static final URIType SINK = new URIType(1);
-    
+    SINK(1),
     /**
      * The URI is a producer.
      */
-    public static final URIType SRC = new URIType(2);
+    SRC(2);
     
-    public URIType(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "GstURIType";
+    
+    private final int value;
+    URIType(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static URIType of(int value) {
+        return switch (value) {
+            case 0 -> UNKNOWN;
+            case 1 -> SINK;
+            case 2 -> SRC;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

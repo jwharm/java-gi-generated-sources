@@ -21,37 +21,49 @@ import org.jetbrains.annotations.*;
  * {@link UnixSocketAddressType#ABSTRACT}.
  * @version 2.26
  */
-public class UnixSocketAddressType extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "GUnixSocketAddressType";
-    
+public enum UnixSocketAddressType implements io.github.jwharm.javagi.Enumeration {
     /**
      * invalid
      */
-    public static final UnixSocketAddressType INVALID = new UnixSocketAddressType(0);
-    
+    INVALID(0),
     /**
      * anonymous
      */
-    public static final UnixSocketAddressType ANONYMOUS = new UnixSocketAddressType(1);
-    
+    ANONYMOUS(1),
     /**
      * a filesystem path
      */
-    public static final UnixSocketAddressType PATH = new UnixSocketAddressType(2);
-    
+    PATH(2),
     /**
      * an abstract name
      */
-    public static final UnixSocketAddressType ABSTRACT = new UnixSocketAddressType(3);
-    
+    ABSTRACT(3),
     /**
      * an abstract name, 0-padded
      *   to the full length of a unix socket name
      */
-    public static final UnixSocketAddressType ABSTRACT_PADDED = new UnixSocketAddressType(4);
+    ABSTRACT_PADDED(4);
     
-    public UnixSocketAddressType(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "GUnixSocketAddressType";
+    
+    private final int value;
+    UnixSocketAddressType(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static UnixSocketAddressType of(int value) {
+        return switch (value) {
+            case 0 -> INVALID;
+            case 1 -> ANONYMOUS;
+            case 2 -> PATH;
+            case 3 -> ABSTRACT;
+            case 4 -> ABSTRACT_PADDED;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

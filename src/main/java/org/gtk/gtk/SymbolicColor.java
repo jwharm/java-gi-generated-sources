@@ -12,31 +12,43 @@ import org.jetbrains.annotations.*;
  * More values may be added over time.
  * @version 4.6
  */
-public class SymbolicColor extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "GtkSymbolicColor";
-    
+public enum SymbolicColor implements io.github.jwharm.javagi.Enumeration {
     /**
      * The default foreground color
      */
-    public static final SymbolicColor FOREGROUND = new SymbolicColor(0);
-    
+    FOREGROUND(0),
     /**
      * Indication color for errors
      */
-    public static final SymbolicColor ERROR = new SymbolicColor(1);
-    
+    ERROR(1),
     /**
      * Indication color for warnings
      */
-    public static final SymbolicColor WARNING = new SymbolicColor(2);
-    
+    WARNING(2),
     /**
      * Indication color for success
      */
-    public static final SymbolicColor SUCCESS = new SymbolicColor(3);
+    SUCCESS(3);
     
-    public SymbolicColor(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "GtkSymbolicColor";
+    
+    private final int value;
+    SymbolicColor(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static SymbolicColor of(int value) {
+        return switch (value) {
+            case 0 -> FOREGROUND;
+            case 1 -> ERROR;
+            case 2 -> WARNING;
+            case 3 -> SUCCESS;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

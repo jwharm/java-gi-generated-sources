@@ -5,21 +5,33 @@ import java.lang.foreign.*;
 import java.lang.invoke.*;
 import org.jetbrains.annotations.*;
 
-public class HintStyle extends io.github.jwharm.javagi.Enumeration {
+public enum HintStyle implements io.github.jwharm.javagi.Enumeration {
+    DEFAULT(0),
+    NONE(1),
+    SLIGHT(2),
+    MEDIUM(3),
+    FULL(4);
     
     private static final java.lang.String C_TYPE_NAME = "cairo_hint_style_t";
     
-    public static final HintStyle DEFAULT = new HintStyle(0);
+    private final int value;
+    HintStyle(int value) {
+        this.value = value;
+    }
     
-    public static final HintStyle NONE = new HintStyle(1);
+    @Override
+    public int getValue() {
+        return value;
+    }
     
-    public static final HintStyle SLIGHT = new HintStyle(2);
-    
-    public static final HintStyle MEDIUM = new HintStyle(3);
-    
-    public static final HintStyle FULL = new HintStyle(4);
-    
-    public HintStyle(int value) {
-        super(value);
+    public static HintStyle of(int value) {
+        return switch (value) {
+            case 0 -> DEFAULT;
+            case 1 -> NONE;
+            case 2 -> SLIGHT;
+            case 3 -> MEDIUM;
+            case 4 -> FULL;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

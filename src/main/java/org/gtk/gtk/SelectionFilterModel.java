@@ -49,7 +49,11 @@ public class SelectionFilterModel extends org.gtk.gobject.Object implements org.
      * @throws ClassCastException If the GType is not derived from "GtkSelectionFilterModel", a ClassCastException will be thrown.
      */
     public static SelectionFilterModel castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), SelectionFilterModel.getType())) {
             return new SelectionFilterModel(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkSelectionFilterModel");
+        }
     }
     
     private static Addressable constructNew(@Nullable org.gtk.gtk.SelectionModel model) {

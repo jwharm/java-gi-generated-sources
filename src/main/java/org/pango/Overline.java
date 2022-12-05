@@ -10,22 +10,34 @@ import org.jetbrains.annotations.*;
  * should be overlined, and if so, the type of line.
  * @version 1.46
  */
-public class Overline extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "PangoOverline";
-    
+public enum Overline implements io.github.jwharm.javagi.Enumeration {
     /**
      * no overline should be drawn
      */
-    public static final Overline NONE = new Overline(0);
-    
+    NONE(0),
     /**
      * Draw a single line above the ink
      *   extents of the text being underlined.
      */
-    public static final Overline SINGLE = new Overline(1);
+    SINGLE(1);
     
-    public Overline(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "PangoOverline";
+    
+    private final int value;
+    Overline(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static Overline of(int value) {
+        return switch (value) {
+            case 0 -> NONE;
+            case 1 -> SINGLE;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

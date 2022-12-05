@@ -47,32 +47,4 @@ public class StreamConsistency extends Struct {
     public StreamConsistency(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
-
-    /**
-     * Inner class implementing a builder pattern to construct 
-     * a struct and set its values.
-     */
-    public static class Build {
-        
-        private StreamConsistency struct;
-        
-         /**
-         * A {@link StreamConsistency.Build} object constructs a {@link StreamConsistency} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
-            struct = StreamConsistency.allocate();
-        }
-        
-         /**
-         * Finish building the {@link StreamConsistency} struct.
-         * @return A new instance of {@code StreamConsistency} with the fields 
-         *         that were set in the Build object.
-         */
-        public StreamConsistency construct() {
-            return struct;
-        }
-    }
 }

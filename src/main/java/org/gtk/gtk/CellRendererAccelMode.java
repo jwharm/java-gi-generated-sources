@@ -8,21 +8,33 @@ import org.jetbrains.annotations.*;
 /**
  * The available modes for {@code Gtk.CellRendererAccel:accel-mode}.
  */
-public class CellRendererAccelMode extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "GtkCellRendererAccelMode";
-    
+public enum CellRendererAccelMode implements io.github.jwharm.javagi.Enumeration {
     /**
      * GTK accelerators mode
      */
-    public static final CellRendererAccelMode GTK = new CellRendererAccelMode(0);
-    
+    GTK(0),
     /**
      * Other accelerator mode
      */
-    public static final CellRendererAccelMode OTHER = new CellRendererAccelMode(1);
+    OTHER(1);
     
-    public CellRendererAccelMode(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "GtkCellRendererAccelMode";
+    
+    private final int value;
+    CellRendererAccelMode(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static CellRendererAccelMode of(int value) {
+        return switch (value) {
+            case 0 -> GTK;
+            case 1 -> OTHER;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

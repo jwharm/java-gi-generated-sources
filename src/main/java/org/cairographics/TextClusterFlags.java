@@ -5,13 +5,25 @@ import java.lang.foreign.*;
 import java.lang.invoke.*;
 import org.jetbrains.annotations.*;
 
-public class TextClusterFlags extends io.github.jwharm.javagi.Enumeration {
+public enum TextClusterFlags implements io.github.jwharm.javagi.Enumeration {
+    BACKWARD(1);
     
     private static final java.lang.String C_TYPE_NAME = "cairo_text_cluster_flags_t";
     
-    public static final TextClusterFlags BACKWARD = new TextClusterFlags(1);
+    private final int value;
+    TextClusterFlags(int value) {
+        this.value = value;
+    }
     
-    public TextClusterFlags(int value) {
-        super(value);
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static TextClusterFlags of(int value) {
+        return switch (value) {
+            case 1 -> BACKWARD;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

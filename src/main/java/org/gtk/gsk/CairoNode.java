@@ -48,7 +48,11 @@ public class CairoNode extends org.gtk.gsk.RenderNode {
      * @throws ClassCastException If the GType is not derived from "GskCairoNode", a ClassCastException will be thrown.
      */
     public static CairoNode castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), CairoNode.getType())) {
             return new CairoNode(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GskCairoNode");
+        }
     }
     
     private static Addressable constructNew(@NotNull org.gtk.graphene.Rect bounds) {

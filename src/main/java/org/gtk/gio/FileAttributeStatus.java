@@ -8,26 +8,38 @@ import org.jetbrains.annotations.*;
 /**
  * Used by g_file_set_attributes_from_info() when setting file attributes.
  */
-public class FileAttributeStatus extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "GFileAttributeStatus";
-    
+public enum FileAttributeStatus implements io.github.jwharm.javagi.Enumeration {
     /**
      * Attribute value is unset (empty).
      */
-    public static final FileAttributeStatus UNSET = new FileAttributeStatus(0);
-    
+    UNSET(0),
     /**
      * Attribute value is set.
      */
-    public static final FileAttributeStatus SET = new FileAttributeStatus(1);
-    
+    SET(1),
     /**
      * Indicates an error in setting the value.
      */
-    public static final FileAttributeStatus ERROR_SETTING = new FileAttributeStatus(2);
+    ERROR_SETTING(2);
     
-    public FileAttributeStatus(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "GFileAttributeStatus";
+    
+    private final int value;
+    FileAttributeStatus(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static FileAttributeStatus of(int value) {
+        return switch (value) {
+            case 0 -> UNSET;
+            case 1 -> SET;
+            case 2 -> ERROR_SETTING;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

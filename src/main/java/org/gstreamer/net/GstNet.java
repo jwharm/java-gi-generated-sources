@@ -10,12 +10,22 @@ import org.jetbrains.annotations.*;
  */
 public final class GstNet {
     
+    static {
+        System.loadLibrary("gstnet-1.0");
+    }
+    
     @ApiStatus.Internal static void javagi$ensureInitialized() {}
     
     /**
      * The size of the packets sent between network clocks.
      */
     public static final int NET_TIME_PACKET_SIZE = 16;
+    
+    /**
+     * PTP clock identification that can be passed to gst_ptp_init() to
+     * automatically select one based on the MAC address of interfaces
+     */
+    public static final long PTP_CLOCK_ID_NONE = -1L;
     
     public static final java.lang.String PTP_STATISTICS_BEST_MASTER_CLOCK_SELECTED = "GstPtpStatisticsBestMasterClockSelected";
     

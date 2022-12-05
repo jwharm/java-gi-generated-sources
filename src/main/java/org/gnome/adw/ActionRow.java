@@ -63,12 +63,19 @@ public class ActionRow extends org.gnome.adw.PreferencesRow implements org.gtk.g
     
     /**
      * Create a ActionRow proxy instance for the provided memory address.
+     * <p>
+     * Because ActionRow is an {@code InitiallyUnowned} instance, when 
+     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
+     * and a call to {@code refSink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
     @ApiStatus.Internal
     public ActionRow(Addressable address, Ownership ownership) {
-        super(address, ownership);
+        super(address, Ownership.FULL);
+        if (ownership == Ownership.NONE) {
+            refSink();
+        }
     }
     
     /**
@@ -84,7 +91,11 @@ public class ActionRow extends org.gnome.adw.PreferencesRow implements org.gtk.g
      * @throws ClassCastException If the GType is not derived from "AdwActionRow", a ClassCastException will be thrown.
      */
     public static ActionRow castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), ActionRow.getType())) {
             return new ActionRow(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of AdwActionRow");
+        }
     }
     
     private static Addressable constructNew() {
@@ -343,7 +354,7 @@ public class ActionRow extends org.gnome.adw.PreferencesRow implements org.gtk.g
     
     @FunctionalInterface
     public interface Activated {
-        void signalReceived(ActionRow source);
+        void signalReceived(ActionRow sourceActionRow);
     }
     
     /**
@@ -576,10 +587,10 @@ public class ActionRow extends org.gnome.adw.PreferencesRow implements org.gtk.g
     
     private static class Callbacks {
         
-        public static void signalActionRowActivated(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalActionRowActivated(MemoryAddress sourceActionRow, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (ActionRow.Activated) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new ActionRow(source, Ownership.NONE));
+            HANDLER.signalReceived(new ActionRow(sourceActionRow, Ownership.NONE));
         }
     }
 }

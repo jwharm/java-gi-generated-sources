@@ -79,9 +79,8 @@ public class PrintCapabilities extends io.github.jwharm.javagi.Bitfield {
      * @param mask the value to combine with
      * @return the combined value by calculating {@code this | mask} 
      */
-    public PrintCapabilities combined(PrintCapabilities mask) {
-        this.setValue(this.getValue() | mask.getValue());
-        return this;
+    public PrintCapabilities or(PrintCapabilities mask) {
+        return new PrintCapabilities(this.getValue() | mask.getValue());
     }
     
     /**
@@ -91,9 +90,9 @@ public class PrintCapabilities extends io.github.jwharm.javagi.Bitfield {
      * @return the combined value by calculating {@code mask | masks[0] | masks[1] | ...} 
      */
     public static PrintCapabilities combined(PrintCapabilities mask, PrintCapabilities... masks) {
-        for (PrintCapabilities arg : masks) {
-            mask.setValue(mask.getValue() | arg.getValue());
+        int value = mask.getValue();        for (PrintCapabilities arg : masks) {
+            value |= arg.getValue();
         }
-        return mask;
+        return new PrintCapabilities(value);
     }
 }

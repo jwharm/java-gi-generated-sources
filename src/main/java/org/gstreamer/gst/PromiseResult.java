@@ -9,34 +9,46 @@ import org.jetbrains.annotations.*;
  * The result of a {@link Promise}
  * @version 1.14
  */
-public class PromiseResult extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "GstPromiseResult";
-    
+public enum PromiseResult implements io.github.jwharm.javagi.Enumeration {
     /**
      * Initial state. Waiting for transition to any
      * 	other state.
      */
-    public static final PromiseResult PENDING = new PromiseResult(0);
-    
+    PENDING(0),
     /**
      * Interrupted by the consumer as it doesn't
      * 	want the value anymore.
      */
-    public static final PromiseResult INTERRUPTED = new PromiseResult(1);
-    
+    INTERRUPTED(1),
     /**
      * A producer marked a reply
      */
-    public static final PromiseResult REPLIED = new PromiseResult(2);
-    
+    REPLIED(2),
     /**
      * The promise expired (the carrying object
      * 	lost all refs) and the promise will never be fulfilled.
      */
-    public static final PromiseResult EXPIRED = new PromiseResult(3);
+    EXPIRED(3);
     
-    public PromiseResult(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "GstPromiseResult";
+    
+    private final int value;
+    PromiseResult(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static PromiseResult of(int value) {
+        return switch (value) {
+            case 0 -> PENDING;
+            case 1 -> INTERRUPTED;
+            case 2 -> REPLIED;
+            case 3 -> EXPIRED;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

@@ -55,7 +55,11 @@ public class Context extends org.gtk.gobject.Object {
      * @throws ClassCastException If the GType is not derived from "PangoContext", a ClassCastException will be thrown.
      */
     public static Context castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), Context.getType())) {
             return new Context(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of PangoContext");
+        }
     }
     
     private static Addressable constructNew() {
@@ -117,7 +121,7 @@ public class Context extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.Direction(RESULT);
+        return org.pango.Direction.of(RESULT);
     }
     
     /**
@@ -134,7 +138,7 @@ public class Context extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.Gravity(RESULT);
+        return org.pango.Gravity.of(RESULT);
     }
     
     /**
@@ -187,7 +191,7 @@ public class Context extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.Gravity(RESULT);
+        return org.pango.Gravity.of(RESULT);
     }
     
     /**
@@ -204,7 +208,7 @@ public class Context extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.GravityHint(RESULT);
+        return org.pango.GravityHint.of(RESULT);
     }
     
     /**

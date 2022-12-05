@@ -10,31 +10,43 @@ import org.jetbrains.annotations.*;
  * to {@link Emblem}.
  * @version 2.18
  */
-public class EmblemOrigin extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "GEmblemOrigin";
-    
+public enum EmblemOrigin implements io.github.jwharm.javagi.Enumeration {
     /**
      * Emblem of unknown origin
      */
-    public static final EmblemOrigin UNKNOWN = new EmblemOrigin(0);
-    
+    UNKNOWN(0),
     /**
      * Emblem adds device-specific information
      */
-    public static final EmblemOrigin DEVICE = new EmblemOrigin(1);
-    
+    DEVICE(1),
     /**
      * Emblem depicts live metadata, such as "readonly"
      */
-    public static final EmblemOrigin LIVEMETADATA = new EmblemOrigin(2);
-    
+    LIVEMETADATA(2),
     /**
      * Emblem comes from a user-defined tag, e.g. set by nautilus (in the future)
      */
-    public static final EmblemOrigin TAG = new EmblemOrigin(3);
+    TAG(3);
     
-    public EmblemOrigin(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "GEmblemOrigin";
+    
+    private final int value;
+    EmblemOrigin(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static EmblemOrigin of(int value) {
+        return switch (value) {
+            case 0 -> UNKNOWN;
+            case 1 -> DEVICE;
+            case 2 -> LIVEMETADATA;
+            case 3 -> TAG;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

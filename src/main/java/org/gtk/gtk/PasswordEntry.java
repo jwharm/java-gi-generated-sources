@@ -56,12 +56,19 @@ public class PasswordEntry extends org.gtk.gtk.Widget implements org.gtk.gtk.Acc
     
     /**
      * Create a PasswordEntry proxy instance for the provided memory address.
+     * <p>
+     * Because PasswordEntry is an {@code InitiallyUnowned} instance, when 
+     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
+     * and a call to {@code refSink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
     @ApiStatus.Internal
     public PasswordEntry(Addressable address, Ownership ownership) {
-        super(address, ownership);
+        super(address, Ownership.FULL);
+        if (ownership == Ownership.NONE) {
+            refSink();
+        }
     }
     
     /**
@@ -77,7 +84,11 @@ public class PasswordEntry extends org.gtk.gtk.Widget implements org.gtk.gtk.Acc
      * @throws ClassCastException If the GType is not derived from "GtkPasswordEntry", a ClassCastException will be thrown.
      */
     public static PasswordEntry castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), PasswordEntry.getType())) {
             return new PasswordEntry(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkPasswordEntry");
+        }
     }
     
     private static Addressable constructNew() {
@@ -176,7 +187,7 @@ public class PasswordEntry extends org.gtk.gtk.Widget implements org.gtk.gtk.Acc
     
     @FunctionalInterface
     public interface Activate {
-        void signalReceived(PasswordEntry source);
+        void signalReceived(PasswordEntry sourcePasswordEntry);
     }
     
     /**
@@ -326,10 +337,10 @@ public class PasswordEntry extends org.gtk.gtk.Widget implements org.gtk.gtk.Acc
     
     private static class Callbacks {
         
-        public static void signalPasswordEntryActivate(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalPasswordEntryActivate(MemoryAddress sourcePasswordEntry, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (PasswordEntry.Activate) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new PasswordEntry(source, Ownership.NONE));
+            HANDLER.signalReceived(new PasswordEntry(sourcePasswordEntry, Ownership.NONE));
         }
     }
 }

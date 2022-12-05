@@ -211,7 +211,7 @@ public class FontDescription extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.Gravity(RESULT);
+        return org.pango.Gravity.of(RESULT);
     }
     
     /**
@@ -291,7 +291,7 @@ public class FontDescription extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.Stretch(RESULT);
+        return org.pango.Stretch.of(RESULT);
     }
     
     /**
@@ -310,7 +310,7 @@ public class FontDescription extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.Style(RESULT);
+        return org.pango.Style.of(RESULT);
     }
     
     /**
@@ -329,7 +329,7 @@ public class FontDescription extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.Variant(RESULT);
+        return org.pango.Variant.of(RESULT);
     }
     
     /**
@@ -367,7 +367,7 @@ public class FontDescription extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.Weight(RESULT);
+        return org.pango.Weight.of(RESULT);
     }
     
     /**
@@ -1000,33 +1000,5 @@ public class FontDescription extends Struct {
             FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
-    }
-
-    /**
-     * Inner class implementing a builder pattern to construct 
-     * a struct and set its values.
-     */
-    public static class Build {
-        
-        private FontDescription struct;
-        
-         /**
-         * A {@link FontDescription.Build} object constructs a {@link FontDescription} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
-            struct = FontDescription.allocate();
-        }
-        
-         /**
-         * Finish building the {@link FontDescription} struct.
-         * @return A new instance of {@code FontDescription} with the fields 
-         *         that were set in the Build object.
-         */
-        public FontDescription construct() {
-            return struct;
-        }
     }
 }

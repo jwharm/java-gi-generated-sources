@@ -53,7 +53,11 @@ public class Event extends io.github.jwharm.javagi.ObjectBase {
      * @throws ClassCastException If the GType is not derived from "GdkEvent", a ClassCastException will be thrown.
      */
     public static Event castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), Event.getType())) {
             return new Event(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GdkEvent");
+        }
     }
     
     /**
@@ -282,7 +286,7 @@ public class Event extends io.github.jwharm.javagi.ObjectBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gdk.EventType(RESULT);
+        return org.gtk.gdk.EventType.of(RESULT);
     }
     
     /**

@@ -87,12 +87,19 @@ public class Object extends org.gtk.gobject.InitiallyUnowned {
     
     /**
      * Create a Object proxy instance for the provided memory address.
+     * <p>
+     * Because Object is an {@code InitiallyUnowned} instance, when 
+     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
+     * and a call to {@code refSink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
     @ApiStatus.Internal
     public Object(Addressable address, Ownership ownership) {
-        super(address, ownership);
+        super(address, Ownership.FULL);
+        if (ownership == Ownership.NONE) {
+            refSink();
+        }
     }
     
     /**
@@ -108,7 +115,11 @@ public class Object extends org.gtk.gobject.InitiallyUnowned {
      * @throws ClassCastException If the GType is not derived from "GstObject", a ClassCastException will be thrown.
      */
     public static Object castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), Object.getType())) {
             return new Object(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GstObject");
+        }
     }
     
     /**
@@ -774,7 +785,7 @@ public class Object extends org.gtk.gobject.InitiallyUnowned {
     
     @FunctionalInterface
     public interface DeepNotify {
-        void signalReceived(Object source, @NotNull org.gstreamer.gst.Object propObject, @NotNull org.gtk.gobject.ParamSpec prop);
+        void signalReceived(Object sourceObject, @NotNull org.gstreamer.gst.Object propObject, @NotNull org.gtk.gobject.ParamSpec prop);
     }
     
     /**
@@ -1044,10 +1055,10 @@ public class Object extends org.gtk.gobject.InitiallyUnowned {
     
     private static class Callbacks {
         
-        public static void signalObjectDeepNotify(MemoryAddress source, MemoryAddress propObject, MemoryAddress prop, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalObjectDeepNotify(MemoryAddress sourceObject, MemoryAddress propObject, MemoryAddress prop, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (Object.DeepNotify) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Object(source, Ownership.NONE), new org.gstreamer.gst.Object(propObject, Ownership.NONE), new org.gtk.gobject.ParamSpec(prop, Ownership.NONE));
+            HANDLER.signalReceived(new Object(sourceObject, Ownership.NONE), new org.gstreamer.gst.Object(propObject, Ownership.NONE), new org.gtk.gobject.ParamSpec(prop, Ownership.NONE));
         }
     }
 }

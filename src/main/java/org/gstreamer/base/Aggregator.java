@@ -94,12 +94,19 @@ public class Aggregator extends org.gstreamer.gst.Element {
     
     /**
      * Create a Aggregator proxy instance for the provided memory address.
+     * <p>
+     * Because Aggregator is an {@code InitiallyUnowned} instance, when 
+     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
+     * and a call to {@code refSink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
     @ApiStatus.Internal
     public Aggregator(Addressable address, Ownership ownership) {
-        super(address, ownership);
+        super(address, Ownership.FULL);
+        if (ownership == Ownership.NONE) {
+            refSink();
+        }
     }
     
     /**
@@ -115,7 +122,11 @@ public class Aggregator extends org.gstreamer.gst.Element {
      * @throws ClassCastException If the GType is not derived from "GstAggregator", a ClassCastException will be thrown.
      */
     public static Aggregator castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), Aggregator.getType())) {
             return new Aggregator(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GstAggregator");
+        }
     }
     
     /**
@@ -135,7 +146,7 @@ public class Aggregator extends org.gstreamer.gst.Element {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         buffer.yieldOwnership();
-        return new org.gstreamer.gst.FlowReturn(RESULT);
+        return org.gstreamer.gst.FlowReturn.of(RESULT);
     }
     
     /**
@@ -155,7 +166,7 @@ public class Aggregator extends org.gstreamer.gst.Element {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         bufferlist.yieldOwnership();
-        return new org.gstreamer.gst.FlowReturn(RESULT);
+        return org.gstreamer.gst.FlowReturn.of(RESULT);
     }
     
     /**
@@ -405,7 +416,7 @@ public class Aggregator extends org.gstreamer.gst.Element {
     
     @FunctionalInterface
     public interface SamplesSelected {
-        void signalReceived(Aggregator source, @NotNull org.gstreamer.gst.Segment segment, long pts, long dts, long duration, @Nullable org.gstreamer.gst.Structure info);
+        void signalReceived(Aggregator sourceAggregator, @NotNull org.gstreamer.gst.Segment segment, long pts, long dts, long duration, @Nullable org.gstreamer.gst.Structure info);
     }
     
     /**
@@ -607,10 +618,10 @@ public class Aggregator extends org.gstreamer.gst.Element {
     
     private static class Callbacks {
         
-        public static void signalAggregatorSamplesSelected(MemoryAddress source, MemoryAddress segment, long pts, long dts, long duration, MemoryAddress info, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalAggregatorSamplesSelected(MemoryAddress sourceAggregator, MemoryAddress segment, long pts, long dts, long duration, MemoryAddress info, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (Aggregator.SamplesSelected) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Aggregator(source, Ownership.NONE), new org.gstreamer.gst.Segment(segment, Ownership.NONE), pts, dts, duration, new org.gstreamer.gst.Structure(info, Ownership.NONE));
+            HANDLER.signalReceived(new Aggregator(sourceAggregator, Ownership.NONE), new org.gstreamer.gst.Segment(segment, Ownership.NONE), pts, dts, duration, new org.gstreamer.gst.Structure(info, Ownership.NONE));
         }
     }
 }

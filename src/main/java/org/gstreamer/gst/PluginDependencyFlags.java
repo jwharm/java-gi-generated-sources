@@ -58,9 +58,8 @@ public class PluginDependencyFlags extends io.github.jwharm.javagi.Bitfield {
      * @param mask the value to combine with
      * @return the combined value by calculating {@code this | mask} 
      */
-    public PluginDependencyFlags combined(PluginDependencyFlags mask) {
-        this.setValue(this.getValue() | mask.getValue());
-        return this;
+    public PluginDependencyFlags or(PluginDependencyFlags mask) {
+        return new PluginDependencyFlags(this.getValue() | mask.getValue());
     }
     
     /**
@@ -70,9 +69,9 @@ public class PluginDependencyFlags extends io.github.jwharm.javagi.Bitfield {
      * @return the combined value by calculating {@code mask | masks[0] | masks[1] | ...} 
      */
     public static PluginDependencyFlags combined(PluginDependencyFlags mask, PluginDependencyFlags... masks) {
-        for (PluginDependencyFlags arg : masks) {
-            mask.setValue(mask.getValue() | arg.getValue());
+        int value = mask.getValue();        for (PluginDependencyFlags arg : masks) {
+            value |= arg.getValue();
         }
-        return mask;
+        return new PluginDependencyFlags(value);
     }
 }

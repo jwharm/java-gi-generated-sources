@@ -11,16 +11,28 @@ import org.jetbrains.annotations.*;
  * <p>
  * Currently only RGB is supported.
  */
-public class Colorspace extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "GdkColorspace";
-    
+public enum Colorspace implements io.github.jwharm.javagi.Enumeration {
     /**
      * Indicates a red/green/blue additive color space.
      */
-    public static final Colorspace RGB = new Colorspace(0);
+    RGB(0);
     
-    public Colorspace(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "GdkColorspace";
+    
+    private final int value;
+    Colorspace(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static Colorspace of(int value) {
+        return switch (value) {
+            case 0 -> RGB;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

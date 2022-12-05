@@ -115,12 +115,19 @@ public class TreeView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     
     /**
      * Create a TreeView proxy instance for the provided memory address.
+     * <p>
+     * Because TreeView is an {@code InitiallyUnowned} instance, when 
+     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
+     * and a call to {@code refSink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
     @ApiStatus.Internal
     public TreeView(Addressable address, Ownership ownership) {
-        super(address, ownership);
+        super(address, Ownership.FULL);
+        if (ownership == Ownership.NONE) {
+            refSink();
+        }
     }
     
     /**
@@ -136,7 +143,11 @@ public class TreeView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * @throws ClassCastException If the GType is not derived from "GtkTreeView", a ClassCastException will be thrown.
      */
     public static TreeView castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), TreeView.getType())) {
             return new TreeView(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkTreeView");
+        }
     }
     
     private static Addressable constructNew() {
@@ -670,7 +681,7 @@ public class TreeView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         if (path != null) path.set(new org.gtk.gtk.TreePath(pathPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
-        pos.set(new org.gtk.gtk.TreeViewDropPosition(posPOINTER.get(Interop.valueLayout.C_INT, 0)));
+        pos.set(org.gtk.gtk.TreeViewDropPosition.of(posPOINTER.get(Interop.valueLayout.C_INT, 0)));
         return RESULT != 0;
     }
     
@@ -692,7 +703,7 @@ public class TreeView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         if (path != null) path.set(new org.gtk.gtk.TreePath(pathPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
-        pos.set(new org.gtk.gtk.TreeViewDropPosition(posPOINTER.get(Interop.valueLayout.C_INT, 0)));
+        pos.set(org.gtk.gtk.TreeViewDropPosition.of(posPOINTER.get(Interop.valueLayout.C_INT, 0)));
     }
     
     /**
@@ -772,7 +783,7 @@ public class TreeView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.TreeViewGridLines(RESULT);
+        return org.gtk.gtk.TreeViewGridLines.of(RESULT);
     }
     
     /**
@@ -2044,7 +2055,7 @@ public class TreeView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     
     @FunctionalInterface
     public interface ColumnsChanged {
-        void signalReceived(TreeView source);
+        void signalReceived(TreeView sourceTreeView);
     }
     
     /**
@@ -2072,7 +2083,7 @@ public class TreeView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     
     @FunctionalInterface
     public interface CursorChanged {
-        void signalReceived(TreeView source);
+        void signalReceived(TreeView sourceTreeView);
     }
     
     /**
@@ -2100,7 +2111,7 @@ public class TreeView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     
     @FunctionalInterface
     public interface ExpandCollapseCursorRow {
-        boolean signalReceived(TreeView source, boolean object, boolean p0, boolean p1);
+        boolean signalReceived(TreeView sourceTreeView, boolean object, boolean p0, boolean p1);
     }
     
     public Signal<TreeView.ExpandCollapseCursorRow> onExpandCollapseCursorRow(TreeView.ExpandCollapseCursorRow handler) {
@@ -2123,7 +2134,7 @@ public class TreeView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     
     @FunctionalInterface
     public interface MoveCursor {
-        boolean signalReceived(TreeView source, @NotNull org.gtk.gtk.MovementStep step, int direction, boolean extend, boolean modify);
+        boolean signalReceived(TreeView sourceTreeView, @NotNull org.gtk.gtk.MovementStep step, int direction, boolean extend, boolean modify);
     }
     
     /**
@@ -2159,7 +2170,7 @@ public class TreeView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     
     @FunctionalInterface
     public interface RowActivated {
-        void signalReceived(TreeView source, @NotNull org.gtk.gtk.TreePath path, @Nullable org.gtk.gtk.TreeViewColumn column);
+        void signalReceived(TreeView sourceTreeView, @NotNull org.gtk.gtk.TreePath path, @Nullable org.gtk.gtk.TreeViewColumn column);
     }
     
     /**
@@ -2200,7 +2211,7 @@ public class TreeView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     
     @FunctionalInterface
     public interface RowCollapsed {
-        void signalReceived(TreeView source, @NotNull org.gtk.gtk.TreeIter iter, @NotNull org.gtk.gtk.TreePath path);
+        void signalReceived(TreeView sourceTreeView, @NotNull org.gtk.gtk.TreeIter iter, @NotNull org.gtk.gtk.TreePath path);
     }
     
     /**
@@ -2228,7 +2239,7 @@ public class TreeView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     
     @FunctionalInterface
     public interface RowExpanded {
-        void signalReceived(TreeView source, @NotNull org.gtk.gtk.TreeIter iter, @NotNull org.gtk.gtk.TreePath path);
+        void signalReceived(TreeView sourceTreeView, @NotNull org.gtk.gtk.TreeIter iter, @NotNull org.gtk.gtk.TreePath path);
     }
     
     /**
@@ -2256,7 +2267,7 @@ public class TreeView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     
     @FunctionalInterface
     public interface SelectAll {
-        boolean signalReceived(TreeView source);
+        boolean signalReceived(TreeView sourceTreeView);
     }
     
     public Signal<TreeView.SelectAll> onSelectAll(TreeView.SelectAll handler) {
@@ -2279,7 +2290,7 @@ public class TreeView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     
     @FunctionalInterface
     public interface SelectCursorParent {
-        boolean signalReceived(TreeView source);
+        boolean signalReceived(TreeView sourceTreeView);
     }
     
     public Signal<TreeView.SelectCursorParent> onSelectCursorParent(TreeView.SelectCursorParent handler) {
@@ -2302,7 +2313,7 @@ public class TreeView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     
     @FunctionalInterface
     public interface SelectCursorRow {
-        boolean signalReceived(TreeView source, boolean object);
+        boolean signalReceived(TreeView sourceTreeView, boolean object);
     }
     
     public Signal<TreeView.SelectCursorRow> onSelectCursorRow(TreeView.SelectCursorRow handler) {
@@ -2325,7 +2336,7 @@ public class TreeView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     
     @FunctionalInterface
     public interface StartInteractiveSearch {
-        boolean signalReceived(TreeView source);
+        boolean signalReceived(TreeView sourceTreeView);
     }
     
     public Signal<TreeView.StartInteractiveSearch> onStartInteractiveSearch(TreeView.StartInteractiveSearch handler) {
@@ -2348,7 +2359,7 @@ public class TreeView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     
     @FunctionalInterface
     public interface TestCollapseRow {
-        boolean signalReceived(TreeView source, @NotNull org.gtk.gtk.TreeIter iter, @NotNull org.gtk.gtk.TreePath path);
+        boolean signalReceived(TreeView sourceTreeView, @NotNull org.gtk.gtk.TreeIter iter, @NotNull org.gtk.gtk.TreePath path);
     }
     
     /**
@@ -2377,7 +2388,7 @@ public class TreeView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     
     @FunctionalInterface
     public interface TestExpandRow {
-        boolean signalReceived(TreeView source, @NotNull org.gtk.gtk.TreeIter iter, @NotNull org.gtk.gtk.TreePath path);
+        boolean signalReceived(TreeView sourceTreeView, @NotNull org.gtk.gtk.TreeIter iter, @NotNull org.gtk.gtk.TreePath path);
     }
     
     /**
@@ -2406,7 +2417,7 @@ public class TreeView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     
     @FunctionalInterface
     public interface ToggleCursorRow {
-        boolean signalReceived(TreeView source);
+        boolean signalReceived(TreeView sourceTreeView);
     }
     
     public Signal<TreeView.ToggleCursorRow> onToggleCursorRow(TreeView.ToggleCursorRow handler) {
@@ -2429,7 +2440,7 @@ public class TreeView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     
     @FunctionalInterface
     public interface UnselectAll {
-        boolean signalReceived(TreeView source);
+        boolean signalReceived(TreeView sourceTreeView);
     }
     
     public Signal<TreeView.UnselectAll> onUnselectAll(TreeView.UnselectAll handler) {
@@ -3190,94 +3201,94 @@ public class TreeView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     
     private static class Callbacks {
         
-        public static void signalTreeViewColumnsChanged(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalTreeViewColumnsChanged(MemoryAddress sourceTreeView, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (TreeView.ColumnsChanged) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new TreeView(source, Ownership.NONE));
+            HANDLER.signalReceived(new TreeView(sourceTreeView, Ownership.NONE));
         }
         
-        public static void signalTreeViewCursorChanged(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalTreeViewCursorChanged(MemoryAddress sourceTreeView, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (TreeView.CursorChanged) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new TreeView(source, Ownership.NONE));
+            HANDLER.signalReceived(new TreeView(sourceTreeView, Ownership.NONE));
         }
         
-        public static boolean signalTreeViewExpandCollapseCursorRow(MemoryAddress source, int object, int p0, int p1, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static boolean signalTreeViewExpandCollapseCursorRow(MemoryAddress sourceTreeView, int object, int p0, int p1, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (TreeView.ExpandCollapseCursorRow) Interop.signalRegistry.get(HASH);
-            return HANDLER.signalReceived(new TreeView(source, Ownership.NONE), object != 0, p0 != 0, p1 != 0);
+            return HANDLER.signalReceived(new TreeView(sourceTreeView, Ownership.NONE), object != 0, p0 != 0, p1 != 0);
         }
         
-        public static boolean signalTreeViewMoveCursor(MemoryAddress source, int step, int direction, int extend, int modify, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static boolean signalTreeViewMoveCursor(MemoryAddress sourceTreeView, int step, int direction, int extend, int modify, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (TreeView.MoveCursor) Interop.signalRegistry.get(HASH);
-            return HANDLER.signalReceived(new TreeView(source, Ownership.NONE), new org.gtk.gtk.MovementStep(step), direction, extend != 0, modify != 0);
+            return HANDLER.signalReceived(new TreeView(sourceTreeView, Ownership.NONE), org.gtk.gtk.MovementStep.of(step), direction, extend != 0, modify != 0);
         }
         
-        public static void signalTreeViewRowActivated(MemoryAddress source, MemoryAddress path, MemoryAddress column, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalTreeViewRowActivated(MemoryAddress sourceTreeView, MemoryAddress path, MemoryAddress column, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (TreeView.RowActivated) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new TreeView(source, Ownership.NONE), new org.gtk.gtk.TreePath(path, Ownership.NONE), new org.gtk.gtk.TreeViewColumn(column, Ownership.NONE));
+            HANDLER.signalReceived(new TreeView(sourceTreeView, Ownership.NONE), new org.gtk.gtk.TreePath(path, Ownership.NONE), new org.gtk.gtk.TreeViewColumn(column, Ownership.NONE));
         }
         
-        public static void signalTreeViewRowCollapsed(MemoryAddress source, MemoryAddress iter, MemoryAddress path, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalTreeViewRowCollapsed(MemoryAddress sourceTreeView, MemoryAddress iter, MemoryAddress path, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (TreeView.RowCollapsed) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new TreeView(source, Ownership.NONE), new org.gtk.gtk.TreeIter(iter, Ownership.NONE), new org.gtk.gtk.TreePath(path, Ownership.NONE));
+            HANDLER.signalReceived(new TreeView(sourceTreeView, Ownership.NONE), new org.gtk.gtk.TreeIter(iter, Ownership.NONE), new org.gtk.gtk.TreePath(path, Ownership.NONE));
         }
         
-        public static void signalTreeViewRowExpanded(MemoryAddress source, MemoryAddress iter, MemoryAddress path, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalTreeViewRowExpanded(MemoryAddress sourceTreeView, MemoryAddress iter, MemoryAddress path, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (TreeView.RowExpanded) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new TreeView(source, Ownership.NONE), new org.gtk.gtk.TreeIter(iter, Ownership.NONE), new org.gtk.gtk.TreePath(path, Ownership.NONE));
+            HANDLER.signalReceived(new TreeView(sourceTreeView, Ownership.NONE), new org.gtk.gtk.TreeIter(iter, Ownership.NONE), new org.gtk.gtk.TreePath(path, Ownership.NONE));
         }
         
-        public static boolean signalTreeViewSelectAll(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static boolean signalTreeViewSelectAll(MemoryAddress sourceTreeView, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (TreeView.SelectAll) Interop.signalRegistry.get(HASH);
-            return HANDLER.signalReceived(new TreeView(source, Ownership.NONE));
+            return HANDLER.signalReceived(new TreeView(sourceTreeView, Ownership.NONE));
         }
         
-        public static boolean signalTreeViewSelectCursorParent(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static boolean signalTreeViewSelectCursorParent(MemoryAddress sourceTreeView, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (TreeView.SelectCursorParent) Interop.signalRegistry.get(HASH);
-            return HANDLER.signalReceived(new TreeView(source, Ownership.NONE));
+            return HANDLER.signalReceived(new TreeView(sourceTreeView, Ownership.NONE));
         }
         
-        public static boolean signalTreeViewSelectCursorRow(MemoryAddress source, int object, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static boolean signalTreeViewSelectCursorRow(MemoryAddress sourceTreeView, int object, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (TreeView.SelectCursorRow) Interop.signalRegistry.get(HASH);
-            return HANDLER.signalReceived(new TreeView(source, Ownership.NONE), object != 0);
+            return HANDLER.signalReceived(new TreeView(sourceTreeView, Ownership.NONE), object != 0);
         }
         
-        public static boolean signalTreeViewStartInteractiveSearch(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static boolean signalTreeViewStartInteractiveSearch(MemoryAddress sourceTreeView, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (TreeView.StartInteractiveSearch) Interop.signalRegistry.get(HASH);
-            return HANDLER.signalReceived(new TreeView(source, Ownership.NONE));
+            return HANDLER.signalReceived(new TreeView(sourceTreeView, Ownership.NONE));
         }
         
-        public static boolean signalTreeViewTestCollapseRow(MemoryAddress source, MemoryAddress iter, MemoryAddress path, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static boolean signalTreeViewTestCollapseRow(MemoryAddress sourceTreeView, MemoryAddress iter, MemoryAddress path, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (TreeView.TestCollapseRow) Interop.signalRegistry.get(HASH);
-            return HANDLER.signalReceived(new TreeView(source, Ownership.NONE), new org.gtk.gtk.TreeIter(iter, Ownership.NONE), new org.gtk.gtk.TreePath(path, Ownership.NONE));
+            return HANDLER.signalReceived(new TreeView(sourceTreeView, Ownership.NONE), new org.gtk.gtk.TreeIter(iter, Ownership.NONE), new org.gtk.gtk.TreePath(path, Ownership.NONE));
         }
         
-        public static boolean signalTreeViewTestExpandRow(MemoryAddress source, MemoryAddress iter, MemoryAddress path, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static boolean signalTreeViewTestExpandRow(MemoryAddress sourceTreeView, MemoryAddress iter, MemoryAddress path, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (TreeView.TestExpandRow) Interop.signalRegistry.get(HASH);
-            return HANDLER.signalReceived(new TreeView(source, Ownership.NONE), new org.gtk.gtk.TreeIter(iter, Ownership.NONE), new org.gtk.gtk.TreePath(path, Ownership.NONE));
+            return HANDLER.signalReceived(new TreeView(sourceTreeView, Ownership.NONE), new org.gtk.gtk.TreeIter(iter, Ownership.NONE), new org.gtk.gtk.TreePath(path, Ownership.NONE));
         }
         
-        public static boolean signalTreeViewToggleCursorRow(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static boolean signalTreeViewToggleCursorRow(MemoryAddress sourceTreeView, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (TreeView.ToggleCursorRow) Interop.signalRegistry.get(HASH);
-            return HANDLER.signalReceived(new TreeView(source, Ownership.NONE));
+            return HANDLER.signalReceived(new TreeView(sourceTreeView, Ownership.NONE));
         }
         
-        public static boolean signalTreeViewUnselectAll(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static boolean signalTreeViewUnselectAll(MemoryAddress sourceTreeView, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (TreeView.UnselectAll) Interop.signalRegistry.get(HASH);
-            return HANDLER.signalReceived(new TreeView(source, Ownership.NONE));
+            return HANDLER.signalReceived(new TreeView(sourceTreeView, Ownership.NONE));
         }
     }
 }

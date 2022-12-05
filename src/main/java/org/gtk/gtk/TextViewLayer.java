@@ -9,21 +9,33 @@ import org.jetbrains.annotations.*;
  * Used to reference the layers of {@code GtkTextView} for the purpose of customized
  * drawing with the ::snapshot_layer vfunc.
  */
-public class TextViewLayer extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "GtkTextViewLayer";
-    
+public enum TextViewLayer implements io.github.jwharm.javagi.Enumeration {
     /**
      * The layer rendered below the text (but above the background).
      */
-    public static final TextViewLayer BELOW_TEXT = new TextViewLayer(0);
-    
+    BELOW_TEXT(0),
     /**
      * The layer rendered above the text.
      */
-    public static final TextViewLayer ABOVE_TEXT = new TextViewLayer(1);
+    ABOVE_TEXT(1);
     
-    public TextViewLayer(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "GtkTextViewLayer";
+    
+    private final int value;
+    TextViewLayer(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static TextViewLayer of(int value) {
+        return switch (value) {
+            case 0 -> BELOW_TEXT;
+            case 1 -> ABOVE_TEXT;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

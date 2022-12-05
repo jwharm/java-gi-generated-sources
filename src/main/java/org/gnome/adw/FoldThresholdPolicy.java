@@ -9,21 +9,33 @@ import org.jetbrains.annotations.*;
  * Determines when {@link Flap} will fold.
  * @version 1.0
  */
-public class FoldThresholdPolicy extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "AdwFoldThresholdPolicy";
-    
+public enum FoldThresholdPolicy implements io.github.jwharm.javagi.Enumeration {
     /**
      * Folding is based on the minimum size
      */
-    public static final FoldThresholdPolicy MINIMUM = new FoldThresholdPolicy(0);
-    
+    MINIMUM(0),
     /**
      * Folding is based on the natural size
      */
-    public static final FoldThresholdPolicy NATURAL = new FoldThresholdPolicy(1);
+    NATURAL(1);
     
-    public FoldThresholdPolicy(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "AdwFoldThresholdPolicy";
+    
+    private final int value;
+    FoldThresholdPolicy(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static FoldThresholdPolicy of(int value) {
+        return switch (value) {
+            case 0 -> MINIMUM;
+            case 1 -> NATURAL;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

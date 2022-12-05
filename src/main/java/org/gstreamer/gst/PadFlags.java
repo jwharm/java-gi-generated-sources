@@ -108,9 +108,8 @@ public class PadFlags extends io.github.jwharm.javagi.Bitfield {
      * @param mask the value to combine with
      * @return the combined value by calculating {@code this | mask} 
      */
-    public PadFlags combined(PadFlags mask) {
-        this.setValue(this.getValue() | mask.getValue());
-        return this;
+    public PadFlags or(PadFlags mask) {
+        return new PadFlags(this.getValue() | mask.getValue());
     }
     
     /**
@@ -120,9 +119,9 @@ public class PadFlags extends io.github.jwharm.javagi.Bitfield {
      * @return the combined value by calculating {@code mask | masks[0] | masks[1] | ...} 
      */
     public static PadFlags combined(PadFlags mask, PadFlags... masks) {
-        for (PadFlags arg : masks) {
-            mask.setValue(mask.getValue() | arg.getValue());
+        int value = mask.getValue();        for (PadFlags arg : masks) {
+            value |= arg.getValue();
         }
-        return mask;
+        return new PadFlags(value);
     }
 }

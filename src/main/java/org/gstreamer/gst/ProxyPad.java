@@ -29,12 +29,19 @@ public class ProxyPad extends org.gstreamer.gst.Pad {
     
     /**
      * Create a ProxyPad proxy instance for the provided memory address.
+     * <p>
+     * Because ProxyPad is an {@code InitiallyUnowned} instance, when 
+     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
+     * and a call to {@code refSink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
     @ApiStatus.Internal
     public ProxyPad(Addressable address, Ownership ownership) {
-        super(address, ownership);
+        super(address, Ownership.FULL);
+        if (ownership == Ownership.NONE) {
+            refSink();
+        }
     }
     
     /**
@@ -50,7 +57,11 @@ public class ProxyPad extends org.gstreamer.gst.Pad {
      * @throws ClassCastException If the GType is not derived from "GstProxyPad", a ClassCastException will be thrown.
      */
     public static ProxyPad castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), ProxyPad.getType())) {
             return new ProxyPad(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GstProxyPad");
+        }
     }
     
     /**
@@ -107,7 +118,7 @@ public class ProxyPad extends org.gstreamer.gst.Pad {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         buffer.yieldOwnership();
-        return new org.gstreamer.gst.FlowReturn(RESULT);
+        return org.gstreamer.gst.FlowReturn.of(RESULT);
     }
     
     /**
@@ -131,7 +142,7 @@ public class ProxyPad extends org.gstreamer.gst.Pad {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         list.yieldOwnership();
-        return new org.gstreamer.gst.FlowReturn(RESULT);
+        return org.gstreamer.gst.FlowReturn.of(RESULT);
     }
     
     /**
@@ -161,7 +172,7 @@ public class ProxyPad extends org.gstreamer.gst.Pad {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         buffer.set(new org.gstreamer.gst.Buffer(bufferPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
-        return new org.gstreamer.gst.FlowReturn(RESULT);
+        return org.gstreamer.gst.FlowReturn.of(RESULT);
     }
     
     /**

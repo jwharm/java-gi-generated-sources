@@ -9,31 +9,43 @@ import org.jetbrains.annotations.*;
  * {@link IOError} is only used by the deprecated functions
  * g_io_channel_read(), g_io_channel_write(), and g_io_channel_seek().
  */
-public class IOError extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "GIOError";
-    
+public enum IOError implements io.github.jwharm.javagi.Enumeration {
     /**
      * no error
      */
-    public static final IOError NONE = new IOError(0);
-    
+    NONE(0),
     /**
      * an EAGAIN error occurred
      */
-    public static final IOError AGAIN = new IOError(1);
-    
+    AGAIN(1),
     /**
      * an EINVAL error occurred
      */
-    public static final IOError INVAL = new IOError(2);
-    
+    INVAL(2),
     /**
      * another error occurred
      */
-    public static final IOError UNKNOWN = new IOError(3);
+    UNKNOWN(3);
     
-    public IOError(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "GIOError";
+    
+    private final int value;
+    IOError(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static IOError of(int value) {
+        return switch (value) {
+            case 0 -> NONE;
+            case 1 -> AGAIN;
+            case 2 -> INVAL;
+            case 3 -> UNKNOWN;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

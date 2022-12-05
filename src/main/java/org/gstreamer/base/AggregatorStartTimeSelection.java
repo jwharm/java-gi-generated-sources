@@ -5,28 +5,40 @@ import java.lang.foreign.*;
 import java.lang.invoke.*;
 import org.jetbrains.annotations.*;
 
-public class AggregatorStartTimeSelection extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "GstAggregatorStartTimeSelection";
-    
+public enum AggregatorStartTimeSelection implements io.github.jwharm.javagi.Enumeration {
     /**
      * Start at running time 0.
      */
-    public static final AggregatorStartTimeSelection ZERO = new AggregatorStartTimeSelection(0);
-    
+    ZERO(0),
     /**
      * Start at the running time of
      * the first buffer that is received.
      */
-    public static final AggregatorStartTimeSelection FIRST = new AggregatorStartTimeSelection(1);
-    
+    FIRST(1),
     /**
      * Start at the running time
      * selected by the {@code start-time} property.
      */
-    public static final AggregatorStartTimeSelection SET = new AggregatorStartTimeSelection(2);
+    SET(2);
     
-    public AggregatorStartTimeSelection(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "GstAggregatorStartTimeSelection";
+    
+    private final int value;
+    AggregatorStartTimeSelection(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static AggregatorStartTimeSelection of(int value) {
+        return switch (value) {
+            case 0 -> ZERO;
+            case 1 -> FIRST;
+            case 2 -> SET;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

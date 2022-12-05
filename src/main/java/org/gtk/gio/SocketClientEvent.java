@@ -12,63 +12,75 @@ import org.jetbrains.annotations.*;
  * Additional values may be added to this type in the future.
  * @version 2.32
  */
-public class SocketClientEvent extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "GSocketClientEvent";
-    
+public enum SocketClientEvent implements io.github.jwharm.javagi.Enumeration {
     /**
      * The client is doing a DNS lookup.
      */
-    public static final SocketClientEvent RESOLVING = new SocketClientEvent(0);
-    
+    RESOLVING(0),
     /**
      * The client has completed a DNS lookup.
      */
-    public static final SocketClientEvent RESOLVED = new SocketClientEvent(1);
-    
+    RESOLVED(1),
     /**
      * The client is connecting to a remote
      *   host (either a proxy or the destination server).
      */
-    public static final SocketClientEvent CONNECTING = new SocketClientEvent(2);
-    
+    CONNECTING(2),
     /**
      * The client has connected to a remote
      *   host.
      */
-    public static final SocketClientEvent CONNECTED = new SocketClientEvent(3);
-    
+    CONNECTED(3),
     /**
      * The client is negotiating
      *   with a proxy to connect to the destination server.
      */
-    public static final SocketClientEvent PROXY_NEGOTIATING = new SocketClientEvent(4);
-    
+    PROXY_NEGOTIATING(4),
     /**
      * The client has negotiated
      *   with the proxy server.
      */
-    public static final SocketClientEvent PROXY_NEGOTIATED = new SocketClientEvent(5);
-    
+    PROXY_NEGOTIATED(5),
     /**
      * The client is performing a
      *   TLS handshake.
      */
-    public static final SocketClientEvent TLS_HANDSHAKING = new SocketClientEvent(6);
-    
+    TLS_HANDSHAKING(6),
     /**
      * The client has performed a
      *   TLS handshake.
      */
-    public static final SocketClientEvent TLS_HANDSHAKED = new SocketClientEvent(7);
-    
+    TLS_HANDSHAKED(7),
     /**
      * The client is done with a particular
      *   {@link SocketConnectable}.
      */
-    public static final SocketClientEvent COMPLETE = new SocketClientEvent(8);
+    COMPLETE(8);
     
-    public SocketClientEvent(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "GSocketClientEvent";
+    
+    private final int value;
+    SocketClientEvent(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static SocketClientEvent of(int value) {
+        return switch (value) {
+            case 0 -> RESOLVING;
+            case 1 -> RESOLVED;
+            case 2 -> CONNECTING;
+            case 3 -> CONNECTED;
+            case 4 -> PROXY_NEGOTIATING;
+            case 5 -> PROXY_NEGOTIATED;
+            case 6 -> TLS_HANDSHAKING;
+            case 7 -> TLS_HANDSHAKED;
+            case 8 -> COMPLETE;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

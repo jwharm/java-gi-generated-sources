@@ -10,36 +10,48 @@ import org.jetbrains.annotations.*;
  * purposes as setting colors.
  * @version 1.8
  */
-public class RenderPart extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "PangoRenderPart";
-    
+public enum RenderPart implements io.github.jwharm.javagi.Enumeration {
     /**
      * the text itself
      */
-    public static final RenderPart FOREGROUND = new RenderPart(0);
-    
+    FOREGROUND(0),
     /**
      * the area behind the text
      */
-    public static final RenderPart BACKGROUND = new RenderPart(1);
-    
+    BACKGROUND(1),
     /**
      * underlines
      */
-    public static final RenderPart UNDERLINE = new RenderPart(2);
-    
+    UNDERLINE(2),
     /**
      * strikethrough lines
      */
-    public static final RenderPart STRIKETHROUGH = new RenderPart(3);
-    
+    STRIKETHROUGH(3),
     /**
      * overlines
      */
-    public static final RenderPart OVERLINE = new RenderPart(4);
+    OVERLINE(4);
     
-    public RenderPart(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "PangoRenderPart";
+    
+    private final int value;
+    RenderPart(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static RenderPart of(int value) {
+        return switch (value) {
+            case 0 -> FOREGROUND;
+            case 1 -> BACKGROUND;
+            case 2 -> UNDERLINE;
+            case 3 -> STRIKETHROUGH;
+            case 4 -> OVERLINE;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

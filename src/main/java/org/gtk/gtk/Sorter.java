@@ -71,7 +71,11 @@ public class Sorter extends org.gtk.gobject.Object {
      * @throws ClassCastException If the GType is not derived from "GtkSorter", a ClassCastException will be thrown.
      */
     public static Sorter castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), Sorter.getType())) {
             return new Sorter(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkSorter");
+        }
     }
     
     /**
@@ -131,7 +135,7 @@ public class Sorter extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.Ordering(RESULT);
+        return org.gtk.gtk.Ordering.of(RESULT);
     }
     
     /**
@@ -151,7 +155,7 @@ public class Sorter extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.SorterOrder(RESULT);
+        return org.gtk.gtk.SorterOrder.of(RESULT);
     }
     
     /**
@@ -170,7 +174,7 @@ public class Sorter extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface Changed {
-        void signalReceived(Sorter source, @NotNull org.gtk.gtk.SorterChange change);
+        void signalReceived(Sorter sourceSorter, @NotNull org.gtk.gtk.SorterChange change);
     }
     
     /**
@@ -269,10 +273,10 @@ public class Sorter extends org.gtk.gobject.Object {
     
     private static class Callbacks {
         
-        public static void signalSorterChanged(MemoryAddress source, int change, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalSorterChanged(MemoryAddress sourceSorter, int change, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (Sorter.Changed) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Sorter(source, Ownership.NONE), new org.gtk.gtk.SorterChange(change));
+            HANDLER.signalReceived(new Sorter(sourceSorter, Ownership.NONE), org.gtk.gtk.SorterChange.of(change));
         }
     }
 }

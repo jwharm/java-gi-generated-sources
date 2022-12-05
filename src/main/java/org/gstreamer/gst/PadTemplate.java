@@ -94,12 +94,19 @@ public class PadTemplate extends org.gstreamer.gst.Object {
     
     /**
      * Create a PadTemplate proxy instance for the provided memory address.
+     * <p>
+     * Because PadTemplate is an {@code InitiallyUnowned} instance, when 
+     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
+     * and a call to {@code refSink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
     @ApiStatus.Internal
     public PadTemplate(Addressable address, Ownership ownership) {
-        super(address, ownership);
+        super(address, Ownership.FULL);
+        if (ownership == Ownership.NONE) {
+            refSink();
+        }
     }
     
     /**
@@ -115,7 +122,11 @@ public class PadTemplate extends org.gstreamer.gst.Object {
      * @throws ClassCastException If the GType is not derived from "GstPadTemplate", a ClassCastException will be thrown.
      */
     public static PadTemplate castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), PadTemplate.getType())) {
             return new PadTemplate(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GstPadTemplate");
+        }
     }
     
     private static Addressable constructNew(@NotNull java.lang.String nameTemplate, @NotNull org.gstreamer.gst.PadDirection direction, @NotNull org.gstreamer.gst.PadPresence presence, @NotNull org.gstreamer.gst.Caps caps) {
@@ -288,7 +299,7 @@ public class PadTemplate extends org.gstreamer.gst.Object {
     
     @FunctionalInterface
     public interface PadCreated {
-        void signalReceived(PadTemplate source, @NotNull org.gstreamer.gst.Pad pad);
+        void signalReceived(PadTemplate sourcePadTemplate, @NotNull org.gstreamer.gst.Pad pad);
     }
     
     /**
@@ -457,10 +468,10 @@ public class PadTemplate extends org.gstreamer.gst.Object {
     
     private static class Callbacks {
         
-        public static void signalPadTemplatePadCreated(MemoryAddress source, MemoryAddress pad, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalPadTemplatePadCreated(MemoryAddress sourcePadTemplate, MemoryAddress pad, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (PadTemplate.PadCreated) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new PadTemplate(source, Ownership.NONE), new org.gstreamer.gst.Pad(pad, Ownership.NONE));
+            HANDLER.signalReceived(new PadTemplate(sourcePadTemplate, Ownership.NONE), new org.gstreamer.gst.Pad(pad, Ownership.NONE));
         }
     }
 }

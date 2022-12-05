@@ -56,7 +56,11 @@ public class VulkanContext extends org.gtk.gdk.DrawContext implements org.gtk.gi
      * @throws ClassCastException If the GType is not derived from "GdkVulkanContext", a ClassCastException will be thrown.
      */
     public static VulkanContext castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), VulkanContext.getType())) {
             return new VulkanContext(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GdkVulkanContext");
+        }
     }
     
     /**
@@ -75,7 +79,7 @@ public class VulkanContext extends org.gtk.gdk.DrawContext implements org.gtk.gi
     
     @FunctionalInterface
     public interface ImagesUpdated {
-        void signalReceived(VulkanContext source);
+        void signalReceived(VulkanContext sourceVulkanContext);
     }
     
     /**
@@ -150,10 +154,10 @@ public class VulkanContext extends org.gtk.gdk.DrawContext implements org.gtk.gi
     
     private static class Callbacks {
         
-        public static void signalVulkanContextImagesUpdated(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalVulkanContextImagesUpdated(MemoryAddress sourceVulkanContext, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (VulkanContext.ImagesUpdated) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new VulkanContext(source, Ownership.NONE));
+            HANDLER.signalReceived(new VulkanContext(sourceVulkanContext, Ownership.NONE));
         }
     }
 }

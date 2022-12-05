@@ -8,26 +8,38 @@ import org.jetbrains.annotations.*;
 /**
  * The result of a {@link IteratorItemFunction}.
  */
-public class IteratorItem extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "GstIteratorItem";
-    
+public enum IteratorItem implements io.github.jwharm.javagi.Enumeration {
     /**
      * Skip this item
      */
-    public static final IteratorItem SKIP = new IteratorItem(0);
-    
+    SKIP(0),
     /**
      * Return item
      */
-    public static final IteratorItem PASS = new IteratorItem(1);
-    
+    PASS(1),
     /**
      * Stop after this item.
      */
-    public static final IteratorItem END = new IteratorItem(2);
+    END(2);
     
-    public IteratorItem(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "GstIteratorItem";
+    
+    private final int value;
+    IteratorItem(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static IteratorItem of(int value) {
+        return switch (value) {
+            case 0 -> SKIP;
+            case 1 -> PASS;
+            case 2 -> END;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

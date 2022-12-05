@@ -10,26 +10,38 @@ import org.jetbrains.annotations.*;
  * and {@link ZlibCompressor}.
  * @version 2.24
  */
-public class ZlibCompressorFormat extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "GZlibCompressorFormat";
-    
+public enum ZlibCompressorFormat implements io.github.jwharm.javagi.Enumeration {
     /**
      * deflate compression with zlib header
      */
-    public static final ZlibCompressorFormat ZLIB = new ZlibCompressorFormat(0);
-    
+    ZLIB(0),
     /**
      * gzip file format
      */
-    public static final ZlibCompressorFormat GZIP = new ZlibCompressorFormat(1);
-    
+    GZIP(1),
     /**
      * deflate compression with no header
      */
-    public static final ZlibCompressorFormat RAW = new ZlibCompressorFormat(2);
+    RAW(2);
     
-    public ZlibCompressorFormat(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "GZlibCompressorFormat";
+    
+    private final int value;
+    ZlibCompressorFormat(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static ZlibCompressorFormat of(int value) {
+        return switch (value) {
+            case 0 -> ZLIB;
+            case 1 -> GZIP;
+            case 2 -> RAW;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

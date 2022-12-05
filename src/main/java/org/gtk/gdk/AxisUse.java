@@ -12,76 +12,88 @@ import org.jetbrains.annotations.*;
  * report their location via the x/y members of events regardless. Whether
  * X and Y are present as axes depends on the GDK backend.
  */
-public class AxisUse extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "GdkAxisUse";
-    
+public enum AxisUse implements io.github.jwharm.javagi.Enumeration {
     /**
      * the axis is ignored.
      */
-    public static final AxisUse IGNORE = new AxisUse(0);
-    
+    IGNORE(0),
     /**
      * the axis is used as the x axis.
      */
-    public static final AxisUse X = new AxisUse(1);
-    
+    X(1),
     /**
      * the axis is used as the y axis.
      */
-    public static final AxisUse Y = new AxisUse(2);
-    
+    Y(2),
     /**
      * the axis is used as the scroll x delta
      */
-    public static final AxisUse DELTA_X = new AxisUse(3);
-    
+    DELTA_X(3),
     /**
      * the axis is used as the scroll y delta
      */
-    public static final AxisUse DELTA_Y = new AxisUse(4);
-    
+    DELTA_Y(4),
     /**
      * the axis is used for pressure information.
      */
-    public static final AxisUse PRESSURE = new AxisUse(5);
-    
+    PRESSURE(5),
     /**
      * the axis is used for x tilt information.
      */
-    public static final AxisUse XTILT = new AxisUse(6);
-    
+    XTILT(6),
     /**
      * the axis is used for y tilt information.
      */
-    public static final AxisUse YTILT = new AxisUse(7);
-    
+    YTILT(7),
     /**
      * the axis is used for wheel information.
      */
-    public static final AxisUse WHEEL = new AxisUse(8);
-    
+    WHEEL(8),
     /**
      * the axis is used for pen/tablet distance information
      */
-    public static final AxisUse DISTANCE = new AxisUse(9);
-    
+    DISTANCE(9),
     /**
      * the axis is used for pen rotation information
      */
-    public static final AxisUse ROTATION = new AxisUse(10);
-    
+    ROTATION(10),
     /**
      * the axis is used for pen slider information
      */
-    public static final AxisUse SLIDER = new AxisUse(11);
-    
+    SLIDER(11),
     /**
      * a constant equal to the numerically highest axis value.
      */
-    public static final AxisUse LAST = new AxisUse(12);
+    LAST(12);
     
-    public AxisUse(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "GdkAxisUse";
+    
+    private final int value;
+    AxisUse(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static AxisUse of(int value) {
+        return switch (value) {
+            case 0 -> IGNORE;
+            case 1 -> X;
+            case 2 -> Y;
+            case 3 -> DELTA_X;
+            case 4 -> DELTA_Y;
+            case 5 -> PRESSURE;
+            case 6 -> XTILT;
+            case 7 -> YTILT;
+            case 8 -> WHEEL;
+            case 9 -> DISTANCE;
+            case 10 -> ROTATION;
+            case 11 -> SLIDER;
+            case 12 -> LAST;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

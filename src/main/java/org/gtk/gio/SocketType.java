@@ -10,33 +10,45 @@ import org.jetbrains.annotations.*;
  * all the socket types.
  * @version 2.22
  */
-public class SocketType extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "GSocketType";
-    
+public enum SocketType implements io.github.jwharm.javagi.Enumeration {
     /**
      * Type unknown or wrong
      */
-    public static final SocketType INVALID = new SocketType(0);
-    
+    INVALID(0),
     /**
      * Reliable connection-based byte streams (e.g. TCP).
      */
-    public static final SocketType STREAM = new SocketType(1);
-    
+    STREAM(1),
     /**
      * Connectionless, unreliable datagram passing.
      *     (e.g. UDP)
      */
-    public static final SocketType DATAGRAM = new SocketType(2);
-    
+    DATAGRAM(2),
     /**
      * Reliable connection-based passing of datagrams
      *     of fixed maximum length (e.g. SCTP).
      */
-    public static final SocketType SEQPACKET = new SocketType(3);
+    SEQPACKET(3);
     
-    public SocketType(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "GSocketType";
+    
+    private final int value;
+    SocketType(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static SocketType of(int value) {
+        return switch (value) {
+            case 0 -> INVALID;
+            case 1 -> STREAM;
+            case 2 -> DATAGRAM;
+            case 3 -> SEQPACKET;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

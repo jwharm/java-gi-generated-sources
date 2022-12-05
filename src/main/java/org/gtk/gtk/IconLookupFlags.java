@@ -39,9 +39,8 @@ public class IconLookupFlags extends io.github.jwharm.javagi.Bitfield {
      * @param mask the value to combine with
      * @return the combined value by calculating {@code this | mask} 
      */
-    public IconLookupFlags combined(IconLookupFlags mask) {
-        this.setValue(this.getValue() | mask.getValue());
-        return this;
+    public IconLookupFlags or(IconLookupFlags mask) {
+        return new IconLookupFlags(this.getValue() | mask.getValue());
     }
     
     /**
@@ -51,9 +50,9 @@ public class IconLookupFlags extends io.github.jwharm.javagi.Bitfield {
      * @return the combined value by calculating {@code mask | masks[0] | masks[1] | ...} 
      */
     public static IconLookupFlags combined(IconLookupFlags mask, IconLookupFlags... masks) {
-        for (IconLookupFlags arg : masks) {
-            mask.setValue(mask.getValue() | arg.getValue());
+        int value = mask.getValue();        for (IconLookupFlags arg : masks) {
+            value |= arg.getValue();
         }
-        return mask;
+        return new IconLookupFlags(value);
     }
 }

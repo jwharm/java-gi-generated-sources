@@ -53,7 +53,11 @@ public class FontFace extends org.gtk.gobject.Object {
      * @throws ClassCastException If the GType is not derived from "PangoFontFace", a ClassCastException will be thrown.
      */
     public static FontFace castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), FontFace.getType())) {
             return new FontFace(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of PangoFontFace");
+        }
     }
     
     /**

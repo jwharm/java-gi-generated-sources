@@ -130,7 +130,7 @@ public class Language extends Struct {
         org.pango.Script[] resultARRAY = new org.pango.Script[numScripts.get().intValue()];
         for (int I = 0; I < numScripts.get().intValue(); I++) {
             var OBJ = RESULT.get(Interop.valueLayout.C_INT, I);
-            resultARRAY[I] = new org.pango.Script(OBJ);
+            resultARRAY[I] = org.pango.Script.of(OBJ);
         }
         return resultARRAY;
     }
@@ -354,33 +354,5 @@ public class Language extends Struct {
             FunctionDescriptor.ofVoid(),
             false
         );
-    }
-
-    /**
-     * Inner class implementing a builder pattern to construct 
-     * a struct and set its values.
-     */
-    public static class Build {
-        
-        private Language struct;
-        
-         /**
-         * A {@link Language.Build} object constructs a {@link Language} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
-            struct = Language.allocate();
-        }
-        
-         /**
-         * Finish building the {@link Language} struct.
-         * @return A new instance of {@code Language} with the fields 
-         *         that were set in the Build object.
-         */
-        public Language construct() {
-            return struct;
-        }
     }
 }

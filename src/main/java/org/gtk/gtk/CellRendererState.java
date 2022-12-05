@@ -57,9 +57,8 @@ public class CellRendererState extends io.github.jwharm.javagi.Bitfield {
      * @param mask the value to combine with
      * @return the combined value by calculating {@code this | mask} 
      */
-    public CellRendererState combined(CellRendererState mask) {
-        this.setValue(this.getValue() | mask.getValue());
-        return this;
+    public CellRendererState or(CellRendererState mask) {
+        return new CellRendererState(this.getValue() | mask.getValue());
     }
     
     /**
@@ -69,9 +68,9 @@ public class CellRendererState extends io.github.jwharm.javagi.Bitfield {
      * @return the combined value by calculating {@code mask | masks[0] | masks[1] | ...} 
      */
     public static CellRendererState combined(CellRendererState mask, CellRendererState... masks) {
-        for (CellRendererState arg : masks) {
-            mask.setValue(mask.getValue() | arg.getValue());
+        int value = mask.getValue();        for (CellRendererState arg : masks) {
+            value |= arg.getValue();
         }
-        return mask;
+        return new CellRendererState(value);
     }
 }

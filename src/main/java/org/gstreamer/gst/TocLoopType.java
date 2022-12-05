@@ -10,31 +10,43 @@ import org.jetbrains.annotations.*;
  * single time.
  * @version 1.4
  */
-public class TocLoopType extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "GstTocLoopType";
-    
+public enum TocLoopType implements io.github.jwharm.javagi.Enumeration {
     /**
      * single forward playback
      */
-    public static final TocLoopType NONE = new TocLoopType(0);
-    
+    NONE(0),
     /**
      * repeat forward
      */
-    public static final TocLoopType FORWARD = new TocLoopType(1);
-    
+    FORWARD(1),
     /**
      * repeat backward
      */
-    public static final TocLoopType REVERSE = new TocLoopType(2);
-    
+    REVERSE(2),
     /**
      * repeat forward and backward
      */
-    public static final TocLoopType PING_PONG = new TocLoopType(3);
+    PING_PONG(3);
     
-    public TocLoopType(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "GstTocLoopType";
+    
+    private final int value;
+    TocLoopType(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static TocLoopType of(int value) {
+        return switch (value) {
+            case 0 -> NONE;
+            case 1 -> FORWARD;
+            case 2 -> REVERSE;
+            case 3 -> PING_PONG;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

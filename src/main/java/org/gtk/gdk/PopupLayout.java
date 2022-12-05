@@ -215,7 +215,7 @@ public class PopupLayout extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gdk.Gravity(RESULT);
+        return org.gtk.gdk.Gravity.of(RESULT);
     }
     
     /**
@@ -262,7 +262,7 @@ public class PopupLayout extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gdk.Gravity(RESULT);
+        return org.gtk.gdk.Gravity.of(RESULT);
     }
     
     /**
@@ -501,33 +501,5 @@ public class PopupLayout extends Struct {
             FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
-    }
-
-    /**
-     * Inner class implementing a builder pattern to construct 
-     * a struct and set its values.
-     */
-    public static class Build {
-        
-        private PopupLayout struct;
-        
-         /**
-         * A {@link PopupLayout.Build} object constructs a {@link PopupLayout} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
-            struct = PopupLayout.allocate();
-        }
-        
-         /**
-         * Finish building the {@link PopupLayout} struct.
-         * @return A new instance of {@code PopupLayout} with the fields 
-         *         that were set in the Build object.
-         */
-        public PopupLayout construct() {
-            return struct;
-        }
     }
 }

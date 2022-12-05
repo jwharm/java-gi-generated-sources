@@ -56,9 +56,8 @@ public class FileCopyFlags extends io.github.jwharm.javagi.Bitfield {
      * @param mask the value to combine with
      * @return the combined value by calculating {@code this | mask} 
      */
-    public FileCopyFlags combined(FileCopyFlags mask) {
-        this.setValue(this.getValue() | mask.getValue());
-        return this;
+    public FileCopyFlags or(FileCopyFlags mask) {
+        return new FileCopyFlags(this.getValue() | mask.getValue());
     }
     
     /**
@@ -68,9 +67,9 @@ public class FileCopyFlags extends io.github.jwharm.javagi.Bitfield {
      * @return the combined value by calculating {@code mask | masks[0] | masks[1] | ...} 
      */
     public static FileCopyFlags combined(FileCopyFlags mask, FileCopyFlags... masks) {
-        for (FileCopyFlags arg : masks) {
-            mask.setValue(mask.getValue() | arg.getValue());
+        int value = mask.getValue();        for (FileCopyFlags arg : masks) {
+            value |= arg.getValue();
         }
-        return mask;
+        return new FileCopyFlags(value);
     }
 }

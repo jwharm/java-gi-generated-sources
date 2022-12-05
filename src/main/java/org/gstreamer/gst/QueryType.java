@@ -8,113 +8,125 @@ import org.jetbrains.annotations.*;
 /**
  * Standard predefined Query types
  */
-public class QueryType extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "GstQueryType";
-    
+public enum QueryType implements io.github.jwharm.javagi.Enumeration {
     /**
      * unknown query type
      */
-    public static final QueryType UNKNOWN = new QueryType(0);
-    
+    UNKNOWN(0),
     /**
      * current position in stream
      */
-    public static final QueryType POSITION = new QueryType(2563);
-    
+    POSITION(2563),
     /**
      * total duration of the stream
      */
-    public static final QueryType DURATION = new QueryType(5123);
-    
+    DURATION(5123),
     /**
      * latency of stream
      */
-    public static final QueryType LATENCY = new QueryType(7683);
-    
+    LATENCY(7683),
     /**
      * current jitter of stream
      */
-    public static final QueryType JITTER = new QueryType(10243);
-    
+    JITTER(10243),
     /**
      * current rate of the stream
      */
-    public static final QueryType RATE = new QueryType(12803);
-    
+    RATE(12803),
     /**
      * seeking capabilities
      */
-    public static final QueryType SEEKING = new QueryType(15363);
-    
+    SEEKING(15363),
     /**
      * segment start/stop positions
      */
-    public static final QueryType SEGMENT = new QueryType(17923);
-    
+    SEGMENT(17923),
     /**
      * convert values between formats
      */
-    public static final QueryType CONVERT = new QueryType(20483);
-    
+    CONVERT(20483),
     /**
      * query supported formats for convert
      */
-    public static final QueryType FORMATS = new QueryType(23043);
-    
+    FORMATS(23043),
     /**
      * query available media for efficient seeking.
      */
-    public static final QueryType BUFFERING = new QueryType(28163);
-    
+    BUFFERING(28163),
     /**
      * a custom application or element defined query.
      */
-    public static final QueryType CUSTOM = new QueryType(30723);
-    
+    CUSTOM(30723),
     /**
      * query the URI of the source or sink.
      */
-    public static final QueryType URI = new QueryType(33283);
-    
+    URI(33283),
     /**
      * the buffer allocation properties
      */
-    public static final QueryType ALLOCATION = new QueryType(35846);
-    
+    ALLOCATION(35846),
     /**
      * the scheduling properties
      */
-    public static final QueryType SCHEDULING = new QueryType(38401);
-    
+    SCHEDULING(38401),
     /**
      * the accept caps query
      */
-    public static final QueryType ACCEPT_CAPS = new QueryType(40963);
-    
+    ACCEPT_CAPS(40963),
     /**
      * the caps query
      */
-    public static final QueryType CAPS = new QueryType(43523);
-    
+    CAPS(43523),
     /**
      * wait till all serialized data is consumed downstream
      */
-    public static final QueryType DRAIN = new QueryType(46086);
-    
+    DRAIN(46086),
     /**
      * query the pipeline-local context from
      *     downstream or upstream (since 1.2)
      */
-    public static final QueryType CONTEXT = new QueryType(48643);
-    
+    CONTEXT(48643),
     /**
      * the bitrate query (since 1.16)
      */
-    public static final QueryType BITRATE = new QueryType(51202);
+    BITRATE(51202);
     
-    public QueryType(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "GstQueryType";
+    
+    private final int value;
+    QueryType(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static QueryType of(int value) {
+        return switch (value) {
+            case 0 -> UNKNOWN;
+            case 2563 -> POSITION;
+            case 5123 -> DURATION;
+            case 7683 -> LATENCY;
+            case 10243 -> JITTER;
+            case 12803 -> RATE;
+            case 15363 -> SEEKING;
+            case 17923 -> SEGMENT;
+            case 20483 -> CONVERT;
+            case 23043 -> FORMATS;
+            case 28163 -> BUFFERING;
+            case 30723 -> CUSTOM;
+            case 33283 -> URI;
+            case 35846 -> ALLOCATION;
+            case 38401 -> SCHEDULING;
+            case 40963 -> ACCEPT_CAPS;
+            case 43523 -> CAPS;
+            case 46086 -> DRAIN;
+            case 48643 -> CONTEXT;
+            case 51202 -> BITRATE;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
     
     /**

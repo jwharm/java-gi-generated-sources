@@ -63,12 +63,19 @@ public class EntryRow extends org.gnome.adw.PreferencesRow implements org.gtk.gt
     
     /**
      * Create a EntryRow proxy instance for the provided memory address.
+     * <p>
+     * Because EntryRow is an {@code InitiallyUnowned} instance, when 
+     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
+     * and a call to {@code refSink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
     @ApiStatus.Internal
     public EntryRow(Addressable address, Ownership ownership) {
-        super(address, ownership);
+        super(address, Ownership.FULL);
+        if (ownership == Ownership.NONE) {
+            refSink();
+        }
     }
     
     /**
@@ -84,7 +91,11 @@ public class EntryRow extends org.gnome.adw.PreferencesRow implements org.gtk.gt
      * @throws ClassCastException If the GType is not derived from "AdwEntryRow", a ClassCastException will be thrown.
      */
     public static EntryRow castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), EntryRow.getType())) {
             return new EntryRow(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of AdwEntryRow");
+        }
     }
     
     private static Addressable constructNew() {
@@ -206,7 +217,7 @@ public class EntryRow extends org.gnome.adw.PreferencesRow implements org.gtk.gt
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.InputPurpose(RESULT);
+        return org.gtk.gtk.InputPurpose.of(RESULT);
     }
     
     /**
@@ -360,7 +371,7 @@ public class EntryRow extends org.gnome.adw.PreferencesRow implements org.gtk.gt
     
     @FunctionalInterface
     public interface Apply {
-        void signalReceived(EntryRow source);
+        void signalReceived(EntryRow sourceEntryRow);
     }
     
     /**
@@ -390,7 +401,7 @@ public class EntryRow extends org.gnome.adw.PreferencesRow implements org.gtk.gt
     
     @FunctionalInterface
     public interface EntryActivated {
-        void signalReceived(EntryRow source);
+        void signalReceived(EntryRow sourceEntryRow);
     }
     
     /**
@@ -643,16 +654,16 @@ public class EntryRow extends org.gnome.adw.PreferencesRow implements org.gtk.gt
     
     private static class Callbacks {
         
-        public static void signalEntryRowApply(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalEntryRowApply(MemoryAddress sourceEntryRow, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (EntryRow.Apply) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new EntryRow(source, Ownership.NONE));
+            HANDLER.signalReceived(new EntryRow(sourceEntryRow, Ownership.NONE));
         }
         
-        public static void signalEntryRowEntryActivated(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalEntryRowEntryActivated(MemoryAddress sourceEntryRow, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (EntryRow.EntryActivated) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new EntryRow(source, Ownership.NONE));
+            HANDLER.signalReceived(new EntryRow(sourceEntryRow, Ownership.NONE));
         }
     }
 }

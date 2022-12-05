@@ -37,9 +37,8 @@ public class ResolverNameLookupFlags extends io.github.jwharm.javagi.Bitfield {
      * @param mask the value to combine with
      * @return the combined value by calculating {@code this | mask} 
      */
-    public ResolverNameLookupFlags combined(ResolverNameLookupFlags mask) {
-        this.setValue(this.getValue() | mask.getValue());
-        return this;
+    public ResolverNameLookupFlags or(ResolverNameLookupFlags mask) {
+        return new ResolverNameLookupFlags(this.getValue() | mask.getValue());
     }
     
     /**
@@ -49,9 +48,9 @@ public class ResolverNameLookupFlags extends io.github.jwharm.javagi.Bitfield {
      * @return the combined value by calculating {@code mask | masks[0] | masks[1] | ...} 
      */
     public static ResolverNameLookupFlags combined(ResolverNameLookupFlags mask, ResolverNameLookupFlags... masks) {
-        for (ResolverNameLookupFlags arg : masks) {
-            mask.setValue(mask.getValue() | arg.getValue());
+        int value = mask.getValue();        for (ResolverNameLookupFlags arg : masks) {
+            value |= arg.getValue();
         }
-        return mask;
+        return new ResolverNameLookupFlags(value);
     }
 }

@@ -46,12 +46,19 @@ public class TabBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
     
     /**
      * Create a TabBar proxy instance for the provided memory address.
+     * <p>
+     * Because TabBar is an {@code InitiallyUnowned} instance, when 
+     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
+     * and a call to {@code refSink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
     @ApiStatus.Internal
     public TabBar(Addressable address, Ownership ownership) {
-        super(address, ownership);
+        super(address, Ownership.FULL);
+        if (ownership == Ownership.NONE) {
+            refSink();
+        }
     }
     
     /**
@@ -67,7 +74,11 @@ public class TabBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
      * @throws ClassCastException If the GType is not derived from "AdwTabBar", a ClassCastException will be thrown.
      */
     public static TabBar castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), TabBar.getType())) {
             return new TabBar(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of AdwTabBar");
+        }
     }
     
     private static Addressable constructNew() {
@@ -351,7 +362,7 @@ public class TabBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
     
     @FunctionalInterface
     public interface ExtraDragDrop {
-        boolean signalReceived(TabBar source, @NotNull org.gnome.adw.TabPage page, @NotNull org.gtk.gobject.Value value);
+        boolean signalReceived(TabBar sourceTabBar, @NotNull org.gnome.adw.TabPage page, @NotNull org.gtk.gobject.Value value);
     }
     
     /**
@@ -627,10 +638,10 @@ public class TabBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
     
     private static class Callbacks {
         
-        public static boolean signalTabBarExtraDragDrop(MemoryAddress source, MemoryAddress page, MemoryAddress value, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static boolean signalTabBarExtraDragDrop(MemoryAddress sourceTabBar, MemoryAddress page, MemoryAddress value, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (TabBar.ExtraDragDrop) Interop.signalRegistry.get(HASH);
-            return HANDLER.signalReceived(new TabBar(source, Ownership.NONE), new org.gnome.adw.TabPage(page, Ownership.NONE), new org.gtk.gobject.Value(value, Ownership.NONE));
+            return HANDLER.signalReceived(new TabBar(sourceTabBar, Ownership.NONE), new org.gnome.adw.TabPage(page, Ownership.NONE), new org.gtk.gobject.Value(value, Ownership.NONE));
         }
     }
 }

@@ -32,9 +32,8 @@ public class GLAPI extends io.github.jwharm.javagi.Bitfield {
      * @param mask the value to combine with
      * @return the combined value by calculating {@code this | mask} 
      */
-    public GLAPI combined(GLAPI mask) {
-        this.setValue(this.getValue() | mask.getValue());
-        return this;
+    public GLAPI or(GLAPI mask) {
+        return new GLAPI(this.getValue() | mask.getValue());
     }
     
     /**
@@ -44,9 +43,9 @@ public class GLAPI extends io.github.jwharm.javagi.Bitfield {
      * @return the combined value by calculating {@code mask | masks[0] | masks[1] | ...} 
      */
     public static GLAPI combined(GLAPI mask, GLAPI... masks) {
-        for (GLAPI arg : masks) {
-            mask.setValue(mask.getValue() | arg.getValue());
+        int value = mask.getValue();        for (GLAPI arg : masks) {
+            value |= arg.getValue();
         }
-        return mask;
+        return new GLAPI(value);
     }
 }

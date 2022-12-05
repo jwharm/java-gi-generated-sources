@@ -47,6 +47,19 @@ public final class Gtk {
     public static final int INTERFACE_AGE = 2;
     
     /**
+     * The value used to refer to a guaranteed invalid position
+     * in a {@code GListModel}.
+     * <p>
+     * This value may be returned from some functions, others may
+     * accept it as input. Its interpretation may differ for different
+     * functions.
+     * <p>
+     * Refer to each function's documentation for if this value is
+     * allowed and what it does.
+     */
+    public static final int INVALID_LIST_POSITION = -1;
+    
+    /**
      * The name used for the stock full offset included by {@code GtkLevelBar}.
      */
     public static final java.lang.String LEVEL_BAR_OFFSET_FULL = "full";
@@ -993,7 +1006,7 @@ public final class Gtk {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.TextDirection(RESULT);
+        return org.gtk.gtk.TextDirection.of(RESULT);
     }
     
     /**
@@ -1200,7 +1213,7 @@ public final class Gtk {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.Ordering(RESULT);
+        return org.gtk.gtk.Ordering.of(RESULT);
     }
     
     /**

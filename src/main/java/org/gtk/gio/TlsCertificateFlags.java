@@ -84,9 +84,8 @@ public class TlsCertificateFlags extends io.github.jwharm.javagi.Bitfield {
      * @param mask the value to combine with
      * @return the combined value by calculating {@code this | mask} 
      */
-    public TlsCertificateFlags combined(TlsCertificateFlags mask) {
-        this.setValue(this.getValue() | mask.getValue());
-        return this;
+    public TlsCertificateFlags or(TlsCertificateFlags mask) {
+        return new TlsCertificateFlags(this.getValue() | mask.getValue());
     }
     
     /**
@@ -96,9 +95,9 @@ public class TlsCertificateFlags extends io.github.jwharm.javagi.Bitfield {
      * @return the combined value by calculating {@code mask | masks[0] | masks[1] | ...} 
      */
     public static TlsCertificateFlags combined(TlsCertificateFlags mask, TlsCertificateFlags... masks) {
-        for (TlsCertificateFlags arg : masks) {
-            mask.setValue(mask.getValue() | arg.getValue());
+        int value = mask.getValue();        for (TlsCertificateFlags arg : masks) {
+            value |= arg.getValue();
         }
-        return mask;
+        return new TlsCertificateFlags(value);
     }
 }

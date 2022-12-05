@@ -44,32 +44,4 @@ public class SharedTaskPoolPrivate extends Struct {
     public SharedTaskPoolPrivate(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
-
-    /**
-     * Inner class implementing a builder pattern to construct 
-     * a struct and set its values.
-     */
-    public static class Build {
-        
-        private SharedTaskPoolPrivate struct;
-        
-         /**
-         * A {@link SharedTaskPoolPrivate.Build} object constructs a {@link SharedTaskPoolPrivate} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
-            struct = SharedTaskPoolPrivate.allocate();
-        }
-        
-         /**
-         * Finish building the {@link SharedTaskPoolPrivate} struct.
-         * @return A new instance of {@code SharedTaskPoolPrivate} with the fields 
-         *         that were set in the Build object.
-         */
-        public SharedTaskPoolPrivate construct() {
-            return struct;
-        }
-    }
 }

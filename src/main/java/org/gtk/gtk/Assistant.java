@@ -60,12 +60,19 @@ public class Assistant extends org.gtk.gtk.Window implements org.gtk.gtk.Accessi
     
     /**
      * Create a Assistant proxy instance for the provided memory address.
+     * <p>
+     * Because Assistant is an {@code InitiallyUnowned} instance, when 
+     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
+     * and a call to {@code refSink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
     @ApiStatus.Internal
     public Assistant(Addressable address, Ownership ownership) {
-        super(address, ownership);
+        super(address, Ownership.FULL);
+        if (ownership == Ownership.NONE) {
+            refSink();
+        }
     }
     
     /**
@@ -81,7 +88,11 @@ public class Assistant extends org.gtk.gtk.Window implements org.gtk.gtk.Accessi
      * @throws ClassCastException If the GType is not derived from "GtkAssistant", a ClassCastException will be thrown.
      */
     public static Assistant castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), Assistant.getType())) {
             return new Assistant(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkAssistant");
+        }
     }
     
     private static Addressable constructNew() {
@@ -275,7 +286,7 @@ public class Assistant extends org.gtk.gtk.Window implements org.gtk.gtk.Accessi
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.AssistantPageType(RESULT);
+        return org.gtk.gtk.AssistantPageType.of(RESULT);
     }
     
     /**
@@ -543,7 +554,7 @@ public class Assistant extends org.gtk.gtk.Window implements org.gtk.gtk.Accessi
     
     @FunctionalInterface
     public interface Apply {
-        void signalReceived(Assistant source);
+        void signalReceived(Assistant sourceAssistant);
     }
     
     /**
@@ -581,7 +592,7 @@ public class Assistant extends org.gtk.gtk.Window implements org.gtk.gtk.Accessi
     
     @FunctionalInterface
     public interface Cancel {
-        void signalReceived(Assistant source);
+        void signalReceived(Assistant sourceAssistant);
     }
     
     /**
@@ -609,7 +620,7 @@ public class Assistant extends org.gtk.gtk.Window implements org.gtk.gtk.Accessi
     
     @FunctionalInterface
     public interface Close {
-        void signalReceived(Assistant source);
+        void signalReceived(Assistant sourceAssistant);
     }
     
     /**
@@ -639,7 +650,7 @@ public class Assistant extends org.gtk.gtk.Window implements org.gtk.gtk.Accessi
     
     @FunctionalInterface
     public interface Escape {
-        void signalReceived(Assistant source);
+        void signalReceived(Assistant sourceAssistant);
     }
     
     /**
@@ -667,7 +678,7 @@ public class Assistant extends org.gtk.gtk.Window implements org.gtk.gtk.Accessi
     
     @FunctionalInterface
     public interface Prepare {
-        void signalReceived(Assistant source, @NotNull org.gtk.gtk.Widget page);
+        void signalReceived(Assistant sourceAssistant, @NotNull org.gtk.gtk.Widget page);
     }
     
     /**
@@ -913,34 +924,34 @@ public class Assistant extends org.gtk.gtk.Window implements org.gtk.gtk.Accessi
     
     private static class Callbacks {
         
-        public static void signalAssistantApply(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalAssistantApply(MemoryAddress sourceAssistant, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (Assistant.Apply) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Assistant(source, Ownership.NONE));
+            HANDLER.signalReceived(new Assistant(sourceAssistant, Ownership.NONE));
         }
         
-        public static void signalAssistantCancel(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalAssistantCancel(MemoryAddress sourceAssistant, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (Assistant.Cancel) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Assistant(source, Ownership.NONE));
+            HANDLER.signalReceived(new Assistant(sourceAssistant, Ownership.NONE));
         }
         
-        public static void signalAssistantClose(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalAssistantClose(MemoryAddress sourceAssistant, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (Assistant.Close) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Assistant(source, Ownership.NONE));
+            HANDLER.signalReceived(new Assistant(sourceAssistant, Ownership.NONE));
         }
         
-        public static void signalAssistantEscape(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalAssistantEscape(MemoryAddress sourceAssistant, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (Assistant.Escape) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Assistant(source, Ownership.NONE));
+            HANDLER.signalReceived(new Assistant(sourceAssistant, Ownership.NONE));
         }
         
-        public static void signalAssistantPrepare(MemoryAddress source, MemoryAddress page, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalAssistantPrepare(MemoryAddress sourceAssistant, MemoryAddress page, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (Assistant.Prepare) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Assistant(source, Ownership.NONE), new org.gtk.gtk.Widget(page, Ownership.NONE));
+            HANDLER.signalReceived(new Assistant(sourceAssistant, Ownership.NONE), new org.gtk.gtk.Widget(page, Ownership.NONE));
         }
     }
 }

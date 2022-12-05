@@ -99,9 +99,8 @@ public class SpawnFlags extends io.github.jwharm.javagi.Bitfield {
      * @param mask the value to combine with
      * @return the combined value by calculating {@code this | mask} 
      */
-    public SpawnFlags combined(SpawnFlags mask) {
-        this.setValue(this.getValue() | mask.getValue());
-        return this;
+    public SpawnFlags or(SpawnFlags mask) {
+        return new SpawnFlags(this.getValue() | mask.getValue());
     }
     
     /**
@@ -111,9 +110,9 @@ public class SpawnFlags extends io.github.jwharm.javagi.Bitfield {
      * @return the combined value by calculating {@code mask | masks[0] | masks[1] | ...} 
      */
     public static SpawnFlags combined(SpawnFlags mask, SpawnFlags... masks) {
-        for (SpawnFlags arg : masks) {
-            mask.setValue(mask.getValue() | arg.getValue());
+        int value = mask.getValue();        for (SpawnFlags arg : masks) {
+            value |= arg.getValue();
         }
-        return mask;
+        return new SpawnFlags(value);
     }
 }

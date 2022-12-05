@@ -44,32 +44,4 @@ public class BuilderListItemFactoryClass extends Struct {
     public BuilderListItemFactoryClass(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
-
-    /**
-     * Inner class implementing a builder pattern to construct 
-     * a struct and set its values.
-     */
-    public static class Build {
-        
-        private BuilderListItemFactoryClass struct;
-        
-         /**
-         * A {@link BuilderListItemFactoryClass.Build} object constructs a {@link BuilderListItemFactoryClass} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
-            struct = BuilderListItemFactoryClass.allocate();
-        }
-        
-         /**
-         * Finish building the {@link BuilderListItemFactoryClass} struct.
-         * @return A new instance of {@code BuilderListItemFactoryClass} with the fields 
-         *         that were set in the Build object.
-         */
-        public BuilderListItemFactoryClass construct() {
-            return struct;
-        }
-    }
 }

@@ -51,7 +51,11 @@ public class CairoRenderer extends org.gtk.gsk.Renderer {
      * @throws ClassCastException If the GType is not derived from "GskCairoRenderer", a ClassCastException will be thrown.
      */
     public static CairoRenderer castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), CairoRenderer.getType())) {
             return new CairoRenderer(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GskCairoRenderer");
+        }
     }
     
     private static Addressable constructNew() {

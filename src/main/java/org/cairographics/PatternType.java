@@ -5,23 +5,35 @@ import java.lang.foreign.*;
 import java.lang.invoke.*;
 import org.jetbrains.annotations.*;
 
-public class PatternType extends io.github.jwharm.javagi.Enumeration {
+public enum PatternType implements io.github.jwharm.javagi.Enumeration {
+    SOLID(0),
+    SURFACE(1),
+    LINEAR(2),
+    RADIAL(3),
+    MESH(4),
+    RASTER_SOURCE(5);
     
     private static final java.lang.String C_TYPE_NAME = "cairo_pattern_type_t";
     
-    public static final PatternType SOLID = new PatternType(0);
+    private final int value;
+    PatternType(int value) {
+        this.value = value;
+    }
     
-    public static final PatternType SURFACE = new PatternType(1);
+    @Override
+    public int getValue() {
+        return value;
+    }
     
-    public static final PatternType LINEAR = new PatternType(2);
-    
-    public static final PatternType RADIAL = new PatternType(3);
-    
-    public static final PatternType MESH = new PatternType(4);
-    
-    public static final PatternType RASTER_SOURCE = new PatternType(5);
-    
-    public PatternType(int value) {
-        super(value);
+    public static PatternType of(int value) {
+        return switch (value) {
+            case 0 -> SOLID;
+            case 1 -> SURFACE;
+            case 2 -> LINEAR;
+            case 3 -> RADIAL;
+            case 4 -> MESH;
+            case 5 -> RASTER_SOURCE;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

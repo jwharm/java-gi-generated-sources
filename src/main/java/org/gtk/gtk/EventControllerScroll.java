@@ -81,7 +81,11 @@ public class EventControllerScroll extends org.gtk.gtk.EventController {
      * @throws ClassCastException If the GType is not derived from "GtkEventControllerScroll", a ClassCastException will be thrown.
      */
     public static EventControllerScroll castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), EventControllerScroll.getType())) {
             return new EventControllerScroll(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkEventControllerScroll");
+        }
     }
     
     private static Addressable constructNew(@NotNull org.gtk.gtk.EventControllerScrollFlags flags) {
@@ -135,7 +139,7 @@ public class EventControllerScroll extends org.gtk.gtk.EventController {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gdk.ScrollUnit(RESULT);
+        return org.gtk.gdk.ScrollUnit.of(RESULT);
     }
     
     /**
@@ -169,7 +173,7 @@ public class EventControllerScroll extends org.gtk.gtk.EventController {
     
     @FunctionalInterface
     public interface Decelerate {
-        void signalReceived(EventControllerScroll source, double velX, double velY);
+        void signalReceived(EventControllerScroll sourceEventControllerScroll, double velX, double velY);
     }
     
     /**
@@ -202,7 +206,7 @@ public class EventControllerScroll extends org.gtk.gtk.EventController {
     
     @FunctionalInterface
     public interface Scroll {
-        boolean signalReceived(EventControllerScroll source, double dx, double dy);
+        boolean signalReceived(EventControllerScroll sourceEventControllerScroll, double dx, double dy);
     }
     
     /**
@@ -234,7 +238,7 @@ public class EventControllerScroll extends org.gtk.gtk.EventController {
     
     @FunctionalInterface
     public interface ScrollBegin {
-        void signalReceived(EventControllerScroll source);
+        void signalReceived(EventControllerScroll sourceEventControllerScroll);
     }
     
     /**
@@ -264,7 +268,7 @@ public class EventControllerScroll extends org.gtk.gtk.EventController {
     
     @FunctionalInterface
     public interface ScrollEnd {
-        void signalReceived(EventControllerScroll source);
+        void signalReceived(EventControllerScroll sourceEventControllerScroll);
     }
     
     /**
@@ -373,28 +377,28 @@ public class EventControllerScroll extends org.gtk.gtk.EventController {
     
     private static class Callbacks {
         
-        public static void signalEventControllerScrollDecelerate(MemoryAddress source, double velX, double velY, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalEventControllerScrollDecelerate(MemoryAddress sourceEventControllerScroll, double velX, double velY, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (EventControllerScroll.Decelerate) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new EventControllerScroll(source, Ownership.NONE), velX, velY);
+            HANDLER.signalReceived(new EventControllerScroll(sourceEventControllerScroll, Ownership.NONE), velX, velY);
         }
         
-        public static boolean signalEventControllerScrollScroll(MemoryAddress source, double dx, double dy, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static boolean signalEventControllerScrollScroll(MemoryAddress sourceEventControllerScroll, double dx, double dy, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (EventControllerScroll.Scroll) Interop.signalRegistry.get(HASH);
-            return HANDLER.signalReceived(new EventControllerScroll(source, Ownership.NONE), dx, dy);
+            return HANDLER.signalReceived(new EventControllerScroll(sourceEventControllerScroll, Ownership.NONE), dx, dy);
         }
         
-        public static void signalEventControllerScrollScrollBegin(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalEventControllerScrollScrollBegin(MemoryAddress sourceEventControllerScroll, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (EventControllerScroll.ScrollBegin) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new EventControllerScroll(source, Ownership.NONE));
+            HANDLER.signalReceived(new EventControllerScroll(sourceEventControllerScroll, Ownership.NONE));
         }
         
-        public static void signalEventControllerScrollScrollEnd(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalEventControllerScrollScrollEnd(MemoryAddress sourceEventControllerScroll, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (EventControllerScroll.ScrollEnd) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new EventControllerScroll(source, Ownership.NONE));
+            HANDLER.signalReceived(new EventControllerScroll(sourceEventControllerScroll, Ownership.NONE));
         }
     }
 }

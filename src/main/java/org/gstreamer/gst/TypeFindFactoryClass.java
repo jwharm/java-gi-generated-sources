@@ -44,32 +44,4 @@ public class TypeFindFactoryClass extends Struct {
     public TypeFindFactoryClass(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
-
-    /**
-     * Inner class implementing a builder pattern to construct 
-     * a struct and set its values.
-     */
-    public static class Build {
-        
-        private TypeFindFactoryClass struct;
-        
-         /**
-         * A {@link TypeFindFactoryClass.Build} object constructs a {@link TypeFindFactoryClass} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
-            struct = TypeFindFactoryClass.allocate();
-        }
-        
-         /**
-         * Finish building the {@link TypeFindFactoryClass} struct.
-         * @return A new instance of {@code TypeFindFactoryClass} with the fields 
-         *         that were set in the Build object.
-         */
-        public TypeFindFactoryClass construct() {
-            return struct;
-        }
-    }
 }

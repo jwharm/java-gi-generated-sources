@@ -772,32 +772,4 @@ public class Bitset extends Struct {
             false
         );
     }
-
-    /**
-     * Inner class implementing a builder pattern to construct 
-     * a struct and set its values.
-     */
-    public static class Build {
-        
-        private Bitset struct;
-        
-         /**
-         * A {@link Bitset.Build} object constructs a {@link Bitset} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
-            struct = Bitset.allocate();
-        }
-        
-         /**
-         * Finish building the {@link Bitset} struct.
-         * @return A new instance of {@code Bitset} with the fields 
-         *         that were set in the Build object.
-         */
-        public Bitset construct() {
-            return struct;
-        }
-    }
 }

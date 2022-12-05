@@ -44,32 +44,4 @@ public class ProxyAddressPrivate extends Struct {
     public ProxyAddressPrivate(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
-
-    /**
-     * Inner class implementing a builder pattern to construct 
-     * a struct and set its values.
-     */
-    public static class Build {
-        
-        private ProxyAddressPrivate struct;
-        
-         /**
-         * A {@link ProxyAddressPrivate.Build} object constructs a {@link ProxyAddressPrivate} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
-            struct = ProxyAddressPrivate.allocate();
-        }
-        
-         /**
-         * Finish building the {@link ProxyAddressPrivate} struct.
-         * @return A new instance of {@code ProxyAddressPrivate} with the fields 
-         *         that were set in the Build object.
-         */
-        public ProxyAddressPrivate construct() {
-            return struct;
-        }
-    }
 }

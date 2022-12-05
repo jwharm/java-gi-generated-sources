@@ -54,7 +54,11 @@ public class BinLayout extends org.gtk.gtk.LayoutManager {
      * @throws ClassCastException If the GType is not derived from "GtkBinLayout", a ClassCastException will be thrown.
      */
     public static BinLayout castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), BinLayout.getType())) {
             return new BinLayout(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkBinLayout");
+        }
     }
     
     private static Addressable constructNew() {

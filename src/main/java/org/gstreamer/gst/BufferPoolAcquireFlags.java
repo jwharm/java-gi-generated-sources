@@ -49,9 +49,8 @@ public class BufferPoolAcquireFlags extends io.github.jwharm.javagi.Bitfield {
      * @param mask the value to combine with
      * @return the combined value by calculating {@code this | mask} 
      */
-    public BufferPoolAcquireFlags combined(BufferPoolAcquireFlags mask) {
-        this.setValue(this.getValue() | mask.getValue());
-        return this;
+    public BufferPoolAcquireFlags or(BufferPoolAcquireFlags mask) {
+        return new BufferPoolAcquireFlags(this.getValue() | mask.getValue());
     }
     
     /**
@@ -61,9 +60,9 @@ public class BufferPoolAcquireFlags extends io.github.jwharm.javagi.Bitfield {
      * @return the combined value by calculating {@code mask | masks[0] | masks[1] | ...} 
      */
     public static BufferPoolAcquireFlags combined(BufferPoolAcquireFlags mask, BufferPoolAcquireFlags... masks) {
-        for (BufferPoolAcquireFlags arg : masks) {
-            mask.setValue(mask.getValue() | arg.getValue());
+        int value = mask.getValue();        for (BufferPoolAcquireFlags arg : masks) {
+            value |= arg.getValue();
         }
-        return mask;
+        return new BufferPoolAcquireFlags(value);
     }
 }

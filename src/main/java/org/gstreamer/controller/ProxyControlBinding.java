@@ -34,12 +34,19 @@ public class ProxyControlBinding extends org.gstreamer.gst.ControlBinding {
     
     /**
      * Create a ProxyControlBinding proxy instance for the provided memory address.
+     * <p>
+     * Because ProxyControlBinding is an {@code InitiallyUnowned} instance, when 
+     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
+     * and a call to {@code refSink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
     @ApiStatus.Internal
     public ProxyControlBinding(Addressable address, Ownership ownership) {
-        super(address, ownership);
+        super(address, Ownership.FULL);
+        if (ownership == Ownership.NONE) {
+            refSink();
+        }
     }
     
     /**
@@ -55,7 +62,11 @@ public class ProxyControlBinding extends org.gstreamer.gst.ControlBinding {
      * @throws ClassCastException If the GType is not derived from "GstProxyControlBinding", a ClassCastException will be thrown.
      */
     public static ProxyControlBinding castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), ProxyControlBinding.getType())) {
             return new ProxyControlBinding(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GstProxyControlBinding");
+        }
     }
     
     private static Addressable constructNew(@NotNull org.gstreamer.gst.Object object, @NotNull java.lang.String propertyName, @NotNull org.gstreamer.gst.Object refObject, @NotNull java.lang.String refPropertyName) {

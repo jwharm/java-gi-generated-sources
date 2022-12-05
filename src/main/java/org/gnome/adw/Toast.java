@@ -161,7 +161,11 @@ public class Toast extends org.gtk.gobject.Object {
      * @throws ClassCastException If the GType is not derived from "AdwToast", a ClassCastException will be thrown.
      */
     public static Toast castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), Toast.getType())) {
             return new Toast(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of AdwToast");
+        }
     }
     
     private static Addressable constructNew(@NotNull java.lang.String title) {
@@ -302,7 +306,7 @@ public class Toast extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gnome.adw.ToastPriority(RESULT);
+        return org.gnome.adw.ToastPriority.of(RESULT);
     }
     
     /**
@@ -533,7 +537,7 @@ public class Toast extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface ButtonClicked {
-        void signalReceived(Toast source);
+        void signalReceived(Toast sourceToast);
     }
     
     /**
@@ -563,7 +567,7 @@ public class Toast extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface Dismissed {
-        void signalReceived(Toast source);
+        void signalReceived(Toast sourceToast);
     }
     
     /**
@@ -861,16 +865,16 @@ public class Toast extends org.gtk.gobject.Object {
     
     private static class Callbacks {
         
-        public static void signalToastButtonClicked(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalToastButtonClicked(MemoryAddress sourceToast, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (Toast.ButtonClicked) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Toast(source, Ownership.NONE));
+            HANDLER.signalReceived(new Toast(sourceToast, Ownership.NONE));
         }
         
-        public static void signalToastDismissed(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalToastDismissed(MemoryAddress sourceToast, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (Toast.Dismissed) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Toast(source, Ownership.NONE));
+            HANDLER.signalReceived(new Toast(sourceToast, Ownership.NONE));
         }
     }
 }

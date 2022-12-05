@@ -61,7 +61,11 @@ public class EntryBuffer extends org.gtk.gobject.Object {
      * @throws ClassCastException If the GType is not derived from "GtkEntryBuffer", a ClassCastException will be thrown.
      */
     public static EntryBuffer castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), EntryBuffer.getType())) {
             return new EntryBuffer(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkEntryBuffer");
+        }
     }
     
     private static Addressable constructNew(@Nullable java.lang.String initialChars, int nInitialChars) {
@@ -307,7 +311,7 @@ public class EntryBuffer extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface DeletedText {
-        void signalReceived(EntryBuffer source, int position, int nChars);
+        void signalReceived(EntryBuffer sourceEntryBuffer, int position, int nChars);
     }
     
     /**
@@ -338,7 +342,7 @@ public class EntryBuffer extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface InsertedText {
-        void signalReceived(EntryBuffer source, int position, @NotNull java.lang.String chars, int nChars);
+        void signalReceived(EntryBuffer sourceEntryBuffer, int position, @NotNull java.lang.String chars, int nChars);
     }
     
     /**
@@ -509,16 +513,16 @@ public class EntryBuffer extends org.gtk.gobject.Object {
     
     private static class Callbacks {
         
-        public static void signalEntryBufferDeletedText(MemoryAddress source, int position, int nChars, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalEntryBufferDeletedText(MemoryAddress sourceEntryBuffer, int position, int nChars, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (EntryBuffer.DeletedText) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new EntryBuffer(source, Ownership.NONE), position, nChars);
+            HANDLER.signalReceived(new EntryBuffer(sourceEntryBuffer, Ownership.NONE), position, nChars);
         }
         
-        public static void signalEntryBufferInsertedText(MemoryAddress source, int position, MemoryAddress chars, int nChars, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalEntryBufferInsertedText(MemoryAddress sourceEntryBuffer, int position, MemoryAddress chars, int nChars, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (EntryBuffer.InsertedText) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new EntryBuffer(source, Ownership.NONE), position, Interop.getStringFrom(chars), nChars);
+            HANDLER.signalReceived(new EntryBuffer(sourceEntryBuffer, Ownership.NONE), position, Interop.getStringFrom(chars), nChars);
         }
     }
 }

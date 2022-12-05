@@ -8,41 +8,53 @@ import org.jetbrains.annotations.*;
 /**
  * Used to reference the parts of {@code GtkTextView}.
  */
-public class TextWindowType extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "GtkTextWindowType";
-    
+public enum TextWindowType implements io.github.jwharm.javagi.Enumeration {
     /**
      * Window that floats over scrolling areas.
      */
-    public static final TextWindowType WIDGET = new TextWindowType(1);
-    
+    WIDGET(1),
     /**
      * Scrollable text window.
      */
-    public static final TextWindowType TEXT = new TextWindowType(2);
-    
+    TEXT(2),
     /**
      * Left side border window.
      */
-    public static final TextWindowType LEFT = new TextWindowType(3);
-    
+    LEFT(3),
     /**
      * Right side border window.
      */
-    public static final TextWindowType RIGHT = new TextWindowType(4);
-    
+    RIGHT(4),
     /**
      * Top border window.
      */
-    public static final TextWindowType TOP = new TextWindowType(5);
-    
+    TOP(5),
     /**
      * Bottom border window.
      */
-    public static final TextWindowType BOTTOM = new TextWindowType(6);
+    BOTTOM(6);
     
-    public TextWindowType(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "GtkTextWindowType";
+    
+    private final int value;
+    TextWindowType(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static TextWindowType of(int value) {
+        return switch (value) {
+            case 1 -> WIDGET;
+            case 2 -> TEXT;
+            case 3 -> LEFT;
+            case 4 -> RIGHT;
+            case 5 -> TOP;
+            case 6 -> BOTTOM;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

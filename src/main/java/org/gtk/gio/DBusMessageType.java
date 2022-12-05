@@ -9,36 +9,48 @@ import org.jetbrains.annotations.*;
  * Message types used in {@link DBusMessage}.
  * @version 2.26
  */
-public class DBusMessageType extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "GDBusMessageType";
-    
+public enum DBusMessageType implements io.github.jwharm.javagi.Enumeration {
     /**
      * Message is of invalid type.
      */
-    public static final DBusMessageType INVALID = new DBusMessageType(0);
-    
+    INVALID(0),
     /**
      * Method call.
      */
-    public static final DBusMessageType METHOD_CALL = new DBusMessageType(1);
-    
+    METHOD_CALL(1),
     /**
      * Method reply.
      */
-    public static final DBusMessageType METHOD_RETURN = new DBusMessageType(2);
-    
+    METHOD_RETURN(2),
     /**
      * Error reply.
      */
-    public static final DBusMessageType ERROR = new DBusMessageType(3);
-    
+    ERROR(3),
     /**
      * Signal emission.
      */
-    public static final DBusMessageType SIGNAL = new DBusMessageType(4);
+    SIGNAL(4);
     
-    public DBusMessageType(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "GDBusMessageType";
+    
+    private final int value;
+    DBusMessageType(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static DBusMessageType of(int value) {
+        return switch (value) {
+            case 0 -> INVALID;
+            case 1 -> METHOD_CALL;
+            case 2 -> METHOD_RETURN;
+            case 3 -> ERROR;
+            case 4 -> SIGNAL;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

@@ -57,7 +57,11 @@ public class ConverterOutputStream extends org.gtk.gio.FilterOutputStream implem
      * @throws ClassCastException If the GType is not derived from "GConverterOutputStream", a ClassCastException will be thrown.
      */
     public static ConverterOutputStream castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), ConverterOutputStream.getType())) {
             return new ConverterOutputStream(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GConverterOutputStream");
+        }
     }
     
     private static Addressable constructNew(@NotNull org.gtk.gio.OutputStream baseStream, @NotNull org.gtk.gio.Converter converter) {

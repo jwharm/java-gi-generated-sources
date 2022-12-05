@@ -44,32 +44,4 @@ public class ShortcutLabelClass extends Struct {
     public ShortcutLabelClass(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
-
-    /**
-     * Inner class implementing a builder pattern to construct 
-     * a struct and set its values.
-     */
-    public static class Build {
-        
-        private ShortcutLabelClass struct;
-        
-         /**
-         * A {@link ShortcutLabelClass.Build} object constructs a {@link ShortcutLabelClass} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
-            struct = ShortcutLabelClass.allocate();
-        }
-        
-         /**
-         * Finish building the {@link ShortcutLabelClass} struct.
-         * @return A new instance of {@code ShortcutLabelClass} with the fields 
-         *         that were set in the Build object.
-         */
-        public ShortcutLabelClass construct() {
-            return struct;
-        }
-    }
 }

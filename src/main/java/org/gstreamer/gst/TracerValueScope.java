@@ -13,31 +13,43 @@ import org.jetbrains.annotations.*;
  * events may contain values for different {@code GstPads}.
  * @version 1.8
  */
-public class TracerValueScope extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "GstTracerValueScope";
-    
+public enum TracerValueScope implements io.github.jwharm.javagi.Enumeration {
     /**
      * the value is related to the process
      */
-    public static final TracerValueScope PROCESS = new TracerValueScope(0);
-    
+    PROCESS(0),
     /**
      * the value is related to a thread
      */
-    public static final TracerValueScope THREAD = new TracerValueScope(1);
-    
+    THREAD(1),
     /**
      * the value is related to an {@link Element}
      */
-    public static final TracerValueScope ELEMENT = new TracerValueScope(2);
-    
+    ELEMENT(2),
     /**
      * the value is related to a {@link Pad}
      */
-    public static final TracerValueScope PAD = new TracerValueScope(3);
+    PAD(3);
     
-    public TracerValueScope(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "GstTracerValueScope";
+    
+    private final int value;
+    TracerValueScope(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static TracerValueScope of(int value) {
+        return switch (value) {
+            case 0 -> PROCESS;
+            case 1 -> THREAD;
+            case 2 -> ELEMENT;
+            case 3 -> PAD;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

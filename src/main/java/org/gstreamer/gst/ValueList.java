@@ -48,7 +48,11 @@ public class ValueList extends io.github.jwharm.javagi.ObjectBase {
      * @throws ClassCastException If the GType is not derived from "ValueList", a ClassCastException will be thrown.
      */
     public static ValueList castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), ValueList.getType())) {
             return new ValueList(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of ValueList");
+        }
     }
     
     /**

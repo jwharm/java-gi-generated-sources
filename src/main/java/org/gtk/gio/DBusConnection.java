@@ -93,7 +93,11 @@ public class DBusConnection extends org.gtk.gobject.Object implements org.gtk.gi
      * @throws ClassCastException If the GType is not derived from "GDBusConnection", a ClassCastException will be thrown.
      */
     public static DBusConnection castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), DBusConnection.getType())) {
             return new DBusConnection(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GDBusConnection");
+        }
     }
     
     private static Addressable constructNewFinish(@NotNull org.gtk.gio.AsyncResult res) throws GErrorException {
@@ -1899,7 +1903,7 @@ public class DBusConnection extends org.gtk.gobject.Object implements org.gtk.gi
     
     @FunctionalInterface
     public interface Closed {
-        void signalReceived(DBusConnection source, boolean remotePeerVanished, @Nullable org.gtk.glib.Error error);
+        void signalReceived(DBusConnection sourceDBusConnection, boolean remotePeerVanished, @Nullable org.gtk.glib.Error error);
     }
     
     /**
@@ -2406,10 +2410,10 @@ public class DBusConnection extends org.gtk.gobject.Object implements org.gtk.gi
     
     private static class Callbacks {
         
-        public static void signalDBusConnectionClosed(MemoryAddress source, int remotePeerVanished, MemoryAddress error, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalDBusConnectionClosed(MemoryAddress sourceDBusConnection, int remotePeerVanished, MemoryAddress error, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (DBusConnection.Closed) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new DBusConnection(source, Ownership.NONE), remotePeerVanished != 0, new org.gtk.glib.Error(error, Ownership.NONE));
+            HANDLER.signalReceived(new DBusConnection(sourceDBusConnection, Ownership.NONE), remotePeerVanished != 0, new org.gtk.glib.Error(error, Ownership.NONE));
         }
     }
 }

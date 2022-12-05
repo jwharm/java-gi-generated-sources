@@ -5,27 +5,39 @@ import java.lang.foreign.*;
 import java.lang.invoke.*;
 import org.jetbrains.annotations.*;
 
-public class DebugColorMode extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "GstDebugColorMode";
-    
+public enum DebugColorMode implements io.github.jwharm.javagi.Enumeration {
     /**
      * Do not use colors in logs.
      */
-    public static final DebugColorMode OFF = new DebugColorMode(0);
-    
+    OFF(0),
     /**
      * Paint logs in a platform-specific way.
      */
-    public static final DebugColorMode ON = new DebugColorMode(1);
-    
+    ON(1),
     /**
      * Paint logs with UNIX terminal color codes
      *                             no matter what platform GStreamer is running on.
      */
-    public static final DebugColorMode UNIX = new DebugColorMode(2);
+    UNIX(2);
     
-    public DebugColorMode(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "GstDebugColorMode";
+    
+    private final int value;
+    DebugColorMode(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static DebugColorMode of(int value) {
+        return switch (value) {
+            case 0 -> OFF;
+            case 1 -> ON;
+            case 2 -> UNIX;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

@@ -92,7 +92,11 @@ public class Notification extends org.gtk.gobject.Object {
      * @throws ClassCastException If the GType is not derived from "GNotification", a ClassCastException will be thrown.
      */
     public static Notification castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), Notification.getType())) {
             return new Notification(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GNotification");
+        }
     }
     
     private static Addressable constructNew(@NotNull java.lang.String title) {

@@ -9,25 +9,19 @@ import org.jetbrains.annotations.*;
  * The {@code PangoUnderline} enumeration is used to specify whether text
  * should be underlined, and if so, the type of underlining.
  */
-public class Underline extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "PangoUnderline";
-    
+public enum Underline implements io.github.jwharm.javagi.Enumeration {
     /**
      * no underline should be drawn
      */
-    public static final Underline NONE = new Underline(0);
-    
+    NONE(0),
     /**
      * a single underline should be drawn
      */
-    public static final Underline SINGLE = new Underline(1);
-    
+    SINGLE(1),
     /**
      * a double underline should be drawn
      */
-    public static final Underline DOUBLE = new Underline(2);
-    
+    DOUBLE(2),
     /**
      * a single underline should be drawn at a
      *   position beneath the ink extents of the text being
@@ -36,8 +30,7 @@ public class Underline extends io.github.jwharm.javagi.Enumeration {
      *   {@link Underline#SINGLE} should be used for extended
      *   portions of text.
      */
-    public static final Underline LOW = new Underline(3);
-    
+    LOW(3),
     /**
      * an underline indicating an error should
      *   be drawn below. The exact style of rendering is up to the
@@ -48,30 +41,49 @@ public class Underline extends io.github.jwharm.javagi.Enumeration {
      *   may automatically be used. This type of underlining is
      *   available since Pango 1.4.
      */
-    public static final Underline ERROR = new Underline(4);
-    
+    ERROR(4),
     /**
      * Like {@code PANGO_UNDERLINE_SINGLE}, but
      *   drawn continuously across multiple runs. This type
      *   of underlining is available since Pango 1.46.
      */
-    public static final Underline SINGLE_LINE = new Underline(5);
-    
+    SINGLE_LINE(5),
     /**
      * Like {@code PANGO_UNDERLINE_DOUBLE}, but
      *   drawn continuously across multiple runs. This type
      *   of underlining is available since Pango 1.46.
      */
-    public static final Underline DOUBLE_LINE = new Underline(6);
-    
+    DOUBLE_LINE(6),
     /**
      * Like {@code PANGO_UNDERLINE_ERROR}, but
      *   drawn continuously across multiple runs. This type
      *   of underlining is available since Pango 1.46.
      */
-    public static final Underline ERROR_LINE = new Underline(7);
+    ERROR_LINE(7);
     
-    public Underline(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "PangoUnderline";
+    
+    private final int value;
+    Underline(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static Underline of(int value) {
+        return switch (value) {
+            case 0 -> NONE;
+            case 1 -> SINGLE;
+            case 2 -> DOUBLE;
+            case 3 -> LOW;
+            case 4 -> ERROR;
+            case 5 -> SINGLE_LINE;
+            case 6 -> DOUBLE_LINE;
+            case 7 -> ERROR_LINE;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

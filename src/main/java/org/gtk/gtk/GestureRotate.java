@@ -51,7 +51,11 @@ public class GestureRotate extends org.gtk.gtk.Gesture {
      * @throws ClassCastException If the GType is not derived from "GtkGestureRotate", a ClassCastException will be thrown.
      */
     public static GestureRotate castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), GestureRotate.getType())) {
             return new GestureRotate(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkGestureRotate");
+        }
     }
     
     private static Addressable constructNew() {
@@ -107,7 +111,7 @@ public class GestureRotate extends org.gtk.gtk.Gesture {
     
     @FunctionalInterface
     public interface AngleChanged {
-        void signalReceived(GestureRotate source, double angle, double angleDelta);
+        void signalReceived(GestureRotate sourceGestureRotate, double angle, double angleDelta);
     }
     
     /**
@@ -191,10 +195,10 @@ public class GestureRotate extends org.gtk.gtk.Gesture {
     
     private static class Callbacks {
         
-        public static void signalGestureRotateAngleChanged(MemoryAddress source, double angle, double angleDelta, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalGestureRotateAngleChanged(MemoryAddress sourceGestureRotate, double angle, double angleDelta, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (GestureRotate.AngleChanged) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new GestureRotate(source, Ownership.NONE), angle, angleDelta);
+            HANDLER.signalReceived(new GestureRotate(sourceGestureRotate, Ownership.NONE), angle, angleDelta);
         }
     }
 }

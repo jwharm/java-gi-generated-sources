@@ -61,7 +61,11 @@ public class UnixInputStream extends org.gtk.gio.InputStream implements org.gtk.
      * @throws ClassCastException If the GType is not derived from "GUnixInputStream", a ClassCastException will be thrown.
      */
     public static UnixInputStream castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), UnixInputStream.getType())) {
             return new UnixInputStream(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GUnixInputStream");
+        }
     }
     
     private static Addressable constructNew(int fd, boolean closeFd) {

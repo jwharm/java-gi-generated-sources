@@ -44,32 +44,4 @@ public class ListViewClass extends Struct {
     public ListViewClass(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
-
-    /**
-     * Inner class implementing a builder pattern to construct 
-     * a struct and set its values.
-     */
-    public static class Build {
-        
-        private ListViewClass struct;
-        
-         /**
-         * A {@link ListViewClass.Build} object constructs a {@link ListViewClass} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
-            struct = ListViewClass.allocate();
-        }
-        
-         /**
-         * Finish building the {@link ListViewClass} struct.
-         * @return A new instance of {@code ListViewClass} with the fields 
-         *         that were set in the Build object.
-         */
-        public ListViewClass construct() {
-            return struct;
-        }
-    }
 }

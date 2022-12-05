@@ -73,7 +73,11 @@ public class FileIOStream extends org.gtk.gio.IOStream implements org.gtk.gio.Se
      * @throws ClassCastException If the GType is not derived from "GFileIOStream", a ClassCastException will be thrown.
      */
     public static FileIOStream castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), FileIOStream.getType())) {
             return new FileIOStream(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GFileIOStream");
+        }
     }
     
     /**

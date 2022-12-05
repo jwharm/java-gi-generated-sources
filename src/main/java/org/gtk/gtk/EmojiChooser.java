@@ -53,12 +53,19 @@ public class EmojiChooser extends org.gtk.gtk.Popover implements org.gtk.gtk.Acc
     
     /**
      * Create a EmojiChooser proxy instance for the provided memory address.
+     * <p>
+     * Because EmojiChooser is an {@code InitiallyUnowned} instance, when 
+     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
+     * and a call to {@code refSink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
     @ApiStatus.Internal
     public EmojiChooser(Addressable address, Ownership ownership) {
-        super(address, ownership);
+        super(address, Ownership.FULL);
+        if (ownership == Ownership.NONE) {
+            refSink();
+        }
     }
     
     /**
@@ -74,7 +81,11 @@ public class EmojiChooser extends org.gtk.gtk.Popover implements org.gtk.gtk.Acc
      * @throws ClassCastException If the GType is not derived from "GtkEmojiChooser", a ClassCastException will be thrown.
      */
     public static EmojiChooser castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), EmojiChooser.getType())) {
             return new EmojiChooser(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkEmojiChooser");
+        }
     }
     
     private static Addressable constructNew() {
@@ -110,7 +121,7 @@ public class EmojiChooser extends org.gtk.gtk.Popover implements org.gtk.gtk.Acc
     
     @FunctionalInterface
     public interface EmojiPicked {
-        void signalReceived(EmojiChooser source, @NotNull java.lang.String text);
+        void signalReceived(EmojiChooser sourceEmojiChooser, @NotNull java.lang.String text);
     }
     
     /**
@@ -188,10 +199,10 @@ public class EmojiChooser extends org.gtk.gtk.Popover implements org.gtk.gtk.Acc
     
     private static class Callbacks {
         
-        public static void signalEmojiChooserEmojiPicked(MemoryAddress source, MemoryAddress text, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalEmojiChooserEmojiPicked(MemoryAddress sourceEmojiChooser, MemoryAddress text, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (EmojiChooser.EmojiPicked) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new EmojiChooser(source, Ownership.NONE), Interop.getStringFrom(text));
+            HANDLER.signalReceived(new EmojiChooser(sourceEmojiChooser, Ownership.NONE), Interop.getStringFrom(text));
         }
     }
 }

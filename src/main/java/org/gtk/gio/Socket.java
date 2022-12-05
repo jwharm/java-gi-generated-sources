@@ -104,7 +104,11 @@ public class Socket extends org.gtk.gobject.Object implements org.gtk.gio.Datagr
      * @throws ClassCastException If the GType is not derived from "GSocket", a ClassCastException will be thrown.
      */
     public static Socket castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), Socket.getType())) {
             return new Socket(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GSocket");
+        }
     }
     
     private static Addressable constructNew(@NotNull org.gtk.gio.SocketFamily family, @NotNull org.gtk.gio.SocketType type, @NotNull org.gtk.gio.SocketProtocol protocol) throws GErrorException {
@@ -665,7 +669,7 @@ public class Socket extends org.gtk.gobject.Object implements org.gtk.gio.Datagr
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.SocketFamily(RESULT);
+        return org.gtk.gio.SocketFamily.of(RESULT);
     }
     
     /**
@@ -833,7 +837,7 @@ public class Socket extends org.gtk.gobject.Object implements org.gtk.gio.Datagr
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.SocketProtocol(RESULT);
+        return org.gtk.gio.SocketProtocol.of(RESULT);
     }
     
     /**
@@ -871,7 +875,7 @@ public class Socket extends org.gtk.gobject.Object implements org.gtk.gio.Datagr
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.SocketType(RESULT);
+        return org.gtk.gio.SocketType.of(RESULT);
     }
     
     /**
@@ -1633,7 +1637,7 @@ public class Socket extends org.gtk.gobject.Object implements org.gtk.gio.Datagr
             throw new GErrorException(GERROR);
         }
         bytesWritten.set(bytesWrittenPOINTER.get(Interop.valueLayout.C_LONG, 0));
-        return new org.gtk.gio.PollableReturn(RESULT);
+        return org.gtk.gio.PollableReturn.of(RESULT);
     }
     
     /**

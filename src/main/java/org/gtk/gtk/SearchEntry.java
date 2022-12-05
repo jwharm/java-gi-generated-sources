@@ -68,12 +68,19 @@ public class SearchEntry extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
     
     /**
      * Create a SearchEntry proxy instance for the provided memory address.
+     * <p>
+     * Because SearchEntry is an {@code InitiallyUnowned} instance, when 
+     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
+     * and a call to {@code refSink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
     @ApiStatus.Internal
     public SearchEntry(Addressable address, Ownership ownership) {
-        super(address, ownership);
+        super(address, Ownership.FULL);
+        if (ownership == Ownership.NONE) {
+            refSink();
+        }
     }
     
     /**
@@ -89,7 +96,11 @@ public class SearchEntry extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
      * @throws ClassCastException If the GType is not derived from "GtkSearchEntry", a ClassCastException will be thrown.
      */
     public static SearchEntry castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), SearchEntry.getType())) {
             return new SearchEntry(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkSearchEntry");
+        }
     }
     
     private static Addressable constructNew() {
@@ -201,7 +212,7 @@ public class SearchEntry extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
     
     @FunctionalInterface
     public interface Activate {
-        void signalReceived(SearchEntry source);
+        void signalReceived(SearchEntry sourceSearchEntry);
     }
     
     /**
@@ -231,7 +242,7 @@ public class SearchEntry extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
     
     @FunctionalInterface
     public interface NextMatch {
-        void signalReceived(SearchEntry source);
+        void signalReceived(SearchEntry sourceSearchEntry);
     }
     
     /**
@@ -267,7 +278,7 @@ public class SearchEntry extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
     
     @FunctionalInterface
     public interface PreviousMatch {
-        void signalReceived(SearchEntry source);
+        void signalReceived(SearchEntry sourceSearchEntry);
     }
     
     /**
@@ -303,7 +314,7 @@ public class SearchEntry extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
     
     @FunctionalInterface
     public interface SearchChanged {
-        void signalReceived(SearchEntry source);
+        void signalReceived(SearchEntry sourceSearchEntry);
     }
     
     /**
@@ -333,7 +344,7 @@ public class SearchEntry extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
     
     @FunctionalInterface
     public interface SearchStarted {
-        void signalReceived(SearchEntry source);
+        void signalReceived(SearchEntry sourceSearchEntry);
     }
     
     /**
@@ -361,7 +372,7 @@ public class SearchEntry extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
     
     @FunctionalInterface
     public interface StopSearch {
-        void signalReceived(SearchEntry source);
+        void signalReceived(SearchEntry sourceSearchEntry);
     }
     
     /**
@@ -505,40 +516,40 @@ public class SearchEntry extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
     
     private static class Callbacks {
         
-        public static void signalSearchEntryActivate(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalSearchEntryActivate(MemoryAddress sourceSearchEntry, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (SearchEntry.Activate) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new SearchEntry(source, Ownership.NONE));
+            HANDLER.signalReceived(new SearchEntry(sourceSearchEntry, Ownership.NONE));
         }
         
-        public static void signalSearchEntryNextMatch(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalSearchEntryNextMatch(MemoryAddress sourceSearchEntry, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (SearchEntry.NextMatch) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new SearchEntry(source, Ownership.NONE));
+            HANDLER.signalReceived(new SearchEntry(sourceSearchEntry, Ownership.NONE));
         }
         
-        public static void signalSearchEntryPreviousMatch(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalSearchEntryPreviousMatch(MemoryAddress sourceSearchEntry, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (SearchEntry.PreviousMatch) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new SearchEntry(source, Ownership.NONE));
+            HANDLER.signalReceived(new SearchEntry(sourceSearchEntry, Ownership.NONE));
         }
         
-        public static void signalSearchEntrySearchChanged(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalSearchEntrySearchChanged(MemoryAddress sourceSearchEntry, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (SearchEntry.SearchChanged) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new SearchEntry(source, Ownership.NONE));
+            HANDLER.signalReceived(new SearchEntry(sourceSearchEntry, Ownership.NONE));
         }
         
-        public static void signalSearchEntrySearchStarted(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalSearchEntrySearchStarted(MemoryAddress sourceSearchEntry, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (SearchEntry.SearchStarted) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new SearchEntry(source, Ownership.NONE));
+            HANDLER.signalReceived(new SearchEntry(sourceSearchEntry, Ownership.NONE));
         }
         
-        public static void signalSearchEntryStopSearch(MemoryAddress source, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalSearchEntryStopSearch(MemoryAddress sourceSearchEntry, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (SearchEntry.StopSearch) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new SearchEntry(source, Ownership.NONE));
+            HANDLER.signalReceived(new SearchEntry(sourceSearchEntry, Ownership.NONE));
         }
     }
 }

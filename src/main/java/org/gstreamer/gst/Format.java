@@ -8,47 +8,59 @@ import org.jetbrains.annotations.*;
 /**
  * Standard predefined formats
  */
-public class Format extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "GstFormat";
-    
+public enum Format implements io.github.jwharm.javagi.Enumeration {
     /**
      * undefined format
      */
-    public static final Format UNDEFINED = new Format(0);
-    
+    UNDEFINED(0),
     /**
      * the default format of the pad/element. This can be
      *    samples for raw audio, frames/fields for raw video (some, but not all,
      *    elements support this; use {@code GST_FORMAT_TIME} if you don't have a good
      *    reason to query for samples/frames)
      */
-    public static final Format DEFAULT = new Format(1);
-    
+    DEFAULT(1),
     /**
      * bytes
      */
-    public static final Format BYTES = new Format(2);
-    
+    BYTES(2),
     /**
      * time in nanoseconds
      */
-    public static final Format TIME = new Format(3);
-    
+    TIME(3),
     /**
      * buffers (few, if any, elements implement this as of
      *     May 2009)
      */
-    public static final Format BUFFERS = new Format(4);
-    
+    BUFFERS(4),
     /**
      * percentage of stream (few, if any, elements implement
      *     this as of May 2009)
      */
-    public static final Format PERCENT = new Format(5);
+    PERCENT(5);
     
-    public Format(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "GstFormat";
+    
+    private final int value;
+    Format(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static Format of(int value) {
+        return switch (value) {
+            case 0 -> UNDEFINED;
+            case 1 -> DEFAULT;
+            case 2 -> BYTES;
+            case 3 -> TIME;
+            case 4 -> BUFFERS;
+            case 5 -> PERCENT;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
     
     /**
@@ -66,7 +78,7 @@ public class Format extends io.github.jwharm.javagi.Enumeration {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Format(RESULT);
+        return org.gstreamer.gst.Format.of(RESULT);
     }
     
     /**
@@ -143,7 +155,7 @@ public class Format extends io.github.jwharm.javagi.Enumeration {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Format(RESULT);
+        return org.gstreamer.gst.Format.of(RESULT);
     }
     
     /**

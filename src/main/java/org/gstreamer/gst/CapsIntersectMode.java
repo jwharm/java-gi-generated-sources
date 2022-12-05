@@ -27,21 +27,33 @@ import org.jetbrains.annotations.*;
  * Example: If caps1 is {@code [A, B, C]} and caps2 is {@code [E, B, D, A]}, the result
  * would be {@code [A, B]}, maintaining the first caps priority on the intersection.
  */
-public class CapsIntersectMode extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "GstCapsIntersectMode";
-    
+public enum CapsIntersectMode implements io.github.jwharm.javagi.Enumeration {
     /**
      * Zig-zags over both caps.
      */
-    public static final CapsIntersectMode ZIG_ZAG = new CapsIntersectMode(0);
-    
+    ZIG_ZAG(0),
     /**
      * Keeps the first caps order.
      */
-    public static final CapsIntersectMode FIRST = new CapsIntersectMode(1);
+    FIRST(1);
     
-    public CapsIntersectMode(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "GstCapsIntersectMode";
+    
+    private final int value;
+    CapsIntersectMode(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static CapsIntersectMode of(int value) {
+        return switch (value) {
+            case 0 -> ZIG_ZAG;
+            case 1 -> FIRST;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

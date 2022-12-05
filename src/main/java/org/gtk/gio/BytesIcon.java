@@ -50,7 +50,11 @@ public class BytesIcon extends org.gtk.gobject.Object implements org.gtk.gio.Ico
      * @throws ClassCastException If the GType is not derived from "GBytesIcon", a ClassCastException will be thrown.
      */
     public static BytesIcon castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), BytesIcon.getType())) {
             return new BytesIcon(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GBytesIcon");
+        }
     }
     
     private static Addressable constructNew(@NotNull org.gtk.glib.Bytes bytes) {

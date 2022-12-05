@@ -57,7 +57,11 @@ public class MemoryInputStream extends org.gtk.gio.InputStream implements org.gt
      * @throws ClassCastException If the GType is not derived from "GMemoryInputStream", a ClassCastException will be thrown.
      */
     public static MemoryInputStream castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), MemoryInputStream.getType())) {
             return new MemoryInputStream(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GMemoryInputStream");
+        }
     }
     
     private static Addressable constructNew() {

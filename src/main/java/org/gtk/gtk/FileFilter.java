@@ -92,7 +92,11 @@ public class FileFilter extends org.gtk.gtk.Filter implements org.gtk.gtk.Builda
      * @throws ClassCastException If the GType is not derived from "GtkFileFilter", a ClassCastException will be thrown.
      */
     public static FileFilter castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), FileFilter.getType())) {
             return new FileFilter(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkFileFilter");
+        }
     }
     
     private static Addressable constructNew() {

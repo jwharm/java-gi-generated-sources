@@ -334,12 +334,19 @@ public class CellArea extends org.gtk.gobject.InitiallyUnowned implements org.gt
     
     /**
      * Create a CellArea proxy instance for the provided memory address.
+     * <p>
+     * Because CellArea is an {@code InitiallyUnowned} instance, when 
+     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
+     * and a call to {@code refSink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
     @ApiStatus.Internal
     public CellArea(Addressable address, Ownership ownership) {
-        super(address, ownership);
+        super(address, Ownership.FULL);
+        if (ownership == Ownership.NONE) {
+            refSink();
+        }
     }
     
     /**
@@ -355,7 +362,11 @@ public class CellArea extends org.gtk.gobject.InitiallyUnowned implements org.gt
      * @throws ClassCastException If the GType is not derived from "GtkCellArea", a ClassCastException will be thrown.
      */
     public static CellArea castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), CellArea.getType())) {
             return new CellArea(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkCellArea");
+        }
     }
     
     /**
@@ -1196,7 +1207,7 @@ public class CellArea extends org.gtk.gobject.InitiallyUnowned implements org.gt
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.SizeRequestMode(RESULT);
+        return org.gtk.gtk.SizeRequestMode.of(RESULT);
     }
     
     /**
@@ -1440,7 +1451,7 @@ public class CellArea extends org.gtk.gobject.InitiallyUnowned implements org.gt
     
     @FunctionalInterface
     public interface AddEditable {
-        void signalReceived(CellArea source, @NotNull org.gtk.gtk.CellRenderer renderer, @NotNull org.gtk.gtk.CellEditable editable, @NotNull org.gtk.gdk.Rectangle cellArea, @NotNull java.lang.String path);
+        void signalReceived(CellArea sourceCellArea, @NotNull org.gtk.gtk.CellRenderer renderer, @NotNull org.gtk.gtk.CellEditable editable, @NotNull org.gtk.gdk.Rectangle cellArea, @NotNull java.lang.String path);
     }
     
     /**
@@ -1469,7 +1480,7 @@ public class CellArea extends org.gtk.gobject.InitiallyUnowned implements org.gt
     
     @FunctionalInterface
     public interface ApplyAttributes {
-        void signalReceived(CellArea source, @NotNull org.gtk.gtk.TreeModel model, @NotNull org.gtk.gtk.TreeIter iter, boolean isExpander, boolean isExpanded);
+        void signalReceived(CellArea sourceCellArea, @NotNull org.gtk.gtk.TreeModel model, @NotNull org.gtk.gtk.TreeIter iter, boolean isExpander, boolean isExpanded);
     }
     
     /**
@@ -1497,7 +1508,7 @@ public class CellArea extends org.gtk.gobject.InitiallyUnowned implements org.gt
     
     @FunctionalInterface
     public interface FocusChanged {
-        void signalReceived(CellArea source, @NotNull org.gtk.gtk.CellRenderer renderer, @NotNull java.lang.String path);
+        void signalReceived(CellArea sourceCellArea, @NotNull org.gtk.gtk.CellRenderer renderer, @NotNull java.lang.String path);
     }
     
     /**
@@ -1532,7 +1543,7 @@ public class CellArea extends org.gtk.gobject.InitiallyUnowned implements org.gt
     
     @FunctionalInterface
     public interface RemoveEditable {
-        void signalReceived(CellArea source, @NotNull org.gtk.gtk.CellRenderer renderer, @NotNull org.gtk.gtk.CellEditable editable);
+        void signalReceived(CellArea sourceCellArea, @NotNull org.gtk.gtk.CellRenderer renderer, @NotNull org.gtk.gtk.CellEditable editable);
     }
     
     /**
@@ -1908,28 +1919,28 @@ public class CellArea extends org.gtk.gobject.InitiallyUnowned implements org.gt
     
     private static class Callbacks {
         
-        public static void signalCellAreaAddEditable(MemoryAddress source, MemoryAddress renderer, MemoryAddress editable, MemoryAddress cellArea, MemoryAddress path, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalCellAreaAddEditable(MemoryAddress sourceCellArea, MemoryAddress renderer, MemoryAddress editable, MemoryAddress cellArea, MemoryAddress path, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (CellArea.AddEditable) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new CellArea(source, Ownership.NONE), new org.gtk.gtk.CellRenderer(renderer, Ownership.NONE), new org.gtk.gtk.CellEditable.CellEditableImpl(editable, Ownership.NONE), new org.gtk.gdk.Rectangle(cellArea, Ownership.NONE), Interop.getStringFrom(path));
+            HANDLER.signalReceived(new CellArea(sourceCellArea, Ownership.NONE), new org.gtk.gtk.CellRenderer(renderer, Ownership.NONE), new org.gtk.gtk.CellEditable.CellEditableImpl(editable, Ownership.NONE), new org.gtk.gdk.Rectangle(cellArea, Ownership.NONE), Interop.getStringFrom(path));
         }
         
-        public static void signalCellAreaApplyAttributes(MemoryAddress source, MemoryAddress model, MemoryAddress iter, int isExpander, int isExpanded, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalCellAreaApplyAttributes(MemoryAddress sourceCellArea, MemoryAddress model, MemoryAddress iter, int isExpander, int isExpanded, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (CellArea.ApplyAttributes) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new CellArea(source, Ownership.NONE), new org.gtk.gtk.TreeModel.TreeModelImpl(model, Ownership.NONE), new org.gtk.gtk.TreeIter(iter, Ownership.NONE), isExpander != 0, isExpanded != 0);
+            HANDLER.signalReceived(new CellArea(sourceCellArea, Ownership.NONE), new org.gtk.gtk.TreeModel.TreeModelImpl(model, Ownership.NONE), new org.gtk.gtk.TreeIter(iter, Ownership.NONE), isExpander != 0, isExpanded != 0);
         }
         
-        public static void signalCellAreaFocusChanged(MemoryAddress source, MemoryAddress renderer, MemoryAddress path, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalCellAreaFocusChanged(MemoryAddress sourceCellArea, MemoryAddress renderer, MemoryAddress path, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (CellArea.FocusChanged) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new CellArea(source, Ownership.NONE), new org.gtk.gtk.CellRenderer(renderer, Ownership.NONE), Interop.getStringFrom(path));
+            HANDLER.signalReceived(new CellArea(sourceCellArea, Ownership.NONE), new org.gtk.gtk.CellRenderer(renderer, Ownership.NONE), Interop.getStringFrom(path));
         }
         
-        public static void signalCellAreaRemoveEditable(MemoryAddress source, MemoryAddress renderer, MemoryAddress editable, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalCellAreaRemoveEditable(MemoryAddress sourceCellArea, MemoryAddress renderer, MemoryAddress editable, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (CellArea.RemoveEditable) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new CellArea(source, Ownership.NONE), new org.gtk.gtk.CellRenderer(renderer, Ownership.NONE), new org.gtk.gtk.CellEditable.CellEditableImpl(editable, Ownership.NONE));
+            HANDLER.signalReceived(new CellArea(sourceCellArea, Ownership.NONE), new org.gtk.gtk.CellRenderer(renderer, Ownership.NONE), new org.gtk.gtk.CellEditable.CellEditableImpl(editable, Ownership.NONE));
         }
     }
 }

@@ -49,7 +49,11 @@ public class FlagSet extends io.github.jwharm.javagi.ObjectBase {
      * @throws ClassCastException If the GType is not derived from "FlagSet", a ClassCastException will be thrown.
      */
     public static FlagSet castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), FlagSet.getType())) {
             return new FlagSet(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of FlagSet");
+        }
     }
     
     /**

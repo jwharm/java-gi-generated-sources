@@ -44,32 +44,4 @@ public class Pattern extends Struct {
     public Pattern(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
-
-    /**
-     * Inner class implementing a builder pattern to construct 
-     * a struct and set its values.
-     */
-    public static class Build {
-        
-        private Pattern struct;
-        
-         /**
-         * A {@link Pattern.Build} object constructs a {@link Pattern} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
-            struct = Pattern.allocate();
-        }
-        
-         /**
-         * Finish building the {@link Pattern} struct.
-         * @return A new instance of {@code Pattern} with the fields 
-         *         that were set in the Build object.
-         */
-        public Pattern construct() {
-            return struct;
-        }
-    }
 }

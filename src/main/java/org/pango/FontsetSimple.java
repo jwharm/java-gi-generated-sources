@@ -52,7 +52,11 @@ public class FontsetSimple extends org.pango.Fontset {
      * @throws ClassCastException If the GType is not derived from "PangoFontsetSimple", a ClassCastException will be thrown.
      */
     public static FontsetSimple castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), FontsetSimple.getType())) {
             return new FontsetSimple(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of PangoFontsetSimple");
+        }
     }
     
     private static Addressable constructNew(@NotNull org.pango.Language language) {

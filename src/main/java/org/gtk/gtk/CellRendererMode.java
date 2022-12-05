@@ -8,29 +8,41 @@ import org.jetbrains.annotations.*;
 /**
  * Identifies how the user can interact with a particular cell.
  */
-public class CellRendererMode extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "GtkCellRendererMode";
-    
+public enum CellRendererMode implements io.github.jwharm.javagi.Enumeration {
     /**
      * The cell is just for display
      *  and cannot be interacted with.  Note that this doesn’t mean that eg. the
      *  row being drawn can’t be selected -- just that a particular element of
      *  it cannot be individually modified.
      */
-    public static final CellRendererMode INERT = new CellRendererMode(0);
-    
+    INERT(0),
     /**
      * The cell can be clicked.
      */
-    public static final CellRendererMode ACTIVATABLE = new CellRendererMode(1);
-    
+    ACTIVATABLE(1),
     /**
      * The cell can be edited or otherwise modified.
      */
-    public static final CellRendererMode EDITABLE = new CellRendererMode(2);
+    EDITABLE(2);
     
-    public CellRendererMode(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "GtkCellRendererMode";
+    
+    private final int value;
+    CellRendererMode(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static CellRendererMode of(int value) {
+        return switch (value) {
+            case 0 -> INERT;
+            case 1 -> ACTIVATABLE;
+            case 2 -> EDITABLE;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

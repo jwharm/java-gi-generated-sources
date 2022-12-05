@@ -10,26 +10,38 @@ import org.jetbrains.annotations.*;
  * g_tls_connection_set_rehandshake_mode().
  * @version 2.28
  */
-public class TlsRehandshakeMode extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "GTlsRehandshakeMode";
-    
+public enum TlsRehandshakeMode implements io.github.jwharm.javagi.Enumeration {
     /**
      * Never allow rehandshaking
      */
-    public static final TlsRehandshakeMode NEVER = new TlsRehandshakeMode(0);
-    
+    NEVER(0),
     /**
      * Allow safe rehandshaking only
      */
-    public static final TlsRehandshakeMode SAFELY = new TlsRehandshakeMode(1);
-    
+    SAFELY(1),
     /**
      * Allow unsafe rehandshaking
      */
-    public static final TlsRehandshakeMode UNSAFELY = new TlsRehandshakeMode(2);
+    UNSAFELY(2);
     
-    public TlsRehandshakeMode(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "GTlsRehandshakeMode";
+    
+    private final int value;
+    TlsRehandshakeMode(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static TlsRehandshakeMode of(int value) {
+        return switch (value) {
+            case 0 -> NEVER;
+            case 1 -> SAFELY;
+            case 2 -> UNSAFELY;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

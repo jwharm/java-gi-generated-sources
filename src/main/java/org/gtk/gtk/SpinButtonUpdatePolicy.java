@@ -11,24 +11,36 @@ import org.jetbrains.annotations.*;
  * <p>
  * See {@link SpinButton#setUpdatePolicy}.
  */
-public class SpinButtonUpdatePolicy extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "GtkSpinButtonUpdatePolicy";
-    
+public enum SpinButtonUpdatePolicy implements io.github.jwharm.javagi.Enumeration {
     /**
      * When refreshing your {@code GtkSpinButton}, the value is
      *   always displayed
      */
-    public static final SpinButtonUpdatePolicy ALWAYS = new SpinButtonUpdatePolicy(0);
-    
+    ALWAYS(0),
     /**
      * When refreshing your {@code GtkSpinButton}, the value is
      *   only displayed if it is valid within the bounds of the spin button's
      *   adjustment
      */
-    public static final SpinButtonUpdatePolicy IF_VALID = new SpinButtonUpdatePolicy(1);
+    IF_VALID(1);
     
-    public SpinButtonUpdatePolicy(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "GtkSpinButtonUpdatePolicy";
+    
+    private final int value;
+    SpinButtonUpdatePolicy(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static SpinButtonUpdatePolicy of(int value) {
+        return switch (value) {
+            case 0 -> ALWAYS;
+            case 1 -> IF_VALID;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

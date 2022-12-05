@@ -10,31 +10,43 @@ import org.jetbrains.annotations.*;
  * <p>
  * To make them easier to use, their numerical values are the actual degrees.
  */
-public class PixbufRotation extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "GdkPixbufRotation";
-    
+public enum PixbufRotation implements io.github.jwharm.javagi.Enumeration {
     /**
      * No rotation.
      */
-    public static final PixbufRotation NONE = new PixbufRotation(0);
-    
+    NONE(0),
     /**
      * Rotate by 90 degrees.
      */
-    public static final PixbufRotation COUNTERCLOCKWISE = new PixbufRotation(90);
-    
+    COUNTERCLOCKWISE(90),
     /**
      * Rotate by 180 degrees.
      */
-    public static final PixbufRotation UPSIDEDOWN = new PixbufRotation(180);
-    
+    UPSIDEDOWN(180),
     /**
      * Rotate by 270 degrees.
      */
-    public static final PixbufRotation CLOCKWISE = new PixbufRotation(270);
+    CLOCKWISE(270);
     
-    public PixbufRotation(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "GdkPixbufRotation";
+    
+    private final int value;
+    PixbufRotation(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static PixbufRotation of(int value) {
+        return switch (value) {
+            case 0 -> NONE;
+            case 90 -> COUNTERCLOCKWISE;
+            case 180 -> UPSIDEDOWN;
+            case 270 -> CLOCKWISE;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

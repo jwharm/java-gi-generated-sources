@@ -219,7 +219,11 @@ public interface TreeModel extends io.github.jwharm.javagi.Proxy {
      * @throws ClassCastException If the GType is not derived from "GtkTreeModel", a ClassCastException will be thrown.
      */
     public static TreeModel castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), TreeModel.getType())) {
             return new TreeModelImpl(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GtkTreeModel");
+        }
     }
     
     /**
@@ -883,7 +887,7 @@ public interface TreeModel extends io.github.jwharm.javagi.Proxy {
     
     @FunctionalInterface
     public interface RowChanged {
-        void signalReceived(TreeModel source, @NotNull org.gtk.gtk.TreePath path, @NotNull org.gtk.gtk.TreeIter iter);
+        void signalReceived(TreeModel sourceTreeModel, @NotNull org.gtk.gtk.TreePath path, @NotNull org.gtk.gtk.TreeIter iter);
     }
     
     /**
@@ -911,7 +915,7 @@ public interface TreeModel extends io.github.jwharm.javagi.Proxy {
     
     @FunctionalInterface
     public interface RowDeleted {
-        void signalReceived(TreeModel source, @NotNull org.gtk.gtk.TreePath path);
+        void signalReceived(TreeModel sourceTreeModel, @NotNull org.gtk.gtk.TreePath path);
     }
     
     /**
@@ -946,7 +950,7 @@ public interface TreeModel extends io.github.jwharm.javagi.Proxy {
     
     @FunctionalInterface
     public interface RowHasChildToggled {
-        void signalReceived(TreeModel source, @NotNull org.gtk.gtk.TreePath path, @NotNull org.gtk.gtk.TreeIter iter);
+        void signalReceived(TreeModel sourceTreeModel, @NotNull org.gtk.gtk.TreePath path, @NotNull org.gtk.gtk.TreeIter iter);
     }
     
     /**
@@ -975,7 +979,7 @@ public interface TreeModel extends io.github.jwharm.javagi.Proxy {
     
     @FunctionalInterface
     public interface RowInserted {
-        void signalReceived(TreeModel source, @NotNull org.gtk.gtk.TreePath path, @NotNull org.gtk.gtk.TreeIter iter);
+        void signalReceived(TreeModel sourceTreeModel, @NotNull org.gtk.gtk.TreePath path, @NotNull org.gtk.gtk.TreeIter iter);
     }
     
     /**
@@ -1008,7 +1012,7 @@ public interface TreeModel extends io.github.jwharm.javagi.Proxy {
     
     @FunctionalInterface
     public interface RowsReordered {
-        void signalReceived(TreeModel source, @NotNull org.gtk.gtk.TreePath path, @NotNull org.gtk.gtk.TreeIter iter, @Nullable java.lang.foreign.MemoryAddress newOrder);
+        void signalReceived(TreeModel sourceTreeModel, @NotNull org.gtk.gtk.TreePath path, @NotNull org.gtk.gtk.TreeIter iter, @Nullable java.lang.foreign.MemoryAddress newOrder);
     }
     
     /**
@@ -1249,34 +1253,34 @@ public interface TreeModel extends io.github.jwharm.javagi.Proxy {
     @ApiStatus.Internal
     static class Callbacks {
         
-        public static void signalTreeModelRowChanged(MemoryAddress source, MemoryAddress path, MemoryAddress iter, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalTreeModelRowChanged(MemoryAddress sourceTreeModel, MemoryAddress path, MemoryAddress iter, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (TreeModel.RowChanged) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new TreeModel.TreeModelImpl(source, Ownership.NONE), new org.gtk.gtk.TreePath(path, Ownership.NONE), new org.gtk.gtk.TreeIter(iter, Ownership.NONE));
+            HANDLER.signalReceived(new TreeModel.TreeModelImpl(sourceTreeModel, Ownership.NONE), new org.gtk.gtk.TreePath(path, Ownership.NONE), new org.gtk.gtk.TreeIter(iter, Ownership.NONE));
         }
         
-        public static void signalTreeModelRowDeleted(MemoryAddress source, MemoryAddress path, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalTreeModelRowDeleted(MemoryAddress sourceTreeModel, MemoryAddress path, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (TreeModel.RowDeleted) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new TreeModel.TreeModelImpl(source, Ownership.NONE), new org.gtk.gtk.TreePath(path, Ownership.NONE));
+            HANDLER.signalReceived(new TreeModel.TreeModelImpl(sourceTreeModel, Ownership.NONE), new org.gtk.gtk.TreePath(path, Ownership.NONE));
         }
         
-        public static void signalTreeModelRowHasChildToggled(MemoryAddress source, MemoryAddress path, MemoryAddress iter, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalTreeModelRowHasChildToggled(MemoryAddress sourceTreeModel, MemoryAddress path, MemoryAddress iter, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (TreeModel.RowHasChildToggled) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new TreeModel.TreeModelImpl(source, Ownership.NONE), new org.gtk.gtk.TreePath(path, Ownership.NONE), new org.gtk.gtk.TreeIter(iter, Ownership.NONE));
+            HANDLER.signalReceived(new TreeModel.TreeModelImpl(sourceTreeModel, Ownership.NONE), new org.gtk.gtk.TreePath(path, Ownership.NONE), new org.gtk.gtk.TreeIter(iter, Ownership.NONE));
         }
         
-        public static void signalTreeModelRowInserted(MemoryAddress source, MemoryAddress path, MemoryAddress iter, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalTreeModelRowInserted(MemoryAddress sourceTreeModel, MemoryAddress path, MemoryAddress iter, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (TreeModel.RowInserted) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new TreeModel.TreeModelImpl(source, Ownership.NONE), new org.gtk.gtk.TreePath(path, Ownership.NONE), new org.gtk.gtk.TreeIter(iter, Ownership.NONE));
+            HANDLER.signalReceived(new TreeModel.TreeModelImpl(sourceTreeModel, Ownership.NONE), new org.gtk.gtk.TreePath(path, Ownership.NONE), new org.gtk.gtk.TreeIter(iter, Ownership.NONE));
         }
         
-        public static void signalTreeModelRowsReordered(MemoryAddress source, MemoryAddress path, MemoryAddress iter, MemoryAddress newOrder, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
+        public static void signalTreeModelRowsReordered(MemoryAddress sourceTreeModel, MemoryAddress path, MemoryAddress iter, MemoryAddress newOrder, MemoryAddress DATA) {
+            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
             var HANDLER = (TreeModel.RowsReordered) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new TreeModel.TreeModelImpl(source, Ownership.NONE), new org.gtk.gtk.TreePath(path, Ownership.NONE), new org.gtk.gtk.TreeIter(iter, Ownership.NONE), newOrder);
+            HANDLER.signalReceived(new TreeModel.TreeModelImpl(sourceTreeModel, Ownership.NONE), new org.gtk.gtk.TreePath(path, Ownership.NONE), new org.gtk.gtk.TreeIter(iter, Ownership.NONE), newOrder);
         }
     }
     

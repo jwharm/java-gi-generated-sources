@@ -8,31 +8,43 @@ import org.jetbrains.annotations.*;
 /**
  * The different types of buffering methods.
  */
-public class BufferingMode extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "GstBufferingMode";
-    
+public enum BufferingMode implements io.github.jwharm.javagi.Enumeration {
     /**
      * a small amount of data is buffered
      */
-    public static final BufferingMode STREAM = new BufferingMode(0);
-    
+    STREAM(0),
     /**
      * the stream is being downloaded
      */
-    public static final BufferingMode DOWNLOAD = new BufferingMode(1);
-    
+    DOWNLOAD(1),
     /**
      * the stream is being downloaded in a ringbuffer
      */
-    public static final BufferingMode TIMESHIFT = new BufferingMode(2);
-    
+    TIMESHIFT(2),
     /**
      * the stream is a live stream
      */
-    public static final BufferingMode LIVE = new BufferingMode(3);
+    LIVE(3);
     
-    public BufferingMode(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "GstBufferingMode";
+    
+    private final int value;
+    BufferingMode(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static BufferingMode of(int value) {
+        return switch (value) {
+            case 0 -> STREAM;
+            case 1 -> DOWNLOAD;
+            case 2 -> TIMESHIFT;
+            case 3 -> LIVE;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

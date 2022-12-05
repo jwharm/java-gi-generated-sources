@@ -52,7 +52,11 @@ public class SimplePermission extends org.gtk.gio.Permission {
      * @throws ClassCastException If the GType is not derived from "GSimplePermission", a ClassCastException will be thrown.
      */
     public static SimplePermission castFrom(org.gtk.gobject.Object gobject) {
+        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), SimplePermission.getType())) {
             return new SimplePermission(gobject.handle(), gobject.yieldOwnership());
+        } else {
+            throw new ClassCastException("Object type is not an instance of GSimplePermission");
+        }
     }
     
     private static Addressable constructNew(boolean allowed) {

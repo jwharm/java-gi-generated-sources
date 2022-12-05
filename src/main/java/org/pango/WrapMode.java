@@ -14,27 +14,39 @@ import org.jetbrains.annotations.*;
  * breaking at grapheme boundaries that are determined by the Unicode text
  * segmentation algorithm.
  */
-public class WrapMode extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "PangoWrapMode";
-    
+public enum WrapMode implements io.github.jwharm.javagi.Enumeration {
     /**
      * wrap lines at word boundaries.
      */
-    public static final WrapMode WORD = new WrapMode(0);
-    
+    WORD(0),
     /**
      * wrap lines at character boundaries.
      */
-    public static final WrapMode CHAR = new WrapMode(1);
-    
+    CHAR(1),
     /**
      * wrap lines at word boundaries, but fall back to
      *   character boundaries if there is not enough space for a full word.
      */
-    public static final WrapMode WORD_CHAR = new WrapMode(2);
+    WORD_CHAR(2);
     
-    public WrapMode(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "PangoWrapMode";
+    
+    private final int value;
+    WrapMode(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static WrapMode of(int value) {
+        return switch (value) {
+            case 0 -> WORD;
+            case 1 -> CHAR;
+            case 2 -> WORD_CHAR;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

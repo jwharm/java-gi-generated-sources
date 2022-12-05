@@ -5,17 +5,29 @@ import java.lang.foreign.*;
 import java.lang.invoke.*;
 import org.jetbrains.annotations.*;
 
-public class Content extends io.github.jwharm.javagi.Enumeration {
+public enum Content implements io.github.jwharm.javagi.Enumeration {
+    COLOR(4096),
+    ALPHA(8192),
+    COLOR_ALPHA(12288);
     
     private static final java.lang.String C_TYPE_NAME = "cairo_content_t";
     
-    public static final Content COLOR = new Content(4096);
+    private final int value;
+    Content(int value) {
+        this.value = value;
+    }
     
-    public static final Content ALPHA = new Content(8192);
+    @Override
+    public int getValue() {
+        return value;
+    }
     
-    public static final Content COLOR_ALPHA = new Content(12288);
-    
-    public Content(int value) {
-        super(value);
+    public static Content of(int value) {
+        return switch (value) {
+            case 4096 -> COLOR;
+            case 8192 -> ALPHA;
+            case 12288 -> COLOR_ALPHA;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }

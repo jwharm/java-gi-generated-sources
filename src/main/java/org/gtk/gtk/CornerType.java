@@ -11,35 +11,47 @@ import org.jetbrains.annotations.*;
  * <p>
  * This is effectively the opposite of where the scroll bars are placed.
  */
-public class CornerType extends io.github.jwharm.javagi.Enumeration {
-    
-    private static final java.lang.String C_TYPE_NAME = "GtkCornerType";
-    
+public enum CornerType implements io.github.jwharm.javagi.Enumeration {
     /**
      * Place the scrollbars on the right and bottom of the
      *   widget (default behaviour).
      */
-    public static final CornerType TOP_LEFT = new CornerType(0);
-    
+    TOP_LEFT(0),
     /**
      * Place the scrollbars on the top and right of the
      *   widget.
      */
-    public static final CornerType BOTTOM_LEFT = new CornerType(1);
-    
+    BOTTOM_LEFT(1),
     /**
      * Place the scrollbars on the left and bottom of the
      *   widget.
      */
-    public static final CornerType TOP_RIGHT = new CornerType(2);
-    
+    TOP_RIGHT(2),
     /**
      * Place the scrollbars on the top and left of the
      *   widget.
      */
-    public static final CornerType BOTTOM_RIGHT = new CornerType(3);
+    BOTTOM_RIGHT(3);
     
-    public CornerType(int value) {
-        super(value);
+    private static final java.lang.String C_TYPE_NAME = "GtkCornerType";
+    
+    private final int value;
+    CornerType(int value) {
+        this.value = value;
+    }
+    
+    @Override
+    public int getValue() {
+        return value;
+    }
+    
+    public static CornerType of(int value) {
+        return switch (value) {
+            case 0 -> TOP_LEFT;
+            case 1 -> BOTTOM_LEFT;
+            case 2 -> TOP_RIGHT;
+            case 3 -> BOTTOM_RIGHT;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
+        };
     }
 }
